@@ -1,0 +1,361 @@
+/* game list */
+#gamesCell {
+	width: calc(100% - 30px);
+}
+.gamesListBox {
+	height: calc(100% - 70.88px);
+}
+.gamesListWrapper {
+	overflow-y: auto;
+	height: 100%;
+}
+.gamesList {
+	margin-top: 10px;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: flex-start;
+	gap: 10px;
+}
+.gamesList .listGame {
+	width: 200px;
+	height: 300px;
+	border-radius: 10px;
+	background-color: var(--blue-jeans);
+	padding: 10px;
+	margin: auto;
+}
+.gamesList .listGame .gamePlayers {
+	font-weight: normal;
+}
+.gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
+	margin: 7px 0;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	column-gap: 2px;
+}
+.gamesList .newGameCard {
+	cursor: pointer;
+}
+.gamesList .newGameCard:hover {
+	background-color: var(--carolina-blue);
+}
+.winnerIcon {
+	font-size: 16px!important;
+}
+
+html {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+body.scrabble {
+	max-width: none;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	overflow-y: hidden;/*
+	height: var(--height);
+	position: relative;*/
+}
+#canvasCell {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	user-select: none;
+	-webkit-user-select: none;
+}
+@font-face { /* Scrabble Font - Eurostile */
+	font-family: Eurostile;
+	src: url(http://scrabble.colebot.com/fonts/eurostile.ttf);
+}
+
+/* letter bank (for letter exchange) */
+#letterExchangeBank {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    user-select: none;
+}
+.letter {
+    width: 55px;
+    height: 55px;
+    font-family: 'Rubik';
+    background-color: #a47449cc; /* tile brown but transparent */
+    color: #f2f5ff; /* tile text color */
+    border-radius: 5px;
+    cursor: pointer;
+
+    transition: transform 0.37s cubic-bezier(0, 1, 0.5, 1);
+}
+.letter.exchange {
+	background-color: #a47449; /* tile brown */
+	transform: scale(1.05);
+}
+.letterLetter {
+    font-size: 50px;
+}
+
+/* grid */
+#scrabbleGrid {
+	width: calc(100% - 5px);
+	height: calc(100vh - 10px);
+	padding: 5px;
+	align-items: center;
+}
+#scrabbleGrid .gridCell {
+	padding: 10px;
+	margin: 5px;
+	background-color: var(--aero);
+	border-radius: 10px;
+
+	width: calc(100% - 30px);
+}
+
+/* highlight button of current page in nav cell */
+#scrabbleGrid[data-tab=game] #navCell ul a#gameTabButton li {
+	background-color: var(--y-in-mn-blue);
+}
+#scrabbleGrid[data-tab=account] #navCell ul a#accountTabButton li {
+	background-color: var(--y-in-mn-blue);
+}
+
+/* modals */
+.modal {
+	position: fixed;
+
+	background-color: var(--blue-jeans);
+	box-shadow: 0 0 5px #00000066;
+	border-radius: 10px;
+
+	padding: 10px;
+}
+
+/* create game modal */
+#createGameModal {
+	top: 0;
+	left: 0;
+
+	display: grid;
+	grid-template-rows: min-content min-content 100fr min-content min-content;
+	grid-template-columns: 100fr min-content;
+}
+#createGameModalTitle {
+	grid-column: 1 / 3;
+}
+#createGamePlayerListTitle {
+	grid-column: 1 / 3;
+}
+#createGamePlayerList {
+	background-color: var(--aero);
+	box-shadow: 0 0 5px #00000066 inset;
+	border-radius: 5px;
+
+	grid-column: 1 / 3;
+}
+.createGamePlayer {
+	width: 100%;
+	padding: 10px 0px;
+}
+#accountNameLabel:after {
+	content: " - ";
+}
+#createGameModalCreateGameButton {
+	grid-column: 1 / 3;
+}
+
+/* text modal */
+#textModal {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 10px;
+}
+#textModal #textModalTitle {
+	margin: 0;
+}
+
+/* letter picker */
+#chooseLetterModal {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
+#chooseLetterModal h3 {
+	margin: 0;
+}
+
+#letterPicker {
+	width: 55px;
+    height: 55px;
+
+    font-size: 50px;
+    font-family: 'Rubik';
+    text-align: center;
+    text-transform: uppercase;
+
+    background-color: #a47449; /* tile brown */
+    color: #f2f5ff; /* tile text color */
+
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+#gameControlsCell div {
+	margin-bottom: 5px;
+}
+
+.spin {
+	animation-name: spin;
+	animation-direction: reverse;
+	animation-duration: 0.37s;
+}
+
+.expandAnimation {
+	animation-name: expand;
+	animation-timing-function: cubic-bezier(0, 0, 0, 1);
+	animation-duration: 0.75s;
+}
+
+@keyframes expand {
+	0% {
+		transform: scale(1.0);
+		opacity: 0.75;
+	}
+	100% {
+		transform: scale(25.0);
+		opacity: 0;
+	}
+}
+
+/* grid cell positions and stuff (basically things based on the tab) */
+#scrabbleGrid[data-tab=game] #navCell #gameTabButton {
+	display: unset;
+}
+#scrabbleGrid[data-tab=account] #navCell #gameTabButton {
+	display: none;
+}
+
+@media (orientation: landscape) {
+	/* game tab */
+	#scrabbleGrid[data-tab=game] {
+		grid-template-columns: 50fr minmax(0, calc(100vh - 30px)) 50fr;
+		grid-template-rows: 33% 33% 33%;
+	}
+	#scrabbleGrid[data-tab=game] #navCell {
+		grid-column: 1;
+		grid-row: 1;
+	}
+	#scrabbleGrid[data-tab=game] #gameControlsCell {
+		grid-column: 1;
+		grid-row: 2;
+	}
+	#scrabbleGrid[data-tab=game] #turnControlsCell {
+		grid-column: 1;
+		grid-row: 3;
+	}
+	#scrabbleGrid[data-tab=game] #canvasCell {
+		height: calc(100vh - 40px);
+		grid-column: 2 / 4;
+		grid-row: 1 / 4;
+	}
+	#scrabbleGrid[data-tab=game] #signInCell {
+		display: none;
+	}
+	#scrabbleGrid[data-tab=game] #gamesCell {
+		display: none;
+	}
+
+	/* account tab */
+	#scrabbleGrid[data-tab=account] {
+		grid-template-columns: 20fr 80fr 20fr;
+		grid-template-rows: 33% 33% 33%;
+	}
+	#scrabbleGrid[data-tab=account] #navCell {
+		grid-column: 1;
+		grid-row: 1;
+	}
+	#scrabbleGrid[data-tab=account] #gameControlsCell {
+		display: none;
+	}
+	#scrabbleGrid[data-tab=account] #turnControlsCell {
+		display: none;
+	}
+	#scrabbleGrid[data-tab=account] #canvasCell {
+		display: none;
+	}
+	#scrabbleGrid[data-tab=account] #signInCell {
+		grid-column: 1;
+		grid-row: 2 / 4;
+	}
+	#scrabbleGrid[data-tab=account] #gamesCell {
+		grid-column: 2 / 4;
+		grid-row: 1 / 4;
+	}
+	#scrabbleGrid #gamesCell {
+		height: calc(100vh - 40px);
+	}
+}
+
+@media (orientation: portrait) {
+	/* game tab */
+	#scrabbleGrid[data-tab=game] {
+		grid-template-columns: 33% 33% 33%;
+		grid-template-rows: 100fr min-content min-content;
+	}
+	#scrabbleGrid[data-tab=game] #navCell {
+		grid-column: 1;
+		grid-row: 3;
+	}
+	#scrabbleGrid[data-tab=game] #gameControlsCell {
+		grid-column: 2;
+		grid-row: 3;
+	}
+	#scrabbleGrid[data-tab=game] #turnControlsCell {
+		grid-column: 3;
+		grid-row: 3;
+	}
+	#scrabbleGrid[data-tab=game] #canvasCell {
+		grid-column: 1 / 4;
+		grid-row: 1 / 3;
+	}
+	#scrabbleGrid[data-tab=game] #signInCell {
+		display: none;
+	}
+	#scrabbleGrid[data-tab=game] #gamesCell {
+		display: none;
+	}
+
+	/* account tab */
+	#scrabbleGrid[data-tab=account] {
+		grid-template-columns: 33% 33% 33%;
+		grid-template-rows: minmax(0, calc(100% - 30px)) min-content min-content;
+	}
+	#scrabbleGrid[data-tab=account] #navCell {
+		grid-column: 1 / 4;
+		grid-row: 3;
+	}
+	#scrabbleGrid[data-tab=account] #gameControlsCell {
+		display: none;
+	}
+	#scrabbleGrid[data-tab=account] #turnControlsCell {
+		display: none;
+	}
+	#scrabbleGrid[data-tab=account] #canvasCell {
+		display: none;
+	}
+	#scrabbleGrid[data-tab=account] #signInCell {
+		grid-column: 1 / 4;
+		grid-row: 2;
+	}
+	#scrabbleGrid[data-tab=account] #gamesCell {
+		grid-column: 1 / 4;
+		grid-row: 1;
+	}
+	#scrabbleGrid #gamesCell, #scrabbleGrid #canvasCell {
+		height: calc(100% - 30px);
+	}
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- meta stuff -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Scrabble - Colebot.com</title>
+
+	<!-- beautiful css -->
+	<link rel="stylesheet" type="text/css" href="http://www.colebot.com/style.css">
+	<link rel="stylesheet" type="text/css" href="http://scrabble.colebot.com/scrabble.css">
+
+	<!-- import the font 'Rubik' -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
+
+	<!-- import material icons -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<!-- import the tab icon -->
+	<link rel="shortcut icon" type="image/x-icon" href="http://www.colebot.com/favicon.ico">  
+</head>
+<body class="scrabble">
+	<center>
+		<div class="grid" id="scrabbleGrid" data-tab="account">
+			<div id="navCell" class="gridCell">
+				<ul class="tagList">
+					<a id="gameTabButton" onclick="showTab('game')" class="hidden"><li class="semiHighlight"><span class="material-icons">sports_esports</span></li></a>
+					<a id="accountTabButton" onclick="showTab('account')"><li class="semiHighlight"><span class="material-icons">account_circle</span></li></a>
+				</ul>
+			</div>
+
+			<div id="gameControlsCell" class="gridCell">
+				<div class="gameIdBox"></div>
+				<div class="scoreBox"></div>
+				<button onclick="endGame()">End Game</button>
+			</div>
+
+			<div id="canvasCell" class="gridCell">
+				<canvas id="scrabbleCanvas">
+					This project requires the canvas element, which is not supported on your browser.
+				</canvas>
+			</div>
+
+			<div id="turnControlsCell" class="gridCell">
+				<button onclick="makeMove()">Make Move</button>
+				<button onclick="exchangeLetters()">Skip Turn</button>
+			</div>
+
+			<div id="signInCell" class="gridCell">
+				<form class="hidden accountForm" id="signInForm" onsubmit="signIn();return false;">
+					<label for="signInUsername">Username:</label>
+					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="signInUsername"><br>
+
+					<label for="signInPwd">Password:</label>
+					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="signInPwd"><br>
+
+					<button type="submit">Sign In</button>
+					<a onclick="setSignInMode('createAccount')" class="hoverLine">Create Account</a>
+				</form>
+				<form class="hidden accountForm" id="createAccountForm" onsubmit="createAccount();return false;">
+					<label for="createAccountUsername">Username:</label>
+					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="createAccountUsername"><br>
+
+					<label for="createAccountPwd">Password:</label>
+					<input class="accountFormInput" autocomplete="new-password" type="password" name="pwd" id="createAccountPwd"><br>
+
+					<label for="createAccountConfirmPwd">Confirm Password:</label>
+					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="createAccountConfirmPwd"><br>
+
+					<button type="submit">Create Account</button>
+					<a onclick="setSignInMode('signIn')" class="hoverLine">Sign In</a>
+				</form>
+				<form class="hidden accountForm" id="signOutForm" onsubmit="signOut();return false;">
+					<label id="accountNameLabel"></label>
+					<button type="submit">Sign Out</button>
+				</form>
+			</div>
+
+			<div id="gamesCell" class="gridCell">
+				<div class="gamesListBox" id="activeGames">
+					<span class="material-icons iconButton tabNavButton" id="gamesListRefreshButton" onclick="loadGamesList()">sync</span>
+					<h1 class="inline">Active Games</h1>
+					<span class="material-icons iconButton tabNavButton" id="activeGamesButton" onclick="setGamesList('inactive')">chevron_right</span>
+					<br>
+					<span id="activeGamesListMessage">Please create an account or sign in.</span>
+					<div class="gamesListWrapper">
+						<div class="gamesList" id="activeGamesList"></div>
+					</div>
+				</div>
+				<div class="gamesListBox hidden" id="inactiveGames">
+					<span class="material-icons iconButton tabNavButton" id="activeGamesButton" onclick="setGamesList('active')">chevron_left</span>
+					<h1 class="inline">Inactive Games</h1>
+					<br>
+					<span id="inactiveGamesListMessage">Please create an account or sign in.</span>
+					<div class="gamesListWrapper">
+						<div class="gamesList" id="inactiveGamesList"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal hidden" id="createGameModal">
+			<span class="material-icons iconButton modalCloseButton" onclick="$('#createGameModal').modalClose()">close</span>
+			<h2 id="createGameModalTitle">Create Game</h2>
+			<h4 id="createGamePlayerListTitle" class="smallHeading">Players</h4>
+			<div id="createGamePlayerList"></div>
+			<input id="createGamePlayerInput" type="text" name="createGamePlayerInput" placeholder="Player Name">
+			<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add</button>
+			<button id="createGameModalCreateGameButton" onclick="createGame()">Create Game</button>
+		</div>
+		<div class="modal hidden" id="letterExchangeModal">
+			<span class="material-icons iconButton modalCloseButton" onclick="$('#letterExchangeModal').modalClose()">close</span>
+			<h2>Choose letters to exchange</h2>
+			<div class="letterBank" id="letterExchangeBank"></div>
+			<br>
+			<button id="letterExchangeButton" onclick="skipTurn()">Skip Turn</button>
+		</div>
+		<div class="modal hidden" id="textModal">
+			<span class="material-icons iconButton modalCloseButton" onclick="$('#textModal').modalClose()">close</span>
+			<h3 id="textModalTitle"></h3>
+			<div id="textModalText"></div>
+			<div id="textModalButtonHolder">
+				<button class="textModalButton" onclick="$('#textModal').modalClose()">Cancel</button>
+				<button class="textModalButton highlight" id="textModalOkButton">OK</button>
+			</div>
+		</div>
+		<div class="modal hidden" id="chooseLetterModal">
+			<h3>Pick any letter</h3>
+			<input type="text" name="letterPicker" onkeydown="return /[a-zA-Z]/i.test(event.key)" maxlength="1" id="letterPicker" autocomplete="off">
+			<div class="placeholder"/>
+		</div>
+	</center>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- import jQuery -->
+	<script type="text/javascript" src="util.js" defer></script>
+	<script type="text/javascript" src="canvas.js" defer></script>
+	<script type="text/javascript" src="modals.js" defer></script>
+	<script type="text/javascript" src="accounts.js" defer></script>
+	<script type="text/javascript" src="animate.js" defer></script>
+	<script type="text/javascript" src="pullToRefresh.min.js" defer></script>
+	<script type="text/javascript" src="script.js" defer></script>
+</body>
+</html>
