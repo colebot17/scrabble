@@ -76,6 +76,9 @@ for ($i = 0; $i < count($letterBag); $i++) {
 	}
 }
 
+// limit the letters to be redrawn to the length of the bag
+$redrawLetters = array_slice($redrawLetters, 0, count($longBag));
+
 // redraw the specified letters
 for ($i=0; $i < count($redrawLetters); $i++) { // for each letter to be redrawn
 	// pick a random letter
@@ -151,7 +154,7 @@ $query = mysqli_query($conn, $sql);
 if ($endGame) {
 	echo '{"errorLevel":0,"status":1,"message":"All players have skipped their turns twice in a row, so the game has ended. Good game!"}';
 } else {
-	echo '{"errorLevel":0,"status":0,"message":"You have skipped your turn' . (count($redrawLetters) > 0 ? ' and exchanged ' . count($redrawLetters) . ' letter' . count($redrawLetters === 1 ? '' : 's') : '') . '."}';
+	echo '{"errorLevel":0,"status":0,"message":"You have skipped your turn' . (count($redrawLetters) > 0 ? ' and exchanged ' . count($redrawLetters) . ' letter' . (count($redrawLetters) === 1 ? '' : 's') : '') . '."}';
 }
 
 // close the connection
