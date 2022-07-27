@@ -85,11 +85,15 @@ for ($i=0; $i < count($redrawLetters); $i++) { // for each letter to be redrawn
 	$rand = random_int(0, count($longBag) - 1);
 	$letter = $longBag[$rand];
 
+	// remove the drawn letter from the letter bag
+	$letterBag[$letter]--;
+
+	// return the old letter to the letter bag
+	// (this will not affect future drawings since we are using the long bag)
+	$letterBag[$players[$userIndex]['letterBank'][$redrawLetters[$i]]]++;
+
 	// set the spot in the bank to that letter
 	$players[$userIndex]['letterBank'][$redrawLetters[$i]] = $letter;
-
-	// return the letter to the letter bag (this will not affect future drawings since we are using the long bag)
-	$letterBag[$letter]++;
 }
 
 // increment the turn
