@@ -33,6 +33,15 @@ if (!array_search(strval($game), $gamesList)) {
     exit('{"errorLevel":2,"message":"You can\'t remove a game you don\'t own!"}');
 }
 
+// make sure the game is inactive
+$sql = "SELECT inactive FROM games WHERE id='$game'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+
+if (!$row['inactive']) {
+    exit('{"errorLevel":2,"message":"You can only remove games that are inactive."}');
+}
+
 // remove the game from the games list
 unset($gamesList[array_search($game, $gamesList)]);
 $gamesList = array_values($gamesList); // un-associate
