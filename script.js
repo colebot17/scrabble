@@ -299,7 +299,7 @@ function removeGame(id) {
 				},
 				method: "POST",
 				success: function(data) {
-					jsonData = json.parse(data);
+					jsonData = JSON.parse(data);
 					if (jsonData.errorLevel <= 0) {
 						loadGamesList();
 					}
