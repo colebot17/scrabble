@@ -181,7 +181,10 @@ function updateGamesList() {
 					<table class="listGame" id="listGame${gamesArray[i].id}">
 						<tr>
 							<th class="gameId">
-								#${gamesArray[i].id}
+								${gamesArray[i].name || `#${gamesArray[i].id}`}
+								<span class="material-icons">
+									drive_file_rename_outline
+								</span>
 							</th>
 						</tr>
 						<tr>
@@ -219,7 +222,10 @@ function updateGamesList() {
 					<table class="listGame" id="listGame${gamesArray[i].id}">
 						<tr>
 							<th class="gameId">
-								Inactive #${gamesArray[i].id}
+								${gamesArray[i].name || `#${gamesArray[i].id}`}
+								<span class="material-icons">
+									drive_file_rename_outline
+								</span>
 							</th>
 						</tr>
 						<tr>
