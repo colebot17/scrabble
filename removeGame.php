@@ -46,7 +46,7 @@ if (!$query) {
 }
 
 // send response back to client
-echo '{"errorLevel":0,"message":"The game has been removed."}';
+echo '{"errorLevel":0,"message":"The game has been removed from your list."}';
 
 // close the connection
 $conn->close();
