@@ -179,7 +179,7 @@ function updateGamesList() {
 				// add the game card to the list
 				$activeGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
-						<div class="listGameName>
+						<div class="listGameName">
 							${gamesArray[i].name || `#${gamesArray[i].id}`}
 							<span class="material-icons iconButton smallIcon">
 								drive_file_rename_outline
