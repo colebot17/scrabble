@@ -257,7 +257,7 @@ body.scrabble {
 	/* game tab */
 	#scrabbleGrid[data-tab=game] {
 		grid-template-columns: minmax(min-content, max-content) 1fr;
-		grid-template-rows: 33% 33% 33%;
+		grid-template-rows: min-content 1fr 1fr;
 	}
 	#scrabbleGrid[data-tab=game] #navCell {
 		grid-column: 1;
