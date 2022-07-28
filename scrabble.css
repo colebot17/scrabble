@@ -16,34 +16,26 @@
 	justify-content: flex-start;
 	gap: 10px;
 }
-.gamesList .listGame {
+
+.gamesList .listGame, .gamesList .newGameCard {
 	width: 200px;
 	height: 300px;
+	margin: auto;
+	padding: 10px;
 	border-radius: 10px;
 	background-color: var(--blue-jeans);
-
+}
+.gamesList .listGame {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: stretch;
-
-	padding: 10px;
-	margin: auto;
-}
-.gamesList .listGame .gameId {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	column-gap: 2px;
-}
-.gamesList .listGame .gamePlayers {
-	font-weight: normal;
 }
 .gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
 	margin: 7px 0;
-	display:flex;
-	justify-content:center;
-	align-items:center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	column-gap: 2px;
 }
 .gamesList .newGameCard {
