@@ -16,25 +16,39 @@
 	justify-content: flex-start;
 	gap: 10px;
 }
+
+.gamesList .listGame, .gamesList .newGameCard {
+	margin: auto;
+	padding: 10px;
+	border: none;
+	border-radius: 10px;
+	background-color: var(--blue-jeans);
+}
 .gamesList .listGame {
 	width: 200px;
 	height: 300px;
-	border-radius: 10px;
-	background-color: var(--blue-jeans);
-	padding: 10px;
-	margin: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: stretch;
 }
-.gamesList .listGame .gamePlayers {
-	font-weight: normal;
+.gamesList .listGame .listGameTitleLine {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	font-weight: bold;
 }
 .gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
 	margin: 7px 0;
-	display:flex;
-	justify-content:center;
-	align-items:center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	column-gap: 2px;
 }
 .gamesList .newGameCard {
+	width: 220px;
+	height: 320px;
 	cursor: pointer;
 }
 .gamesList .newGameCard:hover {

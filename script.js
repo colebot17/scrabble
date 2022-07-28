@@ -178,25 +178,22 @@ function updateGamesList() {
 
 				// add the game card to the list
 				$activeGamesList.append(`
-					<table class="listGame" id="listGame${gamesArray[i].id}">
-						<tr>
-							<th class="gameId">
-								#${gamesArray[i].id}
-							</th>
-						</tr>
-						<tr>
-							<th class="gamePlayers">
-								${playerListHTML}
-							</th>
-						</tr>
-						<tr>
-							<th>
-								<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
-									${(turnUser == account.id ? "Play" : "View Game")}
-								</button>
-							</th>
-						</tr>
-					</table>
+					<div class="listGame" id="listGame${gamesArray[i].id}">
+						<div class="listGameTitleLine">
+							<span class="listGameName">
+								${gamesArray[i].name || `#${gamesArray[i].id}`}
+							</span>
+							<span class="material-icons iconButton smallIcon" onclick="renameGame(${gamesArray[i].id})">
+								drive_file_rename_outline
+							</span>
+						</div>
+						<div class="listGamePlayerList">
+							${playerListHTML}
+						</div>
+						<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
+							${(turnUser == account.id ? "Play" : "View Game")}
+						</button>
+					</div>
 				`);
 			} else { // if the game is inactive
 				noInactiveGames = false;
@@ -216,38 +213,37 @@ function updateGamesList() {
 
 				// add the game card to the list
 				$inactiveGamesList.append(`
-					<table class="listGame" id="listGame${gamesArray[i].id}">
-						<tr>
-							<th class="gameId">
-								Inactive #${gamesArray[i].id}
-							</th>
-						</tr>
-						<tr>
-							<th class="gamePlayers">
-								${playerListHTML}
-							</th>
-						</tr>
-						<tr>
-							<th>
-								<button class="openGameButton" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
-									View Game
-								</button>
-							</th>
-						</tr>
-						<tr>
-							<th>
-								<button class="openGameButton" onclick="removeGame(${gamesArray[i].id})">
-									Remove Game
-								</button>
-							</th>
-						</tr>
-					</table>
+					<div class="listGame" id="listGame${gamesArray[i].id}">
+						<div class="listGameTitleLine">
+							<span class="listGameName">
+								${gamesArray[i].name || `#${gamesArray[i].id}`}
+							</span>
+							<span class="material-icons iconButton smallIcon" onclick="renameGame(${gamesArray[i].id})">
+								drive_file_rename_outline
+							</span>
+							<span class="material-icons iconButton smallIcon" onclick="removeGame(${gamesArray[i].id})">
+								delete
+							</span>
+						</div>
+						<div class="listGamePlayerList">
+							${playerListHTML}
+						</div>
+						<button class="openGameButton" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
+							View Game
+						</button>
+					</div>
 				`);
 			}
 		}
 
 		// add the new game card to the end of the active games tab
-		$activeGamesList.append(`<table class="listGame newGameCard" onclick="newGame();"><tr><th><span class="material-icons largeIcon">add</span><th><tr></table>`);
+		$activeGamesList.append(`
+			<button class="newGameCard" onclick="newGame();">
+				<span class="material-icons largeIcon">
+					add
+				</span>
+			</button>
+		`);
 
 		// set the message for the active games list
 		if (!noActiveGames) {
@@ -287,6 +283,40 @@ function setGamesList(list) {
 	$('#createGameModal').modalClose();
 }
 
+function renameGame(id) {
+	// get a name from the user
+
+	const nameField = $('#listGame' + id + ' .listGameName');
+	const newName = prompt("Enter a new name. It will be seen by all players in this game. Leave blank to remove name.");
+	if (newName === null) {
+		return;
+	}
+
+	$.ajax(
+		'renameGame.php',
+		{
+			data: {
+				user: account.id,
+				pwd: account.pwd,
+				game: id,
+				name: newName
+			},
+			method: "POST",
+			success: function(data) {
+				let jsonData = JSON.parse(data);
+				if (jsonData.errorLevel) {
+					textModal("Error", jsonData.message);
+				} else {
+					nameField.text(jsonData.data || '#' + id);
+				}
+			},
+			error: function() {
+				console.error("Could not rename game.");
+			}
+		}
+	);
+}
+  
 function removeGame(id) {
 	textModal("Remove Game", "Are you sure you want to remove this game from your games list? This action will not remove the game for anyone but you, and it cannot be undone.", true, function() {
 		$.ajax(
