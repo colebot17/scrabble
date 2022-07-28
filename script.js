@@ -285,7 +285,7 @@ function renameGame(id) {
 
 	const nameField = $('#listGame' + id + ' .listGameName');
 	const newName = prompt("Enter a new name. It will be seen by all players in this game. Leave blank to remove name.");
-	if (!newName) {
+	if (newName === null) {
 		return;
 	}
 
