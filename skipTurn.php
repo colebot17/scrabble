@@ -81,12 +81,14 @@ $redrawLetters = array_slice($redrawLetters, 0, count($longBag));
 
 // redraw the specified letters
 for ($i=0; $i < count($redrawLetters); $i++) { // for each letter to be redrawn
-	// pick a random letter
+	// draw a letter from the long bag
 	$rand = random_int(0, count($longBag) - 1);
 	$letter = $longBag[$rand];
 
-	// remove the drawn letter from the letter bag
+	// remove drawn letter from bag and long bag
 	$letterBag[$letter]--;
+	unset($longBag[$rand]);
+	$longBag = array_values($longBag); // un-associate
 
 	// return the old letter to the letter bag
 	// (this will not affect future drawings since we are using the long bag)
@@ -150,9 +152,9 @@ if ($endGame) {
 	}
 }
 
-// reupload the turn and players
+// reupload the turn, players, and letter bag
 $playersJson = json_encode($players);
-$sql = "UPDATE games SET turn='$totalTurn', players='$playersJson' WHERE id='$game'";
+$sql = "UPDATE games SET turn='$totalTurn', players='$playersJson', letterBag='$letterBag' WHERE id='$game'";
 $query = mysqli_query($conn, $sql);
 
 if ($endGame) {
