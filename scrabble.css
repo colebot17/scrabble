@@ -245,7 +245,7 @@ body.scrabble {
 	display: flex;
 	justify-content: center;
 	align-items: stretch;
-	gap: 5px;
+	gap: 10px;
 }
 
 @media (orientation: landscape) {
