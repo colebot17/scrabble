@@ -225,7 +225,7 @@ function updateGamesList() {
 								drive_file_rename_outline
 							</span>
 						</div>
-						<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
+						<button class="openGameButton" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
 							View Game
 						</button>
 					</div>
