@@ -179,8 +179,10 @@ function updateGamesList() {
 				// add the game card to the list
 				$activeGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
-						<div class="listGameName">
-							${gamesArray[i].name || `#${gamesArray[i].id}`}
+						<div>
+							<div class="listGameName">
+								${gamesArray[i].name || `#${gamesArray[i].id}`}
+							</div>
 							<span class="material-icons iconButton smallIcon" onclick="renameGame(${gamesArray[i].id})">
 								drive_file_rename_outline
 							</span>
@@ -212,8 +214,10 @@ function updateGamesList() {
 				// add the game card to the list
 				$inactiveGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
-						<div class="listGameName">
-							${gamesArray[i].name || `#${gamesArray[i].id}`}
+						<div>
+							<div class="listGameName">
+								${gamesArray[i].name || `#${gamesArray[i].id}`}
+							</div>
 							<span class="material-icons iconButton smallIcon" onclick="renameGame(${gamesArray[i].id})">
 								drive_file_rename_outline
 							</span>
