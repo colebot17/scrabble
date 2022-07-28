@@ -178,28 +178,16 @@ function updateGamesList() {
 
 				// add the game card to the list
 				$activeGamesList.append(`
-					<table class="listGame" id="listGame${gamesArray[i].id}">
-						<tr>
-							<th class="gameId">
-								${gamesArray[i].name || `#${gamesArray[i].id}`}
-								<span class="material-icons">
-									drive_file_rename_outline
-								</span>
-							</th>
-						</tr>
-						<tr>
-							<th class="gamePlayers">
-								${playerListHTML}
-							</th>
-						</tr>
-						<tr>
-							<th>
-								<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
-									${(turnUser == account.id ? "Play" : "View Game")}
-								</button>
-							</th>
-						</tr>
-					</table>
+					<div class="listGame" id="listGame${gamesArray[i].id}">
+						${gamesArray[i].name || `#${gamesArray[i].id}`}
+						<span class="material-icons">
+							drive_file_rename_outline
+						</span>
+						${playerListHTML}
+						<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
+							${(turnUser == account.id ? "Play" : "View Game")}
+						</button>
+					</div>
 				`);
 			} else { // if the game is inactive
 				noInactiveGames = false;
@@ -219,28 +207,16 @@ function updateGamesList() {
 
 				// add the game card to the list
 				$inactiveGamesList.append(`
-					<table class="listGame" id="listGame${gamesArray[i].id}">
-						<tr>
-							<th class="gameId">
-								${gamesArray[i].name || `#${gamesArray[i].id}`}
-								<span class="material-icons">
-									drive_file_rename_outline
-								</span>
-							</th>
-						</tr>
-						<tr>
-							<th class="gamePlayers">
-								${playerListHTML}
-							</th>
-						</tr>
-						<tr>
-							<th>
-								<button class="openGameButton" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
-									View Game
-								</button>
-							</th>
-						</tr>
-					</table>
+					<div class="listGame" id="listGame${gamesArray[i].id}">
+						${gamesArray[i].name || `#${gamesArray[i].id}`}
+						<span class="material-icons">
+							drive_file_rename_outline
+						</span>
+						${playerListHTML}
+						<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
+							View Game
+						</button>
+					</div>
 				`);
 			}
 		}

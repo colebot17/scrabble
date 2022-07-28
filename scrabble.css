@@ -21,6 +21,13 @@
 	height: 300px;
 	border-radius: 10px;
 	background-color: var(--blue-jeans);
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+
 	padding: 10px;
 	margin: auto;
 }
