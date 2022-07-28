@@ -226,10 +226,6 @@ body.scrabble {
 	gap: 5px;
 }
 
-#gameControlsCell div {
-	margin-bottom: 5px;
-}
-
 .spin {
 	animation-name: spin;
 	animation-direction: reverse;
