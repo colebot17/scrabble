@@ -180,11 +180,13 @@ function updateGamesList() {
 				$activeGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						${gamesArray[i].name || `#${gamesArray[i].id}`}
-						<span class="material-icons">
-							drive_file_rename_outline
-						</span>
 						<div class="listGamePlayerList">
 							${playerListHTML}
+						</div>
+						<div class="listGameActions">
+							<span class="material-icons iconButton">
+								drive_file_rename_outline
+							</span>
 						</div>
 						<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
 							${(turnUser == account.id ? "Play" : "View Game")}
@@ -211,11 +213,13 @@ function updateGamesList() {
 				$inactiveGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						${gamesArray[i].name || `#${gamesArray[i].id}`}
-						<span class="material-icons">
-							drive_file_rename_outline
-						</span>
 						<div class="listGamePlayerList">
 							${playerListHTML}
+						</div>
+						<div class="listGameActions">
+							<span class="material-icons iconButton">
+								drive_file_rename_outline
+							</span>
 						</div>
 						<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
 							View Game
