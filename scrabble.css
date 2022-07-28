@@ -332,7 +332,7 @@ body.scrabble {
 	/* account tab */
 	#scrabbleGrid[data-tab=account] {
 		grid-template-columns: 100%;
-		grid-template-rows: minmax(0, calc(100% - 30px)) min-content min-content;
+		grid-template-rows: 1fr minmax(min-content, max-content);
 	}
 	#scrabbleGrid[data-tab=account] #gameControlsCell {
 		display: none;
@@ -341,11 +341,11 @@ body.scrabble {
 		display: none;
 	}
 	#scrabbleGrid[data-tab=account] #signInCell {
-		grid-column: 1 / 4;
-		grid-row: 3;
+		grid-column: 1;
+		grid-row: 2;
 	}
 	#scrabbleGrid[data-tab=account] #gamesCell {
-		grid-column: 1 / 4;
-		grid-row: 1 / 2;
+		grid-column: 1;
+		grid-row: 1;
 	}
 }
