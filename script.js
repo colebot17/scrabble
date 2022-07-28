@@ -161,22 +161,81 @@ function updateGamesList() {
 				let turnUser = parseInt(gamesArray[i].players[turnIndex].id);
 				let playerListHTML = ``;
 				for (var j in gamesArray[i].players) { // add each player to the list of players in the card
-					playerListHTML += "<div class='listGamePlayerListPlayer'>" + (winners.includes(j) ? "<span class='material-icons winnerIcon'>emoji_events</span>" : "") + "<b>" + (j == turnIndex ? "<u>" : "") + gamesArray[i].players[j].name + (j == turnIndex ? "</u>" : "") + "</b>: " + gamesArray[i].players[j].points + "</div>";
+					playerListHTML += `
+						<div class='listGamePlayerListPlayer'>
+							${(winners.includes(j) ? `<span class='material-icons winnerIcon'>emoji_events</span>` : ``)}
+							<b>
+								${(j == turnIndex ? `<u>` : ``)}
+								${gamesArray[i].players[j].name}
+								${(j == turnIndex ? `</u>` : ``)}
+							</b>
+							: 
+							${gamesArray[i].players[j].points}
+						</div>
+					`;
 				}
 				playerListHTML = playerListHTML.substring(0, playerListHTML.length - 2); // remove the extra comma at the end
 
 				// add the game card to the list
-				$activeGamesList.append(`<table class="listGame" id="listGame${gamesArray[i].id}"><tr><th class="gameId">#${gamesArray[i].id}</th></tr><tr><th class="gamePlayers">${playerListHTML}</th></tr><tr><th><button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">${(turnUser == account.id ? "Play" : "View Game")}</button></th></tr></table>`);
+				$activeGamesList.append(`
+					<table class="listGame" id="listGame${gamesArray[i].id}">
+						<tr>
+							<th class="gameId">
+								#${gamesArray[i].id}
+							</th>
+						</tr>
+						<tr>
+							<th class="gamePlayers">
+								${playerListHTML}
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
+									${(turnUser == account.id ? "Play" : "View Game")}
+								</button>
+							</th>
+						</tr>
+					</table>
+				`);
 			} else { // if the game is inactive
 				noInactiveGames = false;
 				let playerListHTML = ``;
 				for (var j in gamesArray[i].players) { // add each player to the list of players in the card
-					playerListHTML += `<div class="listGamePlayerListPlayer">${(winners.includes(j) ? "<span class='material-icons winnerIcon'>emoji_events</span>" : "")}<b>${gamesArray[i].players[j].name}</b>: ${gamesArray[i].players[j].points}</div>`;
+					playerListHTML += `
+						<div class="listGamePlayerListPlayer">
+							${(winners.includes(j) ? "<span class='material-icons winnerIcon'>emoji_events</span>" : "")}
+							<b>
+								${gamesArray[i].players[j].name}
+							</b>
+							: ${gamesArray[i].players[j].points}
+						</div>
+					`;
 				}
 				playerListHTML = playerListHTML.substring(0, playerListHTML.length - 2); // remove the extra comma at the end
 
 				// add the game card to the list
-				$inactiveGamesList.append(`<table class="listGame" id="listGame${gamesArray[i].id}"><tr><th class="gameId">Inactive #${gamesArray[i].id}</th></tr><tr><th class="gamePlayers">${playerListHTML}</th></tr><tr><th><button class="openGameButton" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">View Game</button></th></tr></table>`);
+				$inactiveGamesList.append(`
+					<table class="listGame" id="listGame${gamesArray[i].id}">
+						<tr>
+							<th class="gameId">
+								Inactive #${gamesArray[i].id}
+							</th>
+						</tr>
+						<tr>
+							<th class="gamePlayers">
+								${playerListHTML}
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<button class="openGameButton" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
+									View Game
+								</button>
+							</th>
+						</tr>
+					</table>
+				`);
 			}
 		}
 
