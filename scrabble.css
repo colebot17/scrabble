@@ -18,14 +18,15 @@
 }
 
 .gamesList .listGame, .gamesList .newGameCard {
-	width: 200px;
-	height: 300px;
 	margin: auto;
 	padding: 10px;
+	border: none;
 	border-radius: 10px;
 	background-color: var(--blue-jeans);
 }
 .gamesList .listGame {
+	width: 200px;
+	height: 300px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -39,6 +40,8 @@
 	column-gap: 2px;
 }
 .gamesList .newGameCard {
+	width: 220px;
+	height: 320px;
 	cursor: pointer;
 }
 .gamesList .newGameCard:hover {
