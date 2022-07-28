@@ -218,14 +218,6 @@ body.scrabble {
     border-radius: 5px;
 }
 
-#gameControlsCell {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: stretch;
-	gap: 5px;
-}
-
 .spin {
 	animation-name: spin;
 	animation-direction: reverse;
@@ -249,7 +241,22 @@ body.scrabble {
 	}
 }
 
+#gameControlsCell {
+	display: flex;
+	justify-content: center;
+	align-items: stretch;
+	gap: 5px;
+}
+
 @media (orientation: landscape) {
+	/* both tabs */
+	#scrabbleGrid #gamesCell {
+		height: calc(100vh - 40px);
+	}
+	#scrabbleGrid #gameControlsCell {
+		flex-direction: column;
+	}
+
 	/* game tab */
 	#scrabbleGrid[data-tab=game] {
 		grid-template-columns: minmax(min-content, max-content) 1fr;
@@ -290,12 +297,14 @@ body.scrabble {
 		grid-column: 2;
 		grid-row: 1;
 	}
-	#scrabbleGrid #gamesCell {
-		height: calc(100vh - 40px);
-	}
 }
 
 @media (orientation: portrait) {
+	/* both tabs */
+	#scrabbleGrid #gamesCell, #scrabbleGrid #canvasCell {
+		height: calc(100% - 30px);
+	}
+
 	/* game tab */
 	#scrabbleGrid[data-tab=game] {
 		grid-template-columns: 33% 33% 33%;
@@ -334,8 +343,5 @@ body.scrabble {
 	#scrabbleGrid[data-tab=account] #gamesCell {
 		grid-column: 1 / 4;
 		grid-row: 1 / 2;
-	}
-	#scrabbleGrid #gamesCell, #scrabbleGrid #canvasCell {
-		height: calc(100% - 30px);
 	}
 }
