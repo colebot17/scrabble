@@ -36,6 +36,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	font-weight: bold;
 }
 .gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
 	margin: 7px 0;
