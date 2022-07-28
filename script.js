@@ -234,6 +234,13 @@ function updateGamesList() {
 								</button>
 							</th>
 						</tr>
+						<tr>
+							<th>
+								<button class="openGameButton" onclick="removeGame(${gamesArray[i].id})">
+									Remove Game
+								</button>
+							</th>
+						</tr>
 					</table>
 				`);
 			}
@@ -278,6 +285,32 @@ function setGamesList(list) {
 		console.error(`Failed to set games list: List ${list} not recognized.`);
 	}
 	$('#createGameModal').modalClose();
+}
+
+function removeGame(id) {
+	textModal("Remove Game", "Are you sure you want to remove this game from your games list? This action will not remove the game for anyone but you, and it cannot be undone.", function() {
+		$.ajax(
+			'removeGame.php',
+			{
+				data: {
+					user: account.id,
+					pwd: account.pwd,
+					game: id
+				},
+				method: "POST",
+				success: function(data) {
+					jsonData = json.parse(data);
+					if (jsonData.errorLevel <= 0) {
+						loadGamesList();
+					}
+					textModal("Remove Game", jsonData.message);
+				},
+				error: function() {
+					console.error("Could not remove the game.");
+				}
+			}
+		);
+	});
 }
 
 function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
