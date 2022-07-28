@@ -179,7 +179,7 @@ function updateGamesList() {
 				// add the game card to the list
 				$activeGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
-						<div>
+						<div class="listGameTitleLine">
 							<span class="listGameName">
 								${gamesArray[i].name || `#${gamesArray[i].id}`}
 							</span>
@@ -214,7 +214,7 @@ function updateGamesList() {
 				// add the game card to the list
 				$inactiveGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
-						<div>
+						<div class="listGameTitleLine">
 							<span class="listGameName">
 								${gamesArray[i].name || `#${gamesArray[i].id}`}
 							</span>
