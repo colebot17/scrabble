@@ -181,7 +181,7 @@ function updateGamesList() {
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameName">
 							${gamesArray[i].name || `#${gamesArray[i].id}`}
-							<span class="material-icons iconButton smallIcon">
+							<span class="material-icons iconButton smallIcon" onclick="renameGame(${gamesArray[i].id})">
 								drive_file_rename_outline
 							</span>
 						</div>
@@ -214,7 +214,7 @@ function updateGamesList() {
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameName">
 							${gamesArray[i].name || `#${gamesArray[i].id}`}
-							<span class="material-icons iconButton smallIcon">
+							<span class="material-icons iconButton smallIcon" onclick="renameGame(${gamesArray[i].id})">
 								drive_file_rename_outline
 							</span>
 						</div>
@@ -274,6 +274,36 @@ function setGamesList(list) {
 		console.error(`Failed to set games list: List ${list} not recognized.`);
 	}
 	$('#createGameModal').modalClose();
+}
+
+function renameGame(id) {
+	// get a name from the user
+
+	const nameField = $('#listGame' + id + ' .listGameName');
+	const newName = prompt("Enter a new name for this game:");
+	if (!newName) {
+		return;
+	}
+
+	$.ajax(
+		'renameGame.php',
+		{
+			data: {
+				user: account.id,
+				pwd: account.pwd,
+				game: id,
+				name: newName
+			},
+			success: function(data) {
+				let jsonData = JSON.parse(data);
+				if (jsonData.errorLevel) {
+					textModal("Error", jsonData.message);
+				} else {
+					nameField.text(jsonData.data);
+				}
+			}
+		}
+	);
 }
 
 function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
