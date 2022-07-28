@@ -218,6 +218,14 @@ body.scrabble {
     border-radius: 5px;
 }
 
+#gameControlsCell {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: stretch;
+	gap: 5px;
+}
+
 #gameControlsCell div {
 	margin-bottom: 5px;
 }
