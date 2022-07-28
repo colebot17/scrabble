@@ -261,7 +261,7 @@ body.scrabble {
 	/* game tab */
 	#scrabbleGrid[data-tab=game] {
 		grid-template-columns: minmax(min-content, max-content) 1fr;
-		grid-template-rows: min-content 1fr 1fr;
+		grid-template-rows: min-content 1fr;
 	}
 	#scrabbleGrid[data-tab=game] #navCell {
 		grid-column: 1;
@@ -270,10 +270,6 @@ body.scrabble {
 	#scrabbleGrid[data-tab=game] #gameControlsCell {
 		grid-column: 1;
 		grid-row: 2;
-	}
-	#scrabbleGrid[data-tab=game] #turnControlsCell {
-		grid-column: 1;
-		grid-row: 3;
 	}
 	#scrabbleGrid[data-tab=game] #canvasCell {
 		height: calc(100vh - 40px);
