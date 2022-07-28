@@ -304,7 +304,7 @@ function renameGame(id) {
 				if (jsonData.errorLevel) {
 					textModal("Error", jsonData.message);
 				} else {
-					nameField.text(jsonData.data);
+					nameField.text(jsonData.data || '#' + id);
 				}
 			},
 			error: function() {
