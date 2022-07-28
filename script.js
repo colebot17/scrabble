@@ -221,6 +221,9 @@ function updateGamesList() {
 							<span class="material-icons iconButton smallIcon" onclick="renameGame(${gamesArray[i].id})">
 								drive_file_rename_outline
 							</span>
+							<span class="material-icons iconButton smallIcon" onclick="removeGame(${gamesArray[i].id})">
+								delete
+							</span>
 						</div>
 						<div class="listGamePlayerList">
 							${playerListHTML}
@@ -312,6 +315,32 @@ function renameGame(id) {
 			}
 		}
 	);
+}
+  
+function removeGame(id) {
+	textModal("Remove Game", "Are you sure you want to remove this game from your games list? This action will not remove the game for anyone but you, and it cannot be undone.", true, function() {
+		$.ajax(
+			'removeGame.php',
+			{
+				data: {
+					user: account.id,
+					pwd: account.pwd,
+					game: id
+				},
+				method: "POST",
+				success: function(data) {
+					jsonData = JSON.parse(data);
+					if (jsonData.errorLevel <= 0) {
+						loadGamesList();
+					}
+					textModal("Remove Game", jsonData.message);
+				},
+				error: function() {
+					console.error("Could not remove the game.");
+				}
+			}
+		);
+	});
 }
 
 function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
