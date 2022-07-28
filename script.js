@@ -288,7 +288,7 @@ function setGamesList(list) {
 }
 
 function removeGame(id) {
-	textModal("Remove Game", "Are you sure you want to remove this game from your games list? This action will not remove the game for anyone but you, and it cannot be undone.", function() {
+	textModal("Remove Game", "Are you sure you want to remove this game from your games list? This action will not remove the game for anyone but you, and it cannot be undone.", true, function() {
 		$.ajax(
 			'removeGame.php',
 			{
