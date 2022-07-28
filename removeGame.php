@@ -29,7 +29,7 @@ if (!password_verify($pwd, $row['pwd'])) {
 $gamesList = json_decode($row['games'], true);
 
 // make sure the user owns the game
-if (!array_search(strval($game), $gamesList)) {
+if (!in_array(strval($game), $gamesList)) {
     exit('{"errorLevel":2,"message":"You can\'t remove a game you don\'t own!"}');
 }
 
