@@ -234,7 +234,13 @@ function updateGamesList() {
 		}
 
 		// add the new game card to the end of the active games tab
-		$activeGamesList.append(`<table class="listGame newGameCard" onclick="newGame();"><tr><th><span class="material-icons largeIcon">add</span><th><tr></table>`);
+		$activeGamesList.append(`
+			<button class="listGame newGameCard" onclick="newGame();">
+				<span class="material-icons largeIcon">
+					add
+				</span>
+			</button>
+		`);
 
 		// set the message for the active games list
 		if (!noActiveGames) {
