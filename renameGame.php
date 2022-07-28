@@ -43,6 +43,8 @@ $name = str_replace('`', '\`', $name);
 $name = str_replace('_', '\_', $name);
 $name = str_replace('%', '\%', $name);
 
+$name = trim($name);
+
 // set the name
 $sql = "UPDATE games SET name='$name' WHERE id='$game'";
 $query = mysqli_query($conn, $sql);
