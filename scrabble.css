@@ -244,7 +244,6 @@ body.scrabble {
 #gameControlsCell {
 	display: flex;
 	justify-content: center;
-	align-items: stretch;
 	gap: 10px;
 }
 
@@ -255,6 +254,7 @@ body.scrabble {
 	}
 	#scrabbleGrid #gameControlsCell {
 		flex-direction: column;
+		align-items: stretch;
 	}
 
 	/* game tab */
@@ -304,6 +304,10 @@ body.scrabble {
 	#scrabbleGrid #gamesCell, #scrabbleGrid #canvasCell {
 		height: calc(100% - 30px);
 	}
+	#scrabbleGrid #gameControlsCell {
+		flex-direction: row;
+		align-items: center;
+	}
 
 	/* game tab */
 	#scrabbleGrid[data-tab=game] {
@@ -327,7 +331,7 @@ body.scrabble {
 
 	/* account tab */
 	#scrabbleGrid[data-tab=account] {
-		grid-template-columns: 33% 33% 33%;
+		grid-template-columns: 100%;
 		grid-template-rows: minmax(0, calc(100% - 30px)) min-content min-content;
 	}
 	#scrabbleGrid[data-tab=account] #gameControlsCell {
