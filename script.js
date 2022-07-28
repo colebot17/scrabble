@@ -294,6 +294,7 @@ function renameGame(id) {
 				game: id,
 				name: newName
 			},
+			method: "POST",
 			success: function(data) {
 				let jsonData = JSON.parse(data);
 				if (jsonData.errorLevel) {
@@ -301,6 +302,9 @@ function renameGame(id) {
 				} else {
 					nameField.text(jsonData.data);
 				}
+			},
+			error: function() {
+				console.error("Could not rename game.");
 			}
 		}
 	);
