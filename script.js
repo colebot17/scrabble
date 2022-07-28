@@ -181,7 +181,7 @@ function updateGamesList() {
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<b>
 							${gamesArray[i].name || `#${gamesArray[i].id}`}
-							<span class="material-icons iconButton">
+							<span class="material-icons iconButton smallIcon">
 								drive_file_rename_outline
 							</span>
 						</b>
@@ -214,7 +214,7 @@ function updateGamesList() {
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<b>
 							${gamesArray[i].name || `#${gamesArray[i].id}`}
-							<span class="material-icons iconButton">
+							<span class="material-icons iconButton smallIcon">
 								drive_file_rename_outline
 							</span>
 						</b>
