@@ -152,9 +152,12 @@ if ($endGame) {
 	}
 }
 
+// encode the letter bag
+$letterBagJson = json_encode($letterBag);
+
 // reupload the turn, players, and letter bag
 $playersJson = json_encode($players);
-$sql = "UPDATE games SET turn='$totalTurn', players='$playersJson', letterBag='$letterBag' WHERE id='$game'";
+$sql = "UPDATE games SET turn='$totalTurn', players='$playersJson', letterBag='$letterBagJson' WHERE id='$game'";
 $query = mysqli_query($conn, $sql);
 
 if ($endGame) {
