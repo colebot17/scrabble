@@ -30,7 +30,7 @@ $gamesList = json_decode($row['games'], true);
 
 // make sure the user owns the game
 if (!array_search($game, $gamesList)) {
-    exit('{"errorLevel":2,"message","You can\'t remove a game you don\'t own!"}');
+    exit('{"errorLevel":2,"message":"You can\'t remove a game you don\'t own!"}');
 }
 
 // remove the game from the games list
