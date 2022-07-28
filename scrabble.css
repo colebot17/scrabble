@@ -32,6 +32,11 @@
 	justify-content: space-around;
 	align-items: stretch;
 }
+.gamesList .listGame .listGameName {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 .gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
 	margin: 7px 0;
 	display: flex;
