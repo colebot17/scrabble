@@ -235,7 +235,7 @@ function updateGamesList() {
 
 		// add the new game card to the end of the active games tab
 		$activeGamesList.append(`
-			<button class="listGame newGameCard" onclick="newGame();">
+			<button class="newGameCard" onclick="newGame();">
 				<span class="material-icons largeIcon">
 					add
 				</span>
