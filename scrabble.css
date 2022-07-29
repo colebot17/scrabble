@@ -256,7 +256,7 @@ body.scrabble {
 	justify-content: center;
 	gap: 10px;
 }
-#scrabbleGrid #gameControlsCell #gameControlButtons {
+#scrabbleGrid #gameControlsCell .gameControlButtons {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
