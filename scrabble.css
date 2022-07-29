@@ -250,7 +250,6 @@ body.scrabble {
 #scrabbleGrid .gridCell {
 	display: none;
 	width: calc(100% - 30px);
-	height: calc(100% - 30px);
 }
 #scrabbleGrid #gameControlsCell {
 	justify-content: center;
