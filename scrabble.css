@@ -329,33 +329,34 @@ body.scrabble {
 		display: none;
 	}
 
-	/* signed in account tab */
+	/* account tab */
 	#scrabbleGrid[data-tab=account][data-signedin=true] {
 		grid-template-columns: 100%;
 		grid-template-rows: 85% 15%;
 	}
-
-	/* signed out account tab */
-	#scrabbleGrid[data-tab=account][data-signedin=false] {
-		grid-template-columns: 100%;
-		grid-template-rows: 0% 100%;
-	}
-
-	/* account tab */
 	#scrabbleGrid[data-tab=account] #gameControlsCell {
 		display: none;
 	}
 	#scrabbleGrid[data-tab=account] #canvasCell {
 		display: none;
 	}
-	#scrabbleGrid[data-tab=account] #signInCell {
+
+	/* signed in account tab */
+	#scrabbleGrid[data-tab=account][data-signedin=true] #signInCell {
 		grid-column: 1;
 		grid-row: 2;
 	}
-	#scrabbleGrid[data-tab=account] #gamesCell {
+	#scrabbleGrid[data-tab=account][data-signedin=true] #gamesCell {
 		grid-column: 1;
 		grid-row: 1;
 	}
 
 	/* signed out account tab */
+	#scrabbleGrid[data-tab=account][data-signedin=false] #signInCell {
+		grid-column: 1;
+		grid-row: 1 / 3;
+	}
+	#scrabbleGrid[data-tab=account][data-signedin=false] #gamesCell {
+		display: none;
+	}
 }
