@@ -246,11 +246,12 @@ body.scrabble {
 	}
 }
 
-/* defaults */
+/* defaults / all orientations */
 #scrabbleGrid .gridCell {
 	display: none;
+	width: calc(100% - 30px);
+	height: calc(100% - 30px);
 }
-
 #scrabbleGrid #gameControlsCell {
 	display: flex;
 	justify-content: center;
