@@ -253,7 +253,6 @@ body.scrabble {
 	height: calc(100% - 30px);
 }
 #scrabbleGrid #gameControlsCell {
-	display: flex;
 	justify-content: center;
 	gap: 10px;
 }
@@ -274,7 +273,7 @@ body.scrabble {
 		grid-template-rows: 100%;
 	}
 	#scrabbleGrid[data-tab=game] #gameControlsCell {
-		display: unset;
+		display: flex;
 		grid-column: 1;
 		grid-row: 1;
 	}
@@ -318,7 +317,7 @@ body.scrabble {
 		grid-template-rows: 100fr min-content min-content;
 	}
 	#scrabbleGrid[data-tab=game] #gameControlsCell {
-		display: unset;
+		display: flex;
 		grid-column: 1;
 		grid-row: 3;
 	}
