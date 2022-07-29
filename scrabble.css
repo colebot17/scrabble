@@ -330,9 +330,9 @@ body.scrabble {
 	}
 
 	/* account tab */
-	#scrabbleGrid[data-tab=account][data-signedin=true] {
+	#scrabbleGrid[data-tab=account] {
 		grid-template-columns: 100%;
-		grid-template-rows: calc(100% - 52px) 42px;
+		grid-template-rows: calc(100% - 57px) 42px;
 	}
 	#scrabbleGrid[data-tab=account] #gameControlsCell {
 		display: none;
