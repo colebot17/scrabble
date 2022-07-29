@@ -256,6 +256,12 @@ body.scrabble {
 	justify-content: center;
 	gap: 10px;
 }
+#scrabbleGrid #gameControlsCell #gameControlButtons {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: stretch;
+}
 
 @media (orientation: landscape) {
 	/* both tabs */
