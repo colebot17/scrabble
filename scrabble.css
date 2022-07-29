@@ -109,6 +109,11 @@ body.scrabble {
     font-size: 50px;
 }
 
+/* account forms */
+.accountForm h3 {
+	margin: 0;
+}
+
 /* grid */
 #scrabbleGrid {
 	width: calc(100% - 5px);
