@@ -66,6 +66,8 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 					
 					setSignInMode('signOut');
 
+					$('#scrabbleGrid').attr('data-signedin', true);
+
 					updateGamesList();
 				} else {
 					textModal("Incorrect username or password");

@@ -329,11 +329,19 @@ body.scrabble {
 		display: none;
 	}
 
-	/* account tab */
-	#scrabbleGrid[data-tab=account] {
+	/* signed in account tab */
+	#scrabbleGrid[data-tab=account][data-signedin=true] {
 		grid-template-columns: 100%;
-		grid-template-rows: 80% 20%;
+		grid-template-rows: 85% 15%;
 	}
+
+	/* signed out account tab */
+	#scrabbleGrid[data-tab=account][data-signedin=false] {
+		grid-template-columns: 100%;
+		grid-template-rows: 0% 100%;
+	}
+
+	/* account tab */
 	#scrabbleGrid[data-tab=account] #gameControlsCell {
 		display: none;
 	}
@@ -348,4 +356,6 @@ body.scrabble {
 		grid-column: 1;
 		grid-row: 1;
 	}
+
+	/* signed out account tab */
 }
