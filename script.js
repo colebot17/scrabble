@@ -285,7 +285,7 @@ function setGamesList(list) {
 
 function renameGame(id) {
 	// get the element(s) to be updated upon completion
-	const nameFields = $('#listGame' + id + ' .listGameName' + (game.id === id ? ', #gameControlsCell .gameNameBox .listGameName' : ''));
+	const nameFields = $('#listGame' + id + ' .listGameName, #gameControlsCell .gameNameBox .listGameName');
 
 	// get a name from the user
 	const newName = prompt("Enter a new name. It will be seen by all players in this game. Leave blank to remove name.");
