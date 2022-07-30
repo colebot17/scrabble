@@ -252,7 +252,7 @@ body.scrabble {
 	width: calc(100% - 30px);
 }
 #scrabbleGrid #gameControlsCell {
-	justify-content: center;
+	justify-content: space-evenly;
 	gap: 10px;
 }
 #scrabbleGrid #gameControlsCell .gameControlButtons {
