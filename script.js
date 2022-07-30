@@ -284,14 +284,16 @@ function setGamesList(list) {
 }
 
 function renameGame(id) {
-	// get a name from the user
+	// get the element(s) to be updated upon completion
+	const nameFields = $('#listGame' + id + ' .listGameName' + (game.id === id ? ', #gameControlsCell .gameNameBox .listGameName' : ''));
 
-	const nameField = $('#listGame' + id + ' .listGameName');
+	// get a name from the user
 	const newName = prompt("Enter a new name. It will be seen by all players in this game. Leave blank to remove name.");
 	if (newName === null) {
 		return;
 	}
 
+	// rename the game
 	$.ajax(
 		'renameGame.php',
 		{
@@ -307,7 +309,7 @@ function renameGame(id) {
 				if (jsonData.errorLevel) {
 					textModal("Error", jsonData.message);
 				} else {
-					nameField.text(jsonData.data || '#' + id);
+					nameFields.text(jsonData.data || '#' + id);
 				}
 			},
 			error: function() {
