@@ -130,14 +130,6 @@ body.scrabble {
 	width: calc(100% - 30px);
 }
 
-/* highlight button of current page in nav cell */
-#scrabbleGrid[data-tab=game] #navCell ul a#gameTabButton li {
-	background-color: var(--y-in-mn-blue);
-}
-#scrabbleGrid[data-tab=account] #navCell ul a#accountTabButton li {
-	background-color: var(--y-in-mn-blue);
-}
-
 /* modals */
 .modal {
 	position: fixed;
