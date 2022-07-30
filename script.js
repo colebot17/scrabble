@@ -737,8 +737,15 @@ function gameInit() {
 		});
 	}
 
-	// show the game id
-	$('#gameControlsCell .gameIdBox').html(`<b>#${game.id}</b>`);
+	// show the game name
+	$('#gameControlsCell .gameNameBox').html(`
+		<span class="listGameName">
+			${game.name || `#${game.id}`}
+		</span>
+		<span class="material-icons iconButton smallIcon" onclick="renameGame(${game.id})">
+			drive_file_rename_outline
+		</span>
+	`);
 
 	// update the player scores
 	let scoreBox = $('#gameControlsCell .scoreBox').empty(); // empty the score box

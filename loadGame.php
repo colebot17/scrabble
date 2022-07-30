@@ -22,7 +22,7 @@ $sql = "SELECT pwd, games FROM accounts WHERE id='$user'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row['games'], true))) {
-	$sql = "SELECT letterBag, players, turn, inactive, board FROM games WHERE id='$gameId'";
+	$sql = "SELECT name, letterBag, players, turn, inactive, board FROM games WHERE id='$gameId'";
 	$query = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($query);
 
@@ -37,6 +37,7 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	// put it all together
 	$obj = Array(
 		"id" => $gameId,
+		"name"=> $row['name'],
 		"letterBag" => json_decode($row['letterBag'], true),
 		"players" => $players,
 		"turn" => (int)$row['turn'],
