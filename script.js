@@ -680,47 +680,44 @@ function gameInit() {
 			} else if (!inBank && tile && locked) {
 				// this is where we will show the word definition
 
-				// only do it for mousedown for now
-				if (e.type === 'mousedown') {
-					// start with x axis word
-					// sweep left and right
-					let sweepX = boardX;
-					let xWord = '';
-					while (game.board?.[boardY]?.[sweepX]) {
-						xWord += game.board[boardY][sweepX].letter;
-						sweepX++;
-					}
-					sweepX = boardX - 1;
-					while (game.board?.[boardY]?.[sweepX]) {
-						xWord = game.board[boardY][sweepX].letter + xWord;
-						sweepX--;
-					}
-
-					// then do y axis word
-					let sweepY = boardY;
-					let yWord = '';
-					while (game.board?.[sweepY]?.[boardX]) {
-						yWord += game.board[sweepY][boardX].letter;
-						sweepY++;
-					}
-					sweepY = boardY - 1;
-					while (game.board?.[sweepY][boardX]) {
-						yWord = game.board[sweepY][boardX].letter + yWord;
-						sweepY--;
-					}
-
-					let words = [];
-					if (xWord.length > 1) {
-						words.push(xWord);
-					}
-					if (yWord.length > 1) {
-						words.push(yWord);
-					}
-
-					dictLookup(words, function(entries) {
-						console.log(entries);
-					});
+				// start with x axis word
+				// sweep left and right
+				let sweepX = boardX;
+				let xWord = '';
+				while (game.board?.[boardY]?.[sweepX]) {
+					xWord += game.board[boardY][sweepX].letter;
+					sweepX++;
 				}
+				sweepX = boardX - 1;
+				while (game.board?.[boardY]?.[sweepX]) {
+					xWord = game.board[boardY][sweepX].letter + xWord;
+					sweepX--;
+				}
+
+				// then do y axis word
+				let sweepY = boardY;
+				let yWord = '';
+				while (game.board?.[sweepY]?.[boardX]) {
+					yWord += game.board[sweepY][boardX].letter;
+					sweepY++;
+				}
+				sweepY = boardY - 1;
+				while (game.board?.[sweepY][boardX]) {
+					yWord = game.board[sweepY][boardX].letter + yWord;
+					sweepY--;
+				}
+
+				let words = [];
+				if (xWord.length > 1) {
+					words.push(xWord);
+				}
+				if (yWord.length > 1) {
+					words.push(yWord);
+				}
+
+				dictLookup(words, function(entries) {
+					console.log(entries);
+				});
 			}
 
 			// it's okay if nothing happens - there is some empty space on the canvas
