@@ -62,9 +62,9 @@ function setCanvasSize() {
 	var canvasCellWidth = $('#canvasCell').width();
 	var canvasCellHeight = $('#canvasCell').height();
 
-	var limitingDimension = Math.min(canvasCellWidth + 120, canvasCellHeight);
+	var limitingDimension = Math.min(canvasCellWidth + 100, canvasCellHeight);
 
-	canvas.c.width = limitingDimension - 120;
+	canvas.c.width = limitingDimension - 100;
 	canvas.c.height = limitingDimension;
 }
 
