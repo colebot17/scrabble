@@ -720,9 +720,9 @@ function gameInit() {
 				}
 
 				dictLookup(words, function(entries) {
-					const v = entries[i][0];
 					let content = ``;
 					for (let i = 0; i < entries.length; i++) {
+						const v = entries[i][0];
 						content += `<b>${v.word}</b><br>`;
 						for (let j in v.meanings) {
 							content += `<b>${v.meanings[j].partOfSpeech}</b>: `;
