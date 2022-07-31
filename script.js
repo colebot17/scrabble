@@ -727,7 +727,7 @@ function gameInit() {
 						for (let j in v.meanings) {
 							content += `<b>${v.meanings[j].partOfSpeech}</b>: `;
 							for (let k in v.meanings[j].definitions) {
-								content += `${v.meanings[j].definitions[k]}, `;
+								content += `${v.meanings[j].definitions[k].definition}, `;
 							}
 						}
 					}
