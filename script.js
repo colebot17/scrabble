@@ -682,11 +682,6 @@ function gameInit() {
 
 				// only do it for mousedown for now
 				if (e.type === 'mousedown') {
-					// save some processing power
-					if (!game.board?.[boardX]?.[boardY]) {
-						return;
-					}
-					
 					// start with x axis word
 					// sweep left and right
 					let sweepX = boardX;
