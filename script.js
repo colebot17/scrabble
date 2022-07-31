@@ -724,11 +724,13 @@ function gameInit() {
 
 				// check and save a timeout to limit the amount that we run this function
 				if (canvas.wordLookupTimeout) {
+					console.log(canvas);
 					return;
 				}
 				canvas.wordLookupTimeout = setTimeout(function() {
 					canvas.wordLookupTimeout = undefined;
 				}, 1000);
+				console.log(canvas);
 				
 				// start with x axis word
 				// sweep left and right
