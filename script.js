@@ -739,42 +739,51 @@ function gameInit() {
 		});
 	}
 
-	// show the game name
-	$('#gameControlsCell .gameNameBox').html(`
-		<span class="listGameName">
-			${game.name || `#${game.id}`}
-		</span>
-		<span class="material-icons iconButton smallIcon" onclick="renameGame(${game.id})">
-			drive_file_rename_outline
-		</span>
-	`);
+	// show the game info
+	let gameInfoBox = $('#gameControlsCell .gameInfoBox');
+	
+	// start with the game name
+	let gameInfo = `
+		<div class="gameNameBox">
+			<span class="gameName">
+				${game.name || `#${game.id}`}
+			</span>
+			<span class="material-icons iconButton smallIcon" onclick="renameGame(${game.id})">
+				drive_file_rename_outline
+			</span>
+		</div>
+	`;
 
-	// update the player scores
-	let scoreBox = $('#gameControlsCell .scoreBox').empty(); // empty the score box
+	// calculate the winning player
 	let turnIndex = parseInt(game.turn) % game.players.length;
-	let turnUser = game.players[turnIndex].id;
 	let winningPoints = 1;
 	for (let i in game.players) {
 		winningPoints = Math.max(winningPoints, game.players[i].points);
 	}
+
+	// for each player in the game
 	for (let i in game.players) {
 		let isWinner = game.players[i].points == winningPoints;
 		let isTurn = turnIndex == i;
 		let isCurrentPlayer = game.players[i].id == account.id;
-		scoreBox.append(
-			"<div class='gamePlayerListPlayer'>" + // begin line
-			(isWinner ? "<span class='material-icons winnerIcon'>emoji_events</span>" : "") + // trophy if winner
-			(isTurn ? "<u>" : "") + // underline if turn
-			(isCurrentPlayer ? "<b>" : "") + // bold start at name if current player
-			game.players[i].name + // player name
-			": " + // colon
-			(!isCurrentPlayer ? "<b>" : "") + // bold start at points if not current players
-			game.players[i].points + // points
-			"</b>" + // end bold no matter what
-			(turnIndex == i ? "</u>" : "") + // underline end if turn
-			"</div>" // end line
-		);
+
+		// add the player to the list
+		gameInfo += `
+			<div class="gamePlayerListPlayer">
+				${(isWinner ? `<span class='material-icons winnerIcon'>emoji_events</span>`: ``)}
+				${(isTurn ? `<u>` : ``)}
+					${(isCurrentPlayer ? `<b>` : ``)}
+						${game.players[i].name}: 
+					${(!isCurrentPlayer ? `<b>` : ``)}
+						${game.players[i].points}
+					</b>
+				${(turnIndex == i ? `</u>` : ``)}
+			</div>
+		`;
 	}
+
+	// set the content of the game info box
+	gameInfoBox.html(gameInfo);
 
 	setCanvasSize();
 }

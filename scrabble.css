@@ -59,7 +59,14 @@
 }
 
 /* game controls */
-#gameControlsCell .gameNameBox {
+#gameControlsCell .gameInfoBox {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}
+#gameControlsCell .gameInfoBox .gameNameBox {
 	display: flex;
 	justify-content: center;
 	align-items: center;
