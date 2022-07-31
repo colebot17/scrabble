@@ -836,19 +836,6 @@ function gameInit() {
 	setCanvasSize();
 }
 
-// pick one letter from the letter bag (weighted random) and remove it from the bag
-function pullLetter(bag = game.letterBag) {
-	var longBag = [];
-	for (let i in bag) {
-		for (let j = 0; j < bag[i]; j++) {
-			longBag.push(i);
-		}
-	}
-	var letter = longBag[Math.floor(Math.random() * longBag.length)];
-	bag[letter]--;
-	return letter;
-}
-
 function makeMove() {
 	// first, get a list of all unlocked tiles
 	var newTiles = [];
