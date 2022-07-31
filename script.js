@@ -720,7 +720,18 @@ function gameInit() {
 				}
 
 				dictLookup(words, function(entries) {
-					$('#wordLookupPopup').popupOpen(clientX, clientY);
+					const v = entries[i][0];
+					let content = ``;
+					for (let i = 0; i < entries.length; i++) {
+						content += `<b>${v.word}</b><br>`;
+						for (let j in v.meanings) {
+							content += `<b>${v.meanings[j].partOfSpeech}</b>: `;
+							for (let k in v.meanings[j].definitions) {
+								content += `${v.meanings[j].definitions[k]}, `;
+							}
+						}
+					}
+					$('#wordLookupPopup').html(content).popupOpen(clientX, clientY);
 					console.log(entries);
 				});
 			}
