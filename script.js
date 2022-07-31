@@ -717,6 +717,11 @@ function gameInit() {
 				x = Math.floor(e.offsetX / (squareWidth + squareGap));
 				y = Math.floor(e.offsetY / (squareWidth + squareGap));
 				
+				// save some processing power
+				if (!game.board?.[x]?.[y]) {
+					return;
+				}
+				
 				// start with x axis word
 				// sweep left and right
 				let sweepX = x;
