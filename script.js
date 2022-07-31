@@ -836,14 +836,13 @@ function gameInit() {
 	setCanvasSize();
 }
 
-function dictLookup(callback = function() {}) {
-	const args = Array.from(arguments);
-	let words = [];
+function dictLookup(words, callback = function(entries) {}) {
+	let entries = [];
 	$.when(
-		...args.map(x => $.get("https://api.dictionaryapi.dev/api/v2/entries/en/" + x, function(def) {
-			words.push(JSON.parse(def));
+		...words.map(x => $.get("https://api.dictionaryapi.dev/api/v2/entries/en/" + x, function(def) {
+			entries.push(JSON.parse(def));
 		}))
-	).then(callback);
+	).then(function() {callback(entries)});
 }
 
 function makeMove() {
