@@ -235,8 +235,6 @@ body.scrabble {
 /* popups */
 .popup {
 	position: fixed;
-	top: 300px;
-	left: 300px;
 	width: 300px;
 	height: 200px;
 	
