@@ -515,6 +515,18 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), exp
 	}
 }
 
+function reloadGame() {
+	if (game.id) {
+		loadGame(game.id);
+
+		// spin the reload button
+		var $button = $('#reloadGameButton');
+		$button.removeClass('spin');
+		setTimeout(function () { $button.addClass('spin'); }, 10);
+		setTimeout(function () { $button.removeClass('spin'); }, 380);
+	}
+}
+
 // remove the game
 function endGame() {
 	// make sure user is signed in and in a game and whatever

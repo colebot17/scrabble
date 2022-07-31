@@ -59,6 +59,11 @@
 }
 
 /* game controls */
+#gameControlsCell .contentControls {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
 #gameControlsCell .gameInfoBox {
 	display: flex;
 	flex-direction: column;
@@ -292,6 +297,9 @@ body.scrabble {
 		height: calc(100vh - 40px);
 		grid-column: 2;
 		grid-row: 1;
+	}
+	#gameControlsCell .contentControls {
+		flex-direction: row;
 	}
 
 	/* account tab */
