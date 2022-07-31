@@ -677,6 +677,44 @@ function gameInit() {
 					y: (boardY - (y / (squareWidth + squareGap))) * (squareWidth + squareGap)
 				}
 				game.board[boardY][boardX] = null;
+			} else if (!inBank && tile && locked) {
+				// this is where we will show the word definition
+
+				// only do it for mousedown for now
+				if (e.type === 'mousedown') {
+					// save some processing power
+					if (!game.board?.[boardX]?.[boardY]) {
+						return;
+					}
+
+					// check and save a timeout to limit the amount that we run this function
+					if (canvas.wordLookupTimeout) {
+						console.log(canvas);
+						return;
+					}
+					canvas.wordLookupTimeout = setTimeout(function () {
+						canvas.wordLookupTimeout = undefined;
+					}, 1000);
+					console.log(canvas);
+
+					// start with x axis word
+					// sweep left and right
+					let sweepX = boardX;
+					let word = '';
+					while (game.board?.[boardY]?.[sweepX]) {
+						word += game.board[boardY][sweepX].letter;
+						sweepX++;
+					}
+					sweepX = boardX - 1;
+					while (game.board?.[boardY]?.[sweepX]) {
+						word = game.board[boardY][sweepX].letter + word;
+					}
+					if (word) {
+						alert(word);
+					}
+
+					// then do y axis word
+				}
 			}
 
 			// it's okay if nothing happens - there is some empty space on the canvas
@@ -707,48 +745,6 @@ function gameInit() {
 				}
 
 				return;
-			}
-
-			// this is where we will show the word definition
-
-			// only do it for mousemove for now
-			if (e.type === 'mousemove') {
-				// get tile position of cursor
-				x = Math.floor(e.offsetX / (squareWidth + squareGap));
-				y = Math.floor(e.offsetY / (squareWidth + squareGap));
-				
-				// save some processing power
-				if (!game.board?.[x]?.[y]) {
-					return;
-				}
-
-				// check and save a timeout to limit the amount that we run this function
-				if (canvas.wordLookupTimeout) {
-					console.log(canvas);
-					return;
-				}
-				canvas.wordLookupTimeout = setTimeout(function() {
-					canvas.wordLookupTimeout = undefined;
-				}, 1000);
-				console.log(canvas);
-				
-				// start with x axis word
-				// sweep left and right
-				let sweepX = x;
-				let word = '';
-				while (game.board?.[y]?.[sweepX]) {
-					word += game.board[y][sweepX].letter;
-					sweepX++;
-				}
-				sweepX = x - 1;
-				while (game.board?.[y]?.[sweepX]) {
-					word = game.board[y][sweepX].letter + word;
-				}
-				if (word) {
-					alert(word);
-				}
-				
-				// then do y axis word
 			}
 		}
 		$canvas.on("mousemove", handleCanvasMouseMove);
