@@ -111,10 +111,10 @@ jQuery.fn.extend({
 		let realX, realY;
 		if (posRight) {
 			realX = x + 5;
-			realY = y - 100;
+			realY = y - 105;
 		} else {
 			realX = x - 305;
-			realY = y - 100;
+			realY = y - 105;
 		}
 
 		// set the position
