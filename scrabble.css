@@ -212,11 +212,9 @@ body.scrabble {
 	align-items: center;
 	gap: 10px;
 }
-
 #chooseLetterModal h3 {
 	margin: 0;
 }
-
 #letterPicker {
 	width: 55px;
     height: 55px;
@@ -232,6 +230,18 @@ body.scrabble {
     border: none;
     outline: none;
     border-radius: 5px;
+}
+
+/* popups */
+.popup {
+	position: fixed;
+	width: 300px;
+	height: 200px;
+	
+	background-color: var(--blue-jeans);
+	box-shadow: 0 0 5px #00000066;
+	padding: 10px;
+	border-radius: 5px;
 }
 
 .spin {

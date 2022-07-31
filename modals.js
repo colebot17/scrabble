@@ -95,6 +95,43 @@ jQuery.fn.extend({
 
 		// hide the modal
 		return this.addClass('hidden');
+	},
+	popupOpen: function(x, y) {
+		var el = this;
+		// update the escape stack
+		addToEscStack(function () { el.popupClose() }, el.attr('id'));
+
+		// determine which direction to show the modal
+		let posRight = true;
+		if (window.innerWidth - x < 325) {
+			posRight = false;
+		}
+
+		// calculate the position
+		let realX, realY;
+		if (posRight) {
+			realX = x + 5;
+			realY = y - 100;
+		} else {
+			realX = x - 305;
+			realY = y - 100;
+		}
+
+		// set the position
+		el.css({
+			top: realY,
+			left: realX
+		});
+
+		// show the popup
+		return el.removeClass('hidden');
+	},
+	popupClose: function () {
+		// update the escape stack
+		removeFromEscStack(this.attr('id'));
+
+		// hide the popup
+		return this.addClass('hidden');
 	}
 });
 

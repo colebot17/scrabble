@@ -626,13 +626,17 @@ function gameInit() {
 		var handleCanvasMouseDown = function(e) {
 			e.preventDefault();
 			// get the pixel position of the mouse/finger
-			let x, y;
+			let x, y, clientX, clientY;
 			if (e.type === 'touchstart') {
 				x = e.changedTouches[0].clientX - this.getBoundingClientRect().left;
 				y = e.changedTouches[0].clientY - this.getBoundingClientRect().top;
+				clientX = e.changedTouches[0].clientX;
+				clientY = e.changedTouches[0].clientY;
 			} else {
 				x = e.offsetX;
 				y = e.offsetY;
+				clientX = e.clientX;
+				clientY = e.clientY;
 			}
 
 			// check letter bank first
@@ -716,6 +720,7 @@ function gameInit() {
 				}
 
 				dictLookup(words, function(entries) {
+					$('#wordLookupPopup').popupOpen(clientX, clientY);
 					console.log(entries);
 				});
 			}
