@@ -836,6 +836,16 @@ function gameInit() {
 	setCanvasSize();
 }
 
+function dictLookup(callback = function() {}) {
+	const args = Array.from(arguments);
+	let words = [];
+	$.when(
+		...args.map(x => $.get("https://api.dictionaryapi.dev/api/v2/entries/en/" + x, function(def) {
+			words.push(JSON.parse(def));
+		}))
+	).then(callback);
+}
+
 function makeMove() {
 	// first, get a list of all unlocked tiles
 	var newTiles = [];
