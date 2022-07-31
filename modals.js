@@ -119,7 +119,7 @@ jQuery.fn.extend({
 			realX = x + 5;
 			realY = y - 105;
 		} else {
-			realX = x - 305;
+			realX = x - 325;
 			realY = y - 105;
 		}
 
