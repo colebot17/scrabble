@@ -693,6 +693,7 @@ function gameInit() {
 					sweepX = boardX - 1;
 					while (game.board?.[boardY]?.[sweepX]) {
 						word = game.board[boardY][sweepX].letter + word;
+						sweepX--;
 					}
 					if (word) {
 						alert(word);
