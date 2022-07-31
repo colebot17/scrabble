@@ -853,7 +853,13 @@ function dictLookup(words, callback = function(entries) {}) {
 	$.when(
 		...words.map(x => $.get("https://api.dictionaryapi.dev/api/v2/entries/en/" + x, function(def) {
 			entries.push(def);
-		}))
+		})),
+		new Promise(function(resolve) {
+			$('html').on('mouseup', () => {
+				$('html').off('mouseup');
+				resolve();
+			});
+		})
 	).then(function() {callback(entries)});
 }
 
