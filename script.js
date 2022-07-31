@@ -632,7 +632,6 @@ function gameInit() {
 				y = e.changedTouches[0].clientY - this.getBoundingClientRect().top;
 				clientX = e.changedTouches[0].clientX;
 				clientY = e.changedTouches[0].clientY;
-				console.log(clientX, clientY);
 			} else {
 				x = e.offsetX;
 				y = e.offsetY;
@@ -722,6 +721,7 @@ function gameInit() {
 
 				dictLookup(words, function(entries) {
 					$('#wordLookupPopup').popupOpen(clientX, clientY);
+					console.log(clientX, clientY);
 					console.log(entries);
 				});
 			}
