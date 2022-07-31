@@ -709,7 +709,17 @@ function gameInit() {
 						sweepY--;
 					}
 
-					console.log(xWord, yWord);
+					let words = [];
+					if (xWord.length > 1) {
+						words.push(xWord);
+					}
+					if (yWord.length > 1) {
+						words.push(yWord);
+					}
+
+					dictLookup(words, function(entries) {
+						console.log(entries);
+					});
 				}
 			}
 
