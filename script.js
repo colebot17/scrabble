@@ -685,21 +685,31 @@ function gameInit() {
 					// start with x axis word
 					// sweep left and right
 					let sweepX = boardX;
-					let word = '';
+					let xWord = '';
 					while (game.board?.[boardY]?.[sweepX]) {
-						word += game.board[boardY][sweepX].letter;
+						xWord += game.board[boardY][sweepX].letter;
 						sweepX++;
 					}
 					sweepX = boardX - 1;
 					while (game.board?.[boardY]?.[sweepX]) {
-						word = game.board[boardY][sweepX].letter + word;
+						xWord = game.board[boardY][sweepX].letter + xWord;
 						sweepX--;
-					}
-					if (word.length > 1) {
-						alert(word);
 					}
 
 					// then do y axis word
+					let sweepY = boardY;
+					let yWord = '';
+					while (game.board?.[sweepY]?.[boardX]) {
+						yWord += game.board[sweepY][boardX].letter;
+						sweepY++;
+					}
+					sweepY = boardY - 1;
+					while (game.board?.[sweepY][boardX]) {
+						yWord = game.board[sweepY][boardX].letter + word;
+						sweepY--;
+					}
+
+					console.log(xWord, yWord);
 				}
 			}
 
