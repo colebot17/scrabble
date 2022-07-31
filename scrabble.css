@@ -61,6 +61,7 @@
 /* game controls */
 #gameControlsCell .contentControls {
 	display: flex;
+	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
 }
@@ -74,7 +75,6 @@
 }
 #gameControlsCell .gameInfoBox .gameNameBox {
 	display: flex;
-	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
