@@ -705,6 +705,35 @@ function gameInit() {
 					dragged.pixelX = x;
 					dragged.pixelY = y;
 				}
+
+				return;
+			}
+
+			// this is where we will show the word definition
+
+			// only do it for mousemove for now
+			if (e.type === 'mousemove') {
+				// get tile position of cursor
+				x = Math.floor(e.offsetX / (squareWidth + squareGap));
+				y = Math.floor(e.offsetY / (squareWidth + squareGap));
+				
+				// start with x axis word
+				// sweep left and right
+				let sweepX = x;
+				let word = '';
+				while (game.board?.[y]?.[sweepX]) {
+					word += game.board[y][sweepX].letter;
+					sweepX++;
+				}
+				sweepX = x - 1;
+				while (game.board?.[y]?.[sweepX]) {
+					word = game.board[y][sweepX].letter + word;
+				}
+				if (word) {
+					alert(word);
+				}
+				
+				// then do y axis word
 			}
 		}
 		$canvas.on("mousemove", handleCanvasMouseMove);
