@@ -840,7 +840,7 @@ function dictLookup(words, callback = function(entries) {}) {
 	let entries = [];
 	$.when(
 		...words.map(x => $.get("https://api.dictionaryapi.dev/api/v2/entries/en/" + x, function(def) {
-			entries.push(JSON.parse(def));
+			entries.push(def);
 		}))
 	).then(function() {callback(entries)});
 }
