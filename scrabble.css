@@ -40,7 +40,7 @@
 	font-weight: bold;
 }
 .gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
-	margin: 7px 0;
+	margin: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -63,6 +63,7 @@
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
+	gap: 10px;
 	justify-content: center;
 	align-items: center;
 }
