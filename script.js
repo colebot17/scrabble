@@ -856,7 +856,7 @@ function dictLookup(words, callback = function(entries) {}) {
 		})),
 		new Promise(function(resolve) {
 			$('html').on('mouseup touchup', () => {
-				$('html').off('mouseup');
+				$('html').off();
 				resolve();
 			});
 		})
