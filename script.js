@@ -695,7 +695,7 @@ function gameInit() {
 						word = game.board[boardY][sweepX].letter + word;
 						sweepX--;
 					}
-					if (word) {
+					if (word.length > 1) {
 						alert(word);
 					}
 
