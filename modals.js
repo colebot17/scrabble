@@ -119,8 +119,8 @@ jQuery.fn.extend({
 
 		// set the position
 		el.css({
-			top: realY,
-			left: realX
+			top: realY + 'px',
+			left: realX + 'px'
 		});
 
 		// show the popup
