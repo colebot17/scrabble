@@ -62,9 +62,9 @@ function setCanvasSize() {
 	var canvasCellWidth = $('#canvasCell').width();
 	var canvasCellHeight = $('#canvasCell').height();
 
-	var limitingDimension = Math.min(canvasCellWidth + 120, canvasCellHeight);
+	var limitingDimension = Math.min(canvasCellWidth + 100, canvasCellHeight);
 
-	canvas.c.width = limitingDimension - 120;
+	canvas.c.width = limitingDimension - 100;
 	canvas.c.height = limitingDimension;
 }
 
@@ -130,7 +130,7 @@ function drawLetterBank() {
 	// draw each letter (we are using the bank without hidden letters)
 	var numTiles = bank.length;
 	var tileGap = 5;
-	var tileWidth = Math.min(remainingSpace - 10, (width / numTiles) - tileGap, 75);
+	var tileWidth = Math.min(remainingSpace - 10, (width / numTiles) - tileGap, 55);
 	var startX = (width - (((tileWidth + tileGap) * numTiles) - tileGap)) / 2;
 
 	canvas.bankTileWidth = tileWidth;

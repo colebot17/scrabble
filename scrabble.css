@@ -40,7 +40,7 @@
 	font-weight: bold;
 }
 .gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
-	margin: 7px 0;
+	margin: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -58,6 +58,21 @@
 	font-size: 16px!important;
 }
 
+/* game controls */
+#gameControlsCell .gameInfoBox {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+}
+#gameControlsCell .gameInfoBox .gameNameBox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 html {
 	overflow-x: hidden;
 	overflow-y: hidden;
@@ -67,9 +82,7 @@ body.scrabble {
 	margin: 0;
 	padding: 0;
 	overflow-x: hidden;
-	overflow-y: hidden;/*
-	height: var(--height);
-	position: relative;*/
+	overflow-y: hidden;
 }
 #canvasCell {
 	display: flex;
@@ -109,6 +122,11 @@ body.scrabble {
     font-size: 50px;
 }
 
+/* account forms */
+.accountForm h3 {
+	margin: 5px 0 10px 0;
+}
+
 /* grid */
 #scrabbleGrid {
 	width: calc(100% - 5px);
@@ -123,14 +141,6 @@ body.scrabble {
 	border-radius: 10px;
 
 	width: calc(100% - 30px);
-}
-
-/* highlight button of current page in nav cell */
-#scrabbleGrid[data-tab=game] #navCell ul a#gameTabButton li {
-	background-color: var(--y-in-mn-blue);
-}
-#scrabbleGrid[data-tab=account] #navCell ul a#accountTabButton li {
-	background-color: var(--y-in-mn-blue);
 }
 
 /* modals */
@@ -218,10 +228,6 @@ body.scrabble {
     border-radius: 5px;
 }
 
-#gameControlsCell div {
-	margin-bottom: 5px;
-}
-
 .spin {
 	animation-name: spin;
 	animation-direction: reverse;
@@ -245,129 +251,121 @@ body.scrabble {
 	}
 }
 
-/* grid cell positions and stuff (basically things based on the tab) */
-#scrabbleGrid[data-tab=game] #navCell #gameTabButton {
-	display: unset;
-}
-#scrabbleGrid[data-tab=account] #navCell #gameTabButton {
+/* defaults / all orientations */
+#scrabbleGrid .gridCell {
 	display: none;
+	width: calc(100% - 30px);
+}
+#scrabbleGrid #gameControlsCell {
+	justify-content: space-evenly;
+	gap: 10px;
+}
+#scrabbleGrid #gameControlsCell .gameControlButtons {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: stretch;
 }
 
 @media (orientation: landscape) {
+	/* both tabs */
+	#scrabbleGrid #gamesCell {
+		height: calc(100vh - 40px);
+	}
+	#scrabbleGrid #gameControlsCell {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
 	/* game tab */
 	#scrabbleGrid[data-tab=game] {
-		grid-template-columns: 50fr minmax(0, calc(100vh - 30px)) 50fr;
-		grid-template-rows: 33% 33% 33%;
+		grid-template-columns: minmax(min-content, max-content) 1fr;
+		grid-template-rows: 100%;
 	}
-	#scrabbleGrid[data-tab=game] #navCell {
+	#scrabbleGrid[data-tab=game] #gameControlsCell {
+		display: flex;
 		grid-column: 1;
 		grid-row: 1;
 	}
-	#scrabbleGrid[data-tab=game] #gameControlsCell {
-		grid-column: 1;
-		grid-row: 2;
-	}
-	#scrabbleGrid[data-tab=game] #turnControlsCell {
-		grid-column: 1;
-		grid-row: 3;
-	}
 	#scrabbleGrid[data-tab=game] #canvasCell {
+		display: unset;
 		height: calc(100vh - 40px);
-		grid-column: 2 / 4;
-		grid-row: 1 / 4;
-	}
-	#scrabbleGrid[data-tab=game] #signInCell {
-		display: none;
-	}
-	#scrabbleGrid[data-tab=game] #gamesCell {
-		display: none;
+		grid-column: 2;
+		grid-row: 1;
 	}
 
 	/* account tab */
 	#scrabbleGrid[data-tab=account] {
-		grid-template-columns: 20fr 80fr 20fr;
-		grid-template-rows: 33% 33% 33%;
-	}
-	#scrabbleGrid[data-tab=account] #navCell {
-		display: none;
-	}
-	#scrabbleGrid[data-tab=account] #gameControlsCell {
-		display: none;
-	}
-	#scrabbleGrid[data-tab=account] #turnControlsCell {
-		display: none;
-	}
-	#scrabbleGrid[data-tab=account] #canvasCell {
-		display: none;
+		grid-template-columns: minmax(min-content, max-content) 1fr;
+		grid-template-rows: 100%;
 	}
 	#scrabbleGrid[data-tab=account] #signInCell {
+		display: unset;
 		grid-column: 1;
-		grid-row: 1 / 4;
+		grid-row: 1;
 	}
 	#scrabbleGrid[data-tab=account] #gamesCell {
-		grid-column: 2 / 4;
-		grid-row: 1 / 4;
-	}
-	#scrabbleGrid #gamesCell {
-		height: calc(100vh - 40px);
+		display: unset;
+		grid-column: 2;
+		grid-row: 1;
 	}
 }
 
 @media (orientation: portrait) {
+	/* both tabs */
+	#scrabbleGrid #gamesCell, #scrabbleGrid #canvasCell {
+		height: calc(100% - 30px);
+	}
+	#scrabbleGrid #gameControlsCell {
+		flex-direction: row;
+		align-items: center;
+	}
+
 	/* game tab */
 	#scrabbleGrid[data-tab=game] {
-		grid-template-columns: 33% 33% 33%;
+		grid-template-columns: 100%;
 		grid-template-rows: 100fr min-content min-content;
 	}
-	#scrabbleGrid[data-tab=game] #navCell {
+	#scrabbleGrid[data-tab=game] #gameControlsCell {
+		display: flex;
 		grid-column: 1;
 		grid-row: 3;
 	}
-	#scrabbleGrid[data-tab=game] #gameControlsCell {
-		grid-column: 2;
-		grid-row: 3;
-	}
-	#scrabbleGrid[data-tab=game] #turnControlsCell {
-		grid-column: 3;
-		grid-row: 3;
-	}
 	#scrabbleGrid[data-tab=game] #canvasCell {
-		grid-column: 1 / 4;
+		display: unset;
+		grid-column: 1;
 		grid-row: 1 / 3;
-	}
-	#scrabbleGrid[data-tab=game] #signInCell {
-		display: none;
-	}
-	#scrabbleGrid[data-tab=game] #gamesCell {
-		display: none;
 	}
 
-	/* account tab */
-	#scrabbleGrid[data-tab=account] {
-		grid-template-columns: 33% 33% 33%;
-		grid-template-rows: minmax(0, calc(100% - 30px)) min-content min-content;
+	/* signed in account tab */
+	#scrabbleGrid[data-tab=account][data-signedin=true] {
+		grid-template-columns: 100%;
+		grid-template-rows: 90% 10%;
 	}
-	#scrabbleGrid[data-tab=account] #navCell {
-		display: none;
+	#scrabbleGrid[data-tab=account][data-signedin=true] #signInCell {
+		display: unset;
+		grid-column: 1;
+		grid-row: 2;
 	}
-	#scrabbleGrid[data-tab=account] #gameControlsCell {
-		display: none;
+	#scrabbleGrid[data-tab=account][data-signedin=true] #gamesCell {
+		display: unset;
+		grid-column: 1;
+		grid-row: 1;
 	}
-	#scrabbleGrid[data-tab=account] #turnControlsCell {
-		display: none;
+
+	/* signed out account tab */
+	#scrabbleGrid[data-tab=account][data-signedin=false] {
+		grid-template-columns: 100%;
+		grid-template-rows: 50% 50%;
 	}
-	#scrabbleGrid[data-tab=account] #canvasCell {
-		display: none;
+	#scrabbleGrid[data-tab=account][data-signedin=false] #welcomeCell {
+		display: unset;
+		grid-column: 1;
+		grid-row: 1;
 	}
-	#scrabbleGrid[data-tab=account] #signInCell {
-		grid-column: 1 / 4;
-		grid-row: 3;
-	}
-	#scrabbleGrid[data-tab=account] #gamesCell {
-		grid-column: 1 / 4;
-		grid-row: 1 / 3;
-	}
-	#scrabbleGrid #gamesCell, #scrabbleGrid #canvasCell {
-		height: calc(100% - 30px);
+	#scrabbleGrid[data-tab=account][data-signedin=false] #signInCell {
+		display: unset;
+		grid-column: 1;
+		grid-row: 2;
 	}
 }

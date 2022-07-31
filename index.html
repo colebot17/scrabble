@@ -23,17 +23,29 @@
 </head>
 <body class="scrabble">
 	<center>
-		<div class="grid" id="scrabbleGrid" data-tab="account">
-			<div id="navCell" class="gridCell">
-				<span class="material-icons iconButton" onclick="showTab('account')">
-					chevron_left
-				</span>
+		<div class="grid" id="scrabbleGrid" data-tab="account" data-signedin="false">
+			<div id="welcomeCell" class="gridCell">
+				<h1>Scrabble Game</h1>
+				<p>
+					If you enjoy playing the classic board game Scrabble, then you may also find it difficult to
+					gather your friends and family around the same table for a game. With this website, everyone
+					can enjoy a good game of Scrabble right from their phone, tablet, or computer. You can make
+					your move on your own schedule and check back later when it's your turn again.
+				</p>
 			</div>
 
 			<div id="gameControlsCell" class="gridCell">
-				<div class="gameIdBox"></div>
-				<div class="scoreBox"></div>
-				<button onclick="endGame()">End Game</button>
+				<div>
+					<span class="material-icons iconButton" onclick="showTab('account')">
+						chevron_left
+					</span>	
+				</div>
+				<div class="gameInfoBox"></div>
+				<div class="gameControlButtons">
+					<button class="highlight" onclick="makeMove()">Move</button>
+					<button onclick="exchangeLetters()">Skip Turn</button>
+					<button onclick="endGame()">End Game</button>
+				</div>
 			</div>
 
 			<div id="canvasCell" class="gridCell">
@@ -42,13 +54,9 @@
 				</canvas>
 			</div>
 
-			<div id="turnControlsCell" class="gridCell">
-				<button onclick="makeMove()">Make Move</button>
-				<button onclick="exchangeLetters()">Skip Turn</button>
-			</div>
-
 			<div id="signInCell" class="gridCell">
 				<form class="hidden accountForm" id="signInForm" onsubmit="signIn();return false;">
+					<h3>Sign In</h3>
 					<label for="signInUsername">Username:</label>
 					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="signInUsername"><br>
 
@@ -59,6 +67,7 @@
 					<a onclick="setSignInMode('createAccount')" class="hoverLine">Create Account</a>
 				</form>
 				<form class="hidden accountForm" id="createAccountForm" onsubmit="createAccount();return false;">
+					<h3>Create Account</h3>
 					<label for="createAccountUsername">Username:</label>
 					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="createAccountUsername"><br>
 
