@@ -705,7 +705,7 @@ function gameInit() {
 					}
 					sweepY = boardY - 1;
 					while (game.board?.[sweepY][boardX]) {
-						yWord = game.board[sweepY][boardX].letter + word;
+						yWord = game.board[sweepY][boardX].letter + yWord;
 						sweepY--;
 					}
 
