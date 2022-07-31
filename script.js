@@ -721,7 +721,6 @@ function gameInit() {
 
 				dictLookup(words, function(entries) {
 					$('#wordLookupPopup').popupOpen(clientX, clientY);
-					console.log(clientX, clientY);
 					console.log(entries);
 				});
 			}
@@ -856,7 +855,7 @@ function dictLookup(words, callback = function(entries) {}) {
 			entries.push(def);
 		})),
 		new Promise(function(resolve) {
-			$('html').on('mouseup', () => {
+			$('html').on('mouseup touchup', () => {
 				$('html').off('mouseup');
 				resolve();
 			});
