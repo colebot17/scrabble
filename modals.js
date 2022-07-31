@@ -101,6 +101,12 @@ jQuery.fn.extend({
 		// update the escape stack
 		addToEscStack(function () { el.popupClose() }, el.attr('id'));
 
+		// hide on html click
+		$('html').on('click', function() {
+			$('html').off('click');
+			el.popupClose();
+		})
+
 		// determine which direction to show the modal
 		let posRight = true;
 		if (window.innerWidth - x < 325) {
