@@ -243,6 +243,27 @@ body.scrabble {
 	padding: 10px;
 	border-radius: 5px;
 }
+#wordLookupPopup {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+}
+#wordLookupPopup .wordLookupEntry {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	justify-content: center;
+	align-items: center;
+}
+#wordLookupPopup .wordLookupEntry .wordLookupDefinitions {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	justify-content: center;
+	align-items: center;
+}
 
 .spin {
 	animation-name: spin;
