@@ -108,10 +108,7 @@ jQuery.fn.extend({
 		})
 
 		// determine which direction to show the modal
-		let posRight = true;
-		if (window.innerWidth - x < 325) {
-			posRight = false;
-		}
+		posRight = window.innerWidth - x > x;
 
 		// calculate the position
 		let realX, realY;
