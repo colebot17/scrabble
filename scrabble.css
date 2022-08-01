@@ -260,6 +260,9 @@ body.scrabble {
 #wordLookupPopup::-webkit-scrollbar-thumb:hover {
 	background-color: var(--y-in-mn-blue);
 }
+#wordLookupPopup .wordLookupEntry:first-child {
+	margin-top: 5px;
+}
 #wordLookupPopup .wordLookupEntry {
 	display: flex;
 	flex-direction: column;
