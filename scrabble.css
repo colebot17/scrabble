@@ -257,6 +257,9 @@ body.scrabble {
 	justify-content: center;
 	align-items: center;
 }
+#wordLookupPopup .wordLookupEntry .wordLookupWord {
+	font-weight: bold;
+}
 #wordLookupPopup .wordLookupEntry .wordLookupDefinitions {
 	display: flex;
 	flex-direction: column;
