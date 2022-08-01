@@ -720,18 +720,33 @@ function gameInit() {
 				}
 
 				dictLookup(words, function(entries) {
-					// let content = ``;
-					// for (let i = 0; i < entries.length; i++) {
-					// 	const v = entries[i][0];
-					// 	content += `<b>${v.word}</b><br>`;
-					// 	for (let j in v.meanings) {
-					// 		content += `<b>${v.meanings[j].partOfSpeech}</b>: `;
-					// 		for (let k in v.meanings[j].definitions) {
-					// 			content += `${v.meanings[j].definitions[k].definition}, `;
-					// 		}
-					// 	}
-					// }
-					$('#wordLookupPopup')/*.html(content)*/.popupOpen(clientX, clientY);
+					let content = ``;
+					for (let i in entries) {
+						const v = entries[i][0];
+						content += `
+							<div class="wordLookupEntry">
+								<div class="wordLookupWord">
+									${v.word}
+								</div>
+								<div class="wordLookupDefinitions">
+						`;
+						for (let j in v.meanings) {
+							const w = v.meanings[j];
+							for (let k in w.definitions) {
+								const x = w.definitions[k];
+								content += `
+									<div class="definition">
+										<b>${w.partOfSpeech}</b>: ${x.definition}
+									</div>
+								`;
+							}
+						}
+						content += `
+								</div>
+							</div>
+						`
+					}
+					$('#wordLookupPopup').html(content).popupOpen(clientX, clientY);
 					console.log(entries);
 				});
 			}
