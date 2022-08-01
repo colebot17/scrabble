@@ -250,7 +250,11 @@ body.scrabble {
 	justify-content: flex-start;
 	align-items: center;
 	overflow-y: auto;
-}#wordLookupPopup::-webkit-scrollbar-thumb {
+}
+#wordLookupPopup::-webkit-scrollbar-track {
+	background-color: var(--carolina-blue);
+}
+#wordLookupPopup::-webkit-scrollbar-thumb {
 	background-color: var(--blue-yonder);
 }
 #wordLookupPopup::-webkit-scrollbar-thumb:hover {
