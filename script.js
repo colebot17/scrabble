@@ -726,7 +726,7 @@ function gameInit() {
 						content += `
 							<div class="wordLookupEntry">
 								<div class="wordLookupWord">
-									${v.word}
+									${v.word.replace(/^\w/, (c) => c.toUpperCase())}
 								</div>
 								<div class="wordLookupDefinitions">
 						`;
@@ -736,7 +736,7 @@ function gameInit() {
 								const x = w.definitions[k];
 								content += `
 									<div class="definition">
-										<b>${w.partOfSpeech}</b>: ${x.definition}
+										<b>${w.partOfSpeech.replace(/^\w/, (c) => c.toUpperCase())}</b>: ${x.definition}
 									</div>
 								`;
 							}
