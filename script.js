@@ -880,11 +880,9 @@ function dictLookup(words, callback = function(entries) {}) {
 		...words.map(x => $.get("https://api.dictionaryapi.dev/api/v2/entries/en/" + x, function(def) {
 			entries.push(def);
 		})),
-		new Promise(function(resolve) {
-			$('html').on('mouseup touchend', () => {
-				$('html').off();
-				resolve();
-			});
+		new Promise(function (resolve) {
+			document.addEventListener('mouseup', resolve);
+			document.addEventListener('touchend', resolve);
 		})
 	).then(function() {callback(entries)});
 }
