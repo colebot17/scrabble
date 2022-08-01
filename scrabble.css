@@ -250,6 +250,11 @@ body.scrabble {
 	justify-content: flex-start;
 	align-items: center;
 	overflow-y: auto;
+}#wordLookupPopup::-webkit-scrollbar-thumb {
+	background-color: var(--blue-yonder);
+}
+#wordLookupPopup::-webkit-scrollbar-thumb:hover {
+	background-color: var(--y-in-mn-blue);
 }
 #wordLookupPopup .wordLookupEntry {
 	display: flex;
@@ -269,18 +274,17 @@ body.scrabble {
 	align-items: center;
 }
 
+/* animations */
 .spin {
 	animation-name: spin;
 	animation-direction: reverse;
 	animation-duration: 0.37s;
 }
-
 .expandAnimation {
 	animation-name: expand;
 	animation-timing-function: cubic-bezier(0, 0, 0, 1);
 	animation-duration: 0.75s;
 }
-
 @keyframes expand {
 	0% {
 		transform: scale(1.0);
