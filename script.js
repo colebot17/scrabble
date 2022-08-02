@@ -732,7 +732,7 @@ function gameInit() {
 						content += `
 							<div class="wordLookupEntry">
 								<div class="wordLookupWord">
-									<a href="https://www.merriam-webster.com/dictionary/${v.word}" class="blue hoverLine">
+									<a href="https://www.merriam-webster.com/dictionary/${v.word}" class="blue hoverLine" target="_blank">
 										${v.word.replace(/^\w/, (c) => c.toUpperCase())}
 									</a>
 								</div>
