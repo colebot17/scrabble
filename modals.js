@@ -102,8 +102,8 @@ jQuery.fn.extend({
 		addToEscStack(function () { el.popupClose() }, el.attr('id'));
 
 		// hide on html click
-		$('html').on('click', function() {
-			$('html').off('click');
+		$('#scrabbleGrid').on('click', function() {
+			$('#scrabbleGrid').off('click');
 			el.popupClose();
 		})
 
