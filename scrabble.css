@@ -248,7 +248,7 @@ body.scrabble {
 #wordLookupPopup {
 	overflow-y: auto;
 }
-#wordLookupPopup .wordLookupResult {
+#wordLookupPopup .wordLookupResults {
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
