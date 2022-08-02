@@ -245,7 +245,7 @@ body.scrabble {
 }
 
 /* word lookup popup */
-#wordLookupPopup {
+#wordLookupPopup .wordLookupResult {
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
