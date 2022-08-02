@@ -906,6 +906,7 @@ function dictLookup(words, callback = function(entries) {}) {
 	).then(function() {
 		callback(entries);
 	}).catch(function() {
+		console.log(entries);
 		if (entries.length > 0) {
 			callback(entries);
 		}
