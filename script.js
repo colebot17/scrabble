@@ -732,7 +732,9 @@ function gameInit() {
 						content += `
 							<div class="wordLookupEntry">
 								<div class="wordLookupWord">
-									${v.word.replace(/^\w/, (c) => c.toUpperCase())}
+									<a href="https://www.merriam-webster.com/dictionary/${v.word}">
+										${v.word.replace(/^\w/, (c) => c.toUpperCase())}
+									</a>
 								</div>
 								<div class="wordLookupDefinitions">
 						`;
