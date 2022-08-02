@@ -903,7 +903,13 @@ function dictLookup(words, callback = function(entries) {}) {
 			document.addEventListener('mouseup', resolve);
 			document.addEventListener('touchend', resolve);
 		})
-	).then(function() {callback(entries)});
+	).then(function() {
+		callback(entries);
+	}).catch(function() {
+		if (entries.length > 0) {
+			callback(entries);
+		}
+	});
 }
 
 function makeMove() {
