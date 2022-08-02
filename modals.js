@@ -126,6 +126,10 @@ jQuery.fn.extend({
 			realY = y - 105;
 		}
 
+		// make sure it doesn't go off the page
+		realX = Math.max(Math.min(realX, window.innerWidth), 0);
+		realY = Math.max(Math.Min(realY, window.innerHeight), 0);
+
 		// set the position
 		el.css({
 			top: realY + 'px',
