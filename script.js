@@ -746,7 +746,7 @@ function gameInit() {
 							</div>
 						`
 					}
-					$('#wordLookupPopup .wordLookupPopupResults').html(content)
+					$('#wordLookupPopup .wordLookupResults').html(content);
 					$('#wordLookupPopup').popupOpen(clientX, clientY);
 					console.log(entries);
 				});
