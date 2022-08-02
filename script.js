@@ -895,7 +895,7 @@ function gameInit() {
 
 function dictLookup(words, callback = function(entries) {}) {
 	let entries = [];
-	$.when(
+	const promises = [
 		...words.map(x => $.get("https://api.dictionaryapi.dev/api/v2/entries/en/" + x, function(def) {
 			entries.push(def);
 		})),
@@ -903,11 +903,12 @@ function dictLookup(words, callback = function(entries) {}) {
 			document.addEventListener('mouseup', resolve);
 			document.addEventListener('touchend', resolve);
 		})
-	).finally(function() {
+	];
+	Promise.allSettled(promises).then(() => {
 		if (entries.length > 0) {
 			callback(entries);
 		}
-	})
+	});
 }
 
 function makeMove() {
