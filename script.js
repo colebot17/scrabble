@@ -756,7 +756,6 @@ function gameInit() {
 					}
 					$('#wordLookupPopup .wordLookupResults').html(content);
 					$('#wordLookupPopup').popupOpen(clientX, clientY);
-					console.log(entries);
 				});
 			}
 
