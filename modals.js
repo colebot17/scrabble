@@ -20,6 +20,7 @@ const modals = {
 var escStack = [];
 
 var visibleModals = [];
+var visiblePopups = [];
 
 window.addEventListener('resize', function() {
 	updateModalSizes();
@@ -100,6 +101,11 @@ jQuery.fn.extend({
 		var el = this;
 		// update the escape stack
 		addToEscStack(function () { el.popupClose() }, el.attr('id'));
+		
+		// update the visible popups list
+		if (!visiblePopups.includes(el.attr('id'))) {
+			visiblePopups.push(el.attr('id'));
+		}
 
 		// hide on html click
 		$('#scrabbleGrid').on('click', function() {
@@ -132,6 +138,11 @@ jQuery.fn.extend({
 	popupClose: function () {
 		// update the escape stack
 		removeFromEscStack(this.attr('id'));
+		
+		// update the visible popups list
+		if (visiblePopups.includes(this.attr('id'))) {
+			visiblePopups.splice(visiblePopups.indexOf(this.attr('id'), 1));
+		}
 
 		// hide the popup
 		return this.addClass('hidden');

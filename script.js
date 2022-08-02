@@ -625,6 +625,12 @@ function gameInit() {
 		// handle drag start on canvas
 		var handleCanvasMouseDown = function(e) {
 			e.preventDefault();
+
+			// cancel if a popup is open
+			if (visiblePopups.length > 0) {
+				return;
+			}
+
 			// get the pixel position of the mouse/finger
 			let x, y, clientX, clientY;
 			if (e.type === 'touchstart') {
@@ -761,6 +767,11 @@ function gameInit() {
 		var handleCanvasMouseMove = function(e) {
 			e.preventDefault();
 
+			// cancel if a popup is open
+			if (visiblePopups.length > 0) {
+				return;
+			}
+
 			if (dragged) {
 				// get the pixel position of the mouse/finger
 				let x, y;
@@ -788,6 +799,11 @@ function gameInit() {
 		var handleCanvasMouseUp = function(e) {
 			if (dragged) {
 				e.preventDefault();
+
+				// cancel if a popup is open
+				if (visiblePopups.length > 0) {
+					return;
+				}
 
 				// get the pixel position of the mouse/finger
 				let x, y;
