@@ -368,13 +368,9 @@ if ((int)$players[$turn]['id'] === (int)$user && (int)$inactive === 0) { // make
 	$pointsSum = array_sum($words);
 	$players[array_search($user, $playerList)]['points'] = $players[array_search($user, $playerList)]['points'] + $pointsSum;
 
-	echo "hi";
-	
 	if (!$inactive && count($longBag) > 0) {
 		// fill the player's letter bank back to seven
 		// (long bag is created before checking for game end)
-		print_r($longBag);
-		print_r(count($longBag));
 		while (count($players[array_search($user, $playerList)]['letterBank']) < 7) {
 			$rand = random_int(0, max(count($longBag) - 1, 0));
 			$newLetter = $longBag[$rand];
