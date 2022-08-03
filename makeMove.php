@@ -368,6 +368,8 @@ if ((int)$players[$turn]['id'] === (int)$user && (int)$inactive === 0) { // make
 	$pointsSum = array_sum($words);
 	$players[array_search($user, $playerList)]['points'] = $players[array_search($user, $playerList)]['points'] + $pointsSum;
 
+	echo "hi";
+	
 	if (!$inactive && count($longBag) > 0) {
 		// fill the player's letter bank back to seven
 		// (long bag is created before checking for game end)
