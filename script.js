@@ -831,7 +831,7 @@ function makeMove() {
 		}
 	}
 	$.ajax(
-		'http://scrabble.colebot.com/makeMove.php',
+		'makeMove.php',
 		{
 			data: {
 				game: game.id,
