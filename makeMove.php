@@ -372,7 +372,7 @@ if ((int)$players[$turn]['id'] === (int)$user && (int)$inactive === 0) { // make
 		// fill the player's letter bank back to seven
 		// (long bag is created before checking for game end)
 		while (count($players[array_search($user, $playerList)]['letterBank']) < 7) {
-			$rand = random_int(0, count($longBag) - 1);
+			$rand = random_int(0, max(count($longBag) - 1, 0));
 			$newLetter = $longBag[$rand];
 			array_splice($longBag, $rand);
 			$letterBag[$newLetter]--;
