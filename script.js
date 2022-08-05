@@ -615,7 +615,7 @@ function gameInit() {
 	$('#gameTabButton').removeClass('hidden');
 
 	// go ahead and define the things we will disable when it isn't the user's turn
-	var ootDisable = '#scrabbleCanvas, .letterBank .letter, #turnControlsCell button';
+	var ootDisable = '#gameControlsCell button';
 
 	// make sure everything is enabled (we will disable them again if we need to)
 	$(ootDisable).css('cursor', '').off('mousedown touchstart');
