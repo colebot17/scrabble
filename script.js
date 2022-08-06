@@ -928,8 +928,13 @@ function dictLookup(words, callback = function(entries) {}) {
 			entries.push(def);
 		})),
 		new Promise(function (resolve) {
-			document.addEventListener('mouseup', () => resolve());
-			document.addEventListener('touchend', () => resolve());
+			function res() {
+				document.removeEventListener('mouseup', res);
+				document.removeEventListener('touchend', res);
+				resolve()
+			}
+			document.addEventListener('mouseup', res);
+			document.addEventListener('touchend', res);
 		})
 	];
 	Promise.allSettled(promises).then(() => {
