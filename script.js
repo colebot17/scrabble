@@ -620,33 +620,36 @@ function gameInit() {
 	// make sure everything is enabled (we will disable them again if we need to)
 	$(ootDisable).css('cursor', '').off('mousedown touchstart');
 
-	// make sure it is the user's turn
-	if (!game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id) {
-		// handle drag start on canvas
-		var handleCanvasMouseDown = function(e) {
-			e.preventDefault();
+	// determine whether it is the current user's turn
+	userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
-			// cancel if a popup is open
-			if (visiblePopups.length > 0) {
-				return;
-			}
+	// handle drag start on canvas
+	var handleCanvasMouseDown = function(e) {
+		e.preventDefault();
 
-			// get the pixel position of the mouse/finger
-			let x, y, clientX, clientY;
-			if (e.type === 'touchstart') {
-				x = e.changedTouches[0].clientX - this.getBoundingClientRect().left;
-				y = e.changedTouches[0].clientY - this.getBoundingClientRect().top;
-				clientX = e.changedTouches[0].clientX;
-				clientY = e.changedTouches[0].clientY;
-			} else {
-				x = e.offsetX;
-				y = e.offsetY;
-				clientX = e.clientX;
-				clientY = e.clientY;
-			}
+		// cancel if a popup is open
+		if (visiblePopups.length > 0) {
+			return;
+		}
 
+		// get the pixel position of the mouse/finger
+		let x, y, clientX, clientY;
+		if (e.type === 'touchstart') {
+			x = e.changedTouches[0].clientX - this.getBoundingClientRect().left;
+			y = e.changedTouches[0].clientY - this.getBoundingClientRect().top;
+			clientX = e.changedTouches[0].clientX;
+			clientY = e.changedTouches[0].clientY;
+		} else {
+			x = e.offsetX;
+			y = e.offsetY;
+			clientX = e.clientX;
+			clientY = e.clientY;
+		}
+
+		if (userTurn) {
 			// check letter bank first
 			let inBank = false;
+
 			// get the canvas.bank without hidden items
 			let bank = [];
 			for (var i = 0; i < canvas.bank.length; i++) {
@@ -654,11 +657,13 @@ function gameInit() {
 					bank.push(canvas.bank[i]);
 				}
 			}
+
+			// loop through letter bank tile positions to see if user clicked on one
 			for (let i = bank.length - 1; i >= 0; i--) {
 				xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
 				yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
 				if (xMatch && yMatch) { // if this is the one that the user has clicked on
-					// get the current player
+					// get the current player index
 					let currentPlayerIndex;
 					for (let j = game.players.length - 1; j >= 0; j--) {
 						if (game.players[j].id == account.id) {
@@ -670,175 +675,199 @@ function gameInit() {
 					// update the dragged piece
 					dragged = new Tile(undefined, undefined, bank[i].letter || "", bank[i].bankIndex, false, false, x, y);
 					canvas.bank[bank[i].bankIndex].hidden = true; // hide the letter from the bank
-					inBank = true; // don't bother to check the board
-					break; // no need to iterate any more
+					return; // don't bother to check the board
 				}
 			}
+		}
 
-			// if that didn't work check the board
-			let boardX = Math.floor(x / (squareWidth + squareGap));
-			let boardY = Math.floor(y / (squareWidth + squareGap));
-			let tile = game.board?.[boardY]?.[boardX];
-			let locked = tile?.locked;
-			if (!inBank && tile && !locked) {
-				dragged = new Tile(undefined, undefined, tile.letter, tile.bankIndex, tile.blank, tile.locked, x, y);
-				dragged.mouseOffset = {
-					x: (boardX - (x / (squareWidth + squareGap))) * (squareWidth + squareGap),
-					y: (boardY - (y / (squareWidth + squareGap))) * (squareWidth + squareGap)
-				}
-				game.board[boardY][boardX] = null;
-			} else if (!inBank && tile && locked) {
-				// this is where we will show the word definition
+		// check the board
+		let boardX = Math.floor(x / (squareWidth + squareGap));
+		let boardY = Math.floor(y / (squareWidth + squareGap));
+		
+		let tile = game.board?.[boardY]?.[boardX];
+		let locked = tile?.locked;
 
-				// start with x axis word
-				// sweep left and right
-				let sweepX = boardX;
-				let xWord = '';
-				while (game.board?.[boardY]?.[sweepX]) {
-					xWord += game.board[boardY][sweepX].letter;
-					sweepX++;
-				}
-				sweepX = boardX - 1;
-				while (game.board?.[boardY]?.[sweepX]) {
-					xWord = game.board[boardY][sweepX].letter + xWord;
-					sweepX--;
-				}
+		// return if square is empty or non-existent
+		if (!tile) {
+			return;
+		}
 
-				// then do y axis word
-				let sweepY = boardY;
-				let yWord = '';
-				while (game.board?.[sweepY]?.[boardX]) {
-					yWord += game.board[sweepY][boardX].letter;
-					sweepY++;
-				}
-				sweepY = boardY - 1;
-				while (game.board?.[sweepY]?.[boardX]) {
-					yWord = game.board[sweepY][boardX].letter + yWord;
-					sweepY--;
-				}
+		// initialize the drag if tile is unlocked (and it's the user's turn)
+		if (!locked && userTurn) {
+			dragged = new Tile(undefined, undefined, tile.letter, tile.bankIndex, tile.blank, tile.locked, x, y);
+			dragged.mouseOffset = {
+				x: (boardX - (x / (squareWidth + squareGap))) * (squareWidth + squareGap),
+				y: (boardY - (y / (squareWidth + squareGap))) * (squareWidth + squareGap)
+			}
+			game.board[boardY][boardX] = null;
 
-				let words = [];
-				if (xWord.length > 1) {
-					words.push(xWord);
-				}
-				if (yWord.length > 1) {
-					words.push(yWord);
-				}
+			return; // nothing else to do
+		}
 
-				dictLookup(words, function(entries) {
-					let content = ``;
-					for (let i in entries) {
-						const v = entries[i][0];
+		// show the word definition
+
+		// start with x axis word
+		// sweep left and right
+		let sweepX = boardX;
+		let xWord = '';
+		while (game.board?.[boardY]?.[sweepX]) {
+			xWord += game.board[boardY][sweepX].letter;
+			sweepX++;
+		}
+		sweepX = boardX - 1;
+		while (game.board?.[boardY]?.[sweepX]) {
+			xWord = game.board[boardY][sweepX].letter + xWord;
+			sweepX--;
+		}
+
+		// then do y axis word
+		let sweepY = boardY;
+		let yWord = '';
+		while (game.board?.[sweepY]?.[boardX]) {
+			yWord += game.board[sweepY][boardX].letter;
+			sweepY++;
+		}
+		sweepY = boardY - 1;
+		while (game.board?.[sweepY]?.[boardX]) {
+			yWord = game.board[sweepY][boardX].letter + yWord;
+			sweepY--;
+		}
+
+		let words = [];
+		if (xWord.length > 1) {
+			words.push(xWord);
+		}
+		if (yWord.length > 1) {
+			words.push(yWord);
+		}
+
+		dictLookup(words, function(entries) {
+			let content = ``;
+			for (let i in entries) {
+				const v = entries[i][0];
+				content += `
+					<div class="wordLookupEntry">
+						<div class="wordLookupWord">
+							<a title="View on Merriam-Webster" href="https://www.merriam-webster.com/dictionary/${v.word}" class="blue hoverLine" target="_blank">
+								${v.word.replace(/^\w/, (c) => c.toUpperCase())}
+							</a>
+						</div>
+						<div class="wordLookupDefinitions">
+				`;
+				for (let j in v.meanings) {
+					const w = v.meanings[j];
+					for (let k in w.definitions) {
+						const x = w.definitions[k];
 						content += `
-							<div class="wordLookupEntry">
-								<div class="wordLookupWord">
-									<a title="View on Merriam-Webster" href="https://www.merriam-webster.com/dictionary/${v.word}" class="blue hoverLine" target="_blank">
-										${v.word.replace(/^\w/, (c) => c.toUpperCase())}
-									</a>
-								</div>
-								<div class="wordLookupDefinitions">
-						`;
-						for (let j in v.meanings) {
-							const w = v.meanings[j];
-							for (let k in w.definitions) {
-								const x = w.definitions[k];
-								content += `
-									<div class="definition">
-										<b>${w.partOfSpeech.replace(/^\w/, (c) => c.toUpperCase())}</b>: ${x.definition}
-									</div>
-								`;
-							}
-						}
-						content += `
-								</div>
+							<div class="definition">
+								<b>${w.partOfSpeech.replace(/^\w/, (c) => c.toUpperCase())}</b>: ${x.definition}
 							</div>
-						`
+						`;
 					}
-					$('#wordLookupPopup .wordLookupResults').html(content);
-					$('#wordLookupPopup').popupOpen(clientX, clientY);
-				});
+				}
+				content += `
+						</div>
+					</div>
+				`
 			}
+			$('#wordLookupPopup .wordLookupResults').html(content);
+			$('#wordLookupPopup').popupOpen(clientX, clientY);
+		});
+	}
+	$canvas.on("mousedown", handleCanvasMouseDown);
+	$canvas.on("touchstart", handleCanvasMouseDown);
 
-			// it's okay if nothing happens - there is some empty space on the canvas
+	// update position of tile when mouse moves during drag
+	var handleCanvasMouseMove = function(e) {
+		e.preventDefault();
+
+		// cancel if no tile is being dragged
+		if (!dragged) {
+			return;
 		}
-		$canvas.on("mousedown", handleCanvasMouseDown);
-		$canvas.on("touchstart", handleCanvasMouseDown);
 
-		// update position of tile when mouse moves during drag
-		var handleCanvasMouseMove = function(e) {
-			e.preventDefault();
-
-			// cancel if a popup is open
-			if (visiblePopups.length > 0) {
-				return;
-			}
-
-			if (dragged) {
-				// get the pixel position of the mouse/finger
-				let x, y;
-				if (e.type === 'touchmove') {
-					x = e.changedTouches[0].clientX - this.getBoundingClientRect().left;
-					y = e.changedTouches[0].clientY - this.getBoundingClientRect().top;
-				} else {
-					x = e.offsetX;
-					y = e.offsetY;
-				}
-
-				// this one is pretty simple - if something is being dragged, update its position
-				// (mouse offset is handled using the mouseOffset property when the tile is being drawn)
-				if (dragged.pixelX && dragged.pixelY) {
-					dragged.pixelX = x;
-					dragged.pixelY = y;
-				}
-
-				return;
-			}
+		// cancel if a popup is open
+		if (visiblePopups.length > 0) {
+			return;
 		}
-		$canvas.on("mousemove", handleCanvasMouseMove);
-		$canvas.on("touchmove", handleCanvasMouseMove);
 
-		var handleCanvasMouseUp = function(e) {
-			if (dragged) {
-				e.preventDefault();
-
-				// cancel if a popup is open
-				if (visiblePopups.length > 0) {
-					return;
-				}
-
-				// get the pixel position of the mouse/finger
-				let x, y;
-				if (e.type === 'touchend') {
-					x = e.changedTouches[0].clientX - canvas.c.getBoundingClientRect().left;
-					y = e.changedTouches[0].clientY - canvas.c.getBoundingClientRect().top;
-				} else {
-					x = e.offsetX;
-					y = e.offsetY;
-				}
-
-				let boardX = Math.floor(x / (squareWidth + squareGap));
-				let boardY = Math.floor(y / (squareWidth + squareGap));
-
-				// only if the letter was dropped on a free space on the board
-				if ((x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width) && !game.board?.[boardY]?.[boardX]) {
-					// add the letter to the appropriate spot on the board
-					addLetter(boardX, boardY, dragged.bankIndex);
-				} else { // if the letter was dropped anywhere else
-					canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
-				}
-				dragged = undefined; // remove the dragged tile	
-			}
+		// cancel if not user's turn
+		if (!userTurn) {
+			return;
 		}
-		$('html').on("mouseup", handleCanvasMouseUp);
-		$('html').on("touchend", handleCanvasMouseUp);
-	} else {
-		// if it is not the current player's turn
+
+		// get the pixel position of the mouse/finger
+		let x, y;
+		if (e.type === 'touchmove') {
+			x = e.changedTouches[0].clientX - this.getBoundingClientRect().left;
+			y = e.changedTouches[0].clientY - this.getBoundingClientRect().top;
+		} else {
+			x = e.offsetX;
+			y = e.offsetY;
+		}
+
+		// this one is pretty simple - if something is being dragged, update its position
+		// (mouse offset is handled using the mouseOffset property when the tile is being drawn)
+		if (dragged.pixelX && dragged.pixelY) {
+			dragged.pixelX = x;
+			dragged.pixelY = y;
+		}
+
+		return;
+	}
+	$canvas.on("mousemove", handleCanvasMouseMove);
+	$canvas.on("touchmove", handleCanvasMouseMove);
+
+	var handleCanvasMouseUp = function(e) {
+		// cancel if no tile is being dragged
+		if (!dragged) {
+			return;
+		}
+
+		// cancel if not the user's turn
+		if (!userTurn) {
+			return;
+		}
+
+		e.preventDefault();
+
+		// cancel if a popup is open
+		if (visiblePopups.length > 0) {
+			return;
+		}
+
+		// get the pixel position of the mouse/finger
+		let x, y;
+		if (e.type === 'touchend') {
+			x = e.changedTouches[0].clientX - canvas.c.getBoundingClientRect().left;
+			y = e.changedTouches[0].clientY - canvas.c.getBoundingClientRect().top;
+		} else {
+			x = e.offsetX;
+			y = e.offsetY;
+		}
+
+		let boardX = Math.floor(x / (squareWidth + squareGap));
+		let boardY = Math.floor(y / (squareWidth + squareGap));
+
+		// only if the letter was dropped on a free space on the board
+		if ((x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width) && !game.board?.[boardY]?.[boardX]) {
+			// add the letter to the appropriate spot on the board
+			addLetter(boardX, boardY, dragged.bankIndex);
+		} else { // if the letter was dropped anywhere else
+			canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
+		}
+		dragged = undefined; // remove the dragged tile
+	}
+	$('html').on("mouseup", handleCanvasMouseUp);
+	$('html').on("touchend", handleCanvasMouseUp);
+
+	if (!userTurn) {
 		$ootDisable = $(ootDisable);
 
 		$ootDisable.css('cursor', 'not-allowed'); // show not-allowed cursor
-		$('.letterBank .letter').attr('draggable', false); // make the letters not draggable anymore
 
 		$ootDisable.on('mousedown touchstart', function(e) {
+			e.preventDefault();
 			textModal((game.inactive ? "Inactive Game" : "Not your turn!"), (game.inactive ? "This game is inactive, meaning it can no longer be played. You can still look at it all you want, though." : "It's someone else's turn right now. Wait for your turn to make a move.")); // show an alert when the user tries to interact with the canvas or letter bank
 		});
 	}
@@ -865,7 +894,7 @@ function gameInit() {
 		winningPoints = Math.max(winningPoints, game.players[i].points);
 	}
 
-	// for each player in the game
+	// add each player to the player list
 	for (let i in game.players) {
 		let isWinner = game.players[i].points == winningPoints;
 		let isTurn = turnIndex == i;
