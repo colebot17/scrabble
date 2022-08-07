@@ -626,6 +626,20 @@ function gameInit() {
 	var handleCanvasDblClick = function(e) {
 		e.preventDefault();
 
+		// remove all unlocked tiles from the board
+		for (let y in game.board) {
+			for (let x in game.board) {
+				if (game.board?.[y]?.[x] && !game.board[y][x].locked) {
+					game.board[y][x] = null;
+				}
+			}
+		}
+
+		// un-hide all letters in bank
+		for (let i in canvas.bank) {
+			canvas.bank[i].hidden = false;
+		}
+
 		console.log("DBLCLICK");
 	}
 	$canvas.on('dblclick', handleCanvasDblClick);
