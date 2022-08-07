@@ -806,14 +806,61 @@ function gameInit() {
 			y = e.offsetY;
 		}
 
-		// this one is pretty simple - if something is being dragged, update its position
-		// (mouse offset is handled using the mouseOffset property when the tile is being drawn)
-		if (dragged.pixelX && dragged.pixelY) {
+		// update position of dragged tile
+		if (dragged?.pixelX && dragged?.pixelY) {
 			dragged.pixelX = x;
 			dragged.pixelY = y;
 		}
 
-		return;
+		// set the cursor according to the type of tile the mouse is on
+		if (e.type === 'mousemove') {
+
+			// if the mouse isn't over anything, it should have a regular cursor
+			let cursor = 'default';
+
+			// check the letter bank
+			// get the canvas.bank without hidden items
+			let bank = [];
+			for (var i = 0; i < canvas.bank.length; i++) {
+				if (!canvas.bank[i].hidden) {
+					bank.push(canvas.bank[i]);
+				}
+			}
+
+			// loop through letter bank tile positions to see if user clicked on one
+			for (let i = bank.length - 1; i >= 0; i--) {
+				xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
+				yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
+				if (xMatch && yMatch) { // if this is the one that the user has clicked on
+					cursor = 'grab';
+				}
+			}
+
+			// check the board
+			let boardX = Math.floor(x / (squareWidth + squareGap));
+			let boardY = Math.floor(y / (squareWidth + squareGap));
+			
+			let tile = game.board?.[boardY]?.[boardX];
+			let locked = tile?.locked;
+
+			if (locked) {
+				cursor = 'pointer';
+			} else {
+				cursor = 'grab';
+			}
+			
+			if (dragged) {
+				cursor = 'no-drop';
+
+				if (!tile) {
+					cursor = 'grabbing';
+				}
+			}
+
+			// set the css
+			document.getElementById('scrabbleCanvas').style.cursor = cursor;
+		}
+
 	}
 	$canvas.on("mousemove", handleCanvasMouseMove);
 	$canvas.on("touchmove", handleCanvasMouseMove);
