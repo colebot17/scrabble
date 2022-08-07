@@ -939,7 +939,6 @@ function dictLookup(words, callback = function(entries) {}) {
 	];
 	Promise.allSettled(promises).then(() => {
 		if (entries.length > 0) {
-			console.log("All Resolved!");
 			callback(entries);
 		}
 	});

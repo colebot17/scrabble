@@ -107,11 +107,8 @@ jQuery.fn.extend({
 			visiblePopups.push(el.attr('id'));
 		}
 
-		console.log("popupOpen()");
-
 		// hide on outside mouseup
 		$('#scrabbleGrid').on('mouseup', function() {
-			console.log("grid mouseup");
 			$('#scrabbleGrid').off('mouseup');
 			el.popupClose();
 		});
