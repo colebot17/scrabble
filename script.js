@@ -639,8 +639,6 @@ function gameInit() {
 		for (let i in canvas.bank) {
 			canvas.bank[i].hidden = false;
 		}
-
-		console.log("DBLCLICK");
 	}
 	$canvas.on('dblclick', handleCanvasDblClick);
 
@@ -651,6 +649,20 @@ function gameInit() {
 		// cancel if a popup is open
 		if (visiblePopups.length > 0) {
 			return;
+		}
+
+		// check for double-tap
+		if (e.type === 'touchstart') {
+			if (canvas.doubleTap) {
+				handleCanvasDblClick();
+				return;
+			}
+
+			// set canvas.doubletap
+			canvas.doubleTap = true;
+			setTimeout(() => {
+				canvas.doubleTap = false;
+			}, 500);
 		}
 
 		// get the pixel position of the mouse/finger
