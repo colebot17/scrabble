@@ -803,6 +803,8 @@ function gameInit() {
 			// if the mouse isn't over anything, it should have a regular cursor
 			let cursor = 'default';
 
+			const outOfTurn = (game.inactive || game.players[game.turn].id != account.id);
+
 			// check the letter bank
 			// get the canvas.bank without hidden items
 			let bank = [];
@@ -817,7 +819,7 @@ function gameInit() {
 				xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
 				yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
 				if (xMatch && yMatch) { // if this is the one that the user has clicked on
-					cursor = (game.inactive ? 'not-allowed' : 'grab');
+					cursor = (outOfTurn ? 'not-allowed' : 'grab');
 				}
 			}
 
@@ -832,7 +834,7 @@ function gameInit() {
 				if (locked) {
 					cursor = 'pointer';
 				} else {
-					cursor = (game.inactive ? 'not-allowed' : 'grab');
+					cursor = (outOfTurn ? 'not-allowed' : 'grab');
 				}
 			}
 			
