@@ -780,22 +780,7 @@ function gameInit() {
 	// update position of tile when mouse moves during drag
 	var handleCanvasMouseMove = function(e) {
 		e.preventDefault();
-
-		// cancel if no tile is being dragged
-		if (!dragged) {
-			return;
-		}
-
-		// cancel if a popup is open
-		if (visiblePopups.length > 0) {
-			return;
-		}
-
-		// cancel if not user's turn
-		if (!userTurn) {
-			return;
-		}
-
+		
 		// get the pixel position of the mouse/finger
 		let x, y;
 		if (e.type === 'touchmove') {
