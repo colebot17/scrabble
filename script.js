@@ -656,7 +656,7 @@ function gameInit() {
 				return;
 			}
 
-			// set canvas.doubletap
+			// set canvas.doubleTap
 			canvas.doubleTap = true;
 			setTimeout(() => {
 				canvas.doubleTap = false;
