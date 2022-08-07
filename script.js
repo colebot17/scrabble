@@ -817,7 +817,7 @@ function gameInit() {
 				xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
 				yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
 				if (xMatch && yMatch) { // if this is the one that the user has clicked on
-					cursor = 'grab';
+					cursor = (game.inactive ? 'not-allowed' : 'grab');
 				}
 			}
 
@@ -832,7 +832,7 @@ function gameInit() {
 				if (locked) {
 					cursor = 'pointer';
 				} else {
-					cursor = 'grab';
+					cursor = (game.inactive ? 'not-allowed' : 'grab');
 				}
 			}
 			
