@@ -109,10 +109,10 @@ jQuery.fn.extend({
 
 		console.log("popupOpen()");
 
-		// hide on outside click
-		$('#scrabbleGrid').on('click', function() {
-			console.log("grid click");
-			$('#scrabbleGrid').off('click');
+		// hide on outside mouseup
+		$('#scrabbleGrid').on('mouseup', function() {
+			console.log("grid mouseup");
+			$('#scrabbleGrid').off('mouseup');
 			el.popupClose();
 		});
 
