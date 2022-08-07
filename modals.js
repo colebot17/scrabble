@@ -107,11 +107,14 @@ jQuery.fn.extend({
 			visiblePopups.push(el.attr('id'));
 		}
 
-		// hide on html click
+		console.log("popupOpen()");
+
+		// hide on outside click
 		$('#scrabbleGrid').on('click', function() {
+			console.log("grid click");
 			$('#scrabbleGrid').off('click');
 			el.popupClose();
-		})
+		});
 
 		// determine which direction to show the modal
 		posRight = window.innerWidth - x > x;

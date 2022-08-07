@@ -770,7 +770,6 @@ function gameInit() {
 					</div>
 				`;
 			}
-			console.log(content);
 			$('#wordLookupPopup .wordLookupResults').html(content);
 			$('#wordLookupPopup').popupOpen(clientX, clientY);
 		});
