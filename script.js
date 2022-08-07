@@ -843,10 +843,12 @@ function gameInit() {
 			let tile = game.board?.[boardY]?.[boardX];
 			let locked = tile?.locked;
 
-			if (locked) {
-				cursor = 'pointer';
-			} else {
-				cursor = 'grab';
+			if (tile) {
+				if (locked) {
+					cursor = 'pointer';
+				} else {
+					cursor = 'grab';
+				}
 			}
 			
 			if (dragged) {
