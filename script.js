@@ -623,6 +623,13 @@ function gameInit() {
 	// determine whether it is the current user's turn
 	userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
+	var handleCanvasDblClick = function(e) {
+		e.preventDefault();
+
+		console.log("DBLCLICK");
+	}
+	$canvas.on('dblclick', handleCanvasDblClick);
+
 	// handle drag start on canvas
 	var handleCanvasMouseDown = function(e) {
 		e.preventDefault();
