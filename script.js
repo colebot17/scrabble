@@ -623,6 +623,23 @@ function gameInit() {
 	// determine whether it is the current user's turn
 	userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
+	var handleCanvasDblClick = function(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
+		// remove all unlocked tiles from the board
+		for (let y in game.board) {
+			for (let x in game.board) {
+				if (game.board?.[y]?.[x] && !game.board[y][x].locked) {
+					game.board[y][x] = null;
+				}
+			}
+		}
+
+		// un-hide all letters in bank
+		for (let i in canvas.bank) {
+			canvas.bank[i].hidden = false;
+		}
+	}
+	$canvas.on('dblclick', handleCanvasDblClick);
+
 	// handle drag start on canvas
 	var handleCanvasMouseDown = function(e) {
 		e.preventDefault();
@@ -630,6 +647,20 @@ function gameInit() {
 		// cancel if a popup is open
 		if (visiblePopups.length > 0) {
 			return;
+		}
+
+		// check for double-tap
+		if (e.type === 'touchstart') {
+			if (canvas.doubleTap) {
+				handleCanvasDblClick();
+				return;
+			}
+
+			// set canvas.doubletap
+			canvas.doubleTap = true;
+			setTimeout(() => {
+				canvas.doubleTap = false;
+			}, 500);
 		}
 
 		// get the pixel position of the mouse/finger
