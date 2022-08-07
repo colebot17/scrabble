@@ -20,6 +20,7 @@ const modals = {
 var escStack = [];
 
 var visibleModals = [];
+var visiblePopups = [];
 
 window.addEventListener('resize', function() {
 	updateModalSizes();
@@ -94,6 +95,63 @@ jQuery.fn.extend({
 		}
 
 		// hide the modal
+		return this.addClass('hidden');
+	},
+	popupOpen: function(x, y) {
+		var el = this;
+		// update the escape stack
+		addToEscStack(function () { el.popupClose() }, el.attr('id'));
+		
+		// update the visible popups list
+		if (!visiblePopups.includes(el.attr('id'))) {
+			visiblePopups.push(el.attr('id'));
+		}
+
+		// hide on outside mouseup
+		$('#scrabbleGrid').on('mouseup', function() {
+			$('#scrabbleGrid').off('mouseup');
+			el.popupClose();
+		});
+
+		// determine which direction to show the modal
+		posRight = window.innerWidth - x > x;
+
+		// calculate the position
+		let realX, realY;
+		if (posRight) {
+			realX = x + 5;
+			realY = y - 105;
+		} else {
+			realX = x - 325;
+			realY = y - 105;
+		}
+
+		// make sure it doesn't go off the page
+		realX = Math.max(Math.min(realX, window.innerWidth), 0);
+		realY = Math.max(Math.min(realY, window.innerHeight), 0);
+
+		// set the position
+		el.css({
+			top: realY + 'px',
+			left: realX + 'px'
+		});
+
+		// show the popup
+		return el.removeClass('hidden');
+	},
+	popupClose: function () {
+		// update the escape stack
+		removeFromEscStack(this.attr('id'));
+		
+		// update the visible popups list
+		if (visiblePopups.includes(this.attr('id'))) {
+			visiblePopups.splice(visiblePopups.indexOf(this.attr('id'), 1));
+		}
+
+		// remove mouseup listener from grid
+		$('#scrabbleGrid').off('mouseup');
+
+		// hide the popup
 		return this.addClass('hidden');
 	}
 });

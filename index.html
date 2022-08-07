@@ -8,7 +8,7 @@
 
 	<!-- beautiful css -->
 	<link rel="stylesheet" type="text/css" href="http://www.colebot.com/style.css">
-	<link rel="stylesheet" type="text/css" href="http://scrabble.colebot.com/scrabble.css">
+	<link rel="stylesheet" type="text/css" href="scrabble.css">
 
 	<!-- import the font 'Rubik' -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -139,7 +139,12 @@
 		<div class="modal hidden" id="chooseLetterModal">
 			<h3>Pick any letter</h3>
 			<input type="text" name="letterPicker" onkeydown="return /[a-zA-Z]/i.test(event.key)" maxlength="1" id="letterPicker" autocomplete="off">
-			<div class="placeholder"/>
+			<div class="placeholder"></div>
+		</div>
+		<div class="popup hidden" id="wordLookupPopup">
+			<span class="material-icons iconButton modalCloseButton" onclick="$('#wordLookupPopup').popupClose()">close</span>
+			<div class="wordLookupResults">
+			</div>
 		</div>
 	</center>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- import jQuery -->
