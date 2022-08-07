@@ -931,7 +931,6 @@ function dictLookup(words, callback = function(entries) {}) {
 			function res() {
 				document.removeEventListener('mouseup', res);
 				document.removeEventListener('touchend', res);
-				console.log("Resolved!");
 				resolve();
 			}
 			document.addEventListener('mouseup', res);
@@ -940,6 +939,7 @@ function dictLookup(words, callback = function(entries) {}) {
 	];
 	Promise.allSettled(promises).then(() => {
 		if (entries.length > 0) {
+			console.log("All Resolved!");
 			callback(entries);
 		}
 	});
