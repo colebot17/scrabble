@@ -151,6 +151,9 @@ jQuery.fn.extend({
 			visiblePopups.splice(visiblePopups.indexOf(this.attr('id'), 1));
 		}
 
+		// remove mouseup listener from grid
+		$('#scrabbleGrid').off('mouseup');
+
 		// hide the popup
 		return this.addClass('hidden');
 	}
