@@ -623,9 +623,7 @@ function gameInit() {
 	// determine whether it is the current user's turn
 	userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
-	var handleCanvasDblClick = function(e) {
-		e.preventDefault();
-
+	var handleCanvasDblClick = function(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
 		// remove all unlocked tiles from the board
 		for (let y in game.board) {
 			for (let x in game.board) {
