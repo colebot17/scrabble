@@ -858,8 +858,8 @@ function gameInit() {
 		}
 		dragged = undefined; // remove the dragged tile
 	}
-	$('html').on("mouseup", handleCanvasMouseUp);
-	$('html').on("touchend", handleCanvasMouseUp);
+	document.addEventListener('mouseup', handleCanvasMouseUp);
+	document.addEventListener('touchend', handleCanvasMouseUp);
 
 	if (!userTurn) {
 		$ootDisable = $(ootDisable);
@@ -923,7 +923,7 @@ function gameInit() {
 
 function dictLookup(words, callback = function(entries) {}) {
 	let entries = [];
-	const promises = [
+	let promises = [
 		...words.map(x => $.get("https://api.dictionaryapi.dev/api/v2/entries/en/" + x, function(def) {
 			entries.push(def);
 		})),
@@ -931,7 +931,8 @@ function dictLookup(words, callback = function(entries) {}) {
 			function res() {
 				document.removeEventListener('mouseup', res);
 				document.removeEventListener('touchend', res);
-				resolve()
+				console.log("Resolved!");
+				resolve();
 			}
 			document.addEventListener('mouseup', res);
 			document.addEventListener('touchend', res);
