@@ -1029,6 +1029,8 @@ function chatInit() {
 			</div>
 		`
 	}
+
+	chatContentBox.html(chatContent);
 }
 
 function dictLookup(words, callback = function(entries) {}) {
