@@ -835,7 +835,7 @@ function gameInit() {
 		// add new position to position history if changed
 		if (dragged?.posHistory) {
 			const lastPos = dragged.posHistory[dragged.posHistory.length - 1];
-			if (lastPos.x !== boardX || lastPos.y !== boardY) {
+			if (lastPos.x !== x || lastPos.y !== y) {
 				dragged.posHistory.push({x, y});
 			}
 		}
