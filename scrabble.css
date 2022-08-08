@@ -304,6 +304,7 @@ body.scrabble {
 }
 .chatTitle {
 	display: inline-block;
+	margin: 10px 0;
 }
 .chatContent {
     display: flex;
