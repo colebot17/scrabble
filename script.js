@@ -1002,6 +1002,33 @@ function gameInit() {
 	gameInfoBox.html(gameInfo);
 
 	setCanvasSize();
+
+	chatInit();
+}
+
+function chatInit() {
+	const chat = game.chat;
+	const chatContentBox = $('.chatContent').empty();
+
+	let chatContent = ``;
+
+	for (let i in chat) {
+		chatContent += `
+			<div class="chatMessage">
+				<div class="chatMessageLine1">
+					<div class="chatMessageSender">
+						${chat[i].senderName}
+					</div>
+					<div class="chatMessageTimestamp">
+						${chat[i].timestamp}
+					</div>
+				</div>
+				<div class="chatMessageText">
+					${chat[i].message}
+				</div>
+			</div>
+		`
+	}
 }
 
 function dictLookup(words, callback = function(entries) {}) {
