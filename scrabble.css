@@ -320,6 +320,9 @@ body.scrabble {
 	display: none;
 	width: calc(100% - 30px);
 }
+#scrabbleGrid #chatCell {
+	justify-content: stretch;
+}
 #scrabbleGrid #gameControlsCell {
 	justify-content: space-evenly;
 	gap: 10px;
