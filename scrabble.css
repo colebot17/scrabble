@@ -296,6 +296,11 @@ body.scrabble {
 }
 
 /* chat */
+.chatTitleLine {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 .chatTitle {
 	display: inline-block;
 }
