@@ -34,6 +34,24 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 		}
 	}
 
+	// find the names of users who send chat messages
+	$chatSenderBuffer = Array();
+	$chat = json_decode($row['chat'], true);
+	for ($i=0; $i < count($chat); $i++) { 
+		$senderId = $chat[$i]['sender'];
+		$senderName = '';
+		if (!$senderName = $chatSenderBuffer[$senderId]) {
+			$sql = "SELECT name FROM accounts WHERE id='$senderId'";
+			$query = mysqli_query($conn, $sql);
+			if ($query) {
+				$row = mysqli_fetch_assoc($query);
+				$senderName = $row['name'];
+				$chatSenderBuffer[$senderId] = $senderName;
+			}
+		}
+		$chat[$i]['senderName'] = $senderName;
+	}
+
 	// put it all together
 	$obj = Array(
 		"id" => $gameId,
@@ -42,7 +60,7 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 		"turn" => (int)$row['turn'],
 		"inactive" => ((int)$row['inactive'] === 1 ? true : false),
 		"board" => json_decode($row['board'], true),
-		"chat" => json_decode($row['chat'], true)
+		"chat" => $chat
 	);
 	echo json_encode($obj);
 } else {
