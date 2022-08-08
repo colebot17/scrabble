@@ -393,25 +393,28 @@ input#chatInput {
 	}
 
 	/* game tab */
-	#scrabbleGrid[data-tab=game] {
+	#scrabbleGrid[data-tab=game], #scrabbleGrid[data-tab=chat] {
 		grid-template-columns: minmax(min-content, max-content) 1fr;
 		grid-template-rows: 50% 50%;
 	}
-	#scrabbleGrid[data-tab=game] #chatCell {
+	#scrabbleGrid[data-tab=game] #chatCell, #scrabbleGrid[data-tab=chat] #chatCell {
 		display: flex;
 		grid-column: 1;
 		grid-row: 2;
 	}
-	#scrabbleGrid[data-tab=game] #gameControlsCell {
+	#scrabbleGrid[data-tab=game] #gameControlsCell, #scrabbleGrid[data-tab=chat] #gameControlsCell {
 		display: flex;
 		grid-column: 1;
 		grid-row: 1;
 	}
-	#scrabbleGrid[data-tab=game] #canvasCell {
+	#scrabbleGrid[data-tab=game] #canvasCell, #scrabbleGrid[data-tab=chat] #canvasCell {
 		display: unset;
 		height: calc(100vh - 40px);
 		grid-column: 2;
 		grid-row: 1 / 3;
+	}
+	#scrabbleGrid #chatCell .backButton {
+		display: none;
 	}
 	#gameControlsCell .contentControls {
 		flex-direction: row;
