@@ -443,6 +443,9 @@ input#chatInput {
 		flex-direction: row;
 		align-items: center;
 	}
+	#scrabbleGrid #gameControlsCell .gameControlButtons {
+		flex-grow: 1;
+	}
 
 	/* game tab */
 	#scrabbleGrid[data-tab=game] {
