@@ -414,11 +414,14 @@ input#chatInput {
 		grid-column: 2;
 		grid-row: 1 / 3;
 	}
-	#scrabbleGrid #chatCell .backButton {
+	#scrabbleGrid #gameControlsCell .showChatButton {
 		display: none;
 	}
-	#gameControlsCell .contentControls {
+	#scrabbleGrid #gameControlsCell .contentControls {
 		flex-direction: row;
+	}
+	#scrabbleGrid #chatCell .backButton {
+		display: none;
 	}
 
 	/* account tab */
