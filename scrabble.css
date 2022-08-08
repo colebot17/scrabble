@@ -369,6 +369,7 @@ input#chatInput {
 	justify-content: stretch;
 }
 #scrabbleGrid #gameControlsCell {
+	height: calc(100% - 30px);
 	justify-content: space-evenly;
 	gap: 10px;
 }
