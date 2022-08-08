@@ -414,7 +414,7 @@ input#chatInput {
 		grid-column: 2;
 		grid-row: 1 / 3;
 	}
-	#scrabbleGrid #gameControlsCell .showChatButton {
+	#scrabbleGrid #gameControlsCell #showChatButton {
 		display: none;
 	}
 	#scrabbleGrid #gameControlsCell .contentControls {
