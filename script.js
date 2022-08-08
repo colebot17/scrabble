@@ -726,16 +726,14 @@ function gameInit() {
 		// initialize the drag if tile is unlocked (and it's the user's turn)
 		if (!locked && userTurn) {
 			dragged = new Tile(undefined, undefined, tile.letter, tile.bankIndex, tile.blank, tile.locked, x, y);
+
 			dragged.mouseOffset = {
 				x: (boardX - (x / (squareWidth + squareGap))) * (squareWidth + squareGap),
 				y: (boardY - (y / (squareWidth + squareGap))) * (squareWidth + squareGap)
 			}
-			dragged.posHistory = [
-				{
-					x: boardX,
-					y: boardY
-				}
-			]
+
+			dragged.posHistory = [{x, y}];
+
 			game.board[boardY][boardX] = null;
 
 			return; // nothing else to do
@@ -837,13 +835,8 @@ function gameInit() {
 		// add new position to position history if changed
 		if (dragged?.posHistory) {
 			const lastPos = dragged.posHistory[dragged.posHistory.length - 1];
-			const boardX = Math.floor(x / (squareWidth + squareGap));
-			const boardY = Math.floor(y / (squareWidth + squareGap));
 			if (lastPos.x !== boardX || lastPos.y !== boardY) {
-				dragged.posHistory.push({
-					x: boardX,
-					y: boardY
-				});
+				dragged.posHistory.push({x, y});
 			}
 		}
 
