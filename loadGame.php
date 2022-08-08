@@ -38,7 +38,6 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	$obj = Array(
 		"id" => $gameId,
 		"name"=> $row['name'],
-		"letterBag" => json_decode($row['letterBag'], true),
 		"players" => $players,
 		"turn" => (int)$row['turn'],
 		"inactive" => ((int)$row['inactive'] === 1 ? true : false),
