@@ -730,6 +730,12 @@ function gameInit() {
 				x: (boardX - (x / (squareWidth + squareGap))) * (squareWidth + squareGap),
 				y: (boardY - (y / (squareWidth + squareGap))) * (squareWidth + squareGap)
 			}
+			dragged.posHistory = [
+				{
+					x: boardX,
+					y: boardY
+				}
+			]
 			game.board[boardY][boardX] = null;
 
 			return; // nothing else to do
@@ -828,6 +834,17 @@ function gameInit() {
 			dragged.pixelY = y;
 		}
 
+		// add new position to position history if changed
+		const lastPos = dragged.posHistory[dragged.posHistory.length - 1];
+		const boardX = Math.floor(x / (squareWidth + squareGap));
+		const boardY = Math.floor(y / (squareWidth + squareGap));
+		if (lastPos.x !== boardX || lastPos.y !== boardY) {
+			dragged.posHistory.push({
+				x: boardX,
+				y: boardY
+			});
+		}
+
 		// set the cursor according to the type of tile the mouse is on
 		if (e.type === 'mousemove') {
 
@@ -913,16 +930,20 @@ function gameInit() {
 			y = e.offsetY;
 		}
 
-		let boardX = Math.floor(x / (squareWidth + squareGap));
-		let boardY = Math.floor(y / (squareWidth + squareGap));
+		const boardX = Math.floor(x / (squareWidth + squareGap));
+		const boardY = Math.floor(y / (squareWidth + squareGap));
+
+		// if the tile has not moved since mousedown (i.e. it has been clicked), remove it from the board
+		const hasMoved = dragged.posHistory.length > 1;
 
 		// only if the letter was dropped on a free space on the board
-		if ((x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width) && !game.board?.[boardY]?.[boardX]) {
+		if ((x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width) && !game.board?.[boardY]?.[boardX] && hasMoved) {
 			// add the letter to the appropriate spot on the board
 			addLetter(boardX, boardY, dragged.bankIndex);
 		} else { // if the letter was dropped anywhere else
 			canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
 		}
+		
 		dragged = undefined; // remove the dragged tile
 	}
 	document.addEventListener('mouseup', handleCanvasMouseUp);
