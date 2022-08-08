@@ -296,6 +296,9 @@ body.scrabble {
 }
 
 /* chat */
+.chatTitle {
+	display: inline-block;
+}
 .chatContent {
     display: flex;
     flex-direction: column;
