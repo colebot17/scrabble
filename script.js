@@ -656,7 +656,7 @@ function gameInit() {
 				return;
 			}
 
-			// set canvas.doubletap
+			// set canvas.doubleTap
 			canvas.doubleTap = true;
 			setTimeout(() => {
 				canvas.doubleTap = false;
@@ -726,10 +726,14 @@ function gameInit() {
 		// initialize the drag if tile is unlocked (and it's the user's turn)
 		if (!locked && userTurn) {
 			dragged = new Tile(undefined, undefined, tile.letter, tile.bankIndex, tile.blank, tile.locked, x, y);
+
 			dragged.mouseOffset = {
 				x: (boardX - (x / (squareWidth + squareGap))) * (squareWidth + squareGap),
 				y: (boardY - (y / (squareWidth + squareGap))) * (squareWidth + squareGap)
 			}
+
+			dragged.posHistory = [{x, y}];
+
 			game.board[boardY][boardX] = null;
 
 			return; // nothing else to do
@@ -828,6 +832,14 @@ function gameInit() {
 			dragged.pixelY = y;
 		}
 
+		// add new position to position history if changed
+		if (dragged?.posHistory) {
+			const lastPos = dragged.posHistory[dragged.posHistory.length - 1];
+			if (lastPos.x !== x || lastPos.y !== y) {
+				dragged.posHistory.push({x, y});
+			}
+		}
+
 		// set the cursor according to the type of tile the mouse is on
 		if (e.type === 'mousemove') {
 
@@ -913,16 +925,20 @@ function gameInit() {
 			y = e.offsetY;
 		}
 
-		let boardX = Math.floor(x / (squareWidth + squareGap));
-		let boardY = Math.floor(y / (squareWidth + squareGap));
+		const boardX = Math.floor(x / (squareWidth + squareGap));
+		const boardY = Math.floor(y / (squareWidth + squareGap));
+
+		// determine whether the tile has moved since touchdown (or if it has been clicked)
+		const stayedStill = dragged?.posHistory?.length === 1;
 
 		// only if the letter was dropped on a free space on the board
-		if ((x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width) && !game.board?.[boardY]?.[boardX]) {
+		if ((x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width) && !game.board?.[boardY]?.[boardX] && !stayedStill) {
 			// add the letter to the appropriate spot on the board
 			addLetter(boardX, boardY, dragged.bankIndex);
 		} else { // if the letter was dropped anywhere else
 			canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
 		}
+		
 		dragged = undefined; // remove the dragged tile
 	}
 	document.addEventListener('mouseup', handleCanvasMouseUp);
