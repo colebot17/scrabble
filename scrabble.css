@@ -60,12 +60,14 @@
 
 /* game controls */
 #gameControlsCell .contentControls {
+	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
 }
 #gameControlsCell .gameInfoBox {
+	flex-grow: 4;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
