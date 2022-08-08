@@ -336,6 +336,7 @@ body.scrabble {
 
 input#chatInput {
     flex-grow: 1;
+	flex-shrink: 1;
 }
 
 /* animations */
