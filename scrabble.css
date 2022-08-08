@@ -293,6 +293,49 @@ body.scrabble {
 	}
 }
 
+/* chat */
+.chatContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: center;
+    overflow: auto;
+    margin: 5px;
+}
+
+.chatMessage {
+    text-align: start;
+    width: 100%;
+}
+
+.chatMessageLine1 {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+}
+
+.chatMessageSender {
+    font-weight: bold;
+}
+
+.chatMessageTimestamp {
+    color: #00000066;
+    margin-right: 5px;
+}
+
+.chatControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input#chatInput {
+    flex-grow: 1;
+}
+
 /* animations */
 .spin {
 	animation-name: spin;
@@ -321,6 +364,8 @@ body.scrabble {
 	width: calc(100% - 30px);
 }
 #scrabbleGrid #chatCell {
+	height: calc(100% - 30px);
+	flex-direction: column;
 	justify-content: stretch;
 }
 #scrabbleGrid #gameControlsCell {
