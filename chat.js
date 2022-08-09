@@ -96,7 +96,7 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
                 const minutes = (today.getMinutes().toString().length === 1 ? "0" : "") + today.getMinutes();
                 const seconds = (today.getSeconds().toString().length === 1 ? "0" : "") + today.getSeconds();
 
-                const timestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                const timestamp = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
 
                 // formulate the local message
                 const newMessage = {
