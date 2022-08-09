@@ -60,6 +60,8 @@ function chatInit() {
 
 	chatContentBox.html(chatContent);
     chatInput.val('');
+
+    chatContentBox[0].scrollTop = chatContentBox[0].scrollHeight;
 }
 
 function sendChatMessage(message = document.getElementById('chatInput').value) {
