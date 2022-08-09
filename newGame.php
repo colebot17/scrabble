@@ -77,7 +77,7 @@ if (password_verify($userPwd, $row['pwd'])) {
 	$timestamp = date("Y-m-d H:i:s.v");
 
 	// add the game
-	$sql = "INSERT INTO games(letterBag, players, turn, inactive, board, lastMove) VALUES ('$letterBagJson', '$playersJson', 0, 0, '$boardJson', '$timestamp');";
+	$sql = "INSERT INTO games(letterBag, players, turn, inactive, board, lastMove, chat) VALUES ('$letterBagJson', '$playersJson', 0, 0, '$boardJson', '$timestamp', '[]');";
 	$query = mysqli_query($conn, $sql);
 
 	// get the id of the game
