@@ -12,7 +12,9 @@ function chatInit() {
 		const messageDate = new Date(chat[i].timestamp + "Z+00:00");
 
 		const isToday = currentDate.toDateString() === messageDate.toDateString();
-		const isYesterday = new Date().setDate(currentDate.getDate() - 1) === messageDate.toDateString();
+        let yesterdayDate = new Date();
+        yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+		const isYesterday = yesterdayDate.toDateString() === messageDate.toDateString();
 		const sameWeek = new Date().setDate(currentDate.getDate() - 7) < messageDate;
 
 		let dateString;
