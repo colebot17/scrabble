@@ -129,11 +129,6 @@ body.scrabble {
 .letterLetter {
     font-size: 50px;
 }
-.letterPoints {
-	position: absolute;
-	bottom: 5px;
-	right: 5px;
-}
 
 /* account forms */
 .accountForm h3 {
