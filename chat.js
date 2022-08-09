@@ -1,6 +1,7 @@
 function chatInit() {
 	const chat = game.chat;
 	const chatContentBox = $('.chatContent').empty();
+    const chatInput = $('#chatInput');
 
 	let chatContent = ``;
 
@@ -58,6 +59,7 @@ function chatInit() {
 	}
 
 	chatContentBox.html(chatContent);
+    chatInput.val('');
 }
 
 function sendChatMessage(message = document.getElementById('chatInput').value) {
