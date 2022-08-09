@@ -29,11 +29,6 @@ const scoreMultipliers = [
 
 var game;
 
-var dictionary;
-fetch("dictionary.json").then(response => {
-	return response.json();
-}).then(jsondata => dictionary = jsondata.words);
-
 var dragged;
 
 $(':root').css('--height', `${window.innerHeight}px`);
