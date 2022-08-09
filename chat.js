@@ -60,7 +60,7 @@ function chatInit() {
 		`;
 	}
 
-	chatContentBox.html(chatContent);
+	chatContentBox.html(chatContent || "There are no messages in this chat. You can be the first!");
     chatInput.val('');
 
     chatContentBox[0].scrollTop = chatContentBox[0].scrollHeight;
