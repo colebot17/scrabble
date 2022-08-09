@@ -95,14 +95,7 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 
                 // get the timestamp for the local message
                 const today = new Date();
-                const year = today.getUTCFullYear();
-                const month = ((today.getUTCMonth() + 1).toString().length === 1 ? "0" : "") + (today.getUTCMonth() + 1);
-                const date = (today.getUTCDate().toString().length === 1 ? "0" : "") + today.getUTCDate();
-                const hours = (today.getUTCHours().toString().length === 1 ? "0" : "") + today.getUTCHours();
-                const minutes = (today.getUTCMinutes().toString().length === 1 ? "0" : "") + today.getUTCMinutes();
-                const seconds = (today.getUTCSeconds().toString().length === 1 ? "0" : "") + today.getUTCSeconds();
-
-                const timestamp = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+                const timestamp = today.toISOString();
 
                 // formulate the local message
                 const newMessage = {

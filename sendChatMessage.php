@@ -40,7 +40,7 @@ $message = trim($message);
 $newMessage = Array(
     "sender" => $user,
     "message" => $message,
-    "timestamp" => date('Y-m-d H:i:s')
+    "timestamp" => date(DATE_ISO8601)
 );
 
 // get the chat
