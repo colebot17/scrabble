@@ -59,3 +59,62 @@ function chatInit() {
 
 	chatContentBox.html(chatContent);
 }
+
+function sendChatMessage(message = document.getElementById('chatInput').value) {
+    // make sure there is a real message
+    if (!message) {
+        return;
+    }
+
+    // trim the message
+    message = message.trim();
+
+    // send to the server
+    $.ajax(
+        'sendChatMessage.php',
+        {
+            data: {
+                user: account.id,
+                pwd: account.pwd,
+                gameId: game.id,
+                message
+            },
+            method: "POST",
+            success: function(data) {
+                const jsonData = JSON.parse(data);
+                if (jsonData.errorLevel > 0) {
+					textModal("Error", jsonData.message);
+                    return;
+                }
+
+                // get the timestamp for the local message
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = (today.getMonth().toString().length === 1 ? "0" : "") + (today.getMonth() + 1);
+                const date = (today.getDate().toString().length === 1 ? "0" : "") + (today.getDate() + 1);
+                const hours = (today.getHours().toString().length === 1 ? "0" : "") + today.getHours();
+                const minutes = (today.getMinutes().toString().length === 1 ? "0" : "") + today.getMinutes();
+                const seconds = (today.getSeconds().toString().length === 1 ? "0" : "") + today.getSeconds();
+
+                const timestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+                // formulate the local message
+                const newMessage = {
+                    sender: account.id,
+                    senderName: account.name,
+                    message,
+                    timestamp
+                };
+
+                // push the message to the local chat
+                game.chat.push(newMessage);
+
+                // refresh the chat window
+                chatInit();
+            },
+            error: function() {
+                console.error("Could not send message.");
+            }
+        }
+    )
+}
