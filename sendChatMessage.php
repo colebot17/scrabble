@@ -54,5 +54,13 @@ array_push($chat, $newMessage);
 
 // push the new chat back to the database
 $sql = "UPDATE games SET chat='$chat' WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+if ($query) {
+    echo '{"errorLevel":0,"message":"Message Sent."}';
+} else {
+    echo '{"errorLevel":1,"message":"Could not send message."}';
+}
+
+mysqli_close($conn);
 
 ?>
