@@ -12,7 +12,7 @@ function chatInit() {
 
 		const isToday = currentDate.toDateString() === messageDate.toDateString();
 		const isYesterday = new Date().setDate(currentDate.getDate() - 1) === messageDate.toDateString();
-		const sameWeek = new Date().setDate(currentDate.getDate() - 7) > messageDate;
+		const sameWeek = new Date().setDate(currentDate.getDate() - 7) < messageDate;
 
 		let dateString;
 
@@ -35,7 +35,7 @@ function chatInit() {
 		} else {
 			// show month abbrv. and day of month
 			const monthAbbrvs = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-			const dayOfMonth = (messageDate.getDate().toString().length === 1 ? "0" : "") + messageDate.getDate() + 1;
+			const dayOfMonth = (messageDate.getDate().toString().length === 1 ? "0" : "") + messageDate.getDate();
 
 			dateString = `${monthAbbrvs[messageDate.getMonth()]} ${dayOfMonth}`;
 		}
