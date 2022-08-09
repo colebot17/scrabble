@@ -53,7 +53,8 @@ $chat = json_decode($row['chat'], true);
 array_push($chat, $newMessage);
 
 // push the new chat back to the database
-$sql = "UPDATE games SET chat='$chat' WHERE id='$gameId'";
+$chatJson = json_encode($chat);
+$sql = "UPDATE games SET chat='$chatJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 if ($query) {
     echo '{"errorLevel":0,"message":"Message Sent."}';
