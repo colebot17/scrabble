@@ -53,7 +53,7 @@
 					</div>
 				</div>
 				<div class="chatControls">
-					<input name="chatInput" id="chatInput" class="chatInput" placeholder="Send a message...">
+					<input name="chatInput" id="chatInput" class="chatInput" placeholder="Send a message..." onkeypress="if (event.key === 'Enter') {sendChatMessage()}">
 					<button class="chatSendButton" onclick="sendChatMessage()">Send</button>
 				</div>
 			</div>
