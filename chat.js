@@ -89,12 +89,12 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 
                 // get the timestamp for the local message
                 const today = new Date();
-                const year = today.getFullYear();
-                const month = (today.getMonth().toString().length === 1 ? "0" : "") + (today.getMonth() + 1);
-                const date = (today.getDate().toString().length === 1 ? "0" : "") + (today.getDate() + 1);
-                const hours = (today.getHours().toString().length === 1 ? "0" : "") + today.getHours();
-                const minutes = (today.getMinutes().toString().length === 1 ? "0" : "") + today.getMinutes();
-                const seconds = (today.getSeconds().toString().length === 1 ? "0" : "") + today.getSeconds();
+                const year = today.getUTCFullYear();
+                const month = (today.getUTCMonth().toString().length === 1 ? "0" : "") + (today.getUTCMonth() + 1);
+                const date = (today.getUTCDate().toString().length === 1 ? "0" : "") + (today.getUTCDate() + 1);
+                const hours = (today.getUTCHours().toString().length === 1 ? "0" : "") + today.getUTCHours();
+                const minutes = (today.getUTCMinutes().toString().length === 1 ? "0" : "") + today.getUTCMinutes();
+                const seconds = (today.getUTCSeconds().toString().length === 1 ? "0" : "") + today.getUTCSeconds();
 
                 const timestamp = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
 
