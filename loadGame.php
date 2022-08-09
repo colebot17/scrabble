@@ -37,6 +37,7 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	// find the names of users who send chat messages
 	$chatSenderBuffer = Array();
 	$chat = json_decode($row['chat'], true);
+	print_r($chat);
 	for ($i=0; $i < count($chat); $i++) { 
 		$senderId = $chat[$i]['sender'];
 		$senderName = '';
