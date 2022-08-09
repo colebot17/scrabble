@@ -439,7 +439,7 @@ function createGame(playerList = JSON.parse(document.getElementById('createGameP
 	}
 
 	$.ajax(
-		'http://scrabble.colebot.com/newGame.php',
+		'newGame.php',
 		{
 			data: {user: account.id, pwd: account.pwd, players: JSON.stringify(players)},
 			method: "POST",
@@ -481,7 +481,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), exp
 			setTimeout(function() {clone.remove()}, 740);
 		}
 		$.ajax(
-			'http://scrabble.colebot.com/loadGame.php',
+			'loadGame.php',
 			{
 				data: {user: account.id, pwd: account.pwd, game: id},
 				method: "POST",
@@ -997,6 +997,8 @@ function gameInit() {
 	gameInfoBox.html(gameInfo);
 
 	setCanvasSize();
+
+	chatInit();
 }
 
 function dictLookup(words, callback = function(entries) {}) {

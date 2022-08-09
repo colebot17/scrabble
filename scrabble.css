@@ -60,12 +60,14 @@
 
 /* game controls */
 #gameControlsCell .contentControls {
+	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
 }
 #gameControlsCell .gameInfoBox {
+	flex-grow: 4;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
@@ -298,6 +300,60 @@ body.scrabble {
 	}
 }
 
+/* chat */
+.chatTitleLine {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+.chatTitle {
+	display: inline-block;
+	margin: 10px 0;
+}
+.chatContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: center;
+    overflow: auto;
+    margin: 5px;
+}
+
+.chatMessage {
+    text-align: start;
+    width: 100%;
+}
+
+.chatMessageLine1 {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+}
+
+.chatMessageSender {
+    font-weight: bold;
+}
+
+.chatMessageTimestamp {
+    color: #00000066;
+    margin-right: 5px;
+}
+
+.chatControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input#chatInput {
+    flex-grow: 1;
+	flex-shrink: 1;
+}
+
 /* animations */
 .spin {
 	animation-name: spin;
@@ -325,7 +381,13 @@ body.scrabble {
 	display: none;
 	width: calc(100% - 30px);
 }
+#scrabbleGrid #chatCell {
+	height: calc(100% - 30px);
+	flex-direction: column;
+	justify-content: stretch;
+}
 #scrabbleGrid #gameControlsCell {
+	height: calc(100% - 30px);
 	justify-content: space-evenly;
 	gap: 10px;
 }
@@ -347,23 +409,34 @@ body.scrabble {
 	}
 
 	/* game tab */
-	#scrabbleGrid[data-tab=game] {
+	#scrabbleGrid[data-tab=game], #scrabbleGrid[data-tab=chat] {
 		grid-template-columns: minmax(min-content, max-content) 1fr;
-		grid-template-rows: 100%;
+		grid-template-rows: 50% 50%;
 	}
-	#scrabbleGrid[data-tab=game] #gameControlsCell {
+	#scrabbleGrid[data-tab=game] #chatCell, #scrabbleGrid[data-tab=chat] #chatCell {
+		display: flex;
+		grid-column: 1;
+		grid-row: 2;
+	}
+	#scrabbleGrid[data-tab=game] #gameControlsCell, #scrabbleGrid[data-tab=chat] #gameControlsCell {
 		display: flex;
 		grid-column: 1;
 		grid-row: 1;
 	}
-	#scrabbleGrid[data-tab=game] #canvasCell {
+	#scrabbleGrid[data-tab=game] #canvasCell, #scrabbleGrid[data-tab=chat] #canvasCell {
 		display: unset;
 		height: calc(100vh - 40px);
 		grid-column: 2;
-		grid-row: 1;
+		grid-row: 1 / 3;
 	}
-	#gameControlsCell .contentControls {
+	#scrabbleGrid #gameControlsCell #showChatButton {
+		display: none;
+	}
+	#scrabbleGrid #gameControlsCell .contentControls {
 		flex-direction: row;
+	}
+	#scrabbleGrid #chatCell .backButton {
+		display: none;
 	}
 
 	/* account tab */
@@ -392,6 +465,9 @@ body.scrabble {
 		flex-direction: row;
 		align-items: center;
 	}
+	#scrabbleGrid #gameControlsCell .gameControlButtons {
+		flex-grow: 1;
+	}
 
 	/* game tab */
 	#scrabbleGrid[data-tab=game] {
@@ -407,6 +483,17 @@ body.scrabble {
 		display: unset;
 		grid-column: 1;
 		grid-row: 1 / 3;
+	}
+
+	/* chat tab */
+	#scrabbleGrid[data-tab=chat] {
+		grid-template-columns: 100%;
+		grid-template-rows: 100%;
+	}
+	#scrabbleGrid[data-tab=chat] #chatCell {
+		display: flex;
+		grid-column: 1;
+		grid-row: 1;
 	}
 
 	/* signed in account tab */
