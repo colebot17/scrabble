@@ -9,7 +9,7 @@ function chatInit() {
 
 	for (let i in chat) {
 		// determine what to show in the timestamp field
-		const messageDate = new Date(chat[i].timestamp + "Z+00:00");
+		const messageDate = new Date(chat[i].timestamp);
 
 		const isToday = currentDate.toDateString() === messageDate.toDateString();
         let yesterdayDate = new Date();
