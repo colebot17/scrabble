@@ -606,14 +606,11 @@ function gameInit() {
 	var $canvas = $(canvas.c);
 	$canvas.off();
 
-	// make the game tab visible
-	$('#gameTabButton').removeClass('hidden');
-
 	// go ahead and define the things we will disable when it isn't the user's turn
-	var ootDisable = '#gameControlsCell button';
+	var ootDisable = '#makeMoveButton, #skipTurnButton';
 
 	// make sure everything is enabled (we will disable them again if we need to)
-	$(ootDisable).css('cursor', '').off('mousedown touchstart');
+	$(ootDisable).css('cursor', '').prop('disabled', false).off('mousedown touchstart');
 
 	// determine whether it is the current user's turn
 	userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
@@ -942,7 +939,7 @@ function gameInit() {
 	if (!userTurn) {
 		$ootDisable = $(ootDisable);
 
-		$ootDisable.css('cursor', 'not-allowed'); // show not-allowed cursor
+		$ootDisable.css('cursor', 'not-allowed').prop('disabled', true); // show not-allowed cursor and disable buttons
 
 		$ootDisable.on('mousedown touchstart', function(e) {
 			e.preventDefault();
