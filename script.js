@@ -210,7 +210,7 @@ function updateGamesList() {
 				$inactiveGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleLine">
-							<span class="material-icons smallIcon">
+							<span class="material-icons smallIcon" style='padding: 5px'>
 								inventory
 							</span>
 							<span class="listGameName">
