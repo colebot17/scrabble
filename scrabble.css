@@ -86,6 +86,8 @@ html {
 	overflow-y: hidden;
 }
 body.scrabble {
+	height: 100vh;
+	height: 100dvh;
 	max-width: none;
 	margin: 0;
 	padding: 0;
