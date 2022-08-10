@@ -60,7 +60,7 @@ function chatInit() {
 		`;
 	}
 
-	chatContentBox.html(chatContent || "There are no messages in this chat. You can be the first!").css('align-items', (chatContent ? '' : 'center'));
+	chatContentBox.html(chatContent || "This chat is empty. :(").css('align-items', (chatContent ? '' : 'center'));
     chatInput.val('');
 
     chatContentBox[0].scrollTop = chatContentBox[0].scrollHeight;
