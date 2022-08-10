@@ -122,9 +122,6 @@ body.scrabble {
     border-radius: 5px;
     cursor: pointer;
 
-	line-height: 55px;
-	text-align: center;
-
 	position: relative;
 
     transition: transform 0.37s cubic-bezier(0, 1, 0.5, 1);
@@ -135,6 +132,8 @@ body.scrabble {
 }
 .letterLetter {
     font-size: 50px;
+	position: relative;
+	top: -10px;
 }
 .letterPoints {
 	position: absolute;

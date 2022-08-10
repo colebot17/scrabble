@@ -1107,7 +1107,7 @@ function exchangeLetters() {
 	}
 
 	$letterBank.children('.letter').on('click', function() {
-		$(this).attr('aria-pressed', (_, attr) => attr == true ? false : true);
+		this.ariaPressed = this.ariaPressed ? false : true;
 		let exchangeLetters = $letterBank.children('[aria-pressed=true]');
 		$('#letterExchangeButton').text(`${exchangeLetters.length > 0 ? `Exchange ${exchangeLetters.length >= 7 ? `All` : exchangeLetters.length} Letter${exchangeLetters.length === 1 ? `` : `s`} and ` : ``}Skip Turn`)
 	});
