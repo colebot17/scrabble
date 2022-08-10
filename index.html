@@ -34,6 +34,26 @@
 				</p>
 			</div>
 
+			<div id="gameControlsCell" class="gridCell">
+				<div class="contentControls">
+					<span class="material-icons iconButton" id="backToGamesListButton" onclick="showTab('account')">
+						chevron_left
+					</span>
+					<span class="material-icons iconButton" id="reloadGameButton" onclick="reloadGame()">
+						sync
+					</span>
+					<span class="material-icons iconButton" id="showChatButton" onclick="showTab('chat')">
+						chat
+					</span>
+				</div>
+				<div class="gameInfoBox"></div>
+				<div class="gameControlButtons">
+					<button class="highlight" id="makeMoveButton" onclick="makeMove()">Move</button>
+					<button id="skipTurnButton" onclick="exchangeLetters()">Skip Turn</button>
+					<button id="endGameButton" onclick="endGame()">End Game</button>
+				</div>
+			</div>
+
 			<div id="chatCell" class="gridCell">
 				<div class="chatTitleLine">
 					<span class="material-icons iconButton backButton" onclick="showTab('game')">
@@ -55,26 +75,6 @@
 				<div class="chatControls">
 					<input name="chatInput" id="chatInput" class="chatInput" placeholder="Send a message..." onkeypress="if (event.key === 'Enter') {sendChatMessage()}">
 					<button class="chatSendButton" onclick="sendChatMessage()">Send</button>
-				</div>
-			</div>
-
-			<div id="gameControlsCell" class="gridCell">
-				<div class="contentControls">
-					<span class="material-icons iconButton" id="backToGamesListButton" onclick="showTab('account')">
-						chevron_left
-					</span>
-					<span class="material-icons iconButton" id="reloadGameButton" onclick="reloadGame()">
-						sync
-					</span>
-					<span class="material-icons iconButton" id="showChatButton" onclick="showTab('chat')">
-						chat
-					</span>
-				</div>
-				<div class="gameInfoBox"></div>
-				<div class="gameControlButtons">
-					<button class="highlight" id="makeMoveButton" onclick="makeMove()">Move</button>
-					<button id="skipTurnButton" onclick="exchangeLetters()">Skip Turn</button>
-					<button id="endGameButton" onclick="endGame()">End Game</button>
 				</div>
 			</div>
 
