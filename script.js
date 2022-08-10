@@ -29,11 +29,6 @@ const scoreMultipliers = [
 
 var game;
 
-var dictionary;
-fetch("dictionary.json").then(response => {
-	return response.json();
-}).then(jsondata => dictionary = jsondata.words);
-
 var dragged;
 
 $(':root').css('--height', `${window.innerHeight}px`);
@@ -183,9 +178,11 @@ function updateGamesList() {
 							<span class="listGameName">
 								${gamesArray[i].name || `#${gamesArray[i].id}`}
 							</span>
-							<span class="material-icons iconButton smallIcon" onclick="renameGame(${gamesArray[i].id})">
-								drive_file_rename_outline
-							</span>
+							<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
+								<span class="material-icons smallIcon">
+									drive_file_rename_outline
+								</span>
+							</button>
 						</div>
 						<div class="listGamePlayerList">
 							${playerListHTML}
@@ -215,15 +212,17 @@ function updateGamesList() {
 				$inactiveGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleLine">
+							<span class="material-icons smallIcon" style='padding: 5px'>
+								inventory
+							</span>
 							<span class="listGameName">
 								${gamesArray[i].name || `#${gamesArray[i].id}`}
 							</span>
-							<span class="material-icons iconButton smallIcon" onclick="renameGame(${gamesArray[i].id})">
-								drive_file_rename_outline
-							</span>
-							<span class="material-icons iconButton smallIcon" onclick="removeGame(${gamesArray[i].id})">
-								delete
-							</span>
+							<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
+								<span class="material-icons smallIcon">
+									drive_file_rename_outline
+								</span>
+							</button>
 						</div>
 						<div class="listGamePlayerList">
 							${playerListHTML}
@@ -285,7 +284,7 @@ function setGamesList(list) {
 
 function renameGame(id) {
 	// get the element(s) to be updated upon completion
-	const nameFields = $('#listGame' + id + ' .listGameName, #gameControlsCell .gameNameBox .listGameName');
+	const nameFields = $('#listGame' + id + ' .listGameName, #gameControlsCell .gameNameBox .gameName');
 
 	// get a name from the user
 	const newName = prompt("Enter a new name. It will be seen by all players in this game. Leave blank to remove name.");
@@ -317,32 +316,6 @@ function renameGame(id) {
 			}
 		}
 	);
-}
-  
-function removeGame(id) {
-	textModal("Remove Game", "Are you sure you want to remove this game from your games list? This action will not remove the game for anyone but you, and it cannot be undone.", true, function() {
-		$.ajax(
-			'removeGame.php',
-			{
-				data: {
-					user: account.id,
-					pwd: account.pwd,
-					game: id
-				},
-				method: "POST",
-				success: function(data) {
-					jsonData = JSON.parse(data);
-					if (jsonData.errorLevel <= 0) {
-						loadGamesList();
-					}
-					textModal("Remove Game", jsonData.message);
-				},
-				error: function() {
-					console.error("Could not remove the game.");
-				}
-			}
-		);
-	});
 }
 
 function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
@@ -444,7 +417,7 @@ function createGame(playerList = JSON.parse(document.getElementById('createGameP
 	}
 
 	$.ajax(
-		'http://scrabble.colebot.com/newGame.php',
+		'newGame.php',
 		{
 			data: {user: account.id, pwd: account.pwd, players: JSON.stringify(players)},
 			method: "POST",
@@ -469,11 +442,13 @@ function createGame(playerList = JSON.parse(document.getElementById('createGameP
 function loadGame(id = prompt("Enter the id of the game you want to load:"), expand = false) {
 	if (id) {
 		if (expand) { // expanding animation of the play button
-		let expandEl = $('#listGame' + id + ' button');
+			let expandEl = $('#listGame' + id + ' .openGameButton');
+
 			// position the element
-			let offset = expandEl.offset();
-			let top = offset.top;
-			let left = offset.left;
+			const offset = expandEl.offset();
+			const top = offset.top;
+			const left = offset.left + (expandEl.width() / 2) - 50;
+
 			let clone = expandEl.clone().attr('onclick','').css({
 				'position': 'fixed',
 				'top': top + 'px',
@@ -486,7 +461,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), exp
 			setTimeout(function() {clone.remove()}, 740);
 		}
 		$.ajax(
-			'http://scrabble.colebot.com/loadGame.php',
+			'loadGame.php',
 			{
 				data: {user: account.id, pwd: account.pwd, game: id},
 				method: "POST",
@@ -611,14 +586,11 @@ function gameInit() {
 	var $canvas = $(canvas.c);
 	$canvas.off();
 
-	// make the game tab visible
-	$('#gameTabButton').removeClass('hidden');
-
 	// go ahead and define the things we will disable when it isn't the user's turn
-	var ootDisable = '#gameControlsCell button';
+	var ootDisable = '#makeMoveButton, #skipTurnButton';
 
 	// make sure everything is enabled (we will disable them again if we need to)
-	$(ootDisable).css('cursor', '').off('mousedown touchstart');
+	$(ootDisable).css('cursor', '').prop('disabled', false).attr('title', '').off('mousedown touchstart');
 
 	// determine whether it is the current user's turn
 	userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
@@ -947,7 +919,7 @@ function gameInit() {
 	if (!userTurn) {
 		$ootDisable = $(ootDisable);
 
-		$ootDisable.css('cursor', 'not-allowed'); // show not-allowed cursor
+		$ootDisable.css('cursor', 'not-allowed').prop('disabled', true).attr('title', 'It isn\'t your turn!'); // show not-allowed cursor and disable buttons
 
 		$ootDisable.on('mousedown touchstart', function(e) {
 			e.preventDefault();
@@ -964,9 +936,11 @@ function gameInit() {
 			<span class="gameName">
 				${game.name || `#${game.id}`}
 			</span>
-			<span class="material-icons iconButton smallIcon" onclick="renameGame(${game.id})">
-				drive_file_rename_outline
-			</span>
+			<button class="iconButton" onclick="renameGame(${game.id})">
+				<span class="material-icons smallIcon">
+					drive_file_rename_outline
+				</span>
+			</button>
 		</div>
 	`;
 
@@ -1002,6 +976,8 @@ function gameInit() {
 	gameInfoBox.html(gameInfo);
 
 	setCanvasSize();
+
+	chatInit();
 }
 
 function dictLookup(words, callback = function(entries) {}) {
@@ -1100,16 +1076,18 @@ function exchangeLetters() {
 	let bank = game.players[parseInt(game.turn) % game.players.length].letterBank;
 	for (let i in bank) {
 		$letterBank.append(
-			`<div class='letter' data-bankindex='${i}'>
-				<span class='letterLetter'>${bank[i] ? bank[i] : ``}</span>
-				<span class='letterPoints'>${bank[i] ? letterScores[bank[i]] : ``}</span>
-			</div>`
+			`
+				<button class='letter' data-bankindex='${i}' aria-pressed='false'>
+					<span class='letterLetter'>${bank[i] ? bank[i] : ``}</span>
+					<span class='letterPoints'>${bank[i] ? letterScores[bank[i]] : ``}</span>
+				</button>
+			`
 		);
 	}
 
 	$letterBank.children('.letter').on('click', function() {
-		$(this).toggleClass('exchange');
-		let exchangeLetters = $letterBank.children('.exchange');
+		this.ariaPressed = this.ariaPressed === 'true' ? 'false' : 'true';
+		let exchangeLetters = $letterBank.children('[aria-pressed=true]');
 		$('#letterExchangeButton').text(`${exchangeLetters.length > 0 ? `Exchange ${exchangeLetters.length >= 7 ? `All` : exchangeLetters.length} Letter${exchangeLetters.length === 1 ? `` : `s`} and ` : ``}Skip Turn`)
 	});
 
@@ -1118,7 +1096,7 @@ function exchangeLetters() {
 
 function skipTurn() {
 	let letterExchangeIndicies = [];
-	let letterExchanges = $('#letterExchangeBank').children('.exchange').each(function() {
+	let letterExchanges = $('#letterExchangeBank').children('[aria-pressed=true]').each(function() {
 		letterExchangeIndicies.push($(this).attr('data-bankindex'));
 	});
 

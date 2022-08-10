@@ -36,18 +36,53 @@
 
 			<div id="gameControlsCell" class="gridCell">
 				<div class="contentControls">
-					<span class="material-icons iconButton" onclick="showTab('account')">
-						chevron_left
-					</span>
-					<span class="material-icons iconButton" id="reloadGameButton" onclick="reloadGame()">
-						sync
-					</span>
+					<button class="iconButton" id="backToGamesListButton" onclick="showTab('account')">
+						<span class="material-icons">
+							chevron_left
+						</span>
+					</button>
+					<button class="iconButton" id="reloadGameButton" onclick="reloadGame()">
+						<span class="material-icons">
+							sync
+						</span>
+					</button>
+					<button class="iconButton" id="showChatButton" onclick="showTab('chat')">
+						<span class="material-icons">
+							chat
+						</span>
+					</button>
 				</div>
 				<div class="gameInfoBox"></div>
 				<div class="gameControlButtons">
-					<button class="highlight" onclick="makeMove()">Move</button>
-					<button onclick="exchangeLetters()">Skip Turn</button>
-					<button onclick="endGame()">End Game</button>
+					<button class="highlight" id="makeMoveButton" onclick="makeMove()">Move</button>
+					<button id="skipTurnButton" onclick="exchangeLetters()">Skip Turn</button>
+					<button id="endGameButton" onclick="endGame()">End Game</button>
+				</div>
+			</div>
+
+			<div id="chatCell" class="gridCell">
+				<div class="chatTitleLine">
+					<button class="iconButton backButton" onclick="showTab('game')">
+						<span class="material-icons">
+							chevron_left
+						</span>
+					</button>
+					<h3 class="chatTitle">
+						Game Chat
+					</h3>
+				</div>
+				<div class="chatContent">
+					<div class="chatMessage">
+						<div class="chatMessageLine1">
+							<div class="chatMessageSender">Colebot</div>
+							<div class="chatMessageTimestamp">10:29</div>
+						</div>
+						<div class="chatMessageText">I'm crushing you!</div>
+					</div>
+				</div>
+				<div class="chatControls">
+					<input name="chatInput" id="chatInput" class="chatInput" placeholder="Send a message..." onkeypress="if (event.key === 'Enter') {sendChatMessage()}">
+					<button class="chatSendButton" onclick="sendChatMessage()">Send</button>
 				</div>
 			</div>
 
@@ -91,9 +126,13 @@
 
 			<div id="gamesCell" class="gridCell">
 				<div class="gamesListBox" id="activeGames">
-					<span class="material-icons iconButton tabNavButton" id="gamesListRefreshButton" onclick="loadGamesList()">sync</span>
+					<button class="iconButton tabNavButton" id="gamesListRefreshButton" onclick="loadGamesList()">
+						<span class="material-icons">sync</span>
+					</button>
 					<h1 class="inline">Active Games</h1>
-					<span class="material-icons iconButton tabNavButton" id="activeGamesButton" onclick="setGamesList('inactive')">chevron_right</span>
+					<button class="iconButton tabNavButton" id="gamesListRefreshButton" onclick="setGamesList('inactive')">
+						<span class="material-icons">chevron_right</span>
+					</button>
 					<br>
 					<span id="activeGamesListMessage">Please create an account or sign in.</span>
 					<div class="gamesListWrapper">
@@ -101,7 +140,9 @@
 					</div>
 				</div>
 				<div class="gamesListBox hidden" id="inactiveGames">
-					<span class="material-icons iconButton tabNavButton" id="activeGamesButton" onclick="setGamesList('active')">chevron_left</span>
+					<button class="iconButton tabNavButton" id="activeGamesButton" onclick="setGamesList('active')">
+						<span class="material-icons">chevron_left</span>
+					</button>
 					<h1 class="inline">Inactive Games</h1>
 					<br>
 					<span id="inactiveGamesListMessage">Please create an account or sign in.</span>
@@ -112,7 +153,9 @@
 			</div>
 		</div>
 		<div class="modal hidden" id="createGameModal">
-			<span class="material-icons iconButton modalCloseButton" onclick="$('#createGameModal').modalClose()">close</span>
+			<button class="iconButton modalCloseButton" onclick="$('#createGameModal').modalClose()">
+				<span class="material-icons">close</span>
+			</button>
 			<h2 id="createGameModalTitle">Create Game</h2>
 			<h4 id="createGamePlayerListTitle" class="smallHeading">Players</h4>
 			<div id="createGamePlayerList"></div>
@@ -121,14 +164,18 @@
 			<button id="createGameModalCreateGameButton" onclick="createGame()">Create Game</button>
 		</div>
 		<div class="modal hidden" id="letterExchangeModal">
-			<span class="material-icons iconButton modalCloseButton" onclick="$('#letterExchangeModal').modalClose()">close</span>
+			<button class="iconButton modalCloseButton" onclick="$('#letterExchangeModal').modalClose()">
+				<span class="material-icons">close</span>
+			</button>
 			<h2>Choose letters to exchange</h2>
 			<div class="letterBank" id="letterExchangeBank"></div>
 			<br>
 			<button id="letterExchangeButton" onclick="skipTurn()">Skip Turn</button>
 		</div>
 		<div class="modal hidden" id="textModal">
-			<span class="material-icons iconButton modalCloseButton" onclick="$('#textModal').modalClose()">close</span>
+			<button class="iconButton modalCloseButton" onclick="$('#textModal').modalClose()">
+				<span class="material-icons">close</span>
+			</button>
 			<h3 id="textModalTitle"></h3>
 			<div id="textModalText"></div>
 			<div id="textModalButtonHolder">
@@ -142,7 +189,9 @@
 			<div class="placeholder"></div>
 		</div>
 		<div class="popup hidden" id="wordLookupPopup">
-			<span class="material-icons iconButton modalCloseButton" onclick="$('#wordLookupPopup').popupClose()">close</span>
+			<button class="iconButton modalCloseButton" onclick="$('#wordLookupPopup').popupClose()">
+				<span class="material-icons">close</span>
+			</button>
 			<div class="wordLookupResults">
 			</div>
 		</div>
@@ -152,6 +201,7 @@
 	<script type="text/javascript" src="canvas.js" defer></script>
 	<script type="text/javascript" src="modals.js" defer></script>
 	<script type="text/javascript" src="accounts.js" defer></script>
+	<script type="text/javascript" src="chat.js" defer></script>
 	<script type="text/javascript" src="animate.js" defer></script>
 	<script type="text/javascript" src="pullToRefresh.min.js" defer></script>
 	<script type="text/javascript" src="script.js" defer></script>
