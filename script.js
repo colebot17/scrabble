@@ -178,8 +178,8 @@ function updateGamesList() {
 							<span class="listGameName">
 								${gamesArray[i].name || `#${gamesArray[i].id}`}
 							</span>
-							<button class="iconButton smallIcon" onclick="renameGame(${gamesArray[i].id})">
-								<span class="material-icons">
+							<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
+								<span class="material-icons smallIcon">
 									drive_file_rename_outline
 								</span>
 							</button>
@@ -218,8 +218,8 @@ function updateGamesList() {
 							<span class="listGameName">
 								${gamesArray[i].name || `#${gamesArray[i].id}`}
 							</span>
-							<button class="iconButton smallIcon" onclick="renameGame(${gamesArray[i].id})">
-								<span class="material-icons">
+							<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
+								<span class="material-icons smallIcon">
 									drive_file_rename_outline
 								</span>
 							</button>
@@ -934,8 +934,8 @@ function gameInit() {
 			<span class="gameName">
 				${game.name || `#${game.id}`}
 			</span>
-			<button class="iconButton smallIcon" onclick="renameGame(${game.id})">
-				<span class="material-icons">
+			<button class="iconButton" onclick="renameGame(${game.id})">
+				<span class="material-icons smallIcon">
 					drive_file_rename_outline
 				</span>
 			</button>
