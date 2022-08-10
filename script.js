@@ -442,11 +442,13 @@ function createGame(playerList = JSON.parse(document.getElementById('createGameP
 function loadGame(id = prompt("Enter the id of the game you want to load:"), expand = false) {
 	if (id) {
 		if (expand) { // expanding animation of the play button
-		let expandEl = $('#listGame' + id + ' .openGameButton');
+			let expandEl = $('#listGame' + id + ' .openGameButton');
+
 			// position the element
-			let offset = expandEl.offset();
-			let top = offset.top;
-			let left = offset.left;
+			const offset = expandEl.offset();
+			const top = offset.top;
+			const left = offset.left + (expandEl.width() / 2) - 50;
+
 			let clone = expandEl.clone().attr('onclick','').css({
 				'position': 'fixed',
 				'top': top + 'px',
