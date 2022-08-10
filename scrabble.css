@@ -117,17 +117,25 @@ body.scrabble {
     font-family: 'Eurostile';
     background-color: #a47449cc; /* tile brown but transparent */
     color: #f2f5ff; /* tile text color */
+	border: none;
     border-radius: 5px;
     cursor: pointer;
 
+	position: relative;
+
     transition: transform 0.37s cubic-bezier(0, 1, 0.5, 1);
 }
-.letter.exchange {
+.letter[aria-pressed=true] {
 	background-color: #a47449; /* tile brown */
 	transform: scale(1.05);
 }
 .letterLetter {
     font-size: 50px;
+}
+.letterPoints {
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
 }
 
 /* account forms */

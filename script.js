@@ -1097,15 +1097,17 @@ function exchangeLetters() {
 	let bank = game.players[parseInt(game.turn) % game.players.length].letterBank;
 	for (let i in bank) {
 		$letterBank.append(
-			`<div class='letter' data-bankindex='${i}'>
-				<span class='letterLetter'>${bank[i] ? bank[i] : ``}</span>
-				<span class='letterPoints'>${bank[i] ? letterScores[bank[i]] : ``}</span>
-			</div>`
+			`
+				<button class='letter' data-bankindex='${i}' aria-pressed='false'>
+					<span class='letterLetter'>${bank[i] ? bank[i] : ``}</span>
+					<span class='letterPoints'>${bank[i] ? letterScores[bank[i]] : ``}</span>
+				</button>
+			`
 		);
 	}
 
 	$letterBank.children('.letter').on('click', function() {
-		$(this).toggleClass('exchange');
+		$(this).attr('aria-pressed', (_, attr) => attr == true ? false : true));
 		let exchangeLetters = $letterBank.children('.exchange');
 		$('#letterExchangeButton').text(`${exchangeLetters.length > 0 ? `Exchange ${exchangeLetters.length >= 7 ? `All` : exchangeLetters.length} Letter${exchangeLetters.length === 1 ? `` : `s`} and ` : ``}Skip Turn`)
 	});
