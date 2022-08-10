@@ -112,6 +112,7 @@ body.scrabble {
     user-select: none;
 }
 .letter {
+	margin: 0;
     width: 55px;
     height: 55px;
     font-family: 'Eurostile';
@@ -120,6 +121,9 @@ body.scrabble {
 	border: none;
     border-radius: 5px;
     cursor: pointer;
+
+	line-height: 55px;
+	text-align: center;
 
 	position: relative;
 

@@ -1108,7 +1108,7 @@ function exchangeLetters() {
 
 	$letterBank.children('.letter').on('click', function() {
 		$(this).attr('aria-pressed', (_, attr) => attr == true ? false : true);
-		let exchangeLetters = $letterBank.children('.exchange');
+		let exchangeLetters = $letterBank.children('[aria-pressed=true]');
 		$('#letterExchangeButton').text(`${exchangeLetters.length > 0 ? `Exchange ${exchangeLetters.length >= 7 ? `All` : exchangeLetters.length} Letter${exchangeLetters.length === 1 ? `` : `s`} and ` : ``}Skip Turn`)
 	});
 
@@ -1117,7 +1117,7 @@ function exchangeLetters() {
 
 function skipTurn() {
 	let letterExchangeIndicies = [];
-	let letterExchanges = $('#letterExchangeBank').children('.exchange').each(function() {
+	let letterExchanges = $('#letterExchangeBank').children('[aria-pressed=true]').each(function() {
 		letterExchangeIndicies.push($(this).attr('data-bankindex'));
 	});
 
