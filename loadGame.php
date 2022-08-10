@@ -26,6 +26,11 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	$query = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($query);
 
+	$name = $row['name'];
+	$turn = (int)$row['turn'];
+	$inactive = ((int)$row['inactive'] === 1 ? true : false);
+	$board = json_decode($row['board'], true);
+
 	// remove the letter bank from all players other than the current user - no cheating!
 	$players = json_decode($row['players'], true);
 	for ($i=0; $i < count($players); $i++) { 
@@ -55,11 +60,11 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	// put it all together
 	$obj = Array(
 		"id" => $gameId,
-		"name"=> $row['name'],
+		"name"=> $name,
 		"players" => $players,
-		"turn" => (int)$row['turn'],
-		"inactive" => ((int)$row['inactive'] === 1 ? true : false),
-		"board" => json_decode($row['board'], true),
+		"turn" => $turn,
+		"inactive" => $inactive,
+		"board" => $board,
 		"chat" => $chat
 	);
 	echo json_encode($obj);
