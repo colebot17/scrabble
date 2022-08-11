@@ -186,6 +186,8 @@ function textModal() {
 		if (arguments[2]) {
 			cancelable = true;
 			complete = arguments[3] || function() {};
+		} else {
+			complete = arguments[2] || function() {};
 		}
 	} else { // zero or fewer arguments
 		title = "Alert!";
