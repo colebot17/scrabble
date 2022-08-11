@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 }
 
 // validate name and password
-$nameValid = strlen($name) >= 3; // name must be at least three characters
+$nameValid = strlen($name) >= 2; // name must be at least two characters
 $pwdValid = strlen($pwd) >= 8; // pwd must be at least eight characters
 
 if ($nameValid && $pwdValid) {
