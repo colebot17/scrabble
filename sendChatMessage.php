@@ -51,6 +51,7 @@ $chatJson = json_encode($chat);
 
 // escape content for SQL
 $chat = str_replace("'", "\'", $chat);
+$chat = str_replace('"', '\"', $chat);
 $chat = str_replace('`', '\`', $chat);
 $chat = str_replace('_', '\_', $chat);
 $chat = str_replace('%', '\%', $chat);
