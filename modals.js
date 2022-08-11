@@ -66,6 +66,8 @@ function updateModalSizes() {
 		const width = Math.min(prefWidth, window.innerWidth - 20);
 		const height = Math.min(Math.max(prefHeight, actualHeight), window.innerHeight - 20);
 
+		console.log(width, height);
+
 		modal.css({
 			'width': width + 'px',
 			'height': height + 'px',
