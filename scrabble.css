@@ -434,6 +434,10 @@ input#chatInput {
 		display: flex;
 		grid-column: 1;
 		grid-row: 2;
+		overflow: auto;
+		resize: horizontal;
+		min-width: min-content;
+		max-width: 500px;
 	}
 	#scrabbleGrid[data-tab=game] #gameControlsCell, #scrabbleGrid[data-tab=chat] #gameControlsCell {
 		display: flex;
