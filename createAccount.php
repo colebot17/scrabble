@@ -23,15 +23,18 @@ $nameValid = strlen($name) >= 2; // name must be at least two characters
 $pwdValid = strlen($pwd) >= 8; // pwd must be at least eight characters
 
 // require a valid name and password
-if (!$nameValid || !$pwdValid) {
-	exit('0');
+if (!$nameValid) {
+	exit('{"errorLevel":1,"message":"Username must consist of at least two characters."}');
+}
+if (!pwdValid) {
+	exit('{"errorLevel":1,"message":"Password must consist of at least eight characters."}');
 }
 
-// make sure username is unique
+// make sure username isn't taken
 $sql = "SELECT id FROM accounts WHERE name='$name'";
 $query = mysqli_query($conn, $sql);
 if (mysqli_fetch_assoc($query)) {
-	exit('0');
+	exit('{"errorLevel":1,"message":"This username is already taken."}');
 }
 
 // escape the username
@@ -44,7 +47,7 @@ $hash = password_hash($pwd, PASSWORD_DEFAULT);
 // create the account
 $sql = "INSERT INTO accounts(name, pwd, games) VALUES ('$name', '$hash', '[]');";
 $query = mysqli_query($conn, $sql);
-echo $name;
+echo '{"errorLevel":0,"message":"Account created successfully."}';
 
 // close the connection
 $conn->close();

@@ -21,7 +21,7 @@ $sql = "SELECT pwd FROM accounts WHERE name='$name'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 if (!password_verify($pwd, $row['pwd'])) {
-	exit('0');
+	exit('{"errorLevel":1,"message":"Incorrect username or password."}');
 }
 
 $obj = Array();
@@ -70,7 +70,14 @@ for ($i = 0; $i < count($games); $i++) {
 
 $obj['games'] = json_encode($newGames);
 
-echo json_encode($obj);
+
+$returnArr = Array(
+	"errorLevel" => 0,
+	"message" => "Sign-in successful.",
+	"data" => $obj
+);
+
+echo json_encode($returnArr);
 
 // close the connection
 $conn->close();
