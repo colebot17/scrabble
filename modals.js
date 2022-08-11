@@ -196,9 +196,9 @@ function textModal() {
 	$('#textModalTitle').html(title);
 	$('#textModalText').html(text).css('order', (!title ? '-1' : ''));
 	if (cancelable) {
-		$('.textModalButton').removeClass('hidden');
+		$('#textModalCancelButton').removeClass('hidden');
 	} else {
-		$('.textModalButton').addClass('hidden');
+		$('#textModalCancelButton').addClass('hidden');
 	}
 	$('#textModalOkButton').off().on('click', function() {
 		$('#textModal').modalClose();

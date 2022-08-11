@@ -173,13 +173,10 @@
 			<button id="letterExchangeButton" onclick="skipTurn()">Skip Turn</button>
 		</div>
 		<div class="modal hidden" id="textModal">
-			<button class="iconButton modalCloseButton" onclick="$('#textModal').modalClose()">
-				<span class="material-icons">close</span>
-			</button>
 			<h3 id="textModalTitle"></h3>
 			<div id="textModalText"></div>
 			<div id="textModalButtonHolder">
-				<button class="textModalButton" onclick="$('#textModal').modalClose()">Cancel</button>
+				<button class="textModalButton hidden" id="textModalCancelButton" onclick="$('#textModal').modalClose()">Cancel</button>
 				<button class="textModalButton highlight" id="textModalOkButton">OK</button>
 			</div>
 		</div>
