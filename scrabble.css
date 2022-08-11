@@ -219,6 +219,11 @@ body.scrabble {
 #textModal #textModalTitle {
 	margin: 0;
 }
+#textModal #textModalButtonHolder {
+	display: flex;
+	justify-content: stretch;
+	align-items: center;
+}
 
 /* letter picker */
 #chooseLetterModal {
