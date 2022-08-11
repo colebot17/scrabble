@@ -224,6 +224,9 @@ body.scrabble {
 	justify-content: stretch;
 	align-items: center;
 }
+#textModal #textModalButtonHolder button {
+	flex-grow: 1;
+}
 
 /* letter picker */
 #chooseLetterModal {
