@@ -215,6 +215,8 @@ body.scrabble {
 	flex-direction: column;
 	justify-content: center;
 	gap: 10px;
+
+	padding: 10px 20px;
 }
 #textModal #textModalTitle {
 	margin: 0;

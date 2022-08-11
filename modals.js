@@ -58,7 +58,7 @@ function updateModalSizes() {
 	for (let i in visibleModals) {
 		const modal = $('#' + visibleModals[i]);
 
-		modal.css('height', '');
+		modal[0].style.height = "";
 
 		const prefWidth = modals[visibleModals[i]].width;
 		const prefHeight = modals[visibleModals[i]].height;
