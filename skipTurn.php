@@ -87,7 +87,7 @@ for ($i=0; $i < count($redrawLetters); $i++) { // for each letter to be redrawn
 
 	// remove drawn letter from bag and long bag
 	$letterBag[$letter]--;
-	unset($longBag[$rand]);
+	array_splice($longBag, $rand, 1);
 	$longBag = array_values($longBag); // un-associate
 
 	// return the old letter to the letter bag
