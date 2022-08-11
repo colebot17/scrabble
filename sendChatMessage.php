@@ -52,9 +52,6 @@ $chatJson = json_encode($chat);
 // escape content for SQL
 $chatJson = str_replace("'", "\'", $chatJson);
 $chatJson = str_replace('"', '\"', $chatJson);
-$chatJson = str_replace('`', '\`', $chatJson);
-$chatJson = str_replace('_', '\_', $chatJson);
-$chatJson = str_replace('%', '\%', $chatJson);
 
 // reupload the chat
 $sql = "UPDATE games SET chat='$chatJson' WHERE id='$gameId'";
