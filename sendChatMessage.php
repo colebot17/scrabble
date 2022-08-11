@@ -58,7 +58,7 @@ $chatJson = str_replace('%', '\%', $chatJson);
 
 // reupload the chat
 $sql = "UPDATE games SET chat='$chatJson' WHERE id='$gameId'";
-//$query = mysqli_query($conn, $sql);
+$query = mysqli_query($conn, $sql);
 if ($query) {
     echo '{"errorLevel":0,"message":"Message Sent."}';
 } else {
