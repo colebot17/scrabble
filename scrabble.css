@@ -427,7 +427,7 @@ input#chatInput {
 
 	/* game tab */
 	#scrabbleGrid[data-tab=game], #scrabbleGrid[data-tab=chat] {
-		grid-template-columns: minmax(min-content, max-content) 1fr;
+		grid-template-columns: minmax(min-content, 25%) 1fr;
 		grid-template-rows: 50% 50%;
 	}
 	#scrabbleGrid[data-tab=game] #chatCell, #scrabbleGrid[data-tab=chat] #chatCell {
