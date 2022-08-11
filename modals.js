@@ -89,10 +89,12 @@ jQuery.fn.extend({
 		}
 
 		// show the modal
-		return el.removeClass('hidden');
+		el.removeClass('hidden');
 		
 		// update the position of the modal
 		updateModalSizes();
+		
+		return el;
 	},
 	modalClose: function() {
 		// update the escape stack
