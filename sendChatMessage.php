@@ -26,8 +26,7 @@ if (!password_verify($pwd, $row['pwd'])) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
-// escape content for JSON
-$message = str_replace('"', '\"', $message);
+// trim the message
 $message = trim($message);
 
 // formulate the new chat message
