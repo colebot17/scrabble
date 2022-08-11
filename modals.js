@@ -59,10 +59,10 @@ function updateModalSizes() {
 		const modal = $('#' + visibleModals[i]);
 
 		modal.css({
-			"top": "0",
-			"left": "0",
-			"opacity": "0%",
-			"height": ""
+			'top': '0',
+			'left': '0',
+			'opacity': '0%',
+			'height': ''
 		});
 
 		const prefWidth = modals[visibleModals[i]].width;
@@ -77,7 +77,8 @@ function updateModalSizes() {
 			'width': width + 'px',
 			'height': height + 'px',
 			'top': (((window.innerHeight - height) / 2) - 10) + 'px',
-			'left': (((window.innerWidth - width) / 2) - 10) + 'px'
+			'left': (((window.innerWidth - width) / 2) - 10) + 'px',
+			'opacity': ''
 		});
 	}
 }
