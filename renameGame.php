@@ -41,9 +41,6 @@ $name = trim($name);
 
 // escape user input for SQL
 $uploadName = str_replace("'", "\'", $name);
-$uploadName = str_replace('`', '\`', $uploadName);
-$uploadName = str_replace('_', '\_', $uploadName);
-$uploadName = str_replace('%', '\%', $uploadName);
 
 // set the name
 $sql = "UPDATE games SET name='$uploadName' WHERE id='$game'";
