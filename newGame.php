@@ -57,7 +57,7 @@ if (password_verify($userPwd, $row['pwd'])) {
 			$rand = random_int(0, count($longBag) - 1);
 			$newLetter = $longBag[$rand];
 
-			array_splice($longBag, $rand); // remove the letter from the long bag
+			array_splice($longBag, $rand, 1); // remove the letter from the long bag
 			$letterBag[$newLetter]--; // remove the letter from the short bag
 
 			array_push($players[$shuffledPlayers[$j]]["letterBank"], $newLetter); // add the letter to the player bank
