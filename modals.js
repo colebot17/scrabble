@@ -4,7 +4,7 @@ const modals = {
 		height: 500
 	},
 	letterExchangeModal: {
-		width: 0,
+		width: 750,
 		height: 0
 	},
 	textModal: {
