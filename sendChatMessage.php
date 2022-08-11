@@ -30,6 +30,8 @@ if (!password_verify($pwd, $row['pwd'])) {
 $message = str_replace('"', '\"', $message);
 $message = trim($message);
 
+print_r($message);
+
 // formulate the new chat message
 $fullMessage = Array(
     "sender" => $user,
@@ -56,13 +58,15 @@ $chat = str_replace('`', '\`', $chat);
 $chat = str_replace('_', '\_', $chat);
 $chat = str_replace('%', '\%', $chat);
 
+print_r($chat);
+
 // reupload the chat
 $sql = "UPDATE games SET chat='$chatJson' WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
+//$query = mysqli_query($conn, $sql);
 if ($query) {
     echo '{"errorLevel":0,"message":"Message Sent."}';
 } else {
-    echo '{"errorLevel":1,"message":"Could not send message."}';
+    echo '{"errorLevel":0,"message":"Could not send message."}';
 }
 
 mysqli_close($conn);
