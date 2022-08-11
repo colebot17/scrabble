@@ -58,19 +58,20 @@ function updateModalSizes() {
 	for (let i in visibleModals) {
 		const modal = $('#' + visibleModals[i]);
 
-		modal.css({
-			'top': '0',
-			'left': '0',
-			'opacity': '0%',
-			'height': ''
-		});
-
 		const prefWidth = modals[visibleModals[i]].width;
 		const prefHeight = modals[visibleModals[i]].height;
 
-		const actualHeight = modal.height();
-
 		const width = Math.min(prefWidth, window.innerWidth - 20);
+
+		modal.css({
+			'top': '0',
+			'left': '0',
+			'height': 'auto',
+			'width': width + 'px',
+			'opacity': '0'
+		});
+
+		const actualHeight = modal.height();
 		const height = Math.min(Math.max(prefHeight, actualHeight), window.innerHeight - 20);
 
 		modal.css({
