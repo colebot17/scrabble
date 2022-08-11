@@ -448,17 +448,33 @@ input#chatInput {
 		display: none;
 	}
 
-	/* account tab */
-	#scrabbleGrid[data-tab=account] {
+	/* signed in account tab */
+	#scrabbleGrid[data-tab=account][data-signedin=true] {
 		grid-template-columns: minmax(min-content, max-content) 1fr;
 		grid-template-rows: 100%;
 	}
-	#scrabbleGrid[data-tab=account] #signInCell {
+	#scrabbleGrid[data-tab=account][data-signedin=true] #signInCell {
 		display: unset;
 		grid-column: 1;
 		grid-row: 1;
 	}
-	#scrabbleGrid[data-tab=account] #gamesCell {
+	#scrabbleGrid[data-tab=account][data-signedin=true] #gamesCell {
+		display: unset;
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	/* signed out account tab */
+	#scrabbleGrid[data-tab=account][data-signedin=false] {
+		grid-template-columns: 50% 50%;
+		grid-template-rows: 100%;
+	}
+	#scrabbleGrid[data-tab=account][data-signedin=false] #welcomeCell {
+		display: unset;
+		grid-column: 1;
+		grid-row: 1;
+	}
+	#scrabbleGrid[data-tab=account][data-signedin=false] #signInCell {
 		display: unset;
 		grid-column: 2;
 		grid-row: 1;
