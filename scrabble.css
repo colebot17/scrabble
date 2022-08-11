@@ -220,7 +220,7 @@ body.scrabble {
 	margin: 0;
 }
 #letterExchangeModal #letterExchangeButton {
-	width: 100%;
+	width: calc(100% - 20px);
 }
 
 /* text modal */
