@@ -206,6 +206,10 @@ body.scrabble {
 #createGamePlayerList .createGamePlayer {
 	width: 100%;
 	padding: 5px 0px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 #createGameModal .addPlayerRow {
 	display: flex;

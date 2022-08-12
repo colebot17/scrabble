@@ -361,14 +361,35 @@ function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
 	);
 }
 
-function updateNewGamePlayerList() {
-	var newGamePlayerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players);
-	document.getElementById('createGamePlayerList').innerHTML = "";
+function removePlayerFromNewGame(id) {
+	let newGamePlayerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players);
 	for (let i in newGamePlayerList) {
-		let playerEl = document.createElement("div");
-		playerEl.className = "createGamePlayer";
-		playerEl.innerHTML = (newGamePlayerList[i].id == account.id ? "<b>" : "") + newGamePlayerList[i].name + (newGamePlayerList[i].id == account.id ? "</b>" : "");
-		document.getElementById('createGamePlayerList').append(playerEl);
+		if (newGamePlayerList[i].id === id) {
+			newGamePlayerList.splice(i, 1);
+			document.getElementById('createGamePlayerList').dataset.players = JSON.stringify(newGamePlayerList);
+			updateNewGamePlayerList();
+			return;
+		}
+	}
+}
+
+function updateNewGamePlayerList() {
+	const newGamePlayerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players);
+
+	const playerList = $('#createGamePlayerList').empty();
+
+	let playerListContent = ``;
+	for (let i in newGamePlayerList) {
+		playerListContent += `
+			<div class="createGamePlayer">
+				${newGamePlayerList[i].name}
+				<button class="iconButton" onclick="removePlayerFromNewGame(${newGamePlayerList[i].id})">
+					<span class="material-icons smallIcon">
+						remove
+					</span>
+				</button>
+			</div>
+		`;
 	}
 }
 
@@ -387,7 +408,7 @@ function newGame() {
 		// assign the enter key on the player input field to add the player
 		$('#createGamePlayerInput').on('keypress', function(e) {
 			if (e.key === 'Enter') {
-				if ($(this).val() === "") {
+				if (!$(this).val().trim()) {
 					createGame();
 				} else {
 					addPlayerToNewGame();
