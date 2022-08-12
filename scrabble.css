@@ -214,13 +214,19 @@ body.scrabble {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	align-items: center;
 	gap: 10px;
 }
 #letterExchangeModal h2 {
 	margin: 0;
 }
-#letterExchangeModal #letterExchangeButton {
-	width: calc(100% - 10px);
+#letterExchangeModal .letterExchangeButtons {
+	display: flex;
+	justify-content: stretch;
+	align-items: center;
+}
+#letterExchangeModal .letterExchangeButtons button {
+	flex-grow: 1;
 }
 
 /* text modal */
