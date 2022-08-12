@@ -1145,6 +1145,11 @@ function moveBankLetter(from, to) {
 					letter.hidden = false;
 					canvas.bank.splice(from, 1);
 					canvas.bank.splice(++to, 0, letter);
+
+					// reset the canvas bank bank indexes
+					for (let i in canvas.bank) {
+						canvas.bank[i].bankIndex = i;
+					}
 				} else if (jsonData.errorLevel === 1) {
 					// don't move but don't say anything
 					let letter = canvas.bank[from];
