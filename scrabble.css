@@ -190,10 +190,10 @@ body.scrabble {
 	margin: 0;
 }
 #createGamePlayerList {
-	border: 1px solid black;
 	margin: 5px;
 	border-radius: 5px;
 	flex-grow: 1;
+	box-shadow: 0 0 5px #00000066;
 }
 #createGamePlayerList .createGamePlayer {
 	width: 100%;
