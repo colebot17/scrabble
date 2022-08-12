@@ -183,7 +183,10 @@ body.scrabble {
 	justify-content: stretch;
 	align-items: stretch;
 }
-#createGameModal h2, #createGameModal h3 {
+#createGameModal h2 {
+	margin: 0 0 10px 0;
+}
+#createGameModal h3 {
 	margin: 0;
 }
 #createGamePlayerList {
