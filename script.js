@@ -1109,8 +1109,8 @@ function makeMove() {
 }
 
 function moveBankLetter(from, to) {
-	if (from < to) {
-		to--;
+	if (from > to) {
+		to++;
 	}
 	$.ajax(
 		'moveBankLetter.php',
