@@ -1123,7 +1123,7 @@ function moveBankLetter(from, to) {
 				to
 			},
 			method: "POST",
-			success: function() {
+			success: function(data) {
 				const jsonData = JSON.parse(data);
 				if (jsonData.errorLevel <= 0) {
 					// move the letter on the client side
