@@ -960,7 +960,8 @@ function gameInit() {
 			for (let i in dropZones) {
 				// if the user dropped into this zone
 				if ((x > dropZones[i].start.x && x < dropZones[i].end.x) && (y > dropZones[i].start.y && y < dropZones[i].end.y)) {
-					alert("YOU DROPPED INTO MY ZONE " + i);
+					// move the tile after dropZones[i].bankIndex
+					moveBankLetter(dragged.bankIndex, dropZones[i].bankIndex);
 				}
 			}
 
@@ -1105,6 +1106,58 @@ function makeMove() {
 			}
 		}
 	);
+}
+
+function moveBankLetter(from, to) {
+	if (from < to) {
+		to--;
+	}
+	$.ajax(
+		'moveBankLetter.php',
+		{
+			data: {
+				user: account.id,
+				pwd: account.pwd,
+				game: game.id,
+				from,
+				to
+			},
+			method: "POST",
+			success: function() {
+				const jsonData = JSON.parse(data);
+				if (jsonData.errorLevel <= 0) {
+					// move the letter on the client side
+					let currentPlayerIndex;
+					for (let i in game.players) {
+						if (game.players[i].id === account.id) {
+							currentPlayerIndex = i;
+						}
+					}
+					let letterBank = game.players[currentPlayerIndex].letterBank;
+					
+					// move the letter in the letter bank
+					let letter = letterBank[from];
+					letterBank.splice(from, 1);
+					letterBank.splice(++to, 0, letter);
+
+					// move the letter in the canvas bank
+					letter = canvas.bank[from];
+					letter.hidden = false;
+					canvas.bank.splice(from, 1);
+					canvas.bank.splice(++to, 0, letter);
+				} else if (jsonData.errorLevel === 1) {
+					// don't move but don't say anything
+					let letter = canvas.bank[from];
+					letter.hidden = false;
+				} else {
+					// don't move and show an alert
+					let letter = canvas.bank[from];
+					letter.hidden = false;
+					textModal("Error", jsonData.message);
+				}
+			}
+		}
+	)
 }
 
 function exchangeLetters() {
