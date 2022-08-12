@@ -391,13 +391,13 @@ function updateNewGamePlayerList() {
 		playerListContent += `
 			<div class="createGamePlayer">
 				${newGamePlayerList[i].name}
-				<button class="iconButton" onclick="removePlayerFromNewGame(${newGamePlayerList[i].id})">
-					${newGamePlayerList[i].id === account.id ? `` : `
+				${newGamePlayerList[i].id === account.id ? `` : `
+					<button class="iconButton" onclick="removePlayerFromNewGame(${newGamePlayerList[i].id})">
 						<span class="material-icons smallIcon">
 							remove
 						</span>
-					`}
-				</button>
+					</button>
+				`}
 			</div>
 		`;
 	}
