@@ -362,6 +362,12 @@ function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
 }
 
 function removePlayerFromNewGame(id) {
+	// prevent removal of current player
+	if (id === account.id) {
+		textModal("Error", "You cannot remove yourself from a new game.");
+		return;
+	}
+
 	let newGamePlayerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players);
 	for (let i in newGamePlayerList) {
 		if (newGamePlayerList[i].id === id) {
@@ -384,9 +390,11 @@ function updateNewGamePlayerList() {
 			<div class="createGamePlayer">
 				${newGamePlayerList[i].name}
 				<button class="iconButton" onclick="removePlayerFromNewGame(${newGamePlayerList[i].id})">
-					<span class="material-icons smallIcon">
-						remove
-					</span>
+					${newGamePlayerList[i].id === account.id ? `` : `
+						<span class="material-icons smallIcon">
+							remove
+						</span>
+					`}
 				</button>
 			</div>
 		`;
