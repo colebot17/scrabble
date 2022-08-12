@@ -194,7 +194,8 @@ body.scrabble {
 	margin: 5px;
 	border-radius: 5px;
 	flex-grow: 1;
-	box-shadow: 0 0 5px #00000066;
+	background-color: var(--aero);
+	box-shadow: 0 0 5px #00000066 inset;
 
 	display: flex;
 	flex-direction: column;
