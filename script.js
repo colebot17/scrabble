@@ -944,7 +944,7 @@ function gameInit() {
 			// calculate the drop zones for the letter bank
 			let dropZones = [];
 			for (let i in canvas.bank.slice(0, -1)) {
-				dropZones.append({
+				dropZones.push({
 					start: {
 						x: canvas.bank[i].position.x + canvas.bankTileWidth - (canvas.bankTileWidth / 5),
 						y: canvas.bank[i].position.y - (canvas.bankTileWidth / 5)
