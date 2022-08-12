@@ -188,9 +188,6 @@ body.scrabble {
 	margin: 0;
 }
 #createGamePlayerList {
-	background-color: var(--aero);
-	box-shadow: 0 0 5px #00000066 inset;
-	border-radius: 5px;
 	flex-grow: 1;
 }
 #createGamePlayerList .createGamePlayer {
