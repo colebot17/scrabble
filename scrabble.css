@@ -188,6 +188,7 @@ body.scrabble {
 }
 #createGameModal h3 {
 	margin: 0;
+	font-weight: normal;
 }
 #createGamePlayerList {
 	margin: 5px;
