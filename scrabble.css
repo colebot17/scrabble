@@ -224,6 +224,7 @@ body.scrabble {
 	display: flex;
 	justify-content: stretch;
 	align-items: center;
+	width: 100%;
 }
 #letterExchangeModal .letterExchangeButtons button {
 	flex-grow: 1;
