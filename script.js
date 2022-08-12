@@ -343,7 +343,7 @@ function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
 						}
 					}
 					newGamePlayerList.push({ // store the returned name and id in the list
-						id: jsonData.value.id,
+						id: parseInt(jsonData.value.id),
 						name: jsonData.value.name
 					});
 				
@@ -361,15 +361,48 @@ function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
 	);
 }
 
-function updateNewGamePlayerList() {
-	var newGamePlayerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players);
-	document.getElementById('createGamePlayerList').innerHTML = "";
-	for (let i in newGamePlayerList) {
-		let playerEl = document.createElement("div");
-		playerEl.className = "createGamePlayer";
-		playerEl.innerHTML = (newGamePlayerList[i].id == account.id ? "<b>" : "") + newGamePlayerList[i].name + (newGamePlayerList[i].id == account.id ? "</b>" : "");
-		document.getElementById('createGamePlayerList').append(playerEl);
+function removePlayerFromNewGame(id) {
+	// prevent removal of current player
+	if (id === account.id) {
+		textModal("Error", "You cannot remove yourself from a new game.");
+		return;
 	}
+
+	let newGamePlayerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players);
+	for (let i in newGamePlayerList) {
+		if (newGamePlayerList[i].id === id) {
+			newGamePlayerList.splice(i, 1);
+			document.getElementById('createGamePlayerList').dataset.players = JSON.stringify(newGamePlayerList);
+			updateNewGamePlayerList();
+			return;
+		}
+	}
+
+	textModal("Unexpected Error", "For an unknown reason, that player cannot be removed from the game.");
+}
+
+function updateNewGamePlayerList() {
+	const newGamePlayerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players);
+
+	const playerList = $('#createGamePlayerList').empty();
+
+	let playerListContent = ``;
+	for (let i in newGamePlayerList) {
+		playerListContent += `
+			<div class="createGamePlayer">
+				${newGamePlayerList[i].name}
+				<button class="iconButton" onclick="removePlayerFromNewGame(${newGamePlayerList[i].id})">
+					${newGamePlayerList[i].id === account.id ? `` : `
+						<span class="material-icons smallIcon">
+							remove
+						</span>
+					`}
+				</button>
+			</div>
+		`;
+	}
+
+	playerList.html(playerListContent);
 }
 
 function newGame() {
@@ -387,7 +420,7 @@ function newGame() {
 		// assign the enter key on the player input field to add the player
 		$('#createGamePlayerInput').on('keypress', function(e) {
 			if (e.key === 'Enter') {
-				if ($(this).val() === "") {
+				if (!$(this).val().trim()) {
 					createGame();
 				} else {
 					addPlayerToNewGame();
