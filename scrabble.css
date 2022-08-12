@@ -194,6 +194,11 @@ body.scrabble {
 	border-radius: 5px;
 	flex-grow: 1;
 	box-shadow: 0 0 5px #00000066;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
 }
 #createGamePlayerList .createGamePlayer {
 	width: 100%;
