@@ -182,7 +182,6 @@ body.scrabble {
 	flex-direction: column;
 	justify-content: stretch;
 	align-items: stretch;
-	gap: 10px;
 }
 #createGameModal h2 {
 	margin: 0;
