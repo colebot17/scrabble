@@ -1138,7 +1138,7 @@ function moveBankLetter(from, to) {
 					// move the letter in the letter bank
 					let letter = letterBank[from];
 					letterBank.splice(from, 1);
-					letterBank.splice(++to, 0, letter);
+					letterBank.splice(to, 0, letter);
 
 					// move the letter in the canvas bank
 					letter = canvas.bank[from];
