@@ -199,10 +199,10 @@ body.scrabble {
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: stretch;
-	gap: 10px;
 }
 #createGamePlayerList .createGamePlayer {
 	width: 100%;
+	padding: 5px 0px;
 }
 #createGameModal .addPlayerRow {
 	display: flex;
