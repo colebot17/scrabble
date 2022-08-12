@@ -35,25 +35,22 @@ if (!in_array($game, $userGames)) {
 	exit('{"errorLevel":2,"message":"You do not own this game!"}');
 }
 
-// escape user input
-$name = str_replace("'", "\'", $name);
+// escape user input for JSON
 $name = str_replace('"', '\"', $name);
-$name = str_replace('`', '\`', $name);
-
-$name = str_replace('_', '\_', $name);
-$name = str_replace('%', '\%', $name);
-
 $name = trim($name);
 
+// escape user input for SQL
+$uploadName = str_replace("'", "\'", $name);
+
 // set the name
-$sql = "UPDATE games SET name='$name' WHERE id='$game'";
+$sql = "UPDATE games SET name='$uploadName' WHERE id='$game'";
 $query = mysqli_query($conn, $sql);
 
 if (!$query) {
     exit('{"errorLevel":1,"message":"Could not rename game"}');
 }
 
-echo '{"errorLevel":0,"message":"Game renamed to ' . $name . '.","data":"' . $name . '"}';
+echo '{"errorLevel":0,"message":"Game renamed to \"' . $name . '\".","data":"' . $name . '"}';
 
 mysqli_close($conn);
 

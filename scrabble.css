@@ -150,9 +150,9 @@ body.scrabble {
 
 /* grid */
 #scrabbleGrid {
-	width: calc(100% - 5px);
+	width: calc(100vw - 10px);
 	height: calc(100vh - 10px);
-	height: 100dvh;
+	height: calc(100dvh - 10px);
 	padding: 5px;
 	align-items: center;
 }
@@ -173,7 +173,7 @@ body.scrabble {
 	box-shadow: 0 0 5px #00000066;
 	border-radius: 10px;
 
-	padding: 10px;
+	padding: 20px 10px 10px 10px;
 }
 
 /* create game modal */
@@ -209,6 +209,27 @@ body.scrabble {
 	grid-column: 1 / 3;
 }
 
+/* letter exchange modal */
+#letterExchangeModal {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+#letterExchangeModal h2 {
+	margin: 0;
+}
+#letterExchangeModal .letterExchangeButtons {
+	display: flex;
+	justify-content: stretch;
+	align-items: center;
+	width: 100%;
+}
+#letterExchangeModal .letterExchangeButtons button {
+	flex-grow: 1;
+}
+
 /* text modal */
 #textModal {
 	display: flex;
@@ -218,6 +239,14 @@ body.scrabble {
 }
 #textModal #textModalTitle {
 	margin: 0;
+}
+#textModal #textModalButtonHolder {
+	display: flex;
+	justify-content: stretch;
+	align-items: center;
+}
+#textModal #textModalButtonHolder button {
+	flex-grow: 1;
 }
 
 /* letter picker */
@@ -419,7 +448,7 @@ input#chatInput {
 
 	/* game tab */
 	#scrabbleGrid[data-tab=game], #scrabbleGrid[data-tab=chat] {
-		grid-template-columns: minmax(min-content, max-content) 1fr;
+		grid-template-columns: minmax(min-content, 25%) 1fr;
 		grid-template-rows: 50% 50%;
 	}
 	#scrabbleGrid[data-tab=game] #chatCell, #scrabbleGrid[data-tab=chat] #chatCell {
@@ -448,17 +477,33 @@ input#chatInput {
 		display: none;
 	}
 
-	/* account tab */
-	#scrabbleGrid[data-tab=account] {
+	/* signed in account tab */
+	#scrabbleGrid[data-tab=account][data-signedin=true] {
 		grid-template-columns: minmax(min-content, max-content) 1fr;
 		grid-template-rows: 100%;
 	}
-	#scrabbleGrid[data-tab=account] #signInCell {
+	#scrabbleGrid[data-tab=account][data-signedin=true] #signInCell {
 		display: unset;
 		grid-column: 1;
 		grid-row: 1;
 	}
-	#scrabbleGrid[data-tab=account] #gamesCell {
+	#scrabbleGrid[data-tab=account][data-signedin=true] #gamesCell {
+		display: unset;
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	/* signed out account tab */
+	#scrabbleGrid[data-tab=account][data-signedin=false] {
+		grid-template-columns: 50% 50%;
+		grid-template-rows: 100%;
+	}
+	#scrabbleGrid[data-tab=account][data-signedin=false] #welcomeCell {
+		display: unset;
+		grid-column: 1;
+		grid-row: 1;
+	}
+	#scrabbleGrid[data-tab=account][data-signedin=false] #signInCell {
 		display: unset;
 		grid-column: 2;
 		grid-row: 1;

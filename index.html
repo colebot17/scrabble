@@ -164,22 +164,18 @@
 			<button id="createGameModalCreateGameButton" onclick="createGame()">Create Game</button>
 		</div>
 		<div class="modal hidden" id="letterExchangeModal">
-			<button class="iconButton modalCloseButton" onclick="$('#letterExchangeModal').modalClose()">
-				<span class="material-icons">close</span>
-			</button>
 			<h2>Choose letters to exchange</h2>
 			<div class="letterBank" id="letterExchangeBank"></div>
-			<br>
-			<button id="letterExchangeButton" onclick="skipTurn()">Skip Turn</button>
+			<div class="letterExchangeButtons">
+				<button id="letterExchangeCancel" onclick="$('#letterExchangeModal').modalClose()">Cancel</button>
+				<button class="highlight" id="letterExchangeButton" onclick="skipTurn()">Skip Turn</button>
+			</div>
 		</div>
 		<div class="modal hidden" id="textModal">
-			<button class="iconButton modalCloseButton" onclick="$('#textModal').modalClose()">
-				<span class="material-icons">close</span>
-			</button>
 			<h3 id="textModalTitle"></h3>
 			<div id="textModalText"></div>
 			<div id="textModalButtonHolder">
-				<button class="textModalButton" onclick="$('#textModal').modalClose()">Cancel</button>
+				<button class="textModalButton hidden" id="textModalCancelButton" onclick="$('#textModal').modalClose()">Cancel</button>
 				<button class="textModalButton highlight" id="textModalOkButton">OK</button>
 			</div>
 		</div>

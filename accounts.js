@@ -42,7 +42,7 @@ function setSignInMode(mode) {
 
 function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) {
 	$.ajax(
-		'http://scrabble.colebot.com/signIn.php',
+		'signIn.php',
 		{
 			data: {
 				name,
@@ -50,32 +50,33 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 			},
 			method: "POST",
 			success: function(data) {
-			// 	var tab = window.open('about:blank', '_blank');
-			// 	tab.document.write(data);
-				if (data !== '0') {
-					var pData = JSON.parse(data);
-					account.name = pData.name;
-					account.pwd = pwd;
-					account.id = parseInt(pData.id);
-					account.games = JSON.parse(pData.games);
+				const jsonData = JSON.parse(data);
 
-					localStorage.name = pData.name;
-					localStorage.pwd = pwd;
-
-					$('#accountNameLabel').text(pData.name);
-					
-					setSignInMode('signOut');
-
-					$('#scrabbleGrid').attr('data-signedin', true);
-
-					updateGamesList();
-				} else {
-					textModal("Incorrect username or password");
+				// if there has been an error,
+				if (jsonData.errorLevel > 0) {
+					textModal("Error", jsonData.message);
 					setSignInMode('signIn');
 
 					// clear the form
 					document.getElementById('signInForm').reset();
+
+					return;
 				}
+				account.name = jsonData.data.name;
+				account.pwd = pwd;
+				account.id = parseInt(jsonData.data.id);
+				account.games = JSON.parse(jsonData.data.games);
+
+				localStorage.name = jsonData.data.name;
+				localStorage.pwd = pwd;
+
+				$('#accountNameLabel').text(jsonData.data.name);
+				
+				setSignInMode('signOut');
+
+				$('#scrabbleGrid').attr('data-signedin', true);
+
+				updateGamesList();
 			},
 			error: function() {
 				console.error("Sign-in could not be completed.");
@@ -100,19 +101,23 @@ function createAccount(name = $('#createAccountUsername').val(), pwd = $('#creat
 	}
 
 	$.ajax(
-		'http://scrabble.colebot.com/createAccount.php',
+		'createAccount.php',
 		{
-			data: {name: name, pwd: pwd},
+			data: {
+				name,
+				pwd
+			},
 			method: "POST",
 			success: function(data) {
-				if (data !== '0') {
-					signIn(name, pwd);
-				} else {
-					alert("An account by that name already exists.");
+				const jsonData = JSON.parse(data);
+				if (jsonData.errorLevel > 0) {
+					textModal("Error", jsonData.message);
+					return;
 				}
+				signIn(name, pwd);
 			},
 			error: function() {
-				console.error("Request could not be completed.");
+				console.error("Could not create account.");
 			}
 		}
 	);

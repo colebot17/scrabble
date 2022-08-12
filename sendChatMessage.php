@@ -26,18 +26,11 @@ if (!password_verify($pwd, $row['pwd'])) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
-// escape the new chat message content
-$message = str_replace("'", "\'", $message);
-$message = str_replace('"', '\"', $message);
-$message = str_replace('`', '\`', $message);
-
-$message = str_replace('_', '\_', $message);
-$message = str_replace('%', '\%', $message);
-
+// trim the message
 $message = trim($message);
 
 // formulate the new chat message
-$newMessage = Array(
+$fullMessage = Array(
     "sender" => $user,
     "message" => $message,
     "timestamp" => date(DATE_ISO8601)
@@ -50,10 +43,16 @@ $row = mysqli_fetch_assoc($query);
 $chat = json_decode($row['chat'], true);
 
 // append the new message to the chat
-array_push($chat, $newMessage);
+array_push($chat, $fullMessage);
 
-// push the new chat back to the database
+// encode into JSON
 $chatJson = json_encode($chat);
+
+// escape content for SQL
+$chatJson = str_replace("'", "\'", $chatJson);
+$chatJson = str_replace('"', '\"', $chatJson);
+
+// reupload the chat
 $sql = "UPDATE games SET chat='$chatJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 if ($query) {

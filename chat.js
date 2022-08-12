@@ -68,7 +68,7 @@ function chatInit() {
 
 function sendChatMessage(message = document.getElementById('chatInput').value) {
     // make sure there is a real message
-    if (!message) {
+    if (!message.trim()) {
         return;
     }
 

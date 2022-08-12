@@ -1,19 +1,19 @@
 const modals = {
 	createGameModal: {
-		width: () => Math.min(500, window.innerWidth - 20),
-		height: () => Math.min(500, window.innerHeight - 20)
+		width: 500,
+		height: 500
 	},
 	letterExchangeModal: {
-		width: () => Math.min(750, window.innerWidth - 20),
-		height: () => Math.min(200, window.innerHeight - 20)
+		width: 750,
+		height: 0
 	},
 	textModal: {
-		width: () => Math.min(500, window.innerWidth - 20),
-		height: () => Math.min(100, window.innerHeight - 20)
+		width: 500,
+		height: 100
 	},
 	chooseLetterModal: {
-		width: () => Math.min(150, window.innerWidth - 20),
-		height: () => Math.min(150, window.innerHeight - 20)
+		width: 150,
+		height: 150
 	}
 };
 
@@ -56,14 +56,30 @@ function removeFromEscStack(name) {
 function updateModalSizes() {
 	// update the sizes of all visible modals
 	for (let i in visibleModals) {
-		let modal = $('#' + visibleModals[i]);
-		let modalWidth = modals[visibleModals[i]].width();
-		let modalHeight = modals[visibleModals[i]].height();
+		const modal = $('#' + visibleModals[i]);
+
+		const prefWidth = modals[visibleModals[i]].width;
+		const prefHeight = modals[visibleModals[i]].height;
+
+		const width = Math.min(prefWidth, window.innerWidth - 20);
+
 		modal.css({
-			'width': modalWidth + 'px',
-			'height': modalHeight + 'px',
-			'top': (((window.innerHeight - modalHeight) / 2) - 10) + 'px',
-			'left': (((window.innerWidth - modalWidth) / 2) - 10) + 'px'
+			'top': '0',
+			'left': '0',
+			'height': 'auto',
+			'width': width + 'px',
+			'opacity': '0'
+		});
+
+		const actualHeight = modal.height();
+		const height = Math.min(Math.max(prefHeight, actualHeight), window.innerHeight - 20);
+
+		modal.css({
+			'width': width + 'px',
+			'height': height + 'px',
+			'top': (((window.innerHeight - height) / 2) - 10) + 'px',
+			'left': (((window.innerWidth - width) / 2) - 10) + 'px',
+			'opacity': ''
 		});
 	}
 }
@@ -78,12 +94,14 @@ jQuery.fn.extend({
 		if (!visibleModals.includes(el.attr('id'))) {
 			visibleModals.push(el.attr('id'));
 		}
+
+		// show the modal
+		el.removeClass('hidden');
 		
 		// update the position of the modal
 		updateModalSizes();
-
-		// show the modal
-		return el.removeClass('hidden');
+		
+		return el;
 	},
 	modalClose: function() {
 		// update the escape stack
@@ -168,6 +186,8 @@ function textModal() {
 		if (arguments[2]) {
 			cancelable = true;
 			complete = arguments[3] || function() {};
+		} else {
+			complete = arguments[2] || function() {};
 		}
 	} else { // zero or fewer arguments
 		title = "Alert!";
@@ -178,9 +198,9 @@ function textModal() {
 	$('#textModalTitle').html(title);
 	$('#textModalText').html(text).css('order', (!title ? '-1' : ''));
 	if (cancelable) {
-		$('.textModalButton').removeClass('hidden');
+		$('#textModalCancelButton').removeClass('hidden');
 	} else {
-		$('.textModalButton').addClass('hidden');
+		$('#textModalCancelButton').addClass('hidden');
 	}
 	$('#textModalOkButton').off().on('click', function() {
 		$('#textModal').modalClose();

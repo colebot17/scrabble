@@ -52,20 +52,28 @@ function canvasInit() {
 	}
 
 	// handle window resize
-	window.onresize = function() {
-		setCanvasSize();
-	}
+	window.onresize = setCanvasSize;
 }
 
 function setCanvasSize() {
-	// figure out the dimensions of the canvas
-	var canvasCellWidth = $('#canvasCell').width();
-	var canvasCellHeight = $('#canvasCell').height();
+	const canvasCell = $('#canvasCell');
 
+	// hide the canvas first (to let the grid adjust properly)
+	canvas.c.style.display = "none";
+	
+	// get the dimensions that we have to work with
+	const canvasCellWidth = canvasCell.width();
+	const canvasCellHeight = canvasCell.height();
+
+	// calculate which dimension will limit the size
 	var limitingDimension = Math.min(canvasCellWidth + 100, canvasCellHeight);
 
+	// size the canvas accordingly
 	canvas.c.width = limitingDimension - 100;
 	canvas.c.height = limitingDimension;
+
+	// show the canvas again
+	canvas.c.style.display = "";
 }
 
 function clearCanvas() {
