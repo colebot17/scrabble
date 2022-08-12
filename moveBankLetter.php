@@ -54,7 +54,7 @@ $players[array_search($user, $playerList)]['letterBank'] = $letterBank;
 $playersJson = json_encode($players);
 
 $sql = "UPDATE games SET players='$playerJson' WHERE id='$game'";
-$query = mysqli_query($conn, $sql);
+//$query = mysqli_query($conn, $sql);
 if ($query) {
     echo '{"errorLevel":0,"message":"The tile has been moved."}';
 } else {
