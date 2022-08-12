@@ -343,7 +343,7 @@ function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
 						}
 					}
 					newGamePlayerList.push({ // store the returned name and id in the list
-						id: jsonData.value.id,
+						id: parseInt(jsonData.value.id),
 						name: jsonData.value.name
 					});
 				
