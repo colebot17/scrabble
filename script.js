@@ -391,6 +391,8 @@ function updateNewGamePlayerList() {
 			</div>
 		`;
 	}
+
+	playerList.html(playerListContent);
 }
 
 function newGame() {
