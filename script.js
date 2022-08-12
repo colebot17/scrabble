@@ -1129,7 +1129,7 @@ function moveBankLetter(from, to) {
 					// move the letter on the client side
 					let currentPlayerIndex;
 					for (let i in game.players) {
-						if (game.players[i].id === account.id) {
+						if (game.players[i].id == account.id) {
 							currentPlayerIndex = i;
 						}
 					}
