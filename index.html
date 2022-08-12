@@ -156,12 +156,16 @@
 			<button class="iconButton modalCloseButton" onclick="$('#createGameModal').modalClose()">
 				<span class="material-icons">close</span>
 			</button>
-			<h2 id="createGameModalTitle">Create Game</h2>
-			<h4 id="createGamePlayerListTitle" class="smallHeading">Players</h4>
+			<h2>Create Game</h2>
 			<div id="createGamePlayerList"></div>
-			<input id="createGamePlayerInput" type="text" name="createGamePlayerInput" placeholder="Player Name">
-			<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add</button>
-			<button id="createGameModalCreateGameButton" onclick="createGame()">Create Game</button>
+			<div class="addPlayerRow">
+				<input id="createGamePlayerInput" type="text" name="createGamePlayerInput" placeholder="Player Name">
+				<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add</button>
+			</div>
+			<div class="createGameButtons">
+				<button id="createGameCancel" onclick="$('#createGameModal').modalClose()">Cancel</button>
+				<button class="highlight" id="createGameModalButton" onclick="createGame()">Create Game</button>
+			</div>
 		</div>
 		<div class="modal hidden" id="letterExchangeModal">
 			<h2>Choose letters to exchange</h2>
