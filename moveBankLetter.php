@@ -40,6 +40,8 @@ for ($i=0; $i < count($players); $i++) {
 // get the letter bank of the current player
 $letterBank = $players[array_search($user, $playerList)]['letterBank'];
 
+print_r($letterBank);
+
 // get the letter
 $letter = $letterBank[$from];
 
@@ -49,9 +51,13 @@ array_splice($letterBank, $from, 1);
 // insert it into the bank in its new position
 array_splice($letterBank, ++$to, 0, $letter);
 
+print_r($letterBank);
+
 // re-upload the letter bank in the player list
 $players[array_search($user, $playerList)]['letterBank'] = $letterBank;
 $playersJson = json_encode($players);
+
+print_r($players);
 
 $sql = "UPDATE games SET players='$playerJson' WHERE id='$game'";
 //$query = mysqli_query($conn, $sql);
