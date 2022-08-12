@@ -200,6 +200,7 @@ body.scrabble {
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: stretch;
+	overflow: auto;
 }
 #createGamePlayerList .createGamePlayer {
 	width: 100%;
