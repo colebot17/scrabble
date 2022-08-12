@@ -188,6 +188,8 @@ body.scrabble {
 	margin: 0;
 }
 #createGamePlayerList {
+	border: 1px solid black;
+	border-radius: 5px;
 	flex-grow: 1;
 }
 #createGamePlayerList .createGamePlayer {
