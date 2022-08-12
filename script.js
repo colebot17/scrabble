@@ -377,6 +377,8 @@ function removePlayerFromNewGame(id) {
 			return;
 		}
 	}
+
+	textModal("Unexpected Error", "For an unknown reason, that player cannot be removed from the game.");
 }
 
 function updateNewGamePlayerList() {
