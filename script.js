@@ -862,11 +862,11 @@ function gameInit() {
 				}
 			}
 
-			// loop through letter bank tile positions to see if user clicked on one
+			// loop through letter bank tile positions to see if user is hovering over one
 			for (let i = bank.length - 1; i >= 0; i--) {
 				xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
 				yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
-				if (xMatch && yMatch) { // if this is the one that the user has clicked on
+				if (xMatch && yMatch) { // if this is the one that the user is hovering over
 					cursor = (outOfTurn ? 'not-allowed' : 'grab');
 				}
 			}
