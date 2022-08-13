@@ -145,7 +145,7 @@ function drawLetterBank() {
 		totalGapSpace += (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
 	}
 
-	const tileWidth = Math.min(remainingSpace - 10, (width / numTiles) - tileGap, 55);
+	const tileWidth = Math.min(remainingSpace - 10, ((width - totalGapSpace) / numTiles), 55);
 	const startX = (width - ((tileWidth * numTiles) + totalGapSpace)) / 2;
 
 	canvas.bankTileWidth = tileWidth;
