@@ -959,6 +959,11 @@ function gameInit() {
 				if ((x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
 					// move the tile after dropZones[i].bankIndex
 					moveBankLetter(dragged.bankIndex, canvas.dropZones[i].bankIndex);
+
+					// remove any extra gap after any letter
+					for (let j in canvas.bank) {
+						canvas.bank[j].extraGapAfter = false;
+					}
 				}
 			}
 
