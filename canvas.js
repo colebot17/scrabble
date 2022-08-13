@@ -194,6 +194,22 @@ function drawLetterBank() {
 			canvas.ctx.fillText(points, pointsX, pointsY);
 		}
 	}
+
+	// calculate the drop zones for the letter bank
+	canvas.dropZones = [];
+	for (let i in canvas.bank.slice(0, -1)) {
+		canvas.dropZones.push({
+			start: {
+				x: canvas.bank[i].position.x + canvas.bankTileWidth - (canvas.bankTileWidth / 2),
+				y: canvas.bank[i].position.y - (canvas.bankTileWidth / 5)
+			},
+			end: {
+				x: canvas.bank[i].position.x + canvas.bankTileWidth + 5 + (canvas.bankTileWidth / 2),
+				y: canvas.bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
+			},
+			bankIndex: canvas.bank[i].bankIndex
+		});
+	}
 }
 
 function updateTile(tile) {

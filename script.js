@@ -894,26 +894,14 @@ function gameInit() {
 				}
 
 				if (boardY > 15) {
-					// calculate the drop zones for the letter bank
-					let dropZones = [];
-					for (let i in canvas.bank.slice(0, -1)) {
-						dropZones.push({
-							start: {
-								x: canvas.bank[i].position.x + canvas.bankTileWidth - (canvas.bankTileWidth / 5),
-								y: canvas.bank[i].position.y - (canvas.bankTileWidth / 5)
-							},
-							end: {
-								x: canvas.bank[i].position.x + canvas.bankTileWidth + 5 + (canvas.bankTileWidth / 5),
-								y: canvas.bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
-							},
-							bankIndex: canvas.bank[i].bankIndex
-						});
-					}
-
-					for (let i in dropZones) {
+					for (let i in canvas.dropZones) {
 						// if the user is dragging over this zone
-						if ((x > dropZones[i].start.x && x < dropZones[i].end.x) && (y > dropZones[i].start.y && y < dropZones[i].end.y)) {
-							// make the space bigger
+						if ((x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
+							// make the gap bigger
+							for (let j in canvas.bank) {
+								canvas.bank[j].extraGapAfter = false;
+							}
+							canvas.bank[i].extraGapAfter = true;
 						}
 					}
 				}
@@ -966,27 +954,11 @@ function gameInit() {
 			// add the letter to the appropriate spot on the board
 			addLetter(boardX, boardY, dragged.bankIndex);
 		} else { // if the letter was dropped anywhere else
-			// calculate the drop zones for the letter bank
-			let dropZones = [];
-			for (let i in canvas.bank.slice(0, -1)) {
-				dropZones.push({
-					start: {
-						x: canvas.bank[i].position.x + canvas.bankTileWidth - (canvas.bankTileWidth / 5),
-						y: canvas.bank[i].position.y - (canvas.bankTileWidth / 5)
-					},
-					end: {
-						x: canvas.bank[i].position.x + canvas.bankTileWidth + 5 + (canvas.bankTileWidth / 5),
-						y: canvas.bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
-					},
-					bankIndex: canvas.bank[i].bankIndex
-				});
-			}
-
-			for (let i in dropZones) {
+			for (let i in canvas.dropZones) {
 				// if the user dropped into this zone
-				if ((x > dropZones[i].start.x && x < dropZones[i].end.x) && (y > dropZones[i].start.y && y < dropZones[i].end.y)) {
+				if ((x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
 					// move the tile after dropZones[i].bankIndex
-					moveBankLetter(dragged.bankIndex, dropZones[i].bankIndex);
+					moveBankLetter(dragged.bankIndex, canvas.dropZones[i].bankIndex);
 				}
 			}
 
