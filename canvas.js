@@ -195,6 +195,7 @@ function drawLetterBank() {
 		}
 
 		// calculate drop zones for the letter bank
+		canvas.dropZones = [];
 		canvas.dropZones.push({
 			start: {
 				x: canvas.bank[i].position.x + (canvas.bankTileWidth / 2),
