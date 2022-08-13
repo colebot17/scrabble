@@ -628,7 +628,7 @@ function gameInit() {
 	// determine whether it is the current user's turn
 	userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
-	var handleCanvasDblClick = function(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
+	function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
 		// remove all unlocked tiles from the board
 		for (let y in game.board) {
 			for (let x in game.board) {
@@ -646,7 +646,7 @@ function gameInit() {
 	$canvas.on('dblclick', handleCanvasDblClick);
 
 	// handle drag start on canvas
-	var handleCanvasMouseDown = function(e) {
+	function handleCanvasMouseDown(e) {
 		e.preventDefault();
 
 		// cancel if a popup is open
@@ -813,12 +813,14 @@ function gameInit() {
 			$('#wordLookupPopup .wordLookupResults').html(content);
 			$('#wordLookupPopup').popupOpen(clientX, clientY);
 		});
+
+		handleCanvasMouseMove(e);
 	}
 	$canvas.on("mousedown", handleCanvasMouseDown);
 	$canvas.on("touchstart", handleCanvasMouseDown);
 
 	// update position of tile when mouse moves during drag
-	var handleCanvasMouseMove = function(e) {
+	function handleCanvasMouseMove(e) {
 		e.preventDefault();
 		
 		// get the pixel position of the mouse/finger
@@ -918,7 +920,7 @@ function gameInit() {
 	$canvas.on("mousemove", handleCanvasMouseMove);
 	$canvas.on("touchmove", handleCanvasMouseMove);
 
-	var handleCanvasMouseUp = function(e) {
+	function handleCanvasMouseUp(e) {
 		// cancel if no tile is being dragged
 		if (!dragged) {
 			return;
