@@ -1121,22 +1121,7 @@ function moveBankLetter(from, to) {
 		to--;
 	}
 
-	// move the letter on the client side
-	let currentPlayerIndex;
-	for (let i in game.players) {
-		if (game.players[i].id == account.id) {
-			currentPlayerIndex = i;
-		}
-	}
-	let letterBank = game.players[currentPlayerIndex].letterBank;
-
-	const oldBank = JSON.parse(JSON.stringify(letterBank));
 	const canvasOldBank = JSON.parse(JSON.stringify(canvas.bank));
-
-	// move the letter in the letter bank
-	let letter = letterBank[from];
-	letterBank.splice(from, 1);
-	letterBank.splice(to, 0, letter);
 
 	// move the letter in the canvas bank
 	letter = canvas.bank[from];
