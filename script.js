@@ -1113,9 +1113,6 @@ function moveBankLetter(from, to) {
 		to--;
 	}
 
-	const oldBank = JSON.parse(JSON.stringify())
-	const canvasOldBank = JSON.parse(JSON.stringify(canvas.bank));
-
 	// move the letter on the client side
 	let currentPlayerIndex;
 	for (let i in game.players) {
@@ -1124,6 +1121,9 @@ function moveBankLetter(from, to) {
 		}
 	}
 	let letterBank = game.players[currentPlayerIndex].letterBank;
+
+	const oldBank = JSON.parse(JSON.stringify(letterBank));
+	const canvasOldBank = JSON.parse(JSON.stringify(canvas.bank));
 
 	// move the letter in the letter bank
 	let letter = letterBank[from];
