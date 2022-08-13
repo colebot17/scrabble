@@ -171,8 +171,8 @@ function drawLetterBank() {
 		let pointsX = x + (tileWidth * 0.9);
 		let pointsY = y + (tileWidth * 0.9);
 
-		// after calculating, increase the total gap space
-		totalGapSpace += (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
+		// after calculating, increase the current gap space
+		currentGapSpace += (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
 
 		// draw tile
 		canvas.ctx.fillStyle = "#a47449"; // tile brown
