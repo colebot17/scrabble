@@ -1109,6 +1109,11 @@ function makeMove() {
 }
 
 function moveBankLetter(from, to) {
+	// don't move the letter if from is the same as to
+	if (from === to) {
+		return;
+	}
+
 	if (from < to) {
 		to--;
 	}
