@@ -207,7 +207,9 @@ function drawLetterBank() {
 			},
 			bankIndex: canvas.bank[i].bankIndex
 		});
-		
+	}
+	
+	for (let i in canvas.dropZones) {
 		// draw drop zones for testing
 		const zoneStartX = canvas.dropZones[i].start.x;
 		const zoneStartY = canvas.dropZones[i].start.y;
