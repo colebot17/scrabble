@@ -215,9 +215,12 @@ function drawLetterBank() {
 		const startY = canvas.dropZones[i].start.y;
 		const width = canvas.dropZones[i].end.x - startX;
 		const height = canvas.dropZones[i].end.y - startY;
-		
+
 		canvas.ctx.fillStyle = "#0000FF66";
 		canvas.ctx.fillRect(startX, startY, width, height);
+
+		canvas.ctx.strokeStyle = "#0000FF99";
+		canvas.ctx.strokeRect(startX, startY, width, height);
 	}
 }
 
