@@ -218,7 +218,7 @@ function drawLetterBank() {
 				x: bank[i].position.x + (canvas.bankTileWidth * 1.5) + (bank[i].extraGapAfter ? extraTileGap : defaultTileGap),
 				y: bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
-			bankIndex: bank[i].bankIndex,
+			bankIndex: parseInt(bank[i].bankIndex),
 			nonHiddenBankIndex: parseInt(i) + 1
 		};
 		canvas.dropZones.push(newZone);
