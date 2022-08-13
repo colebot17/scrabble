@@ -681,11 +681,8 @@ function gameInit() {
 			clientX = e.clientX;
 			clientY = e.clientY;
 		}
-
+		
 		if (userTurn) {
-			// check letter bank first
-			let inBank = false;
-
 			// get the canvas.bank without hidden items
 			let bank = [];
 			for (var i = 0; i < canvas.bank.length; i++) {
