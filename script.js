@@ -952,7 +952,7 @@ function gameInit() {
 				// if the user dropped into this zone
 				if ((x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
 					// move the tile after dropZones[i].bankIndex
-					moveBankLetter(dragged.bankIndex, canvas.dropZones[i].nonHiddenBankIndex);
+					moveBankLetter(dragged.bankIndex, ++canvas.dropZones[i].nonHiddenBankIndex);
 
 					// remove any extra gap after any letter
 					canvas.extraGapBeforeBank = false;
