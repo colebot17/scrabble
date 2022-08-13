@@ -897,7 +897,7 @@ function gameInit() {
 					for (let i in canvas.dropZones) {
 						canvas.bank[i].extraGapAfter = false;
 						// if the user is dragging over this zone
-						if ((x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
+						if ((x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
 							// make the gap bigger
 							canvas.bank[i].extraGapAfter = true;
 						}
