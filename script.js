@@ -1109,7 +1109,7 @@ function makeMove() {
 }
 
 function moveBankLetter(from, to) {
-	console.log(`From ${from} to ${to}`);
+	console.log(from, to);
 
 	// don't move the letter if from is the same as to
 	if (from === to) {
