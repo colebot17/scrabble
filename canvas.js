@@ -164,7 +164,8 @@ function drawLetterBank() {
 		end: {
 			x: bank[0].position.x + (canvas.bankTileWidth / 2),
 			y: bank[0].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
-		}
+		},
+		bankIndex: -1
 	}];
 
 	// draw each letter (we are using the bank without hidden letters)
@@ -233,11 +234,6 @@ function drawLetterBank() {
 
 		canvas.ctx.strokeStyle = "#0000FF99";
 		canvas.ctx.strokeRect(zoneStartX, zoneStartY, width, height);
-
-		canvas.ctx.fillStyle = "#FFFFFF99";
-		canvas.ctx.font = "10px Eurostile";
-		canvas.ctx.textAlign = "left";
-		canvas.ctx.fillText(bank[i].letter + ", " + bank[i].position.x, zoneStartX + 2, zoneStartY + 12);
 	}
 }
 
