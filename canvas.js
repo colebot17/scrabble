@@ -219,7 +219,7 @@ function drawLetterBank() {
 				y: bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
 			bankIndex: bank[i].bankIndex,
-			nonHiddenBankIndex: i + 1
+			nonHiddenBankIndex: parseInt(i) + 1
 		};
 		canvas.dropZones.push(newZone);
 	}
