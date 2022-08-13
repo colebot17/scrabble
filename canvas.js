@@ -225,7 +225,7 @@ function drawLetterBank() {
 		canvas.ctx.fillStyle = "#FFFFFF99";
 		canvas.ctx.font = "10px Eurostile";
 		canvas.ctx.textAlign = "left";
-		canvas.ctx.fillText(bank[i].letter + ", " + bank[i].position[x], startX + 2, startY + 12);
+		canvas.ctx.fillText(bank[i].letter + ", " + bank[i].position.x, startX + 2, startY + 12);
 	}
 }
 
