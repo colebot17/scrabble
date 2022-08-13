@@ -221,20 +221,6 @@ function drawLetterBank() {
 		};
 		canvas.dropZones.push(JSON.parse(JSON.stringify(newZone)));
 	}
-	
-	for (let i in canvas.dropZones) {
-		// draw drop zones for testing
-		const zoneStartX = canvas.dropZones[i].start.x;
-		const zoneStartY = canvas.dropZones[i].start.y;
-		const width = canvas.dropZones[i].end.x - zoneStartX;
-		const height = canvas.dropZones[i].end.y - zoneStartY;
-
-		canvas.ctx.fillStyle = "#0000FF66";
-		canvas.ctx.fillRect(zoneStartX, zoneStartY, width, height);
-
-		canvas.ctx.strokeStyle = "#0000FF99";
-		canvas.ctx.strokeRect(zoneStartX, zoneStartY, width, height);
-	}
 }
 
 function updateTile(tile) {
