@@ -153,13 +153,10 @@ function drawLetterBank() {
 	const textSize = tileWidth - 5;
 	const smallTextSize = textSize / 3;
 
+	let currentGapSpace = 0;
+
 	// draw each letter (we are using the bank without hidden letters)
 	for (let i in bank) {
-		let currentGapSpace = 0;
-		for (let j in bank.slice(0, i)) {
-			currentGapSpace += (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
-		}
-
 		let x = startX + (tileWidth * i) + currentGapSpace;
 		let y = startY + titleSize + 20;
 		
@@ -173,6 +170,9 @@ function drawLetterBank() {
 
 		let pointsX = x + (tileWidth * 0.9);
 		let pointsY = y + (tileWidth * 0.9);
+
+		// after calculating, increase the total gap space
+		totalGapSpace += (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
 
 		// draw tile
 		canvas.ctx.fillStyle = "#a47449"; // tile brown
