@@ -138,7 +138,7 @@ function drawLetterBank() {
 	// determine some constants
 	const numTiles = bank.length;
 	const defaultTileGap = 5;
-	const extraTileGap = 15;
+	const extraTileGap = 30;
 
 	let totalGapSpace = 0;
 	for (let i in bank.slice(0, -1)) {
