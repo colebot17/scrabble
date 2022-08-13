@@ -135,19 +135,32 @@ function drawLetterBank() {
 
 	remainingSpace -= titleSize + 20;
 
-	// draw each letter (we are using the bank without hidden letters)
-	var numTiles = bank.length;
-	var tileGap = 5;
-	var tileWidth = Math.min(remainingSpace - 10, (width / numTiles) - tileGap, 55);
-	var startX = (width - (((tileWidth + tileGap) * numTiles) - tileGap)) / 2;
+	// determine some constants
+	const numTiles = bank.length;
+	const defaultTileGap = 5;
+	const extraTileGap = 15;
+
+	let totalGapSpace = 0;
+	for (let i in bank.slice(0, -1)) {
+		totalGapSpace += (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
+	}
+
+	const tileWidth = Math.min(remainingSpace - 10, (width / numTiles) - tileGap, 55);
+	const startX = (width - ((tileWidth * numTiles) + totalGapSpace)) / 2;
 
 	canvas.bankTileWidth = tileWidth;
 
-	var textSize = tileWidth - 5;
-	var smallTextSize = textSize / 3;
+	const textSize = tileWidth - 5;
+	const smallTextSize = textSize / 3;
 
+	// draw each letter (we are using the bank without hidden letters)
 	for (let i in bank) {
-		let x = startX + (tileWidth + tileGap) * i;
+		let currentGapSpace = 0;
+		for (let j in bank.slice(0, i)) {
+			currentGapSpace += (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
+		}
+
+		let x = startX + (tileWidth * i) + currentGapSpace;
 		let y = startY + titleSize + 20;
 		
 		// store the position of the tile for later use
