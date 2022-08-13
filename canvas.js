@@ -155,6 +155,8 @@ function drawLetterBank() {
 
 	let currentGapSpace = 0;
 
+	canvas.dropZones = [];
+
 	// draw each letter (we are using the bank without hidden letters)
 	for (let i in bank) {
 		let x = startX + (tileWidth * i) + currentGapSpace;
@@ -195,8 +197,7 @@ function drawLetterBank() {
 		}
 
 		// calculate drop zones for the letter bank
-		let dropZones = [];
-		dropZones.push({
+		canvas.dropZones.push({
 			start: {
 				x: canvas.bank[i].position.x + (canvas.bankTileWidth / 2),
 				y: canvas.bank[i].position.y - (canvas.bankTileWidth / 5)
@@ -207,7 +208,6 @@ function drawLetterBank() {
 			},
 			bankIndex: canvas.bank[i].bankIndex
 		});
-		canvas.dropZones = JSON.parse(JSON.stringify(dropZones));
 	}
 	
 	for (let i in canvas.dropZones) {
