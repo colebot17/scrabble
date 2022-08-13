@@ -47,7 +47,7 @@ $letter = $letterBank[$from];
 array_splice($letterBank, $from, 1);
 
 // insert it into the bank in its new position
-array_splice($letterBank, ++$to, 0, $letter);
+array_splice($letterBank, $to, 0, $letter);
 
 // re-upload the letter bank in the player list
 $players[array_search($user, $playerList)]['letterBank'] = $letterBank;
