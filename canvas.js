@@ -193,11 +193,8 @@ function drawLetterBank() {
 			canvas.ctx.textAlign = "right";
 			canvas.ctx.fillText(points, pointsX, pointsY);
 		}
-	}
 
-	// calculate the drop zones for the letter bank
-	canvas.dropZones = [];
-	for (let i in bank.slice(0, -1)) {
+		// calculate drop zones for the letter bank
 		canvas.dropZones.push({
 			start: {
 				x: canvas.bank[i].position.x + (canvas.bankTileWidth / 2),
