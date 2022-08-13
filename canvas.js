@@ -197,7 +197,7 @@ function drawLetterBank() {
 		}
 
 		// calculate drop zones for the letter bank
-		canvas.dropZones.push({
+		let newZone = {
 			start: {
 				x: canvas.bank[i].position.x + (canvas.bankTileWidth / 2),
 				y: canvas.bank[i].position.y - (canvas.bankTileWidth / 5)
@@ -207,7 +207,8 @@ function drawLetterBank() {
 				y: canvas.bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
 			bankIndex: canvas.bank[i].bankIndex
-		});
+		}
+		canvas.dropZones.push(JSON.parse(JSON.stringify(newZone)));
 	}
 	
 	for (let i in canvas.dropZones) {
