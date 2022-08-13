@@ -699,15 +699,6 @@ function gameInit() {
 				xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
 				yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
 				if (xMatch && yMatch) { // if this is the one that the user has clicked on
-					// get the current player index
-					let currentPlayerIndex;
-					for (let j = game.players.length - 1; j >= 0; j--) {
-						if (game.players[j].id == account.id) {
-							currentPlayerIndex = j;
-							break;
-						}
-					}
-
 					// update the dragged piece
 					dragged = new Tile(undefined, undefined, bank[i].letter || "", bank[i].bankIndex, false, false, x, y);
 					canvas.bank[bank[i].bankIndex].hidden = true; // hide the letter from the bank
@@ -813,8 +804,6 @@ function gameInit() {
 			$('#wordLookupPopup .wordLookupResults').html(content);
 			$('#wordLookupPopup').popupOpen(clientX, clientY);
 		});
-
-		handleCanvasMouseMove(e);
 	}
 	$canvas.on("mousedown", handleCanvasMouseDown);
 	$canvas.on("touchstart", handleCanvasMouseDown);
