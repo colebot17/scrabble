@@ -1109,6 +1109,9 @@ function makeMove() {
 }
 
 function moveBankLetter(from, to) {
+	from = parseInt(from);
+	to = parseInt(to);
+	
 	console.log(from, to);
 
 	// don't move the letter if from is the same as to
