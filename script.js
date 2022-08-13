@@ -681,7 +681,7 @@ function gameInit() {
 			clientX = e.clientX;
 			clientY = e.clientY;
 		}
-		
+
 		if (userTurn) {
 			// get the canvas.bank without hidden items
 			let bank = [];
@@ -699,6 +699,21 @@ function gameInit() {
 					// update the dragged piece
 					dragged = new Tile(undefined, undefined, bank[i].letter || "", bank[i].bankIndex, false, false, x, y);
 					canvas.bank[bank[i].bankIndex].hidden = true; // hide the letter from the bank
+
+					canvas.extraGapBeforeBank = false;
+					for (let i in canvas.dropZones) {
+						canvas.bank[i].extraGapAfter = false;
+						// if the user is dragging over this zone
+						if ((x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
+							// make the gap bigger
+							if (canvas.dropZones[i].bankIndex < 0) {
+								canvas.extraGapBeforeBank = true;
+							} else {
+								canvas.bank[canvas.dropZones[i].bankIndex].extraGapAfter = true;
+							}
+						}
+					}
+
 					return; // don't bother to check the board
 				}
 			}
