@@ -159,7 +159,7 @@ function drawLetterBank() {
 	canvas.dropZones = [{
 		start: {
 			x: bank[0].position.x - (canvas.extraGapBeforeBank ? extraTileGap : defaultTileGap) - (canvas.bankTileWidth / 2),
-			y: bank[0].position.y + (canvas.bankTileWidth / 5)
+			y: bank[0].position.y - (canvas.bankTileWidth / 5)
 		},
 		end: {
 			x: bank[0].position.x + (canvas.bankTileWidth / 2),
