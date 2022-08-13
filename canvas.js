@@ -208,21 +208,21 @@ function drawLetterBank() {
 		});
 		
 		// draw drop zones for testing
-		const startX = canvas.dropZones[i].start.x;
-		const startY = canvas.dropZones[i].start.y;
-		const width = canvas.dropZones[i].end.x - startX;
-		const height = canvas.dropZones[i].end.y - startY;
+		const zoneStartX = canvas.dropZones[i].start.x;
+		const zoneStartY = canvas.dropZones[i].start.y;
+		const width = canvas.dropZones[i].end.x - zoneStartX;
+		const height = canvas.dropZones[i].end.y - zoneStartY;
 
 		canvas.ctx.fillStyle = "#0000FF66";
-		canvas.ctx.fillRect(startX, startY, width, height);
+		canvas.ctx.fillRect(zoneStartX, startY, width, height);
 
 		canvas.ctx.strokeStyle = "#0000FF99";
-		canvas.ctx.strokeRect(startX, startY, width, height);
+		canvas.ctx.strokeRect(zoneStartX, startY, width, height);
 
 		canvas.ctx.fillStyle = "#FFFFFF99";
 		canvas.ctx.font = "10px Eurostile";
 		canvas.ctx.textAlign = "left";
-		canvas.ctx.fillText(bank[i].letter + ", " + bank[i].position.x, startX + 2, startY + 12);
+		canvas.ctx.fillText(bank[i].letter + ", " + bank[i].position.x, zoneStartX + 2, startY + 12);
 	}
 }
 
