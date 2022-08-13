@@ -1117,7 +1117,9 @@ function moveBankLetter(from, to) {
 		return;
 	}
 
-	to--;
+	if (from < to) {
+		to--;
+	}
 
 	// move the letter on the client side
 	let currentPlayerIndex;
@@ -1140,7 +1142,7 @@ function moveBankLetter(from, to) {
 	letter = canvas.bank[from];
 	letter.hidden = false;
 	canvas.bank.splice(from, 1);
-	canvas.bank.splice(++to, 0, letter);
+	canvas.bank.splice(to, 0, letter);
 
 	// reset the canvas bank bank indexes
 	for (let i in canvas.bank) {
