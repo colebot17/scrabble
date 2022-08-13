@@ -117,7 +117,7 @@ function drawLetterBank() {
 	var bank = [];
 	for (var i = 0; i < canvas.bank.length; i++) {
 		if (!canvas.bank[i].hidden) {
-			bank.push(canvas.bank[i]);
+			bank.push(JSON.parse(JSON.stringify(canvas.bank[i])));
 		}
 	}
 
