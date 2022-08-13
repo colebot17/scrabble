@@ -1112,6 +1112,35 @@ function moveBankLetter(from, to) {
 	if (from < to) {
 		to--;
 	}
+
+	const oldBank = JSON.parse(JSON.stringify())
+	const canvasOldBank = JSON.parse(JSON.stringify(canvas.bank));
+
+	// move the letter on the client side
+	let currentPlayerIndex;
+	for (let i in game.players) {
+		if (game.players[i].id == account.id) {
+			currentPlayerIndex = i;
+		}
+	}
+	let letterBank = game.players[currentPlayerIndex].letterBank;
+
+	// move the letter in the letter bank
+	let letter = letterBank[from];
+	letterBank.splice(from, 1);
+	letterBank.splice(to, 0, letter);
+
+	// move the letter in the canvas bank
+	letter = canvas.bank[from];
+	letter.hidden = false;
+	canvas.bank.splice(from, 1);
+	canvas.bank.splice(++to, 0, letter);
+
+	// reset the canvas bank bank indexes
+	for (let i in canvas.bank) {
+		canvas.bank[i].bankIndex = i;
+	}
+
 	$.ajax(
 		'moveBankLetter.php',
 		{
@@ -1126,38 +1155,15 @@ function moveBankLetter(from, to) {
 			success: function(data) {
 				const jsonData = JSON.parse(data);
 				if (jsonData.errorLevel <= 0) {
-					// move the letter on the client side
-					let currentPlayerIndex;
-					for (let i in game.players) {
-						if (game.players[i].id == account.id) {
-							currentPlayerIndex = i;
-						}
-					}
-					let letterBank = game.players[currentPlayerIndex].letterBank;
-					
-					// move the letter in the letter bank
-					let letter = letterBank[from];
-					letterBank.splice(from, 1);
-					letterBank.splice(to, 0, letter);
-
-					// move the letter in the canvas bank
-					letter = canvas.bank[from];
-					letter.hidden = false;
-					canvas.bank.splice(from, 1);
-					canvas.bank.splice(++to, 0, letter);
-
-					// reset the canvas bank bank indexes
-					for (let i in canvas.bank) {
-						canvas.bank[i].bankIndex = i;
-					}
+					// do nothing. the letter has already been moved
 				} else if (jsonData.errorLevel === 1) {
-					// don't move but don't say anything
-					let letter = canvas.bank[from];
-					letter.hidden = false;
+					// move back but don't say anything
+					canvas.bank = JSON.parse(JSON.stringify(canvasOldBank));
+					letterBank = JSON.parse(JSON.stringify(oldBank));
 				} else {
-					// don't move and show an alert
-					let letter = canvas.bank[from];
-					letter.hidden = false;
+					// move back and show an alert
+					canvas.bank = JSON.parse(JSON.stringify(canvasOldBank));
+					letterBank = JSON.parse(JSON.stringify(oldBank));
 					textModal("Error", jsonData.message);
 				}
 			}
