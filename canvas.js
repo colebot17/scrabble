@@ -197,7 +197,6 @@ function drawLetterBank() {
 
 	// calculate the drop zones for the letter bank
 	canvas.dropZones = [];
-	console.log(bank.slice(0, -1));
 	for (let i in bank.slice(0, -1)) {
 		canvas.dropZones.push({
 			start: {
