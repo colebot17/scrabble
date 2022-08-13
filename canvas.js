@@ -207,7 +207,7 @@ function drawLetterBank() {
 				y: canvas.bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
 			bankIndex: canvas.bank[i].bankIndex
-		}
+		};
 		canvas.dropZones.push(JSON.parse(JSON.stringify(newZone)));
 	}
 	
@@ -219,15 +219,15 @@ function drawLetterBank() {
 		const height = canvas.dropZones[i].end.y - zoneStartY;
 
 		canvas.ctx.fillStyle = "#0000FF66";
-		canvas.ctx.fillRect(zoneStartX, startY, width, height);
+		canvas.ctx.fillRect(zoneStartX, zoneStartY, width, height);
 
 		canvas.ctx.strokeStyle = "#0000FF99";
-		canvas.ctx.strokeRect(zoneStartX, startY, width, height);
+		canvas.ctx.strokeRect(zoneStartX, zoneStartY, width, height);
 
 		canvas.ctx.fillStyle = "#FFFFFF99";
 		canvas.ctx.font = "10px Eurostile";
 		canvas.ctx.textAlign = "left";
-		canvas.ctx.fillText(bank[i].letter + ", " + bank[i].position.x, zoneStartX + 2, startY + 12);
+		canvas.ctx.fillText(bank[i].letter + ", " + bank[i].position.x, zoneStartX + 2, zoneStartY + 12);
 	}
 }
 
