@@ -155,7 +155,17 @@ function drawLetterBank() {
 
 	let currentGapSpace = 0;
 
-	canvas.dropZones = [];
+	// add the first drop zone
+	canvas.dropZones = [{
+		start: {
+			x: bank[0].position.x - (canvas.extraGapBeforeBank ? extraTileGap : defaultTileGap) - (canvas.bankTileWidth / 2),
+			y: bank[0].position.y + (canvas.bankTileWidth / 5)
+		},
+		end: {
+			x: bank[0].position.x + (canvas.bankTileWidth / 2),
+			y: bank[0].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
+		}
+	}];
 
 	// draw each letter (we are using the bank without hidden letters)
 	for (let i in bank) {
