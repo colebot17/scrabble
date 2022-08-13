@@ -200,11 +200,11 @@ function drawLetterBank() {
 	for (let i in bank.slice(0, -1)) {
 		canvas.dropZones.push({
 			start: {
-				x: canvas.bank[i].position.x + canvas.bankTileWidth - (canvas.bankTileWidth / 2),
+				x: canvas.bank[i].position.x + (canvas.bankTileWidth / 2),
 				y: canvas.bank[i].position.y - (canvas.bankTileWidth / 5)
 			},
 			end: {
-				x: canvas.bank[i].position.x + canvas.bankTileWidth + (bank[i].extraGapAfter ? extraTileGap : defaultTileGap) + (canvas.bankTileWidth / 2),
+				x: canvas.bank[i].position.x + (canvas.bankTileWidth * 1.5) + (bank[i].extraGapAfter ? extraTileGap : defaultTileGap),
 				y: canvas.bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
 			bankIndex: canvas.bank[i].bankIndex
