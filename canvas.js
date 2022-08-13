@@ -197,14 +197,18 @@ function drawLetterBank() {
 		}
 
 		// calculate drop zones for the letter bank
+		const newZoneStartX = canvas.bank[i].position.x + (canvas.bankTileWidth / 2);
+		const newZoneStartY = canvas.bank[i].position.y - (canvas.bankTileWidth / 5);
+		const newZoneEndX = canvas.bank[i].position.x + (canvas.bankTileWidth * 1.5) + (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
+		const newZoneEndY = canvas.bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5);
 		let newZone = {
 			start: {
-				x: canvas.bank[i].position.x + (canvas.bankTileWidth / 2),
-				y: canvas.bank[i].position.y - (canvas.bankTileWidth / 5)
+				x: newZoneStartX,
+				y: newZoneStartY
 			},
 			end: {
-				x: canvas.bank[i].position.x + (canvas.bankTileWidth * 1.5) + (bank[i].extraGapAfter ? extraTileGap : defaultTileGap),
-				y: canvas.bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
+				x: newZoneEndX,
+				y: newZoneEndY
 			},
 			bankIndex: canvas.bank[i].bankIndex
 		};
