@@ -117,7 +117,7 @@ function drawLetterBank() {
 	var bank = [];
 	for (var i = 0; i < canvas.bank.length; i++) {
 		if (!canvas.bank[i].hidden) {
-			bank.push(JSON.parse(JSON.stringify(canvas.bank[i])));
+			bank.push(canvas.bank[i]);
 		}
 	}
 
@@ -197,18 +197,14 @@ function drawLetterBank() {
 		}
 
 		// calculate drop zones for the letter bank
-		const newZoneStartX = canvas.bank[i].position.x + (canvas.bankTileWidth / 2);
-		const newZoneStartY = canvas.bank[i].position.y - (canvas.bankTileWidth / 5);
-		const newZoneEndX = canvas.bank[i].position.x + (canvas.bankTileWidth * 1.5) + (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
-		const newZoneEndY = canvas.bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5);
 		let newZone = {
 			start: {
-				x: newZoneStartX,
-				y: newZoneStartY
+				x: canvas.bank[i].position.x + (canvas.bankTileWidth / 2),
+				y: canvas.bank[i].position.y - (canvas.bankTileWidth / 5)
 			},
 			end: {
-				x: newZoneEndX,
-				y: newZoneEndY
+				x: canvas.bank[i].position.x + (canvas.bankTileWidth * 1.5) + (bank[i].extraGapAfter ? extraTileGap : defaultTileGap),
+				y: canvas.bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
 			bankIndex: canvas.bank[i].bankIndex
 		};
