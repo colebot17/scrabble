@@ -165,7 +165,8 @@ function drawLetterBank() {
 			x: bank[0].position.x + (canvas.bankTileWidth / 2),
 			y: bank[0].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 		},
-		bankIndex: -1
+		bankIndex: -1,
+		nonHiddenBankIndex: -1
 	}];
 
 	// draw each letter (we are using the bank without hidden letters)
@@ -217,9 +218,10 @@ function drawLetterBank() {
 				x: bank[i].position.x + (canvas.bankTileWidth * 1.5) + (bank[i].extraGapAfter ? extraTileGap : defaultTileGap),
 				y: bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
-			bankIndex: bank[i].bankIndex
+			bankIndex: bank[i].bankIndex,
+			nonHiddenBankIndex: i
 		};
-		canvas.dropZones.push(JSON.parse(JSON.stringify(newZone)));
+		canvas.dropZones.push(newZone);
 	}
 }
 
