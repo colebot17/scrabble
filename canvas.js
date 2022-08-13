@@ -204,7 +204,7 @@ function drawLetterBank() {
 				y: canvas.bank[i].position.y - (canvas.bankTileWidth / 5)
 			},
 			end: {
-				x: canvas.bank[i].position.x + canvas.bankTileWidth + 5 + (canvas.bankTileWidth / 2),
+				x: canvas.bank[i].position.x + canvas.bankTileWidth + (bank[i].extraGapAfter ? extraTileGap : defaultTileGap) + (canvas.bankTileWidth / 2),
 				y: canvas.bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
 			bankIndex: canvas.bank[i].bankIndex
