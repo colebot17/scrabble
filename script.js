@@ -1117,9 +1117,7 @@ function moveBankLetter(from, to) {
 		return;
 	}
 
-	if (from < to) {
-		to--;
-	}
+	to--;
 
 	// move the letter on the client side
 	let currentPlayerIndex;
