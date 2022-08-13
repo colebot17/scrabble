@@ -893,7 +893,7 @@ function gameInit() {
 					cursor = 'grabbing';
 				}
 
-				if (boardY > 15) {
+				if (boardY > 14) {
 					for (let i in canvas.dropZones) {
 						canvas.bank[i].extraGapAfter = false;
 						// if the user is dragging over this zone
