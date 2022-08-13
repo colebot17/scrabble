@@ -209,6 +209,15 @@ function drawLetterBank() {
 			},
 			bankIndex: canvas.bank[i].bankIndex
 		});
+		
+		// draw drop zones for testing
+		const startX = canvas.dropZones[i].start.x;
+		const startY = canvas.dropZones[i].start.y;
+		const width = canvas.dropZones[i].end.x - startX;
+		const height = canvas.dropZones[i].end.y - startY;
+		
+		canvas.ctx.fillStyle = "#0000FF66";
+		canvas.ctx.fillRect(startX, startY, width, height);
 	}
 }
 
