@@ -995,7 +995,9 @@ function gameInit() {
 			for (let i in canvas.dropZones) {
 
 				// if the user dropped into this zone
-				if ((x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
+				const xWithin = (x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x);
+				const yWithin = (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y);
+				if (xWithin && yWithin) {
 
 					// move the letter
 					moveBankLetter(dragged.bankIndex, canvas.dropZones[i].canvasBankIndex);
@@ -1010,7 +1012,7 @@ function gameInit() {
 
 			}
 
-			canvas.bank[dragged.canvasBankIndex].hidden = false; // show the letter in the bank
+			canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
 		}
 		
 		dragged = undefined; // remove the dragged tile
