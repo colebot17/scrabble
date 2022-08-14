@@ -621,7 +621,7 @@ function gameInit() {
 	// initialize the order of letters in the bank
 	canvas.bankOrder = [];
 	for (let i in bank) {
-		canvas.bankOrder.push(i);
+		canvas.bankOrder.push(parseInt(i));
 	}
 
 	// clear event listeners from canvas
