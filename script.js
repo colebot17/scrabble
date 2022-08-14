@@ -709,7 +709,14 @@ function gameInit() {
 						pixelY: y
 					}
 					canvas.bank[bank[i].canvasBankIndex].hidden = true; // hide the letter from the bank
-					canvas.bank[bank[i].canvasBankIndex - 1].extraGapAfter = true; // add a gap where the letter used to be
+					
+					// add a gap where the letter used to be
+					if (bank[i].canvasBankIndex - 1 < 0) {
+						canvas.extraGapBeforeBank = true;
+					} else {
+						canvas.bank[bank[i].canvasBankIndex - 1].extraGapAfter = true;
+					}
+					
 
 					return; // don't bother to check the board
 				}
