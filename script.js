@@ -1000,7 +1000,7 @@ function gameInit() {
 				if (xWithin && yWithin) {
 
 					// move the letter
-					moveBankLetter(dragged.bankIndex, canvas.dropZones[i].canvasBankIndex);
+					moveBankLetter(dragged.bankIndex, canvas.dropZones[i].bankIndex);
 
 					// remove any extra gap after any letter
 					canvas.extraGapBeforeBank = false;
@@ -1173,22 +1173,11 @@ function moveBankLetter(from, to) {
 	// canvas.bankOrder = [0, 1, 2, 3, 4, 5, 6];
 
 	
+	// remove that letter from the order
+	canvas.bankOrder.splice(canvas.bankOrder.indexOf(from), 1);
 
-	// save and remove that letter from the canvas bank
-	movingLetter = JSON.parse(JSON.stringify(canvas.bank[from]));
-	canvas.bank.splice(from, 1);
-
-	// add the letter before that letter
-	canvas.bank.splice(to - 1, 0, movingLetter);
-
-	// update all canvasBankIndex properties
-	for (let y in game.board) {
-		for (let x in game.board) {
-			if (game.board?.[y]?.[x]) {
-
-			}
-		}
-	}
+	// add the letter before "to"
+	canvas.bankOrder.splice(canvas.bankOrder.indexOf(to) - 1, 0, from);
 
 	// $.ajax(
 	// 	'moveBankLetter.php',
