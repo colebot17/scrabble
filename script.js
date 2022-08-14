@@ -1172,6 +1172,8 @@ function moveBankLetter(from, to) {
 
 	// canvas.bankOrder = [0, 1, 2, 3, 4, 5, 6];
 
+	console.log(canvas.bankOrder);
+
 	
 	// remove that letter from the order
 	canvas.bankOrder.splice(canvas.bankOrder.indexOf(from), 1);
