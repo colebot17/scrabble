@@ -187,19 +187,19 @@ function drawLetterBank() {
 		}
 
 		// calculate where to start
-		let x = startX + (tileWidth * drawnLetters) + currentGapSpace;
-		let y = startY + titleSize + 20;
+		const x = startX + (tileWidth * drawnLetters) + currentGapSpace;
+		const y = startY + titleSize + 20;
 		
 		// store the position of the tile for later use
 		canvasLetter.position.x = x;
 		canvasLetter.position.y = y;
 
 		// calculate the position of the letter and points on the tile
-		let textX = x + (tileWidth / 2);
-		let textY = y + (tileWidth / 2) + (textSize / 3);
+		const textX = x + (tileWidth / 2);
+		const textY = y + (tileWidth / 2) + (textSize / 3);
 
-		let pointsX = x + (tileWidth * 0.9);
-		let pointsY = y + (tileWidth * 0.9);
+		const pointsX = x + (tileWidth * 0.9);
+		const pointsY = y + (tileWidth * 0.9);
 
 		// after calculating, increase the current gap space
 		currentGapSpace += (canvasLetter.extraGapAfter ? extraTileGap : defaultTileGap);
