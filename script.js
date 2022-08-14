@@ -912,12 +912,14 @@ function gameInit() {
 							canvas.bank[canvas.dropZones[i].bankIndex].extraGapAfter = false;
 						}
 						// if the user is dragging over this zone
-						if ((x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
+						const xInDropZone = x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x;
+						const yInDropZone = y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y;
+						if (xInDropZone && yInDropZone) {
 							// make the gap bigger
-							if (canvas.dropZones[i].bankIndex < 0) {
+							if (i == 0) {
 								canvas.extraGapBeforeBank = true;
 							} else {
-								canvas.bank[canvas.dropZones[i].bankIndex].extraGapAfter = true;
+								canvas.bank[canvas.dropZones[i].bankIndex - 1].extraGapAfter = true;
 							}
 						}
 					}
