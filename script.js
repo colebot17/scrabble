@@ -964,7 +964,7 @@ function gameInit() {
 		const boardY = Math.floor(y / (squareWidth + squareGap));
 
 		// determine whether the tile has moved since touchdown (or if it has been clicked)
-		const stayedStill = dragged.posHistory.length === 1;
+		const stayedStill = dragged?.posHistory?.length === 1;
 
 		const onBoard = (x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width);
 		const onExistingTile = game.board?.[boardY]?.[boardX];
