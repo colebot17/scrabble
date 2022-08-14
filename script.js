@@ -600,8 +600,10 @@ function gameInit() {
 		}
 	}
 
-	// create an object of the letter bank for the canvas
+	// this is the current player's bank
 	var bank = game.players[currentPlayerIndex].letterBank;
+
+	// create an object of the letter bank for the canvas
 	canvas.bank = [];
 	for (var i = 0; i < bank.length; i++) {
 		canvas.bank.push({
@@ -614,6 +616,12 @@ function gameInit() {
 			bankIndex: i,
 			canvasBankIndex: i,
 		});
+	}
+
+	// initialize the order of letters in the bank
+	canvas.bankOrder = [];
+	for (let i in bank) {
+		canvas.bankOrder.push(i);
 	}
 
 	// clear event listeners from canvas
@@ -905,12 +913,15 @@ function gameInit() {
 					cursor = 'grabbing';
 				}
 
+				// remove all gaps between letters in bank
+				canvas.extraGapBeforeBank = false;
+				for (let i in canvas.bank) {
+					canvas.bank[i].extraGapAfter = false;
+				}
+
 				if (boardY > 14) {
-					canvas.extraGapBeforeBank = false;
+					// expand the space between letters in bank as necessary
 					for (let i in canvas.dropZones) {
-						if (canvas.dropZones[i].bankIndex >= 0 && canvas.dropZones[i].bankIndex < canvas.bank.length) {
-							canvas.bank[canvas.dropZones[i].bankIndex].extraGapAfter = false;
-						}
 						// if the user is dragging over this zone
 						const xInDropZone = x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x;
 						const yInDropZone = y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y;
@@ -983,7 +994,7 @@ function gameInit() {
 				if ((x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
 
 					// move the letter
-					moveBankLetter(dragged.bankIndex, canvas.dropZones[i].bankIndex);
+					moveBankLetter(dragged.canvasBankIndex, canvas.dropZones[i].canvasBankIndex);
 
 					// remove any extra gap after any letter
 					canvas.extraGapBeforeBank = false;
@@ -1150,33 +1161,28 @@ function moveBankLetter(from, to) {
 		return;
 	}
 
-	// "from" represents the *actual* bank index of the tile we are moving
-	// "to" represents the *actual* bank index of the tile before which we are moving the tile
+	// "from" represents the canvas bank index we are moving from
+	// "to" represents the canvas bank index before which we are moving
 
-	// find the canvas.bank index of the tile we are moving
-	let fromCanvasBankIndex;
-	for (let i in canvas.bank) {
-		if (canvas.bank[i].bankIndex == from) {
-			fromCanvasBankIndex = i;
-			break;
-		}
-	}
+	// canvas.bankOrder = [0, 1, 2, 3, 4, 5, 6];
+
+	
 
 	// save and remove that letter from the canvas bank
-	movingLetter = JSON.parse(JSON.stringify(canvas.bank[fromCanvasBankIndex]));
-	canvas.bank.splice(fromCanvasBankIndex, 1);
-
-	// find the canvas.bank index of the tile before which we are moving
-	let toCanvasBankIndex;
-	for (let i in canvas.bank) {
-		if (canvas.bank[i].bankIndex == to) {
-			toCanvasBankIndex = i;
-			break;
-		}
-	}
+	movingLetter = JSON.parse(JSON.stringify(canvas.bank[from]));
+	canvas.bank.splice(from, 1);
 
 	// add the letter before that letter
-	canvas.bank.splice(toCanvasBankIndex - 1, 0, movingLetter);
+	canvas.bank.splice(to - 1, 0, movingLetter);
+
+	// update all canvasBankIndex properties
+	for (let y in game.board) {
+		for (let x in game.board) {
+			if (game.board?.[y]?.[x]) {
+
+			}
+		}
+	}
 
 	// $.ajax(
 	// 	'moveBankLetter.php',

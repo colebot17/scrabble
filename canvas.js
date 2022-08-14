@@ -159,17 +159,27 @@ function drawLetterBank() {
 			x: bank[0].position.x + (canvas.bankTileWidth / 2),
 			y: bank[0].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 		},
-		bankIndex: 0
+		bankIndex: 0,
+		canvasBankIndex: 0
 	}];
 
-	// draw each letter (we are using the bank without hidden letters)
-	for (let i in bank) {
-		let x = startX + (tileWidth * i) + currentGapSpace;
+	// draw each letter
+	let drawnLetters = 0;
+	for (let i in canvas.bankOrder) {
+		const canvasLetter = canvas.bank[canvas.bankOrder[i]];
+
+		// don't display the letter if it is hidden
+		if (canvasLetter.hidden = true) {
+			continue;
+		}
+
+		// calculate where to start
+		let x = startX + (tileWidth * drawnLetters) + currentGapSpace;
 		let y = startY + titleSize + 20;
 		
 		// store the position of the tile for later use
-		canvas.bank[bank[i].canvasBankIndex].position.x = x;
-		canvas.bank[bank[i].canvasBankIndex].position.y = y;
+		canvasLetter.position.x = x;
+		canvasLetter.position.y = y;
 
 		// calculate the position of the letter and points on the tile
 		let textX = x + (tileWidth / 2);
@@ -179,22 +189,22 @@ function drawLetterBank() {
 		let pointsY = y + (tileWidth * 0.9);
 
 		// after calculating, increase the current gap space
-		currentGapSpace += (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
+		currentGapSpace += (canvasLetter.extraGapAfter ? extraTileGap : defaultTileGap);
 
 		// draw tile
 		canvas.ctx.fillStyle = "#a47449"; // tile brown
 		roundRect(canvas.ctx, x, y, tileWidth, tileWidth);
 
 		// if not blank
-		if (bank[i].letter) {
+		if (canvasLetter.letter) {
 			// draw letter
 			canvas.ctx.fillStyle = "#f2f5ff" // tile text color
 			canvas.ctx.font = textSize + "px Eurostile";
 			canvas.ctx.textAlign = "center";
-			canvas.ctx.fillText(bank[i].letter, textX, textY);
+			canvas.ctx.fillText(canvasLetter.letter, textX, textY);
 
 			// draw points
-			let points = letterScores[bank[i].letter.toUpperCase()];
+			let points = letterScores[canvasLetter.letter.toUpperCase()];
 
 			canvas.ctx.font = smallTextSize + "px Eurostile";
 			canvas.ctx.textAlign = "right";
@@ -204,16 +214,19 @@ function drawLetterBank() {
 		// calculate drop zones for the letter bank
 		let newZone = {
 			start: {
-				x: bank[i].position.x + (canvas.bankTileWidth / 2),
-				y: bank[i].position.y - (canvas.bankTileWidth / 5)
+				x: canvasLetter.position.x + (canvas.bankTileWidth / 2),
+				y: canvasLetter.position.y - (canvas.bankTileWidth / 5)
 			},
 			end: {
-				x: bank[i].position.x + (canvas.bankTileWidth * 1.5) + (bank[i].extraGapAfter ? extraTileGap : defaultTileGap),
-				y: bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
+				x: canvasLetter.position.x + (canvas.bankTileWidth * 1.5) + (canvasLetter.extraGapAfter ? extraTileGap : defaultTileGap),
+				y: canvasLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
-			bankIndex: bank[i].bankIndex + 1
+			bankIndex: canvasLetter.bankIndex + 1,
+			canvasBankIndex: i + 1
 		};
 		canvas.dropZones.push(newZone);
+
+		drawnLetters++;
 	}
 }
 
