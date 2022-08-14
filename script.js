@@ -1159,7 +1159,6 @@ function moveBankLetter(from, to) {
 	from = parseInt(from);
 	to = parseInt(to);
 	
-	console.log(from, to);
 
 	// don't move the letter if from is the same as to
 	if (from === to) {
@@ -1173,6 +1172,7 @@ function moveBankLetter(from, to) {
 	// canvas.bankOrder = [0, 1, 2, 3, 4, 5, 6];
 
 	console.log(canvas.bankOrder);
+	console.log(from, to);
 
 	
 	// remove that letter from the order
@@ -1180,6 +1180,8 @@ function moveBankLetter(from, to) {
 
 	// add the letter before "to"
 	canvas.bankOrder.splice(canvas.bankOrder.indexOf(to), 0, from);
+
+	console.log(canvas.bankOrder);
 
 	// $.ajax(
 	// 	'moveBankLetter.php',
