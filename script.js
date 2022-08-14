@@ -685,10 +685,13 @@ function gameInit() {
 		if (userTurn) {
 			// get the canvas.bank without hidden items
 			let bank = [];
+			let canvasBankIndex = 0;
 			for (var i = 0; i < canvas.bank.length; i++) {
 				if (!canvas.bank[i].hidden) {
 					bank.push(canvas.bank[i]);
+					bank[bank.length - 1].canvasBankIndex = canvasBankIndex;
 				}
+				canvasBankIndex++;
 			}
 
 			// loop through letter bank tile positions to see if user clicked on one
@@ -697,8 +700,16 @@ function gameInit() {
 				yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
 				if (xMatch && yMatch) { // if this is the one that the user has clicked on
 					// update the dragged piece
-					dragged = new Tile(undefined, undefined, bank[i].letter || "", bank[i].bankIndex, false, false, x, y);
-					canvas.bank[bank[i].bankIndex].hidden = true; // hide the letter from the bank
+					dragged = {
+						bankIndex: bank[i].bankIndex,
+						blank: !bank[i].letter,
+						canvasBankIndex: bank[i].canvasBankIndex,
+						letter: bank[i].letter,
+						pixelX: x,
+						pixelY: y
+					}
+					canvas.bank[bank[i].canvasBankIndex].hidden = true; // hide the letter from the bank
+					canvas.bank[bank[i].canvasBankIndex - 1].extraGapAfter = true; // add a gap where the letter used to be
 
 					return; // don't bother to check the board
 				}
@@ -951,8 +962,8 @@ function gameInit() {
 			for (let i in canvas.dropZones) {
 				// if the user dropped into this zone
 				if ((x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
-					// move the tile after dropZones[i].bankIndex
-					moveBankLetter(dragged.bankIndex, ++canvas.dropZones[i].bankIndex);
+					// move the letter
+					moveBankLetter(dragged.bankIndex, canvas.dropZones[i].bankIndex);
 
 					// remove any extra gap after any letter
 					canvas.extraGapBeforeBank = false;
@@ -962,7 +973,7 @@ function gameInit() {
 				}
 			}
 
-			canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
+			canvas.bank[dragged.canvasBankIndex].hidden = false; // show the letter in the bank
 		}
 		
 		dragged = undefined; // remove the dragged tile
@@ -1117,51 +1128,60 @@ function moveBankLetter(from, to) {
 		return;
 	}
 
-	if (from < to) {
-		to--;
-	}
+	// "from" represents the *actual* bank index of the tile we are moving
+	// "to" represents the *actual* bank index of the tile before which we are moving the tile
 
-	const canvasOldBank = JSON.parse(JSON.stringify(canvas.bank));
-
-	// move the letter in the canvas bank
-	letter = canvas.bank[from];
-	letter.hidden = false;
-	canvas.bank.splice(from, 1);
-	canvas.bank.splice(to, 0, letter);
-
-	// reset the canvas bank bank indexes
+	// find the canvas.bank index of the tile we are moving
+	let fromCanvasBankIndex;
 	for (let i in canvas.bank) {
-		canvas.bank[i].bankIndex = i;
+		if (canvas.bank[i].bankIndex == from) {
+			fromCanvasBankIndex = i;
+			break;
+		}
 	}
 
-	$.ajax(
-		'moveBankLetter.php',
-		{
-			data: {
-				user: account.id,
-				pwd: account.pwd,
-				game: game.id,
-				from,
-				to
-			},
-			method: "POST",
-			success: function(data) {
-				const jsonData = JSON.parse(data);
-				if (jsonData.errorLevel <= 0) {
-					// do nothing. the letter has already been moved
-				} else if (jsonData.errorLevel === 1) {
-					// move back but don't say anything
-					canvas.bank = JSON.parse(JSON.stringify(canvasOldBank));
-					letterBank = JSON.parse(JSON.stringify(oldBank));
-				} else {
-					// move back and show an alert
-					canvas.bank = JSON.parse(JSON.stringify(canvasOldBank));
-					letterBank = JSON.parse(JSON.stringify(oldBank));
-					textModal("Error", jsonData.message);
-				}
-			}
+	// save and remove that letter from the canvas bank
+	movingLetter = JSON.parse(JSON.stringify(canvas.bank[fromCanvasBankIndex]));
+	canvas.bank.splice(fromCanvasBankIndex, 1);
+
+	// find the canvas.bank index of the tile before which we are moving
+	let toCanvasBankIndex;
+	for (let i in canvas.bank) {
+		if (canvas.bank[i].bankIndex == to) {
+			toCanvasBankIndex = i;
+			break;
 		}
-	)
+	}
+
+	// add the letter before that letter
+	canvas.bank.splice(toCanvasBankIndex - 1, 0, movingLetter);
+
+	// $.ajax(
+	// 	'moveBankLetter.php',
+	// 	{
+	// 		data: {
+	// 			user: account.id,
+	// 			pwd: account.pwd,
+	// 			game: game.id,
+	// 			from,
+	// 			to
+	// 		},
+	// 		method: "POST",
+	// 		success: function(data) {
+	// 			const jsonData = JSON.parse(data);
+	// 			if (jsonData.errorLevel <= 0) {
+	// 				// do nothing. the letter has already been moved
+	// 			} else if (jsonData.errorLevel === 1) {
+	// 				// move back but don't say anything
+	// 				canvas.bank = JSON.parse(JSON.stringify(canvasOldBank));
+	// 			} else {
+	// 				// move back and show an alert
+	// 				canvas.bank = JSON.parse(JSON.stringify(canvasOldBank));
+	// 				textModal("Error", jsonData.message);
+	// 			}
+	// 		}
+	// 	}
+	// );
 }
 
 function exchangeLetters() {

@@ -114,11 +114,14 @@ function drawBoard() {
 
 function drawLetterBank() {
 	// get the bank without any hidden letters
-	var bank = [];
+	let bank = [];
+	let canvasBankIndex = 0;
 	for (var i = 0; i < canvas.bank.length; i++) {
 		if (!canvas.bank[i].hidden) {
 			bank.push(canvas.bank[i]);
+			bank[bank.length - 1].canvasBankIndex = canvasBankIndex;
 		}
+		canvasBankIndex++;
 	}
 
 	// find where the board ends and the bank starts
@@ -165,7 +168,7 @@ function drawLetterBank() {
 			x: bank[0].position.x + (canvas.bankTileWidth / 2),
 			y: bank[0].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 		},
-		bankIndex: -1
+		bankIndex: 0
 	}];
 
 	// draw each letter (we are using the bank without hidden letters)
@@ -174,8 +177,8 @@ function drawLetterBank() {
 		let y = startY + titleSize + 20;
 		
 		// store the position of the tile for later use
-		canvas.bank[bank[i].bankIndex].position.x = x;
-		canvas.bank[bank[i].bankIndex].position.y = y;
+		canvas.bank[bank[i].canvasBankIndex].position.x = x;
+		canvas.bank[bank[i].canvasBankIndex].position.y = y;
 
 		// calculate the position of the letter and points on the tile
 		let textX = x + (tileWidth / 2);
@@ -192,7 +195,7 @@ function drawLetterBank() {
 		roundRect(canvas.ctx, x, y, tileWidth, tileWidth);
 
 		// if not blank
-		if (bank[i].letter && bank[i].letter !== ".") {
+		if (bank[i].letter) {
 			// draw letter
 			canvas.ctx.fillStyle = "#f2f5ff" // tile text color
 			canvas.ctx.font = textSize + "px Eurostile";
@@ -217,7 +220,7 @@ function drawLetterBank() {
 				x: bank[i].position.x + (canvas.bankTileWidth * 1.5) + (bank[i].extraGapAfter ? extraTileGap : defaultTileGap),
 				y: bank[i].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
-			bankIndex: parseInt(bank[i].bankIndex)
+			bankIndex: bank[i].bankIndex + 1
 		};
 		canvas.dropZones.push(newZone);
 	}
