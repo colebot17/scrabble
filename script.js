@@ -703,28 +703,33 @@ function gameInit() {
 			}
 
 			// loop through letter bank tile positions to see if user clicked on one
-			for (let i = bank.length - 1; i >= 0; i--) {
-				xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
-				yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
+			for (let i in canvas.bankOrder) {
+				const canvasLetter = canvas.bank[canvas.bankOrder[i]];
+
+				// don't accept a click if the letter is hidden
+				if (canvasLetter.hidden) {
+					continue;
+				}
+
+				const xMatch = x > canvasLetter.position.x && x < canvasLetter.position.x + canvas.bankTileWidth;
+				const yMatch = y > canvasLetter.position.y && y < canvasLetter.position.y + canvas.bankTileWidth;
 				if (xMatch && yMatch) { // if this is the one that the user has clicked on
 					// update the dragged piece
 					dragged = {
-						bankIndex: bank[i].bankIndex,
-						blank: !bank[i].letter,
-						canvasBankIndex: bank[i].canvasBankIndex,
-						letter: bank[i].letter,
+						bankIndex: canvasLetter.bankIndex,
+						blank: !canvasLetter.letter,
+						letter: canvasLetter.letter,
 						pixelX: x,
 						pixelY: y
 					}
-					canvas.bank[bank[i].canvasBankIndex].hidden = true; // hide the letter from the bank
+					canvasLetter.hidden = true; // hide the letter from the bank
 					
 					// add a gap where the letter used to be
-					if (bank[i].canvasBankIndex - 1 < 0) {
+					if (canvas.bankOrder[i] - 1 < 0) {
 						canvas.extraGapBeforeBank = true;
 					} else {
-						canvas.bank[bank[i].canvasBankIndex - 1].extraGapAfter = true;
+						canvas.bank[canvas.bankOrder[i] - 1].extraGapAfter = true;
 					}
-					
 
 					return; // don't bother to check the board
 				}
@@ -748,7 +753,6 @@ function gameInit() {
 			dragged = {
 				bankIndex: tile.bankIndex,
 				blank: tile.blank,
-				canvasBankIndex: tile.canvasBankIndex,
 				letter: tile.letter,
 				mouseOffset: {
 					x: (boardX - (x / (squareWidth + squareGap))) * (squareWidth + squareGap),
@@ -883,9 +887,9 @@ function gameInit() {
 			}
 
 			// loop through letter bank tile positions to see if user is hovering over one
-			for (let i = bank.length - 1; i >= 0; i--) {
-				xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
-				yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
+			for (let i in bank) {
+				const xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
+				const yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
 				if (xMatch && yMatch) { // if this is the one that the user is hovering over
 					cursor = (outOfTurn ? 'not-allowed' : 'grab');
 				}
