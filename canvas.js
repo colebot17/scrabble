@@ -228,6 +228,15 @@ function drawLetterBank() {
 
 		drawnLetters++;
 	}
+
+	// draw drop zones for testing
+	for (let i in canvas.dropZones) {
+		canvas.ctx.fillStyle = "#0000FF66";
+		canvas.ctx.fillRect(canvas.dropZones[i].start.x, canvas.dropZones[i].start.y, canvas.dropZones[i].end.x - canvas.dropZones[i].start.x, canvas.dropZones[i].end.y - canvas.dropZones[i].start.y);
+
+		canvas.ctx.strokeStyle = "#0000FF99";
+		canvas.ctx.strokeRect(canvas.dropZones[i].start.x, canvas.dropZones[i].start.y, canvas.dropZones[i].end.x - canvas.dropZones[i].start.x, canvas.dropZones[i].end.y - canvas.dropZones[i].start.y);
+	}
 }
 
 function updateTile(tile) {
