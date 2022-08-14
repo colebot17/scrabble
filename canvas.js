@@ -149,19 +149,32 @@ function drawLetterBank() {
 
 	let currentGapSpace = 0;
 
-	// add the first drop zone
-	canvas.dropZones = [{
-		start: {
-			x: canvas.bank[canvas.bankOrder[0]].position.x - (canvas.extraGapBeforeBank ? extraTileGap : defaultTileGap) - (canvas.bankTileWidth / 2),
-			y: canvas.bank[canvas.bankOrder[0]].position.y - (canvas.bankTileWidth / 5)
-		},
-		end: {
-			x: canvas.bank[canvas.bankOrder[0]].position.x + (canvas.bankTileWidth / 2),
-			y: canvas.bank[canvas.bankOrder[0]].position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
-		},
-		bankIndex: 0,
-		canvasBankIndex: 0
-	}];
+	// find the first visible letter
+	let firstLetter;
+	for (let i in canvas.bankOrder) {
+		if (!canvas.bank[canvas.bankOrder[i]].hidden) {
+			firstLetter = canvas.bank[canvas.bankOrder[i]];
+			break;
+		}
+	}
+
+	if (firstLetter) {
+		// add the first drop zone
+		canvas.dropZones = [{
+			start: {
+				x: firstLetter.position.x - (canvas.extraGapBeforeBank ? extraTileGap : defaultTileGap) - (canvas.bankTileWidth / 2),
+				y: firstLetter.position.y - (canvas.bankTileWidth / 5)
+			},
+			end: {
+				x: firstLetter.position.x + (canvas.bankTileWidth / 2),
+				y: firstLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
+			},
+			bankIndex: 0,
+			canvasBankIndex: 0
+		}];
+	} else {
+		canvas.dropZones = []; // initialize no drop zones because there are no visible letters in the bank
+	}
 
 	// draw each letter
 	let drawnLetters = 0;
