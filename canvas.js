@@ -134,8 +134,8 @@ function drawLetterBank() {
 	const defaultTileGap = 5;
 	const extraTileGap = 30;
 
-	let totalGapSpace = 0;
-	for (let i in bank.slice(0, -1)) {
+	let totalGapSpace = (canvas.extraGapBeforeBank ? extraTileGap - defaultTileGap : 0);
+	for (let i in bank) {
 		totalGapSpace += (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
 	}
 
