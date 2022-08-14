@@ -611,7 +611,8 @@ function gameInit() {
 				x: undefined,
 				y: undefined
 			},
-			bankIndex: i
+			bankIndex: i,
+			canvasBankIndex: i,
 		});
 	}
 
@@ -641,7 +642,9 @@ function gameInit() {
 		// un-hide all letters in bank
 		for (let i in canvas.bank) {
 			canvas.bank[i].hidden = false;
+			canvas.bank[i].extraGapAfter = false;
 		}
+		canvas.extraGapBeforeBank = false;
 	}
 	$canvas.on('dblclick', handleCanvasDblClick);
 
@@ -685,13 +688,10 @@ function gameInit() {
 		if (userTurn) {
 			// get the canvas.bank without hidden items
 			let bank = [];
-			let canvasBankIndex = 0;
 			for (var i = 0; i < canvas.bank.length; i++) {
 				if (!canvas.bank[i].hidden) {
-					bank.push(canvas.bank[i]);
-					bank[bank.length - 1].canvasBankIndex = canvasBankIndex;
+					bank.push(JSON.parse(JSON.stringify(canvas.bank[i])));
 				}
-				canvasBankIndex++;
 			}
 
 			// loop through letter bank tile positions to see if user clicked on one
@@ -730,16 +730,21 @@ function gameInit() {
 
 		// initialize the drag if tile is unlocked (and it's the user's turn)
 		if (!locked && userTurn) {
-			dragged = new Tile(undefined, undefined, tile.letter, tile.bankIndex, tile.blank, tile.locked, x, y);
-
-			dragged.mouseOffset = {
-				x: (boardX - (x / (squareWidth + squareGap))) * (squareWidth + squareGap),
-				y: (boardY - (y / (squareWidth + squareGap))) * (squareWidth + squareGap)
+			dragged = {
+				bankIndex: tile.bankIndex,
+				blank: tile.blank,
+				canvasBankIndex: tile.canvasBankIndex,
+				letter: tile.letter,
+				mouseOffset: {
+					x: (boardX - (x / (squareWidth + squareGap))) * (squareWidth + squareGap),
+					y: (boardY - (y / (squareWidth + squareGap))) * (squareWidth + squareGap)
+				},
+				pixelX: x,
+				pixelY: y,
+				posHistory: [{x, y}]
 			}
 
-			dragged.posHistory = [{x, y}];
-
-			game.board[boardY][boardX] = null;
+			game.board[boardY][boardX] = null; // remove the tile from the board
 
 			return; // nothing else to do
 		}
@@ -952,16 +957,22 @@ function gameInit() {
 		const boardY = Math.floor(y / (squareWidth + squareGap));
 
 		// determine whether the tile has moved since touchdown (or if it has been clicked)
-		const stayedStill = dragged?.posHistory?.length === 1;
+		const stayedStill = dragged.posHistory.length === 1;
 
-		// only if the letter was dropped on a free space on the board
-		if ((x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width) && !game.board?.[boardY]?.[boardX] && !stayedStill) {
-			// add the letter to the appropriate spot on the board
-			addLetter(boardX, boardY, dragged.bankIndex);
-		} else { // if the letter was dropped anywhere else
+		const onBoard = (x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width);
+		const onExistingTile = game.board?.[boardY]?.[boardX];
+
+		// only if the letter was moved to a free space on the board
+		if (onBoard && !onExistingTile && !stayedStill) {
+			addLetter(boardX, boardY, dragged.bankIndex); // add the letter to the appropriate spot on the board
+		} else { // if the letter was dropped anywhere else or stayed still
+
+			// find out if it was dropped into a drop zone
 			for (let i in canvas.dropZones) {
+
 				// if the user dropped into this zone
 				if ((x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
+
 					// move the letter
 					moveBankLetter(dragged.bankIndex, canvas.dropZones[i].bankIndex);
 
@@ -970,7 +981,9 @@ function gameInit() {
 					for (let j in canvas.bank) {
 						canvas.bank[j].extraGapAfter = false;
 					}
+
 				}
+				
 			}
 
 			canvas.bank[dragged.canvasBankIndex].hidden = false; // show the letter in the bank
