@@ -17,15 +17,6 @@ function canvasInit() {
 	if (canvas.interval) {clearInterval(canvas.interval)}
 	canvas.interval = setInterval(updateDisplay, 20);
 
-	// make a list of what order different turns should be
-	let currentPlayerIndex;
-	for (var i = game.players.length - 1; i >= 0; i--) {
-		if (game.players[i].id == account.id) {
-			currentPlayerIndex = i;
-			break;
-		}
-	}
-
 	// surely there is a better way but we'll just loop back through the players to find the player's last turn
 	let playerLastTurn = game.turn - 1;
 	while (game.players?.[playerLastTurn % game.players.length]?.id != account.id && playerLastTurn > -1) {
