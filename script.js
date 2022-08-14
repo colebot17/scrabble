@@ -998,7 +998,7 @@ function gameInit() {
 				if ((x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
 
 					// move the letter
-					moveBankLetter(dragged.canvasBankIndex, canvas.dropZones[i].canvasBankIndex);
+					moveBankLetter(dragged.bankIndex, canvas.dropZones[i].canvasBankIndex);
 
 					// remove any extra gap after any letter
 					canvas.extraGapBeforeBank = false;
@@ -1165,8 +1165,8 @@ function moveBankLetter(from, to) {
 		return;
 	}
 
-	// "from" represents the canvas bank index we are moving from
-	// "to" represents the canvas bank index before which we are moving
+	// "from" represents the bank index we are moving from
+	// "to" represents the bank index before which we are moving
 
 	// canvas.bankOrder = [0, 1, 2, 3, 4, 5, 6];
 
