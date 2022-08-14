@@ -1177,7 +1177,7 @@ function moveBankLetter(from, to) {
 	canvas.bankOrder.splice(canvas.bankOrder.indexOf(from), 1);
 
 	// add the letter before "to"
-	canvas.bankOrder.splice(canvas.bankOrder.indexOf(to) - 1, 0, from);
+	canvas.bankOrder.splice(canvas.bankOrder.indexOf(to), 0, from);
 
 	// $.ajax(
 	// 	'moveBankLetter.php',
