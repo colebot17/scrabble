@@ -901,8 +901,8 @@ function gameInit() {
 				if (boardY > 14) {
 					canvas.extraGapBeforeBank = false;
 					for (let i in canvas.dropZones) {
-						if (canvas.dropZones[i].bankIndex >= 0) {
-							canvas.bank[canvas.dropZones[i].bankIndex].extraGapAfter = false;
+						if (canvas.dropZones[i].bankIndex >= 0 && canvas.dropZones[i].bankIndex < canvas.bank.length) {
+							canvas.bank[canvas.dropZones[i].bankIndex]?.extraGapAfter = false;
 						}
 						// if the user is dragging over this zone
 						if ((x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x) && (y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y)) {
@@ -983,7 +983,7 @@ function gameInit() {
 					}
 
 				}
-				
+
 			}
 
 			canvas.bank[dragged.canvasBankIndex].hidden = false; // show the letter in the bank
