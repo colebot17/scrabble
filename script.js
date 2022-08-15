@@ -887,7 +887,7 @@ function gameInit() {
 				const xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
 				const yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
 				if (xMatch && yMatch) { // if this is the one that the user is hovering over
-					cursor = (outOfTurn ? 'not-allowed' : 'grab');
+					cursor = 'grab';
 				}
 			}
 
@@ -902,7 +902,7 @@ function gameInit() {
 				if (locked) {
 					cursor = 'pointer';
 				} else {
-					cursor = (outOfTurn ? 'not-allowed' : 'grab');
+					cursor = 'grab';
 				}
 			}
 			
