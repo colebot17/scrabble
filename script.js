@@ -699,38 +699,36 @@ function gameInit() {
 			clientY = e.clientY;
 		}
 
-		if (userTurn) {
-			// loop through letter bank tile positions to see if user clicked on one
-			for (let i in canvas.bankOrder) {
-				const canvasLetter = canvas.bank[canvas.bankOrder[i]];
+		// loop through letter bank tile positions to see if user clicked on one
+		for (let i in canvas.bankOrder) {
+			const canvasLetter = canvas.bank[canvas.bankOrder[i]];
 
-				// don't accept a click if the letter is hidden
-				if (canvasLetter.hidden) {
-					continue;
+			// don't accept a click if the letter is hidden
+			if (canvasLetter.hidden) {
+				continue;
+			}
+
+			const xMatch = x > canvasLetter.position.x && x < canvasLetter.position.x + canvas.bankTileWidth;
+			const yMatch = y > canvasLetter.position.y && y < canvasLetter.position.y + canvas.bankTileWidth;
+			if (xMatch && yMatch) { // if this is the one that the user has clicked on
+				// update the dragged piece
+				dragged = {
+					bankIndex: canvasLetter.bankIndex,
+					blank: !canvasLetter.letter,
+					letter: canvasLetter.letter,
+					pixelX: x,
+					pixelY: y
+				}
+				canvasLetter.hidden = true; // hide the letter from the bank
+				
+				// add a gap where the letter used to be
+				if (i == 0) {
+					canvas.extraGapBeforeBank = true;
+				} else {
+					canvas.bank[canvas.bankOrder[i - 1]].extraGapAfter = true;
 				}
 
-				const xMatch = x > canvasLetter.position.x && x < canvasLetter.position.x + canvas.bankTileWidth;
-				const yMatch = y > canvasLetter.position.y && y < canvasLetter.position.y + canvas.bankTileWidth;
-				if (xMatch && yMatch) { // if this is the one that the user has clicked on
-					// update the dragged piece
-					dragged = {
-						bankIndex: canvasLetter.bankIndex,
-						blank: !canvasLetter.letter,
-						letter: canvasLetter.letter,
-						pixelX: x,
-						pixelY: y
-					}
-					canvasLetter.hidden = true; // hide the letter from the bank
-					
-					// add a gap where the letter used to be
-					if (i == 0) {
-						canvas.extraGapBeforeBank = true;
-					} else {
-						canvas.bank[canvas.bankOrder[i - 1]].extraGapAfter = true;
-					}
-
-					return; // don't bother to check the board
-				}
+				return; // don't bother to check the board
 			}
 		}
 
@@ -889,7 +887,7 @@ function gameInit() {
 				const xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
 				const yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
 				if (xMatch && yMatch) { // if this is the one that the user is hovering over
-					cursor = (outOfTurn ? 'not-allowed' : 'grab');
+					cursor = 'grab';
 				}
 			}
 
@@ -953,11 +951,6 @@ function gameInit() {
 			return;
 		}
 
-		// cancel if not the user's turn
-		if (!userTurn) {
-			return;
-		}
-
 		e.preventDefault();
 
 		// cancel if a popup is open
@@ -985,7 +978,7 @@ function gameInit() {
 		const onExistingTile = game.board?.[boardY]?.[boardX];
 
 		// only if the letter was moved to a free space on the board
-		if (onBoard && !onExistingTile && !stayedStill) {
+		if (onBoard && !onExistingTile && !stayedStill && userTurn) {
 			addLetter(boardX, boardY, dragged.bankIndex); // add the letter to the appropriate spot on the board
 		} else { // if the letter was dropped anywhere else or stayed still
 
