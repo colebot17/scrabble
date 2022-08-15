@@ -243,6 +243,20 @@ function drawLetterBank() {
 
 		drawnLetters++;
 	}
+
+	// draw drop zones for testing
+	for (let i in canvas.dropZones) {
+		const x = canvas.dropZones[i].start.x;
+		const y = canvas.dropZones[i].start.y;
+		const width = canvas.dropZones[i].end.x - x;
+		const height = canvas.dropZones[i].end.y - y;
+
+		canvas.ctx.fillStyle = "#0000FF66";
+		canvas.ctx.fillRect(x, y, width, height);
+
+		canvas.ctx.strokeStyle = "#0000FF99";
+		canvas.ctx.strokeRect(x, y, width, height);
+	}
 }
 
 function updateTile(tile) {
