@@ -123,7 +123,7 @@ function drawLetterBank() {
 	// draw title ("Letter Bank")
 	const titleSize = 25;
 	canvas.ctx.font = titleSize + "px Rubik";
-	canvas.ctx.fillStyle = "#f2f5ff"; // tile text color
+	canvas.ctx.fillStyle = "#000000"; // tile text color
 	canvas.ctx.textAlign = "center";
 	canvas.ctx.fillText("Letter Bank", canvasWidth / 2, startY + titleSize + 10);
 
