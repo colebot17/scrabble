@@ -992,10 +992,10 @@ function gameInit() {
 				const yInZone = (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y);
 				if (xInZone && yInZone) {
 
-					const from = dragged.bankIndex;
-					let to = canvas.bankOrder[parseInt(i)];
+					const from = canvas.bankOrder.indexOf(dragged.bankIndex);
+					let to = parseInt(i);
 					if (to > from) {
-						to = canvas.bankOrder[parseInt(i) + 1];
+						to = parseInt(i) + 1;
 					}
 
 					// move the letter
@@ -1156,7 +1156,7 @@ function makeMove() {
 
 function moveBankLetter(from, to) {
 
-	// "from" and "to" are both bank indicies
+	// "from" and "to" are both ORDER indicies
 
 	// "from" represents the tile we are moving
 	// "to" represents the bank index before which we are moving
@@ -1173,10 +1173,10 @@ function moveBankLetter(from, to) {
 	}
 	
 	// remove that letter from the order
-	canvas.bankOrder.splice(canvas.bankOrder.indexOf(from), 1);
+	canvas.bankOrder.splice(from, 1);
 
 	// add the letter before "to"
-	canvas.bankOrder.splice(canvas.bankOrder.indexOf(to), 0, from);
+	canvas.bankOrder.splice(to, 0, from);
 
 	// $.ajax(
 	// 	'moveBankLetter.php',
