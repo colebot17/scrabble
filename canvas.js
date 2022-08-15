@@ -42,6 +42,12 @@ function canvasInit() {
 		}
 	}
 
+	// initialize the shuffle button
+	canvas.bankShuffleButton = {
+		hover: false,
+		position: {}
+	}
+
 	// handle window resize
 	window.onresize = setCanvasSize;
 }
@@ -127,22 +133,29 @@ function drawLetterBank() {
 	canvas.ctx.textAlign = "center";
 	canvas.ctx.fillText("Letter Bank", canvasWidth / 2, startY + titleSize + 10);
 
-	// draw the shuffle bank button
+	// draw the bank shuffle button
+	const shuffleButtonX = (canvasWidth / 2) + 90;
+	const shuffleButtonY = startY + titleSize + 14;
+
+	// draw background if hovering
+	if (canvas.bankShuffleButton.hover) {
+		canvas.ctx.fillStyle = "#00000033";
+		canvas.ctx.beginPath();
+		canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
+		canvas.ctx.fill();
+	}
+
+	// draw the icon
 	canvas.ctx.font = titleSize + "px Material Icons";
 	canvas.ctx.fillStyle = "#000000";
 	canvas.ctx.textAlign = "center";
-	
-	const shuffleButtonX = (canvasWidth / 2) + 90;
-	const shuffleButtonY = startY + titleSize + 14;
-	
+
 	canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
 
 	// store the coordinates so we know when we click on it
-	canvas.bankShuffleButton = {
-		position: {
-			x: shuffleButtonX,
-			y: shuffleButtonY
-		}
+	canvas.bankShuffleButton.position = {
+		x: shuffleButtonX,
+		y: shuffleButtonY
 	}
 
 	remainingSpace -= titleSize + 20;
