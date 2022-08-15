@@ -995,9 +995,9 @@ function gameInit() {
 			for (let i in canvas.dropZones) {
 
 				// if the user dropped into this zone
-				const xWithin = (x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x);
-				const yWithin = (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y);
-				if (xWithin && yWithin) {
+				const xInZone = (x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x);
+				const yInZone = (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y);
+				if (xInZone && yInZone) {
 
 					// move the letter
 					moveBankLetter(dragged.bankIndex, canvas.dropZones[i].bankIndex);
@@ -1164,7 +1164,7 @@ function moveBankLetter(from, to) {
 
 	from = parseInt(from);
 	to = parseInt(to);
-	
+
 	console.log(from, to);
 	
 	// don't move the letter if from is the same as to
