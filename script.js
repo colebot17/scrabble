@@ -1161,15 +1161,15 @@ function moveBankLetter(from, to) {
 
 	console.log(from, to);
 	
+	// account for element being removed before
+	if (from < to) {
+		to--;
+	}
+	
 	// don't move the letter if from is the same as to
 	if (from === to) {
 		canvas.bank[from].hidden = false;
 		return;
-	}
-
-	// account for element being removed before
-	if (from < to) {
-		to--;
 	}
 	
 	// remove that letter from the order
