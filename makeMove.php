@@ -76,13 +76,17 @@ for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to 
 		"y" => $tiles[$i]['y']
 	);
 
-	$board[$tile["y"]][$tile["x"]] = $tile; // add tile to board
+	// add tile to board
+	$board[$tile['y']][$tile['x']] = $tile;
 
-	unset($players[array_search($user, $playerList)]["letterBank"][$tiles[$i]["bankIndex"]]); // remove the letter from the user's bank
+	// remove the letter from the user's bank and bank order
+	unset($players[array_search($user, $playerList)]['letterBank'][$tiles[$i]['bankIndex']]);
+	unset($players[array_search($user, $playerList)]['bankOrder'][array_search($tiles[$i]['bankIndex'], $players[array_search($user, $playerList)]['bankOrder'])]);
 }
 
-// make sure the letter bank is not associative
-$players[array_search($user, $playerList)]["letterBank"] = array_values($players[array_search($user, $playerList)]["letterBank"]);
+// make sure the letter bank and bank order are not associative
+$players[array_search($user, $playerList)]['letterBank'] = array_values($players[array_search($user, $playerList)]['letterBank']);
+$players[array_search($user, $playerList)]['bankOrder'] = array_values($players[array_search($user, $playerList)]['bankOrder']);
 
 // make sure tiles are in straight line
 $xs = Array();
@@ -376,12 +380,15 @@ $players[$currentPlayerIndex]['points'] = $players[$currentPlayerIndex]['points'
 // if the game is not ending and there is at least one letter in the bag
 if (!$inactive && count($longBag) > 0) {
 	// fill the player's letter bank until it is full or the bag is empty
+	$bankIndex = count($players[$currentPlayerIndex]['letterBank']);
 	while (count($players[$currentPlayerIndex]['letterBank']) < 7 && count($longBag) > 0) {
 		$rand = random_int(0, count($longBag) - 1);
 		$newLetter = $longBag[$rand];
 		array_splice($longBag, $rand, 1);
 		$letterBag[$newLetter]--;
 		array_push($players[$currentPlayerIndex]['letterBank'], $newLetter);
+		array_push($players[$currentPlayerIndex]['bankOrder'], $bankIndex);
+		$bankIndex++;
 	}
 }
 
