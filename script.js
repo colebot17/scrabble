@@ -993,7 +993,7 @@ function gameInit() {
 				if (xInZone && yInZone) {
 
 					// move the letter
-					moveBankLetter(dragged.bankIndex, parseInt(i) + 1);
+					moveBankLetter(dragged.bankIndex, canvas.bankOrder[parseInt(i) + 1]);
 
 					// remove any extra gap after any letter
 					canvas.extraGapBeforeBank = false;
@@ -1150,7 +1150,7 @@ function makeMove() {
 
 function moveBankLetter(from, to) {
 
-	// USING REAL BANK INDICIES
+	// "from" and "to" are both bank indicies
 
 	// "from" represents the tile we are moving
 	// "to" represents the bank index before which we are moving
