@@ -154,8 +154,14 @@ function drawLetterBank() {
 
 	// store the coordinates so we know when we click on it
 	canvas.bankShuffleButton.position = {
-		x: shuffleButtonX,
-		y: shuffleButtonY
+		start: {
+			x: shuffleButtonX - (titleSize / 2) - 5,
+			y: shuffleButtonY - titleSize - 5
+		},
+		end: {
+			x: shuffleButtonX + (titleSize / 2) + 5,
+			y: shuffleButtonY + 5
+		}
 	}
 
 	remainingSpace -= titleSize + 20;
