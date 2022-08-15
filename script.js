@@ -1166,6 +1166,11 @@ function moveBankLetter(from, to) {
 		canvas.bank[from].hidden = false;
 		return;
 	}
+
+	// account for element being removed before
+	if (from < to) {
+		to--;
+	}
 	
 	// remove that letter from the order
 	const fromBankIndex = canvas.bankOrder[from];
