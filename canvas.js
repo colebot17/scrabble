@@ -242,7 +242,7 @@ function drawLetterBank() {
 		canvas.dropZones.push(newZone);
 
 		drawnLetters++;
-	}
+	}/* 
 
 	// draw drop zones for testing
 	for (let i in canvas.dropZones) {
@@ -256,7 +256,7 @@ function drawLetterBank() {
 
 		canvas.ctx.strokeStyle = "#0000FF99";
 		canvas.ctx.strokeRect(x, y, width, height);
-	}
+	} */
 }
 
 function updateTile(tile) {
