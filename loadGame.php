@@ -36,6 +36,7 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	for ($i=0; $i < count($players); $i++) { 
 		if ($players[$i]['id'] != $user) {
 			unset($players[$i]['letterBank']);
+			unset($players[$i]['bankOrder']);
 		}
 	}
 
