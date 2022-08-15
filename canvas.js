@@ -185,7 +185,7 @@ function drawLetterBank() {
 		const canvasLetter = canvas.bank[canvas.bankOrder[i]];
 
 		// don't display the letter if it is hidden
-		if (canvasLetter.hidden) {
+		if (canvasLetter?.hidden) {
 			continue;
 		}
 
