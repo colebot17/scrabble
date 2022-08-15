@@ -993,10 +993,7 @@ function gameInit() {
 				if (xInZone && yInZone) {
 
 					const from = canvas.bankOrder.indexOf(dragged.bankIndex);
-					let to = parseInt(i);
-					if (to > from) {
-						to = parseInt(i) + 1;
-					}
+					const to = parseInt(i);
 
 					// move the letter
 					moveBankLetter(from, to);
