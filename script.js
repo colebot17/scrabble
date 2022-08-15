@@ -927,7 +927,7 @@ function gameInit() {
 							if (i == 0) {
 								canvas.extraGapBeforeBank = true;
 							} else {
-								canvas.bank[canvas.bankOrder[canvas.dropZones[i].bankIndex - 1]].extraGapAfter = true;
+								canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]].extraGapAfter = true;
 							}
 						}
 					}
