@@ -173,7 +173,7 @@ function drawLetterBank() {
 				x: firstLetter.position.x + (canvas.bankTileWidth / 2),
 				y: firstLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
-			bankIndex: 0
+			orderIndex: canvas.bankOrder.indexOf(firstLetter.bankIndex)
 		}];
 	} else {
 		canvas.dropZones = []; // initialize no drop zones because there are no visible letters in the bank

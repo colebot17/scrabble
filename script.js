@@ -714,8 +714,6 @@ function gameInit() {
 						pixelY: y
 					}
 					canvasLetter.hidden = true; // hide the letter from the bank
-
-					console.log(canvasLetter);
 					
 					// add a gap where the letter used to be
 					if (i == 0) {
