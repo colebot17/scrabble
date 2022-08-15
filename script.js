@@ -910,7 +910,7 @@ function gameInit() {
 				cursor = 'no-drop';
 
 				if (!tile) {
-					cursor = 'grabbing';
+					cursor = (outOfTurn ? 'no-drop' : 'grabbing');
 				}
 
 				// remove all gaps between letters in bank
@@ -920,6 +920,8 @@ function gameInit() {
 				}
 
 				if (boardY > 14) {
+					cursor = 'grabbing';
+
 					// expand the space between letters in bank as necessary
 					for (let i in canvas.dropZones) {
 						// if the user is dragging over this zone
