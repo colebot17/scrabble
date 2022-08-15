@@ -15,8 +15,7 @@ if ($conn->connect_error) {
 $user = $_POST['user'];
 $pwd = $_POST['pwd'];
 $game = $_POST['game'];
-$from = $_POST['from'];
-$to = $_POST['to'];
+$bankOrder = json_decode($_POST['bankOrder'], true);
 
 // check password
 $sql = "SELECT pwd FROM accounts WHERE id='$user'";
@@ -37,20 +36,10 @@ for ($i=0; $i < count($players); $i++) {
 	array_push($playerList, $players[$i]['id']);
 }
 
-// get the letter bank of the current player
-$letterBank = $players[array_search($user, $playerList)]['letterBank'];
+// set the bank order of the current player
+$players[array_search($user, $playerList)]['bankOrder'] = $bankOrder;
 
-// get the letter
-$letter = $letterBank[$from];
-
-// remove the letter from the bank
-array_splice($letterBank, $from, 1);
-
-// insert it into the bank in its new position
-array_splice($letterBank, $to, 0, $letter);
-
-// re-upload the letter bank in the player list
-$players[array_search($user, $playerList)]['letterBank'] = $letterBank;
+// re-upload the players array
 $playersJson = json_encode($players);
 
 $sql = "UPDATE games SET players='$playersJson' WHERE id='$game'";

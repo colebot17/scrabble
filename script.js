@@ -601,11 +601,11 @@ function gameInit() {
 	}
 
 	// this is the current player's bank
-	var bank = game.players[currentPlayerIndex].letterBank;
+	const bank = game.players[currentPlayerIndex].letterBank;
 
 	// create an object of the letter bank for the canvas
 	canvas.bank = [];
-	for (var i = 0; i < bank.length; i++) {
+	for (let i in bank) {
 		canvas.bank.push({
 			letter: bank[i],
 			hidden: false,
@@ -613,28 +613,35 @@ function gameInit() {
 				x: undefined,
 				y: undefined
 			},
-			bankIndex: i
+			bankIndex: parseInt(i)
 		});
 	}
 
-	// initialize the order of letters in the bank
-	canvas.bankOrder = [];
-	for (let i in bank) {
-		canvas.bankOrder.push(parseInt(i));
+	// this is the bank order
+	const bankOrder = game.players[currentPlayerIndex].bankOrder;
+
+	// initialize the bank order
+	if (!bankOrder) {
+		canvas.bankOrder = [];
+		for (let i in bank) {
+			canvas.bankOrder.push(parseInt(i));
+		}
+	} else {
+		canvas.bankOrder = bankOrder;
 	}
 
 	// clear event listeners from canvas
-	var $canvas = $(canvas.c);
+	let $canvas = $(canvas.c);
 	$canvas.off();
 
 	// go ahead and define the things we will disable when it isn't the user's turn
-	var ootDisable = '#makeMoveButton, #skipTurnButton';
+	const ootDisable = '#makeMoveButton, #skipTurnButton';
 
 	// make sure everything is enabled (we will disable them again if we need to)
 	$(ootDisable).css('cursor', '').prop('disabled', false).attr('title', '').off('mousedown touchstart');
 
 	// determine whether it is the current user's turn
-	userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
+	const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
 	function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
 		// remove all unlocked tiles from the board
@@ -1154,7 +1161,7 @@ function moveBankLetter(from, to) {
 	// "from" and "to" are both ORDER indicies
 
 	// "from" represents the tile we are moving
-	// "to" represents the bank index before which we are moving
+	// "to" represents the index before which we are moving
 
 	from = parseInt(from);
 	to = parseInt(to);
@@ -1169,6 +1176,9 @@ function moveBankLetter(from, to) {
 		canvas.bank[from].hidden = false;
 		return;
 	}
+
+	// store the order in case we need to revert
+	const oldOrder = JSON.parse(JSON.stringify(canvas.bankOrder));
 	
 	// remove that letter from the order
 	const fromBankIndex = canvas.bankOrder[from];
@@ -1177,32 +1187,30 @@ function moveBankLetter(from, to) {
 	// add the letter before "to"
 	canvas.bankOrder.splice(to, 0, fromBankIndex);
 
-	// $.ajax(
-	// 	'moveBankLetter.php',
-	// 	{
-	// 		data: {
-	// 			user: account.id,
-	// 			pwd: account.pwd,
-	// 			game: game.id,
-	// 			from,
-	// 			to
-	// 		},
-	// 		method: "POST",
-	// 		success: function(data) {
-	// 			const jsonData = JSON.parse(data);
-	// 			if (jsonData.errorLevel <= 0) {
-	// 				// do nothing. the letter has already been moved
-	// 			} else if (jsonData.errorLevel === 1) {
-	// 				// move back but don't say anything
-	// 				canvas.bank = JSON.parse(JSON.stringify(canvasOldBank));
-	// 			} else {
-	// 				// move back and show an alert
-	// 				canvas.bank = JSON.parse(JSON.stringify(canvasOldBank));
-	// 				textModal("Error", jsonData.message);
-	// 			}
-	// 		}
-	// 	}
-	// );
+	$.ajax(
+		'setBankOrder.php',
+		{
+			data: {
+				user: account.id,
+				pwd: account.pwd,
+				game: game.id,
+				bankOrder: JSON.stringify(canvas.bankOrder)
+			},
+			method: "POST",
+			success: function(data) {
+				const jsonData = JSON.parse(data);
+				if (jsonData.errorLevel > 0) {
+					// restore from the old bank order
+					canvas.bankOrder = JSON.parse(JSON.stringify(oldOrder));
+
+					// show an error message if the error level is high enough
+					if (jsonData.errorLevel >= 2) {
+						textModal("Error", jsonData.message);
+					}
+				}
+			}
+		}
+	);
 }
 
 function exchangeLetters() {
