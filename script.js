@@ -613,8 +613,7 @@ function gameInit() {
 				x: undefined,
 				y: undefined
 			},
-			bankIndex: i,
-			canvasBankIndex: i,
+			bankIndex: i
 		});
 	}
 
