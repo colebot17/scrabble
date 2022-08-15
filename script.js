@@ -694,14 +694,6 @@ function gameInit() {
 		}
 
 		if (userTurn) {
-			// get the canvas.bank without hidden items
-			let bank = [];
-			for (var i = 0; i < canvas.bank.length; i++) {
-				if (!canvas.bank[i].hidden) {
-					bank.push(JSON.parse(JSON.stringify(canvas.bank[i])));
-				}
-			}
-
 			// loop through letter bank tile positions to see if user clicked on one
 			for (let i in canvas.bankOrder) {
 				const canvasLetter = canvas.bank[canvas.bankOrder[i]];
@@ -723,6 +715,8 @@ function gameInit() {
 						pixelY: y
 					}
 					canvasLetter.hidden = true; // hide the letter from the bank
+
+					console.log(canvasLetter);
 					
 					// add a gap where the letter used to be
 					if (canvas.bankOrder[i] - 1 < 0) {
