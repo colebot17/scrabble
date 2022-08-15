@@ -128,7 +128,7 @@ function drawLetterBank() {
 	canvas.ctx.fillText("Letter Bank", canvasWidth / 2, startY + titleSize + 10);
 
 	// draw the shuffle bank button
-	canvas.ctx.font = titleSize + "px Material Icons";
+	canvas.ctx.font = titleSize + "px Rubik";
 	canvas.ctx.fillStyle = "#000000";
 	canvas.ctx.textAlign = "center";
 	
