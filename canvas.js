@@ -133,7 +133,8 @@ function drawLetterBank() {
 	canvas.ctx.textAlign = "center";
 	
 	const shuffleButtonX = (canvasWidth / 2) + 90;
-	const shuffleButtonY = startY + titleSize + 15;
+	const shuffleButtonY = startY + titleSize + 14;
+	
 	canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
 
 	// store the coordinates so we know when we click on it
