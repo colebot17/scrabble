@@ -951,11 +951,6 @@ function gameInit() {
 			return;
 		}
 
-		// cancel if not the user's turn
-		if (!userTurn) {
-			return;
-		}
-
 		e.preventDefault();
 
 		// cancel if a popup is open
