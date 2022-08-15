@@ -1166,6 +1166,11 @@ function moveBankLetter(from, to) {
 		return;
 	}
 
+	// decrement "to" to account for removing and readding tiles
+	if (from > to) {
+		to--;
+	}
+
 	// canvas.bankOrder = [0, 1, 2, 3, 4, 5, 6];
 
 	console.log(canvas.bankOrder);
