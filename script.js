@@ -718,7 +718,7 @@ function gameInit() {
 					console.log(canvasLetter);
 					
 					// add a gap where the letter used to be
-					if (canvas.bankOrder[i] - 1 < 0) {
+					if (i == 0) {
 						canvas.extraGapBeforeBank = true;
 					} else {
 						canvas.bank[canvas.bankOrder[i - 1]].extraGapAfter = true;
