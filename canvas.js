@@ -173,8 +173,7 @@ function drawLetterBank() {
 				x: firstLetter.position.x + (canvas.bankTileWidth / 2),
 				y: firstLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
-			bankIndex: 0,
-			canvasBankIndex: 0
+			bankIndex: 0
 		}];
 	} else {
 		canvas.dropZones = []; // initialize no drop zones because there are no visible letters in the bank
@@ -238,8 +237,7 @@ function drawLetterBank() {
 				x: canvasLetter.position.x + (canvas.bankTileWidth * 1.5) + (canvasLetter.extraGapAfter ? extraTileGap : defaultTileGap),
 				y: canvasLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
-			bankIndex: canvasLetter.bankIndex + 1,
-			canvasBankIndex: i + 1
+			bankIndex: canvasLetter.bankIndex + 1
 		};
 		canvas.dropZones.push(newZone);
 
