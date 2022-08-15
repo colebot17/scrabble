@@ -871,8 +871,6 @@ function gameInit() {
 			// if the mouse isn't over anything, it should have a regular cursor
 			let cursor = 'default';
 
-			const outOfTurn = (game.inactive || game.players[game.turn % game.players.length].id != account.id);
-
 			// check the letter bank
 			// get the canvas.bank without hidden items
 			let bank = [];
@@ -902,14 +900,14 @@ function gameInit() {
 				if (locked) {
 					cursor = 'pointer';
 				} else {
-					cursor = 'grab';
+					cursor = (userTurn ? 'grab' : 'not-allowed');
 				}
 			}
 			
 			if (dragged) {
 				cursor = 'no-drop';
 
-				if (!tile) {
+				if (!tile && userTurn) {
 					cursor = 'grabbing';
 				}
 
