@@ -116,12 +116,12 @@ function drawLetterBank() {
 	}
 
 	// find where the board ends and the bank starts
-	var width = canvas.c.width;
-	var startY = width;
-	var remainingSpace = canvas.c.height - startY;
+	const width = canvas.c.width;
+	const startY = width;
+	const remainingSpace = canvas.c.height - startY;
 
 	// draw title ("Letter Bank")
-	var titleSize = 25;
+	const titleSize = 25;
 	canvas.ctx.font = titleSize + "px Rubik";
 	canvas.ctx.fillStyle = "#f2f5ff"; // tile text color
 	canvas.ctx.textAlign = "center";
