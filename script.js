@@ -871,6 +871,8 @@ function gameInit() {
 			// if the mouse isn't over anything, it should have a regular cursor
 			let cursor = 'default';
 
+			const outOfTurn = (game.inactive || game.players[game.turn % game.players.length].id != account.id);
+
 			// check the letter bank
 			// get the canvas.bank without hidden items
 			let bank = [];
@@ -900,14 +902,14 @@ function gameInit() {
 				if (locked) {
 					cursor = 'pointer';
 				} else {
-					cursor = (userTurn ? 'grab' : 'not-allowed');
+					cursor = (outOfTurn ? 'not-allowed' : 'grab');
 				}
 			}
 			
 			if (dragged) {
 				cursor = 'no-drop';
 
-				if (!tile && userTurn) {
+				if (!tile) {
 					cursor = 'grabbing';
 				}
 
@@ -949,6 +951,11 @@ function gameInit() {
 			return;
 		}
 
+		// cancel if not the user's turn
+		if (!userTurn) {
+			return;
+		}
+
 		e.preventDefault();
 
 		// cancel if a popup is open
@@ -975,8 +982,8 @@ function gameInit() {
 		const onBoard = (x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width);
 		const onExistingTile = game.board?.[boardY]?.[boardX];
 
-		// only if the letter was moved to a free space on the board and it is the user's turn
-		if (onBoard && !onExistingTile && !stayedStill && userTurn) {
+		// only if the letter was moved to a free space on the board
+		if (onBoard && !onExistingTile && !stayedStill) {
 			addLetter(boardX, boardY, dragged.bankIndex); // add the letter to the appropriate spot on the board
 		} else { // if the letter was dropped anywhere else or stayed still
 
