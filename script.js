@@ -992,8 +992,14 @@ function gameInit() {
 				const yInZone = (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y);
 				if (xInZone && yInZone) {
 
+					const from = dragged.bankIndex;
+					let to = canvas.bankOrder[parseInt(i)];
+					if (to > from) {
+						to = canvas.bankOrder[parseInt(i) + 1];
+					}
+
 					// move the letter
-					moveBankLetter(dragged.bankIndex, canvas.bankOrder[parseInt(i)]);
+					moveBankLetter(from, to);
 
 					// remove any extra gap after any letter
 					canvas.extraGapBeforeBank = false;
@@ -1171,8 +1177,6 @@ function moveBankLetter(from, to) {
 
 	// add the letter before "to"
 	canvas.bankOrder.splice(canvas.bankOrder.indexOf(to), 0, from);
-
-	console.log(canvas.bankOrder);
 
 	// $.ajax(
 	// 	'moveBankLetter.php',
