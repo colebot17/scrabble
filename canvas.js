@@ -237,7 +237,7 @@ function drawLetterBank() {
 				x: canvasLetter.position.x + (canvas.bankTileWidth * 1.5) + (canvasLetter.extraGapAfter ? extraTileGap : defaultTileGap),
 				y: canvasLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
-			bankIndex: canvasLetter.bankIndex + 1
+			bankIndex: canvas.bankOrder[i + 1]
 		};
 		canvas.dropZones.push(newZone);
 
