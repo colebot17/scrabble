@@ -1173,10 +1173,11 @@ function moveBankLetter(from, to) {
 	}
 	
 	// remove that letter from the order
+	const fromBankIndex = canvas.bankOrder[from];
 	canvas.bankOrder.splice(from, 1);
 
 	// add the letter before "to"
-	canvas.bankOrder.splice(to, 0, from);
+	canvas.bankOrder.splice(to, 0, fromBankIndex);
 
 	// $.ajax(
 	// 	'moveBankLetter.php',
