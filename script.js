@@ -721,7 +721,7 @@ function gameInit() {
 					if (canvas.bankOrder[i] - 1 < 0) {
 						canvas.extraGapBeforeBank = true;
 					} else {
-						canvas.bank[canvas.bankOrder[i] - 1].extraGapAfter = true;
+						canvas.bank[canvas.bankOrder[i - 1]].extraGapAfter = true;
 					}
 
 					return; // don't bother to check the board
