@@ -993,7 +993,7 @@ function gameInit() {
 				if (xInZone && yInZone) {
 
 					// move the letter
-					moveBankLetter(dragged.bankIndex, i + 1);
+					moveBankLetter(dragged.bankIndex, parseInt(i) + 1);
 
 					// remove any extra gap after any letter
 					canvas.extraGapBeforeBank = false;
