@@ -1156,23 +1156,26 @@ function makeMove() {
 }
 
 function moveBankLetter(from, to) {
+
+	// USING REAL BANK INDICIES
+
+	// "from" represents the tile we are moving
+	// "to" represents the bank index before which we are moving
+
 	from = parseInt(from);
 	to = parseInt(to);
 	
-
+	console.log(from, to);
+	
 	// don't move the letter if from is the same as to
 	if (from === to) {
 		canvas.bank[from].hidden = false;
 		return;
 	}
 
-	// "from" represents the bank index we are moving from
-	// "to" represents the bank index before which we are moving
-
 	// canvas.bankOrder = [0, 1, 2, 3, 4, 5, 6];
 
 	console.log(canvas.bankOrder);
-	console.log(from, to);
 
 	
 	// remove that letter from the order
