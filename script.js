@@ -993,7 +993,7 @@ function gameInit() {
 				if (xInZone && yInZone) {
 
 					// move the letter
-					moveBankLetter(dragged.bankIndex, canvas.bankOrder[parseInt(i) + 1]);
+					moveBankLetter(dragged.bankIndex, canvas.bankOrder[parseInt(i)]);
 
 					// remove any extra gap after any letter
 					canvas.extraGapBeforeBank = false;
@@ -1165,11 +1165,6 @@ function moveBankLetter(from, to) {
 		canvas.bank[from].hidden = false;
 		return;
 	}
-	
-	// canvas.bankOrder = [0, 1, 2, 3, 4, 5, 6];
-
-	console.log(canvas.bankOrder);
-
 	
 	// remove that letter from the order
 	canvas.bankOrder.splice(canvas.bankOrder.indexOf(from), 1);
