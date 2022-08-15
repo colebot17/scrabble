@@ -118,7 +118,7 @@ function drawLetterBank() {
 	// find where the board ends and the bank starts
 	const canvasWidth = canvas.c.width;
 	const startY = canvasWidth;
-	const remainingSpace = canvas.c.height - startY;
+	let remainingSpace = canvas.c.height - startY;
 
 	// draw title ("Letter Bank")
 	const titleSize = 25;
