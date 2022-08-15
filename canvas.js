@@ -123,9 +123,26 @@ function drawLetterBank() {
 	// draw title ("Letter Bank")
 	const titleSize = 25;
 	canvas.ctx.font = titleSize + "px Rubik";
-	canvas.ctx.fillStyle = "#000000"; // tile text color
+	canvas.ctx.fillStyle = "#000000";
 	canvas.ctx.textAlign = "center";
 	canvas.ctx.fillText("Letter Bank", canvasWidth / 2, startY + titleSize + 10);
+
+	// draw the shuffle bank button
+	canvas.ctx.font = titleSize + "px Material Icons";
+	canvas.ctx.fillStyle = "#000000";
+	canvas.ctx.textAlign = "center";
+	
+	const shuffleButtonX = (canvas.width / 2) + 75;
+	const shuffleButtonY = startY + titleSize + 10;
+	canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
+
+	// store the coordinates so we know when we click on it
+	canvas.bankShuffleButton = {
+		position: {
+			x: shuffleButtonX,
+			y: shuffleButtonY
+		}
+	}
 
 	remainingSpace -= titleSize + 20;
 
