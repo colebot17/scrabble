@@ -116,8 +116,8 @@ function drawLetterBank() {
 	}
 
 	// find where the board ends and the bank starts
-	const width = canvas.c.width;
-	const startY = width;
+	const canvasWidth = canvas.c.width;
+	const startY = canvasWidth;
 	const remainingSpace = canvas.c.height - startY;
 
 	// draw title ("Letter Bank")
@@ -125,7 +125,7 @@ function drawLetterBank() {
 	canvas.ctx.font = titleSize + "px Rubik";
 	canvas.ctx.fillStyle = "#f2f5ff"; // tile text color
 	canvas.ctx.textAlign = "center";
-	canvas.ctx.fillText("Letter Bank", width / 2, startY + titleSize + 10);
+	canvas.ctx.fillText("Letter Bank", canvasWidth / 2, startY + titleSize + 10);
 
 	remainingSpace -= titleSize + 20;
 
@@ -138,9 +138,13 @@ function drawLetterBank() {
 	for (let i in bank) {
 		totalGapSpace += (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
 	}
+	if (canvas.extraGapBeforeBank) {
+		totalGapSpace -= extraTileGap - defaultTileGap;
+	}
 
-	const tileWidth = Math.min(remainingSpace - 10, ((width - totalGapSpace) / numTiles), 55);
-	const startX = (width - ((tileWidth * numTiles) + totalGapSpace)) / 2;
+	const tileWidth = Math.min(remainingSpace - 10, ((canvasWidth - totalGapSpace) / numTiles), 55);
+	const totalBankWidth = (tileWidth * numTiles) + totalGapSpace;
+	const startX = (canvasWidth - totalBankWidth) / 2;
 
 	canvas.bankTileWidth = tileWidth;
 
