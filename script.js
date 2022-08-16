@@ -1161,6 +1161,33 @@ function makeMove() {
 	);
 }
 
+function setBankOrder() {
+	$.ajax(
+		'setBankOrder.php',
+		{
+			data: {
+				user: account.id,
+				pwd: account.pwd,
+				game: game.id,
+				bankOrder: JSON.stringify(canvas.bankOrder)
+			},
+			method: "POST",
+			success: function(data) {
+				const jsonData = JSON.parse(data);
+				if (jsonData.errorLevel > 0) {
+					// restore from the old bank order
+					canvas.bankOrder = JSON.parse(JSON.stringify(oldOrder));
+
+					// show an error message if the error level is high enough
+					if (jsonData.errorLevel >= 2) {
+						textModal("Error", jsonData.message);
+					}
+				}
+			}
+		}
+	);
+}
+
 function moveBankLetter(from, to) {
 
 	// "from" and "to" are both ORDER indicies
@@ -1192,30 +1219,12 @@ function moveBankLetter(from, to) {
 	// add the letter before "to"
 	canvas.bankOrder.splice(to, 0, fromBankIndex);
 
-	$.ajax(
-		'setBankOrder.php',
-		{
-			data: {
-				user: account.id,
-				pwd: account.pwd,
-				game: game.id,
-				bankOrder: JSON.stringify(canvas.bankOrder)
-			},
-			method: "POST",
-			success: function(data) {
-				const jsonData = JSON.parse(data);
-				if (jsonData.errorLevel > 0) {
-					// restore from the old bank order
-					canvas.bankOrder = JSON.parse(JSON.stringify(oldOrder));
+	setBankOrder();
+}
 
-					// show an error message if the error level is high enough
-					if (jsonData.errorLevel >= 2) {
-						textModal("Error", jsonData.message);
-					}
-				}
-			}
-		}
-	);
+function shuffleBankLetters() {
+	canvas.bankOrder = shuffleArr(canvas.bankOrder);
+	setBankOrder();
 }
 
 function exchangeLetters() {
@@ -1242,14 +1251,12 @@ function exchangeLetters() {
 	$('#letterExchangeButton').text('Skip Turn');
 	let bank = game.players[parseInt(game.turn) % game.players.length].letterBank;
 	for (let i in bank) {
-		$letterBank.append(
-			`
-				<button class='letter' data-bankindex='${i}' aria-pressed='false'>
-					<span class='letterLetter'>${bank[i] ? bank[i] : ``}</span>
-					<span class='letterPoints'>${bank[i] ? letterScores[bank[i]] : ``}</span>
-				</button>
-			`
-		);
+		$letterBank.append(`
+			<button class='letter' data-bankindex='${i}' aria-pressed='false'>
+				<span class='letterLetter'>${bank[i] ? bank[i] : ``}</span>
+				<span class='letterPoints'>${bank[i] ? letterScores[bank[i]] : ``}</span>
+			</button>
+		`);
 	}
 
 	$letterBank.children('.letter').on('click', function() {
@@ -1366,16 +1373,9 @@ function Tile(x, y, letter, bankIndex, blank, locked, pixelX, pixelY) {
 	}
 }
 
-// Fisher-Yates shuffle an array (https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array)
+// Fisher-Yates Shuffle (https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array)
 function shuffleArr(a) {
-	let b = a.length,  c;
-	while (b != 0) {
-		c = Math.floor(Math.random() * b);
-		b--;
-		[a[b], a[c]] = [
-			a[c], a[b]];
-	}
-	return a;
+	let b=a.length,c;while(b!=0){c=Math.floor(Math.random()*b);b--;[a[b],a[c]]=[a[c],a[b]];}return a;
 }
 
 function showTab(tab) {
