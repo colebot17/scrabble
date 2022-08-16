@@ -389,13 +389,12 @@ if (!$inactive && count($longBag) > 0) {
 	}
 }
 
-// remove duplicates from the bank order
-$players[$currentPlayerIndex]['bankOrder'] = array_values(array_unique($players[$currentPlayerIndex]['bankOrder']));
-
 // make sure there aren't ghost tiles in the bank order
+$bankCount = count($players[$currentPlayerIndex]['letterBank']);
 for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) { 
-	if (!$players[$currentPlayerIndex]['letterBank'][$bankOrder[$i]]) {
+	if ($players[$currentPlayerIndex]['bankOrder'] >= $bankCount) {
 		unset($players[$currentPlayerIndex]['bankOrder'][$i]);
+
 		// disassociate
 		$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 	}
@@ -403,10 +402,11 @@ for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) {
 
 // make sure every letter in the bank is represented in the bank order
 for ($i=0; $i < count($players[$currentPlayerIndex]['letterBank']); $i++) { 
-	if (!in_array($i, $players[$currentPlayerIndex]['bankOrder'])) {
-		array_push($players[$currentPlayerIndex]['bankOrder'], (int)$i);
-	}
+	array_push($players[$currentPlayerIndex]['bankOrder'], (int)$i);
 }
+
+// remove duplicates from the bank order
+$players[$currentPlayerIndex]['bankOrder'] = array_values(array_unique($players[$currentPlayerIndex]['bankOrder']));
 
 // disassociate the bank order
 $players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
