@@ -396,7 +396,7 @@ echo "<br><br>";
 print_r($players[$currentPlayerIndex]['bankOrder']);
 echo "<br><br>";
 for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) { 
-	if ($players[$currentPlayerIndex]['bankOrder'] >= $bankCount) {
+	if ($players[$currentPlayerIndex]['bankOrder'][$i] >= $bankCount) {
 		unset($players[$currentPlayerIndex]['bankOrder'][$i]);
 
 		// disassociate
