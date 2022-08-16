@@ -1005,7 +1005,6 @@ function gameInit() {
 		const onExistingTile = game.board?.[boardY]?.[boardX];
 
 		const outOfTurn = !(!game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id, userTurn);
-		console.log(outOfTurn);
 
 		// only if the letter was moved to a free space on the board
 		if (onBoard && !onExistingTile && !stayedStill && !outOfTurn) {
