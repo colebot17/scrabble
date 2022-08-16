@@ -979,6 +979,9 @@ function gameInit() {
 		const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
 		if (!dragged && xOnShuffle && yOnShuffle && canvas.bankShuffleButton.clicking) {
 			shuffleBank();
+
+			// don't register double click on shuffle button as double click
+			canvas.doubleTap = false;
 		}
 		canvas.bankShuffleButton.clicking = false;
 
