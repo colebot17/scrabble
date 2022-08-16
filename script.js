@@ -764,6 +764,15 @@ function gameInit() {
 			return; // nothing else to do
 		}
 
+		// shuffle the bank if the shuffle button is clicked
+		// (but do a fancy thing with mousedown and mouseup)
+		const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
+		const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
+		if (xOnShuffle && yOnShuffle) {
+			canvas.bankShuffleButton.clicking = true;
+			return;
+		}
+
 		// show the word definition
 
 		// start with x axis word
@@ -958,17 +967,7 @@ function gameInit() {
 	$canvas.on("touchmove", handleCanvasMouseMove);
 
 	function handleCanvasMouseUp(e) {
-		// cancel if no tile is being dragged
-		if (!dragged) {
-			return;
-		}
-
 		e.preventDefault();
-
-		// cancel if a popup is open
-		if (visiblePopups.length > 0) {
-			return;
-		}
 
 		// get the pixel position of the mouse/finger
 		let x, y;
@@ -978,6 +977,24 @@ function gameInit() {
 		} else {
 			x = e.offsetX;
 			y = e.offsetY;
+		}
+
+		// check for the shuffle button
+		const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
+		const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
+		if (!dragged && xOnShuffle && yOnShuffle && canvas.bankShuffleButton.clicking) {
+			shuffleBank();
+		}
+		canvas.bankShuffleButton.clicking = false;
+
+		// cancel if no tile is being dragged
+		if (!dragged) {
+			return;
+		}
+
+		// cancel if a popup is open
+		if (visiblePopups.length > 0) {
+			return;
 		}
 
 		const boardX = Math.floor(x / (squareWidth + squareGap));
@@ -1189,7 +1206,6 @@ function setBankOrder() {
 }
 
 function moveBankLetter(from, to) {
-
 	// "from" and "to" are both ORDER indicies
 
 	// "from" represents the tile we are moving
@@ -1222,7 +1238,7 @@ function moveBankLetter(from, to) {
 	setBankOrder();
 }
 
-function shuffleBankLetters() {
+function shuffleBank() {
 	canvas.bankOrder = shuffleArr(canvas.bankOrder);
 	setBankOrder();
 }
