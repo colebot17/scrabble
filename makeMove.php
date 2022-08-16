@@ -396,9 +396,9 @@ if (!$inactive && count($longBag) > 0) {
 	for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) { 
 		if (!$players[$currentPlayerIndex]['letterBank'][$bankOrder[$i]]) {
 			unset($players[$currentPlayerIndex]['bankOrder'][$i]);
+			// disassociate
+			$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 		}
-		// disassociate
-		$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 	}
 
 	// make sure every letter in the bank is represented in the bank order
@@ -407,6 +407,9 @@ if (!$inactive && count($longBag) > 0) {
 			array_push($players[$currentPlayerIndex]['bankOrder'], (int)$i);
 		}
 	}
+
+	// disassociate the bank order
+	$player[$currentPlayerIndex]['bankOrder'] = array_values($player[$currentPlayerIndex]['bankOrder']);
 }
 
 if (!$inactive) {
