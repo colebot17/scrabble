@@ -85,7 +85,6 @@ for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to 
 
 // make sure the letter bank and bank order are not associative
 $players[$currentPlayerIndex]['letterBank'] = array_values($players[$currentPlayerIndex]['letterBank']);
-$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 
 // make sure tiles are in straight line
 $xs = Array();
