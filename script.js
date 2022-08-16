@@ -905,6 +905,16 @@ function gameInit() {
 					cursor = (outOfTurn ? 'not-allowed' : 'grab');
 				}
 			}
+
+			// show the hover effect on the shuffle button
+			const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
+			const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
+			if (!dragged && xOnShuffle && yOnShuffle) {
+				cursor = 'pointer';
+				canvas.bankShuffleButton.hover = true;
+			} else {
+				canvas.bankShuffleButton.hover = false;
+			}
 			
 			if (dragged) {
 				cursor = 'no-drop';
