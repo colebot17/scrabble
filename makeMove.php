@@ -424,7 +424,7 @@ $boardJson = json_encode($board);
 $playersJson = json_encode($players);
 
 $sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn='$totalTurn',inactive='$inactive',board='$boardJson' WHERE id='$gameId'";
-//$query = mysqli_query($conn, $sql);
+$query = mysqli_query($conn, $sql);
 
 if ($inactive) {
 	echo '{"errorLevel":0,"status":1,"message":"Your move has been recorded and the game has ended. Good job!"}';
