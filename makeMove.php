@@ -409,7 +409,7 @@ if (!$inactive && count($longBag) > 0) {
 	}
 
 	// disassociate the bank order
-	$player[$currentPlayerIndex]['bankOrder'] = array_values($player[$currentPlayerIndex]['bankOrder']);
+	$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 }
 
 if (!$inactive) {
