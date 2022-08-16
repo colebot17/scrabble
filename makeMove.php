@@ -391,6 +391,10 @@ if (!$inactive && count($longBag) > 0) {
 
 // make sure there aren't ghost tiles in the bank order
 $bankCount = count($players[$currentPlayerIndex]['letterBank']);
+print_r($players[$currentPlayerIndex]['letterBank']);
+echo "<br><br>"
+print_r($players[$currentPlayerIndex]['bankOrder']);
+echo "<br><br>"
 for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) { 
 	if ($players[$currentPlayerIndex]['bankOrder'] >= $bankCount) {
 		unset($players[$currentPlayerIndex]['bankOrder'][$i]);
@@ -424,7 +428,7 @@ $boardJson = json_encode($board);
 $playersJson = json_encode($players);
 
 $sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn='$totalTurn',inactive='$inactive',board='$boardJson' WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
+//$query = mysqli_query($conn, $sql);
 
 if ($inactive) {
 	echo '{"errorLevel":0,"status":1,"message":"Your move has been recorded and the game has ended. Good job!"}';
