@@ -46,7 +46,7 @@ for ($i=0; $i < count($bankOrder); $i++) {
 		unset($bankOrder[$i]);
 	}
 	// disassociate
-	$player[$currentPlayerIndex]['bankOrder'] = array_values($player[$currentPlayerIndex]['bankOrder']);
+	$bankOrder = array_values($bankOrder);
 }
 
 // make sure every letter in the bank is represented in the bank order
@@ -55,6 +55,9 @@ for ($i=0; $i < count($players[$currentPlayerIndex]['letterBank']); $i++) {
 		array_push($bankOrder, (int)$i);
 	}
 }
+
+// disassociate the bank order
+$bankOrder = array_values($bankOrder);
 
 // set the bank order of the current player
 $players[$currentPlayerIndex]['bankOrder'] = $bankOrder;

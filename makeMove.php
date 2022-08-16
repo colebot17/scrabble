@@ -398,7 +398,7 @@ if (!$inactive && count($longBag) > 0) {
 			unset($players[$currentPlayerIndex]['bankOrder'][$i]);
 		}
 		// disassociate
-		$player[$currentPlayerIndex]['bankOrder'] = array_values($player[$currentPlayerIndex]['bankOrder']);
+		$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 	}
 
 	// make sure every letter in the bank is represented in the bank order
