@@ -1153,18 +1153,18 @@ function makeMove() {
 			},
 			method: "POST",
 			success: function(data) {
-				var tab = window.open('about:blank', '_blank');
-				tab.document.write(data);
-				// jsonData = JSON.parse(data);
-				// if (jsonData.errorLevel === 0) {
-				// 	loadGame(game.id);
-				// 	loadGamesList();
-				// 	if (jsonData.status === 1) {
-				// 		textModal("Game Over!", jsonData.message);
-				// 	}
-				// } else {
-				// 	textModal("Error", jsonData.message);
-				// }
+				// var tab = window.open('about:blank', '_blank');
+				// tab.document.write(data);
+				jsonData = JSON.parse(data);
+				if (jsonData.errorLevel === 0) {
+					loadGame(game.id);
+					loadGamesList();
+					if (jsonData.status === 1) {
+						textModal("Game Over!", jsonData.message);
+					}
+				} else {
+					textModal("Error", jsonData.message);
+				}
 			},
 			error: function() {
 				console.error("Request could not be completed.");
