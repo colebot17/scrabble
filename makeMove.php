@@ -81,7 +81,7 @@ for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to 
 
 	// remove the letter from the user's bank and bank order
 	unset($players[$currentPlayerIndex]['letterBank'][$tiles[$i]['bankIndex']]);
-	unset($players[array_search($user, $playerList)]['bankOrder'][array_search($tiles[$i]['bankIndex'], $players[array_search($user, $playerList)]['bankOrder'])]);
+	unset($players[$currentPlayerIndex]['bankOrder'][array_search($tiles[$i]['bankIndex'], $players[$currentPlayerIndex]['bankOrder'])]);
 }
 
 // make sure the letter bank and bank order are not associative
