@@ -980,7 +980,7 @@ function gameInit() {
 		if (!dragged && xOnShuffle && yOnShuffle && canvas.bankShuffleButton.clicking) {
 			shuffleBank();
 
-			// don't register double click on shuffle button as double click
+			// don't register double click on shuffle button as double click on canvas
 			canvas.doubleTap = false;
 		}
 		canvas.bankShuffleButton.clicking = false;
@@ -1004,9 +1004,10 @@ function gameInit() {
 		const onBoard = (x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width);
 		const onExistingTile = game.board?.[boardY]?.[boardX];
 
-		console.log(!game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id, userTurn);
+		const outOfTurn = !(!game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id, userTurn);
+
 		// only if the letter was moved to a free space on the board
-		if (onBoard && !onExistingTile && !stayedStill && userTurn) {
+		if (onBoard && !onExistingTile && !stayedStill && !outOfTurn) {
 			addLetter(boardX, boardY, dragged.bankIndex); // add the letter to the appropriate spot on the board
 		} else { // if the letter was dropped anywhere else or stayed still
 
