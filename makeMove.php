@@ -402,12 +402,12 @@ for ($i=0; $i < $bankOrderCount; $i++) {
 		echo " :}";
 
 		unset($players[$currentPlayerIndex]['bankOrder'][$i]);
-
-		// disassociate
-		$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 	}
 	echo "<br>";
 }
+
+// disassociate
+$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 echo "<br>";
 
 // make sure every letter in the bank is represented in the bank order

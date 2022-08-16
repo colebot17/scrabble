@@ -41,18 +41,13 @@ $currentPlayerIndex = array_search($user, $playerList);
 $bankCount = count($players[$currentPlayerIndex]['letterBank']);
 $bankOrderCount = count($players[$currentPlayerIndex]['bankOrder']);
 for ($i=0; $i < $bankOrderCount; $i++) {
-	echo $i;
-	echo ", ";
-	echo $players[$currentPlayerIndex]['bankOrder'][$i];
-	echo " ... ";
-	echo $bankCount;
 	if ($players[$currentPlayerIndex]['bankOrder'][$i] >= $bankCount) {
 		unset($players[$currentPlayerIndex]['bankOrder'][$i]);
-
-		// disassociate
-		$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 	}
 }
+
+// disassociate
+$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 
 // make sure every letter in the bank is represented in the bank order
 for ($i=0; $i < count($players[$currentPlayerIndex]['letterBank']); $i++) {
