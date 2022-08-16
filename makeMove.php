@@ -79,11 +79,8 @@ for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to 
 	// add tile to board
 	$board[$tile['y']][$tile['x']] = $tile;
 
-	// remove the letter from the user's bank and bank order
+	// remove the letter from the user's bank
 	unset($players[$currentPlayerIndex]['letterBank'][$tiles[$i]['bankIndex']]);
-
-	$orderIndex = array_search($tile['bankIndex'], $players[$currentPlayerIndex]['bankOrder']);
-	unset($players[$currentPlayerIndex]['bankOrder'][$orderIndex]);
 }
 
 // make sure the letter bank and bank order are not associative
@@ -389,8 +386,26 @@ if (!$inactive && count($longBag) > 0) {
 		array_splice($longBag, $rand, 1);
 		$letterBag[$newLetter]--;
 		array_push($players[$currentPlayerIndex]['letterBank'], $newLetter);
-		array_push($players[$currentPlayerIndex]['bankOrder'], $bankIndex);
 		$bankIndex++;
+	}
+
+	// remove duplicates from the bank order
+	$players[$currentPlayerIndex]['bankOrder'] = array_values(array_unique($players[$currentPlayerIndex]['bankOrder']));
+
+	// make sure there aren't ghost tiles in the bank order
+	for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) { 
+		if (!$players[$currentPlayerIndex]['letterBank'][$bankOrder[$i]]) {
+			unset($players[$currentPlayerIndex]['bankOrder'][$i]);
+		}
+		// disassociate
+		$player[$currentPlayerIndex]['bankOrder'] = array_values($player[$currentPlayerIndex]['bankOrder']);
+	}
+
+	// make sure every letter in the bank is represented in the bank order
+	for ($i=0; $i < count($players[$currentPlayerIndex]['letterBank']); $i++) { 
+		if (!in_array($i, $players[$currentPlayerIndex]['bankOrder'])) {
+			array_push($players[$currentPlayerIndex]['bankOrder'], (int)$i);
+		}
 	}
 }
 

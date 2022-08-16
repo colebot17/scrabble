@@ -35,9 +35,29 @@ $playerList = Array();
 for ($i=0; $i < count($players); $i++) { 
 	array_push($playerList, $players[$i]['id']);
 }
+$currentPlayerIndex = array_search($user, $playerList);
+
+// remove duplicates from the bank order
+$bankOrder = array_values(array_unique($bankOrder));
+
+// make sure there aren't ghost tiles in the bank order
+for ($i=0; $i < count($bankOrder); $i++) { 
+	if (!$players[$currentPlayerIndex]['letterBank'][$bankOrder[$i]]) {
+		unset($bankOrder[$i]);
+	}
+	// disassociate
+	$player[$currentPlayerIndex]['bankOrder'] = array_values($player[$currentPlayerIndex]['bankOrder']);
+}
+
+// make sure every letter in the bank is represented in the bank order
+for ($i=0; $i < count($players[$currentPlayerIndex]['letterBank']); $i++) { 
+	if (!in_array($i, $bankOrder)) {
+		array_push($bankOrder, (int)$i);
+	}
+}
 
 // set the bank order of the current player
-$players[array_search($user, $playerList)]['bankOrder'] = $bankOrder;
+$players[$currentPlayerIndex]['bankOrder'] = $bankOrder;
 
 // re-upload the players array
 $playersJson = json_encode($players);
