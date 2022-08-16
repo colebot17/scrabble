@@ -392,9 +392,9 @@ if (!$inactive && count($longBag) > 0) {
 // make sure there aren't ghost tiles in the bank order
 $bankCount = count($players[$currentPlayerIndex]['letterBank']);
 print_r($players[$currentPlayerIndex]['letterBank']);
-echo "<br><br>"
+echo "<br><br>";
 print_r($players[$currentPlayerIndex]['bankOrder']);
-echo "<br><br>"
+echo "<br><br>";
 for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) { 
 	if ($players[$currentPlayerIndex]['bankOrder'] >= $bankCount) {
 		unset($players[$currentPlayerIndex]['bankOrder'][$i]);
