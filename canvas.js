@@ -45,7 +45,10 @@ function canvasInit() {
 	// initialize the shuffle button
 	canvas.bankShuffleButton = {
 		hover: false,
-		position: {}
+		position: {
+			start: {},
+			end: {}
+		}
 	}
 
 	// handle window resize
