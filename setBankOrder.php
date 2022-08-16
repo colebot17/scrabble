@@ -39,7 +39,12 @@ $currentPlayerIndex = array_search($user, $playerList);
 
 // make sure there aren't ghost tiles in the bank order
 $bankCount = count($players[$currentPlayerIndex]['letterBank']);
-for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) { 
+for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) {
+	echo $i;
+	echo ", ";
+	echo $players[$currentPlayerIndex]['bankOrder'][$i];
+	echo " ... ";
+	echo $bankCount;
 	if ($players[$currentPlayerIndex]['bankOrder'][$i] >= $bankCount) {
 		unset($players[$currentPlayerIndex]['bankOrder'][$i]);
 

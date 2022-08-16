@@ -392,6 +392,12 @@ if (!$inactive && count($longBag) > 0) {
 // make sure there aren't ghost tiles in the bank order
 $bankCount = count($players[$currentPlayerIndex]['letterBank']);
 for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) { 
+	echo $i;
+	echo ", ";
+	echo $players[$currentPlayerIndex]['bankOrder'][$i];
+	echo " ... ";
+	echo $bankCount;
+	echo "<br>";
 	if ($players[$currentPlayerIndex]['bankOrder'][$i] >= $bankCount) {
 		unset($players[$currentPlayerIndex]['bankOrder'][$i]);
 
@@ -399,6 +405,7 @@ for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) {
 		$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 	}
 }
+echo "<br>";
 
 // make sure every letter in the bank is represented in the bank order
 for ($i=0; $i < count($players[$currentPlayerIndex]['letterBank']); $i++) { 
@@ -410,6 +417,10 @@ $players[$currentPlayerIndex]['bankOrder'] = array_values(array_unique($players[
 
 // disassociate the bank order
 $players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
+
+print_r($players[$currentPlayerIndex]['letterBank']);
+echo "<br>";
+print_r($players[$currentPlayerIndex]['bankOrder']);
 
 if (!$inactive) {
 	$totalTurn++; // increment the turn
@@ -424,7 +435,7 @@ $boardJson = json_encode($board);
 $playersJson = json_encode($players);
 
 $sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn='$totalTurn',inactive='$inactive',board='$boardJson' WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
+//$query = mysqli_query($conn, $sql);
 
 if ($inactive) {
 	echo '{"errorLevel":0,"status":1,"message":"Your move has been recorded and the game has ended. Good job!"}';
