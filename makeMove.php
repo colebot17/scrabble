@@ -80,13 +80,15 @@ for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to 
 	$board[$tile['y']][$tile['x']] = $tile;
 
 	// remove the letter from the user's bank and bank order
-	unset($players[array_search($user, $playerList)]['letterBank'][$tiles[$i]['bankIndex']]);
-	unset($players[array_search($user, $playerList)]['bankOrder'][array_search($tiles[$i]['bankIndex'], $players[array_search($user, $playerList)]['bankOrder'])]);
+	unset($players[$currentPlayerIndex]['letterBank'][$tiles[$i]['bankIndex']]);
+
+	$orderIndex = array_search($tile['bankIndex'], $players[$currentPlayerIndex]['bankOrder']);
+	unset($players[$currentPlayerIndex]['bankOrder'][$orderIndex]);
 }
 
 // make sure the letter bank and bank order are not associative
-$players[array_search($user, $playerList)]['letterBank'] = array_values($players[array_search($user, $playerList)]['letterBank']);
-$players[array_search($user, $playerList)]['bankOrder'] = array_values($players[array_search($user, $playerList)]['bankOrder']);
+$players[$currentPlayerIndex]['letterBank'] = array_values($players[$currentPlayerIndex]['letterBank']);
+$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 
 // make sure tiles are in straight line
 $xs = Array();
