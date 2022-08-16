@@ -739,13 +739,8 @@ function gameInit() {
 		let tile = game.board?.[boardY]?.[boardX];
 		let locked = tile?.locked;
 
-		// return if square is empty or non-existent
-		if (!tile) {
-			return;
-		}
-
 		// initialize the drag if tile is unlocked (and it's the user's turn)
-		if (!locked && userTurn) {
+		if (tile && !locked && userTurn) {
 			dragged = {
 				bankIndex: tile.bankIndex,
 				blank: tile.blank,
