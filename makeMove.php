@@ -397,13 +397,15 @@ for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) {
 	echo $players[$currentPlayerIndex]['bankOrder'][$i];
 	echo " ... ";
 	echo $bankCount;
-	echo "<br>";
 	if ($players[$currentPlayerIndex]['bankOrder'][$i] >= $bankCount) {
+		echo " :}";
+
 		unset($players[$currentPlayerIndex]['bankOrder'][$i]);
 
 		// disassociate
 		$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 	}
+	echo "<br>";
 }
 echo "<br>";
 
