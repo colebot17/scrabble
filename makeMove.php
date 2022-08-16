@@ -62,7 +62,7 @@ for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to 
 	}
 
 	// make sure player owns all letters being placed
-	if ($players[array_search($user, $playerList)]["letterBank"][$tiles["bankIndex"]] !== $letter) {
+	if ($players[$currentPlayerIndex]["letterBank"][$tiles["bankIndex"]] !== $letter) {
 		exit('{"errorLevel":2,"message":"You must own all letters being used."}');
 	}
 
@@ -387,29 +387,29 @@ if (!$inactive && count($longBag) > 0) {
 		array_push($players[$currentPlayerIndex]['letterBank'], $newLetter);
 		$bankIndex++;
 	}
-
-	// remove duplicates from the bank order
-	$players[$currentPlayerIndex]['bankOrder'] = array_values(array_unique($players[$currentPlayerIndex]['bankOrder']));
-
-	// make sure there aren't ghost tiles in the bank order
-	for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) { 
-		if (!$players[$currentPlayerIndex]['letterBank'][$bankOrder[$i]]) {
-			unset($players[$currentPlayerIndex]['bankOrder'][$i]);
-			// disassociate
-			$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
-		}
-	}
-
-	// make sure every letter in the bank is represented in the bank order
-	for ($i=0; $i < count($players[$currentPlayerIndex]['letterBank']); $i++) { 
-		if (!in_array($i, $players[$currentPlayerIndex]['bankOrder'])) {
-			array_push($players[$currentPlayerIndex]['bankOrder'], (int)$i);
-		}
-	}
-
-	// disassociate the bank order
-	$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 }
+
+// remove duplicates from the bank order
+$players[$currentPlayerIndex]['bankOrder'] = array_values(array_unique($players[$currentPlayerIndex]['bankOrder']));
+
+// make sure there aren't ghost tiles in the bank order
+for ($i=0; $i < count($players[$currentPlayerIndex]['bankOrder']); $i++) { 
+	if (!$players[$currentPlayerIndex]['letterBank'][$bankOrder[$i]]) {
+		unset($players[$currentPlayerIndex]['bankOrder'][$i]);
+		// disassociate
+		$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
+	}
+}
+
+// make sure every letter in the bank is represented in the bank order
+for ($i=0; $i < count($players[$currentPlayerIndex]['letterBank']); $i++) { 
+	if (!in_array($i, $players[$currentPlayerIndex]['bankOrder'])) {
+		array_push($players[$currentPlayerIndex]['bankOrder'], (int)$i);
+	}
+}
+
+// disassociate the bank order
+$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 
 if (!$inactive) {
 	$totalTurn++; // increment the turn
