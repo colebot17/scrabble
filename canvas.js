@@ -239,7 +239,7 @@ function drawLetterBank() {
 		if (canvas?.animations?.bankShuffle) {
 			frame = canvas.animations.bankShuffle.getFrame();
 			x = ((x - (canvasWidth / 2)) * Math.abs(frame - 0.5) * 2) + (canvasWidth / 2);
-			y = y + Math.sin((Math.abs(frame - 0.5) * 2) * Math.PI);
+			y = y + Math.sin((Math.abs(frame - 0.5) * 2) * Math.PI) * 8;
 		}
 		
 		// store the position of the tile for later use
