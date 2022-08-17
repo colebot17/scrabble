@@ -251,7 +251,7 @@ function drawLetterBank() {
 						)
 						* Math.PI
 						* animationRandMultiplier
-						* 32
+						* 100
 					);
 		}
 		
