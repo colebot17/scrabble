@@ -241,7 +241,7 @@ function drawLetterBank() {
 			if (!canvasLetter.animationRandMultiplier) {
 				canvasLetter.animationRandMultiplier = Math.random()
 			}
-			animationRandMultiplier = canvasLetter.animationRandMultiplier - 0.5;
+			animationRandMultiplier = canvasLetter.animationRandMultiplier;
 
 			const frame = canvas.animations.bankShuffle.getFrame();
 			const frameMultiplier = Math.abs(frame - 0.5) * 2;
@@ -252,7 +252,8 @@ function drawLetterBank() {
 						* 0.5
 					)
 					* 50
-					* animationRandMultiplier;
+					* animationRandMultiplier
+					* (i % 2);
 		}
 		
 		// store the position of the tile for later use
