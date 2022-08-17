@@ -237,9 +237,22 @@ function drawLetterBank() {
 		let x = startX + (tileWidth * drawnLetters) + currentGapSpace;
 		let y = startY + titleSize + 20;
 		if (canvas?.animations?.bankShuffle) {
+			let animationRandMultiplier;
+			if (!canvasLetter.animationRandMultiplier) {
+				canvasLetter.animationRandMultiplier = Math.random()
+			}
+			animationRandMultiplier = canvasLetter.animationRandMultiplier;
+
 			frame = canvas.animations.bankShuffle.getFrame();
 			x = ((x - (canvasWidth / 2)) * Math.abs(frame - 0.5) * 2) + (canvasWidth / 2);
-			y = (y + Math.sin(((Math.abs(frame - 0.5) * 2) * Math.PI) - 8) * 16);
+			y += Math.sin(
+						Math.abs(
+							frame - 0.5
+						)
+						* Math.PI
+						* animationRandMultiplier
+						* 32
+					);
 		}
 		
 		// store the position of the tile for later use
