@@ -1241,7 +1241,7 @@ function moveBankLetter(from, to) {
 function shuffleBank() {
 	// create the shuffling animation
 	const animationTime = 370;
-	canvas.animations.bankShuffle = new Animation(amimationTime);
+	canvas.animations.bankShuffle = new Animation(animationTime);
 
 	setTimeout(() => {
 		canvas.bankOrder = shuffleArr(canvas.bankOrder);
