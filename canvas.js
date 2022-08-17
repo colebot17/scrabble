@@ -253,7 +253,7 @@ function drawLetterBank() {
 						* animationRandMultiplier
 						* yScale
 					)
-					* 2;
+					* 100;
 		}
 		
 		// store the position of the tile for later use
