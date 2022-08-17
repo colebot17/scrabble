@@ -241,7 +241,7 @@ function drawLetterBank() {
 			if (!canvasLetter.animationRandMultiplier) {
 				canvasLetter.animationRandMultiplier = Math.random()
 			}
-			animationRandMultiplier = canvasLetter.animationRandMultiplier;
+			animationRandMultiplier = canvasLetter.animationRandMultiplier - 0.5;
 
 			const frame = canvas.animations.bankShuffle.getFrame();
 			const frameMultiplier = Math.abs(frame - 0.5) * 2;
