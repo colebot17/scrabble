@@ -247,13 +247,13 @@ function drawLetterBank() {
 			const frameMultiplier = Math.abs(frame - 0.5) * 2;
 			x = ((x - (canvasWidth / 2)) * frameMultiplier) + (canvasWidth / 2);
 			y += Math.sin(
-						(frameMultiplier - 1)
-						* Math.PI
-						* 0.5
-					)
-					* 50
-					* animationRandMultiplier
-					* ((i % 2) - 0.5);
+				(frameMultiplier - 1)
+				* Math.PI
+				* 0.5
+			)
+			* 50
+			* animationRandMultiplier
+			* ((i % 2) - 0.5);
 		}
 		
 		// store the position of the tile for later use
