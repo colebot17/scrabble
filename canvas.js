@@ -250,10 +250,10 @@ function drawLetterBank() {
 			y += Math.sin(
 						frameMultiplier
 						* Math.PI
-						* animationRandMultiplier
 						* yScale
 					)
-					* 100;
+					* 100
+					* animationRandMultiplier;
 		}
 		
 		// store the position of the tile for later use
