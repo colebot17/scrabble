@@ -250,7 +250,7 @@ function drawLetterBank() {
 						frameMultiplier
 						* Math.PI
 					)
-					* 100
+					* 50
 					* animationRandMultiplier;
 		}
 		
