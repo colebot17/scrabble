@@ -17,15 +17,6 @@ function canvasInit() {
 	if (canvas.interval) {clearInterval(canvas.interval)}
 	canvas.interval = setInterval(updateDisplay, 20);
 
-	// make a list of what order different turns should be
-	let currentPlayerIndex;
-	for (var i = game.players.length - 1; i >= 0; i--) {
-		if (game.players[i].id == account.id) {
-			currentPlayerIndex = i;
-			break;
-		}
-	}
-
 	// surely there is a better way but we'll just loop back through the players to find the player's last turn
 	let playerLastTurn = game.turn - 1;
 	while (game.players?.[playerLastTurn % game.players.length]?.id != account.id && playerLastTurn > -1) {
@@ -50,6 +41,19 @@ function canvasInit() {
 			}
 		}
 	}
+
+	// initialize the shuffle button
+	canvas.bankShuffleButton = {
+		hover: false,
+		clicking: false,
+		position: {
+			start: {},
+			end: {}
+		}
+	}
+
+	// initialize the bank animations
+	canvas.animations = {};
 
 	// handle window resize
 	window.onresize = setCanvasSize;
@@ -114,73 +118,208 @@ function drawBoard() {
 
 function drawLetterBank() {
 	// get the bank without any hidden letters
-	var bank = [];
+	let bank = [];
+	let canvasBankIndex = 0;
 	for (var i = 0; i < canvas.bank.length; i++) {
 		if (!canvas.bank[i].hidden) {
 			bank.push(canvas.bank[i]);
+			bank[bank.length - 1].canvasBankIndex = canvasBankIndex;
 		}
+		canvasBankIndex++;
 	}
 
 	// find where the board ends and the bank starts
-	var width = canvas.c.width;
-	var startY = width;
-	var remainingSpace = canvas.c.height - startY;
+	const canvasWidth = canvas.c.width;
+	const startY = canvasWidth;
+	let remainingSpace = canvas.c.height - startY;
 
 	// draw title ("Letter Bank")
-	var titleSize = 25;
+	const titleSize = 25;
 	canvas.ctx.font = titleSize + "px Rubik";
-	canvas.ctx.fillStyle = "#f2f5ff"; // tile text color
+	canvas.ctx.fillStyle = "#000000";
 	canvas.ctx.textAlign = "center";
-	canvas.ctx.fillText("Letter Bank", width / 2, startY + titleSize + 10);
+	canvas.ctx.fillText("Letter Bank", canvasWidth / 2, startY + titleSize + 10);
+
+	// draw the bank shuffle button
+	const shuffleButtonX = (canvasWidth / 2) + 90;
+	const shuffleButtonY = startY + titleSize + 14;
+
+	// draw background if hovering
+	if (canvas.bankShuffleButton.hover) {
+		canvas.ctx.fillStyle = "#00000033";
+		canvas.ctx.beginPath();
+		canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
+		canvas.ctx.fill();
+	}
+
+	// draw the icon
+	canvas.ctx.font = titleSize + "px Material Icons";
+	canvas.ctx.fillStyle = "#000000";
+	canvas.ctx.textAlign = "center";
+
+	canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
+
+	// store the coordinates so we know when we click on it
+	canvas.bankShuffleButton.position = {
+		start: {
+			x: shuffleButtonX - (titleSize / 2) - 5,
+			y: shuffleButtonY - titleSize - 5
+		},
+		end: {
+			x: shuffleButtonX + (titleSize / 2) + 5,
+			y: shuffleButtonY + 5
+		}
+	}
 
 	remainingSpace -= titleSize + 20;
 
-	// draw each letter (we are using the bank without hidden letters)
-	var numTiles = bank.length;
-	var tileGap = 5;
-	var tileWidth = Math.min(remainingSpace - 10, (width / numTiles) - tileGap, 55);
-	var startX = (width - (((tileWidth + tileGap) * numTiles) - tileGap)) / 2;
+	// determine some constants
+	const numTiles = bank.length;
+	const defaultTileGap = 5;
+	const extraTileGap = 30;
+
+	let totalGapSpace = 0;
+	for (let i in bank) {
+		totalGapSpace += (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
+	}
+	if (canvas.extraGapBeforeBank) {
+		totalGapSpace -= extraTileGap - defaultTileGap;
+	}
+
+	const tileWidth = Math.min(remainingSpace - 10, ((canvasWidth - totalGapSpace) / numTiles), 55);
+	const totalBankWidth = (tileWidth * numTiles) + totalGapSpace;
+	const startX = (canvasWidth - totalBankWidth) / 2;
 
 	canvas.bankTileWidth = tileWidth;
 
-	var textSize = tileWidth - 5;
-	var smallTextSize = textSize / 3;
+	const textSize = tileWidth - 5;
+	const smallTextSize = textSize / 3;
 
-	for (let i in bank) {
-		let x = startX + (tileWidth + tileGap) * i;
+	let currentGapSpace = 0;
+
+	// find the first visible letter
+	let firstLetter;
+	for (let i in canvas.bankOrder) {
+		if (!canvas.bank[canvas.bankOrder[i]].hidden) {
+			firstLetter = canvas.bank[canvas.bankOrder[i]];
+			break;
+		}
+	}
+
+	if (firstLetter) {
+		// add the first drop zone
+		canvas.dropZones = [{
+			start: {
+				x: firstLetter.position.x - (canvas.extraGapBeforeBank ? extraTileGap : defaultTileGap) - (canvas.bankTileWidth / 2),
+				y: firstLetter.position.y - (canvas.bankTileWidth / 5)
+			},
+			end: {
+				x: firstLetter.position.x + (canvas.bankTileWidth / 2),
+				y: firstLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
+			},
+			orderIndex: canvas.bankOrder.indexOf(firstLetter.bankIndex)
+		}];
+	} else {
+		canvas.dropZones = []; // initialize no drop zones because there are no visible letters in the bank
+	}
+
+	// draw each letter
+	let drawnLetters = 0;
+	for (let i in canvas.bankOrder) {
+		const canvasLetter = canvas.bank[canvas.bankOrder[i]];
+
+		// don't display the letter if it is hidden
+		if (canvasLetter?.hidden) {
+			continue;
+		}
+
+		// calculate where to start
+		let x = startX + (tileWidth * drawnLetters) + currentGapSpace;
 		let y = startY + titleSize + 20;
+		if (canvas?.animations?.bankShuffle) {
+			let animationRandMultiplier;
+			if (!canvasLetter.animationRandMultiplier) {
+				canvasLetter.animationRandMultiplier = Math.random();
+			}
+			animationRandMultiplier = canvasLetter.animationRandMultiplier;
+
+			const frame = canvas.animations.bankShuffle.getFrame();
+			const frameMultiplier = Math.abs(frame - 0.5) * 2;
+			x = ((x - (canvasWidth / 2)) * frameMultiplier) + (canvasWidth / 2);
+			y += Math.sin(
+				(frameMultiplier - 1)
+				* Math.PI
+				* 0.5
+			)
+			* 50
+			* animationRandMultiplier
+			* ((i % 2) - 0.5);
+		}
 		
 		// store the position of the tile for later use
-		canvas.bank[bank[i].bankIndex].position.x = x;
-		canvas.bank[bank[i].bankIndex].position.y = y;
+		canvasLetter.position.x = x;
+		canvasLetter.position.y = y;
 
 		// calculate the position of the letter and points on the tile
-		let textX = x + (tileWidth / 2);
-		let textY = y + (tileWidth / 2) + (textSize / 3);
+		const textX = x + (tileWidth / 2);
+		const textY = y + (tileWidth / 2) + (textSize / 3);
 
-		let pointsX = x + (tileWidth * 0.9);
-		let pointsY = y + (tileWidth * 0.9);
+		const pointsX = x + (tileWidth * 0.9);
+		const pointsY = y + (tileWidth * 0.9);
+
+		// after calculating, increase the current gap space
+		currentGapSpace += (canvasLetter.extraGapAfter ? extraTileGap : defaultTileGap);
 
 		// draw tile
 		canvas.ctx.fillStyle = "#a47449"; // tile brown
 		roundRect(canvas.ctx, x, y, tileWidth, tileWidth);
 
 		// if not blank
-		if (bank[i].letter && bank[i].letter !== ".") {
+		if (canvasLetter.letter) {
 			// draw letter
 			canvas.ctx.fillStyle = "#f2f5ff" // tile text color
 			canvas.ctx.font = textSize + "px Eurostile";
 			canvas.ctx.textAlign = "center";
-			canvas.ctx.fillText(bank[i].letter, textX, textY);
+			canvas.ctx.fillText(canvasLetter.letter, textX, textY);
 
 			// draw points
-			let points = letterScores[bank[i].letter.toUpperCase()];
+			let points = letterScores[canvasLetter.letter.toUpperCase()];
 
 			canvas.ctx.font = smallTextSize + "px Eurostile";
 			canvas.ctx.textAlign = "right";
 			canvas.ctx.fillText(points, pointsX, pointsY);
 		}
+
+		// calculate drop zones for the letter bank
+		let newZone = {
+			start: {
+				x: canvasLetter.position.x + (canvas.bankTileWidth / 2),
+				y: canvasLetter.position.y - (canvas.bankTileWidth / 5)
+			},
+			end: {
+				x: canvasLetter.position.x + (canvas.bankTileWidth * 1.5) + (canvasLetter.extraGapAfter ? extraTileGap : defaultTileGap),
+				y: canvasLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
+			},
+			orderIndex: parseInt(i) + 1
+		};
+		canvas.dropZones.push(newZone);
+
+		drawnLetters++;
 	}
+
+	/* // draw drop zones for testing
+	for (let i in canvas.dropZones) {
+		const x = canvas.dropZones[i].start.x;
+		const y = canvas.dropZones[i].start.y;
+		const width = canvas.dropZones[i].end.x - x;
+		const height = canvas.dropZones[i].end.y - y;
+
+		canvas.ctx.fillStyle = "#0000FF66";
+		canvas.ctx.fillRect(x, y, width, height);
+
+		canvas.ctx.strokeStyle = "#0000FF99";
+		canvas.ctx.strokeRect(x, y, width, height);
+	} */
 }
 
 function updateTile(tile) {

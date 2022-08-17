@@ -37,7 +37,14 @@ if (password_verify($userPwd, $row['pwd'])) {
 	// generate a full player list to go with the actual game
 	$players = array();
 	for ($i = 0; $i < $numPlayers; $i++) { 
-		array_push($players, array("id" => $playerList[$i], "letterBank" => array(), "points" => 0, "name" => $playerListNames[$playerList[$i]], "endGameRequest" => "false"));
+		array_push($players, array(
+			"id" => $playerList[$i],
+			"letterBank" => array(),
+			"bankOrder" => array(0, 1, 2, 3, 4, 5, 6),
+			"points" => 0,
+			"name" => $playerListNames[$playerList[$i]],
+			"endGameRequest" => "false"
+		));
 	}
 
 	// pick letters for all players

@@ -600,10 +600,12 @@ function gameInit() {
 		}
 	}
 
+	// this is the current player's bank
+	const bank = game.players[currentPlayerIndex].letterBank;
+
 	// create an object of the letter bank for the canvas
-	var bank = game.players[currentPlayerIndex].letterBank;
 	canvas.bank = [];
-	for (var i = 0; i < bank.length; i++) {
+	for (let i in bank) {
 		canvas.bank.push({
 			letter: bank[i],
 			hidden: false,
@@ -611,24 +613,37 @@ function gameInit() {
 				x: undefined,
 				y: undefined
 			},
-			bankIndex: i
+			bankIndex: parseInt(i)
 		});
 	}
 
+	// this is the bank order
+	const bankOrder = game.players[currentPlayerIndex].bankOrder;
+
+	// initialize the bank order
+	if (!bankOrder) {
+		canvas.bankOrder = [];
+		for (let i in bank) {
+			canvas.bankOrder.push(parseInt(i));
+		}
+	} else {
+		canvas.bankOrder = bankOrder;
+	}
+
 	// clear event listeners from canvas
-	var $canvas = $(canvas.c);
+	let $canvas = $(canvas.c);
 	$canvas.off();
 
 	// go ahead and define the things we will disable when it isn't the user's turn
-	var ootDisable = '#makeMoveButton, #skipTurnButton';
+	const ootDisable = '#makeMoveButton, #skipTurnButton';
 
 	// make sure everything is enabled (we will disable them again if we need to)
 	$(ootDisable).css('cursor', '').prop('disabled', false).attr('title', '').off('mousedown touchstart');
 
 	// determine whether it is the current user's turn
-	userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
+	const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
-	var handleCanvasDblClick = function(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
+	function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
 		// remove all unlocked tiles from the board
 		for (let y in game.board) {
 			for (let x in game.board) {
@@ -641,12 +656,14 @@ function gameInit() {
 		// un-hide all letters in bank
 		for (let i in canvas.bank) {
 			canvas.bank[i].hidden = false;
+			canvas.bank[i].extraGapAfter = false;
 		}
+		canvas.extraGapBeforeBank = false;
 	}
 	$canvas.on('dblclick', handleCanvasDblClick);
 
 	// handle drag start on canvas
-	var handleCanvasMouseDown = function(e) {
+	function handleCanvasMouseDown(e) {
 		e.preventDefault();
 
 		// cancel if a popup is open
@@ -682,37 +699,36 @@ function gameInit() {
 			clientY = e.clientY;
 		}
 
-		if (userTurn) {
-			// check letter bank first
-			let inBank = false;
+		// loop through letter bank tile positions to see if user clicked on one
+		for (let i in canvas.bankOrder) {
+			const canvasLetter = canvas.bank[canvas.bankOrder[i]];
 
-			// get the canvas.bank without hidden items
-			let bank = [];
-			for (var i = 0; i < canvas.bank.length; i++) {
-				if (!canvas.bank[i].hidden) {
-					bank.push(canvas.bank[i]);
-				}
+			// don't accept a click if the letter is hidden
+			if (canvasLetter.hidden) {
+				continue;
 			}
 
-			// loop through letter bank tile positions to see if user clicked on one
-			for (let i = bank.length - 1; i >= 0; i--) {
-				xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
-				yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
-				if (xMatch && yMatch) { // if this is the one that the user has clicked on
-					// get the current player index
-					let currentPlayerIndex;
-					for (let j = game.players.length - 1; j >= 0; j--) {
-						if (game.players[j].id == account.id) {
-							currentPlayerIndex = j;
-							break;
-						}
-					}
-
-					// update the dragged piece
-					dragged = new Tile(undefined, undefined, bank[i].letter || "", bank[i].bankIndex, false, false, x, y);
-					canvas.bank[bank[i].bankIndex].hidden = true; // hide the letter from the bank
-					return; // don't bother to check the board
+			const xMatch = x > canvasLetter.position.x && x < canvasLetter.position.x + canvas.bankTileWidth;
+			const yMatch = y > canvasLetter.position.y && y < canvasLetter.position.y + canvas.bankTileWidth;
+			if (xMatch && yMatch) { // if this is the one that the user has clicked on
+				// update the dragged piece
+				dragged = {
+					bankIndex: canvasLetter.bankIndex,
+					blank: !canvasLetter.letter,
+					letter: canvasLetter.letter,
+					pixelX: x,
+					pixelY: y
 				}
+				canvasLetter.hidden = true; // hide the letter from the bank
+				
+				// add a gap where the letter used to be
+				if (i == 0) {
+					canvas.extraGapBeforeBank = true;
+				} else {
+					canvas.bank[canvas.bankOrder[i - 1]].extraGapAfter = true;
+				}
+
+				return; // don't bother to check the board
 			}
 		}
 
@@ -723,25 +739,33 @@ function gameInit() {
 		let tile = game.board?.[boardY]?.[boardX];
 		let locked = tile?.locked;
 
-		// return if square is empty or non-existent
-		if (!tile) {
-			return;
-		}
-
 		// initialize the drag if tile is unlocked (and it's the user's turn)
-		if (!locked && userTurn) {
-			dragged = new Tile(undefined, undefined, tile.letter, tile.bankIndex, tile.blank, tile.locked, x, y);
-
-			dragged.mouseOffset = {
-				x: (boardX - (x / (squareWidth + squareGap))) * (squareWidth + squareGap),
-				y: (boardY - (y / (squareWidth + squareGap))) * (squareWidth + squareGap)
+		if (tile && !locked && userTurn) {
+			dragged = {
+				bankIndex: tile.bankIndex,
+				blank: tile.blank,
+				letter: tile.letter,
+				mouseOffset: {
+					x: (boardX - (x / (squareWidth + squareGap))) * (squareWidth + squareGap),
+					y: (boardY - (y / (squareWidth + squareGap))) * (squareWidth + squareGap)
+				},
+				pixelX: x,
+				pixelY: y,
+				posHistory: [{x, y}]
 			}
 
-			dragged.posHistory = [{x, y}];
-
-			game.board[boardY][boardX] = null;
+			game.board[boardY][boardX] = null; // remove the tile from the board
 
 			return; // nothing else to do
+		}
+
+		// shuffle the bank if the shuffle button is clicked
+		// (but do a fancy thing with mousedown and mouseup)
+		const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
+		const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
+		if (xOnShuffle && yOnShuffle) {
+			canvas.bankShuffleButton.clicking = true;
+			return;
 		}
 
 		// show the word definition
@@ -818,7 +842,7 @@ function gameInit() {
 	$canvas.on("touchstart", handleCanvasMouseDown);
 
 	// update position of tile when mouse moves during drag
-	var handleCanvasMouseMove = function(e) {
+	function handleCanvasMouseMove(e) {
 		e.preventDefault();
 		
 		// get the pixel position of the mouse/finger
@@ -862,12 +886,12 @@ function gameInit() {
 				}
 			}
 
-			// loop through letter bank tile positions to see if user clicked on one
-			for (let i = bank.length - 1; i >= 0; i--) {
-				xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
-				yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
-				if (xMatch && yMatch) { // if this is the one that the user has clicked on
-					cursor = (outOfTurn ? 'not-allowed' : 'grab');
+			// loop through letter bank tile positions to see if user is hovering over one
+			for (let i in bank) {
+				const xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
+				const yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
+				if (xMatch && yMatch) { // if this is the one that the user is hovering over
+					cursor = 'grab';
 				}
 			}
 
@@ -885,12 +909,47 @@ function gameInit() {
 					cursor = (outOfTurn ? 'not-allowed' : 'grab');
 				}
 			}
+
+			// show the hover effect on the shuffle button
+			const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
+			const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
+			if (!dragged && xOnShuffle && yOnShuffle) {
+				cursor = 'pointer';
+				canvas.bankShuffleButton.hover = true;
+			} else {
+				canvas.bankShuffleButton.hover = false;
+			}
 			
 			if (dragged) {
 				cursor = 'no-drop';
 
 				if (!tile) {
+					cursor = (outOfTurn ? 'no-drop' : 'grabbing');
+				}
+
+				// remove all gaps between letters in bank
+				canvas.extraGapBeforeBank = false;
+				for (let i in canvas.bank) {
+					canvas.bank[i].extraGapAfter = false;
+				}
+
+				if (boardY > 14) {
 					cursor = 'grabbing';
+
+					// expand the space between letters in bank as necessary
+					for (let i in canvas.dropZones) {
+						// if the user is dragging over this zone
+						const xInDropZone = x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x;
+						const yInDropZone = y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y;
+						if (xInDropZone && yInDropZone) {
+							// make the gap bigger
+							if (i == 0) {
+								canvas.extraGapBeforeBank = true;
+							} else {
+								canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]].extraGapAfter = true;
+							}
+						}
+					}
 				}
 			}
 
@@ -902,23 +961,8 @@ function gameInit() {
 	$canvas.on("mousemove", handleCanvasMouseMove);
 	$canvas.on("touchmove", handleCanvasMouseMove);
 
-	var handleCanvasMouseUp = function(e) {
-		// cancel if no tile is being dragged
-		if (!dragged) {
-			return;
-		}
-
-		// cancel if not the user's turn
-		if (!userTurn) {
-			return;
-		}
-
+	function handleCanvasMouseUp(e) {
 		e.preventDefault();
-
-		// cancel if a popup is open
-		if (visiblePopups.length > 0) {
-			return;
-		}
 
 		// get the pixel position of the mouse/finger
 		let x, y;
@@ -930,17 +974,67 @@ function gameInit() {
 			y = e.offsetY;
 		}
 
+		// check for the shuffle button
+		const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
+		const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
+		if (!dragged && xOnShuffle && yOnShuffle && canvas.bankShuffleButton.clicking) {
+			shuffleBank();
+
+			// don't register double click on shuffle button as double click on canvas
+			canvas.doubleTap = false;
+		}
+		canvas.bankShuffleButton.clicking = false;
+
+		// cancel if no tile is being dragged
+		if (!dragged) {
+			return;
+		}
+
+		// cancel if a popup is open
+		if (visiblePopups.length > 0) {
+			return;
+		}
+
 		const boardX = Math.floor(x / (squareWidth + squareGap));
 		const boardY = Math.floor(y / (squareWidth + squareGap));
 
 		// determine whether the tile has moved since touchdown (or if it has been clicked)
 		const stayedStill = dragged?.posHistory?.length === 1;
 
-		// only if the letter was dropped on a free space on the board
-		if ((x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width) && !game.board?.[boardY]?.[boardX] && !stayedStill) {
-			// add the letter to the appropriate spot on the board
-			addLetter(boardX, boardY, dragged.bankIndex);
-		} else { // if the letter was dropped anywhere else
+		const onBoard = (x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width);
+		const onExistingTile = game.board?.[boardY]?.[boardX];
+
+		const outOfTurn = !(!game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id);
+
+		// only if the letter was moved to a free space on the board
+		if (onBoard && !onExistingTile && !stayedStill && !outOfTurn) {
+			addLetter(boardX, boardY, dragged.bankIndex); // add the letter to the appropriate spot on the board
+		} else { // if the letter was dropped anywhere else or stayed still
+
+			// find out if it was dropped into a drop zone
+			for (let i in canvas.dropZones) {
+
+				// if the user dropped into this zone
+				const xInZone = (x > canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x);
+				const yInZone = (y > canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y);
+				if (xInZone && yInZone) {
+
+					const from = canvas.bankOrder.indexOf(dragged.bankIndex);
+					const to = canvas.dropZones[parseInt(i)].orderIndex;
+
+					// move the letter
+					moveBankLetter(from, to);
+
+					// remove any extra gap after any letter
+					canvas.extraGapBeforeBank = false;
+					for (let j in canvas.bank) {
+						canvas.bank[j].extraGapAfter = false;
+					}
+
+				}
+
+			}
+
 			canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
 		}
 		
@@ -1084,6 +1178,77 @@ function makeMove() {
 	);
 }
 
+function setBankOrder() {
+	$.ajax(
+		'setBankOrder.php',
+		{
+			data: {
+				user: account.id,
+				pwd: account.pwd,
+				game: game.id,
+				bankOrder: JSON.stringify(canvas.bankOrder)
+			},
+			method: "POST",
+			success: function(data) {
+				const jsonData = JSON.parse(data);
+				if (jsonData.errorLevel > 0) {
+					// restore from the old bank order
+					canvas.bankOrder = JSON.parse(JSON.stringify(oldOrder));
+
+					// show an error message if the error level is high enough
+					if (jsonData.errorLevel >= 2) {
+						textModal("Error", jsonData.message);
+					}
+				}
+			}
+		}
+	);
+}
+
+function moveBankLetter(from, to) {
+	// "from" and "to" are both ORDER indicies
+
+	// "from" represents the tile we are moving
+	// "to" represents the index before which we are moving
+
+	from = parseInt(from);
+	to = parseInt(to);
+	
+	// account for element being removed before
+	if (from < to) {
+		to--;
+	}
+
+	// don't move the letter if from is the same as to
+	if (from === to) {
+		canvas.bank[from].hidden = false;
+		return;
+	}
+
+	// store the order in case we need to revert
+	const oldOrder = JSON.parse(JSON.stringify(canvas.bankOrder));
+	
+	// remove that letter from the order
+	const fromBankIndex = canvas.bankOrder[from];
+	canvas.bankOrder.splice(from, 1);
+
+	// add the letter before "to"
+	canvas.bankOrder.splice(to, 0, fromBankIndex);
+
+	setBankOrder();
+}
+
+function shuffleBank() {
+	// create the shuffling animation
+	const animationTime = 370;
+	canvas.animations.bankShuffle = new Animation(animationTime);
+
+	setTimeout(() => {
+		canvas.bankOrder = shuffleArr(canvas.bankOrder);
+	}, animationTime / 2);
+	setBankOrder();
+}
+
 function exchangeLetters() {
 	// do some preliminary checks
 	if (!account.id) {
@@ -1108,14 +1273,12 @@ function exchangeLetters() {
 	$('#letterExchangeButton').text('Skip Turn');
 	let bank = game.players[parseInt(game.turn) % game.players.length].letterBank;
 	for (let i in bank) {
-		$letterBank.append(
-			`
-				<button class='letter' data-bankindex='${i}' aria-pressed='false'>
-					<span class='letterLetter'>${bank[i] ? bank[i] : ``}</span>
-					<span class='letterPoints'>${bank[i] ? letterScores[bank[i]] : ``}</span>
-				</button>
-			`
-		);
+		$letterBank.append(`
+			<button class='letter' data-bankindex='${i}' aria-pressed='false'>
+				<span class='letterLetter'>${bank[i] ? bank[i] : ``}</span>
+				<span class='letterPoints'>${bank[i] ? letterScores[bank[i]] : ``}</span>
+			</button>
+		`);
 	}
 
 	$letterBank.children('.letter').on('click', function() {
@@ -1232,16 +1395,9 @@ function Tile(x, y, letter, bankIndex, blank, locked, pixelX, pixelY) {
 	}
 }
 
-// Fisher-Yates shuffle an array (https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array)
+// Fisher-Yates Shuffle (https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array)
 function shuffleArr(a) {
-	let b = a.length,  c;
-	while (b != 0) {
-		c = Math.floor(Math.random() * b);
-		b--;
-		[a[b], a[c]] = [
-			a[c], a[b]];
-	}
-	return a;
+	let b=a.length,c;while(b!=0){c=Math.floor(Math.random()*b);b--;[a[b],a[c]]=[a[c],a[b]];}return a;
 }
 
 function showTab(tab) {

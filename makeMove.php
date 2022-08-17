@@ -55,6 +55,14 @@ if ((int)$players[$turn]['id'] !== (int)$user || (int)$inactive !== 0) { // make
 	exit('{"errorLevel":1,"message":"It isn\'t your turn!"}');
 }
 
+// make sure there is a bank order
+if (!$players[$currentPlayerIndex]['bankOrder']) {
+	$players[$currentPlayerIndex]['bankOrder'] = array();
+	for ($i=0; $i < count($players[$currentPlayerIndex]['letterBank']); $i++) { 
+		array_push($players[$currentPlayerIndex]['bankOrder'], $i);
+	}
+}
+
 for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to place
 	// make sure tiles are only being placed on empty spaces
 	if ($board[$tiles[$i]["y"]][$tiles[$i]["x"]]) {
@@ -62,7 +70,7 @@ for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to 
 	}
 
 	// make sure player owns all letters being placed
-	if ($players[array_search($user, $playerList)]["letterBank"][$tiles["bankIndex"]] !== $letter) {
+	if ($players[$currentPlayerIndex]["letterBank"][$tiles["bankIndex"]] !== $letter) {
 		exit('{"errorLevel":2,"message":"You must own all letters being used."}');
 	}
 
@@ -76,13 +84,17 @@ for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to 
 		"y" => $tiles[$i]['y']
 	);
 
-	$board[$tile["y"]][$tile["x"]] = $tile; // add tile to board
+	// add tile to board
+	$board[$tile['y']][$tile['x']] = $tile;
 
-	unset($players[array_search($user, $playerList)]["letterBank"][$tiles[$i]["bankIndex"]]); // remove the letter from the user's bank
+	// remove the letter from the user's bank and bank order
+	unset($players[$currentPlayerIndex]['letterBank'][$tiles[$i]['bankIndex']]);
+	unset($players[$currentPlayerIndex]['bankOrder'][array_search($tiles[$i]['bankIndex'], $players[$currentPlayerIndex]['bankOrder'])]);
 }
 
-// make sure the letter bank is not associative
-$players[array_search($user, $playerList)]["letterBank"] = array_values($players[array_search($user, $playerList)]["letterBank"]);
+// make sure the letter bank and bank order are not associative
+$players[$currentPlayerIndex]['letterBank'] = array_values($players[$currentPlayerIndex]['letterBank']);
+$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 
 // make sure tiles are in straight line
 $xs = Array();
@@ -376,14 +388,39 @@ $players[$currentPlayerIndex]['points'] = $players[$currentPlayerIndex]['points'
 // if the game is not ending and there is at least one letter in the bag
 if (!$inactive && count($longBag) > 0) {
 	// fill the player's letter bank until it is full or the bag is empty
+	$bankIndex = count($players[$currentPlayerIndex]['letterBank']);
 	while (count($players[$currentPlayerIndex]['letterBank']) < 7 && count($longBag) > 0) {
 		$rand = random_int(0, count($longBag) - 1);
 		$newLetter = $longBag[$rand];
 		array_splice($longBag, $rand, 1);
 		$letterBag[$newLetter]--;
 		array_push($players[$currentPlayerIndex]['letterBank'], $newLetter);
+		$bankIndex++;
 	}
 }
+
+// make sure there aren't ghost tiles in the bank order
+$bankCount = count($players[$currentPlayerIndex]['letterBank']);
+$bankOrderCount = count($players[$currentPlayerIndex]['bankOrder']);
+for ($i=0; $i < $bankOrderCount; $i++) {
+	if ($players[$currentPlayerIndex]['bankOrder'][$i] >= $bankCount) {
+		unset($players[$currentPlayerIndex]['bankOrder'][$i]);
+	}
+}
+
+// disassociate
+$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
+
+// make sure every letter in the bank is represented in the bank order
+for ($i=0; $i < count($players[$currentPlayerIndex]['letterBank']); $i++) { 
+	array_push($players[$currentPlayerIndex]['bankOrder'], (int)$i);
+}
+
+// remove duplicates from the bank order
+$players[$currentPlayerIndex]['bankOrder'] = array_values(array_unique($players[$currentPlayerIndex]['bankOrder']));
+
+// disassociate the bank order
+$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 
 if (!$inactive) {
 	$totalTurn++; // increment the turn
