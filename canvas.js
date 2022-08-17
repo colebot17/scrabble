@@ -243,16 +243,17 @@ function drawLetterBank() {
 			}
 			animationRandMultiplier = canvasLetter.animationRandMultiplier;
 
-			frame = canvas.animations.bankShuffle.getFrame();
-			x = ((x - (canvasWidth / 2)) * Math.abs(frame - 0.5) * 2) + (canvasWidth / 2);
+			const frame = canvas.animations.bankShuffle.getFrame();
+			const frameMultiplier = Math.abs(frame - 0.5) * 2;
+			const yScale = 100;
+			x = ((x - (canvasWidth / 2)) * frameMultiplier) + (canvasWidth / 2);
 			y += Math.sin(
-						Math.abs(
-							frame - 0.5
-						)
+						frameMultiplier
 						* Math.PI
 						* animationRandMultiplier
-						* 100
-					);
+						* yScale
+					)
+					* 2;
 		}
 		
 		// store the position of the tile for later use
