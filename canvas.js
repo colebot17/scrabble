@@ -233,7 +233,7 @@ function drawLetterBank() {
 		// calculate where to start
 		let x = startX + (tileWidth * drawnLetters) + currentGapSpace;
 		let y = startY + titleSize + 20;
-		if (canvas.animations.bankShuffle.isActive()) {
+		if (canvas?.animations?.bankShuffle?.isActive()) {
 			x = ((x - (canvasWidth / 2)) * Math.abs(canvas.animations.bankShuffle.getFrame() - 0.5) * 2) + (canvasWidth / 2);
 		}
 		
