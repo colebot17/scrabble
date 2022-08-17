@@ -52,6 +52,9 @@ function canvasInit() {
 		}
 	}
 
+	// initialize the bank animations
+	canvas.animations = {};
+
 	// handle window resize
 	window.onresize = setCanvasSize;
 }
