@@ -1239,7 +1239,12 @@ function moveBankLetter(from, to) {
 }
 
 function shuffleBank() {
-	canvas.bankOrder = shuffleArr(canvas.bankOrder);
+	// create the shuffling animation
+	canvas.animations.bankShuffle = new Animation(500);
+
+	setTimeout(() => {
+		canvas.bankOrder = shuffleArr(canvas.bankOrder);
+	}, 250);
 	setBankOrder();
 }
 

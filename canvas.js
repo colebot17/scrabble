@@ -231,8 +231,11 @@ function drawLetterBank() {
 		}
 
 		// calculate where to start
-		const x = startX + (tileWidth * drawnLetters) + currentGapSpace;
-		const y = startY + titleSize + 20;
+		let x = startX + (tileWidth * drawnLetters) + currentGapSpace;
+		let y = startY + titleSize + 20;
+		if (canvas.animations.bankShuffle.isActive()) {
+			x = ((x - (canvasWidth / 2)) * Math.abs(canvas.animations.bankShuffle.getFrame() - 0.5) * 2) + (canvasWidth / 2);
+		}
 		
 		// store the position of the tile for later use
 		canvasLetter.position.x = x;
