@@ -245,7 +245,7 @@ function drawLetterBank() {
 
 			const frame = canvas.animations.bankShuffle.getFrame();
 			const frameMultiplier = Math.abs(frame - 0.5) * 2;
-			x = ((x - (canvasWidth / 2) - (tileWidth / 2)) * frameMultiplier) + (canvasWidth / 2);
+			x = ((x - (canvasWidth / 2) - (tileWidth / 2)) * frameMultiplier) + (canvasWidth / 2) + (tileWidth / 2);
 			y += Math.sin(
 				(frameMultiplier - 1)
 				* Math.PI
