@@ -39,7 +39,7 @@ window.addEventListener('resize', () => {
 function loadGamesList(done) {
 	if (account.id) {
 		$.ajax(
-			'../php/loadPlayerGames.php',
+			location + '/php/loadPlayerGames.php',
 			{
 				data: {
 					user: account.id,
@@ -294,7 +294,7 @@ function renameGame(id) {
 
 	// rename the game
 	$.ajax(
-		'../php/renameGame.php',
+		location + '/php/renameGame.php',
 		{
 			data: {
 				user: account.id,
@@ -321,7 +321,7 @@ function renameGame(id) {
 function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
 	var newGamePlayerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players);
 	$.ajax(
-		'../php/getIdFromName.php',
+		location + '/php/getIdFromName.php',
 		{
 			data: {
 				user: account.id,
@@ -450,7 +450,7 @@ function createGame(playerList = JSON.parse(document.getElementById('createGameP
 	}
 
 	$.ajax(
-		'../php/newGame.php',
+		location + '/php/newGame.php',
 		{
 			data: {user: account.id, pwd: account.pwd, players: JSON.stringify(players)},
 			method: "POST",
@@ -494,7 +494,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), exp
 			setTimeout(function() {clone.remove()}, 740);
 		}
 		$.ajax(
-			'../php/loadGame.php',
+			location + '/php/loadGame.php',
 			{
 				data: {user: account.id, pwd: account.pwd, game: id},
 				method: "POST",
@@ -557,7 +557,7 @@ function endGame() {
 	textModal("End Game", confirmMsg, true, function() {
 		// send the request
 		$.ajax(
-			(voted ? '../php/unEndGame.php' : '../php/endGame.php'),
+			location + (voted ? '/php/unEndGame.php' : '/php/endGame.php'),
 			{
 				data: {
 					user: account.id,
@@ -1148,7 +1148,7 @@ function makeMove() {
 		}
 	}
 	$.ajax(
-		'../php/makeMove.php',
+		location + '/php/makeMove.php',
 		{
 			data: {
 				game: game.id,
@@ -1180,7 +1180,7 @@ function makeMove() {
 
 function setBankOrder() {
 	$.ajax(
-		'../php/setBankOrder.php',
+		location + '/php/setBankOrder.php',
 		{
 			data: {
 				user: account.id,
@@ -1302,7 +1302,7 @@ function skipTurn() {
 		true,
 		function() {
 			$.ajax(
-				'../php/skipTurn.php',
+				location + '/php/skipTurn.php',
 				{
 					data: {
 						user: account.id,
