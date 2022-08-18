@@ -42,7 +42,7 @@ function setSignInMode(mode) {
 
 function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) {
 	$.ajax(
-		'../php/signIn.php',
+		window.location.href.slice(0, window.location.href.lastIndexOf("/")) + '/php/signIn.php',
 		{
 			data: {
 				name,
