@@ -126,6 +126,10 @@ body.scrabble {
 
 	position: relative;
 
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
     transition: transform 0.37s cubic-bezier(0, 1, 0.5, 1);
 }
 .letter[aria-pressed=true] {
