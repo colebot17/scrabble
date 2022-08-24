@@ -138,8 +138,6 @@ body.scrabble {
 }
 .letterLetter {
     font-size: 50px;
-	position: relative;
-	top: -5px;
 }
 .letterPoints {
 	position: absolute;
