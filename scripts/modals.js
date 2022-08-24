@@ -216,7 +216,7 @@ function textModal() {
 		$('#textModalCancelButton').addClass('hidden');
 	}
 	if (allowInput) {
-		$('#textModalInputField').removeClass('hidden');
+		$('#textModalInput').removeClass('hidden');
 	} else {
 		$('#textModalInput').addClass('hidden');
 	}
