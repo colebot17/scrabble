@@ -962,8 +962,6 @@ function gameInit() {
 	$canvas.on("touchmove", handleCanvasMouseMove);
 
 	function handleCanvasMouseUp(e) {
-		e.preventDefault();
-
 		// get the pixel position of the mouse/finger
 		let x, y;
 		if (e.type === 'touchend') {
