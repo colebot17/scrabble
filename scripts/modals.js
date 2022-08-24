@@ -174,55 +174,38 @@ jQuery.fn.extend({
 	}
 });
 
-function textModal() {
-	// get arguments
-	let title, text, cancelable, complete, allowInput;
-	if (arguments.length === 1) { // only one argument
-		title = "";
-		text = arguments[0];
-		complete = function() {};
-	} else if (arguments.length === 2) { // two arguments
-		title = arguments[0];
-		text = arguments[1];
-		complete = function() {};
-	} else if (arguments.length === 3) { // three arguments
-		title = arguments[0];
-		text = arguments[1];
-		cancelable = true;
-		complete = function() {};
-	} else if (arguments.length === 4) { // four arguments
-		title = arguments[0];
-		text = arguments[1];
-		cancelable = true;
-		complete = arguments[3] || function() {};
-	} else if (arguments.length >= 5) { // five or more arguments
-		title = arguments[0];
-		text = arguments[1];
-		cancelable = true;
-		complete = arguments[3] || function() {};
-		allowInput = true;
-	} else { // zero or fewer arguments
-		title = "Alert!";
-		text = "Something just happened, but we don't know what.";
-		complete = function() {};
-	}
-
+function textModal(
+	title = "Alert!",
+	text = "Something just happened, but we don't know what.",
+	cancelable = false,
+	complete = function() {},
+	allowInput = false,
+	inputPlaceholder = ""
+) {
 	// set the content of the modal
 	$('#textModalTitle').html(title);
 	$('#textModalText').html(text).css('order', (!title ? '-1' : ''));
+
 	if (cancelable) {
 		$('#textModalCancelButton').removeClass('hidden');
 	} else {
 		$('#textModalCancelButton').addClass('hidden');
 	}
+
 	if (allowInput) {
-		$('#textModalInput').removeClass('hidden');
+		$('#textModalInput').removeClass('hidden').attr('placeholder', inputPlaceholder);
 	} else {
 		$('#textModalInput').addClass('hidden');
 	}
+
 	$('#textModalOkButton').off().on('click', function() {
 		$('#textModal').modalClose();
-		complete();
+		if (allowInput) {
+			const inputVal = $('#textModalInput').val();
+			complete(inputVal);
+		} else {
+			complete();
+		}
 	});
 
 	// show the modal
