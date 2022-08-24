@@ -1102,7 +1102,7 @@ function gameInit() {
 
 	// show the correct text for end game button
 	const endGameButton = $('#endGameButton').empty();
-	if (game.players[currentPlayerIndex].endGameRequest) {
+	if (game.players[currentPlayerIndex].endGameRequest === 'true') {
 		endGameButton.text('Don\'t End');
 	} else {
 		endGameButton.text('End Game');
