@@ -176,22 +176,35 @@ jQuery.fn.extend({
 
 function textModal() {
 	// get arguments
-	let title, text, cancelable, complete;
-	if (arguments.length === 1) {
+	let title, text, cancelable, complete, allowInput;
+	if (arguments.length === 1) { // only one argument
 		title = "";
 		text = arguments[0];
-	} else if (arguments.length >= 2) {
+		complete = function() {};
+	} else if (arguments.length === 2) { // two arguments
 		title = arguments[0];
 		text = arguments[1];
-		if (arguments[2]) {
-			cancelable = true;
-			complete = arguments[3] || function() {};
-		} else {
-			complete = arguments[2] || function() {};
-		}
+		complete = function() {};
+	} else if (arguments.length === 3) { // three arguments
+		title = arguments[0];
+		text = arguments[1];
+		cancelable = true;
+		complete = function() {};
+	} else if (arguments.length === 4) { // four arguments
+		title = arguments[0];
+		text = arguments[1];
+		cancelable = true;
+		complete = arguments[3] || function() {};
+	} else if (arguments.length >= 5) { // five or more arguments
+		title = arguments[0];
+		text = arguments[1];
+		cancelable = true;
+		complete = arguments[3] || function() {};
+		allowInput = true;
 	} else { // zero or fewer arguments
 		title = "Alert!";
 		text = "Something just happened, but we don't know what.";
+		complete = function() {};
 	}
 
 	// set the content of the modal
@@ -201,6 +214,11 @@ function textModal() {
 		$('#textModalCancelButton').removeClass('hidden');
 	} else {
 		$('#textModalCancelButton').addClass('hidden');
+	}
+	if (allowInput) {
+		$('#textModalInputField').removeClass('hidden');
+	} else {
+		$('#textModalInput').addClass('hidden');
 	}
 	$('#textModalOkButton').off().on('click', function() {
 		$('#textModal').modalClose();
