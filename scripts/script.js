@@ -1100,6 +1100,14 @@ function gameInit() {
 	// set the content of the game info box
 	gameInfoBox.html(gameInfo);
 
+	// show the correct text for end game button
+	const endGameButton = $('#endGameButton').empty();
+	if (game.players[currentPlayerIndex].endGameRequest) {
+		endGameButton.text('Don\'t End');
+	} else {
+		endGameButton.text('End Game');
+	}
+
 	setCanvasSize();
 
 	chatInit();
