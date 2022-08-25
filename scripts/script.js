@@ -282,39 +282,43 @@ function setGamesList(list) {
 	$('#createGameModal').modalClose();
 }
 
-function renameGame(id) {
+function renameGame(game) {
 	// get the element(s) to be updated upon completion
-	const nameFields = $('#listGame' + id + ' .listGameName, #gameControlsCell .gameNameBox .gameName');
+	const nameFields = $('#listGame' + game + ' .listGameName, #gameControlsCell .gameNameBox .gameName');
 
 	// get a name from the user
-	const newName = prompt("Enter a new name. It will be seen by all players in this game. Leave blank to remove name.");
-	if (newName === null) {
-		return;
-	}
-
-	// rename the game
-	$.ajax(
-		location + '/php/renameGame.php',
-		{
-			data: {
-				user: account.id,
-				pwd: account.pwd,
-				game: id,
-				name: newName
-			},
-			method: "POST",
-			success: function(data) {
-				let jsonData = JSON.parse(data);
-				if (jsonData.errorLevel) {
-					textModal("Error", jsonData.message);
-				} else {
-					nameFields.text(jsonData.data || '#' + id);
+	textModal(
+		"Rename Game",
+		"Enter a new name. It will be seen by all players in this game. Leave blank to remove name.",
+		true,
+		function(name) {
+			// rename the game
+			$.ajax(
+				location + '/php/renameGame.php',
+				{
+					data: {
+						user: account.id,
+						pwd: account.pwd,
+						game,
+						name
+					},
+					method: "POST",
+					success: function(data) {
+						let jsonData = JSON.parse(data);
+						if (jsonData.errorLevel) {
+							textModal("Error", jsonData.message);
+						} else {
+							nameFields.text(jsonData.data || '#' + id);
+						}
+					},
+					error: function() {
+						console.error("Could not rename game.");
+					}
 				}
-			},
-			error: function() {
-				console.error("Could not rename game.");
-			}
-		}
+			);
+		},
+		true,
+		"New Name..."
 	);
 }
 
