@@ -289,7 +289,7 @@ function renameGame(game) {
 	// get a name from the user
 	textModal(
 		"Rename Game",
-		"Enter a new name. It will be seen by all players in this game. Leave blank to remove name.",
+		"The new name will be seen by all players in this game. Leave blank to remove name.",
 		true,
 		function(name) {
 			// rename the game
