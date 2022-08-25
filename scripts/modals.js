@@ -193,7 +193,7 @@ function textModal(
 	}
 
 	if (allowInput) {
-		$('#textModalInput').removeClass('hidden').attr('placeholder', inputPlaceholder).val("");
+		$('#textModalInput').removeClass('hidden').attr('placeholder', inputPlaceholder).val("")[0].focus();
 	} else {
 		$('#textModalInput').addClass('hidden');
 	}
