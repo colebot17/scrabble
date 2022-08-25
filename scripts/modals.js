@@ -196,7 +196,6 @@ function textModal(
 
 	if (allowInput) {
 		textModalInput.removeClass('hidden').attr('placeholder', inputPlaceholder).val("");
-		textModalInput[0].focus();
 	} else {
 		textModalInput.addClass('hidden');
 	}
@@ -216,4 +215,9 @@ function textModal(
 
 	// show the modal
 	$('#textModal').modalOpen();
+
+	// focus the input field if necessary
+	if (allowInput) {
+		textModalInput[0].focus();
+	}
 }
