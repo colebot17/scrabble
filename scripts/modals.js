@@ -198,7 +198,7 @@ function textModal(
 		$('#textModalInput').addClass('hidden');
 	}
 
-	$('#textModalOkButton').off().on('click', function() {
+	function ok() {
 		$('#textModal').modalClose();
 		if (allowInput) {
 			const inputVal = $('#textModalInput').val();
@@ -206,7 +206,10 @@ function textModal(
 		} else {
 			complete();
 		}
-	});
+	}
+
+	$('#textModalOkButton').off().on('click', ok);
+	$('#textModalInput').off().on('keypress', function(e) {if (e.key === 'Enter') {ok();}});
 
 	// show the modal
 	$('#textModal').modalOpen();

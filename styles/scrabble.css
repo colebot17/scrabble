@@ -265,6 +265,12 @@ body.scrabble {
 #textModal #textModalTitle {
 	margin: 0;
 }
+#textModal #textModalControls {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: stretch;
+}
 #textModal #textModalButtonHolder {
 	display: flex;
 	justify-content: stretch;

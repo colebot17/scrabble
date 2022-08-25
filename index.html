@@ -176,10 +176,12 @@
 		<div class="modal hidden" id="textModal">
 			<h3 id="textModalTitle"></h3>
 			<div id="textModalText"></div>
-			<input id="textModalInput" name="textModalInput" type="text" class="hidden"></input>
-			<div id="textModalButtonHolder">
-				<button class="textModalButton hidden" id="textModalCancelButton" onclick="$('#textModal').modalClose()">Cancel</button>
-				<button class="textModalButton highlight" id="textModalOkButton">OK</button>
+			<div id="textModalControls">
+				<input id="textModalInput" name="textModalInput" type="text" class="hidden"></input>
+				<div id="textModalButtonHolder">
+					<button class="textModalButton hidden" id="textModalCancelButton" onclick="$('#textModal').modalClose()">Cancel</button>
+					<button class="textModalButton highlight" id="textModalOkButton">OK</button>
+				</div>
 			</div>
 		</div>
 		<div class="modal hidden" id="chooseLetterModal">
