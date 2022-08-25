@@ -192,16 +192,19 @@ function textModal(
 		$('#textModalCancelButton').addClass('hidden');
 	}
 
+	const textModalInput = $('#textModalInput')
+
 	if (allowInput) {
-		$('#textModalInput').removeClass('hidden').attr('placeholder', inputPlaceholder).val("")[0].focus();
+		textModalInput.removeClass('hidden').attr('placeholder', inputPlaceholder).val("");
+		textModalInput[0].focus();
 	} else {
-		$('#textModalInput').addClass('hidden');
+		textModalInput.addClass('hidden');
 	}
 
 	function ok() {
 		$('#textModal').modalClose();
 		if (allowInput) {
-			const inputVal = $('#textModalInput').val();
+			const inputVal = textModalInput.val();
 			complete(inputVal);
 		} else {
 			complete();
@@ -209,7 +212,7 @@ function textModal(
 	}
 
 	$('#textModalOkButton').off().on('click', ok);
-	$('#textModalInput').off().on('keypress', function(e) {if (e.key === 'Enter') {ok();}});
+	textModalInput.off().on('keypress', function(e) {if (e.key === 'Enter') {ok();}});
 
 	// show the modal
 	$('#textModal').modalOpen();
