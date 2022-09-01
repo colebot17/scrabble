@@ -175,7 +175,7 @@ function updateGamesList() {
 				$activeGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
-							<div class="listGameTitleLine">
+							<div class="gameTitleLine">
 								<span class="listGameName">
 									${gamesArray[i].name || `#${gamesArray[i].id}`}
 								</span>
@@ -186,7 +186,7 @@ function updateGamesList() {
 								</button>
 							</div>
 							${gamesArray[i].name ?  `
-								<div class="listGameIdLine">
+								<div class="gameIdLine">
 									#${gamesArray[i].id}
 								</div>
 							` : ``}
@@ -218,18 +218,25 @@ function updateGamesList() {
 				// add the game card to the list
 				$inactiveGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
-						<div class="listGameTitleLine">
-							<span class="material-icons smallIcon" style='padding: 5px'>
-								inventory
-							</span>
-							<span class="listGameName">
-								${gamesArray[i].name || `#${gamesArray[i].id}`}
-							</span>
-							<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
-								<span class="material-icons smallIcon">
-									drive_file_rename_outline
+						<div class="listGameTitleBox">
+							<div class="gameTitleLine">
+								<span class="material-icons smallIcon" style='padding: 5px'>
+									inventory
 								</span>
-							</button>
+								<span class="listGameName">
+									${gamesArray[i].name || `#${gamesArray[i].id}`}
+								</span>
+								<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
+									<span class="material-icons smallIcon">
+										drive_file_rename_outline
+									</span>
+								</button>
+							</div>
+							${gamesArray[i].name ?  `
+								<div class="gameIdLine">
+									#${gamesArray[i].id}
+								</div>
+							` : ``}
 						</div>
 						<div class="listGamePlayerList">
 							${playerListHTML}
@@ -293,7 +300,7 @@ function renameGame(game) {
 	// get the element(s) to be updated upon completion
 	const nameFields = $('#listGame' + game + ' .listGameName, #gameControlsCell .gameName');
 	const titleBoxes = $('#listGame' + game + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
-	const idLines = $('#listGame' + game + ' .listGameIdLine, #gameControlsCell .gameIdLine');
+	const idLines = $('#listGame' + game + ' .gameIdLine, #gameControlsCell .gameIdLine');
 
 	// get a name from the user
 	textModal(
@@ -322,7 +329,7 @@ function renameGame(game) {
 							if (jsonData.data) { // if the game has a name
 								// show the id line
 								titleBoxes.append(`
-									<div class="listGameIdLine">
+									<div class="gameIdLine">
 										#${game}
 									</div>
 								`);

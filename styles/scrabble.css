@@ -40,14 +40,14 @@
 	align-items: center;
 	gap: 5px;
 }
-.gamesList .listGame .listGameTitleBox .listGameTitleLine {
+.gamesList .listGame .listGameTitleBox .gameTitleLine {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 
 	font-weight: bold;
 }
-.gamesList .listGame .listGameTitleBox .listGameIdLine {
+.gamesList .listGame .listGameTitleBox .gameIdLine {
 	display: flex;
 	justify-content: center;
 	align-items: center;
