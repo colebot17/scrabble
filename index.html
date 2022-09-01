@@ -23,7 +23,7 @@
 </head>
 <body class="scrabble">
 	<center>
-		<div class="grid" id="scrabbleGrid" data-tab="account" data-signedin="false">
+		<div class="grid" id="scrabbleGrid" data-tab="account" data-signedin="loading">
 			<div id="welcomeCell" class="gridCell">
 				<h1>Scrabble Game</h1>
 				<p>
@@ -32,6 +32,10 @@
 					can enjoy a good game of Scrabble right from their phone, tablet, or computer. You can make
 					your move on your own schedule and check back later when it's your turn again.
 				</p>
+			</div>
+
+			<div id="loadingCell" class="gridCell">
+				<div class="spinner"></div>
 			</div>
 
 			<div id="gameControlsCell" class="gridCell">
