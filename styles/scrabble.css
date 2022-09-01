@@ -468,7 +468,6 @@ input#chatInput {
 }
 
 #scrabbleGrid #loadingCell {
-	display: flex;
 	justify-content: center;
 	align-items: center;
 }
