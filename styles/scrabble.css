@@ -38,6 +38,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	gap: 5px;
 }
 .gamesList .listGame .listGameTitleBox .listGameTitleLine {
 	display: flex;
@@ -52,6 +53,7 @@
 	align-items: center;
 
 	color: var(--text-color-light);
+	font-size: small;
 }
 .gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
 	margin: 0;
