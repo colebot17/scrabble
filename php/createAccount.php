@@ -26,7 +26,7 @@ $pwdValid = strlen($pwd) >= 8; // pwd must be at least eight characters
 if (!$nameValid) {
 	exit('{"errorLevel":1,"message":"Username must consist of at least two characters."}');
 }
-if (!pwdValid) {
+if (!$pwdValid) {
 	exit('{"errorLevel":1,"message":"Password must consist of at least eight characters."}');
 }
 
