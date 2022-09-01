@@ -97,11 +97,15 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	gap: 5px;
 }
 #gameControlsCell .gameInfoBox .gameNameBox .gameTitleLine, #gameControlsCell .gameInfoBox .gameNameBox .gameIdLine {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	color: var(--text-color-light);
+	font-size: small;
 }
 
 html {
