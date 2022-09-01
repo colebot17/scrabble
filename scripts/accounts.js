@@ -4,6 +4,7 @@ $(function() {
 		$('#scrabbleGrid').attr('data-signedin', "loading");
 	} else {
 		setSignInMode('signIn');
+		$('#scrabbleGrid').attr('data-signedin', "false");
 	}
 });
 
