@@ -292,6 +292,8 @@ function setGamesList(list) {
 function renameGame(game) {
 	// get the element(s) to be updated upon completion
 	const nameFields = $('#listGame' + game + ' .listGameName, #gameControlsCell .gameNameBox .gameName');
+	const titleBoxes = $('#listGame' + game + ' .listGameTitleBox');
+	const idLines = $('#listGame' + game + ' .listGameIdLine');
 
 	// get a name from the user
 	textModal(
@@ -316,6 +318,15 @@ function renameGame(game) {
 							textModal("Error", jsonData.message);
 						} else {
 							nameFields.text(jsonData.data || '#' + game);
+							if (idLines && !jsonData.data) {
+								idLines.remove();
+							} else {
+								titleBoxes.append(`
+									<div class="listGameIdLine">
+										#${game}
+									</div>
+								`)
+							}
 						}
 					},
 					error: function() {
