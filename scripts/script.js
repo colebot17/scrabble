@@ -318,14 +318,14 @@ function renameGame(game) {
 							textModal("Error", jsonData.message);
 						} else {
 							nameFields.text(jsonData.data || '#' + game);
-							if (idLines && !jsonData.data) {
-								idLines.remove();
-							} else {
+							idLines.remove();
+							if (jsonData.data) { // if the game has a name
+								// show the id line
 								titleBoxes.append(`
 									<div class="listGameIdLine">
 										#${game}
 									</div>
-								`)
+								`);
 							}
 						}
 					},
