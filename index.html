@@ -8,7 +8,7 @@
 
 	<!-- beautiful css -->
 	<link rel="stylesheet" type="text/css" href="http://www.colebot.com/style.css">
-	<link rel="stylesheet" type="text/css" href="scrabble.css">
+	<link rel="stylesheet" type="text/css" href="styles/scrabble.css">
 
 	<!-- import the font 'Rubik' -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,7 +56,7 @@
 				<div class="gameControlButtons">
 					<button class="highlight" id="makeMoveButton" onclick="makeMove()">Move</button>
 					<button id="skipTurnButton" onclick="exchangeLetters()">Skip Turn</button>
-					<button id="endGameButton" onclick="endGame()">End Game</button>
+					<button id="endGameButton" onclick="endGame()"></button>
 				</div>
 			</div>
 
@@ -176,9 +176,12 @@
 		<div class="modal hidden" id="textModal">
 			<h3 id="textModalTitle"></h3>
 			<div id="textModalText"></div>
-			<div id="textModalButtonHolder">
-				<button class="textModalButton hidden" id="textModalCancelButton" onclick="$('#textModal').modalClose()">Cancel</button>
-				<button class="textModalButton highlight" id="textModalOkButton">OK</button>
+			<div id="textModalControls">
+				<input id="textModalInput" name="textModalInput" type="text" class="hidden"></input>
+				<div id="textModalButtonHolder">
+					<button class="textModalButton hidden" id="textModalCancelButton" onclick="$('#textModal').modalClose()">Cancel</button>
+					<button class="textModalButton highlight" id="textModalOkButton">OK</button>
+				</div>
 			</div>
 		</div>
 		<div class="modal hidden" id="chooseLetterModal">
@@ -194,14 +197,18 @@
 			</div>
 		</div>
 	</center>
+	<script type="text/javascript" defer>
+		const windowLocation = window.location.href.slice(0, window.location.href.lastIndexOf("/"));
+	</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- import jQuery -->
-	<script type="text/javascript" src="util.js" defer></script>
-	<script type="text/javascript" src="canvas.js" defer></script>
-	<script type="text/javascript" src="modals.js" defer></script>
-	<script type="text/javascript" src="accounts.js" defer></script>
-	<script type="text/javascript" src="chat.js" defer></script>
-	<script type="text/javascript" src="animate.js" defer></script>
-	<script type="text/javascript" src="pullToRefresh.min.js" defer></script>
-	<script type="text/javascript" src="script.js" defer></script>
+	<script type="text/javascript" src="scripts/util.js" defer></script>
+	<script type="text/javascript" src="scripts/canvas.js" defer></script>
+	<script type="text/javascript" src="scripts/modals.js" defer></script>
+	<script type="text/javascript" src="scripts/accounts.js" defer></script>
+	<script type="text/javascript" src="scripts/chat.js" defer></script>
+	<script type="text/javascript" src="scripts/animate.js" defer></script>
+	<script type="text/javascript" src="libraries/pullToRefresh.min.js" defer></script>
+	<script type="text/javascript" src="libraries/confetti.js" defer></script>
+	<script type="text/javascript" src="scripts/script.js" defer></script>
 </body>
 </html>

@@ -126,6 +126,10 @@ body.scrabble {
 
 	position: relative;
 
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
     transition: transform 0.37s cubic-bezier(0, 1, 0.5, 1);
 }
 .letter[aria-pressed=true] {
@@ -134,8 +138,6 @@ body.scrabble {
 }
 .letterLetter {
     font-size: 50px;
-	position: relative;
-	top: -5px;
 }
 .letterPoints {
 	position: absolute;
@@ -262,6 +264,12 @@ body.scrabble {
 }
 #textModal #textModalTitle {
 	margin: 0;
+}
+#textModal #textModalControls {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: stretch;
 }
 #textModal #textModalButtonHolder {
 	display: flex;

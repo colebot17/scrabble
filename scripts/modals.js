@@ -4,7 +4,7 @@ const modals = {
 		height: 500
 	},
 	letterExchangeModal: {
-		width: 750,
+		width: 600,
 		height: 0
 	},
 	textModal: {
@@ -174,39 +174,50 @@ jQuery.fn.extend({
 	}
 });
 
-function textModal() {
-	// get arguments
-	let title, text, cancelable, complete;
-	if (arguments.length === 1) {
-		title = "";
-		text = arguments[0];
-	} else if (arguments.length >= 2) {
-		title = arguments[0];
-		text = arguments[1];
-		if (arguments[2]) {
-			cancelable = true;
-			complete = arguments[3] || function() {};
-		} else {
-			complete = arguments[2] || function() {};
-		}
-	} else { // zero or fewer arguments
-		title = "Alert!";
-		text = "Something just happened, but we don't know what.";
-	}
-
+function textModal(
+	title = "Alert!",
+	text = "Something just happened, but we don't know what.",
+	cancelable = false,
+	complete = function() {},
+	allowInput = false,
+	inputPlaceholder = ""
+) {
 	// set the content of the modal
 	$('#textModalTitle').html(title);
 	$('#textModalText').html(text).css('order', (!title ? '-1' : ''));
+
 	if (cancelable) {
 		$('#textModalCancelButton').removeClass('hidden');
 	} else {
 		$('#textModalCancelButton').addClass('hidden');
 	}
-	$('#textModalOkButton').off().on('click', function() {
+
+	const textModalInput = $('#textModalInput')
+
+	if (allowInput) {
+		textModalInput.removeClass('hidden').attr('placeholder', inputPlaceholder).val("");
+	} else {
+		textModalInput.addClass('hidden');
+	}
+
+	function ok() {
 		$('#textModal').modalClose();
-		complete();
-	});
+		if (allowInput) {
+			const inputVal = textModalInput.val();
+			complete(inputVal);
+		} else {
+			complete();
+		}
+	}
+
+	$('#textModalOkButton').off().on('click', ok);
+	textModalInput.off().on('keypress', function(e) {if (e.key === 'Enter') {ok();}});
 
 	// show the modal
 	$('#textModal').modalOpen();
+
+	// focus the input field if necessary
+	if (allowInput) {
+		textModalInput[0].focus();
+	}
 }

@@ -42,7 +42,7 @@ function setSignInMode(mode) {
 
 function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) {
 	$.ajax(
-		'signIn.php',
+		location + '/php/signIn.php',
 		{
 			data: {
 				name,
@@ -101,7 +101,7 @@ function createAccount(name = $('#createAccountUsername').val(), pwd = $('#creat
 	}
 
 	$.ajax(
-		'createAccount.php',
+		location + '/php/createAccount.php',
 		{
 			data: {
 				name,

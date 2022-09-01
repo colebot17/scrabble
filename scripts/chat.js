@@ -77,7 +77,7 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 
     // send to the server
     $.ajax(
-        'sendChatMessage.php',
+        location + '/php/sendChatMessage.php',
         {
             data: {
                 user: account.id,

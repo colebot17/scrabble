@@ -173,8 +173,8 @@ for ($y = 0; $y < 15; $y++) {
 }
 
 // go ahead and get the two json files we will need: board.json and dictionary.json
-$boardInfo = json_decode(file_get_contents('board.json'), true);
-$dictionary = json_decode(file_get_contents('dictionary.json'), true);
+$boardInfo = json_decode(file_get_contents('../resources/board.json'), true);
+$dictionary = json_decode(file_get_contents('../resources/dictionary.json'), true);
 
 // the complicated part...
 

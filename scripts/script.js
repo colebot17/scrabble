@@ -39,7 +39,7 @@ window.addEventListener('resize', () => {
 function loadGamesList(done) {
 	if (account.id) {
 		$.ajax(
-			'loadPlayerGames.php',
+			location + '/php/loadPlayerGames.php',
 			{
 				data: {
 					user: account.id,
@@ -282,46 +282,50 @@ function setGamesList(list) {
 	$('#createGameModal').modalClose();
 }
 
-function renameGame(id) {
+function renameGame(game) {
 	// get the element(s) to be updated upon completion
-	const nameFields = $('#listGame' + id + ' .listGameName, #gameControlsCell .gameNameBox .gameName');
+	const nameFields = $('#listGame' + game + ' .listGameName, #gameControlsCell .gameNameBox .gameName');
 
 	// get a name from the user
-	const newName = prompt("Enter a new name. It will be seen by all players in this game. Leave blank to remove name.");
-	if (newName === null) {
-		return;
-	}
-
-	// rename the game
-	$.ajax(
-		'renameGame.php',
-		{
-			data: {
-				user: account.id,
-				pwd: account.pwd,
-				game: id,
-				name: newName
-			},
-			method: "POST",
-			success: function(data) {
-				let jsonData = JSON.parse(data);
-				if (jsonData.errorLevel) {
-					textModal("Error", jsonData.message);
-				} else {
-					nameFields.text(jsonData.data || '#' + id);
+	textModal(
+		"Rename Game",
+		"The new name will be seen by all players in this game. Leave blank to clear name.",
+		true,
+		function(name) {
+			// rename the game
+			$.ajax(
+				location + '/php/renameGame.php',
+				{
+					data: {
+						user: account.id,
+						pwd: account.pwd,
+						game,
+						name
+					},
+					method: "POST",
+					success: function(data) {
+						let jsonData = JSON.parse(data);
+						if (jsonData.errorLevel) {
+							textModal("Error", jsonData.message);
+						} else {
+							nameFields.text(jsonData.data || '#' + game);
+						}
+					},
+					error: function() {
+						console.error("Could not rename game.");
+					}
 				}
-			},
-			error: function() {
-				console.error("Could not rename game.");
-			}
-		}
+			);
+		},
+		true,
+		"New Name..."
 	);
 }
 
 function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
 	var newGamePlayerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players);
 	$.ajax(
-		'getIdFromName.php',
+		location + '/php/getIdFromName.php',
 		{
 			data: {
 				user: account.id,
@@ -450,7 +454,7 @@ function createGame(playerList = JSON.parse(document.getElementById('createGameP
 	}
 
 	$.ajax(
-		'newGame.php',
+		location + '/php/newGame.php',
 		{
 			data: {user: account.id, pwd: account.pwd, players: JSON.stringify(players)},
 			method: "POST",
@@ -494,7 +498,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), exp
 			setTimeout(function() {clone.remove()}, 740);
 		}
 		$.ajax(
-			'loadGame.php',
+			location + '/php/loadGame.php',
 			{
 				data: {user: account.id, pwd: account.pwd, game: id},
 				method: "POST",
@@ -557,7 +561,7 @@ function endGame() {
 	textModal("End Game", confirmMsg, true, function() {
 		// send the request
 		$.ajax(
-			(voted ? 'unEndGame.php' : 'endGame.php'),
+			location + (voted ? '/php/unEndGame.php' : '/php/endGame.php'),
 			{
 				data: {
 					user: account.id,
@@ -962,8 +966,6 @@ function gameInit() {
 	$canvas.on("touchmove", handleCanvasMouseMove);
 
 	function handleCanvasMouseUp(e) {
-		e.preventDefault();
-
 		// get the pixel position of the mouse/finger
 		let x, y;
 		if (e.type === 'touchend') {
@@ -1102,6 +1104,14 @@ function gameInit() {
 	// set the content of the game info box
 	gameInfoBox.html(gameInfo);
 
+	// show the correct text for end game button
+	const endGameButton = $('#endGameButton').empty();
+	if (game.players[currentPlayerIndex].endGameRequest === 'true') {
+		endGameButton.text('Don\'t End');
+	} else {
+		endGameButton.text('End Game');
+	}
+
 	setCanvasSize();
 
 	chatInit();
@@ -1148,7 +1158,7 @@ function makeMove() {
 		}
 	}
 	$.ajax(
-		'makeMove.php',
+		location + '/php/makeMove.php',
 		{
 			data: {
 				game: game.id,
@@ -1180,7 +1190,7 @@ function makeMove() {
 
 function setBankOrder() {
 	$.ajax(
-		'setBankOrder.php',
+		location + '/php/setBankOrder.php',
 		{
 			data: {
 				user: account.id,
@@ -1302,7 +1312,7 @@ function skipTurn() {
 		true,
 		function() {
 			$.ajax(
-				'skipTurn.php',
+				location + '/php/skipTurn.php',
 				{
 					data: {
 						user: account.id,
