@@ -1,6 +1,7 @@
 $(function() {
 	if (localStorage.name && localStorage.pwd) {
 		signIn(localStorage.name, localStorage.pwd);
+		$('#scrabbleGrid').attr('data-signedin', "loading");
 	} else {
 		setSignInMode('signIn');
 	}
@@ -74,7 +75,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 				
 				setSignInMode('signOut');
 
-				$('#scrabbleGrid').attr('data-signedin', true);
+				$('#scrabbleGrid').attr('data-signedin', "true");
 
 				updateGamesList();
 			},
