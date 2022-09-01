@@ -91,7 +91,14 @@
 	justify-content: center;
 	align-items: center;
 }
+
 #gameControlsCell .gameInfoBox .gameNameBox {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+#gameControlsCell .gameInfoBox .gameNameBox .gameTitleLine, #gameControlsCell .gameInfoBox .gameNameBox .gameIdLine {
 	display: flex;
 	justify-content: center;
 	align-items: center;

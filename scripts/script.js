@@ -291,9 +291,9 @@ function setGamesList(list) {
 
 function renameGame(game) {
 	// get the element(s) to be updated upon completion
-	const nameFields = $('#listGame' + game + ' .listGameName, #gameControlsCell .gameNameBox .gameName');
-	const titleBoxes = $('#listGame' + game + ' .listGameTitleBox');
-	const idLines = $('#listGame' + game + ' .listGameIdLine');
+	const nameFields = $('#listGame' + game + ' .listGameName, #gameControlsCell .gameName');
+	const titleBoxes = $('#listGame' + game + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
+	const idLines = $('#listGame' + game + ' .listGameIdLine, #gameControlsCell .gameIdLine');
 
 	// get a name from the user
 	textModal(
@@ -1079,15 +1079,22 @@ function gameInit() {
 	
 	// start with the game name
 	let gameInfo = `
-		<div class="gameNameBox">
-			<span class="gameName">
-				${game.name || `#${game.id}`}
-			</span>
-			<button class="iconButton" onclick="renameGame(${game.id})">
-				<span class="material-icons smallIcon">
-					drive_file_rename_outline
+		<div class="gameTitleBox">
+			<div class="gameTitleLine">
+				<span class="gameName">
+					${game.name || `#${game.id}`}
 				</span>
-			</button>
+				<button class="iconButton" onclick="renameGame(${game.id})">
+					<span class="material-icons smallIcon">
+						drive_file_rename_outline
+					</span>
+				</button>
+			</div>
+			${game.name ? `
+				<div class="gameIdLine">
+					#${game.id}
+				</div>
+			` : ``}
 		</div>
 	`;
 
