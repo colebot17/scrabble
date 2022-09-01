@@ -32,12 +32,26 @@
 	justify-content: space-around;
 	align-items: stretch;
 }
-.gamesList .listGame .listGameTitleLine {
+
+.gamesList .listGame .listGameTitleBox {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.gamesList .listGame .listGameTitleBox .listGameTitleLine {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 
 	font-weight: bold;
+}
+.gamesList .listGame .listGameTitleBox .listGameIdLine {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	color: var(--text-color-light);
 }
 .gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
 	margin: 0;
@@ -172,7 +186,7 @@ body.scrabble {
 	position: fixed;
 
 	background-color: var(--blue-jeans);
-	box-shadow: 0 0 5px #00000066;
+	box-shadow: 0 0 5px var(--text-color-light);
 	border-radius: 10px;
 
 	padding: 20px 10px 10px 10px;
@@ -197,7 +211,7 @@ body.scrabble {
 	border-radius: 5px;
 	flex-grow: 1;
 	background-color: var(--aero);
-	box-shadow: 0 0 5px #00000066 inset;
+	box-shadow: 0 0 5px var(--text-color-light) inset;
 
 	display: flex;
 	flex-direction: column;
@@ -315,7 +329,7 @@ body.scrabble {
 	height: 200px;
 	
 	background-color: var(--blue-jeans);
-	box-shadow: 0 0 5px #00000066;
+	box-shadow: 0 0 5px var(--text-color-light);
 	padding: 10px;
 	border-radius: 5px;
 }
@@ -408,7 +422,7 @@ body.scrabble {
 }
 
 .chatMessageTimestamp {
-    color: #00000066;
+    color: var(--text-color-light);
     margin-right: 5px;
 }
 

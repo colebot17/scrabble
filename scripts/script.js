@@ -174,15 +174,22 @@ function updateGamesList() {
 				// add the game card to the list
 				$activeGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
-						<div class="listGameTitleLine">
-							<span class="listGameName">
-								${gamesArray[i].name || `#${gamesArray[i].id}`}
-							</span>
-							<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
-								<span class="material-icons smallIcon">
-									drive_file_rename_outline
+						<div class="listGameTitleBox">
+							<div class="listGameTitleLine">
+								<span class="listGameName">
+									${gamesArray[i].name || `#${gamesArray[i].id}`}
 								</span>
-							</button>
+								<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
+									<span class="material-icons smallIcon">
+										drive_file_rename_outline
+									</span>
+								</button>
+							</div>
+							${gamesArray[i].name ?  `
+								<div class="listGameIdLine">
+									#${gamesArray[i].id}
+								</div>
+							` : ``}
 						</div>
 						<div class="listGamePlayerList">
 							${playerListHTML}
