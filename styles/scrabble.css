@@ -92,14 +92,14 @@
 	align-items: center;
 }
 
-#gameControlsCell .gameInfoBox .gameNameBox {
+#gameControlsCell .gameInfoBox .gameTitleBox {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	gap: 5px;
 }
-#gameControlsCell .gameInfoBox .gameNameBox .gameTitleLine, #gameControlsCell .gameInfoBox .gameNameBox .gameIdLine {
+#gameControlsCell .gameInfoBox .gameTitleBox .gameTitleLine, #gameControlsCell .gameInfoBox .gameTitleBox .gameIdLine {
 	display: flex;
 	justify-content: center;
 	align-items: center;
