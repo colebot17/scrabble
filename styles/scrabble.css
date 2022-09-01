@@ -103,6 +103,11 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+#gameControlsCell .gameInfoBox .gameTitleBox .gameIdLine {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
 	color: var(--text-color-light);
 	font-size: small;
