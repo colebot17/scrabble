@@ -22,7 +22,7 @@
 	padding: 10px;
 	border: none;
 	border-radius: 10px;
-	background-color: var(--blue-jeans);
+	background-color: var(--background-2);
 }
 .gamesList .listGame {
 	width: 200px;
@@ -68,7 +68,7 @@
 	cursor: pointer;
 }
 .gamesList .newGameCard:hover {
-	background-color: var(--carolina-blue);
+	background-color: var(--background-3);
 }
 .winnerIcon {
 	font-size: 16px!important;
@@ -193,7 +193,7 @@ body.scrabble {
 #scrabbleGrid .gridCell {
 	padding: 10px;
 	margin: 5px;
-	background-color: var(--aero);
+	background-color: var(--background-1);
 	border-radius: 10px;
 
 	width: calc(100% - 30px);
@@ -203,7 +203,7 @@ body.scrabble {
 .modal {
 	position: fixed;
 
-	background-color: var(--blue-jeans);
+	background-color: var(--background-2);
 	box-shadow: 0 0 5px var(--text-color-light);
 	border-radius: 10px;
 
@@ -228,7 +228,7 @@ body.scrabble {
 	margin: 5px;
 	border-radius: 5px;
 	flex-grow: 1;
-	background-color: var(--aero);
+	background-color: var(--background-1);
 	box-shadow: 0 0 5px var(--text-color-light) inset;
 
 	display: flex;
@@ -346,7 +346,7 @@ body.scrabble {
 	width: 300px;
 	height: 200px;
 	
-	background-color: var(--blue-jeans);
+	background-color: var(--background-2);
 	box-shadow: 0 0 5px var(--text-color-light);
 	padding: 10px;
 	border-radius: 5px;
@@ -364,13 +364,13 @@ body.scrabble {
 	align-items: center;
 }
 #wordLookupPopup::-webkit-scrollbar-track {
-	background-color: var(--carolina-blue);
+	background-color: var(--background-3);
 }
 #wordLookupPopup::-webkit-scrollbar-thumb {
-	background-color: var(--blue-yonder);
+	background-color: var(--semi-highlight);
 }
 #wordLookupPopup::-webkit-scrollbar-thumb:hover {
-	background-color: var(--y-in-mn-blue);
+	background-color: var(--semi-highlight-hover);
 }
 #wordLookupPopup .wordLookupEntry:first-child {
 	margin-top: 5px;
