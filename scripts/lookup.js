@@ -87,6 +87,5 @@ function lookupWord(boardX, boardY) {
             `;
         }
         $('#wordLookupPopup .wordLookupResults').html(content);
-        $('#wordLookupPopup').popupOpen(clientX, clientY);
     });
 }

@@ -127,6 +127,7 @@ function handleCanvasMouseDown(e) {
 
     // show the word definition (we are using guard clauses!!!)
     lookupWord(boardX, boardY);
+    $('#wordLookupPopup').popupOpen(clientX, clientY);
 }
 
 // update position of tile when mouse moves during drag
