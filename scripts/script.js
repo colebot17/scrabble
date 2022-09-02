@@ -174,15 +174,22 @@ function updateGamesList() {
 				// add the game card to the list
 				$activeGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
-						<div class="listGameTitleLine">
-							<span class="listGameName">
-								${gamesArray[i].name || `#${gamesArray[i].id}`}
-							</span>
-							<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
-								<span class="material-icons smallIcon">
-									drive_file_rename_outline
+						<div class="listGameTitleBox">
+							<div class="gameTitleLine">
+								<span class="listGameName">
+									${gamesArray[i].name || `#${gamesArray[i].id}`}
 								</span>
-							</button>
+								<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
+									<span class="material-icons smallIcon">
+										drive_file_rename_outline
+									</span>
+								</button>
+							</div>
+							${gamesArray[i].name ?  `
+								<div class="gameIdLine">
+									#${gamesArray[i].id}
+								</div>
+							` : ``}
 						</div>
 						<div class="listGamePlayerList">
 							${playerListHTML}
@@ -211,18 +218,25 @@ function updateGamesList() {
 				// add the game card to the list
 				$inactiveGamesList.append(`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
-						<div class="listGameTitleLine">
-							<span class="material-icons smallIcon" style='padding: 5px'>
-								inventory
-							</span>
-							<span class="listGameName">
-								${gamesArray[i].name || `#${gamesArray[i].id}`}
-							</span>
-							<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
-								<span class="material-icons smallIcon">
-									drive_file_rename_outline
+						<div class="listGameTitleBox">
+							<div class="gameTitleLine">
+								<span class="material-icons smallIcon" style='padding: 5px'>
+									inventory
 								</span>
-							</button>
+								<span class="listGameName">
+									${gamesArray[i].name || `#${gamesArray[i].id}`}
+								</span>
+								<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
+									<span class="material-icons smallIcon">
+										drive_file_rename_outline
+									</span>
+								</button>
+							</div>
+							${gamesArray[i].name ?  `
+								<div class="gameIdLine">
+									#${gamesArray[i].id}
+								</div>
+							` : ``}
 						</div>
 						<div class="listGamePlayerList">
 							${playerListHTML}
@@ -284,7 +298,9 @@ function setGamesList(list) {
 
 function renameGame(game) {
 	// get the element(s) to be updated upon completion
-	const nameFields = $('#listGame' + game + ' .listGameName, #gameControlsCell .gameNameBox .gameName');
+	const nameFields = $('#listGame' + game + ' .listGameName, #gameControlsCell .gameName');
+	const titleBoxes = $('#listGame' + game + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
+	const idLines = $('#listGame' + game + ' .gameIdLine, #gameControlsCell .gameIdLine');
 
 	// get a name from the user
 	textModal(
@@ -309,6 +325,15 @@ function renameGame(game) {
 							textModal("Error", jsonData.message);
 						} else {
 							nameFields.text(jsonData.data || '#' + game);
+							idLines.remove();
+							if (jsonData.data) { // if the game has a name
+								// show the id line
+								titleBoxes.append(`
+									<div class="gameIdLine">
+										#${game}
+									</div>
+								`);
+							}
 						}
 					},
 					error: function() {
@@ -1061,15 +1086,22 @@ function gameInit() {
 	
 	// start with the game name
 	let gameInfo = `
-		<div class="gameNameBox">
-			<span class="gameName">
-				${game.name || `#${game.id}`}
-			</span>
-			<button class="iconButton" onclick="renameGame(${game.id})">
-				<span class="material-icons smallIcon">
-					drive_file_rename_outline
+		<div class="gameTitleBox">
+			<div class="gameTitleLine">
+				<span class="gameName">
+					${game.name || `#${game.id}`}
 				</span>
-			</button>
+				<button class="iconButton" onclick="renameGame(${game.id})">
+					<span class="material-icons smallIcon">
+						drive_file_rename_outline
+					</span>
+				</button>
+			</div>
+			${game.name ? `
+				<div class="gameIdLine">
+					#${game.id}
+				</div>
+			` : ``}
 		</div>
 	`;
 

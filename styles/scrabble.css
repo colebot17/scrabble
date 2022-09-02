@@ -22,7 +22,7 @@
 	padding: 10px;
 	border: none;
 	border-radius: 10px;
-	background-color: var(--blue-jeans);
+	background-color: var(--background-2);
 }
 .gamesList .listGame {
 	width: 200px;
@@ -32,12 +32,28 @@
 	justify-content: space-around;
 	align-items: stretch;
 }
-.gamesList .listGame .listGameTitleLine {
+
+.gamesList .listGame .listGameTitleBox {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+}
+.gamesList .listGame .listGameTitleBox .gameTitleLine {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 
 	font-weight: bold;
+}
+.gamesList .listGame .listGameTitleBox .gameIdLine {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	color: var(--text-color-light);
+	font-size: small;
 }
 .gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
 	margin: 0;
@@ -52,7 +68,7 @@
 	cursor: pointer;
 }
 .gamesList .newGameCard:hover {
-	background-color: var(--carolina-blue);
+	background-color: var(--background-3);
 }
 .winnerIcon {
 	font-size: 16px!important;
@@ -75,10 +91,26 @@
 	justify-content: center;
 	align-items: center;
 }
-#gameControlsCell .gameInfoBox .gameNameBox {
+
+#gameControlsCell .gameInfoBox .gameTitleBox {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+}
+#gameControlsCell .gameInfoBox .gameTitleBox .gameTitleLine, #gameControlsCell .gameInfoBox .gameTitleBox .gameIdLine {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+#gameControlsCell .gameInfoBox .gameTitleBox .gameIdLine {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	color: var(--text-color-light);
+	font-size: small;
 }
 
 html {
@@ -161,7 +193,7 @@ body.scrabble {
 #scrabbleGrid .gridCell {
 	padding: 10px;
 	margin: 5px;
-	background-color: var(--aero);
+	background-color: var(--background-1);
 	border-radius: 10px;
 
 	width: calc(100% - 30px);
@@ -171,8 +203,8 @@ body.scrabble {
 .modal {
 	position: fixed;
 
-	background-color: var(--blue-jeans);
-	box-shadow: 0 0 5px #00000066;
+	background-color: var(--background-2);
+	box-shadow: 0 0 5px var(--text-color-light);
 	border-radius: 10px;
 
 	padding: 20px 10px 10px 10px;
@@ -196,8 +228,8 @@ body.scrabble {
 	margin: 5px;
 	border-radius: 5px;
 	flex-grow: 1;
-	background-color: var(--aero);
-	box-shadow: 0 0 5px #00000066 inset;
+	background-color: var(--background-1);
+	box-shadow: 0 0 5px var(--text-color-light) inset;
 
 	display: flex;
 	flex-direction: column;
@@ -314,8 +346,8 @@ body.scrabble {
 	width: 300px;
 	height: 200px;
 	
-	background-color: var(--blue-jeans);
-	box-shadow: 0 0 5px #00000066;
+	background-color: var(--background-2);
+	box-shadow: 0 0 5px var(--text-color-light);
 	padding: 10px;
 	border-radius: 5px;
 }
@@ -332,13 +364,13 @@ body.scrabble {
 	align-items: center;
 }
 #wordLookupPopup::-webkit-scrollbar-track {
-	background-color: var(--carolina-blue);
+	background-color: var(--background-3);
 }
 #wordLookupPopup::-webkit-scrollbar-thumb {
-	background-color: var(--blue-yonder);
+	background-color: var(--semi-highlight);
 }
 #wordLookupPopup::-webkit-scrollbar-thumb:hover {
-	background-color: var(--y-in-mn-blue);
+	background-color: var(--semi-highlight-hover);
 }
 #wordLookupPopup .wordLookupEntry:first-child {
 	margin-top: 5px;
@@ -408,7 +440,7 @@ body.scrabble {
 }
 
 .chatMessageTimestamp {
-    color: #00000066;
+    color: var(--text-color-light);
     margin-right: 5px;
 }
 
