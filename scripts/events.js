@@ -127,8 +127,7 @@ function handleCanvasMouseDown(e) {
 
     if (tile && locked) {
         // show the word definition
-        lookupWord(boardX, boardY);
-        $('#wordLookupPopup').popupOpen(clientX, clientY);  
+        lookupWord(boardX, boardY, clientX, clientY);
     }
 }
 

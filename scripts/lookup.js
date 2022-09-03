@@ -21,7 +21,7 @@ function dictLookup(words, callback = function(entries) {}) {
 	});
 }
 
-function lookupWord(boardX, boardY) {
+function lookupWord(boardX, boardY, clientX, clientY) {
     // start with x axis word
     // sweep left and right
     let sweepX = boardX;
@@ -87,5 +87,6 @@ function lookupWord(boardX, boardY) {
             `;
         }
         $('#wordLookupPopup .wordLookupResults').html(content);
+        $('#wordLookupPopup').popupOpen(clientX, clientY);
     });
 }
