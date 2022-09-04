@@ -12,8 +12,8 @@ const modals = {
 		height: 100
 	},
 	chooseLetterModal: {
-		width: 110,
-		height: 150
+		width: 150,
+		height: 110
 	}
 };
 
