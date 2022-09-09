@@ -450,7 +450,7 @@ body.scrabble {
     align-items: center;
 }
 
-input#chatInput {
+#chatInput {
     flex-grow: 1;
 	flex-shrink: 1;
 }
