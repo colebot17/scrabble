@@ -565,7 +565,7 @@ function reloadGame() {
 }
 
 function fullscreen() {
-	const el = document.getElementById('html');
+	const el = document.querySelector('html');
 	el.requestFullscreen();
 }
 
