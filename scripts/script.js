@@ -564,9 +564,14 @@ function reloadGame() {
 	}
 }
 
-function fullscreen() {
-	const el = document.querySelector('html');
-	el.requestFullscreen();
+function toggleFullScreen() {
+	if (!document.fullscreenElement) {
+		document.documentElement.requestFullscreen();
+		document.getElementById('fullscreenIcon').innerHTML = 'fullscreen_exit';
+	} else if (document.exitFullscreen) {
+		document.exitFullscreen();
+		document.getElementById('fullscreenIcon').innerHTML = 'fullscreen';
+	}
 }
 
 // remove the game
