@@ -567,8 +567,7 @@ function reloadGame() {
 function fullScreen() {
 	let requestMethod = document.documentElement.requestFullScreen ||
 						document.documentElement.webkitRequestFullscreen ||
-						document.documentElement.webkitRequestFullScreen ||
-						document.documentElement.mozRequestFullScreen;
+						document.documentElement.webkitRequestFullScreen;
 	if (requestMethod) {
 		requestMethod.apply(document.documentElement).then(() => {document.getElementById('fullscreenIcon').innerHTML = 'fullscreen_exit';});
 	}
@@ -577,8 +576,7 @@ function fullScreen() {
 function fullScreenExit() {
 	let requestMethod = document.exitFullScreen ||
 						document.webkitExitFullscreen ||
-						document.webkitExitFullScreen ||
-						document.mozExitFullScreen;
+						document.webkitExitFullScreen;
 	if (requestMethod) {
 		requestMethod.apply(document).then(() => {document.getElementById('fullscreenIcon').innerHTML = 'fullscreen';});
 	}
