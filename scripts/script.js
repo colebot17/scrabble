@@ -564,6 +564,11 @@ function reloadGame() {
 	}
 }
 
+function fullscreen() {
+	const el = document.getElementById('canvasCell');
+	el.requestFullscreen();
+}
+
 // remove the game
 function endGame() {
 	// make sure user is signed in and in a game and whatever
