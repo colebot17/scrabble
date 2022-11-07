@@ -565,7 +565,7 @@ function reloadGame() {
 }
 
 function fullScreen() {
-	let requestMethod = document.documentElement.requestFullScreen ||
+	let requestMethod = document.documentElement.requestFullscreen ||
 						document.documentElement.webkitRequestFullscreen ||
 						document.documentElement.webkitRequestFullScreen;
 	if (requestMethod) {
@@ -574,7 +574,7 @@ function fullScreen() {
 }
 
 function fullScreenExit() {
-	let requestMethod = document.exitFullScreen ||
+	let requestMethod = document.exitFullscreen ||
 						document.webkitExitFullscreen ||
 						document.webkitExitFullScreen;
 	if (requestMethod) {
