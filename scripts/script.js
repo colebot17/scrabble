@@ -565,7 +565,7 @@ function reloadGame() {
 }
 
 function fullscreen() {
-	const el = document.getElementById('scrabbleGrid');
+	const el = document.getElementById('html');
 	el.requestFullscreen();
 }
 
