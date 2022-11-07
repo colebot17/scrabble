@@ -565,20 +565,22 @@ function reloadGame() {
 }
 
 function fullScreen() {
-	let action = () => {document.getElementById('fullscreenIcon').innerHTML = 'fullscreen_exit';}
-	if (document.documentElement.requestFullscreen) {
-		document.documentElement.requestFullscreen().then(action);
-	} else if (document.documentElement.webkitRequestFullscreen) {
-		document.documentElement.webkitRequestFullscreen().then(action);
+	let requestMethod = document.documentElement.requestFullScreen ||
+						document.documentElement.webkitRequestFullscreen ||
+						document.documentElement.webkitRequestFullScreen ||
+						document.documentElement.mozRequestFullScreen;
+	if (requestMethod) {
+		requestMethod().then(() => {document.getElementById('fullscreenIcon').innerHTML = 'fullscreen_exit';});
 	}
 }
 
 function fullScreenExit() {
-	let action = () => {document.getElementById('fullscreenIcon').innerHTML = 'fullscreen';}
-	if (document.exitFullscreen) {
-		document.exitFullscreen().then(action);
-	} else if (document.webkitExitFullscreen) {
-		document.webkitExitFullscreen().then(action);
+	let requestMethod = document.exitFullScreen ||
+						document.webkitExitFullscreen ||
+						document.webkitExitFullScreen ||
+						document.mozExitFullScreen;
+	if (requestMethod) {
+		requestMethod().then(() => {document.getElementById('fullscreenIcon').innerHTML = 'fullscreen';});
 	}
 }
 
