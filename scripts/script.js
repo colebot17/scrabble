@@ -566,11 +566,13 @@ function reloadGame() {
 
 function toggleFullScreen() {
 	if (!document.fullscreenElement) {
-		document.documentElement.requestFullscreen();
-		document.getElementById('fullscreenIcon').innerHTML = 'fullscreen_exit';
+		document.documentElement.requestFullscreen().then(() => {
+			document.getElementById('fullscreenIcon').innerHTML = 'fullscreen_exit';
+		});
 	} else if (document.exitFullscreen) {
-		document.exitFullscreen();
-		document.getElementById('fullscreenIcon').innerHTML = 'fullscreen';
+		document.exitFullscreen().then(() => {
+			document.getElementById('fullscreenIcon').innerHTML = 'fullscreen';
+		});
 	}
 }
 
