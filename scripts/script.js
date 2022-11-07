@@ -564,15 +564,23 @@ function reloadGame() {
 	}
 }
 
+function fullScreen() {
+	document.documentElement.requestFullscreen().then(() => {
+		document.getElementById('fullscreenIcon').innerHTML = 'fullscreen_exit';
+	});
+}
+
+function fullScreenExit() {
+	document.exitFullscreen().then(() => {
+		document.getElementById('fullscreenIcon').innerHTML = 'fullscreen';
+	});
+}
+
 function toggleFullScreen() {
 	if (!document.fullscreenElement) {
-		document.documentElement.requestFullscreen().then(() => {
-			document.getElementById('fullscreenIcon').innerHTML = 'fullscreen_exit';
-		});
+		fullScreen();
 	} else if (document.exitFullscreen) {
-		document.exitFullscreen().then(() => {
-			document.getElementById('fullscreenIcon').innerHTML = 'fullscreen';
-		});
+		fullScreenExit();
 	}
 }
 
