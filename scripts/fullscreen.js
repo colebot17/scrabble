@@ -26,3 +26,9 @@ function toggleFullScreen() {
 		fullScreenExit();
 	}
 }
+
+function enableFullScreen() {
+	if (document.documentElement.requestFullscreen && document.exitFullscreen) {
+		alert('full screen enabled');
+	}
+}
