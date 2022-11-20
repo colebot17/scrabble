@@ -4,7 +4,7 @@ function fullScreen() {
 						document.documentElement.webkitRequestFullScreen;
 	console.log(requestMethod);
 	if (requestMethod) {
-		requestMethod.apply(document.documentElement).then(() => {document.getElementById('fullscreenIcon').innerHTML = 'fullscreen_exit';});
+		requestMethod.apply(document.documentElement)
 	}
 }
 
@@ -14,7 +14,7 @@ function fullScreenExit() {
 						document.webkitExitFullScreen;
 	console.log(requestMethod);
 	if (requestMethod) {
-		requestMethod.apply(document).then(() => {document.getElementById('fullscreenIcon').innerHTML = 'fullscreen';});
+		requestMethod.apply(document)
 	}
 }
 
@@ -29,7 +29,14 @@ function toggleFullScreen() {
 
 function enableFullScreen() {
 	if (document.fullscreenEnabled) {
+		// show the fullscreen button
 		document.getElementById('fullscreenButton').classList.remove('hidden');
+
+		// change icon when entering/exiting fullscreen
+		document.addEventListener('fullscreenchange', () => {
+			let iconName = (document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen');
+			document.getElementById('fullscreenIcon').innerHTML = iconName;
+		});
 	}
 }
 
