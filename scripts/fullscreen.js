@@ -29,7 +29,7 @@ function toggleFullScreen() {
 
 function enableFullScreen() {
 	if (document.fullscreenEnabled) {
-		document.getElementsById('fullscreenButton').removeClass('hidden');
+		document.getElementById('fullscreenButton').removeClass('hidden');
 	}
 }
 
