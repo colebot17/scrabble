@@ -1034,6 +1034,7 @@ function shuffleArr(a) {
 
 function showTab(tab) {
 	document.getElementById('scrabbleGrid').dataset.tab = tab;
+
 	// scroll to the top of the games list
 	$('#activeGames .gamesListWrapper')[0].scrollTop = 0;
 }
