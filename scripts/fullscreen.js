@@ -1,28 +1,16 @@
 function fullScreen() {
-	let requestMethod = document.documentElement.requestFullscreen ||
-						document.documentElement.webkitRequestFullscreen ||
-						document.documentElement.webkitRequestFullScreen;
-	console.log(requestMethod);
-	if (requestMethod) {
-		requestMethod.apply(document.documentElement)
-	}
+	document.documentElement.requestFullscreen();
 }
 
 function fullScreenExit() {
-	let requestMethod = document.exitFullscreen ||
-						document.webkitExitFullscreen ||
-						document.webkitExitFullScreen;
-	console.log(requestMethod);
-	if (requestMethod) {
-		requestMethod.apply(document)
-	}
+	document.exitFullscreen();
 }
 
 function toggleFullScreen() {
 	console.log(document.fullScreenElement);
 	if (!document.fullscreenElement) {
 		fullScreen();
-	} else if (document.exitFullscreen || document.webkitExitFullscreen) {
+	} else if (document.exitFullscreen) {
 		fullScreenExit();
 	}
 }
