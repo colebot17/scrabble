@@ -28,7 +28,7 @@ function toggleFullScreen() {
 }
 
 function enableFullScreen() {
-	if (document.documentElement.requestFullscreen && document.exitFullscreen) {
+	if (document.fullscreenEnabled) {
 		document.getElementsById('fullscreenButton').removeClass('hidden');
 	}
 }
