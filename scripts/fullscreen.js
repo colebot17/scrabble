@@ -4,7 +4,7 @@ function fullScreen() {
 						document.documentElement.webkitRequestFullScreen;
 	console.log(requestMethod);
 	if (requestMethod) {
-		requestMethod.apply(document.documentElement)//.then(() => {document.getElementById('fullscreenIcon').innerHTML = 'fullscreen_exit';});
+		requestMethod.apply(document.documentElement).then(() => {document.getElementById('fullscreenIcon').innerHTML = 'fullscreen_exit';});
 	}
 }
 
@@ -14,7 +14,7 @@ function fullScreenExit() {
 						document.webkitExitFullScreen;
 	console.log(requestMethod);
 	if (requestMethod) {
-		requestMethod.apply(document)//.then(() => {document.getElementById('fullscreenIcon').innerHTML = 'fullscreen';});
+		requestMethod.apply(document).then(() => {document.getElementById('fullscreenIcon').innerHTML = 'fullscreen';});
 	}
 }
 
@@ -29,6 +29,8 @@ function toggleFullScreen() {
 
 function enableFullScreen() {
 	if (document.documentElement.requestFullscreen && document.exitFullscreen) {
-		alert('full screen enabled');
+		document.getElementsById('fullscreenButton').removeClass('hidden');
 	}
 }
+
+enableFullScreen();
