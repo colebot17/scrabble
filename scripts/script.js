@@ -698,9 +698,15 @@ function gameInit() {
 	let gameInfoBox = $('#gameControlsCell .gameInfoBox');
 	
 	// start with the game name
+	// TODO: add functionality for the info icon
 	let gameInfo = `
 		<div class="gameTitleBox">
 			<div class="gameTitleLine">
+				<button class="iconButton">
+					<span class="material-icons smallIcon">
+						info_outline
+					</span>
+				</button>
 				<span class="gameName">
 					${game.name || `#${game.id}`}
 				</span>
