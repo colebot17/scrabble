@@ -458,7 +458,6 @@ body.scrabble {
 /* animations */
 .spin {
 	animation-name: spin;
-	animation-direction: reverse;
 	animation-duration: 0.37s;
 }
 .expandAnimation {
