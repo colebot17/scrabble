@@ -5,5 +5,19 @@ function getInfo() {
     const startPlayer = game.players[0].name;
     const turnPlayer = game.players[game.turn % players.length].name;
     const totalTurn = game.turn;
-    const bagCount = game.bagCount;
+    const lettersLeft = game.lettersLeft;
+
+    const message = /* html */ `
+        ${name ? `Name: ${name}` : ``}
+        <br>
+        Id: ${id}
+        <br>
+        Created on ${creationDate} by ${startPlayer}
+        <br>
+        It is ${turnPlayer}'s turn, turn number ${totalTurn}
+        <br>
+        There are ${lettersLeft} letters left in the bag
+    `;
+
+    textModal('Info', message);
 }
