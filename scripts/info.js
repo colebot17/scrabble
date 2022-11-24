@@ -8,8 +8,8 @@ function getInfo() {
     const lettersLeft = game.lettersLeft;
 
     const message = /* html */ `
-        <div class="flex vertical" style="gap: 5px">
-            ${name ? /* html */ `Name: <b>${name}</b>` : ``}
+        <div class="flex col" style="gap: 5px">
+            ${name ? /* html */ `<div>Name: <b>${name}</b></div>` : ``}
             <div>Id: <b>${id}</b></div>
             <div>Created on <b>${creationDate}</b> by <b>${startPlayer}</b></div>
             <div>Turn <b>${totalTurn}</b>: <b>${turnPlayer}</b>'s turn</div>
