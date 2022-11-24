@@ -38,6 +38,20 @@ window.addEventListener('resize', () => {
 
 function loadGamesList(done) {
 	if (account.id) {
+		// spin the reload button until list is loaded
+		const button = document.getElementById('gamesListRefreshButton');
+		button.classList.remove('spin');
+		let int;
+		let complete = false;
+		setTimeout(() => {
+			button.classList.add('spin');
+			int = setInterval(() => {
+				if (complete) {
+					button.classList.remove('spin');
+					clearInterval(int);
+				}
+			}, 370);
+		}, 10);
 		$.ajax(
 			location + '/php/loadPlayerGames.php',
 			{
@@ -51,12 +65,6 @@ function loadGamesList(done) {
 					if (jsonData.errorLevel > 0) { // error
 						textModal("Error", jsonData.message);
 					} else { // success
-						// spin the refresh button
-						var $button = $('#gamesListRefreshButton');
-						$button.removeClass('spin');
-						setTimeout(function() {$button.addClass('spin');}, 10);
-						setTimeout(function() {$button.removeClass('spin');}, 380);
-
 						// blink the games list
 						var $gamesList = $('#activeGamesList');
 						$gamesList.hide().fadeIn(370);
