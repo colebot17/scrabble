@@ -14,9 +14,9 @@ function getInfo() {
         <br>
         Created on ${creationDate} by ${startPlayer}
         <br>
-        It is ${turnPlayer}'s turn, turn number ${totalTurn}
+        Turn ${totalTurn}: ${turnPlayer}'s turn'
         <br>
-        There are ${lettersLeft} letters left in the bag
+        <b>${lettersLeft}</b> letters left in bag
     `;
 
     textModal('Info', message);
