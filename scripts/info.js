@@ -8,15 +8,13 @@ function getInfo() {
     const lettersLeft = game.lettersLeft;
 
     const message = /* html */ `
-        ${name ? /* html */ `Name: <b>${name}</b>` : ``}
-        <br>
-        Id: <b>${id}</b>
-        <br>
-        Created on <b>${creationDate}</b> by <b>${startPlayer}</b>
-        <br>
-        Turn <b>${totalTurn}</b>: <b>${turnPlayer}</b>'s turn
-        <br>
-        <b>${lettersLeft}</b> letters left in bag
+        <div class="flex" style="gap: 5px">
+            ${name ? /* html */ `Name: <b>${name}</b>` : ``}
+            <div>Id: <b>${id}</b></div>
+            <div>Created on <b>${creationDate}</b> by <b>${startPlayer}</b></div>
+            <div>Turn <b>${totalTurn}</b>: <b>${turnPlayer}</b>'s turn</div>
+            <div><b>${lettersLeft}</b> letters left in bag</div>
+        </div>
     `;
 
     textModal('Info', message);
