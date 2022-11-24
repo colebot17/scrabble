@@ -27,7 +27,7 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	$row = mysqli_fetch_assoc($query);
 
 	$name = $row['name'];
-	$letterBag = json_decode($row['letterBag']);
+	$letterBag = json_decode($row['letterBag'], true);
 	$turn = (int)$row['turn'];
 	$inactive = ((int)$row['inactive'] === 1 ? true : false);
 	$board = json_decode($row['board'], true);
