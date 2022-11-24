@@ -554,17 +554,23 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), exp
 
 function reloadGame() {
 	if (game.id) {
-		loadGame(game.id);
-
-		// spin the reload button
-		var $button = $('#reloadGameButton');
-		$button.removeClass('spin');
-		setTimeout(function () { $button.addClass('spin'); }, 10);
-		setTimeout(function () { $button.removeClass('spin'); }, 380);
-
+		// spin the reload button until game is loaded
 		const button = document.getElementById('reloadGameButton');
 		button.classList.remove('spin');
+		let int;
+		let complete = false;
+		setTimeout(() => {
+			button.classList.add('spin');
+			int = setInterval(() => {
+				if (complete) {
+					button.classList.remove('spin');
+					clearInterval(int);
+				}
+			}, 370);
+		}, 10);
 
+		// set complete to true once the game has loaded
+		loadGame(game.id).then(() => complete = true);
 	}
 }
 
