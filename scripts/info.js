@@ -5,7 +5,7 @@ function getInfo() {
     const creationDate = game.creationDate;
     const startPlayer = game.players[0].name;
     const turnPlayer = game.players[game.turn % game.players.length].name;
-    let winner, winnerPoints;
+    let winner, winnerPoints = 0;
     for (let i in game.players) {
         if (game.players[i].points > winnerPoints) {
             winnerPoints = game.players[i].points;
