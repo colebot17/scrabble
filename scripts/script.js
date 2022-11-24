@@ -723,7 +723,7 @@ function gameInit() {
 	let gameInfo = `
 		<div class="gameTitleBox">
 			<div class="gameTitleLine">
-				<button class="iconButton">
+				<button class="iconButton" onclick="getInfo()">
 					<span class="material-icons smallIcon">
 						info_outline
 					</span>
