@@ -10,6 +10,8 @@ function getInfo() {
         if (game.players[i].points > winnerPoints) {
             winnerPoints = game.players[i].points;
             winner = game.players[i].name;
+        } else if (game.players[i].points === winnerPoints) {
+            winner += ' and ' + game.players[i].name;
         }
     }
     const totalTurn = game.turn;
