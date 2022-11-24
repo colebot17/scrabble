@@ -459,6 +459,8 @@ body.scrabble {
 .spin {
 	animation-name: spin;
 	animation-duration: 0.37s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
 }
 .expandAnimation {
 	animation-name: expand;
