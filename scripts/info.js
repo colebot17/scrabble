@@ -14,7 +14,7 @@ function getInfo() {
         <br>
         Created on <b>${creationDate}</b> by <b>${startPlayer}</b>
         <br>
-        Turn <b>${totalTurn}</b>: ${turnPlayer}'s turn
+        Turn <b>${totalTurn}</b>: <b>${turnPlayer}</b>'s turn
         <br>
         <b>${lettersLeft}</b> letters left in bag
     `;
