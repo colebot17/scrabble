@@ -27,9 +27,11 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	$row = mysqli_fetch_assoc($query);
 
 	$name = $row['name'];
+	$letterBag = json_decode($row['letterBag']);
 	$turn = (int)$row['turn'];
 	$inactive = ((int)$row['inactive'] === 1 ? true : false);
 	$board = json_decode($row['board'], true);
+	$creationDate = $row['creationDate'];
 
 	// remove the letter bank from all players other than the current user - no cheating!
 	$players = json_decode($row['players'], true);
@@ -38,6 +40,12 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 			unset($players[$i]['letterBank']);
 			unset($players[$i]['bankOrder']);
 		}
+	}
+
+	// get the number of letters left in the letter bag
+	$lettersLeft = 0;
+	for ($i=0; $i < count(array_values($letterBag)); $i++) {
+		$lettersLeft += array_values($letterBag)[$i];
 	}
 
 	// find the names of users who send chat messages
@@ -60,13 +68,15 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 
 	// put it all together
 	$obj = Array(
-		"id" => $gameId,
-		"name"=> $name,
-		"players" => $players,
-		"turn" => $turn,
-		"inactive" => $inactive,
-		"board" => $board,
-		"chat" => $chat
+		"id"           => $gameId,
+		"name"         => $name,
+		"lettersLeft"  => $lettersLeft,
+		"players"      => $players,
+		"turn"         => $turn,
+		"inactive"     => $inactive,
+		"board"        => $board,
+		"creationDate" => $creationDate,
+		"chat"         => $chat
 	);
 	echo json_encode($obj);
 } else {
