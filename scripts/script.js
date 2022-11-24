@@ -38,6 +38,20 @@ window.addEventListener('resize', () => {
 
 function loadGamesList(done) {
 	if (account.id) {
+		// spin the reload button until list is loaded
+		const button = document.getElementById('gamesListRefreshButton');
+		button.classList.remove('spin');
+		let int;
+		let complete = false;
+		setTimeout(() => {
+			button.classList.add('spin');
+			int = setInterval(() => {
+				if (complete) {
+					button.classList.remove('spin');
+					clearInterval(int);
+				}
+			}, 370);
+		}, 10);
 		$.ajax(
 			location + '/php/loadPlayerGames.php',
 			{
@@ -51,11 +65,8 @@ function loadGamesList(done) {
 					if (jsonData.errorLevel > 0) { // error
 						textModal("Error", jsonData.message);
 					} else { // success
-						// spin the refresh button
-						var $button = $('#gamesListRefreshButton');
-						$button.removeClass('spin');
-						setTimeout(function() {$button.addClass('spin');}, 10);
-						setTimeout(function() {$button.removeClass('spin');}, 380);
+						// stop the reload button spinning
+						complete = true;
 
 						// blink the games list
 						var $gamesList = $('#activeGamesList');
@@ -522,7 +533,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), exp
 			clone.addClass('expandAnimation');
 			setTimeout(function() {clone.remove()}, 740);
 		}
-		$.ajax(
+		return $.ajax(
 			location + '/php/loadGame.php',
 			{
 				data: {user: account.id, pwd: account.pwd, game: id},
@@ -554,13 +565,23 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), exp
 
 function reloadGame() {
 	if (game.id) {
-		loadGame(game.id);
+		// spin the reload button until game is loaded
+		const button = document.getElementById('reloadGameButton');
+		button.classList.remove('spin');
+		let int;
+		let complete = false;
+		setTimeout(() => {
+			button.classList.add('spin');
+			int = setInterval(() => {
+				if (complete) {
+					button.classList.remove('spin');
+					clearInterval(int);
+				}
+			}, 370);
+		}, 10);
 
-		// spin the reload button
-		var $button = $('#reloadGameButton');
-		$button.removeClass('spin');
-		setTimeout(function () { $button.addClass('spin'); }, 10);
-		setTimeout(function () { $button.removeClass('spin'); }, 380);
+		// set complete to true once the game has loaded
+		loadGame(game.id).then(() => complete = true);
 	}
 }
 
