@@ -67,6 +67,7 @@ function loadGamesList(done) {
 					} else { // success
 						// stop the reload button spinning
 						complete = true;
+						button.style.animationTimingFunction = 'ease';
 
 						// blink the games list
 						var $gamesList = $('#activeGamesList');
