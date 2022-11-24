@@ -65,6 +65,9 @@ function loadGamesList(done) {
 					if (jsonData.errorLevel > 0) { // error
 						textModal("Error", jsonData.message);
 					} else { // success
+						// stop the reload button spinning
+						complete = true;
+
 						// blink the games list
 						var $gamesList = $('#activeGamesList');
 						$gamesList.hide().fadeIn(370);
