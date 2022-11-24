@@ -41,7 +41,6 @@ function loadGamesList(done) {
 		// spin the reload button until list is loaded
 		const button = document.getElementById('gamesListRefreshButton');
 		button.classList.remove('spin');
-		button.style.animationTimingFunction = '';
 		let int;
 		let complete = false;
 		setTimeout(() => {
@@ -68,7 +67,6 @@ function loadGamesList(done) {
 					} else { // success
 						// stop the reload button spinning
 						complete = true;
-						button.style.animationTimingFunction = 'ease';
 
 						// blink the games list
 						var $gamesList = $('#activeGamesList');
