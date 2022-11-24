@@ -8,13 +8,13 @@ function getInfo() {
     const lettersLeft = game.lettersLeft;
 
     const message = /* html */ `
-        ${name ? `Name: ${name}` : ``}
+        ${name ? /* html */ `Name: <b>${name}</b>` : ``}
         <br>
-        Id: ${id}
+        Id: <b>${id}</b>
         <br>
-        Created on ${creationDate} by ${startPlayer}
+        Created on <b>${creationDate}</b> by <b>${startPlayer}</b>
         <br>
-        Turn ${totalTurn}: ${turnPlayer}'s turn'
+        Turn <b>${totalTurn}</b>: ${turnPlayer}'s turn
         <br>
         <b>${lettersLeft}</b> letters left in bag
     `;
