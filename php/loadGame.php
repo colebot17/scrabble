@@ -22,7 +22,7 @@ $sql = "SELECT pwd, games FROM accounts WHERE id='$user'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row['games'], true))) {
-	$sql = "SELECT name, letterBag, players, turn, inactive, board, creationDate, chat FROM games WHERE id='$gameId'";
+	$sql = "SELECT name, letterBag, players, turn, inactive, board, creationDate, endDate, chat FROM games WHERE id='$gameId'";
 	$query = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($query);
 
@@ -32,6 +32,7 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	$inactive = ((int)$row['inactive'] === 1 ? true : false);
 	$board = json_decode($row['board'], true);
 	$creationDate = $row['creationDate'];
+	$endDate = $row['endDate'];
 
 	// remove the letter bank from all players other than the current user - no cheating!
 	$players = json_decode($row['players'], true);
@@ -76,6 +77,7 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 		"inactive"     => $inactive,
 		"board"        => $board,
 		"creationDate" => $creationDate,
+		"endDate"      => ($inactive ? $endDate : null),
 		"chat"         => $chat
 	);
 	echo json_encode($obj);
