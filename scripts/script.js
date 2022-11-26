@@ -922,20 +922,23 @@ function exchangeLetters() {
 	}
 
 	// show the letter bank in the letter exchange modal
-	let $letterBank = $('#letterExchangeBank').empty();
-	$('#letterExchangeButton').text('Skip Turn');
+	const letterBank = document.getElementById('letterExchangeBank');
+	letterBank.innerHTML = '';
+	document.getElementById('letterExchangeButton').innerText = 'Skip Turn';
 	let bank = game.players[parseInt(game.turn) % game.players.length].letterBank;
 	for (let i in bank) {
-		$letterBank.append(`
+		letterBank.innerHTML += /* html */ `
 			<button class='letter' data-bankindex='${i}' aria-pressed='false'>
 				<span class='letterLetter'>${bank[i] ? bank[i] : ``}</span>
 				<span class='letterPoints'>${bank[i] ? letterScores[bank[i]] : ``}</span>
 			</button>
-		`);
+		`;
 	}
 
-	$letterBank.children('.letter').on('click', function() {
-		this.ariaPressed = this.ariaPressed === 'true' ? 'false' : 'true';
+	
+	$(letterBank).children('.letter').on('click', function() {
+		const $this = $(this);
+		$this.attr('aria-pressed', this.attr('aria-pressed') === 'true' ? 'false' : 'true');
 		let exchangeLetters = $letterBank.children('[aria-pressed=true]');
 		$('#letterExchangeButton').text(`${exchangeLetters.length > 0 ? `Exchange ${exchangeLetters.length >= 7 ? `All` : exchangeLetters.length} Letter${exchangeLetters.length === 1 ? `` : `s`} and ` : ``}Skip Turn`)
 	});
