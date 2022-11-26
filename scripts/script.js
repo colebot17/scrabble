@@ -326,7 +326,7 @@ function renameGame(gameId) {
 					data: {
 						user: account.id,
 						pwd: account.pwd,
-						gameId,
+						game: gameId,
 						name
 					},
 					method: "POST",
