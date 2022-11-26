@@ -493,7 +493,6 @@ body.scrabble {
 }
 #scrabbleGrid #gameControlsCell .gameControlButtons {
 	display: flex;
-	flex-direction: column;
 	justify-content: center;
 	align-items: stretch;
 }
@@ -595,6 +594,8 @@ body.scrabble {
 	}
 	#scrabbleGrid #gameControlsCell .gameControlButtons {
 		flex-grow: 1;
+		flex-direction: column;
+		height: 100%;
 	}
 
 	/* game tab */
