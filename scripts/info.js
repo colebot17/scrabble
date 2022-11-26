@@ -106,6 +106,7 @@ function getInfo() {
                 ${days !== null ? /* html */ `
                     in
                     <b>${days}</b>
+                    days
                 ` : ``}
                 with
                 <b>${totalTurn}</b>
