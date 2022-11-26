@@ -69,11 +69,11 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 
 	// put it all together
 	$obj = Array(
-		"id"           => $gameId,
+		"id"           => (int)$gameId,
 		"name"         => $name,
-		"lettersLeft"  => $lettersLeft,
+		"lettersLeft"  => (int)$lettersLeft,
 		"players"      => $players,
-		"turn"         => $turn,
+		"turn"         => (int)$turn,
 		"inactive"     => $inactive,
 		"board"        => $board,
 		"creationDate" => $creationDate,
