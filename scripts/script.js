@@ -307,11 +307,11 @@ function setGamesList(list) {
 	$('#createGameModal').modalClose();
 }
 
-function renameGame(game) {
+function renameGame(gameId) {
 	// get the element(s) to be updated upon completion
-	const nameFields = $('#listGame' + game + ' .listGameName, #gameControlsCell .gameName');
-	const titleBoxes = $('#listGame' + game + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
-	const idLines = $('#listGame' + game + ' .gameIdLine, #gameControlsCell .gameIdLine');
+	const nameFields = $('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
+	const titleBoxes = $('#listGame' + gameId + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
+	const idLines = $('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
 
 	// get a name from the user
 	textModal(
@@ -326,7 +326,7 @@ function renameGame(game) {
 					data: {
 						user: account.id,
 						pwd: account.pwd,
-						game,
+						gameId,
 						name
 					},
 					method: "POST",
@@ -335,17 +335,17 @@ function renameGame(game) {
 						if (jsonData.errorLevel) {
 							textModal("Error", jsonData.message);
 						} else {
-							nameFields.text(jsonData.data || '#' + game);
+							nameFields.text(jsonData.data || '#' + gameId);
 							idLines.remove();
 							if (jsonData.data) { // if the game has a name
 								// show the id line
 								titleBoxes.append(`
 									<div class="gameIdLine">
-										#${game}
+										#${gameId}
 									</div>
 								`);
 							}
-							if (game.id === game) { // if the game is currently loaded
+							if (game.id === gameId) { // if the game is currently loaded
 								game.name === jsonData.data || ""; // set the name in game obj
 							}
 						}
