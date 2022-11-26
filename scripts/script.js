@@ -923,8 +923,9 @@ function exchangeLetters() {
 
 	// show the letter bank in the letter exchange modal
 	const letterBank = document.getElementById('letterExchangeBank');
-	letterBank.innerHTML = '';
-	document.getElementById('letterExchangeButton').innerText = 'Skip Turn';
+	letterBank.innerHTML = '';\
+	const letterExchangeButton = document.getElementById('letterExchangeButton')
+	letterExchangeButton.innerText = 'Skip Turn';
 	let bank = game.players[parseInt(game.turn) % game.players.length].letterBank;
 	for (let i in bank) {
 		letterBank.innerHTML += /* html */ `
@@ -939,8 +940,22 @@ function exchangeLetters() {
 	$(letterBank).children('.letter').on('click', function() {
 		const $this = $(this);
 		$this.attr('aria-pressed', $this.attr('aria-pressed') === 'true' ? 'false' : 'true');
-		let exchangeLetters = $letterBank.children('[aria-pressed=true]');
-		$('#letterExchangeButton').text(`${exchangeLetters.length > 0 ? `Exchange ${exchangeLetters.length >= bank.length ? `All` : exchangeLetters.length} Letter${exchangeLetters.length === 1 ? `` : `s`} and ` : ``}Skip Turn`)
+		let exchangeLetters = letterBank.querySelectorAll('[aria-pressed=true]');
+		letterExchangeButton.innerText = `
+			${exchangeLetters.length > 0
+				? `
+				Exchange ${
+					exchangeLetters.length >= bank.length
+					? `All`
+					: exchangeLetters.length
+				} Letter${
+					exchangeLetters.length === 1
+					? ``
+					: `s`
+				} and `
+				: ``
+			}Skip Turn
+		`;
 	});
 
 	$('#letterExchangeModal').modalOpen();
