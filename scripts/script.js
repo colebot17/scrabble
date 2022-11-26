@@ -346,7 +346,7 @@ function renameGame(gameId) {
 								`);
 							}
 							if (game.id === gameId) { // if the game is currently loaded
-								game.name === jsonData.data || ""; // set the name in game obj
+								game.name = jsonData.data || ""; // set the name in game obj
 							}
 						}
 					},
