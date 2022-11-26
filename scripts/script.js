@@ -523,7 +523,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), exp
 			// position the element
 			const offset = expandEl.offset();
 			const top = offset.top;
-			const left = offset.left + (expandEl.width() / 2) - 50;
+			const left = offset.left + (expandEl.width() / 2) - 40;
 
 			let clone = expandEl.clone().attr('onclick','').css({
 				'position': 'fixed',
