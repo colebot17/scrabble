@@ -44,7 +44,7 @@ function getInfo() {
         endDate.setMonth(endDateString.slice(5, 7));
         endDate.setDate(endDateString.slice(8, 10));
         let days = null;
-        if (startDate.now && endDate.now) {
+        if (startDate.getTime && endDate.getTime) {
             days = (endDate.getTime() - startDate.getTime()) / 86_400_000; // number of milliseconds in a day
         }
 
