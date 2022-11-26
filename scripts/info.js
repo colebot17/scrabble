@@ -12,7 +12,7 @@ function getInfo() {
         <b>
             ${name ?? '#' + id}
             ${name ? /* html */ `
-                &nbsp;
+               
                 <span class="finePrint">
                     #${id}
                 </span>
@@ -21,15 +21,15 @@ function getInfo() {
     `;
     
     const creationLine = /* html */ `
-        Created &nbsp;
+        Created
         ${creationDateValid ? /* html */ `
             on
-            &nbsp; <b>
+            <b>
                 ${creationDate}
-            </b> &nbsp;
+            </b>
         ` : ``}
         by
-        &nbsp; <b>
+        <b>
             ${startPlayer}
         </b>
     `;
@@ -43,10 +43,10 @@ function getInfo() {
         // active info lines
         const turnLine = /* html */ `
             Turn
-            &nbsp; <b>
+            <b>
                 ${totalTurn}
             </b>:
-            &nbsp; <b>
+            <b>
                 ${turnPlayer}
             </b>'s turn
         `;
@@ -54,7 +54,7 @@ function getInfo() {
         const letterBagLine = /* html */ `
             <b>
                 ${lettersLeft}
-            </b> &nbsp;
+            </b>
             letters left in bag
         `;
 
@@ -105,11 +105,11 @@ function getInfo() {
         const winnerLine = /* html */ `
             <b>
                 ${winner}
-            </b> &nbsp;
+            </b>
             won with
-            &nbsp; <b>
+            <b>
                 ${winnerPoints}
-            </b> &nbsp;
+            </b>
             points
         `;
 
@@ -117,25 +117,25 @@ function getInfo() {
         if (endDateValid) {
             endLine = /* html */ `
                 Ended on
-                &nbsp; <b>
+                <b>
                     ${endDateString}
-                </b> &nbsp;
+                </b>
                 ${days !== null ? /* html */ `
                     in
-                    &nbsp; <b>
+                    <b>
                         ${days}
-                    </b> &nbsp;
+                    </b>
                 ` : ``}
                 with
-                &nbsp; <b>
+                <b>
                     ${totalTurn}
-                </b> &nbsp;
+                </b>
                 moves
             `;
         } else {
             endLine = /* html */ `
                 Moves:
-                &nbsp; <b>
+                <b>
                     ${totalTurn}
                 </b>
             `;
