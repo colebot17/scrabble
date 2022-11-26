@@ -34,9 +34,9 @@ function getInfo() {
             }
         }
         const startDate = new Date(0);
-        endDate.setFullYear(creationDate.slice(0, 4));
-        endDate.setMonth(creationDate.slice(5, 7));
-        endDate.setDate(creationDate.slice(8, 10));
+        startDate.setFullYear(creationDate.slice(0, 4));
+        startDate.setMonth(creationDate.slice(5, 7));
+        startDate.setDate(creationDate.slice(8, 10));
 
         const endDateString = game.endDate;
         const endDate = new Date(0);
