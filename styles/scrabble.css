@@ -594,6 +594,7 @@ body.scrabble {
 	}
 	#scrabbleGrid #gameControlsCell .gameControlButtons {
 		flex-grow: 1;
+		flex-direction: column;
 	}
 
 	/* game tab */
