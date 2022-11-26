@@ -131,6 +131,5 @@ function getInfo() {
         `
     }
     
-
     textModal('Info', message);
 }
