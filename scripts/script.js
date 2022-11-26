@@ -345,6 +345,9 @@ function renameGame(game) {
 									</div>
 								`);
 							}
+							if (game.id === game) { // if the game is currently loaded
+								game.name === jsonData.data || ""; // set the name in game obj
+							}
 						}
 					},
 					error: function() {
