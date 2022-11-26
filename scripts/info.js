@@ -33,8 +33,17 @@ function getInfo() {
                 winner += ' and ' + game.players[i].name;
             }
         }
-        const endDate = game.endDate;
-        const days = (new Date(game.endDate).now() - new Date(game.creationDate).now()) / 86_400_000; // number of milliseconds in a day
+        const startDate = new Date(0);
+        endDate.setFullYear(creationDate.slice(0, 4));
+        endDate.setMonth(creationDate.slice(5, 7));
+        endDate.setDate(creationDate.slice(8, 10));
+
+        const endDateString = game.endDate;
+        const endDate = new Date(0);
+        endDate.setFullYear(endDateString.slice(0, 4));
+        endDate.setMonth(endDateString.slice(5, 7));
+        endDate.setDate(endDateString.slice(8, 10));
+        const days = (endDate.now() - startDate.now()) / 86_400_000; // number of milliseconds in a day
 
         // inactive info message
         message = /* html */ `
@@ -43,7 +52,7 @@ function getInfo() {
                 <div>Id: <b>${id}</b></div>
                 <div>Created on <b>${creationDate}</b> by <b>${startPlayer}</b></div>
                 <div><b>${winner}</b> won with <b>${winnerPoints}</b> points</div>
-                <div>Ended on <b>${endDate}</b> in <b>${days}</b> days with <b>${totalTurn}</b> moves</div>
+                <div>Ended on <b>${endDateString}</b> in <b>${days}</b> days with <b>${totalTurn}</b> moves</div>
             </div>
         `
     }
