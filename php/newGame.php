@@ -80,11 +80,11 @@ if (password_verify($userPwd, $row['pwd'])) {
 	$playersJson = json_encode($players);
 	$boardJson = json_encode($board);
 
-	// get the timestamp
-	$timestamp = date("Y-m-d H:i:s.v");
+	// get the datestamp
+	$datestamp = date("Y-m-d");
 
 	// add the game
-	$sql = "INSERT INTO games(letterBag, players, turn, inactive, board, creationDate, chat) VALUES ('$letterBagJson', '$playersJson', 0, 0, '$boardJson', '$timestamp', '[]');";
+	$sql = "INSERT INTO games(letterBag, players, turn, inactive, board, creationDate, chat) VALUES ('$letterBagJson', '$playersJson', 0, 0, '$boardJson', '$datestamp', '[]');";
 	$query = mysqli_query($conn, $sql);
 
 	// get the id of the game

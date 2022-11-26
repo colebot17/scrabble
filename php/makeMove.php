@@ -31,7 +31,7 @@ if (!password_verify($pwd, $row['pwd'])) {
 }
 
 // get game information
-$sql = "SELECT board, turn, inactive, letterBag, players FROM games WHERE id='$gameId'";
+$sql = "SELECT board, turn, inactive, endDate, letterBag, players FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 
@@ -39,6 +39,7 @@ $row = mysqli_fetch_assoc($query);
 $board = json_decode($row['board'], true);
 $totalTurn = $row['turn'];
 $inactive = $row['inactive'];
+$endDate = $row['endDate'];
 $players = json_decode($row['players'], true);
 $letterBag = json_decode($row['letterBag'], true);
 
@@ -379,6 +380,10 @@ for ($i = 0; $i < count($letterBag); $i++) {
 // if the letter bank of the current player and the letter bag are both empty,
 if (count($players[$currentPlayerIndex]['letterBank']) === 0 && count($longBag) === 0) {
 	$inactive = 1; // end the game
+
+	// set the endDate
+	$datestamp = date("Y-m-d");
+	$endDate = $datestamp;
 }
 
 // update the points in the player obj
@@ -434,7 +439,7 @@ $letterBagJson = json_encode($letterBag);
 $boardJson = json_encode($board);
 $playersJson = json_encode($players);
 
-$sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn='$totalTurn',inactive='$inactive',board='$boardJson' WHERE id='$gameId'";
+$sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn='$totalTurn',inactive='$inactive',endDate='$endDate',board='$boardJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 
 if ($inactive) {
