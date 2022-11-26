@@ -206,7 +206,7 @@ function updateGamesList() {
 							${playerListHTML}
 						</div>
 						<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
-							${(turnUser == account.id ? "Play" : "View Game")}
+							${(turnUser == account.id ? "Play" : "View")}
 						</button>
 					</div>
 				`);
@@ -253,7 +253,7 @@ function updateGamesList() {
 							${playerListHTML}
 						</div>
 						<button class="openGameButton" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
-							View Game
+							View
 						</button>
 					</div>
 				`);
@@ -307,11 +307,11 @@ function setGamesList(list) {
 	$('#createGameModal').modalClose();
 }
 
-function renameGame(game) {
+function renameGame(gameId) {
 	// get the element(s) to be updated upon completion
-	const nameFields = $('#listGame' + game + ' .listGameName, #gameControlsCell .gameName');
-	const titleBoxes = $('#listGame' + game + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
-	const idLines = $('#listGame' + game + ' .gameIdLine, #gameControlsCell .gameIdLine');
+	const nameFields = $('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
+	const titleBoxes = $('#listGame' + gameId + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
+	const idLines = $('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
 
 	// get a name from the user
 	textModal(
@@ -326,7 +326,7 @@ function renameGame(game) {
 					data: {
 						user: account.id,
 						pwd: account.pwd,
-						game,
+						game: gameId,
 						name
 					},
 					method: "POST",
@@ -335,15 +335,18 @@ function renameGame(game) {
 						if (jsonData.errorLevel) {
 							textModal("Error", jsonData.message);
 						} else {
-							nameFields.text(jsonData.data || '#' + game);
+							nameFields.text(jsonData.data || '#' + gameId);
 							idLines.remove();
 							if (jsonData.data) { // if the game has a name
 								// show the id line
 								titleBoxes.append(`
 									<div class="gameIdLine">
-										#${game}
+										#${gameId}
 									</div>
 								`);
+							}
+							if (game.id === gameId) { // if the game is currently loaded
+								game.name = jsonData.data || ""; // set the name in game obj
 							}
 						}
 					},
@@ -520,7 +523,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), exp
 			// position the element
 			const offset = expandEl.offset();
 			const top = offset.top;
-			const left = offset.left + (expandEl.width() / 2) - 50;
+			const left = offset.left + (expandEl.width() / 2) - 30;
 
 			let clone = expandEl.clone().attr('onclick','').css({
 				'position': 'fixed',
@@ -719,9 +722,15 @@ function gameInit() {
 	let gameInfoBox = $('#gameControlsCell .gameInfoBox');
 	
 	// start with the game name
+	// TODO: add functionality for the info icon
 	let gameInfo = `
 		<div class="gameTitleBox">
 			<div class="gameTitleLine">
+				<button class="iconButton" onclick="getInfo()">
+					<span class="material-icons smallIcon">
+						info_outline
+					</span>
+				</button>
 				<span class="gameName">
 					${game.name || `#${game.id}`}
 				</span>

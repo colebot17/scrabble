@@ -149,6 +149,11 @@ if ($endGame) {
 		// deactivate the game
 		$sql = "UPDATE games SET inactive=1 WHERE id='$game'";
 		$query = mysqli_query($conn, $sql);
+
+		// set the endDate
+		$datestamp = date("Y-m-d");
+		$sql = "UPDATE games SET endDate='$datestamp' WHERE id='$game'";
+		$query = mysqli_query($conn, $sql);
 	}
 }
 
