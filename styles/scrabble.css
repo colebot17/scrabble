@@ -491,12 +491,6 @@ body.scrabble {
 	justify-content: space-evenly;
 	gap: 10px;
 }
-#scrabbleGrid #gameControlsCell .gameControlButtons {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: stretch;
-}
 
 #scrabbleGrid #loadingCell {
 	justify-content: center;
