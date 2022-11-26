@@ -161,12 +161,10 @@ body.scrabble {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
-    transition: transform 0.37s cubic-bezier(0, 1, 0.5, 1);
 }
 .letter[aria-pressed=true] {
 	background-color: #a47449; /* tile brown */
-	transform: scale(1.05);
+	scale: 1.05;
 }
 .letterLetter {
     font-size: 50px;
@@ -328,7 +326,7 @@ body.scrabble {
     height: 55px;
 
     font-size: 50px;
-    font-family: 'Rubik';
+    font-family: 'Eurostile';
     text-align: center;
     text-transform: uppercase;
 
