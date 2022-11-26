@@ -923,7 +923,7 @@ function exchangeLetters() {
 
 	// show the letter bank in the letter exchange modal
 	const letterBank = document.getElementById('letterExchangeBank');
-	letterBank.innerHTML = '';\
+	letterBank.innerHTML = '';
 	const letterExchangeButton = document.getElementById('letterExchangeButton')
 	letterExchangeButton.innerText = 'Skip Turn';
 	let bank = game.players[parseInt(game.turn) % game.players.length].letterBank;
