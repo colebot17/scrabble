@@ -55,8 +55,8 @@ function getInfo() {
                 <div>Id: <b>${id}</b></div>
                 <div>Created ${creationDate !== '0000-00-00' ? /* html */ `on <b>${creationDate}</b> ` : ``}by <b>${startPlayer}</b></div>
                 <div><b>${winner}</b> won with <b>${winnerPoints}</b> points</div>
-                <div>${days !== null ? /* html */ `
-                    Ended on <b>${endDateString}</b> in <b>${days}</b> days with <b>${totalTurn}</b> moves
+                <div>${endDate !== '0000-00-00' ? /* html */ `
+                    Ended on <b>${endDateString}</b> ${days !== null ? /* html */ `in <b>${days}</b> days `: ``}with <b>${totalTurn}</b> moves
                 ` : /* html */ `
                     Moves: <b>${totalTurn}</b>
                 `}</div>
