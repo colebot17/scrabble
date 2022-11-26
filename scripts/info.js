@@ -10,7 +10,7 @@ function getInfo() {
     // common info lines
     const nameLine = /* html */ `
         <b>
-            ${name ?? '#' + id}
+            ${name || '#' + id}
             ${name ? /* html */ `
                 <span class="finePrint">
                     #${id}
