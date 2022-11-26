@@ -43,7 +43,10 @@ function getInfo() {
         endDate.setFullYear(endDateString.slice(0, 4));
         endDate.setMonth(endDateString.slice(5, 7));
         endDate.setDate(endDateString.slice(8, 10));
-        const days = (endDate.now() - startDate.now()) / 86_400_000; // number of milliseconds in a day
+        let days = null;
+        if (startDate.now && endDate.now) {
+            days = (endDate.now() - startDate.now()) / 86_400_000; // number of milliseconds in a day
+        }
 
         // inactive info message
         message = /* html */ `
@@ -52,7 +55,11 @@ function getInfo() {
                 <div>Id: <b>${id}</b></div>
                 <div>Created on <b>${creationDate}</b> by <b>${startPlayer}</b></div>
                 <div><b>${winner}</b> won with <b>${winnerPoints}</b> points</div>
-                <div>Ended on <b>${endDateString}</b> in <b>${days}</b> days with <b>${totalTurn}</b> moves</div>
+                <div>${days !== null ? /* html */ `
+                    Ended on <b>${endDateString}</b> in <b>${days}</b> days with <b>${totalTurn}</b> moves
+                ` : /* html */ `
+                    Moves: <b>${totalTurn}</b>
+                `}</div>
             </div>
         `
     }
