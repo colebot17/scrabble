@@ -49,7 +49,7 @@ function getInfo() {
 
         // active info message
         message = /* html */ `
-            <div class="flex col" style="gap: 5px">
+            <div class="flex col" style="gap: 10px">
                 <div>${nameLine}</div>
                 <div>${creationLine}</div>
                 <div>${turnLine}</div>
@@ -122,7 +122,7 @@ function getInfo() {
 
         // inactive info message
         message = /* html */ `
-            <div class="flex col" style="gap: 5px">
+            <div class="flex col" style="gap: 10px">
                 <div>${nameLine}</div>
                 <div>${creationLine}</div>
                 <div>${winnerLine}</div>
