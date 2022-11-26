@@ -206,7 +206,7 @@ function updateGamesList() {
 							${playerListHTML}
 						</div>
 						<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
-							${(turnUser == account.id ? "Play" : "View Game")}
+							${(turnUser == account.id ? "Play" : "View")}
 						</button>
 					</div>
 				`);
@@ -253,7 +253,7 @@ function updateGamesList() {
 							${playerListHTML}
 						</div>
 						<button class="openGameButton" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
-							View Game
+							View
 						</button>
 					</div>
 				`);
