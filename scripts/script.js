@@ -941,7 +941,7 @@ function exchangeLetters() {
 		const $this = $(this);
 		$this.attr('aria-pressed', $this.attr('aria-pressed') === 'true' ? 'false' : 'true');
 		let exchangeLetters = letterBank.querySelectorAll('[aria-pressed=true]');
-		letterExchangeButton.innerText = `
+		letterExchangeButton.textContent = `
 			${exchangeLetters.length > 0
 				? `
 				Exchange ${
