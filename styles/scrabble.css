@@ -161,8 +161,6 @@ body.scrabble {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
-    transition: scale 0.37s cubic-bezier(0, 1, 0.5, 1);
 }
 .letter[aria-pressed=true] {
 	background-color: #a47449; /* tile brown */
