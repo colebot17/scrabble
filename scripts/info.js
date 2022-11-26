@@ -53,7 +53,7 @@ function getInfo() {
             <div class="flex col" style="gap: 5px">
                 ${name ? /* html */ `<div>Name: <b>${name}</b></div>` : ``}
                 <div>Id: <b>${id}</b></div>
-                <div>Created on <b>${creationDate}</b> by <b>${startPlayer}</b></div>
+                <div>Created ${creationDate !== '0000-00-00' ? `on <b>${creationDate}</b> ` : ``}by <b>${startPlayer}</b></div>
                 <div><b>${winner}</b> won with <b>${winnerPoints}</b> points</div>
                 <div>${days !== null ? /* html */ `
                     Ended on <b>${endDateString}</b> in <b>${days}</b> days with <b>${totalTurn}</b> moves
