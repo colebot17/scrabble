@@ -148,8 +148,10 @@ function deleteChatMessage(id) {
 				}
 
 				// update the local chat object
-				game.chat[id].deleted = true;
-				game.chat[id].message = undefined;
+				const del = !game.chat[id].deleted;
+				
+				game.chat[id].deleted = del;
+				game.chat[id].message = jsonData.data;
 
 				chatInit(); // refresh chat window
 			}
