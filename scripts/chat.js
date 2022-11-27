@@ -43,18 +43,28 @@ function chatInit() {
 			dateString = `${monthAbbrvs[messageDate.getMonth()]} ${dayOfMonth}`;
 		}
 
-		chatContent += `
+		const deleted = chat[i].deleted;
+		const isCurrentUser = chat[i].sender === account.id;
+
+		chatContent += /* html */ `
 			<div class="chatMessage">
 				<div class="chatMessageLine1">
-					<div class="chatMessageSender">
+					<div class="chatMessageSender flexGrow">
 						${chat[i].senderName}
 					</div>
+					${isCurrentUser ? `
+						<button class="iconButton deleteMessageButton">
+							<span class="material-icons tinyIcon">
+								${deleted ? `restore_from_trash` : `delete`}
+							</span>
+						</button>
+					` : ``}
 					<div class="chatMessageTimestamp">
 						${dateString}
 					</div>
 				</div>
 				<div class="chatMessageText">
-					${chat[i].message}
+					${deleted ? /* html */ `<i>This message has been deleted.</i>` : chat[i].message}
 				</div>
 			</div>
 		`;
