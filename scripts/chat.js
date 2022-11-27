@@ -64,7 +64,7 @@ function chatInit() {
 					</div>
 				</div>
 				<div class="chatMessageText">
-					${deleted ? /* html */ `<i>This message has been deleted.</i>` : chat[i].message}
+					${deleted ? /* html */ `<span class="finePrint"><i>This message has been deleted.</i></span>` : chat[i].message}
 				</div>
 			</div>
 		`;
