@@ -43,18 +43,28 @@ function chatInit() {
 			dateString = `${monthAbbrvs[messageDate.getMonth()]} ${dayOfMonth}`;
 		}
 
-		chatContent += `
+		const deleted = chat[i].deleted;
+		const isCurrentUser = chat[i].sender == account.id;
+
+		chatContent += /* html */ `
 			<div class="chatMessage">
 				<div class="chatMessageLine1">
-					<div class="chatMessageSender">
+					<div class="chatMessageSender flexGrow">
 						${chat[i].senderName}
 					</div>
+					${isCurrentUser ? `
+						<button class="iconButton deleteMessageButton" onclick="deleteChatMessage(${i})">
+							<span class="material-icons tinyIcon finePrint hoverDarken">
+								${deleted ? `restore_from_trash` : `delete`}
+							</span>
+						</button>
+					` : ``}
 					<div class="chatMessageTimestamp">
 						${dateString}
 					</div>
 				</div>
 				<div class="chatMessageText">
-					${chat[i].message}
+					${deleted ? /* html */ `<span class="finePrint"><i>This message has been deleted.</i></span>` : chat[i].message}
 				</div>
 			</div>
 		`;
@@ -116,4 +126,35 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
             }
         }
     )
+}
+
+function deleteChatMessage(id) {
+	$.ajax(
+		location + '/php/deleteChatMessage.php',
+		{
+			data: {
+				user: account.id,
+				pwd: account.pwd,
+				gameId: game.id,
+				messageId: id
+			},
+			method: "POST",
+			success: function(data) {
+				// handle errors
+				const jsonData = JSON.parse(data);
+				if (jsonData.errorLevel > 0) {
+					textModal("Error", jsonData.message);
+					return;
+				}
+
+				// update the local chat object
+				const del = !game.chat[id].deleted;
+				
+				game.chat[id].deleted = del;
+				game.chat[id].message = jsonData.data;
+
+				chatInit(); // refresh chat window
+			}
+		}
+	);
 }

@@ -50,6 +50,7 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	}
 
 	// find the names of users who send chat messages
+	// and remove message content from deleted messages
 	$chatSenderBuffer = Array();
 	$chat = json_decode($row['chat'], true);
 	for ($i=0; $i < count($chat); $i++) { 
@@ -65,6 +66,9 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 			}
 		}
 		$chat[$i]['senderName'] = $senderName;
+		if ($chat[$i]['deleted']) {
+			unset($chat[$i]['message']);
+		}
 	}
 
 	// put it all together
