@@ -53,7 +53,7 @@ function chatInit() {
 						${chat[i].senderName}
 					</div>
 					${isCurrentUser ? `
-						<button class="iconButton deleteMessageButton">
+						<button class="iconButton deleteMessageButton" onclick="deleteChatMessage(${i})">
 							<span class="material-icons tinyIcon finePrint hoverDarken">
 								${deleted ? `restore_from_trash` : `delete`}
 							</span>
@@ -126,4 +126,33 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
             }
         }
     )
+}
+
+function deleteChatMessage(id) {
+	$.ajax(
+		location + '/php/deleteChatMessage.php',
+		{
+			data: {
+				user: account.id,
+				pwd: account.pwd,
+				gameId: game.id,
+				messageId: id
+			},
+			method: "POST",
+			success: function(data) {
+				// handle errors
+				const jsonData = JSON.parse(data);
+				if (jsonData.errorLevel > 0) {
+					textModal("Error", jsonData.message);
+					return;
+				}
+
+				// update the local chat object
+				game.chat[id].deleted = true;
+				game.chat[id].message = undefined;
+
+				chatInit(); // refresh chat window
+			}
+		}
+	);
 }
