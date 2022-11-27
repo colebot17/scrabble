@@ -44,7 +44,7 @@ function chatInit() {
 		}
 
 		const deleted = chat[i].deleted;
-		const isCurrentUser = chat[i].sender === account.id;
+		const isCurrentUser = chat[i].sender == account.id;
 
 		chatContent += /* html */ `
 			<div class="chatMessage">
