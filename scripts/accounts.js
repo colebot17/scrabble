@@ -137,6 +137,7 @@ function changePassword() {
 		cancelable: true,
 		allowInput: true,
 		inputPlaceholder: "New Password",
+		passwordField: true
 		complete: (newPwd) => {
 			$.ajax(
 				location + '/php/changePassword.php',
