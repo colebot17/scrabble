@@ -260,8 +260,8 @@ body.scrabble {
 	flex-grow: 1;
 }
 
-#accountNameLabel:after {
-	content: " -";
+#accountNameLabel {
+	margin: 5px;
 }
 
 /* letter exchange modal */
