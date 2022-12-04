@@ -58,7 +58,13 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 				if (jsonData.errorLevel > 0) {
 					textModal("Error", jsonData.message);
 					setSignInMode('signIn');
+
+					// show the sign-in page
 					document.getElementById('scrabbleGrid').dataset.signedin = 'false';
+
+					// clear localStorage
+					localStorage.removeItem('name');
+					localStorage.removeItem('pwd');
 
 					// clear the form
 					document.getElementById('signInForm').reset();
