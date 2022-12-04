@@ -44,8 +44,11 @@ $name = str_replace('"', '\"', $name);
 // hash the password
 $hash = password_hash($pwd, PASSWORD_DEFAULT);
 
+// get the datestamp
+$datestamp = date("Y-m-d");
+
 // create the account
-$sql = "INSERT INTO accounts(name, pwd, games) VALUES ('$name', '$hash', '[]');";
+$sql = "INSERT INTO accounts(name, pwd, games, creationDate) VALUES ('$name', '$hash', '[]', '$datestamp');";
 $query = mysqli_query($conn, $sql);
 echo '{"errorLevel":0,"message":"Account created successfully."}';
 
