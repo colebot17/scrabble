@@ -155,6 +155,7 @@ function changePassword() {
 							return;
 						}
 						signIn(account.name, newPwd);
+						textModal("Change Password", "Password changed.");
 					},
 					error: function() {
 						textModal("Unknown Error", "Could not change password.")
