@@ -177,16 +177,26 @@ jQuery.fn.extend({
 function textModal(
 	title = "Alert!",
 	text = "Something just happened, but we don't know what.",
-	cancelable = false,
-	complete = function() {},
-	allowInput = false,
-	inputPlaceholder = ""
+	userOptions
 ) {
+	// define default values
+	const defaultOptions = {
+		cancelable: false,
+		complete: () => {},
+		allowInput: false,
+		inputPlaceholder: "",
+		passwordField: false
+	}
+
+	// combine user options with default options
+	const options = {...defaultOptions, ...userOptions};
+
+
 	// set the content of the modal
 	$('#textModalTitle').html(title);
 	$('#textModalText').html(text).css('order', (!title ? '-1' : ''));
 
-	if (cancelable) {
+	if (options.cancelable) {
 		$('#textModalCancelButton').removeClass('hidden');
 	} else {
 		$('#textModalCancelButton').addClass('hidden');
@@ -194,19 +204,19 @@ function textModal(
 
 	const textModalInput = $('#textModalInput')
 
-	if (allowInput) {
-		textModalInput.removeClass('hidden').attr('placeholder', inputPlaceholder).val("");
+	if (options.allowInput) {
+		textModalInput.removeClass('hidden').attr('placeholder', options.inputPlaceholder).val("");
 	} else {
 		textModalInput.addClass('hidden');
 	}
 
 	function ok() {
 		$('#textModal').modalClose();
-		if (allowInput) {
+		if (options.allowInput) {
 			const inputVal = textModalInput.val();
-			complete(inputVal);
+			options.complete(inputVal);
 		} else {
-			complete();
+			options.complete();
 		}
 	}
 
@@ -217,7 +227,7 @@ function textModal(
 	$('#textModal').modalOpen();
 
 	// focus the input field if necessary
-	if (allowInput) {
+	if (options.allowInput) {
 		textModalInput[0].focus();
 	}
 }

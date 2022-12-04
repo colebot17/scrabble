@@ -133,9 +133,12 @@ function createAccount(name = $('#createAccountUsername').val(), pwd = $('#creat
 }
 
 function signOut() {
-	textModal("Sign Out", "Are you sure you want to sign out?", true, function() {
-		localStorage.removeItem('name');
-		localStorage.removeItem('pwd');
-		location.reload();	
+	textModal("Sign Out", "Are you sure you want to sign out?", {
+		cancelable: true,
+		complete: () => {
+			localStorage.removeItem('name');
+			localStorage.removeItem('pwd');
+			location.reload();
+		}
 	});
 }
