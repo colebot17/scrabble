@@ -132,6 +132,39 @@ function createAccount(name = $('#createAccountUsername').val(), pwd = $('#creat
 	);
 }
 
+function changePassword() {
+	textModal("Change Password", "You will be signed out of all other devices.", {
+		cancelable: true,
+		allowInput: true,
+		inputPlaceholder: "New Password",
+		complete: (newPwd) => {
+			$.ajax(
+				location + '/php/changePassword.php',
+				{
+					data: {
+						user: account.id,
+						pwd: account.pwd,
+						newPwd
+					},
+					method: "POST",
+					success: function(data) {
+						const jsonData = JSON.parse(data);
+						if (jsonData.errorLevel > 0) {
+							textModal("Error", jsonData.message);
+							return;
+						}
+						signIn(account.name, newPwd);
+					},
+					error: function() {
+						textModal("Unknown Error", "Could not change password.")
+						console.error("Could not change password.");
+					}
+				}
+			);
+		}
+	})
+}
+
 function signOut() {
 	textModal("Sign Out", "Are you sure you want to sign out?", {
 		cancelable: true,

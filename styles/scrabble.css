@@ -584,6 +584,14 @@ body.scrabble {
 }
 
 @media (orientation: portrait) {
+	/* general */
+	.mobileRow {
+		flex-direction: row;
+	}
+	.mobileCol {
+		flex-direction: column;
+	}
+
 	/* both tabs */
 	#scrabbleGrid #gamesCell, #scrabbleGrid #canvasCell {
 		height: calc(100% - 30px);
