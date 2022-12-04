@@ -205,7 +205,7 @@ function textModal(
 	const textModalInput = $('#textModalInput')
 
 	if (options.allowInput) {
-		textModalInput.removeClass('hidden').attr('placeholder', options.inputPlaceholder).attr('type', (passwordField ? 'password' : 'text')).val("");
+		textModalInput.removeClass('hidden').attr('placeholder', options.inputPlaceholder).attr('type', (options.passwordField ? 'password' : 'text')).val("");
 	} else {
 		textModalInput.addClass('hidden');
 	}
