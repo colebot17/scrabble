@@ -135,8 +135,20 @@ function createAccount(name = $('#createAccountUsername').val(), pwd = $('#creat
 function changePassword() {
 	textModal("Change Password", "You will be signed out of all other devices.", {
 		cancelable: true,
-		allowInput: true,
-		inputPlaceholder: "New Password",
+		inputFields: [
+			{
+				password: true,
+				placeholder: "Current Password..."
+			},
+			{
+				password: true,
+				placeholder: "New Password..."
+			},
+			{
+				password: true,
+				placeholder: "Confirm New Password..."
+			}
+		],
 		passwordField: true,
 		complete: (newPwd) => {
 			$.ajax(

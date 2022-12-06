@@ -319,8 +319,9 @@ function renameGame(gameId) {
 		"The new name will be seen by all players in this game. Leave blank to clear name.",
 		{
 			cancelable: true,
-			complete: (name) => {
+			complete: (obj) => {
 				// rename the game
+				const name = obj[0];
 				$.ajax(
 					location + '/php/renameGame.php',
 					{
@@ -357,8 +358,12 @@ function renameGame(gameId) {
 					}
 				);
 			},
-			allowInput: true,
-			inputPlaceholder: "New Name..."
+			inputFields: [
+				{
+					password: false,
+					placeholder: "New Name..."
+				}
+			]
 		}
 	);
 }

@@ -183,51 +183,58 @@ function textModal(
 	const defaultOptions = {
 		cancelable: false,
 		complete: () => {},
-		allowInput: false,
-		inputPlaceholder: "",
-		passwordField: false
+		inputFields: [
+			/*{
+				placeholder: "",
+				password: false
+			}*/ // this would only be provided if an input field should appear
+		]
 	}
 
 	// combine user options with default options
 	const options = {...defaultOptions, ...userOptions};
 
-
 	// set the content of the modal
-	$('#textModalTitle').html(title);
-	$('#textModalText').html(text).css('order', (!title ? '-1' : ''));
+	document.getElementById('textModalTitle').innerHTML = title;
+	const contentEl = document.getElementById('textModalText');
+	contentEl.innerHTML = text;
+	contentEl.style.order = (!title ? '-1' : '');
 
 	if (options.cancelable) {
-		$('#textModalCancelButton').removeClass('hidden');
+		document.getElementById('textModalCancelButton').classList.remove('hidden');
 	} else {
-		$('#textModalCancelButton').addClass('hidden');
+		document.getElementById('textModalCancelButton').classList.add('hidden');
 	}
 
-	const textModalInput = $('#textModalInput')
+	// remove any existing input fields
+	document.querySelectorAll('.textModalInput').forEach(function() {this.remove()});
 
-	if (options.allowInput) {
-		textModalInput.removeClass('hidden').attr('placeholder', options.inputPlaceholder).attr('type', (options.passwordField ? 'password' : 'text')).val("");
-	} else {
-		textModalInput.addClass('hidden');
+	// add each input field as defined in the options
+	for (let i = options.inputFields.length - 1; i <= 0; i--) {
+		let el = document.createElement('input');
+		el.type = (options.inputFields[i].password ? 'password' : 'text');
+		el.placeholder = options.inputFields[i].placeholder;
+		el.classList.add('textModalInput');
+		el.name = 'textModalInput';
+		el.addEventListener('keypress', e => {if (e.key === 'Enter') ok();});
+		document.getElementById('textModalControls').appendChild(el);
 	}
 
 	function ok() {
 		$('#textModal').modalClose();
-		if (options.allowInput) {
-			const inputVal = textModalInput.val();
-			options.complete(inputVal);
-		} else {
-			options.complete();
+		const inputs = document.querySelectorAll('.textModalInput');
+		const inputStrings = [];
+		for (let i in inputs) {
+			inputStrings.push(inputs[i].value);
 		}
+		options.complete(inputStrings);
 	}
 
 	$('#textModalOkButton').off().on('click', ok);
-	textModalInput.off().on('keypress', function(e) {if (e.key === 'Enter') {ok();}});
 
 	// show the modal
 	$('#textModal').modalOpen();
 
 	// focus the input field if necessary
-	if (options.allowInput) {
-		textModalInput[0].focus();
-	}
+	if (options.inputFields.length) document.getElementsByClassName('textModalInput')[0].focus();
 }
