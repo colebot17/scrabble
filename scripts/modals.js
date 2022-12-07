@@ -207,8 +207,10 @@ function textModal(
 	}
 
 	// remove any existing input fields
-	const textModalInput = document.querySelectorAll('.textModalInput');
-	if (textModalInput) textModalInput.forEach(function() {this.remove()});
+	const textModalInputs = document.querySelectorAll('.textModalInput');
+	for (let i = 0; i < textModalInputs.length; i++) {
+		textModalInputs[i].remove();
+	}
 
 	// add each input field as defined in the options
 	for (let i = options.inputFields.length - 1; i >= 0; i--) {
