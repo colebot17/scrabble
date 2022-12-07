@@ -211,7 +211,7 @@ function textModal(
 	if (textModalInput) textModalInput.forEach(function() {this.remove()});
 
 	// add each input field as defined in the options
-	for (let i = options.inputFields.length - 1; i <= 0; i--) {
+	for (let i = options.inputFields.length - 1; i >= 0; i--) {
 		let el = document.createElement('input');
 		el.type = (options.inputFields[i].password ? 'password' : 'text');
 		el.placeholder = options.inputFields[i].placeholder;
