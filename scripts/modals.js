@@ -218,7 +218,7 @@ function textModal(
 		el.classList.add('textModalInput');
 		el.name = 'textModalInput';
 		el.addEventListener('keypress', e => {if (e.key === 'Enter') ok();});
-		document.getElementById('textModalControls').appendChild(el);
+		document.getElementById('textModalControls').prependChild(el);
 	}
 
 	function ok() {
