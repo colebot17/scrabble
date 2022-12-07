@@ -227,7 +227,7 @@ function textModal(
 		$('#textModal').modalClose();
 		const inputs = document.querySelectorAll('.textModalInput');
 		const inputStrings = [];
-		for (let i in inputs) {
+		for (let i = 0; i < inputs.length; i++) {
 			inputStrings.push(inputs[i].value);
 		}
 		options.complete(inputStrings);
