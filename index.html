@@ -104,7 +104,7 @@
 			</div>
 
 			<div id="signInCell" class="gridCell">
-				<form class="hidden accountForm" id="signInForm" onsubmit="signIn();return false;">
+				<form class="hidden accountForm" id="signInForm" data-action="signIn" onsubmit="signIn();return false;">
 					<h3>Sign In</h3>
 					<label for="signInUsername">Username:</label>
 					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="signInUsername"><br>
@@ -115,7 +115,7 @@
 					<button type="submit">Sign In</button>
 					<a onclick="setSignInMode('createAccount')" class="hoverLine">Create Account</a>
 				</form>
-				<form class="hidden accountForm" id="createAccountForm" onsubmit="createAccount();return false;">
+				<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="createAccount();return false;">
 					<h3>Create Account</h3>
 					<label for="createAccountUsername">Username:</label>
 					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="createAccountUsername"><br>
@@ -129,7 +129,7 @@
 					<button type="submit">Create Account</button>
 					<a onclick="setSignInMode('resetPassword')" class="hoverLine">Forgot Password?</a>
 				</form>
-				<form class="hidden accountForm" id="resetPasswordForm" onsubmit="resetPassword();return false;">
+				<form class="hidden accountForm" id="resetPasswordForm" data-action="resetPassword" onsubmit="resetPassword();return false;">
 					<h3>Reset Password</h3>
 					<span class="finePrint">You will need to request a password reset key from <a class="hoverLine hoverDarken" href="mailto:colebot17@gmail.com?subject=Password%20Reset%20Key">colebot17@gmail.com</a>.</span><br><br>
 

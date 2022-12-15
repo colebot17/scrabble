@@ -11,8 +11,16 @@ $(function() {
 var account = {};
 
 function setSignInMode(mode) {
+	let $signInCell = $('#signInCell');
+	$signInCell.off();
 	$('#signInCell .accountForm').addClass('hidden');
-	$('#signInCell #' + mode + 'Form').removeClass('hidden');
+	const action = $('#signInCell #' + mode + 'Form').removeClass('hidden').attr('data-action');
+	$signInCell.on('keypress', (e) => {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			window[action]();
+		}
+	});
 }
 
 function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) {
