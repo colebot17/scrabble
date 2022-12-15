@@ -260,10 +260,6 @@ body.scrabble {
 	flex-grow: 1;
 }
 
-#accountNameLabel {
-	margin: 5px;
-}
-
 /* letter exchange modal */
 #letterExchangeModal {
 	display: flex;
