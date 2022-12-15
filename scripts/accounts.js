@@ -15,7 +15,7 @@ function setSignInMode(mode) {
 	$signInCell.off();
 	$('#signInCell .accountForm').addClass('hidden');
 	const action = $('#signInCell #' + mode + 'Form').removeClass('hidden').attr('data-action');
-	$signInCell.on('keypress', (e) => {
+	$signInCell.on('keydown', (e) => {
 		if (e.key === 'Enter') {
 			e.preventDefault();
 			window[action]();
