@@ -132,7 +132,7 @@ function resetPassword(
 		return;
 	}
 	$.ajax(
-		location + '/php/resetPassword.php',
+		windowLocation + '/php/resetPassword.php',
 		{
 			data: {
 				user,
