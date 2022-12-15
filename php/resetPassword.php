@@ -7,7 +7,7 @@ $password = "96819822";
 $dbname = "scrabble";
 
 // get data from GET/POST
-$user = $_POST['user'];
+$name = $_POST['name'];
 $key = $_POST['key'];
 $newPwd = $_POST['newPwd'];
 
@@ -18,11 +18,11 @@ if ($conn->connect_error) {
 }
 
 // check password key
-$sql = "SELECT pwd FROM accounts WHERE id='$user'";
+$sql = "SELECT pwd FROM accounts WHERE name='$name'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 if ($key !== $row['pwd']) {
-	exit('{"errorLevel":1,"message":"Incorrect Key!","debug":"' . $key . ', ' . $row['pwd'] . '"}');
+	exit('{"errorLevel":1,"message":"Incorrect Key!"}');
 }
 
 // validate password

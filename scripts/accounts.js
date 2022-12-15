@@ -122,7 +122,7 @@ function signOut() {
 }
 
 function resetPassword(
-	user = document.getElementById('resetPasswordUsername').value,
+	name = document.getElementById('resetPasswordUsername').value,
 	key = document.getElementById('resetPasswordKey').value,
 	newPwd = document.getElementById('resetPasswordPwd').value,
 	newPwdConfirm = document.getElementById('resetPasswordConfirmPwd').value
@@ -135,7 +135,7 @@ function resetPassword(
 		windowLocation + '/php/resetPassword.php',
 		{
 			data: {
-				user,
+				name,
 				key,
 				newPwd
 			},
