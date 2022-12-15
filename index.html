@@ -114,9 +114,9 @@
 
 					<button type="submit" onclick="signIn()">Sign In</button><br>
 					
-					<a onclick="setSignInMode('createAccount')" class="hoverLine">Create Account</a>
+					<a onclick="setSignInMode('createAccount')" class="hoverLine small">Create Account</a>
 					–
-					<a onclick="setSignInMode('resetPassword')" class="hoverLine">Forgot Password?</a>
+					<a onclick="setSignInMode('resetPassword')" class="hoverLine small">Forgot Password?</a>
 				</form>
 				
 				<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="return false;">
@@ -131,11 +131,11 @@
 					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="createAccountConfirmPwd"><br>
 
 					<button type="submit" onclick="createAccount()">Create Account</button>
-					<a onclick="setSignInMode('signIn')" class="hoverLine">Sign In</a>
+					<a onclick="setSignInMode('signIn')" class="hoverLine Small">Sign In</a>
 				</form>
 
 				<form class="hidden accountForm" id="changePasswordForm" data-action="changePassword" onsubmit="return false;">
-					<h3>Reset Password</h3>
+					<h3>Change Password</h3>
 
 					<label for="changePasswordPwd">Current Password:</label>
 					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="changePasswordPwd"><br>
@@ -146,7 +146,7 @@
 					<label for="changePasswordConfirmNewPwd">Confirm New Password:</label>
 					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmNewPwd" id="changePasswordConfirmNewPwd"><br>
 
-					<a onclick="setSignInMode('signOut')" class="hoverLine">Back</a>
+					<a onclick="setSignInMode('signOut')" class="hoverLine small">Back</a>
 					<button type="submit" onclick="changePassword()">Change Password</button><br>
 
 					<span class="finePrint">Email <a class="underline hoverDarken" href="mailto:colebot17@gmail.com?subject=Reset%20my%20Password">colebot17@gmail.com</a> if you don't know your current password.</span>
@@ -169,12 +169,12 @@
 					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="resetPasswordConfirmPwd"><br>
 
 					<button type="submit" onclick="resetPassword()">Reset Password</button>
-					<a onclick="setSignInMode('signIn')" class="hoverLine">Sign In</a>
+					<a onclick="setSignInMode('signIn')" class="hoverLine small">Sign In</a>
 				</form>
 				<div class="hidden accountForm flex col mobileRow" id="signOutForm">
-					<label id="accountNameLabel"></label>
+					<span id="accountNameLabel"></span>
 					<button onclick="signOut()">Sign Out</button>
-					<a onclick="setSignInMode('changePassword')" class="hoverLine">Change Password</a>
+					<a onclick="setSignInMode('changePassword')" class="hoverLine small">Change Password</a>
 				</div>
 			</div>
 
