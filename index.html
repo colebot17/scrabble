@@ -104,7 +104,7 @@
 			</div>
 
 			<div id="signInCell" class="gridCell">
-				<form class="hidden accountForm" id="signInForm" onsubmit="signIn();return false;">
+				<form class="hidden accountForm" id="signInForm" data-action="signIn" onsubmit="return false;">
 					<h3>Sign In</h3>
 					<label for="signInUsername">Username:</label>
 					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="signInUsername"><br>
@@ -112,10 +112,13 @@
 					<label for="signInPwd">Password:</label>
 					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="signInPwd"><br>
 
-					<button type="submit">Sign In</button>
+					<button type="submit" onclick="signIn()">Sign In</button><br>
+					
 					<a onclick="setSignInMode('createAccount')" class="hoverLine">Create Account</a>
+					–
+					<a onclick="setSignInMode('resetPassword')" class="hoverLine">Forgot Password?</a>
 				</form>
-				<form class="hidden accountForm" id="createAccountForm" onsubmit="createAccount();return false;">
+				<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="return false;">
 					<h3>Create Account</h3>
 					<label for="createAccountUsername">Username:</label>
 					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="createAccountUsername"><br>
@@ -126,7 +129,26 @@
 					<label for="createAccountConfirmPwd">Confirm Password:</label>
 					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="createAccountConfirmPwd"><br>
 
-					<button type="submit">Create Account</button>
+					<button type="submit" onclick="createAccount()">Create Account</button>
+					<a onclick="setSignInMode('signIn')" class="hoverLine">Sign In</a>
+				</form>
+				<form class="hidden accountForm" id="resetPasswordForm" data-action="resetPassword" onsubmit="return false;">
+					<h3>Reset Password</h3>
+					<span class="finePrint">You will need to request a password reset key from <a class="hoverLine hoverDarken" href="mailto:colebot17@gmail.com?subject=Password%20Reset%20Key">colebot17@gmail.com</a>.</span><br><br>
+
+					<label for="resetPasswordUsername">Username:</label>
+					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="resetPasswordUsername"><br>
+
+					<label for="resetPasswordKey">Password Reset Key:</label>
+					<input class="accountFormInput" autocomplete="off" type="text" id="resetPasswordKey" name="resetPasswordKey"><br>
+
+					<label for="resetPasswordPwd">New Password:</label>
+					<input class="accountFormInput" autocomplete="new-password" type="password" name="pwd" id="resetPasswordPwd"><br>
+
+					<label for="resetPasswordConfirmPwd">Confirm New Password:</label>
+					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="resetPasswordConfirmPwd"><br>
+
+					<button type="submit" onclick="resetPassword()">Reset Password</button>
 					<a onclick="setSignInMode('signIn')" class="hoverLine">Sign In</a>
 				</form>
 				<div class="hidden accountForm flex col mobileRow" id="signOutForm">
@@ -210,7 +232,7 @@
 		</div>
 	</center>
 	<script type="text/javascript" defer>
-		const windowLocation = window.location.href.slice(0, window.location.href.lastIndexOf("/"));
+		windowLocation = window.location.href.slice(0, window.location.href.lastIndexOf("/"));
 	</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- import jQuery -->
 	<script type="text/javascript" src="scripts/util.js" defer></script>
