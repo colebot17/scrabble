@@ -11,35 +11,16 @@ $(function() {
 var account = {};
 
 function setSignInMode(mode) {
-	var $signInCell = $('#signInCell');
-	$signInCell.off('keyup');
-	if (mode === 'signIn') { // sign in
-		$('#signInCell .accountForm').addClass('hidden');
-		$('#signInCell #signInForm').removeClass('hidden');
-		$signInCell.on('keyup', function(e) {
-			if (e.key === 'Enter') {
-				signIn();
-			}
-		});
-	} else if (mode === 'createAccount') { // create account
-		$('#signInCell .accountForm').addClass('hidden');
-		$('#signInCell #createAccountForm').removeClass('hidden');
-		$signInCell.on('keyup', function(e) {
-			if (e.key === 'Enter') {
-				createAccount();
-			}
-		});
-	} else if (mode === 'signOut') { // sign out
-		$('#signInCell .accountForm').addClass('hidden');
-		$('#signInCell #signOutForm').removeClass('hidden');
-		$signInCell.on('keyup', function(e) {
-			if (e.key === 'Enter') {
-				signOut();
-			}
-		});
-	} else {
-		console.warn(`Failed to set sign-in mode: Mode ${mode} not recognized.`);
-	}
+	let $signInCell = $('#signInCell');
+	$signInCell.off();
+	$('#signInCell .accountForm').addClass('hidden');
+	const action = $('#signInCell #' + mode + 'Form').removeClass('hidden').attr('data-action');
+	$signInCell.on('keydown', (e) => {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			window[action]();
+		}
+	});
 }
 
 function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) {
@@ -138,4 +119,39 @@ function signOut() {
 		localStorage.removeItem('pwd');
 		location.reload();	
 	});
+}
+
+function resetPassword(
+	name = document.getElementById('resetPasswordUsername').value,
+	key = document.getElementById('resetPasswordKey').value,
+	newPwd = document.getElementById('resetPasswordPwd').value,
+	newPwdConfirm = document.getElementById('resetPasswordConfirmPwd').value
+) {
+	if (newPwd !== newPwdConfirm) {
+		textModal('Error', 'The passwords must match');
+		return;
+	}
+	$.ajax(
+		windowLocation + '/php/resetPassword.php',
+		{
+			data: {
+				name,
+				key,
+				newPwd
+			},
+			method: "POST",
+			success: function(data) {
+				const jsonData = JSON.parse(data);
+				if (jsonData.errorLevel > 0) {
+					textModal("Error", jsonData.message);
+					return;
+				}
+				signIn(name, newPwd);
+				textModal('Reset Password', 'Password Reset. Your key is now invalid.');
+			},
+			error: function() {
+				console.error("Could not reset password.");
+			}
+		}
+	);
 }
