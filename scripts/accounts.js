@@ -11,35 +11,8 @@ $(function() {
 var account = {};
 
 function setSignInMode(mode) {
-	var $signInCell = $('#signInCell');
-	$signInCell.off('keyup');
-	if (mode === 'signIn') { // sign in
-		$('#signInCell .accountForm').addClass('hidden');
-		$('#signInCell #signInForm').removeClass('hidden');
-		$signInCell.on('keyup', function(e) {
-			if (e.key === 'Enter') {
-				signIn();
-			}
-		});
-	} else if (mode === 'createAccount') { // create account
-		$('#signInCell .accountForm').addClass('hidden');
-		$('#signInCell #createAccountForm').removeClass('hidden');
-		$signInCell.on('keyup', function(e) {
-			if (e.key === 'Enter') {
-				createAccount();
-			}
-		});
-	} else if (mode === 'signOut') { // sign out
-		$('#signInCell .accountForm').addClass('hidden');
-		$('#signInCell #signOutForm').removeClass('hidden');
-		$signInCell.on('keyup', function(e) {
-			if (e.key === 'Enter') {
-				signOut();
-			}
-		});
-	} else {
-		console.warn(`Failed to set sign-in mode: Mode ${mode} not recognized.`);
-	}
+	$('#signInCell .accountForm').addClass('hidden');
+	$('#signInCell #' + mode + 'Form').removeClass('hidden');
 }
 
 function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) {
