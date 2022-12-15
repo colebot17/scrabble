@@ -317,47 +317,54 @@ function renameGame(gameId) {
 	textModal(
 		"Rename Game",
 		"The new name will be seen by all players in this game. Leave blank to clear name.",
-		true,
-		function(name) {
-			// rename the game
-			$.ajax(
-				location + '/php/renameGame.php',
-				{
-					data: {
-						user: account.id,
-						pwd: account.pwd,
-						game: gameId,
-						name
-					},
-					method: "POST",
-					success: function(data) {
-						let jsonData = JSON.parse(data);
-						if (jsonData.errorLevel) {
-							textModal("Error", jsonData.message);
-						} else {
-							nameFields.text(jsonData.data || '#' + gameId);
-							idLines.remove();
-							if (jsonData.data) { // if the game has a name
-								// show the id line
-								titleBoxes.append(`
-									<div class="gameIdLine">
-										#${gameId}
-									</div>
-								`);
+		{
+			cancelable: true,
+			complete: (obj) => {
+				// rename the game
+				const name = obj[0];
+				$.ajax(
+					location + '/php/renameGame.php',
+					{
+						data: {
+							user: account.id,
+							pwd: account.pwd,
+							game: gameId,
+							name
+						},
+						method: "POST",
+						success: function(data) {
+							let jsonData = JSON.parse(data);
+							if (jsonData.errorLevel) {
+								textModal("Error", jsonData.message);
+							} else {
+								nameFields.text(jsonData.data || '#' + gameId);
+								idLines.remove();
+								if (jsonData.data) { // if the game has a name
+									// show the id line
+									titleBoxes.append(`
+										<div class="gameIdLine">
+											#${gameId}
+										</div>
+									`);
+								}
+								if (game.id === gameId) { // if the game is currently loaded
+									game.name = jsonData.data || ""; // set the name in game obj
+								}
 							}
-							if (game.id === gameId) { // if the game is currently loaded
-								game.name = jsonData.data || ""; // set the name in game obj
-							}
+						},
+						error: function() {
+							console.error("Could not rename game.");
 						}
-					},
-					error: function() {
-						console.error("Could not rename game.");
 					}
+				);
+			},
+			inputFields: [
+				{
+					password: false,
+					placeholder: "New Name..."
 				}
-			);
-		},
-		true,
-		"New Name..."
+			]
+		}
 	);
 }
 
@@ -607,36 +614,39 @@ function endGame() {
 		: "Do you really want to cast your vote to end the game?"
 	);
 	// get user confirmation for delete
-	textModal("End Game", confirmMsg, true, function() {
-		// send the request
-		$.ajax(
-			location + (voted ? '/php/unEndGame.php' : '/php/endGame.php'),
-			{
-				data: {
-					user: account.id,
-					pwd: account.pwd,
-					game: game.id
-				},
-				method: "POST",
-				success: function(data) {
-					// var tab = window.open("about:blank", "_blank");
-					// tab.document.write(data);
-					jsonData = JSON.parse(data);
-					textModal("End Game", jsonData.message);
-					if (jsonData.errorLevel === 0) {
-						if (voted) {
-							loadGame(game.id);
-						} else {
-							loadGamesList();
-							showTab('account');
+	textModal("End Game", confirmMsg, {
+		cancelable: true,
+		complete: () => {
+			// send the request
+			$.ajax(
+				location + (voted ? '/php/unEndGame.php' : '/php/endGame.php'),
+				{
+					data: {
+						user: account.id,
+						pwd: account.pwd,
+						game: game.id
+					},
+					method: "POST",
+					success: function(data) {
+						// var tab = window.open("about:blank", "_blank");
+						// tab.document.write(data);
+						jsonData = JSON.parse(data);
+						textModal("End Game", jsonData.message);
+						if (jsonData.errorLevel === 0) {
+							if (voted) {
+								loadGame(game.id);
+							} else {
+								loadGamesList();
+								showTab('account');
+							}
 						}
+					},
+					error: function() {
+						console.error("Could not end the game.");
 					}
-				},
-				error: function() {
-					console.error("Could not end the game.");
 				}
-			}
-		);
+			);
+		}
 	});	
 }
 
@@ -979,36 +989,38 @@ function skipTurn() {
 	textModal(
 		`Skip Turn${letterExchanges.length > 0 ? ` and Exchange Letter${letterExchanges.length === 1 ? `` : `s`}` : ``}`,
 		`Are you sure you want to ${letterExchanges.length > 0 ? `exchange ${letterExchanges.length >= 7 ? `all ` : ``}${letterExchanges.length} letter${letterExchanges.length === 1 ? `` : `s`} and ` : ``}forfeit your turn?`,
-		true,
-		function() {
-			$.ajax(
-				location + '/php/skipTurn.php',
-				{
-					data: {
-						user: account.id,
-						pwd: account.pwd,
-						game: game.id,
-						redrawLetters: JSON.stringify(letterExchangeIndicies)
-					},
-					method: "POST",
-					success: function(data) {
-						// var tab = window.open('about:blank', '_blank');
-						// tab.document.write(data);
-						let jsonData = JSON.parse(data);
-						if (jsonData.errorLevel <= 0) {
-							textModal((jsonData.status === 1 ? "Game Over!" : "Turn Skipped"), jsonData.message);
-							$('#letterExchangeModal').modalClose();
-							loadGame(game.id);
-							loadGamesList();
-						} else {
-							textModal("Error", jsonData.message);
+		{
+			cancelable: true,
+			complete: () => {
+				$.ajax(
+					location + '/php/skipTurn.php',
+					{
+						data: {
+							user: account.id,
+							pwd: account.pwd,
+							game: game.id,
+							redrawLetters: JSON.stringify(letterExchangeIndicies)
+						},
+						method: "POST",
+						success: function(data) {
+							// var tab = window.open('about:blank', '_blank');
+							// tab.document.write(data);
+							let jsonData = JSON.parse(data);
+							if (jsonData.errorLevel <= 0) {
+								textModal((jsonData.status === 1 ? "Game Over!" : "Turn Skipped"), jsonData.message);
+								$('#letterExchangeModal').modalClose();
+								loadGame(game.id);
+								loadGamesList();
+							} else {
+								textModal("Error", jsonData.message);
+							}
+						},
+						error: function() {
+							console.error("Could not skip turn.");
 						}
-					},
-					error: function() {
-						console.error("Could not skip turn.");
 					}
-				}
-			);
+				);
+			}
 		}
 	);
 }

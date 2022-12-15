@@ -113,11 +113,55 @@ function createAccount(name = $('#createAccountUsername').val(), pwd = $('#creat
 	);
 }
 
+function changePassword(
+	pwd = document.getElementById('changePasswordPwd').value,
+	newPwd = document.getElementById('changePasswordNewPwd').value,
+	newPwdConfirm = document.getElementById('changePasswordConfirmNewPwd').value
+) {
+	if (newPwd !== newPwdConfirm) {
+		textModal('Error', 'The passwords must match');
+		return;
+	}
+
+	textModal('Change Password', 'Are you sure you want to change your password? You will be signed out of all devices, and you will lose the ability to sign in using your old password.', {
+		cancelable: true,
+		complete: () => {
+			$.ajax(
+				location + '/php/changePassword.php',
+				{
+					data: {
+						user: account.id,
+						pwd,
+						newPwd
+					},
+					method: "POST",
+					success: function(data) {
+						const jsonData = JSON.parse(data);
+						if (jsonData.errorLevel > 0) {
+							textModal("Error", jsonData.message);
+							return;
+						}
+						signIn(account.name, newPwd);
+						textModal("Change Password", "Password changed.");
+					},
+					error: function() {
+						textModal("Unknown Error", "Could not change password.")
+						console.error("Could not change password.");
+					}
+				}
+			);
+		}
+	});
+}
+
 function signOut() {
-	textModal("Sign Out", "Are you sure you want to sign out?", true, function() {
-		localStorage.removeItem('name');
-		localStorage.removeItem('pwd');
-		location.reload();	
+	textModal("Sign Out", "Are you sure you want to sign out?", {
+		cancelable: true,
+		complete: () => {
+			localStorage.removeItem('name');
+			localStorage.removeItem('pwd');
+			location.reload();
+		}
 	});
 }
 

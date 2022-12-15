@@ -177,47 +177,67 @@ jQuery.fn.extend({
 function textModal(
 	title = "Alert!",
 	text = "Something just happened, but we don't know what.",
-	cancelable = false,
-	complete = function() {},
-	allowInput = false,
-	inputPlaceholder = ""
+	userOptions
 ) {
-	// set the content of the modal
-	$('#textModalTitle').html(title);
-	$('#textModalText').html(text).css('order', (!title ? '-1' : ''));
-
-	if (cancelable) {
-		$('#textModalCancelButton').removeClass('hidden');
-	} else {
-		$('#textModalCancelButton').addClass('hidden');
+	// define default values
+	const defaultOptions = {
+		cancelable: false,
+		complete: () => {},
+		inputFields: [
+			/*{
+				placeholder: "",
+				password: false
+			}*/ // this would only be provided if an input field should appear
+		]
 	}
 
-	const textModalInput = $('#textModalInput')
+	// combine user options with default options
+	const options = {...defaultOptions, ...userOptions};
 
-	if (allowInput) {
-		textModalInput.removeClass('hidden').attr('placeholder', inputPlaceholder).val("");
+	// set the content of the modal
+	document.getElementById('textModalTitle').innerHTML = title;
+	const contentEl = document.getElementById('textModalText');
+	contentEl.innerHTML = text;
+	contentEl.style.order = (!title ? '-1' : '');
+
+	if (options.cancelable) {
+		document.getElementById('textModalCancelButton').classList.remove('hidden');
 	} else {
-		textModalInput.addClass('hidden');
+		document.getElementById('textModalCancelButton').classList.add('hidden');
+	}
+
+	// remove any existing input fields
+	const textModalInputs = document.querySelectorAll('.textModalInput');
+	for (let i = 0; i < textModalInputs.length; i++) {
+		textModalInputs[i].remove();
+	}
+
+	// add each input field as defined in the options
+	for (let i = options.inputFields.length - 1; i >= 0; i--) {
+		let el = document.createElement('input');
+		el.type = (options.inputFields[i].password ? 'password' : 'text');
+		el.placeholder = options.inputFields[i].placeholder;
+		el.classList.add('textModalInput');
+		el.name = 'textModalInput';
+		el.addEventListener('keypress', e => {if (e.key === 'Enter') ok();});
+		document.getElementById('textModalControls').prepend(el);
 	}
 
 	function ok() {
 		$('#textModal').modalClose();
-		if (allowInput) {
-			const inputVal = textModalInput.val();
-			complete(inputVal);
-		} else {
-			complete();
+		const inputs = document.querySelectorAll('.textModalInput');
+		const inputStrings = [];
+		for (let i = 0; i < inputs.length; i++) {
+			inputStrings.push(inputs[i].value);
 		}
+		options.complete(inputStrings);
 	}
 
 	$('#textModalOkButton').off().on('click', ok);
-	textModalInput.off().on('keypress', function(e) {if (e.key === 'Enter') {ok();}});
 
 	// show the modal
 	$('#textModal').modalOpen();
 
 	// focus the input field if necessary
-	if (allowInput) {
-		textModalInput[0].focus();
-	}
+	if (options.inputFields.length) document.getElementsByClassName('textModalInput')[0].focus();
 }
