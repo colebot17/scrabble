@@ -127,7 +127,19 @@
 					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="createAccountConfirmPwd"><br>
 
 					<button type="submit">Create Account</button>
-					<a onclick="setSignInMode('signIn')" class="hoverLine">Sign In</a>
+					<a onclick="setSignInMode('resetPassword')" class="hoverLine">Forgot Password?</a>
+				</form>
+				<form class="hidden accountForm" id="resetPasswordForm" onsubmit="resetPassword();return false;">
+					<h3>Reset Password</h3>
+					<span class="finePrint">You will need to request a password reset key from <a href="mailto:colebot17@gmail.com?subject=Password%20Reset%20Key">colebot17@gmail.com</a>.</span><br>
+
+					<label for="resetPasswordUsername">Username:</label>
+					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="resetPasswordUsername"><br>
+
+					<label for="resetPasswordKey">Password Reset Key:</label>
+					<input class="accountFormInput" autocomplete="off" type="text" id="resetPasswordKey" name="resetPasswordKey"><br>
+
+					<button type="submit">Reset Password</button>
 				</form>
 				<form class="hidden accountForm" id="signOutForm" onsubmit="signOut();return false;">
 					<label id="accountNameLabel"></label>

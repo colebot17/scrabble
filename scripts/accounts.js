@@ -139,3 +139,37 @@ function signOut() {
 		location.reload();	
 	});
 }
+
+function resetPassword(
+	user = document.getElementById('resetPasswordUsername').value,
+	key = document.getElementById('resetPasswordKey').value,
+	newPwd = document.getElementById('resetPasswordNewPassword').value,
+	newPwdConfirm = document.getElementById('resetPasswordNewPasswordConfirm').value
+) {
+	if (newPwd !== newPwdConfirm) {
+		textModal('Error', 'The passwords must match');
+		return;
+	}
+	$.ajax(
+		location + '/php/resetPassword.php',
+		{
+			data: {
+				user,
+				key,
+				newPwd
+			},
+			method: "POST",
+			success: function(data) {
+				const jsonData = JSON.parse(data);
+				if (jsonData.errorLevel > 0) {
+					textModal("Error", jsonData.message);
+					return;
+				}
+				signIn(user, newPwd);
+			},
+			error: function() {
+				console.error("Could not create account.");
+			}
+		}
+	);
+}
