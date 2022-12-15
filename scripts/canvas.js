@@ -325,6 +325,7 @@ function drawLetterBank() {
 function updateTile(tile) {
 	// figure out animiation stuff
 	var tileSize = (tile.size === undefined ? 1 : tile.size);
+	var borderRadius = tileSize * 5;
 
 	var tileWidth = squareWidth * tileSize;
 	var fontSize = Math.max(tileWidth - 10, 0);
@@ -334,7 +335,7 @@ function updateTile(tile) {
 
 	// draw the tile
 	canvas.ctx.fillStyle = (tile.locked ? "#a47449" : "#a47449cc"); // tile brown
-	roundRect(canvas.ctx, pixelX, pixelY, tileWidth, tileWidth, 5);
+	roundRect(canvas.ctx, pixelX, pixelY, tileWidth, tileWidth, borderRadius);
 
 	// draw the letter on the tile
 	if (tile.blank) {
