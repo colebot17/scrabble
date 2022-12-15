@@ -145,11 +145,11 @@
 					<label for="resetPasswordConfirmPwd">Confirm New Password:</label>
 					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="resetPasswordConfirmPwd"><br>
 
-					<button type="submit">Reset Password</button>
+					<button type="submit" onclick="resetPassword()">Reset Password</button>
 				</form>
 				<form class="hidden accountForm" id="signOutForm" onsubmit="signOut();return false;">
 					<label id="accountNameLabel"></label>
-					<button type="submit" onclick="resetPassword();">Sign Out</button>
+					<button type="submit">Sign Out</button>
 				</form>
 			</div>
 
