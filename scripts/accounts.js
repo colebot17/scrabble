@@ -113,31 +113,25 @@ function createAccount(name = $('#createAccountUsername').val(), pwd = $('#creat
 	);
 }
 
-function changePassword() {
-	textModal("Change Password", "You will be signed out of all other devices.", {
+function changePassword(
+	pwd = document.getElementById('changePasswordPwd').value,
+	newPwd = document.getElementById('changePasswordNewPwd').value,
+	newPwdConfirm = document.getElementById('changePasswordConfirmNewPwd').value
+) {
+	if (newPwd !== newPwdConfirm) {
+		textModal('Error', 'The passwords must match');
+		return;
+	}
+
+	textModal('Change Password', 'Are you sure you want to change your password? You will be signed out of all devices, and you will lose the ability to sign in using your old password.', {
 		cancelable: true,
-		inputFields: [
-			{
-				password: true,
-				placeholder: "Current Password..."
-			},
-			{
-				password: true,
-				placeholder: "New Password..."
-			},
-			{
-				password: true,
-				placeholder: "Confirm New Password..."
-			}
-		],
-		passwordField: true,
-		complete: (newPwd) => {
+		complete: () => {
 			$.ajax(
 				location + '/php/changePassword.php',
 				{
 					data: {
 						user: account.id,
-						pwd: account.pwd,
+						pwd,
 						newPwd
 					},
 					method: "POST",
@@ -157,7 +151,7 @@ function changePassword() {
 				}
 			);
 		}
-	})
+	});
 }
 
 function signOut() {

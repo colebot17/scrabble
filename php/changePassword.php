@@ -22,7 +22,7 @@ $sql = "SELECT pwd FROM accounts WHERE id='$user'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 if (!password_verify($pwd, $row['pwd'])) {
-	exit('{"errorLevel":2,"message":"Invalid Session!"}');
+	exit('{"errorLevel":1,"message":"Incorrect current password."}');
 }
 
 // validate password
