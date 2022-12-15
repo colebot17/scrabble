@@ -146,7 +146,7 @@ function resetPassword(
 					textModal("Error", jsonData.message);
 					return;
 				}
-				signIn(user, newPwd);
+				signIn(name, newPwd);
 			},
 			error: function() {
 				console.error("Could not reset password.");
