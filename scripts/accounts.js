@@ -149,7 +149,7 @@ function resetPassword(
 				signIn(user, newPwd);
 			},
 			error: function() {
-				console.error("Could not create account.");
+				console.error("Could not reset password.");
 			}
 		}
 	);
