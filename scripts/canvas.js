@@ -344,7 +344,7 @@ function updateTile(tile) {
 	}
 	canvas.ctx.font = fontSize + "px Eurostile";
 	canvas.ctx.textAlign = "center";
-	canvas.ctx.fillText(tile.letter, pixelX + (tileWidth / 2), pixelY + fontSize);
+	canvas.ctx.fillText(tile.letter || "", pixelX + (tileWidth / 2), pixelY + fontSize);
 
 	// draw the points on the tile if size allows
 	if (squareWidth >= 35 && !tile.blank) {
@@ -355,6 +355,7 @@ function updateTile(tile) {
 	}
 }
 
+// draw loop
 // this function is run to draw each frame
 function updateDisplay() {
 	clearCanvas();
