@@ -22,7 +22,7 @@ $sql = "SELECT pwd FROM accounts WHERE id='$user'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 if ($key !== $row['pwd']) {
-	exit('{"errorLevel":1,"message":"Incorrect Key!","debug":"' + $key + '", "' + $row['pwd'] + '"}');
+	exit('{"errorLevel":1,"message":"Incorrect Key!","debug":"' . $key . '", "' . $row['pwd'] . '"}');
 }
 
 // validate password
