@@ -147,6 +147,7 @@ function resetPassword(
 					return;
 				}
 				signIn(name, newPwd);
+				textModal('Reset Password', 'Password Reset. Your key is now invalid.');
 			},
 			error: function() {
 				console.error("Could not reset password.");
