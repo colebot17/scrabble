@@ -148,8 +148,8 @@
 					<label for="resetPasswordConfirmPwd">Confirm New Password:</label>
 					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="resetPasswordConfirmPwd"><br>
 
-					<a onclick="setSignInMode('signIn')" class="hoverLine">&lt; Nevermind</a>
 					<button type="submit" onclick="resetPassword()">Reset Password</button>
+					<a onclick="setSignInMode('signIn')" class="hoverLine">Sign In</a>
 				</form>
 				<form class="hidden accountForm" id="signOutForm" onsubmit="signOut();return false;">
 					<label id="accountNameLabel"></label>
