@@ -112,7 +112,7 @@
 					<label for="signInPwd">Password:</label>
 					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="signInPwd"><br>
 
-					<button type="submit">Sign In</button>
+					<button type="submit" onclick="signIn()">Sign In</button>
 					<a onclick="setSignInMode('createAccount')" class="hoverLine">Create Account</a>
 				</form>
 				<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="return false;">
@@ -126,7 +126,7 @@
 					<label for="createAccountConfirmPwd">Confirm Password:</label>
 					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="createAccountConfirmPwd"><br>
 
-					<button type="submit">Create Account</button>
+					<button type="submit" onclick="createAccount()">Create Account</button>
 					<a onclick="setSignInMode('resetPassword')" class="hoverLine">Forgot Password?</a>
 				</form>
 				<form class="hidden accountForm" id="resetPasswordForm" data-action="resetPassword" onsubmit="return false;">
@@ -149,7 +149,7 @@
 				</form>
 				<form class="hidden accountForm" id="signOutForm" onsubmit="signOut();return false;">
 					<label id="accountNameLabel"></label>
-					<button type="submit">Sign Out</button>
+					<button type="submit" onclick="resetPassword();">Sign Out</button>
 				</form>
 			</div>
 
