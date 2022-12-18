@@ -622,10 +622,10 @@ function endGame() {
 		confirmMsg = "Do you really want to cast your vote to end the game? " + (
 			votesLeft <= 1
 			? "You are the final player to do so, so the game will end."
-			: votesLeft - 1 + " more player" + (votesLeft - 1 === 1 ? "" : "s") + " will have to vote before the game ends."
+			: votesLeft - 1 + " more player" + (votesLeft - 1 === 1 ? "" : "s") + " would have to vote before the game ends."
 		);
 	}
-	
+
 	// get user confirmation for delete
 	textModal("End Game", confirmMsg, {
 		cancelable: true,
