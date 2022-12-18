@@ -782,6 +782,7 @@ function gameInit() {
 		let isWinner = game.players[i].points == winningPoints;
 		let isTurn = turnIndex == i;
 		let isCurrentPlayer = game.players[i].id == account.id;
+		let endGameVoted = game.players[i].endGameRequest === 'true';
 
 		// add the player to the list
 		gameInfo += /* html */ `
@@ -794,6 +795,7 @@ function gameInit() {
 						${game.players[i].points}
 					</b>
 				${(turnIndex == i ? `</u>` : ``)}
+				${(endGameVoted ? `<span class='material-icons winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
 			</div>
 		`;
 	}
