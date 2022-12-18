@@ -538,7 +538,7 @@ body.scrabble {
 	#scrabbleGrid #chatBackButton {
 		display: none;
 	}
-	#scrabbleGrid:not([data-tab=chat]) #chatCloseButton {
+	#scrabbleGrid[data-tab=game] #chatCloseButton {
 		display: none;
 	}
 
@@ -551,6 +551,9 @@ body.scrabble {
 		display: flex;
 		grid-column: 1;
 		grid-row: 1;
+	}
+	#scrabbleGrid[data-tab=chat] #chatExpandButton {
+		display: none;
 	}
 
 	/* signed in account tab */
