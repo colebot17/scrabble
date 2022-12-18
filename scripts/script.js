@@ -732,8 +732,7 @@ function gameInit() {
 	let gameInfoBox = $('#gameControlsCell .gameInfoBox');
 	
 	// start with the game name
-	// TODO: add functionality for the info icon
-	let gameInfo = `
+	let gameInfo = /* html */ `
 		<div class="gameTitleBox">
 			<div class="gameTitleLine">
 				<button class="iconButton" onclick="getInfo()">
@@ -772,7 +771,7 @@ function gameInit() {
 		let isCurrentPlayer = game.players[i].id == account.id;
 
 		// add the player to the list
-		gameInfo += `
+		gameInfo += /* html */ `
 			<div class="gamePlayerListPlayer">
 				${(isWinner ? `<span class='material-icons winnerIcon'>emoji_events</span>`: ``)}
 				${(isTurn ? `<u>` : ``)}
@@ -790,12 +789,14 @@ function gameInit() {
 	gameInfoBox.html(gameInfo);
 
 	// show the correct text for end game button
-	const endGameButton = $('#endGameButton').empty();
-	if (game.players[currentPlayerIndex].endGameRequest === 'true') {
-		endGameButton.text('Don\'t End');
-	} else {
-		endGameButton.text('End Game');
+	const endGameButton = document.getElementById('endGameButton');
+	let endGameCount = 0;
+	let endGameButtonText;
+	for (let i in game.players) {
+		endGameCount += (game.players[i].endGameRequest === 'true') & 1;
 	}
+	endGameButton.textContent = game.players[i].endGameRequest === 'true' ? 'Don\'t End' : 'End Game';
+	endGameButton.title = endGameCount + ' vote' + (endGameCount === 1 ? '' : 's') + ' so far';
 
 	setCanvasSize();
 
