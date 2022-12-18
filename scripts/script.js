@@ -167,7 +167,7 @@ function updateGamesList() {
 				let turnUser = parseInt(gamesArray[i].players[turnIndex].id);
 				let playerListHTML = ``;
 				for (var j in gamesArray[i].players) { // add each player to the list of players in the card
-					let endGameVoted = gamesArray[i].players.endGameRequest;
+					let endGameVoted = gamesArray[i].players.endGameRequest === 'true';
 					playerListHTML += /* html */ `
 						<div class='listGamePlayerListPlayer'>
 							${(winners.includes(j) ? `<span class='material-icons winnerIcon'>emoji_events</span>` : ``)}
