@@ -795,7 +795,7 @@ function gameInit() {
 	for (let i in game.players) {
 		endGameCount += (game.players[i].endGameRequest === 'true') & 1;
 	}
-	endGameButton.textContent = game.players[i].endGameRequest === 'true' ? 'Don\'t End' : 'End Game';
+	endGameButton.textContent = game.players[currentPlayerIndex].endGameRequest === 'true' ? 'Don\'t End' : 'End Game';
 	endGameButton.title = endGameCount + ' vote' + (endGameCount === 1 ? '' : 's') + ' so far';
 
 	setCanvasSize();
