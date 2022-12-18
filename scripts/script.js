@@ -813,7 +813,7 @@ function gameInit() {
 	}
 	const votesLeft = game.players.length - endGameCount;
 	endGameButton.textContent = game.players[currentPlayerIndex].endGameRequest === 'true' ? 'Don\'t End' : 'End Game';
-	if (inactive) {
+	if (game.inactive) {
 		endGameButton.disabled = true;
 	} else {
 		endGameButton.title = votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end';
