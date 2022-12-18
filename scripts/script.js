@@ -764,7 +764,7 @@ function gameInit() {
 					</span>
 				</button>
 			</div>
-			${game.name ? `
+			${game.name ? /* html */ `
 				<div class="gameIdLine">
 					#${game.id}
 				</div>
@@ -797,7 +797,7 @@ function gameInit() {
 						${game.players[i].points}
 					</b>
 				${(turnIndex == i ? `</u>` : ``)}
-				${(endGameVoted ? `<span class='material-icons winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
+				${(endGameVoted && !game.inactive ? `<span class='material-icons winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
 			</div>
 		`;
 	}
