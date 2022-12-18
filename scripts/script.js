@@ -791,12 +791,12 @@ function gameInit() {
 	// show the correct text for end game button
 	const endGameButton = document.getElementById('endGameButton');
 	let endGameCount = 0;
-	let endGameButtonText;
 	for (let i in game.players) {
 		endGameCount += (game.players[i].endGameRequest === 'true') & 1;
 	}
+	const votesLeft = game.players.length - endGameCount;
 	endGameButton.textContent = game.players[currentPlayerIndex].endGameRequest === 'true' ? 'Don\'t End' : 'End Game';
-	endGameButton.title = endGameCount + ' vote' + (endGameCount === 1 ? '' : 's') + ' so far';
+	endGameButton.title = votesLeft + ' vote' + (votesLeft === 1 ? '' : 's') + ' to end';
 
 	setCanvasSize();
 
