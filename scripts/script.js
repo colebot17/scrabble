@@ -608,11 +608,23 @@ function endGame() {
 	}
 
 	let voted = game.players[game.currentPlayerIndex].endGameRequest === 'true';
-	let confirmMsg = (
-		voted
-		? "Do you really want to revoke your vote to end the game?"
-		: "Do you really want to cast your vote to end the game?"
-	);
+	
+	let endGameCount = 0;
+	for (let i in game.players) {
+		endGameCount += (game.players[i].endGameRequest === 'true') & 1;
+	}
+	const votesLeft = game.players.length - endGameCount;
+
+	let confirmMsg;
+	if (voted) {
+		confirmMsg = "Do you really want to revoke your vote to end the game?";
+	} else {
+		confirmMsg = "Do you really want to cast your vote to end the game? " + (
+			votesLeft <= 1
+			? "You are the final player to do so, so the game will end."
+			: votesLeft + " more player" + (votesLeft === 1 ? "" : "s") + " will have to vote before the game ends."
+		);
+	}
 	// get user confirmation for delete
 	textModal("End Game", confirmMsg, {
 		cancelable: true,
