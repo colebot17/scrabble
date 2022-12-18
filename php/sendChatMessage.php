@@ -31,6 +31,7 @@ $message = trim($message);
 
 // formulate the new chat message
 $fullMessage = Array(
+    "type" => "user",
     "sender" => $user,
     "message" => $message,
     "timestamp" => date(DATE_ISO8601)
