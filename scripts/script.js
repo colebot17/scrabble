@@ -167,7 +167,7 @@ function updateGamesList() {
 				let turnUser = parseInt(gamesArray[i].players[turnIndex].id);
 				let playerListHTML = ``;
 				for (var j in gamesArray[i].players) { // add each player to the list of players in the card
-					playerListHTML += `
+					playerListHTML += /* html */ `
 						<div class='listGamePlayerListPlayer'>
 							${(winners.includes(j) ? `<span class='material-icons winnerIcon'>emoji_events</span>` : ``)}
 							<b>
@@ -177,13 +177,14 @@ function updateGamesList() {
 							</b>
 							: 
 							${gamesArray[i].players[j].points}
+							${(endGameVoted ? `<span class='material-icons winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
 						</div>
 					`;
 				}
 				playerListHTML = playerListHTML.substring(0, playerListHTML.length - 2); // remove the extra comma at the end
 
 				// add the game card to the list
-				$activeGamesList.append(`
+				$activeGamesList.append( /* html */`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
 							<div class="gameTitleLine">
@@ -196,7 +197,7 @@ function updateGamesList() {
 									</span>
 								</button>
 							</div>
-							${gamesArray[i].name ?  `
+							${gamesArray[i].name ? /* html */ `
 								<div class="gameIdLine">
 									#${gamesArray[i].id}
 								</div>
@@ -214,7 +215,7 @@ function updateGamesList() {
 				noInactiveGames = false;
 				let playerListHTML = ``;
 				for (var j in gamesArray[i].players) { // add each player to the list of players in the card
-					playerListHTML += `
+					playerListHTML += /* html */ `
 						<div class="listGamePlayerListPlayer">
 							${(winners.includes(j) ? "<span class='material-icons winnerIcon'>emoji_events</span>" : "")}
 							<b>
@@ -227,7 +228,7 @@ function updateGamesList() {
 				playerListHTML = playerListHTML.substring(0, playerListHTML.length - 2); // remove the extra comma at the end
 
 				// add the game card to the list
-				$inactiveGamesList.append(`
+				$inactiveGamesList.append(/* html */ `
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
 							<div class="gameTitleLine">
@@ -261,7 +262,7 @@ function updateGamesList() {
 		}
 
 		// add the new game card to the end of the active games tab
-		$activeGamesList.append(`
+		$activeGamesList.append(/* html */ `
 			<button class="newGameCard" onclick="newGame();">
 				<span class="material-icons largeIcon">
 					add
