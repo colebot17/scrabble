@@ -813,12 +813,9 @@ function gameInit() {
 	}
 	const votesLeft = game.players.length - endGameCount;
 	endGameButton.textContent = game.players[currentPlayerIndex].endGameRequest === 'true' ? 'Don\'t End' : 'End Game';
-	if (game.inactive) {
-		endGameButton.disabled = true;
-		endGameButton.style.cursor = 'not-allowed';
-	} else {
-		endGameButton.title = votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end';
-	}
+	endGameButton.disabled = game.inactive;
+	endGameButton.style.cursor = (game.inactive ? 'not-allowed' : 'pointer');
+	endGameButton.title = (game.inactive ? '' : votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end');
 
 	setCanvasSize();
 
