@@ -815,7 +815,7 @@ function gameInit() {
 	endGameButton.textContent = game.players[currentPlayerIndex].endGameRequest === 'true' ? 'Don\'t End' : 'End Game';
 	endGameButton.disabled = game.inactive;
 	endGameButton.style.cursor = (game.inactive ? 'not-allowed' : 'pointer');
-	endGameButton.title = (game.inactive ? '' : votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end');
+	endGameButton.title = (game.inactive ? 'The game is already over' : votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end');
 
 	setCanvasSize();
 
