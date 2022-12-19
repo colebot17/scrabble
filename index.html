@@ -73,7 +73,7 @@
 
 			<div id="chatCell" class="gridCell">
 				<div class="chatTitleLine">
-					<button class="iconButton backButton" onclick="showTab('game')">
+					<button id="chatBackButton" class="iconButton backButton" onclick="showTab('game')">
 						<span class="material-icons">
 							chevron_left
 						</span>
@@ -81,6 +81,16 @@
 					<h3 class="chatTitle">
 						Game Chat
 					</h3>
+					<button id="chatExpandButton" class="iconButton" onclick="showTab('chat')">
+						<span class="material-icons smallIcon">
+							open_in_full
+						</span>
+					</button>
+					<button id="chatCloseButton" class="iconButton" onclick="showTab('game')">
+						<span class="material-icons smallIcon">
+							close_fullscreen
+						</span>
+					</button>
 				</div>
 				<div class="chatContent">
 					<div class="chatMessage">
