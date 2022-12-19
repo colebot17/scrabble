@@ -53,7 +53,7 @@ for ($i = 0; $i < count($games); $i++) {
 		"lastMove" => $row['lastMove']
 	);
 
-	// for each player, add their name, id, and points into the new game array
+	// for each player, add their name, id, points, and request status into the new game array
 	for ($j = 0; $j < count($players); $j++) {
 		$playerId = $players[$j]['id'];
 
@@ -61,7 +61,12 @@ for ($i = 0; $i < count($games); $i++) {
 		$query = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($query);
 
-		$newGames[$games[$i]]["players"][$j] = Array("id" => $playerId, "name" => $row['name'], "points" => $players[$j]["points"]);
+		$newGames[$games[$i]]["players"][$j] = Array(
+			"id" => $playerId,
+			"name" => $row['name'],
+			"points" => $players[$j]["points"],
+			"endGameRequest" => $players[$j]["endGameRequest"]
+		);
 	}
 
 	// make sure the players array is not associative

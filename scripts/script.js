@@ -167,7 +167,8 @@ function updateGamesList() {
 				let turnUser = parseInt(gamesArray[i].players[turnIndex].id);
 				let playerListHTML = ``;
 				for (var j in gamesArray[i].players) { // add each player to the list of players in the card
-					playerListHTML += `
+					let endGameVoted = gamesArray[i].players[j].endGameRequest === 'true';
+					playerListHTML += /* html */ `
 						<div class='listGamePlayerListPlayer'>
 							${(winners.includes(j) ? `<span class='material-icons winnerIcon'>emoji_events</span>` : ``)}
 							<b>
@@ -177,13 +178,14 @@ function updateGamesList() {
 							</b>
 							: 
 							${gamesArray[i].players[j].points}
+							${(endGameVoted ? `<span class='material-icons winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
 						</div>
 					`;
 				}
 				playerListHTML = playerListHTML.substring(0, playerListHTML.length - 2); // remove the extra comma at the end
 
 				// add the game card to the list
-				$activeGamesList.append(`
+				$activeGamesList.append( /* html */`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
 							<div class="gameTitleLine">
@@ -196,7 +198,7 @@ function updateGamesList() {
 									</span>
 								</button>
 							</div>
-							${gamesArray[i].name ?  `
+							${gamesArray[i].name ? /* html */ `
 								<div class="gameIdLine">
 									#${gamesArray[i].id}
 								</div>
@@ -214,7 +216,7 @@ function updateGamesList() {
 				noInactiveGames = false;
 				let playerListHTML = ``;
 				for (var j in gamesArray[i].players) { // add each player to the list of players in the card
-					playerListHTML += `
+					playerListHTML += /* html */ `
 						<div class="listGamePlayerListPlayer">
 							${(winners.includes(j) ? "<span class='material-icons winnerIcon'>emoji_events</span>" : "")}
 							<b>
@@ -227,7 +229,7 @@ function updateGamesList() {
 				playerListHTML = playerListHTML.substring(0, playerListHTML.length - 2); // remove the extra comma at the end
 
 				// add the game card to the list
-				$inactiveGamesList.append(`
+				$inactiveGamesList.append(/* html */ `
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
 							<div class="gameTitleLine">
@@ -261,7 +263,7 @@ function updateGamesList() {
 		}
 
 		// add the new game card to the end of the active games tab
-		$activeGamesList.append(`
+		$activeGamesList.append(/* html */ `
 			<button class="newGameCard" onclick="newGame();">
 				<span class="material-icons largeIcon">
 					add
@@ -608,11 +610,24 @@ function endGame() {
 	}
 
 	let voted = game.players[game.currentPlayerIndex].endGameRequest === 'true';
-	let confirmMsg = (
-		voted
-		? "Do you really want to revoke your vote to end the game?"
-		: "Do you really want to cast your vote to end the game?"
-	);
+	
+	let endGameCount = 0;
+	for (let i in game.players) {
+		endGameCount += (game.players[i].endGameRequest === 'true') & 1;
+	}
+	const votesLeft = game.players.length - endGameCount;
+
+	let confirmMsg;
+	if (voted) {
+		confirmMsg = "Do you really want to revoke your vote to end the game?";
+	} else {
+		confirmMsg = "Do you really want to cast your vote to end the game? " + (
+			votesLeft <= 1
+			? "You are the final player to do so, so the game will end."
+			: votesLeft - 1 + " more player" + (votesLeft - 1 === 1 ? "" : "s") + " would still have to vote in order for the game to end."
+		);
+	}
+
 	// get user confirmation for delete
 	textModal("End Game", confirmMsg, {
 		cancelable: true,
@@ -732,8 +747,7 @@ function gameInit() {
 	let gameInfoBox = $('#gameControlsCell .gameInfoBox');
 	
 	// start with the game name
-	// TODO: add functionality for the info icon
-	let gameInfo = `
+	let gameInfo = /* html */ `
 		<div class="gameTitleBox">
 			<div class="gameTitleLine">
 				<button class="iconButton" onclick="getInfo()">
@@ -750,7 +764,7 @@ function gameInit() {
 					</span>
 				</button>
 			</div>
-			${game.name ? `
+			${game.name ? /* html */ `
 				<div class="gameIdLine">
 					#${game.id}
 				</div>
@@ -770,9 +784,10 @@ function gameInit() {
 		let isWinner = game.players[i].points == winningPoints;
 		let isTurn = turnIndex == i;
 		let isCurrentPlayer = game.players[i].id == account.id;
+		let endGameVoted = game.players[i].endGameRequest === 'true';
 
 		// add the player to the list
-		gameInfo += `
+		gameInfo += /* html */ `
 			<div class="gamePlayerListPlayer">
 				${(isWinner ? `<span class='material-icons winnerIcon'>emoji_events</span>`: ``)}
 				${(isTurn ? `<u>` : ``)}
@@ -782,6 +797,7 @@ function gameInit() {
 						${game.players[i].points}
 					</b>
 				${(turnIndex == i ? `</u>` : ``)}
+				${(endGameVoted && !game.inactive ? `<span class='material-icons winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
 			</div>
 		`;
 	}
@@ -790,12 +806,16 @@ function gameInit() {
 	gameInfoBox.html(gameInfo);
 
 	// show the correct text for end game button
-	const endGameButton = $('#endGameButton').empty();
-	if (game.players[currentPlayerIndex].endGameRequest === 'true') {
-		endGameButton.text('Don\'t End');
-	} else {
-		endGameButton.text('End Game');
+	const endGameButton = document.getElementById('endGameButton');
+	let endGameCount = 0;
+	for (let i in game.players) {
+		endGameCount += (game.players[i].endGameRequest === 'true') & 1;
 	}
+	const votesLeft = game.players.length - endGameCount;
+	endGameButton.textContent = game.players[currentPlayerIndex].endGameRequest === 'true' ? 'Don\'t End' : 'End Game';
+	endGameButton.disabled = game.inactive;
+	endGameButton.style.cursor = (game.inactive ? 'not-allowed' : 'pointer');
+	endGameButton.title = (game.inactive ? 'The game is already over' : votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end');
 
 	setCanvasSize();
 
