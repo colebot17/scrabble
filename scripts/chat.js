@@ -128,10 +128,34 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
                 chatInit();
             },
             error: function() {
-                console.error("Could not send message.");
+                console.error("There was an error sending your message. Check your connection and try again.");
             }
         }
     )
+}
+
+function readChat() {
+	$.ajax(
+		location + '/php/readChat.php',
+		{
+			data: {
+				user: account.id,
+				pwd: account.pwd,
+				game: game.id
+			},
+			method: "POST",
+			success: function(data) {
+				const jsonData = JSON.parse(data);
+				if (jsonData.errorLevel > 0) {
+					textModal("Error", jsonData.message);
+					return;
+				}
+			},
+			error: function() {
+				textModal("Error", "There was an error marking the chat as read. Check your connection and try again.");
+			}
+		}
+	)
 }
 
 function deleteChatMessage(id) {
@@ -160,6 +184,9 @@ function deleteChatMessage(id) {
 				game.chat[id].message = jsonData.data;
 
 				chatInit(); // refresh chat window
+			},
+			error: function() {
+				textModal("Error", "There was an error deleting your message. Check your connection and try again.");
 			}
 		}
 	);
