@@ -69,7 +69,7 @@ function chatInit() {
 			</div>
 		`;
 
-		if (game.players.find(el => el.id == account.id).chatRead === i && i !== chat.length - 1) {
+		if (game.players.find(el => el.id === account.id).chatRead == i && i !== chat.length - 1) {
 			chatContent += /* html */ `
 				<div class="unreadMessageMarker">New</div>
 			`;
