@@ -52,7 +52,7 @@ function chatInit() {
 					<div class="chatMessageSender flexGrow">
 						${chat[i].senderName}
 					</div>
-					${isCurrentUser ? `
+					${isCurrentUser ? /* html */ `
 						<button class="iconButton deleteMessageButton" onclick="deleteChatMessage(${i})">
 							<span class="material-icons tinyIcon finePrint hoverDarken">
 								${deleted ? `restore_from_trash` : `delete`}
@@ -68,6 +68,12 @@ function chatInit() {
 				</div>
 			</div>
 		`;
+
+		if (game.players.find(el => el.id === account.id).chatRead === i) {
+			chatContent += /* html */ `
+				<div class="unreadMessageMarker">New</div>
+			`;
+		}
 	}
 
 	chatContentBox.html(chatContent || "This chat is empty.").css('align-items', (chatContent ? '' : 'center'));
