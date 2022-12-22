@@ -169,8 +169,10 @@ function readChat() {
 					return;
 				}
 
-				// update the local read marker
-				game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
+				// update the local read marker after a short timeout
+				setTimeout(() => {
+					game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
+				}, 1000);
 
 				// remove the notification badge
 				document.getElementById('showChatButton').classList.remove('badge');
