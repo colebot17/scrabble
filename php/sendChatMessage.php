@@ -59,8 +59,26 @@ $query = mysqli_query($conn, $sql);
 if ($query) {
     echo '{"errorLevel":0,"message":"Message Sent."}';
 } else {
-    echo '{"errorLevel":1,"message":"Could not send message."}';
+    exit('{"errorLevel":1,"message":"Could not send message."}');
 }
+
+// get the player list
+$sql = "SELECT players FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$players = json_decode($row['players'], true);
+
+// update the read marker of the user sending the message
+for ($i=0; $i < count($players); $i++) { 
+    if ($players[$i]['id'] == $user) {
+        $players[$i]['chatRead'] = count($chat) - 1;
+    }
+}
+
+// reupload the player list
+$playersJson = json_encode($players);
+$sql = "UPDATE games SET players='$plyaersJson' WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
 
 mysqli_close($conn);
 

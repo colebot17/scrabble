@@ -124,6 +124,9 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
                 // push the message to the local chat
                 game.chat.push(newMessage);
 
+				// update the local read marker
+				game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
+
                 // refresh the chat window
                 chatInit();
             },
@@ -150,6 +153,8 @@ function readChat() {
 					textModal("Error", jsonData.message);
 					return;
 				}
+
+				// update the local read marker
 				game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
 			},
 			error: function() {
