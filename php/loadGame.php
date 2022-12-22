@@ -40,6 +40,7 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 		if ($players[$i]['id'] != $user) {
 			unset($players[$i]['letterBank']);
 			unset($players[$i]['bankOrder']);
+			unset($players[$i]['chatRead']);
 		}
 	}
 
