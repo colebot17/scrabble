@@ -449,6 +449,20 @@ body.scrabble {
 	flex-shrink: 1;
 }
 
+.unreadMessageMarker {
+	color: red;
+	width: 100%;
+	text-align: center;
+	border-bottom: 1px solid red;
+	line-height: 0.1em;
+	margin: 5px 0 10px;
+}
+.unreadMessageMarker span {
+	background-color: var(--background-1);
+	padding: 0 5px;
+	border-radius: 5px;
+}
+
 /* animations */
 .spin {
 	animation-name: spin;
