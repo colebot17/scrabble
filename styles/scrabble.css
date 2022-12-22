@@ -458,7 +458,7 @@ body.scrabble {
 	margin: 5px 0 10px;
 }
 .unreadMessageMarker span {
-	background-color: inherit;
+	background-color: var(--background-1);
 	padding: 0 5px;
 }
 
