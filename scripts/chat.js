@@ -150,6 +150,7 @@ function readChat() {
 					textModal("Error", jsonData.message);
 					return;
 				}
+				game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
 			},
 			error: function() {
 				textModal("Error", "There was an error marking the chat as read. Check your connection and try again.");
