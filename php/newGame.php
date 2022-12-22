@@ -43,7 +43,8 @@ if (password_verify($userPwd, $row['pwd'])) {
 			"bankOrder" => array(0, 1, 2, 3, 4, 5, 6),
 			"points" => 0,
 			"name" => $playerListNames[$playerList[$i]],
-			"endGameRequest" => "false"
+			"endGameRequest" => "false",
+			"chatRead" => 0
 		));
 	}
 
