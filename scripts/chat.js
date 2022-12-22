@@ -84,8 +84,8 @@ function chatInit() {
 
     chatContentBox[0].scrollTop = chatContentBox[0].scrollHeight;
 
-	document.getElementById('chatCell').removeEventListener('focus', readChat);
-	document.getElementById('chatCell').addEventListener('focus', readChat);
+	document.getElementById('chatCell').removeEventListener('click', readChat);
+	document.getElementById('chatCell').addEventListener('click', readChat);
 }
 
 function sendChatMessage(message = document.getElementById('chatInput').value) {
