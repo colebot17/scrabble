@@ -453,6 +453,13 @@ body.scrabble {
 	color: red;
 	width: 100%;
 	text-align: center;
+	border-bottom: 1px solid red;
+	line-height: 0.1em;
+	margin: 5px 0 10px;
+}
+.unreadMessageMarker span {
+	background-color: inherit;
+	padding: 0 5px;
 }
 
 /* animations */
