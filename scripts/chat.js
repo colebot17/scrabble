@@ -7,6 +7,8 @@ function chatInit() {
 
 	const currentDate = new Date();
 
+	let hasUnread = false;
+
 	for (let i in chat) {
 		// determine what to show in the timestamp field
 		const messageDate = new Date(chat[i].timestamp);
@@ -47,7 +49,7 @@ function chatInit() {
 		const isCurrentUser = chat[i].sender == account.id;
 
 		chatContent += /* html */ `
-			<div class="chatMessage">
+			<div class="chatMessage" data-messageid="${i}">
 				<div class="chatMessageLine1">
 					<div class="chatMessageSender flexGrow">
 						${chat[i].senderName}
@@ -73,6 +75,7 @@ function chatInit() {
 			chatContent += /* html */ `
 				<div class="unreadMessageMarker"><span>New</span></div>
 			`;
+			hasUnread = true;
 		}
 	}
 
@@ -80,6 +83,9 @@ function chatInit() {
     chatInput.val('');
 
     chatContentBox[0].scrollTop = chatContentBox[0].scrollHeight;
+
+	document.getElementById('chatCell').removeEventListener('focus', readChat);
+	document.getElementById('chatCell').addEventListener('focus', readChat);
 }
 
 function sendChatMessage(message = document.getElementById('chatInput').value) {
@@ -156,6 +162,9 @@ function readChat() {
 
 				// update the local read marker
 				game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
+
+				// reload the chat window
+				chatInit();
 			},
 			error: function() {
 				textModal("Error", "There was an error marking the chat as read. Check your connection and try again.");
