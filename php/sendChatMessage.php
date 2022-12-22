@@ -77,7 +77,7 @@ for ($i=0; $i < count($players); $i++) {
 
 // reupload the player list
 $playersJson = json_encode($players);
-$sql = "UPDATE games SET players='$plyaersJson' WHERE id='$gameId'";
+$sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 
 mysqli_close($conn);
