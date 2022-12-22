@@ -144,6 +144,9 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 }
 
 function readChat() {
+	// don't spam the server with requests if the read marker is already up to date
+	if (game.players.find(el => el.id == account.id).chatRead == game.chat.length - 1) return;
+
 	$.ajax(
 		location + '/php/readChat.php',
 		{
