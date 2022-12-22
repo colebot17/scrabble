@@ -84,8 +84,14 @@ function chatInit() {
 
     chatContentBox[0].scrollTop = chatContentBox[0].scrollHeight;
 
-	document.getElementById('chatCell').removeEventListener('click', readChat);
-	document.getElementById('chatCell').addEventListener('click', readChat);
+	if (hasUnread) {
+		// read chat on click
+		document.getElementById('chatCell').removeEventListener('click', readChat);
+		document.getElementById('chatCell').addEventListener('click', readChat);
+
+		// show the notification badge
+		document.getElementById('showChatButton').classList.add('badge');
+	}
 }
 
 function sendChatMessage(message = document.getElementById('chatInput').value) {
@@ -163,8 +169,13 @@ function readChat() {
 					return;
 				}
 
-				// update the local read marker
-				game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
+				// update the local read marker after a short timeout
+				setTimeout(() => {
+					game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
+				}, 1000);
+
+				// remove the notification badge
+				document.getElementById('showChatButton').classList.remove('badge');
 
 				// reload the chat window
 				chatInit();
