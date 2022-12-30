@@ -523,6 +523,7 @@ $row = mysqli_fetch_assoc($query);
 $wordsList = json_decode($row["words"], true);
 
 // add words to the list
+$newWordsList = Array();
 for ($i=0; $i < count($wordsKeys); $i++) { 
 	if ($words[$wordsKeys[$i]]["placeholder"]) {
 		continue;
@@ -539,11 +540,12 @@ for ($i=0; $i < count($wordsKeys); $i++) {
 			"end" => $words[$wordsKeys[$i]]["end"]
 		)
 	);
-	array_push($wordsList, $newWord);
+	array_push($newWordsList, $newWord);
 }
- 
+$allWords = array_merge($wordsList, $newWordsList);
+
 // encode as JSON
-$wordsJson = json_encode($wordsList);
+$wordsJson = json_encode($allWords);
 
 // upload the new game data
 $letterBagJson = json_encode($letterBag);
@@ -554,11 +556,15 @@ $sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn=
 $query = mysqli_query($conn, $sql);
 
 // return the response
-if ($inactive) {
-	echo '{"errorLevel":0,"status":1,"message":"Your move has been recorded and the game has ended. Good job!"}';
-} else {
-	echo '{"errorLevel":0,"status":0,"message":"Your move has been recorded."}';
-}
+$response = Array(
+	"errorLevel" => 0,
+	"status" => ($inactive ? 0 : 1),
+	"message" => "Your move has been recorded" . ($inactive ? " and the game has ended. Good job!" : "."),
+	"data" => Array(
+		"newWords" => $newWordsList
+	)
+);
+echo json_encode($response);
 
 // close the connection
 $conn->close();
