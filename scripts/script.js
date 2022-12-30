@@ -877,7 +877,7 @@ function makeMove() {
 					gameControlsCell.appendChild(newPointsOverlay);
 					newPointsOverlay.style.position = 'fixed';
 					const overlayBound = newPointsOverlay.getBoundingClientRect();
-					newPointsOverlay.style.top = (bound.y - overlayBound.height) + 'px';
+					newPointsOverlay.style.top = (bound.y - overlayBound.height + 4) + 'px';
 					newPointsOverlay.style.left = (bound.x + (bound.width / 2) - (overlayBound.width / 2)) + 'px';
 				} else {
 					textModal("Error", jsonData.message);
