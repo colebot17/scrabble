@@ -879,7 +879,7 @@ function makeMove() {
 					const overlayBound = newPointsOverlay.getBoundingClientRect();
 					newPointsOverlay.style.top = (bound.y - overlayBound.height + 4) + 'px';
 					newPointsOverlay.style.left = (bound.x + (bound.width / 2) - (overlayBound.width / 2)) + 'px';
-					newPointsOverlay.classList.add('fadeupout');
+					newPointsOverlay.classList.add('fadeUpOut');
 
 					// setTimeout(() => {
 					// 	newPointsOverlay.remove();
