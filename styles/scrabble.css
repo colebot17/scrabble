@@ -492,7 +492,7 @@ body.scrabble {
 }
 @keyframes fadeupout {
 	0% {
-		scale: 1;
+		scale: 1.5;
 		opacity: 1;
 		translate: 0 0;
 	}
@@ -500,7 +500,7 @@ body.scrabble {
 		opacity: 0.9;
 	}
 	100% {
-		scale: 1.25;
+		scale: 1.75;
 		opacity: 0;
 		translate: 0 -10px;
 	}
