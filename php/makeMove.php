@@ -524,6 +524,9 @@ $wordsList = json_decode($row["words"], true);
 
 // add words to the list
 for ($i=0; $i < count($wordsKeys); $i++) { 
+	if ($words[$wordsKeys[$i]]["placeholder"]) {
+		continue;
+	}
 	$newWord = Array(
 		"word" => $wordsKeys[$i],
 		"player" => (int)$user,
