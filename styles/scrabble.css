@@ -475,6 +475,11 @@ body.scrabble {
 	animation-timing-function: cubic-bezier(0, 0, 0, 1);
 	animation-duration: 0.75s;
 }
+.fadeUpOut {
+	animation-name: fadeupout;
+	animation-duration: 1s;
+	animation-timing-function: cubic-bezier(0, 0, 0, 1);
+}
 @keyframes expand {
 	0% {
 		transform: scale(1.0);
@@ -483,6 +488,21 @@ body.scrabble {
 	100% {
 		transform: scale(25.0);
 		opacity: 0;
+	}
+}
+@keyframes fadeupout {
+	0% {
+		scale: 1;
+		opacity: 1;
+		translate: 0 0;
+	}
+	50% {
+		opacity: 0.9;
+	}
+	100% {
+		scale: 1.25;
+		opacity: 0;
+		translate: 0 -10px;
 	}
 }
 
