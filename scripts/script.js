@@ -877,6 +877,7 @@ function makeMove() {
 					gameControlsCell.appendChild(newPointsOverlay);
 					newPointsOverlay.style.position = 'fixed';
 					const overlayBound = newPointsOverlay.getBoundingClientRect();
+					console.log(bound, overlayBound);
 					newPointsOverlay.style.top = (bound.y - overlayBound.height + 4) + 'px';
 					newPointsOverlay.style.left = (bound.x + (bound.width / 2) - (overlayBound.width / 2)) + 'px';
 
