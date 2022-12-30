@@ -558,7 +558,7 @@ $query = mysqli_query($conn, $sql);
 // return the response
 $response = Array(
 	"errorLevel" => 0,
-	"status" => ($inactive ? 0 : 1),
+	"status" => ($inactive ? 1 : 0),
 	"message" => "Your move has been recorded" . ($inactive ? " and the game has ended. Good job!" : "."),
 	"data" => Array(
 		"newWords" => $newWordsList
