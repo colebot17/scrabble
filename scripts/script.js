@@ -871,15 +871,15 @@ function makeMove() {
 					const pointsNumber = document.querySelector('.gamePlayerListPlayer.currentPlayer .points');
 					const bound = pointsNumber.getBoundingClientRect();
 					const newPointsOverlay = document.createElement('div');
-					newPointsOverlay.classList.add('overlay', 'fadeUpOut');
+					newPointsOverlay.classList.add('overlay');
 					newPointsOverlay.style.color = 'green';
 					newPointsOverlay.textContent = '+' + newPoints;
 					gameControlsCell.appendChild(newPointsOverlay);
 					newPointsOverlay.style.position = 'fixed';
 					const overlayBound = newPointsOverlay.getBoundingClientRect();
-					console.log(bound, overlayBound);
 					newPointsOverlay.style.top = (bound.y - overlayBound.height + 4) + 'px';
 					newPointsOverlay.style.left = (bound.x + (bound.width / 2) - (overlayBound.width / 2)) + 'px';
+					newPointsOverlay.classList.add('fadeupout');
 
 					// setTimeout(() => {
 					// 	newPointsOverlay.remove();
