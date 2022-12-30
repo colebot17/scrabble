@@ -280,8 +280,8 @@ if ($onAxisX) {
 						"points" => $xCrossAxisWordPoints * $xCrossAxisWordMultiplier,
 						"axis" => "y",
 						"cross" => true,
-						"start" => Array($sweepX, $sweepYMin),
-						"end" => Array($sweepY, $sweepYMax)
+						"start" => Array((int)$sweepX, (int)$sweepYMin),
+						"end" => Array((int)$sweepY, (int)$sweepYMax)
 					);
 				}
 			}
@@ -305,8 +305,8 @@ if ($onAxisX) {
 			"points" => $xAxisWordPoints * $xAxisWordMultiplier,
 			"axis" => "x",
 			"cross" => false,
-			"start" => Array($sweepXMin, $y),
-			"end" => Array($sweepXMax, $y)
+			"start" => Array((int)$sweepXMin, (int)$y),
+			"end" => Array((int)$sweepXMax, (int)$y)
 		);
 	}
 }
@@ -387,8 +387,8 @@ if ($onAxisY) {
 						"points" => $yCrossAxisWordPoints * $yCrossAxisWordMultiplier,
 						"axis" => "x",
 						"cross" => true,
-						"start" => Array($sweepXMin, $sweepY),
-						"end" => Array($sweepXMax, $sweepY)
+						"start" => Array((int)$sweepXMin, (int)$sweepY),
+						"end" => Array((int)$sweepXMax, (int)$sweepY)
 					);
 				}
 			}
@@ -412,8 +412,8 @@ if ($onAxisY) {
 			"points" => $yAxisWordPoints * $yAxisWordMultiplier,
 			"axis" => "y",
 			"cross" => false,
-			"start" => Array($x, $sweepYMin),
-			"end" => Array($x, $sweepYMax)
+			"start" => Array((int)$x, (int)$sweepYMin),
+			"end" => Array((int)$x, (int)$sweepYMax)
 		);
 	}
 }
