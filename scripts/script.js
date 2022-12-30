@@ -881,9 +881,9 @@ function makeMove() {
 					newPointsOverlay.style.left = (bound.x + (bound.width / 2) - (overlayBound.width / 2)) + 'px';
 					newPointsOverlay.classList.add('fadeUpOut');
 
-					// setTimeout(() => {
-					// 	newPointsOverlay.remove();
-					// }, 3000);
+					setTimeout(() => {
+						newPointsOverlay.remove();
+					}, 3000);
 				} else {
 					textModal("Error", jsonData.message);
 				}
