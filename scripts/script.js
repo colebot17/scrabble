@@ -868,7 +868,7 @@ function makeMove() {
 					}
 
 					const gameControlsCell = document.getElementById('gameControlsCell');
-					const pointsNumber = document.querySelector('.gameListPlayerListPlayer.currentPlayer .points');
+					const pointsNumber = document.querySelector('.gamePlayerListPlayer.currentPlayer .points');
 					const bound = pointsNumber.getBoundingClientRect();
 					const newPointsOverlay = document.createElement('div');
 					newPointsOverlay.classList.add('overlay', 'fadeUpOut');
