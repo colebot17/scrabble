@@ -497,7 +497,7 @@ body.scrabble {
 		translate: 0 0;
 	}
 	50% {
-		opacity: 0.9;
+		opacity: 1;
 	}
 	100% {
 		scale: 1.75;
