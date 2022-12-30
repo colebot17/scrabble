@@ -875,10 +875,10 @@ function makeMove() {
 					newPointsOverlay.style.color = 'green';
 					newPointsOverlay.textContent = '+' + newPoints;
 					gameControlsCell.appendChild(newPointsOverlay);
-					const overlayBound = newPointsOverlay.getBoundingClientRect();
 					newPointsOverlay.style.position = 'fixed';
+					const overlayBound = newPointsOverlay.getBoundingClientRect();
 					newPointsOverlay.style.top = (bound.y - overlayBound.height - 5) + 'px';
-					newPointsOverlay.style.left = bound.x + (bound.width / 2) - (overlayBound.width / 2) + 'px';
+					newPointsOverlay.style.left = (bound.x + (bound.width / 2) - (overlayBound.width / 2)) + 'px';
 				} else {
 					textModal("Error", jsonData.message);
 				}
