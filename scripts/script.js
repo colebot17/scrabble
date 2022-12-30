@@ -788,13 +788,15 @@ function gameInit() {
 
 		// add the player to the list
 		gameInfo += /* html */ `
-			<div class="gamePlayerListPlayer">
+			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}">
 				${(isWinner ? `<span class='material-icons winnerIcon'>emoji_events</span>`: ``)}
 				${(isTurn ? `<u>` : ``)}
 					${(isCurrentPlayer ? `<b>` : ``)}
 						${game.players[i].name}: 
 					${(!isCurrentPlayer ? `<b>` : ``)}
-						${game.players[i].points}
+						<span class="points">
+							${game.players[i].points}
+						</span>
 					</b>
 				${(turnIndex == i ? `</u>` : ``)}
 				${(endGameVoted && !game.inactive ? `<span class='material-icons winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
@@ -859,6 +861,23 @@ function makeMove() {
 					if (jsonData.status === 1) {
 						textModal("Game Over!", jsonData.message);
 					}
+
+					let newPoints = 0;
+					for (let i = 0; i < jsonData.data.newWords.length; i++) {
+						newPoints += jsonData.data.newWords[i].points;
+					}
+
+					const gameControlsCell = document.getElementById('gameControlsCell');
+					const pointsNumber = document.querySelector('.gameListPlayerListPlayer.currentPlayer .points');
+					const bound = pointsNumber.getBoundingClientRect();
+					const newPointsOverlay = document.createElement('div');
+					newPointsOverlay.classList.add('overlay', 'fadeUpOut');
+					newPointsOverlay.style.color = 'green';
+					newPointsOverlay.textContent = '+' + newPoints;
+					newPointsOverlay.style.position = 'fixed';
+					newPointsOverlay.style.top = (bound.y - 5) + 'px';
+					newPointsOverlay.style.left = bound.x + 'px';
+					gameControlsCell.appendChild(newPointsOverlay);
 				} else {
 					textModal("Error", jsonData.message);
 				}
