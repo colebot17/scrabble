@@ -873,6 +873,10 @@ function makeMove() {
 					const newPointsOverlay = document.createElement('div');
 					newPointsOverlay.classList.add('overlay');
 					newPointsOverlay.style.color = 'green';
+					newPointsOverlay.style.background = 'var(--background-2)';
+					newPointsOverlay.style.boxShadow = '0 0 10px #00000060';
+					newPointsOverlay.style.padding = '2px 5px';
+					newPointsOverlay.style.borderRadius = '5px';
 					newPointsOverlay.textContent = '+' + newPoints;
 					gameControlsCell.appendChild(newPointsOverlay);
 					newPointsOverlay.style.position = 'fixed';
