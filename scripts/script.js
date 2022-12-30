@@ -882,7 +882,7 @@ function makeMove() {
 
 					setTimeout(() => {
 						newPointsOverlay.remove();
-					}, 1000);
+					}, 3000);
 				} else {
 					textModal("Error", jsonData.message);
 				}
