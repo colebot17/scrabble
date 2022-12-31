@@ -366,7 +366,7 @@ function showPoints(points, start, end) {
 	const width = x2 - x1;
 	const height = y2 - y1;
 
-	canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--semi-highlight');
+	canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight');
 	canvas.ctx.lineWidth = 5;
 	roundRect(canvas.ctx, x1, y1, width, height, 5, false);
 
