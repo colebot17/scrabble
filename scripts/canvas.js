@@ -356,23 +356,42 @@ function updateTile(tile) {
 	}
 }
 
-function showPoints(points, start, end) {
-	// draw a rectangle around the affected letters
-	const x1 = start[0] * (squareWidth + squareGap);
-	const y1 = start[1] * (squareWidth + squareGap);
-	const x2 = (end[0] * (squareWidth + squareGap)) + squareWidth;
-	const y2 = (end[1] * (squareWidth + squareGap)) + squareWidth;
-
-	const width = x2 - x1;
-	const height = y2 - y1;
-
+function drawRegions(regions) {
+	// set up the style
 	canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight');
+	canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
 	canvas.ctx.lineWidth = 5;
-	roundRect(canvas.ctx, x1, y1, width, height, 5, false);
+	canvas.ctx.font = "16px Rubik";
 
-	// calculate the position of the points bubble
+	// draw each region
+	for (let i = 0; i < regions.length; i++) {
+		// draw a rectangle around the affected letters
+		const x1 = regions[i].start[0] * (squareWidth + squareGap);
+		const y1 = regions[i].start[1] * (squareWidth + squareGap);
+		const x2 = (regions[i].end[0] * (squareWidth + squareGap)) + squareWidth;
+		const y2 = (regions[i].end[1] * (squareWidth + squareGap)) + squareWidth;
 
-	// draw the points bubble
+		const width = x2 - x1;
+		const height = y2 - y1;
+
+		roundRect(canvas.ctx, x1, y1, width, height, 5, false);
+
+		// calculate position for the bubble
+		const circX = x2;
+		const circY = y1;
+		const radius = 15;
+
+		// draw the bubble
+		canvas.ctx.beginPath();
+		canvas.arc(circX, circY, radius, 0, 2*Math.PI);
+		canvas.fill();
+
+		// calculate position for the number
+		const textSize = canvas.ctx.measureText(regions[i].points);
+
+		// draw the number on the bubble
+		canvas.ctx.fillText(regions[i].points, circX - (textSize.width / 2), circY - (textSize.height / 2));
+	}
 }
 
 // draw loop
@@ -397,7 +416,7 @@ function updateDisplay() {
 		}
 	}
 	if (canvas.pointsPreview) {
-		showPoints(canvas.pointsPreview.points, canvas.pointsPreview.start, canvas.pointsPreview.end);
+		drawRegions({points: canvas.pointsPreview.points, start: canvas.pointsPreview.start, end: canvas.pointsPreview.end});
 	}
 	if (dragged) {
 		updateTile(dragged);
