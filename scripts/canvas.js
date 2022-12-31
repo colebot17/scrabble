@@ -364,7 +364,8 @@ function drawRegions(regions) {
 		canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight');
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
 		canvas.ctx.lineWidth = 5;
-		canvas.ctx.font = "16px Rubik";
+		const fontSize = 16;
+		canvas.ctx.font = fontSize + "px Rubik";
 
 		// draw a rectangle around the affected letters
 		const x1 = regions[i].start[0] * (squareWidth + squareGap);
@@ -392,7 +393,7 @@ function drawRegions(regions) {
 
 		// draw the number on the bubble
 		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight-text');
-		canvas.ctx.fillText(regions[i].points.toString(), circX + (textSize.width / 2), circY + (textSize.height / 2));
+		canvas.ctx.fillText(regions[i].points.toString(), circX + (textSize.width / 2), circY + (fontSize / 2));
 	}
 }
 
