@@ -356,6 +356,25 @@ function updateTile(tile) {
 	}
 }
 
+function showPoints(points, start, end) {
+	// draw a rectangle around the affected letters
+	const x1 = start[0] * (squareWidth + squareGap);
+	const y1 = start[1] * (squareWidth + squareGap);
+	const x2 = (end[0] * (squareWidth + squareGap)) + squareWidth;
+	const y2 = (end[1] * (squareWidth + squareGap)) + squareWidth;
+
+	const width = x2 - x1;
+	const height = y2 - y1;
+
+	canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--semi-highlight');
+	canvas.ctx.strokeWidth = 5;
+	roundRect(canvas.ctx, x1, y1, width, height, 5);
+
+	// calculate the position of the points bubble
+
+	// draw the points bubble
+}
+
 // draw loop
 // this function is run to draw each frame
 function updateDisplay() {
@@ -377,6 +396,9 @@ function updateDisplay() {
 			}
 		}
 	}
+	if (canvas.pointsPreview) {
+		showPoints(canvas.pointsPreview.points, canvas.pointsPreview.start, canvas.pointsPreview.end);
+	}
 	if (dragged) {
 		updateTile(dragged);
 	}
@@ -384,10 +406,7 @@ function updateDisplay() {
 
 // from https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-using-html-canvas
 // draws a rounded rectangle
-function roundRect(ctx, x, y, width, height, radius) {
-	if (typeof stroke === 'undefined') {
-		stroke = true;
-	}
+function roundRect(ctx, x, y, width, height, radius, fill = true) {
 	if (typeof radius === 'undefined') {
 		radius = Math.min(5, Math.min(width, height) / 2);
 	}
@@ -410,5 +429,9 @@ function roundRect(ctx, x, y, width, height, radius) {
 	ctx.lineTo(x, y + radius.tl);
 	ctx.quadraticCurveTo(x, y, x + radius.tl, y);
 	ctx.closePath();
-	ctx.fill();
+	if (fill) {
+		ctx.fill();
+	} else {
+		ctx.stroke();
+	}
 }
