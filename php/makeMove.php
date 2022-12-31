@@ -214,6 +214,10 @@ if ($onAxisX) {
 	$xAxisWordPoints = 0;
 	$xAxisWordMultiplier = 1;
 
+	// store the min and max so we know the position of the word
+	$sweepXMin = $x;
+	$sweepXMax = $x;
+
 	for ($i = 0; $i < 2; $i++) { // repeat twice (each direction from center tile)
 		// set start point based on sweep direction
 		$sweepX = ($i === 0 ? $x : $x - 1);
@@ -236,6 +240,10 @@ if ($onAxisX) {
 				$xCrossAxisWordPoints = 0;
 				$xCrossAxisWordMultiplier = 1;
 
+				// store the min and max so we know the position of the word
+				$sweepYMin = $y;
+				$sweepYMax = $y;
+
 				for ($j = 0; $j < 2; $j++) { // repeat twice (each direction from center tile)
 					// set start point based on sweep direction
 					$sweepY = ($j === 0 ? $y : $y - 1);
@@ -255,21 +263,51 @@ if ($onAxisX) {
 
 						($j === 0 ? $sweepY++ : $sweepY--); // increment/decrement based on sweep direction
 					}
+
+					// store the min and max so we know the position of the word
+					if ($j === 0) {
+						// sweeping down, store max
+						$sweepYMax = $sweepY;
+					} else {
+						// sweeping up, store min
+						$sweepYMin = $sweepY;
+					}
 				}
 				
 				// compile the x cross axis word and points into the array if it is long enough
 				if (strlen($xCrossAxisWord) > 1) {
-					$words[$xCrossAxisWord] = $xCrossAxisWordPoints * $xCrossAxisWordMultiplier;
+					$words[$xCrossAxisWord] = Array(
+						"points" => $xCrossAxisWordPoints * $xCrossAxisWordMultiplier,
+						"axis" => "y",
+						"cross" => true,
+						"start" => Array((int)$sweepX, (int)$sweepYMin),
+						"end" => Array((int)$sweepY, (int)$sweepYMax)
+					);
 				}
 			}
 
 			($i === 0 ? $sweepX++ : $sweepX--); // increment/decrement based on sweep direction
 		}
+					
+		// store the min and max so we know the position of the word
+		if ($i === 0) {
+			// sweeping left, store max
+			$sweepXMax = $sweepX;
+		} else {
+			// sweeping right, store min
+			$sweepXMin = $sweepX;
+		}
 	}
 
 	// compile the x axis word and points into the array if it is long enough
 	if (strlen($xAxisWord) > 1) {
-		$words[$xAxisWord] = $xAxisWordPoints * $xAxisWordMultiplier;
+		$words[$xAxisWord] = Array(
+			"points" => $xAxisWordPoints * $xAxisWordMultiplier,
+			"axis" => "x",
+			"cross" => false,
+			"start" => Array((int)$sweepXMin, (int)$y),
+			"end" => Array((int)$sweepXMax, (int)$y)
+		);
 	}
 }
 
@@ -282,7 +320,12 @@ if ($onAxisY) {
 	$yAxisWordPoints = 0;
 	$yAxisWordMultiplier = 1;
 
+	// store the min and max so we know the position of the word
+	$sweepYMin = $y;
+	$sweepYMax = $y;
+
 	for ($i = 0; $i < 2; $i++) { // repeat twice (each direction from center tile)
+
 		// set start point based on sweep direction
 		$sweepY = ($i === 0 ? $y : $y - 1);
 
@@ -303,11 +346,16 @@ if ($onAxisY) {
 				$yCrossAxisWordPoints = 0;
 				$yCrossAxisWordMultiplier = 1;
 
+				// store the min and max so we know the position of the word
+				$sweepXMin = $x;
+				$sweepXMax = $x;
+
 				for ($j = 0; $j < 2; $j++) { // repeat twice (each direction from center tile)
+
 					// set start point based on sweep direction
 					$sweepX = ($j === 0 ? $x : $x - 1);
 
-					while ($board[$sweepY][$sweepX]) { // sweep left/right
+					while ($board[$sweepY][$sweepX]) { // sweep left/right (cross axis)
 						// add letter to cross axis word
 						// (sweeping down ? add to right : add to left)
 						$yCrossAxisWord = ($j === 0 ? $yCrossAxisWord . $board[$sweepY][$sweepX]["letter"] : $board[$sweepY][$sweepX]["letter"] . $yCrossAxisWord);
@@ -322,21 +370,51 @@ if ($onAxisY) {
 
 						($j === 0 ? $sweepX++ : $sweepX--); // increment/decrement based on sweep direction
 					}
+					
+					// store the min and max so we know the position of the word
+					if ($j === 0) {
+						// sweeping left, store max
+						$sweepXMax = $sweepX;
+					} else {
+						// sweeping right, store min
+						$sweepXMin = $sweepX;
+					}
 				}
 				
 				// compile the y cross axis word and points into the array if it is long enough
 				if (strlen($yCrossAxisWord) > 1) {
-					$words[$yCrossAxisWord] = $yCrossAxisWordPoints * $yCrossAxisWordMultiplier;
+					$words[$yCrossAxisWord] = Array(
+						"points" => $yCrossAxisWordPoints * $yCrossAxisWordMultiplier,
+						"axis" => "x",
+						"cross" => true,
+						"start" => Array((int)$sweepXMin, (int)$sweepY),
+						"end" => Array((int)$sweepXMax, (int)$sweepY)
+					);
 				}
 			}
 
 			($i === 0 ? $sweepY++ : $sweepY--); // increment/decrement based on sweep direction
 		}
+
+		// store the min and max so we know the position of the word
+		if ($i === 0) {
+			// sweeping down, store max
+			$sweepYMax = $sweepY;
+		} else {
+			// sweeping up, store min
+			$sweepYMin = $sweepY;
+		}
 	}
 
 	// compile the y axis word and points into the array if it is long enough
 	if (strlen($yAxisWord) > 1) {
-		$words[$yAxisWord] = $yAxisWordPoints * $yAxisWordMultiplier;
+		$words[$yAxisWord] = Array(
+			"points" => $yAxisWordPoints * $yAxisWordMultiplier,
+			"axis" => "y",
+			"cross" => false,
+			"start" => Array((int)$x, (int)$sweepYMin),
+			"end" => Array((int)$x, (int)$sweepYMax)
+		);
 	}
 }
 
@@ -350,7 +428,7 @@ for ($i=0; $i < count($wordsKeys); $i++) {
 
 // add the bonus 50 points if user used all letters
 if (count($tiles) === 7) {
-	$words[""] = 50;
+	$words[""] = Array("points" => 50, "placeholder" => true);
 } else if (count($tiles) > 7) { // a small little cheat check
 	exit('{"errorLevel":2,"message":"You cannot use more than 7 letters in a single turn."}');
 }
@@ -387,7 +465,10 @@ if (count($players[$currentPlayerIndex]['letterBank']) === 0 && count($longBag) 
 }
 
 // update the points in the player obj
-$pointsSum = array_sum($words);
+$pointsSum = 0;
+for ($i=0; $i < count($words); $i++) { 
+	$pointsSum += $words[$wordsKeys[$i]]["points"];
+}
 $players[$currentPlayerIndex]['points'] = $players[$currentPlayerIndex]['points'] + $pointsSum;
 
 // if the game is not ending and there is at least one letter in the bag
@@ -434,19 +515,56 @@ if (!$inactive) {
 // reset the subsequent skip counter for the player
 unset($players[$currentPlayerIndex]['subsequentSkips']);
 
+
+// get the words list
+$sql = "SELECT words FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$wordsList = json_decode($row["words"], true);
+
+// add words to the list
+$newWordsList = Array();
+for ($i=0; $i < count($wordsKeys); $i++) { 
+	if ($words[$wordsKeys[$i]]["placeholder"]) {
+		continue;
+	}
+	$newWord = Array(
+		"word" => $wordsKeys[$i],
+		"player" => (int)$user,
+		"turn" => (int)$totalTurn,
+		"points" => $words[$wordsKeys[$i]]["points"],
+		"axis" => $words[$wordsKeys[$i]]["axis"],
+		"cross" => $words[$wordsKeys[$i]]["cross"],
+		"pos" => Array(
+			"start" => $words[$wordsKeys[$i]]["start"],
+			"end" => $words[$wordsKeys[$i]]["end"]
+		)
+	);
+	array_push($newWordsList, $newWord);
+}
+$allWords = array_merge($wordsList, $newWordsList);
+
+// encode as JSON
+$wordsJson = json_encode($allWords);
+
 // upload the new game data
 $letterBagJson = json_encode($letterBag);
 $boardJson = json_encode($board);
 $playersJson = json_encode($players);
 
-$sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn='$totalTurn',inactive='$inactive',endDate='$endDate',board='$boardJson' WHERE id='$gameId'";
+$sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn='$totalTurn',inactive='$inactive',endDate='$endDate',board='$boardJson',words='$wordsJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 
-if ($inactive) {
-	echo '{"errorLevel":0,"status":1,"message":"Your move has been recorded and the game has ended. Good job!"}';
-} else {
-	echo '{"errorLevel":0,"status":0,"message":"Your move has been recorded."}';
-}
+// return the response
+$response = Array(
+	"errorLevel" => 0,
+	"status" => ($inactive ? 1 : 0),
+	"message" => "Your move has been recorded" . ($inactive ? " and the game has ended. Good job!" : "."),
+	"data" => Array(
+		"newWords" => $newWordsList
+	)
+);
+echo json_encode($response);
 
 // close the connection
 $conn->close();

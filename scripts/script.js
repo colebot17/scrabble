@@ -788,13 +788,15 @@ function gameInit() {
 
 		// add the player to the list
 		gameInfo += /* html */ `
-			<div class="gamePlayerListPlayer">
+			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}">
 				${(isWinner ? `<span class='material-icons winnerIcon'>emoji_events</span>`: ``)}
 				${(isTurn ? `<u>` : ``)}
 					${(isCurrentPlayer ? `<b>` : ``)}
 						${game.players[i].name}: 
 					${(!isCurrentPlayer ? `<b>` : ``)}
-						${game.players[i].points}
+						<span class="points">
+							${game.players[i].points}
+						</span>
 					</b>
 				${(turnIndex == i ? `</u>` : ``)}
 				${(endGameVoted && !game.inactive ? `<span class='material-icons winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
@@ -859,6 +861,33 @@ function makeMove() {
 					if (jsonData.status === 1) {
 						textModal("Game Over!", jsonData.message);
 					}
+
+					let newPoints = 0;
+					for (let i = 0; i < jsonData.data.newWords.length; i++) {
+						newPoints += jsonData.data.newWords[i].points;
+					}
+
+					const gameControlsCell = document.getElementById('gameControlsCell');
+					const pointsNumber = document.querySelector('.gamePlayerListPlayer.currentPlayer .points');
+					const bound = pointsNumber.getBoundingClientRect();
+					const newPointsOverlay = document.createElement('div');
+					newPointsOverlay.classList.add('overlay');
+					newPointsOverlay.style.color = 'green';
+					newPointsOverlay.style.background = 'var(--background-2)';
+					newPointsOverlay.style.boxShadow = '0 0 10px #00000060';
+					newPointsOverlay.style.padding = '2px 5px';
+					newPointsOverlay.style.borderRadius = '5px';
+					newPointsOverlay.textContent = '+' + newPoints;
+					gameControlsCell.appendChild(newPointsOverlay);
+					newPointsOverlay.style.position = 'fixed';
+					const overlayBound = newPointsOverlay.getBoundingClientRect();
+					newPointsOverlay.style.top = (bound.y - overlayBound.height + 4) + 'px';
+					newPointsOverlay.style.left = (bound.x + (bound.width / 2) - (overlayBound.width / 2)) + 'px';
+					newPointsOverlay.classList.add('fadeUpOut');
+
+					setTimeout(() => {
+						newPointsOverlay.remove();
+					}, 3000);
 				} else {
 					textModal("Error", jsonData.message);
 				}
