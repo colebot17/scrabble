@@ -357,14 +357,15 @@ function updateTile(tile) {
 }
 
 function drawRegions(regions) {
-	// set up the style
-	canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight');
-	canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
-	canvas.ctx.lineWidth = 5;
-	canvas.ctx.font = "16px Rubik";
-
 	// draw each region
 	for (let i = 0; i < regions.length; i++) {
+
+		// set up the style
+		canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight');
+		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
+		canvas.ctx.lineWidth = 5;
+		canvas.ctx.font = "16px Rubik";
+
 		// draw a rectangle around the affected letters
 		const x1 = regions[i].start[0] * (squareWidth + squareGap);
 		const y1 = regions[i].start[1] * (squareWidth + squareGap);
@@ -390,6 +391,7 @@ function drawRegions(regions) {
 		const textSize = canvas.ctx.measureText(regions[i].points);
 
 		// draw the number on the bubble
+		canvas.ctx.fillStyle = 'white';
 		canvas.ctx.fillText(regions[i].points, circX - (textSize.width / 2), circY - (textSize.height / 2));
 	}
 }
