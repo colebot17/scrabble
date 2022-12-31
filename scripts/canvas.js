@@ -367,8 +367,8 @@ function showPoints(points, start, end) {
 	const height = y2 - y1;
 
 	canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--semi-highlight');
-	canvas.ctx.strokeWidth = 5;
-	roundRect(canvas.ctx, x1, y1, width, height, 5);
+	canvas.ctx.lineWidth = 5;
+	roundRect(canvas.ctx, x1, y1, width, height, 5, false);
 
 	// calculate the position of the points bubble
 
