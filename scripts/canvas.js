@@ -391,7 +391,7 @@ function drawRegions(regions) {
 		const textSize = canvas.ctx.measureText(regions[i].points);
 
 		// draw the number on the bubble
-		canvas.ctx.fillStyle = 'white';
+		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight-text');
 		canvas.ctx.fillText(regions[i].points, circX - (textSize.width / 2), circY - (textSize.height / 2));
 	}
 }
