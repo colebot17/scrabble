@@ -416,7 +416,7 @@ function updateDisplay() {
 		}
 	}
 	if (canvas.pointsPreview) {
-		drawRegions({points: canvas.pointsPreview.points, start: canvas.pointsPreview.start, end: canvas.pointsPreview.end});
+		drawRegions([{points: canvas.pointsPreview.points, start: canvas.pointsPreview.start, end: canvas.pointsPreview.end}]);
 	}
 	if (dragged) {
 		updateTile(dragged);
