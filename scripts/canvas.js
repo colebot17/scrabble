@@ -383,8 +383,8 @@ function drawRegions(regions) {
 
 		// draw the bubble
 		canvas.ctx.beginPath();
-		canvas.arc(circX, circY, radius, 0, 2*Math.PI);
-		canvas.fill();
+		canvas.ctx.arc(circX, circY, radius, 0, 2*Math.PI);
+		canvas.ctx.fill();
 
 		// calculate position for the number
 		const textSize = canvas.ctx.measureText(regions[i].points);
