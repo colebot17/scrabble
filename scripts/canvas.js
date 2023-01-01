@@ -386,6 +386,14 @@ function drawRegions(regions) {
 		const circY = y1;
 		const radius = 15;
 
+		// move the bubble over if it is on an edge
+		if (regions[i].end[0] === 14) {
+			circX -= (squareWidth / 2);
+		}
+		if (regions[i].start[1] === 0) {
+			circY += (squareWidth / 2);
+		}
+
 		// draw the bubble
 		canvas.ctx.beginPath();
 		canvas.ctx.arc(circX, circY, radius, 0, 2*Math.PI);
