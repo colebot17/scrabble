@@ -97,7 +97,6 @@ if ($decodedResult['errorLevel']) {
 
 // now we can continue as normal
 $words = $decodedResult;
-print_r($words);
 
 // lock the board and make sure everything is in boolean format
 for ($y = 0; $y < 15; $y++) { 
@@ -220,9 +219,8 @@ $letterBagJson = json_encode($letterBag);
 $boardJson = json_encode($board);
 $playersJson = json_encode($players);
 
-// EUHNIOTQWFUEILHQWFTUIHLTQWFUIHLQTWFUILHWFTQUILHQTWF DISABLED GAGAGAGAGAGAGAGAGAGAGAGA
-//$sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn='$totalTurn',inactive='$inactive',endDate='$endDate',board='$boardJson',words='$wordsJson' WHERE id='$gameId'";
-//$query = mysqli_query($conn, $sql);
+$sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn='$totalTurn',inactive='$inactive',endDate='$endDate',board='$boardJson',words='$wordsJson' WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
 
 // return the response
 $response = Array(
