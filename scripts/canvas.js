@@ -410,7 +410,7 @@ function drawRegions(regions) {
 
 		// draw the number on the bubble
 		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight-text');
-		canvas.ctx.fillText(regions[i].points.toString(), circX + (textSize.width / 2), circY + (fontSize / 3));
+		canvas.ctx.fillText(regions[i].points.toString(), circX + (textSize.width / 3), circY + (fontSize / 3));
 	}
 }
 
