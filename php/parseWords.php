@@ -246,10 +246,10 @@ function parseWords($gameId, $tiles, $user) {
                         // store the min and max so we know the position of the word
                         if ($j === 0) {
                             // sweeping down, store max
-                            $sweepYMax = $sweepY;
+                            $sweepYMax = $sweepY - 1;
                         } else {
                             // sweeping up, store min
-                            $sweepYMin = $sweepY;
+                            $sweepYMin = $sweepY + 1;
                         }
                     }
                     
@@ -271,10 +271,10 @@ function parseWords($gameId, $tiles, $user) {
             // store the min and max so we know the position of the word
             if ($i === 0) {
                 // sweeping left, store max
-                $sweepXMax = $sweepX;
+                $sweepXMax = $sweepX - 1;
             } else {
                 // sweeping right, store min
-                $sweepXMin = $sweepX;
+                $sweepXMin = $sweepX + 1;
             }
         }
 
@@ -353,10 +353,10 @@ function parseWords($gameId, $tiles, $user) {
                         // store the min and max so we know the position of the word
                         if ($j === 0) {
                             // sweeping left, store max
-                            $sweepXMax = $sweepX;
+                            $sweepXMax = $sweepX - 1;
                         } else {
                             // sweeping right, store min
-                            $sweepXMin = $sweepX;
+                            $sweepXMin = $sweepX + 1;
                         }
                     }
                     
@@ -378,10 +378,10 @@ function parseWords($gameId, $tiles, $user) {
             // store the min and max so we know the position of the word
             if ($i === 0) {
                 // sweeping down, store max
-                $sweepYMax = $sweepY;
+                $sweepYMax = $sweepY - 1;
             } else {
                 // sweeping up, store min
-                $sweepYMin = $sweepY;
+                $sweepYMin = $sweepY + 1;
             }
         }
 
