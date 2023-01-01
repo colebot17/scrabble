@@ -57,6 +57,14 @@ if ((int)$players[$turn]['id'] !== (int)$user || (int)$inactive !== 0) { // make
 	exit('{"errorLevel":1,"message":"It isn\'t your turn!"}');
 }
 
+// make sure there is a bank order
+if (!$players[$currentPlayerIndex]['bankOrder']) {
+	$players[$currentPlayerIndex]['bankOrder'] = array();
+	for ($i=0; $i < count($players[$currentPlayerIndex]['letterBank']); $i++) { 
+		array_push($players[$currentPlayerIndex]['bankOrder'], $i);
+	}
+}
+
 // add the tiles to the board
 for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to place
 	// make sure tiles are only being placed on empty spaces

@@ -34,14 +34,6 @@ function parseWords($gameId, $tiles, $user) {
     }
     $currentPlayerIndex = array_search($user, $playerList);
 
-    // make sure there is a bank order
-    if (!$players[$currentPlayerIndex]['bankOrder']) {
-        $players[$currentPlayerIndex]['bankOrder'] = array();
-        for ($i=0; $i < count($players[$currentPlayerIndex]['letterBank']); $i++) { 
-            array_push($players[$currentPlayerIndex]['bankOrder'], $i);
-        }
-    }
-
     // add the tiles to the board
     for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to place
         // make sure tiles are only being placed on empty spaces
