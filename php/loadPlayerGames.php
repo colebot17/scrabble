@@ -40,16 +40,16 @@ $fullGamesList = Array();
 for ($i = 0; $i < count($games); $i++) {
 	$sql = "SELECT name, turn, inactive, players, lastMove FROM games WHERE id='$games[$i]'";
 	$query = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($query);
 
 	// if the game cannot be found
-	if (!$query) {
+	if (!$row) {
 		// remove it from the list (we will upload this later)
 		unset($games[$i]);
 		$gameRemoved = true;
 		continue;
 	}
 
-	$row = mysqli_fetch_assoc($query);
 	$players = json_decode($row['players'], true);
 
 	$fullGamesList[$games[$i]] = Array(
