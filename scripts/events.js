@@ -303,9 +303,6 @@ function handleDocumentMouseUp(e) {
     // only if the letter was moved to a free space on the board
     if (onBoard && !onExistingTile && !stayedStill && !outOfTurn) {
         addLetter(boardX, boardY, dragged.bankIndex); // add the letter to the appropriate spot on the board
-
-        // show the points preview
-        checkPoints();
     } else { // if the letter was dropped anywhere else or stayed still
 
         // find out if it was dropped into a drop zone
@@ -334,6 +331,9 @@ function handleDocumentMouseUp(e) {
 
         canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
     }
+
+    // show the points preview
+    checkPoints();
     
     dragged = undefined; // remove the dragged tile
 }
