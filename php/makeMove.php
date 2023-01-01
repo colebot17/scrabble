@@ -151,6 +151,8 @@ if (!$inactive) {
 unset($players[$currentPlayerIndex]['subsequentSkips']);
 
 
+$wordsKeys = array_keys($words);
+
 // get the words list
 $sql = "SELECT words FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
