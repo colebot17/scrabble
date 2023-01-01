@@ -341,10 +341,10 @@ function handleDocumentMouseUp(e) {
         // if there is already a points preview, show it
         if (canvas.pointsPreview) {
             canvas.pointsPreview.hidden = false;
+            sendPointsRequest = false;
         }
 
         canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
-        sendPointsRequest = false;
     }
 
     // show the points preview
