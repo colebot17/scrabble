@@ -396,8 +396,8 @@ function drawRegions(regions) {
 			circY += (squareWidth / 2);
 		}
 		if (onTopEdge && onRightEdge) {
-			circX -= (radius / 2);
-			circY += (radius / 2);
+			circX -= (radius / 1.5);
+			circY += (radius / 1.5);
 		}
 
 		// draw the bubble
