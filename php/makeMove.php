@@ -50,19 +50,19 @@ for ($i=0; $i < count($players); $i++) {
 $currentPlayerIndex = array_search($user, $playerList);
 
 if ((int)$players[$turn]['id'] !== (int)$user || (int)$inactive !== 0) { // make sure it is actually the user's turn and that the game is active
-	return '{"errorLevel":1,"message":"It isn\'t your turn!"}';
+	exit('{"errorLevel":1,"message":"It isn\'t your turn!"}');
 }
 
 // add the tiles to the board
 for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to place
 	// make sure tiles are only being placed on empty spaces
 	if ($board[$tiles[$i]["y"]][$tiles[$i]["x"]]) {
-		return '{"errorLevel":2,"message":"You cannot place a tile over another tile."}';
+		exit('{"errorLevel":2,"message":"You cannot place a tile over another tile."}');
 	}
 
 	// make sure player owns all letters being placed
 	if ($players[$currentPlayerIndex]["letterBank"][$tiles["bankIndex"]] !== $letter) {
-		return '{"errorLevel":2,"message":"You must own all letters being used."}';
+		exit('{"errorLevel":2,"message":"You must own all letters being used."}');
 	}
 
 	// generate a tile with only the information we need
