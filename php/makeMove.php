@@ -53,6 +53,36 @@ if ((int)$players[$turn]['id'] !== (int)$user || (int)$inactive !== 0) { // make
 	return '{"errorLevel":1,"message":"It isn\'t your turn!"}';
 }
 
+// add the tiles to the board
+for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to place
+	// make sure tiles are only being placed on empty spaces
+	if ($board[$tiles[$i]["y"]][$tiles[$i]["x"]]) {
+		return '{"errorLevel":2,"message":"You cannot place a tile over another tile."}';
+	}
+
+	// make sure player owns all letters being placed
+	if ($players[$currentPlayerIndex]["letterBank"][$tiles["bankIndex"]] !== $letter) {
+		return '{"errorLevel":2,"message":"You must own all letters being used."}';
+	}
+
+	// generate a tile with only the information we need
+	$tile = Array(
+		"bankIndex" => $tiles[$i]['bankIndex'],
+		"blank" => $tiles[$i]['blank'],
+		"letter" => $tiles[$i]['letter'],
+		"turn" => (int)$totalTurn,
+		"x" => $tiles[$i]['x'],
+		"y" => $tiles[$i]['y']
+	);
+
+	// add tile to board
+	$board[$tile['y']][$tile['x']] = $tile;
+
+	// remove the letter from the user's bank and bank order
+	unset($players[$currentPlayerIndex]['letterBank'][$tiles[$i]['bankIndex']]);
+	unset($players[$currentPlayerIndex]['bankOrder'][array_search($tiles[$i]['bankIndex'], $players[$currentPlayerIndex]['bankOrder'])]);
+}
+
 // import the parse words function
 require "parseWords.php";
 
