@@ -42,6 +42,15 @@ $newGames = Array();
 for ($i = 0; $i < count($games); $i++) {
 	$sql = "SELECT name, turn, inactive, players, lastMove FROM games WHERE id='$games[$i]'";
 	$query = mysqli_query($conn, $sql);
+
+	// if the game cannot be found
+	if (!$query) {
+		// remove it from the list (we will upload this later)
+		unset($games[$i]);
+		$gameRemoved = true;
+		continue;
+	}
+
 	$row = mysqli_fetch_assoc($query);
 	$players = json_decode($row['players'], true);
 
@@ -71,6 +80,13 @@ for ($i = 0; $i < count($games); $i++) {
 
 	// make sure the players array is not associative
 	$newGames[$games[$i]]["players"] = array_values($newGames[$games[$i]]["players"]);
+}
+
+// if any game has been removed, upload the new games list
+if ($gameRemoved) {
+	$games = array_values($games);
+	$gamesJson = json_encode($games);
+	$sql = "UPDATE accounts SET games='$gamesJson' WHERE id='$user'";
 }
 
 $obj['games'] = json_encode($newGames);
