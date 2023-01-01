@@ -386,12 +386,18 @@ function drawRegions(regions) {
 		let circY = y1;
 		const radius = 15;
 
+		const onTopEdge = regions[i].start[1] === 0;
+		const onRightEdge = regions[i].end[0] === 14;
 		// move the bubble over if it is on an edge
-		if (regions[i].end[0] === 14) {
+		if (onRightEdge && !onTopEdge) {
 			circX -= (squareWidth / 2);
 		}
-		if (regions[i].start[1] === 0) {
+		if (onTopEdge && !onRightEdge) {
 			circY += (squareWidth / 2);
+		}
+		if (onTopEdge && onRightEdge) {
+			circX -= (radius / 2);
+			circY -= (radius / 2);
 		}
 
 		// draw the bubble
