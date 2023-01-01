@@ -12,7 +12,6 @@ $tiles = $_POST['tiles']; // already an array
 $user = $_POST['user'];
 $pwd = $_POST['pwd'];
 
-
 // create and check connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -129,6 +128,9 @@ if (count($players[$currentPlayerIndex]['letterBank']) === 0 && count($longBag) 
 	$endDate = $datestamp;
 }
 
+
+$wordsKeys = array_keys($words);
+
 // update the points in the player obj
 $pointsSum = 0;
 for ($i=0; $i < count($words); $i++) { 
@@ -179,9 +181,6 @@ if (!$inactive) {
 
 // reset the subsequent skip counter for the player
 unset($players[$currentPlayerIndex]['subsequentSkips']);
-
-
-$wordsKeys = array_keys($words);
 
 // get the words list
 $sql = "SELECT words FROM games WHERE id='$gameId'";
