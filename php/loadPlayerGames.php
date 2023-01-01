@@ -85,6 +85,7 @@ if ($gameRemoved) {
 	$games = array_values($games);
 	$gamesJson = json_encode($games);
 	$sql = "UPDATE accounts SET games='$gamesJson' WHERE id='$user'";
+	$query = mysqli_query($conn, $sql);
 }
 
 // return the encoded games object
