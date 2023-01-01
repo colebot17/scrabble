@@ -908,8 +908,8 @@ function checkPoints() {
 					// draw the points box
 					canvas.pointsPreview = {
 						points: jsonData.data.newPoints,
-						start: jsonData.data.newWords[0].start,
-						end: jsonData.data.newWords[0].end
+						start: jsonData.data.newWords[0].pos.start,
+						end: jsonData.data.newWords[0].pos.end
 					}
 				} else {
 					// just clear the points box
