@@ -36,6 +36,7 @@ $obj['pwd'] = $row['pwd'];
 
 // parse the games
 $games = json_decode($row['games'], true);
+$gameRemoved = false;
 $newGames = Array();
 
 // for each game, get the names of the players, the current turn, whether it is inactive, and the last move timestamp
