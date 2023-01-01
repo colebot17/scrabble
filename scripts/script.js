@@ -1010,8 +1010,8 @@ function shuffleBank() {
 
 	setTimeout(() => {
 		canvas.bankOrder = shuffleArr(canvas.bankOrder);
+		setBankOrder();
 	}, animationTime / 2);
-	setBankOrder();
 }
 
 function exchangeLetters() {
