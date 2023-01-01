@@ -91,7 +91,7 @@ $decodedResult = json_decode($result, true);
 
 // make sure there wasn't an error
 if ($decodedResult['errorLevel']) {
-	exit($decodedResult);
+	exit($result);
 }
 
 // now we can continue as normal
