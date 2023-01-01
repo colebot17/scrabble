@@ -406,7 +406,7 @@ function drawRegions(regions) {
 		canvas.ctx.fill();
 
 		// calculate position for the number
-		const textSize = canvas.ctx.measureText(regions[i].points);
+		const textSize = canvas.ctx.measureText(regions[i].points.toString());
 
 		// draw the number on the bubble
 		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight-text');
