@@ -14,6 +14,9 @@ function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
         canvas.bank[i].extraGapAfter = false;
     }
     canvas.extraGapBeforeBank = false;
+
+    // remove points preview
+    canvas.pointsPreview = false;
 }
 
 // handle drag start on canvas
