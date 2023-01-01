@@ -115,8 +115,8 @@ for ($i=0; $i < count($wordsKeys); $i++) {
 
 // calculate the total new points
 $newPoints = 0;
-for ($i=0; $i < count($newWordsList); $i++) { 
-    $newPoints += $newWordsList[$i]["points"];
+for ($i=0; $i < count($words); $i++) { 
+    $newPoints += $words[$i]["points"];
 }
 
 // return the response
