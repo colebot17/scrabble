@@ -412,6 +412,7 @@ function drawRegions(regions) {
 		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight-text');
 		canvas.ctx.textAlign = "center";
 		canvas.ctx.fillText(regions[i].points.toString(), circX, circY + (fontSize / 3));
+		canvas.ctx.textAlign = "";
 	}
 }
 
