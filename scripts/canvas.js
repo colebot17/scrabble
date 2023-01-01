@@ -382,8 +382,8 @@ function drawRegions(regions) {
 		roundRect(canvas.ctx, x1, y1, width, height, 5, false);
 
 		// calculate position for the bubble
-		const circX = x2;
-		const circY = y1;
+		let circX = x2;
+		let circY = y1;
 		const radius = 15;
 
 		// move the bubble over if it is on an edge
