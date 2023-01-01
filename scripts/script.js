@@ -891,7 +891,7 @@ function checkPoints() {
 	var newTiles = getUnlockedTiles();
 
 	$.ajax(
-		location + '/php/makeMove.php',
+		location + '/php/checkPoints.php',
 		{
 			data: {
 				game: game.id,
