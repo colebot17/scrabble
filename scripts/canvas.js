@@ -55,6 +55,9 @@ function canvasInit() {
 	// initialize the bank animations
 	canvas.animations = {};
 
+	// remove any points preview
+	canvas.pointsPreview = false;
+
 	// handle window resize
 	window.onresize = setCanvasSize;
 }
