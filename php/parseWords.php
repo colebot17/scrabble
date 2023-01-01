@@ -5,10 +5,6 @@ function parseWords($gameId, $tiles, $user) {
     $username = "Colebot";
     $password = "96819822";
     $dbname = "scrabble";
-    
-    if (!$tiles) {
-        return '{"errorLevel":1,"message":"You must place at least one tile to make a move."}';
-    }
 
     // create and check connection
     $conn = new mysqli($servername, $username, $password, $dbname);
