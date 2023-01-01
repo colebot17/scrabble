@@ -88,6 +88,9 @@ function handleCanvasMouseDown(e) {
                 canvas.bank[canvas.bankOrder[i - 1]].extraGapAfter = true;
             }
 
+            // temporarily hide the points preview
+            canvas.pointsPreview.hidden = true;
+
             return; // don't bother to check the board
         }
     }
@@ -101,6 +104,7 @@ function handleCanvasMouseDown(e) {
 
     // initialize the drag if tile is unlocked (and it's the user's turn)
     if (tile && !locked && userTurn) {
+        // when initializing a drag from a letter already on the board
         dragged = {
             bankIndex: tile.bankIndex,
             blank: tile.blank,
@@ -330,6 +334,11 @@ function handleDocumentMouseUp(e) {
 
             }
 
+        }
+
+        // if there is already a points preview, show it
+        if (canvas.pointsPreview) {
+            canvas.pointsPreview.hidden = false;
         }
 
         canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank

@@ -437,7 +437,7 @@ function updateDisplay() {
 			}
 		}
 	}
-	if (canvas.pointsPreview) {
+	if (canvas.pointsPreview && !canvas.pointsPreview.hidden) {
 		drawRegions([{points: canvas.pointsPreview.points, start: canvas.pointsPreview.start, end: canvas.pointsPreview.end}]);
 	}
 	if (dragged) {
