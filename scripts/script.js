@@ -907,7 +907,7 @@ function checkPoints() {
 				if (jsonData.errorLevel === 0) {
 					// draw the points box
 					canvas.pointsPreview = {
-						points: jsonData.data.points,
+						points: jsonData.data.newPoints,
 						start: jsonData.data.newWords[0].start,
 						end: jsonData.data.newWords[0].end
 					}
