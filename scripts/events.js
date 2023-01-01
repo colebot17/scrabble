@@ -307,6 +307,8 @@ function handleDocumentMouseUp(e) {
 
     const outOfTurn = !(!game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id);
 
+    let sendPointsRequest = true;
+
     // only if the letter was moved to a free space on the board
     if (onBoard && !onExistingTile && !stayedStill && !outOfTurn) {
         addLetter(boardX, boardY, dragged.bankIndex); // add the letter to the appropriate spot on the board
@@ -342,10 +344,11 @@ function handleDocumentMouseUp(e) {
         }
 
         canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
+        sendPointsRequest = false;
     }
 
     // show the points preview
-    checkPoints();
+    if (sendPointsRequest) checkPoints();
     
     dragged = undefined; // remove the dragged tile
 }
