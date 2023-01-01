@@ -28,7 +28,7 @@ if (!password_verify($pwd, $row['pwd'])) {
 
 // make sure the user has actually placed something
 if (!$tiles) {
-    return '{"errorLevel":1,"message":"You must place at least one tile to make a move."}';
+    exit('{"errorLevel":1,"message":"You must place at least one tile to make a move."}');
 }
 
 // get game information
