@@ -87,7 +87,7 @@ for ($i = 0; $i < count($games); $i++) {
 if ($gameRemoved) {
 	$games = array_values($games);
 	$gamesJson = json_encode($games);
-	$sql = "UPDATE accounts SET games='$gamesJson' WHERE id='$user'";
+	$sql = "UPDATE accounts SET games='$gamesJson' WHERE id='$name'";
 	$query = mysqli_query($conn, $sql);
 }
 
