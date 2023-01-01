@@ -95,6 +95,10 @@ for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to 
 	unset($players[$currentPlayerIndex]['bankOrder'][array_search($tiles[$i]['bankIndex'], $players[$currentPlayerIndex]['bankOrder'])]);
 }
 
+// make sure the letter bank and bank order are not associative
+$players[$currentPlayerIndex]['letterBank'] = array_values($players[$currentPlayerIndex]['letterBank']);
+$players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
+
 // import the parse words function
 require "parseWords.php";
 

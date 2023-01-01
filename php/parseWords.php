@@ -38,12 +38,12 @@ function parseWords($gameId, $tiles, $user) {
     for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to place
         // make sure tiles are only being placed on empty spaces
         if ($board[$tiles[$i]["y"]][$tiles[$i]["x"]]) {
-            exit('{"errorLevel":2,"message":"You cannot place a tile over another tile."}');
+            return '{"errorLevel":2,"message":"You cannot place a tile over another tile."}';
         }
     
         // make sure player owns all letters being placed
         if ($players[$currentPlayerIndex]["letterBank"][$tiles["bankIndex"]] !== $letter) {
-            exit('{"errorLevel":2,"message":"You must own all letters being used."}');
+            return '{"errorLevel":2,"message":"You must own all letters being used."}';
         }
     
         // generate a tile with only the information we need
