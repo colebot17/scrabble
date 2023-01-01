@@ -38,10 +38,6 @@ function parseWords($gameId, $tiles, $user) {
     }
     $currentPlayerIndex = array_search($user, $playerList);
 
-    if ((int)$players[$turn]['id'] !== (int)$user || (int)$inactive !== 0) { // make sure it is actually the user's turn and that the game is active
-        return '{"errorLevel":1,"message":"It isn\'t your turn!"}';
-    }
-
     // make sure there is a bank order
     if (!$players[$currentPlayerIndex]['bankOrder']) {
         $players[$currentPlayerIndex]['bankOrder'] = array();

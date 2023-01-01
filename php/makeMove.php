@@ -27,6 +27,32 @@ if (!password_verify($pwd, $row['pwd'])) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
+// get game information
+$sql = "SELECT board, turn, inactive, endDate, letterBag, players FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+
+// decode game information
+$board = json_decode($row['board'], true);
+$totalTurn = $row['turn'];
+$inactive = $row['inactive'];
+$endDate = $row['endDate'];
+$players = json_decode($row['players'], true);
+$letterBag = json_decode($row['letterBag'], true);
+
+$turn = $totalTurn % count($players);
+
+// get an array of all player ids
+$playerList = Array();
+for ($i=0; $i < count($players); $i++) { 
+	array_push($playerList, $players[$i]['id']);
+}
+$currentPlayerIndex = array_search($user, $playerList);
+
+if ((int)$players[$turn]['id'] !== (int)$user || (int)$inactive !== 0) { // make sure it is actually the user's turn and that the game is active
+	return '{"errorLevel":1,"message":"It isn\'t your turn!"}';
+}
+
 // import the parse words function
 require "parseWords.php";
 
