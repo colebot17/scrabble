@@ -14,6 +14,9 @@ function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
         canvas.bank[i].extraGapAfter = false;
     }
     canvas.extraGapBeforeBank = false;
+
+    // remove points preview
+    canvas.pointsPreview = false;
 }
 
 // handle drag start on canvas
@@ -85,6 +88,9 @@ function handleCanvasMouseDown(e) {
                 canvas.bank[canvas.bankOrder[i - 1]].extraGapAfter = true;
             }
 
+            // temporarily hide the points preview
+            canvas.pointsPreview.hidden = true;
+
             return; // don't bother to check the board
         }
     }
@@ -98,6 +104,7 @@ function handleCanvasMouseDown(e) {
 
     // initialize the drag if tile is unlocked (and it's the user's turn)
     if (tile && !locked && userTurn) {
+        // when initializing a drag from a letter already on the board
         dragged = {
             bankIndex: tile.bankIndex,
             blank: tile.blank,
@@ -112,6 +119,9 @@ function handleCanvasMouseDown(e) {
         }
 
         game.board[boardY][boardX] = null; // remove the tile from the board
+
+        // hide the points preview
+        canvas.pointsPreview = false;
 
         return; // nothing else to do
     }
@@ -297,6 +307,8 @@ function handleDocumentMouseUp(e) {
 
     const outOfTurn = !(!game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id);
 
+    let sendPointsRequest = true;
+
     // only if the letter was moved to a free space on the board
     if (onBoard && !onExistingTile && !stayedStill && !outOfTurn) {
         addLetter(boardX, boardY, dragged.bankIndex); // add the letter to the appropriate spot on the board
@@ -326,8 +338,17 @@ function handleDocumentMouseUp(e) {
 
         }
 
+        // if there is already a points preview, show it
+        if (canvas.pointsPreview) {
+            canvas.pointsPreview.hidden = false;
+            sendPointsRequest = false;
+        }
+
         canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
     }
+
+    // show the points preview
+    if (sendPointsRequest) checkPoints();
     
     dragged = undefined; // remove the dragged tile
 }

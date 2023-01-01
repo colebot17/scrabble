@@ -55,6 +55,9 @@ function canvasInit() {
 	// initialize the bank animations
 	canvas.animations = {};
 
+	// remove any points preview
+	canvas.pointsPreview = false;
+
 	// handle window resize
 	window.onresize = setCanvasSize;
 }
@@ -356,6 +359,63 @@ function updateTile(tile) {
 	}
 }
 
+function drawRegions(regions) {
+	// draw each region
+	for (let i = 0; i < regions.length; i++) {
+
+		// set up the style
+		canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight');
+		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
+		canvas.ctx.lineWidth = 5;
+		const fontSize = 16;
+		canvas.ctx.font = fontSize + "px Rubik";
+
+		// draw a rectangle around the affected letters
+		const x1 = regions[i].start[0] * (squareWidth + squareGap);
+		const y1 = regions[i].start[1] * (squareWidth + squareGap);
+		const x2 = (regions[i].end[0] * (squareWidth + squareGap)) + squareWidth;
+		const y2 = (regions[i].end[1] * (squareWidth + squareGap)) + squareWidth;
+
+		const width = x2 - x1;
+		const height = y2 - y1;
+
+		roundRect(canvas.ctx, x1, y1, width, height, 5, false);
+
+		// calculate position for the bubble
+		let circX = x2;
+		let circY = y1;
+		const radius = 15;
+
+		const onTopEdge = regions[i].start[1] === 0;
+		const onRightEdge = regions[i].end[0] === 14;
+		// move the bubble over if it is on an edge
+		if (onRightEdge && !onTopEdge) {
+			circX -= (squareWidth / 2);
+		}
+		if (onTopEdge && !onRightEdge) {
+			circY += (squareWidth / 2);
+		}
+		if (onTopEdge && onRightEdge) {
+			circX -= (radius / 1.5);
+			circY += (radius / 1.5);
+		}
+
+		// draw the bubble
+		canvas.ctx.beginPath();
+		canvas.ctx.arc(circX, circY, radius, 0, 2*Math.PI);
+		canvas.ctx.fill();
+
+		// calculate position for the number
+		const textSize = canvas.ctx.measureText(regions[i].points.toString());
+
+		// draw the number on the bubble
+		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight-text');
+		canvas.ctx.textAlign = "center";
+		canvas.ctx.fillText(regions[i].points.toString(), circX, circY + (fontSize / 3));
+		canvas.ctx.textAlign = "";
+	}
+}
+
 // draw loop
 // this function is run to draw each frame
 function updateDisplay() {
@@ -377,6 +437,9 @@ function updateDisplay() {
 			}
 		}
 	}
+	if (canvas.pointsPreview && !canvas.pointsPreview.hidden) {
+		drawRegions([{points: canvas.pointsPreview.points, start: canvas.pointsPreview.start, end: canvas.pointsPreview.end}]);
+	}
 	if (dragged) {
 		updateTile(dragged);
 	}
@@ -384,10 +447,7 @@ function updateDisplay() {
 
 // from https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-using-html-canvas
 // draws a rounded rectangle
-function roundRect(ctx, x, y, width, height, radius) {
-	if (typeof stroke === 'undefined') {
-		stroke = true;
-	}
+function roundRect(ctx, x, y, width, height, radius, fill = true) {
 	if (typeof radius === 'undefined') {
 		radius = Math.min(5, Math.min(width, height) / 2);
 	}
@@ -410,5 +470,9 @@ function roundRect(ctx, x, y, width, height, radius) {
 	ctx.lineTo(x, y + radius.tl);
 	ctx.quadraticCurveTo(x, y, x + radius.tl, y);
 	ctx.closePath();
-	ctx.fill();
+	if (fill) {
+		ctx.fill();
+	} else {
+		ctx.stroke();
+	}
 }

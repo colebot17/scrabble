@@ -826,21 +826,8 @@ function gameInit() {
 
 function makeMove() {
 	// first, get a list of all unlocked tiles
-	var newTiles = [];
-	for (let y in game.board) {
-		for (let x in game.board) {
-			if (game.board[y][x] && !game.board[y][x].locked) {
-				let tile = game.board[y][x];
-				newTiles.push({
-					bankIndex: tile.bankIndex,
-					blank: tile.blank,
-					letter: tile.letter,
-					x: tile.x,
-					y: tile.y
-				});
-			}
-		}
-	}
+	var newTiles = getUnlockedTiles();
+
 	$.ajax(
 		location + '/php/makeMove.php',
 		{
@@ -897,6 +884,63 @@ function makeMove() {
 			}
 		}
 	);
+}
+
+function checkPoints() {
+	// first, get a list of all unlocked tiles
+	var newTiles = getUnlockedTiles();
+
+	$.ajax(
+		location + '/php/checkPoints.php',
+		{
+			data: {
+				game: game.id,
+				tiles: newTiles,
+				user: account.id,
+				pwd: account.pwd
+			},
+			method: "POST",
+			success: function(data) {
+				// var tab = window.open('about:blank', '_blank');
+				// tab.document.write(data);
+				jsonData = JSON.parse(data);
+				if (jsonData.errorLevel === 0) {
+					// draw the points box
+					canvas.pointsPreview = {
+						points: jsonData.data.newPoints,
+						start: jsonData.data.newWords[0].pos.start,
+						end: jsonData.data.newWords[0].pos.end
+					}
+				} else {
+					// just clear the points box
+					canvas.pointsPreview = false;
+				}
+			},
+			error: function() {
+				console.error("Request could not be completed.");
+			}
+		}
+	);
+}
+
+function getUnlockedTiles() {
+	// returns a simplified list of any unlocked tiles on the board
+	var newTiles = [];
+	for (let y in game.board) {
+		for (let x in game.board) {
+			if (game.board[y][x] && !game.board[y][x].locked) {
+				let tile = game.board[y][x];
+				newTiles.push({
+					bankIndex: tile.bankIndex,
+					blank: tile.blank,
+					letter: tile.letter,
+					x: tile.x,
+					y: tile.y
+				});
+			}
+		}
+	}
+	return newTiles;
 }
 
 function setBankOrder() {
