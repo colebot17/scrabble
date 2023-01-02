@@ -251,6 +251,12 @@ function handleCanvasMouseMove(e) {
                         } else {
                             canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]].extraGapAfter = true;
                         }
+                        
+                        // remove any extra gap after any letter
+                        canvas.extraGapBeforeBank = false;
+                        for (let j in canvas.bank) {
+                            canvas.bank[j].extraGapAfter = false;
+                        }
                     }
                 }
             }
