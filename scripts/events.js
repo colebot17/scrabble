@@ -328,6 +328,12 @@ function handleDocumentMouseUp(e) {
                 // move the letter
                 moveBankLetter(from, to);
 
+                // remove any extra gap after any letter
+                canvas.extraGapBeforeBank = false;
+                for (let j in canvas.bank) {
+                    canvas.bank[j].extraGapAfter = false;
+                }
+
             }
 
         }
@@ -336,12 +342,6 @@ function handleDocumentMouseUp(e) {
         if (canvas.pointsPreview) {
             canvas.pointsPreview.hidden = false;
             sendPointsRequest = false;
-        }
-
-        // remove any extra gap after any letter
-        canvas.extraGapBeforeBank = false;
-        for (let j in canvas.bank) {
-            canvas.bank[j].extraGapAfter = false;
         }
 
         canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
