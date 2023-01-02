@@ -247,13 +247,14 @@ function parseWords($gameId, $tiles, $user) {
                     
                     // compile the x cross axis word and points into the array if it is long enough
                     if (strlen($xCrossAxisWord) > 1) {
-                        $words[$xCrossAxisWord] = Array(
+                        array_push($words, Array(
+                            "word" => $xCrossAxisWord,
                             "points" => $xCrossAxisWordPoints * $xCrossAxisWordMultiplier,
                             "axis" => "y",
                             "cross" => true,
                             "start" => Array((int)$sweepX, (int)$sweepYMin),
                             "end" => Array((int)$sweepY, (int)$sweepYMax)
-                        );
+                        ));
                     }
                 }
 
@@ -272,13 +273,14 @@ function parseWords($gameId, $tiles, $user) {
 
         // compile the x axis word and points into the array if it is long enough
         if (strlen($xAxisWord) > 1) {
-            $words[$xAxisWord] = Array(
+            array_push($words, Array(
+                "word" => $xAxisWord,
                 "points" => $xAxisWordPoints * $xAxisWordMultiplier,
                 "axis" => "x",
                 "cross" => false,
                 "start" => Array((int)$sweepXMin, (int)$y),
                 "end" => Array((int)$sweepXMax, (int)$y)
-            );
+            ));
         }
     }
 
@@ -354,13 +356,14 @@ function parseWords($gameId, $tiles, $user) {
                     
                     // compile the y cross axis word and points into the array if it is long enough
                     if (strlen($yCrossAxisWord) > 1) {
-                        $words[$yCrossAxisWord] = Array(
+                        array_push($words, Array(
+                            "word" => $yCrossAxisWord,
                             "points" => $yCrossAxisWordPoints * $yCrossAxisWordMultiplier,
                             "axis" => "x",
                             "cross" => true,
                             "start" => Array((int)$sweepXMin, (int)$sweepY),
                             "end" => Array((int)$sweepXMax, (int)$sweepY)
-                        );
+                        ));
                     }
                 }
 
@@ -379,27 +382,27 @@ function parseWords($gameId, $tiles, $user) {
 
         // compile the y axis word and points into the array if it is long enough
         if (strlen($yAxisWord) > 1) {
-            $words[$yAxisWord] = Array(
+            array_push($words, Array(
+                "word" => $yAxisWord,
                 "points" => $yAxisWordPoints * $yAxisWordMultiplier,
                 "axis" => "y",
                 "cross" => false,
                 "start" => Array((int)$x, (int)$sweepYMin),
                 "end" => Array((int)$x, (int)$sweepYMax)
-            );
+            ));
         }
     }
 
     // check word validity
-    $wordsKeys = array_keys($words);
-    for ($i=0; $i < count($wordsKeys); $i++) { 
-        if (!in_array(strtolower($wordsKeys[$i]), $dictionary["words"])) {
+    for ($i=0; $i < count($words); $i++) { 
+        if (!in_array(strtolower($words[$i]["word"]), $dictionary["words"])) {
             return '{"errorLevel":1,"message":"All words must be valid."}';
         }
     }
 
     // add the bonus 50 points if user used all letters
     if (count($tiles) === 7) {
-        $words[""] = Array("points" => 50, "placeholder" => true);
+        array_push($words, Array("points" => 50, "placeholder" => true));
     } else if (count($tiles) > 7) { // a small little cheat check
         return '{"errorLevel":2,"message":"You cannot use more than 7 letters in a single turn."}';
     }

@@ -145,13 +145,10 @@ if (count($players[$currentPlayerIndex]['letterBank']) === 0 && count($longBag) 
 	$endDate = $datestamp;
 }
 
-
-$wordsKeys = array_keys($words);
-
 // update the points in the player obj
 $pointsSum = 0;
 for ($i=0; $i < count($words); $i++) { 
-	$pointsSum += $words[$wordsKeys[$i]]["points"];
+	$pointsSum += $words[$i]["points"];
 }
 $players[$currentPlayerIndex]['points'] = $players[$currentPlayerIndex]['points'] + $pointsSum;
 
@@ -207,20 +204,20 @@ $wordsList = json_decode($row["words"], true);
 
 // add words to the list
 $newWordsList = Array();
-for ($i=0; $i < count($wordsKeys); $i++) { 
-	if ($words[$wordsKeys[$i]]["placeholder"]) {
+for ($i=0; $i < count($words); $i++) { 
+	if ($words[$i]["placeholder"]) {
 		continue;
 	}
 	$newWord = Array(
-		"word" => $wordsKeys[$i],
+		"word" => $words[$i]["word"],
 		"player" => (int)$user,
 		"turn" => (int)$totalTurn,
-		"points" => $words[$wordsKeys[$i]]["points"],
-		"axis" => $words[$wordsKeys[$i]]["axis"],
-		"cross" => $words[$wordsKeys[$i]]["cross"],
+		"points" => $words[$i]["points"],
+		"axis" => $words[$i]["axis"],
+		"cross" => $words[$i]["cross"],
 		"pos" => Array(
-			"start" => $words[$wordsKeys[$i]]["start"],
-			"end" => $words[$wordsKeys[$i]]["end"]
+			"start" => $words[$i]["start"],
+			"end" => $words[$i]["end"]
 		)
 	);
 	array_push($newWordsList, $newWord);

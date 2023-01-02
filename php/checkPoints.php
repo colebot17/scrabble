@@ -96,24 +96,23 @@ if ($decodedResult['errorLevel']) {
 
 // now we can look at the words as normal
 $words = $decodedResult;
-$wordsKeys = array_keys($words);
 
 // add words to a list
 $newWordsList = Array();
-for ($i=0; $i < count($wordsKeys); $i++) { 
-	if ($words[$wordsKeys[$i]]["placeholder"]) {
+for ($i=0; $i < count($words); $i++) { 
+	if ($words[$i]["placeholder"]) {
 		continue;
 	}
 	$newWord = Array(
-		"word" => $wordsKeys[$i],
+		"word" => $words[$i]["word"],
 		"player" => (int)$user,
 		"turn" => (int)$totalTurn,
-		"points" => $words[$wordsKeys[$i]]["points"],
-		"axis" => $words[$wordsKeys[$i]]["axis"],
-		"cross" => $words[$wordsKeys[$i]]["cross"],
+		"points" => $words[$i]["points"],
+		"axis" => $words[$i]["axis"],
+		"cross" => $words[$i]["cross"],
 		"pos" => Array(
-			"start" => $words[$wordsKeys[$i]]["start"],
-			"end" => $words[$wordsKeys[$i]]["end"]
+			"start" => $words[$i]["start"],
+			"end" => $words[$i]["end"]
 		)
 	);
 	array_push($newWordsList, $newWord);
@@ -122,7 +121,7 @@ for ($i=0; $i < count($wordsKeys); $i++) {
 // calculate the total new points
 $newPoints = 0;
 for ($i=0; $i < count($words); $i++) { 
-    $newPoints += $words[$wordsKeys[$i]]["points"];
+    $newPoints += $words[$i]["points"];
 }
 
 // return the response
