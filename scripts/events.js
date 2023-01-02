@@ -338,13 +338,13 @@ function handleDocumentMouseUp(e) {
             sendPointsRequest = false;
         }
 
-        canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
-    }
+        // remove any extra gap after any letter
+        canvas.extraGapBeforeBank = false;
+        for (let j in canvas.bank) {
+            canvas.bank[j].extraGapAfter = false;
+        }
 
-    // remove any extra gap after any letter
-    canvas.extraGapBeforeBank = false;
-    for (let j in canvas.bank) {
-        canvas.bank[j].extraGapAfter = false;
+        canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
     }
 
     // show the points preview
