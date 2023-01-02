@@ -245,12 +245,6 @@ function handleCanvasMouseMove(e) {
                     const xInDropZone = x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x;
                     const yInDropZone = y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y;
                     if (xInDropZone && yInDropZone) {
-                        // remove any extra gap after any letter
-                        canvas.extraGapBeforeBank = false;
-                        for (let j in canvas.bank) {
-                            canvas.bank[j].extraGapAfter = false;
-                        }
-                        
                         // make the gap bigger
                         if (i == 0) {
                             canvas.extraGapBeforeBank = true;
