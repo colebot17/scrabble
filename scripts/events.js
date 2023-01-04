@@ -172,6 +172,14 @@ function handleCanvasMouseMove(e) {
         }
     }
 
+    if (dragged) {
+        // remove all gaps between letters in bank
+        canvas.extraGapBeforeBank = false;
+        for (let i in canvas.bank) {
+            canvas.bank[i].extraGapAfter = false;
+        }
+    }
+
     // set the cursor according to the type of tile the mouse is on
     if (e.type === 'mousemove') {
 
@@ -228,12 +236,6 @@ function handleCanvasMouseMove(e) {
 
             if (!tile) {
                 cursor = (outOfTurn ? 'no-drop' : 'grabbing');
-            }
-
-            // remove all gaps between letters in bank
-            canvas.extraGapBeforeBank = false;
-            for (let i in canvas.bank) {
-                canvas.bank[i].extraGapAfter = false;
             }
 
             if (boardY > 14) {
