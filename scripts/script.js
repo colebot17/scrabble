@@ -890,6 +890,12 @@ function checkPoints() {
 	// first, get a list of all unlocked tiles
 	var newTiles = getUnlockedTiles();
 
+	// don't bother if there are no unlocked tiles
+	if (newTiles.length < 1) {
+		canvas.pointsPreview = false;
+		return;
+	}
+
 	$.ajax(
 		location + '/php/checkPoints.php',
 		{
