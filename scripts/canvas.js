@@ -348,7 +348,9 @@ function updateTile(tile) {
 	}
 	canvas.ctx.font = fontSize + "px Eurostile";
 	canvas.ctx.textAlign = "center";
-	canvas.ctx.fillText(tile.letter || "", pixelX + (tileWidth / 2), pixelY + fontSize);
+	canvas.ctx.textBaseline = "middle";
+	canvas.ctx.fillText(tile.letter || "", pixelX + (tileWidth / 2), pixelY + (tileWidth / 2));
+	canvas.ctx.textBaseline = "";
 
 	// draw the points on the tile if size allows
 	if (squareWidth >= 35 && !tile.blank) {
