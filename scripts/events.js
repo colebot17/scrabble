@@ -172,95 +172,89 @@ function handleCanvasMouseMove(e) {
         }
     }
 
+    // if the mouse isn't over anything, it should have a regular cursor
+    let cursor = 'default';
+
+    const outOfTurn = (game.inactive || game.players[game.turn % game.players.length].id != account.id);
+
+    // check the letter bank
+    // get the canvas.bank without hidden items
+    let bank = [];
+    for (var i = 0; i < canvas.bank.length; i++) {
+        if (!canvas.bank[i].hidden) {
+            bank.push(canvas.bank[i]);
+        }
+    }
+
+    // loop through letter bank tile positions to see if user is hovering over one
+    for (let i in bank) {
+        const xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
+        const yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
+        if (xMatch && yMatch) { // if this is the one that the user is hovering over
+            cursor = 'grab';
+        }
+    }
+
+    // check the board
+    let boardX = Math.floor(x / (squareWidth + squareGap));
+    let boardY = Math.floor(y / (squareWidth + squareGap));
+    
+    let tile = game.board?.[boardY]?.[boardX];
+    let locked = tile?.locked;
+
+    if (tile) {
+        if (locked) {
+            cursor = 'pointer';
+        } else {
+            cursor = (outOfTurn ? 'not-allowed' : 'grab');
+        }
+    }
+
+    // show the hover effect on the shuffle button
+    const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
+    const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
+    if (!dragged && xOnShuffle && yOnShuffle) {
+        cursor = 'pointer';
+        canvas.bankShuffleButton.hover = true;
+    } else {
+        canvas.bankShuffleButton.hover = false;
+    }
+    
     if (dragged) {
+        cursor = 'no-drop';
+
+        if (!tile) {
+            cursor = (outOfTurn ? 'no-drop' : 'grabbing');
+        }
+
         // remove all gaps between letters in bank
         canvas.extraGapBeforeBank = false;
         for (let i in canvas.bank) {
             canvas.bank[i].extraGapAfter = false;
         }
-    }
 
-    // set the cursor according to the type of tile the mouse is on
-    if (e.type === 'mousemove') {
+        if (boardY > 14) {
+            cursor = 'grabbing';
 
-        // if the mouse isn't over anything, it should have a regular cursor
-        let cursor = 'default';
-
-        const outOfTurn = (game.inactive || game.players[game.turn % game.players.length].id != account.id);
-
-        // check the letter bank
-        // get the canvas.bank without hidden items
-        let bank = [];
-        for (var i = 0; i < canvas.bank.length; i++) {
-            if (!canvas.bank[i].hidden) {
-                bank.push(canvas.bank[i]);
-            }
-        }
-
-        // loop through letter bank tile positions to see if user is hovering over one
-        for (let i in bank) {
-            const xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
-            const yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
-            if (xMatch && yMatch) { // if this is the one that the user is hovering over
-                cursor = 'grab';
-            }
-        }
-
-        // check the board
-        let boardX = Math.floor(x / (squareWidth + squareGap));
-        let boardY = Math.floor(y / (squareWidth + squareGap));
-        
-        let tile = game.board?.[boardY]?.[boardX];
-        let locked = tile?.locked;
-
-        if (tile) {
-            if (locked) {
-                cursor = 'pointer';
-            } else {
-                cursor = (outOfTurn ? 'not-allowed' : 'grab');
-            }
-        }
-
-        // show the hover effect on the shuffle button
-        const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
-        const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
-        if (!dragged && xOnShuffle && yOnShuffle) {
-            cursor = 'pointer';
-            canvas.bankShuffleButton.hover = true;
-        } else {
-            canvas.bankShuffleButton.hover = false;
-        }
-        
-        if (dragged) {
-            cursor = 'no-drop';
-
-            if (!tile) {
-                cursor = (outOfTurn ? 'no-drop' : 'grabbing');
-            }
-
-            if (boardY > 14) {
-                cursor = 'grabbing';
-
-                // expand the space between letters in bank as necessary
-                for (let i in canvas.dropZones) {
-                    // if the user is dragging over this zone
-                    const xInDropZone = x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x;
-                    const yInDropZone = y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y;
-                    if (xInDropZone && yInDropZone) {
-                        // make the gap bigger
-                        if (i == 0) {
-                            canvas.extraGapBeforeBank = true;
-                        } else {
-                            canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]].extraGapAfter = true;
-                        }
+            // expand the space between letters in bank as necessary
+            for (let i in canvas.dropZones) {
+                // if the user is dragging over this zone
+                const xInDropZone = x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x;
+                const yInDropZone = y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y;
+                if (xInDropZone && yInDropZone) {
+                    // make the gap bigger
+                    if (i == 0) {
+                        canvas.extraGapBeforeBank = true;
+                    } else {
+                        canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]].extraGapAfter = true;
                     }
                 }
             }
         }
-
-        // set the css
-        document.getElementById('scrabbleCanvas').style.cursor = cursor;
     }
+
+    // set the css
+    document.getElementById('scrabbleCanvas').style.cursor = cursor;
 }
 
 function handleDocumentMouseUp(e) {
