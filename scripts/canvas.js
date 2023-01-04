@@ -331,7 +331,7 @@ function updateTile(tile) {
 	var borderRadius = tileSize * 5;
 
 	var tileWidth = squareWidth * tileSize;
-	var fontSize = tileWidth * 0.8;
+	var fontSize = tileWidth * 0.83;
 
 	var pixelX = (tile.pixelX + (tile.mouseOffset?.x || -(squareWidth / 2)) || (tile.x * squareWidth) + (tile.x * squareGap)) + ((squareWidth - tileWidth) / 2);
 	var pixelY = (tile.pixelY + (tile.mouseOffset?.y || -(squareWidth / 2)) || (tile.y * squareWidth) + (tile.y * squareGap)) + ((squareWidth - tileWidth) / 2);
