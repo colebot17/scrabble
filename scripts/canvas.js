@@ -368,7 +368,7 @@ function drawRegions(regions) {
 		// set up the style
 		canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight');
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
-		canvas.ctx.lineWidth = squareWidth * 0.1;
+		canvas.ctx.lineWidth = (squareWidth * 0.1) + 1;
 		const fontSize = 16;
 		canvas.ctx.font = fontSize + "px Rubik";
 
