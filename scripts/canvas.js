@@ -350,7 +350,7 @@ function updateTile(tile) {
 	canvas.ctx.textAlign = "center";
 	canvas.ctx.textBaseline = "middle";
 	canvas.ctx.fillText(tile.letter || "", pixelX + (tileWidth / 2), pixelY + (tileWidth / 2));
-	canvas.ctx.textBaseline = "";
+	canvas.ctx.textBaseline = "alphabetic";
 
 	// draw the points on the tile if size allows
 	if (squareWidth >= 35 && !tile.blank) {
