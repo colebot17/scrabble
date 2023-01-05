@@ -96,12 +96,8 @@ function parseWords($gameId, $tiles, $user) {
 
     // prevent axis confusion when there is only one tile
     if (count($tiles) === 1) {
-        if (!$board[$tiles[0]["y"] + 1][$tiles[0]["x"]] && !$board[$tiles[0]["y"] - 1][$tiles[0]["x"]]) {
-            $onAxisX = false;
-        }
-        if (!$board[$tiles[0]["y"]][$tiles[0]["x"] + 1] && !$board[$tiles[0]["y"]][$tiles[0]["x"] - 1]) {
-            $onAxisY = false;
-        }
+        $onAxisX = $board[$tiles[0]["y"] + 1][$tiles[0]["x"]] || $board[$tiles[0]["y"] - 1][$tiles[0]["x"]];
+        $onAxisY = $board[$tiles[0]["y"]][$tiles[0]["x"] + 1] || $board[$tiles[0]["y"]][$tiles[0]["x"] - 1];
     }
 
     // make sure all tiles are connected to the center of the board
