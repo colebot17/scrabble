@@ -913,7 +913,7 @@ function checkPoints() {
 				if (jsonData.errorLevel === 0) {
 					// find the first non-cross word
 					let mainWordId = 0;
-					for (let i = 0; i < jsonData.newWords.length; i++) {
+					for (let i = 0; i < jsonData.data.newWords.length; i++) {
 						if (!jsonData.newWords[i].cross) {
 							mainWordId = i;
 							break;
