@@ -911,11 +911,20 @@ function checkPoints() {
 				// tab.document.write(data);
 				jsonData = JSON.parse(data);
 				if (jsonData.errorLevel === 0) {
+					// find the first non-cross word
+					let mainWordId = 0;
+					for (let i = 0; i < jsonData.data.newWords.length; i++) {
+						if (!jsonData.data.newWords[i].cross) {
+							mainWordId = i;
+							break;
+						}
+					}
+
 					// draw the points box
 					canvas.pointsPreview = {
 						points: jsonData.data.newPoints,
-						start: jsonData.data.newWords[0].pos.start,
-						end: jsonData.data.newWords[0].pos.end
+						start: jsonData.data.newWords[mainWordId].pos.start,
+						end: jsonData.data.newWords[mainWordId].pos.end
 					}
 				} else {
 					// just clear the points box
