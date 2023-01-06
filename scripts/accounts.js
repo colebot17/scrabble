@@ -162,7 +162,7 @@ function changeUsername(
 		cancelable: true,
 		complete: () => {
 			$.ajax(
-				location + '/php/changePassword.php',
+				location + '/php/changeUsernames.php',
 				{
 					data: {
 						user: account.id,
