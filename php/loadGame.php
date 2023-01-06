@@ -34,6 +34,7 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	$creationDate = $row['creationDate'];
 	$endDate = $row['endDate'];
 	$players = json_decode($row['players'], true);
+	$chat = json_decode($row['chat'], true);
 
 	// prepare the players list to be sent back
 	for ($i=0; $i < count($players); $i++) {
@@ -61,7 +62,6 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	// find the names of users who send chat messages
 	// and remove message content from deleted messages
 	$chatSenderBuffer = Array();
-	$chat = json_decode($row['chat'], true);
 	for ($i=0; $i < count($chat); $i++) { 
 		$senderId = $chat[$i]['sender'];
 		$senderName = '';
