@@ -154,6 +154,39 @@ function changePassword(
 	});
 }
 
+function changeUsername(
+	pwd = document.getElementById('changeUsernamePwd').value,
+	newName = document.getElementById('changeUsernameNewName').value
+) {
+	textModal('Change Username', 'Are you sure you want to change your username? This action will change how others see you across the site.', {
+		cancelable: true,
+		complete: () => {
+			$.ajax(
+				location + '/php/changePassword.php',
+				{
+					data: {
+						user: account.id,
+						pwd,
+						newName
+					},
+					method: "POST",
+					success: function(data) {
+						const jsonData = JSON.parse(data);
+						if (jsonData.errorLevel > 0) {
+							textModal("Error", jsonData.message);
+							return;
+						}
+						showTab('account');
+						setSignInMode('signOut');
+						loadGamesList();
+						textModal('Change Username', jsonData.message);
+					}
+				}
+			)
+		}
+	})
+}
+
 function signOut() {
 	textModal("Sign Out", "Are you sure you want to sign out?", {
 		cancelable: true,
