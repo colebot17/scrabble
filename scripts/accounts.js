@@ -176,9 +176,7 @@ function changeUsername(
 							textModal("Error", jsonData.message);
 							return;
 						}
-						showTab('account');
-						setSignInMode('signOut');
-						loadGamesList();
+						signIn(newName, account.pwd);
 						textModal('Change Username', jsonData.message);
 					}
 				}
