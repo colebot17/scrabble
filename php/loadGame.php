@@ -39,7 +39,7 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	for ($i=0; $i < count($players); $i++) {
 		// get the username for each player
 		$idI = $players[$i]['id'];
-		$sql = "SELECT name FROM accounts WHERE id='$idI";
+		$sql = "SELECT name FROM accounts WHERE id='$idI'";
 		$query = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($query);
 		$players[$i]['name'] = $row['name'];
