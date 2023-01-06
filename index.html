@@ -162,6 +162,19 @@
 					<span class="finePrint">Email <a class="underline hoverDarken" href="mailto:colebot17@gmail.com?subject=Reset%20my%20Password">colebot17@gmail.com</a> if you don't know your current password.</span>
 				</form>
 
+				<form class="hidden accountForm" id="changeUsernameForm" data-action="changeUsername" onsubmit="return false;">
+					<h3>Change Username</h3>
+
+					<label for="changeUsernameNewName">New Username:</label>
+					<input class="accountFormInput" autocomplete="username" type="text" name="newName" id="changeUsernameNewName"><br>
+
+					<label for="changeUsernamePwd">Password:</label>
+					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="changeUsernamePwd"><br>
+
+					<a onclick="setSignInMode('signOut')" class="hoverLine small">Back</a>
+					<button type="submit" onclick="changeUsername()">Change Username</button>
+				</form>
+
 				<form class="hidden accountForm" id="resetPasswordForm" data-action="resetPassword" onsubmit="return false;">
 					<h3>Reset Password</h3>
 					<span class="finePrint">You will need to request a password reset key from <a class="underline hoverDarken" href="mailto:colebot17@gmail.com?subject=Password%20Reset%20Key">colebot17@gmail.com</a>.</span><br><br>
@@ -181,10 +194,11 @@
 					<button type="submit" onclick="resetPassword()">Reset Password</button>
 					<a onclick="setSignInMode('signIn')" class="hoverLine small">Sign In</a>
 				</form>
-				<div class="hidden accountForm flex col mobileRow" id="signOutForm">
+				<div class="hidden accountForm flex gap10 col mobileRow" id="signOutForm">
 					<span id="accountNameLabel"></span>
 					<button onclick="signOut()">Sign Out</button>
 					<a onclick="setSignInMode('changePassword')" class="hoverLine small">Change Password</a>
+					<a onclick="setSignInMode('changeUsername')" class="hoverLine small">Change Username</a>
 				</div>
 			</div>
 
