@@ -165,11 +165,11 @@
 				<form class="hidden accountForm" id="changeUsernameForm" data-action="changeUsername" onsubmit="return false;">
 					<h3>Change Username</h3>
 
-					<label for="changeUsernamePwd">Password:</label>
-					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="changeUsernamePwd"><br>
-
 					<label for="changeUsernameNewName">New Username:</label>
 					<input class="accountFormInput" autocomplete="username" type="text" name="newName" id="changeUsernameNewName"><br>
+
+					<label for="changeUsernamePwd">Password:</label>
+					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="changeUsernamePwd"><br>
 
 					<a onclick="setSignInMode('signOut')" class="hoverLine small">Back</a>
 					<button type="submit" onclick="changeUsername()">Change Username</button>
