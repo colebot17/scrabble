@@ -18,7 +18,7 @@ $newPwd = "qj63ti48QU";
 $hash = password_hash($newPwd, PASSWORD_DEFAULT);
 
 // change the password
-$sql = "UPDATE accounts SET pwd='$hash' WHERE id='$user'";
+$sql = "UPDATE accounts SET pwd='$hash' WHERE id='19'";
 $query = mysqli_query($conn, $sql);
 echo '{"errorLevel":0,"message":"Password changed."}';
 
