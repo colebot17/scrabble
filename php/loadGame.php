@@ -33,10 +33,18 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	$board = json_decode($row['board'], true);
 	$creationDate = $row['creationDate'];
 	$endDate = $row['endDate'];
-
-	// remove the letter bank from all players other than the current user - no cheating!
 	$players = json_decode($row['players'], true);
-	for ($i=0; $i < count($players); $i++) { 
+
+	// prepare the players list to be sent back
+	for ($i=0; $i < count($players); $i++) {
+		// get the username for each player
+		$idI = $players[$i]['id'];
+		$sql = "SELECT name FROM accounts WHERE id='$idI";
+		$query = mysqli_query($conn, $sql);
+		$row = mysqli_fetch_assoc($query);
+		$players[$i]['name'] = $row['name'];
+
+		// remove the letter bank from all players other than the current user - no cheating!
 		if ($players[$i]['id'] != $user) {
 			unset($players[$i]['letterBank']);
 			unset($players[$i]['bankOrder']);

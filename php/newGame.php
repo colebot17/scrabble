@@ -34,6 +34,7 @@ if (password_verify($userPwd, $row['pwd'])) {
 		$row = mysqli_fetch_assoc($query);
 		$playerListNames[$playerList[$i]] = $row['name'];
 	}
+
 	// generate a full player list to go with the actual game
 	$players = array();
 	for ($i = 0; $i < $numPlayers; $i++) { 
@@ -42,7 +43,6 @@ if (password_verify($userPwd, $row['pwd'])) {
 			"letterBank" => array(),
 			"bankOrder" => array(0, 1, 2, 3, 4, 5, 6),
 			"points" => 0,
-			"name" => $playerListNames[$playerList[$i]],
 			"endGameRequest" => "false",
 			"chatRead" => 0
 		));
