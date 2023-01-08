@@ -691,7 +691,7 @@ body.scrabble {
 	/* signed in account tab */
 	#scrabbleGrid[data-tab=account][data-signedin=true] {
 		grid-template-columns: 100%;
-		grid-template-rows: min-content max-content;
+		grid-template-rows: minmax(0, auto) max-content;
 	}
 	#scrabbleGrid[data-tab=account][data-signedin=true] #signInCell {
 		display: unset;
