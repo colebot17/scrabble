@@ -707,7 +707,7 @@ body.scrabble {
 	/* signed out account tab */
 	#scrabbleGrid[data-tab=account][data-signedin=false] {
 		grid-template-columns: 100%;
-		grid-template-rows: 33% 33%;
+		grid-template-rows: max-content max-content;
 	}
 	#scrabbleGrid[data-tab=account][data-signedin=false] #welcomeCell {
 		display: unset;
