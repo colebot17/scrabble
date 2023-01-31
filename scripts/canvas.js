@@ -328,6 +328,10 @@ function drawLetterBank() {
 function updateTile(tile) {
 	// figure out animiation stuff
 	var tileSize = (tile.size === undefined ? 1 : tile.size);
+
+	// don't even bother drawing tile if size is 0
+	if (tileSize === 0) return;
+
 	var borderRadius = tileSize * 5;
 
 	var tileWidth = squareWidth * tileSize;
