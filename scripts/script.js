@@ -743,7 +743,7 @@ function gameInit() {
 		});
 
 		const banner = document.getElementById('gameBanner')
-		banner.innerHTML = "It isn't your turn. You can still view the game and rearrange your letters for now.";
+		banner.innerHTML = "It isn't your turn. Any letters you place will not be saved.";
 		banner.classList.remove('hidden');
 	}
 
