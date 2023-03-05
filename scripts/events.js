@@ -206,7 +206,7 @@ function handleCanvasMouseMove(e) {
         if (locked) {
             cursor = 'pointer';
         } else {
-            cursor = (outOfTurn ? 'not-allowed' : 'grab');
+            cursor = (game.inactive ? 'not-allowed' : 'grab');
         }
     }
 
@@ -224,7 +224,7 @@ function handleCanvasMouseMove(e) {
         cursor = 'no-drop';
 
         if (!tile) {
-            cursor = (outOfTurn ? 'no-drop' : 'grabbing');
+            cursor = (game.inactive ? 'no-drop' : 'grabbing');
         }
 
         // remove all gaps between letters in bank
