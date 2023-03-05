@@ -742,7 +742,7 @@ function gameInit() {
 			textModal((game.inactive ? "Inactive Game" : "Not your turn!"), (game.inactive ? "This game is inactive, meaning it can no longer be played. You can still look at it all you want, though." : "It's someone else's turn right now. Wait for your turn to make a move.")); // show an alert when the user tries to interact with the canvas or letter bank
 		});
 
-		const banner = document.getElementById('#gameBanner')
+		const banner = document.getElementById('gameBanner')
 		banner.innerHTML = "It isn't your turn. You can still view the game and rearrange your letters for now.";
 		banner.classList.remove('hidden');
 	}
