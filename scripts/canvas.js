@@ -63,17 +63,17 @@ function canvasInit() {
 }
 
 function setCanvasSize() {
-	const canvasCell = $('#canvasCell');
+	const canvasWrapper = $('#canvasWrapper');
 
 	// hide the canvas first (to let the grid adjust properly)
 	canvas.c.style.display = "none";
 	
 	// get the dimensions that we have to work with
-	const canvasCellWidth = canvasCell.width();
-	const canvasCellHeight = canvasCell.height();
+	const canvasWrapperWidth = canvasWrapper.width();
+	const canvasWrapperHeight = canvasWrapper.height();
 
 	// calculate which dimension will limit the size
-	var limitingDimension = Math.min(canvasCellWidth + 100, canvasCellHeight);
+	var limitingDimension = Math.min(canvasWrapperWidth + 100, canvasWrapperHeight);
 
 	// size the canvas accordingly
 	canvas.c.width = limitingDimension - 100;
