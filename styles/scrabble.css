@@ -133,6 +133,17 @@ body.scrabble {
 	user-select: none;
 	-webkit-user-select: none;
 }
+#canvasWrapper {
+	width: 100%;
+	height: 100%;
+}
+.gameBanner {
+	margin: 5px;
+	margin-top: 15px;
+	padding: 5px;
+	background: yellow;
+	border-radius: 5px;
+}
 @font-face { /* Scrabble Font - Eurostile */
 	font-family: Eurostile;
 	src: url(http://scrabble.colebot.com/fonts/eurostile.ttf);
