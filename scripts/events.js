@@ -102,8 +102,8 @@ function handleCanvasMouseDown(e) {
     let tile = game.board?.[boardY]?.[boardX];
     let locked = tile?.locked;
 
-    // initialize the drag if tile is unlocked (and it's the user's turn)
-    if (tile && !locked && userTurn) {
+    // initialize the drag if tile is unlocked
+    if (tile && !locked && !game.inactive) {
         // when initializing a drag from a letter already on the board
         dragged = {
             bankIndex: tile.bankIndex,
@@ -206,7 +206,7 @@ function handleCanvasMouseMove(e) {
         if (locked) {
             cursor = 'pointer';
         } else {
-            cursor = (outOfTurn ? 'not-allowed' : 'grab');
+            cursor = (game.inactive ? 'not-allowed' : 'grab');
         }
     }
 
@@ -224,7 +224,7 @@ function handleCanvasMouseMove(e) {
         cursor = 'no-drop';
 
         if (!tile) {
-            cursor = (outOfTurn ? 'no-drop' : 'grabbing');
+            cursor = (game.inactive ? 'no-drop' : 'grabbing');
         }
 
         // remove all gaps between letters in bank
@@ -306,7 +306,7 @@ function handleDocumentMouseUp(e) {
     let sendPointsRequest = true;
 
     // only if the letter was moved to a free space on the board
-    if (onBoard && !onExistingTile && !stayedStill && !outOfTurn) {
+    if (onBoard && !onExistingTile && !stayedStill && !game.inactive) {
         addLetter(boardX, boardY, dragged.bankIndex); // add the letter to the appropriate spot on the board
     } else { // if the letter was dropped anywhere else or stayed still
 

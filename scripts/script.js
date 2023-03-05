@@ -741,6 +741,14 @@ function gameInit() {
 			e.preventDefault();
 			textModal((game.inactive ? "Inactive Game" : "Not your turn!"), (game.inactive ? "This game is inactive, meaning it can no longer be played. You can still look at it all you want, though." : "It's someone else's turn right now. Wait for your turn to make a move.")); // show an alert when the user tries to interact with the canvas or letter bank
 		});
+
+		const banner = document.getElementById('gameBanner');
+		banner.innerHTML = (game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved.");
+		banner.classList.remove('hidden');
+	} else {
+		const banner = document.getElementById('gameBanner');
+		banner.innerHTML = "";
+		banner.classList.add('hidden');
 	}
 
 	// show the game info
