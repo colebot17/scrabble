@@ -743,7 +743,7 @@ function gameInit() {
 		});
 
 		const banner = document.getElementById('gameBanner')
-		banner.innerHTML = "It isn't your turn. Any letters you place will not be saved.";
+		banner.innerHTML = (game.inactive ? "This game has ended." : "It isn't your turn. Any letters you place will not be saved.");
 		banner.classList.remove('hidden');
 	}
 
