@@ -65,7 +65,7 @@ function canvasInit() {
 function setCanvasSize() {
 	const canvasWrapper = $('#canvasWrapper');
 
-	const isBankEmpty = game.players.find((a)=>a.id == account.id).bank.length === 0;
+	const isBankEmpty = game.players.find((a)=>a.id == account.id).letterBank.length === 0;
 	const sizeDifference = (isBankEmpty ? 40 : 100);
 
 	// hide the canvas first (to let the grid adjust properly)
