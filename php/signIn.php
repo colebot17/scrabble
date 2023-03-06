@@ -41,7 +41,7 @@ $newGames = Array();
 
 // for each game, get the names of the players, the current turn, whether it is inactive, and the last move timestamp
 for ($i = 0; $i < count($games); $i++) {
-	$sql = "SELECT name, turn, inactive, players, lastMove FROM games WHERE id='$games[$i]'";
+	$sql = "SELECT name, turn, inactive, players, lastMove, endDate FROM games WHERE id='$games[$i]'";
 	$query = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($query);
 
