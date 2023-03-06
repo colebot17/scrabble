@@ -141,7 +141,7 @@ function drawLetterBank() {
 	canvas.ctx.font = titleSize + "px Rubik";
 	canvas.ctx.fillStyle = "#000000";
 	canvas.ctx.textAlign = "center";
-	canvas.ctx.fillText((canvas.bank.length > 0 ? "Letter Bank" : "Your letter bank is empty"), canvasWidth / 2, startY + titleSize + 10);
+	canvas.ctx.fillText((canvas.bank.length > 0 ? "Letter Bank" : "Your letter bank is empty."), canvasWidth / 2, startY + titleSize + 10);
 
 	// STOP here if the bank is empty
 	if (canvas.bank.length <= 0) return;
