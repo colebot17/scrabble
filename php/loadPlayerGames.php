@@ -52,13 +52,18 @@ for ($i = 0; $i < count($games); $i++) {
 
 	$players = json_decode($row['players'], true);
 
+	$endDate = $row['endDate'];
+	if ($endDate === '0000-00-00') {
+		$endDate = null;
+	}
+
 	$fullGamesList[$games[$i]] = Array(
 		"name" => $row['name'],
 		"turn" => $row['turn'],
 		"inactive" => ((int)$row['inactive'] === 1 ? true : false),
 		"players" => Array(),
 		"lastMove" => $row['lastMove'],
-		"endDate" => $row['endDate']
+		"endDate" => $endDate
 	);
 
 	// for each player, add their name, id, points, and request status into the new game array
