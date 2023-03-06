@@ -187,15 +187,12 @@ function handleCanvasMouseMove(e) {
         }
     }
 
-    // if the game is active
-    if (!game.inactive) {
-        // loop through letter bank tile positions to see if user is hovering over one
-        for (let i in bank) {
-            const xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
-            const yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
-            if (xMatch && yMatch) { // if this is the one that the user is hovering over
-                cursor = 'grab';
-            }
+    // loop through letter bank tile positions to see if user is hovering over one
+    for (let i in bank) {
+        const xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
+        const yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
+        if (xMatch && yMatch) { // if this is the one that the user is hovering over
+            cursor = (game.inactive ? 'not-allowed' : 'grab');
         }
     }
     
