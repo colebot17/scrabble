@@ -137,11 +137,14 @@ function drawLetterBank() {
 	let remainingSpace = canvas.c.height - startY;
 
 	// draw title ("Letter Bank")
-	const titleSize = 25;
+	const titleSize = (canvas.bank.length > 0 ? 25 : 12);
 	canvas.ctx.font = titleSize + "px Rubik";
 	canvas.ctx.fillStyle = "#000000";
 	canvas.ctx.textAlign = "center";
-	canvas.ctx.fillText("Letter Bank", canvasWidth / 2, startY + titleSize + 10);
+	canvas.ctx.fillText((canvas.bank.length > 0 ? "Letter Bank" : "Your bank is empty"), canvasWidth / 2, startY + titleSize + 10);
+
+	// STOP here if the bank is empty
+	if (canvas.bank.length <= 0) return;
 
 	// if the game is active
 	if (!game.inactive) {
