@@ -65,6 +65,8 @@ function canvasInit() {
 function setCanvasSize() {
 	const canvasWrapper = $('#canvasWrapper');
 
+	const sizeDifference = (canvas.bank.length > 0 ? 100 : 40);
+
 	// hide the canvas first (to let the grid adjust properly)
 	canvas.c.style.display = "none";
 	
@@ -73,10 +75,10 @@ function setCanvasSize() {
 	const canvasWrapperHeight = canvasWrapper.height();
 
 	// calculate which dimension will limit the size
-	var limitingDimension = Math.min(canvasWrapperWidth + 100, canvasWrapperHeight);
+	var limitingDimension = Math.min(canvasWrapperWidth + sizeDifference, canvasWrapperHeight);
 
 	// size the canvas accordingly
-	canvas.c.width = limitingDimension - 100;
+	canvas.c.width = limitingDimension - sizeDifference;
 	canvas.c.height = limitingDimension;
 
 	// show the canvas again
@@ -144,7 +146,7 @@ function drawLetterBank() {
 	canvas.ctx.fillText((canvas.bank.length > 0 ? "Letter Bank" : "Your letter bank is empty."), canvasWidth / 2, startY + titleSize + 10);
 
 	// STOP here if the bank is empty
-	if (canvas.bank.length <= 0) return;
+	if (canvas.bank.length === 0) return;
 
 	// if the game is active
 	if (!game.inactive) {
