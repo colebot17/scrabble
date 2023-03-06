@@ -143,34 +143,37 @@ function drawLetterBank() {
 	canvas.ctx.textAlign = "center";
 	canvas.ctx.fillText("Letter Bank", canvasWidth / 2, startY + titleSize + 10);
 
-	// draw the bank shuffle button
-	const shuffleButtonX = (canvasWidth / 2) + 90;
-	const shuffleButtonY = startY + titleSize + 14;
+	// if the game is active
+	if (!game.inactive) {
+		// draw the bank shuffle button
+		const shuffleButtonX = (canvasWidth / 2) + 90;
+		const shuffleButtonY = startY + titleSize + 14;
 
-	// draw background if hovering
-	if (canvas.bankShuffleButton.hover) {
-		canvas.ctx.fillStyle = "#00000033";
-		canvas.ctx.beginPath();
-		canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
-		canvas.ctx.fill();
-	}
+		// draw background if hovering
+		if (canvas.bankShuffleButton.hover) {
+			canvas.ctx.fillStyle = "#00000033";
+			canvas.ctx.beginPath();
+			canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
+			canvas.ctx.fill();
+		}
+		
+		// draw the icon
+		canvas.ctx.font = titleSize + "px Material Icons";
+		canvas.ctx.fillStyle = "#000000";
+		canvas.ctx.textAlign = "center";
 
-	// draw the icon
-	canvas.ctx.font = titleSize + "px Material Icons";
-	canvas.ctx.fillStyle = "#000000";
-	canvas.ctx.textAlign = "center";
-
-	canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
-
-	// store the coordinates so we know when we click on it
-	canvas.bankShuffleButton.position = {
-		start: {
-			x: shuffleButtonX - (titleSize / 2) - 5,
-			y: shuffleButtonY - titleSize - 5
-		},
-		end: {
-			x: shuffleButtonX + (titleSize / 2) + 5,
-			y: shuffleButtonY + 5
+		canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
+		
+		// store the coordinates so we know when we click on it
+		canvas.bankShuffleButton.position = {
+			start: {
+				x: shuffleButtonX - (titleSize / 2) - 5,
+				y: shuffleButtonY - titleSize - 5
+			},
+			end: {
+				x: shuffleButtonX + (titleSize / 2) + 5,
+				y: shuffleButtonY + 5
+			}
 		}
 	}
 

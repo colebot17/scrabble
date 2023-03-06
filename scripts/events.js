@@ -59,39 +59,40 @@ function handleCanvasMouseDown(e) {
         clientY = e.clientY;
     }
 
-    // loop through letter bank tile positions to see if user clicked on one
-    for (let i in canvas.bankOrder) {
-        const canvasLetter = canvas.bank[canvas.bankOrder[i]];
+    // if the game is active
+    if (!game.inactive) {
+        // loop through letter bank tile positions to see if user clicked on one
+        for (let i in canvas.bankOrder) {
+            const canvasLetter = canvas.bank[canvas.bankOrder[i]];
 
-        // don't accept a click if the letter is hidden
-        if (canvasLetter.hidden) {
-            continue;
-        }
+            // don't accept a click if the letter is hidden
+            if (canvasLetter.hidden) continue;
 
-        const xMatch = x > canvasLetter.position.x && x < canvasLetter.position.x + canvas.bankTileWidth;
-        const yMatch = y > canvasLetter.position.y && y < canvasLetter.position.y + canvas.bankTileWidth;
-        if (xMatch && yMatch) { // if this is the one that the user has clicked on
-            // update the dragged piece
-            dragged = {
-                bankIndex: canvasLetter.bankIndex,
-                blank: !canvasLetter.letter,
-                letter: canvasLetter.letter,
-                pixelX: x,
-                pixelY: y
+            const xMatch = x > canvasLetter.position.x && x < canvasLetter.position.x + canvas.bankTileWidth;
+            const yMatch = y > canvasLetter.position.y && y < canvasLetter.position.y + canvas.bankTileWidth;
+            if (xMatch && yMatch) { // if this is the one that the user has clicked on
+                // update the dragged piece
+                dragged = {
+                    bankIndex: canvasLetter.bankIndex,
+                    blank: !canvasLetter.letter,
+                    letter: canvasLetter.letter,
+                    pixelX: x,
+                    pixelY: y
+                }
+                canvasLetter.hidden = true; // hide the letter from the bank
+                
+                // add a gap where the letter used to be
+                if (i == 0) {
+                    canvas.extraGapBeforeBank = true;
+                } else {
+                    canvas.bank[canvas.bankOrder[i - 1]].extraGapAfter = true;
+                }
+
+                // temporarily hide the points preview
+                canvas.pointsPreview.hidden = true;
+
+                return; // don't bother to check the board
             }
-            canvasLetter.hidden = true; // hide the letter from the bank
-            
-            // add a gap where the letter used to be
-            if (i == 0) {
-                canvas.extraGapBeforeBank = true;
-            } else {
-                canvas.bank[canvas.bankOrder[i - 1]].extraGapAfter = true;
-            }
-
-            // temporarily hide the points preview
-            canvas.pointsPreview.hidden = true;
-
-            return; // don't bother to check the board
         }
     }
 
@@ -186,15 +187,18 @@ function handleCanvasMouseMove(e) {
         }
     }
 
-    // loop through letter bank tile positions to see if user is hovering over one
-    for (let i in bank) {
-        const xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
-        const yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
-        if (xMatch && yMatch) { // if this is the one that the user is hovering over
-            cursor = 'grab';
+    // if the game is active
+    if (!game.inactive) {
+        // loop through letter bank tile positions to see if user is hovering over one
+        for (let i in bank) {
+            const xMatch = x > bank[i].position.x && x < bank[i].position.x + canvas.bankTileWidth;
+            const yMatch = y > bank[i].position.y && y < bank[i].position.y + canvas.bankTileWidth;
+            if (xMatch && yMatch) { // if this is the one that the user is hovering over
+                cursor = 'grab';
+            }
         }
     }
-
+    
     // check the board
     let boardX = Math.floor(x / (squareWidth + squareGap));
     let boardY = Math.floor(y / (squareWidth + squareGap));
@@ -210,14 +214,17 @@ function handleCanvasMouseMove(e) {
         }
     }
 
-    // show the hover effect on the shuffle button
-    const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
-    const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
-    if (!dragged && xOnShuffle && yOnShuffle) {
-        cursor = 'pointer';
-        canvas.bankShuffleButton.hover = true;
-    } else {
-        canvas.bankShuffleButton.hover = false;
+    // if the game is active
+    if (!game.inactive) {
+        // show the hover effect on the shuffle button
+        const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
+        const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
+        if (!dragged && xOnShuffle && yOnShuffle) {
+            cursor = 'pointer';
+            canvas.bankShuffleButton.hover = true;
+        } else {
+            canvas.bankShuffleButton.hover = false;
+        }
     }
     
     if (dragged) {
@@ -271,16 +278,19 @@ function handleDocumentMouseUp(e) {
         y = e.offsetY;
     }
 
-    // check for the shuffle button
-    const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
-    const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
-    if (!dragged && xOnShuffle && yOnShuffle && canvas.bankShuffleButton.clicking) {
-        shuffleBank();
+    // if the game is active
+    if (!game.inactive) {
+        // check for the shuffle button
+        const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
+        const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
+        if (!dragged && xOnShuffle && yOnShuffle && canvas.bankShuffleButton.clicking) {
+            shuffleBank();
 
-        // don't register double click on shuffle button as double click on canvas
-        canvas.doubleTap = false;
+            // don't register double click on shuffle button as double click on canvas
+            canvas.doubleTap = false;
+        }
+        canvas.bankShuffleButton.clicking = false;
     }
-    canvas.bankShuffleButton.clicking = false;
 
     // cancel if no tile is being dragged
     if (!dragged) {
