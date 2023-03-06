@@ -65,6 +65,7 @@ function canvasInit() {
 function setCanvasSize() {
 	const canvasWrapper = $('#canvasWrapper');
 
+	// the height of the canvas needs to be a lot less if the bank is empty
 	const isBankEmpty = game.players.find((a)=>a.id == account.id).letterBank.length === 0;
 	const sizeDifference = (isBankEmpty ? 40 : 100);
 
