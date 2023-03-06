@@ -139,9 +139,9 @@ body.scrabble {
 }
 #gameBanner {
 	margin: 5px;
-	padding: 5px;
+	padding: 10px;
 	background: yellow;
-	border-radius: 5px;
+	border-radius: 7px;
 }
 @font-face { /* Scrabble Font - Eurostile */
 	font-family: Eurostile;
