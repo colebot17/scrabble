@@ -60,7 +60,8 @@ for ($i = 0; $i < count($games); $i++) {
 		"turn" => $row['turn'],
 		"inactive" => ((int)$row['inactive'] === 1 ? true : false),
 		"players" => Array(),
-		"lastMove" => $row['lastMove']
+		"lastMove" => $row['lastMove'],
+		"endDate" => $row['endDate']
 	);
 
 	// for each player, add their name, id, points, and request status into the new game array
