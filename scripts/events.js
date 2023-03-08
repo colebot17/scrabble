@@ -216,7 +216,7 @@ function handleCanvasMouseMove(e) {
         // show the hover effect on the shuffle button
         const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
         const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
-        if (!dragged && xOnShuffle && yOnShuffle) {
+        if (!dragged && xOnShuffle && yOnShuffle && e.type !== 'touchmove') {
             cursor = 'pointer';
             canvas.bankShuffleButton.hover = true;
         } else {
@@ -287,6 +287,7 @@ function handleDocumentMouseUp(e) {
             canvas.doubleTap = false;
         }
         canvas.bankShuffleButton.clicking = false;
+        if (e.type === 'touchend') canvas.bankShuffleButton.hover = false;
     }
 
     // cancel if no tile is being dragged
