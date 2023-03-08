@@ -342,7 +342,7 @@ function updateTile(tile) {
 	// don't even bother drawing tile if size is 0
 	if (tileSize === 0) return;
 
-	var borderRadius = 5 * (squareWidth * 0.15) * tileSize;
+	var borderRadius = 5 * (squareWidth * 0.03) * tileSize;
 
 	var tileWidth = squareWidth * tileSize;
 	var fontSize = tileWidth * 0.83;
