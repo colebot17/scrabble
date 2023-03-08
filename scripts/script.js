@@ -76,10 +76,10 @@ function loadGamesList(done) {
 						account.games = jsonData.data;
 						updateGamesList();
 
-						// done (for pull to refresh)
-						if (done) {
-							done();
-						}
+						// // done (for pull to refresh)
+						// if (done) {
+						// 	done();
+						// }
 					}
 				},
 				error: function() {
@@ -102,19 +102,32 @@ function updateGamesList() {
 		var $activeGamesListMessage = $('#activeGamesListMessage');
 		var $inactiveGamesListMessage = $('#inactiveGamesListMessage');
 
-		// convert games object to array
-		let gamesArray = [];
+		// convert games object into two arrays, one for active games, and another for inactive games
+		let activeGames = [];
+		let inactiveGames = [];
 
 		for (let i in account.games) {
 			let currentGame = account.games[i];
 			currentGame.id = parseInt(i);
-			currentGame.lastMove = new Date(currentGame.lastMove); // convert the date to a date object
-			gamesArray.push(currentGame);
+
+			// convert the dates to date objects
+			currentGame.lastMove = new Date(currentGame.lastMove);
+			if (currentGame.endDate) {
+				currentGame.endDate = new Date(currentGame.endDate);
+			}
+
+			// push to the appropriate array
+			if (currentGame.inactive) {
+				inactiveGames.push(currentGame);
+			} else {
+				activeGames.push(currentGame);
+			}
 		}
 
-		// sort the games array by the last move timestamp 
-		gamesArray.sort(function(a, b) {
-			if (a.lastMove > b.lastMove) { // a comes before b
+
+		// sort the active games array by the last move timestamp 
+		activeGames.sort(function(a, b) {
+			if (a.lastMove > b.lastMove) { // a comes before b (in the display order)
 				return -1;
 			}
 			if (a.lastMove < b.lastMove) { // a comes after b
@@ -124,8 +137,8 @@ function updateGamesList() {
 			return 0;
 		});
 
-		// sort the games array by whether it is the current user's turn
-		gamesArray.sort(function(a, b) {
+		// sort the active games array by whether it is the current user's turn
+		activeGames.sort(function(a, b) {
 			let aTurn = false;
 			let bTurn = false;
 			if (!a.inactive) {
@@ -142,6 +155,21 @@ function updateGamesList() {
 			}
 			return 0;
 		});
+
+		// sort the inactive games array by the end date timestamp
+		inactiveGames.sort(function(a, b) {
+			if (a.endDate > b.endDate || (a.endDate && !b.endDate)) { // a comes before b (in the display order)
+				return -1;
+			}
+			if (a.endDate < b.endDate || (!a.endDate && b.endDate)) { // a comes after b
+				return 1;
+			}
+			// a must be equal to b
+			return 0;
+		});
+
+		// copy and combine the two arrays
+		let gamesArray = activeGames.concat(inactiveGames);
 
 		// for each game in the account
 		for (var i in gamesArray) {
@@ -285,13 +313,13 @@ function updateGamesList() {
 			$inactiveGamesListMessage.html(`You have no inactive games. Once any game ends, it will be archived here.`);
 		}
 
-		// initiate the pull to refresh
-		PullToRefresh.init({
-			mainElement: "#activeGames .gamesListWrapper .gamesList",
-			onRefresh(done) {
-				loadGamesList(done);
-			}
-		});
+		// // initiate the pull to refresh
+		// PullToRefresh.init({
+		// 	mainElement: "#activeGames .gamesListWrapper .gamesList",
+		// 	onRefresh(done) {
+		// 		loadGamesList(done);
+		// 	}
+		// });
 	}
 }
 
@@ -624,7 +652,7 @@ function endGame() {
 		confirmMsg = "Do you really want to cast your vote to end the game? " + (
 			votesLeft <= 1
 			? "You are the final player to do so, so the game will end."
-			: votesLeft - 1 + " more player" + (votesLeft - 1 === 1 ? "" : "s") + " would still have to vote in order for the game to end."
+			: "If you do, " + votesLeft - 1 + " player" + (votesLeft - 1 === 1 ? "" : "s") + " will still have to vote before the game ends."
 		);
 	}
 
@@ -967,6 +995,7 @@ function getUnlockedTiles() {
 }
 
 function setBankOrder() {
+	if (game.inactive) return;
 	$.ajax(
 		location + '/php/setBankOrder.php',
 		{

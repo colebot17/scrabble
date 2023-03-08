@@ -25,6 +25,15 @@ if (!password_verify($pwd, $row['pwd'])) {
 	exit('{"errorLevel":2,"message":"Invalid Session!"}');
 }
 
+// make sure the game is active
+$sql = "SELECT inactive FROM games WHERE id='$game'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+
+if ($row['inactive']) {
+	exit('{"errorLevel":2,"message":"You cannot perform this action on an inactive game."}');
+}
+
 // get the player list from the server
 $sql = "SELECT players FROM games WHERE id='$game'";
 $query = mysqli_query($conn, $sql);

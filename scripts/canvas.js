@@ -65,6 +65,10 @@ function canvasInit() {
 function setCanvasSize() {
 	const canvasWrapper = $('#canvasWrapper');
 
+	// the height of the canvas needs to be a lot less if the bank is empty
+	const isBankEmpty = game.players.find((a)=>a.id == account.id).letterBank.length === 0;
+	const sizeDifference = (isBankEmpty ? 40 : 100);
+
 	// hide the canvas first (to let the grid adjust properly)
 	canvas.c.style.display = "none";
 	
@@ -73,10 +77,10 @@ function setCanvasSize() {
 	const canvasWrapperHeight = canvasWrapper.height();
 
 	// calculate which dimension will limit the size
-	var limitingDimension = Math.min(canvasWrapperWidth + 100, canvasWrapperHeight);
+	var limitingDimension = Math.min(canvasWrapperWidth + sizeDifference, canvasWrapperHeight);
 
 	// size the canvas accordingly
-	canvas.c.width = limitingDimension - 100;
+	canvas.c.width = limitingDimension - sizeDifference;
 	canvas.c.height = limitingDimension;
 
 	// show the canvas again
@@ -137,40 +141,46 @@ function drawLetterBank() {
 	let remainingSpace = canvas.c.height - startY;
 
 	// draw title ("Letter Bank")
-	const titleSize = 25;
+	const titleSize = (canvas.bank.length > 0 ? 25 : 15);
 	canvas.ctx.font = titleSize + "px Rubik";
 	canvas.ctx.fillStyle = "#000000";
 	canvas.ctx.textAlign = "center";
-	canvas.ctx.fillText("Letter Bank", canvasWidth / 2, startY + titleSize + 10);
+	canvas.ctx.fillText((canvas.bank.length > 0 ? "Letter Bank" : "Your letter bank is empty."), canvasWidth / 2, startY + titleSize + 10);
 
-	// draw the bank shuffle button
-	const shuffleButtonX = (canvasWidth / 2) + 90;
-	const shuffleButtonY = startY + titleSize + 14;
+	// STOP here if the bank is empty
+	if (canvas.bank.length === 0) return;
 
-	// draw background if hovering
-	if (canvas.bankShuffleButton.hover) {
-		canvas.ctx.fillStyle = "#00000033";
-		canvas.ctx.beginPath();
-		canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
-		canvas.ctx.fill();
-	}
+	// if the game is active
+	if (!game.inactive) {
+		// draw the bank shuffle button
+		const shuffleButtonX = (canvasWidth / 2) + 90;
+		const shuffleButtonY = startY + titleSize + 14;
 
-	// draw the icon
-	canvas.ctx.font = titleSize + "px Material Icons";
-	canvas.ctx.fillStyle = "#000000";
-	canvas.ctx.textAlign = "center";
+		// draw background if hovering
+		if (canvas.bankShuffleButton.hover) {
+			canvas.ctx.fillStyle = "#00000033";
+			canvas.ctx.beginPath();
+			canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
+			canvas.ctx.fill();
+		}
+		
+		// draw the icon
+		canvas.ctx.font = titleSize + "px Material Icons";
+		canvas.ctx.fillStyle = "#000000";
+		canvas.ctx.textAlign = "center";
 
-	canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
-
-	// store the coordinates so we know when we click on it
-	canvas.bankShuffleButton.position = {
-		start: {
-			x: shuffleButtonX - (titleSize / 2) - 5,
-			y: shuffleButtonY - titleSize - 5
-		},
-		end: {
-			x: shuffleButtonX + (titleSize / 2) + 5,
-			y: shuffleButtonY + 5
+		canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
+		
+		// store the coordinates so we know when we click on it
+		canvas.bankShuffleButton.position = {
+			start: {
+				x: shuffleButtonX - (titleSize / 2) - 5,
+				y: shuffleButtonY - titleSize - 5
+			},
+			end: {
+				x: shuffleButtonX + (titleSize / 2) + 5,
+				y: shuffleButtonY + 5
+			}
 		}
 	}
 

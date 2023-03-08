@@ -41,7 +41,7 @@ $newGames = Array();
 
 // for each game, get the names of the players, the current turn, whether it is inactive, and the last move timestamp
 for ($i = 0; $i < count($games); $i++) {
-	$sql = "SELECT name, turn, inactive, players, lastMove FROM games WHERE id='$games[$i]'";
+	$sql = "SELECT name, turn, inactive, players, lastMove, endDate FROM games WHERE id='$games[$i]'";
 	$query = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($query);
 
@@ -55,12 +55,18 @@ for ($i = 0; $i < count($games); $i++) {
 
 	$players = json_decode($row['players'], true);
 
+	$endDate = $row['endDate'];
+	if ($endDate === '0000-00-00') {
+		$endDate = null;
+	}
+
 	$newGames[$games[$i]] = Array(
 		"name" => $row['name'],
 		"turn" => $row['turn'],
 		"inactive" => ((int)$row['inactive'] === 1 ? true : false),
 		"players" => Array(),
-		"lastMove" => $row['lastMove']
+		"lastMove" => $row['lastMove'],
+		"endDate" => $endDate
 	);
 
 	// for each player, add their name, id, points, and request status into the new game array
