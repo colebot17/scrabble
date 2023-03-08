@@ -127,7 +127,7 @@ function updateGamesList() {
 
 		// sort the active games array by the last move timestamp 
 		activeGames.sort(function(a, b) {
-			if (a.lastMove > b.lastMove) { // a comes before b
+			if (a.lastMove > b.lastMove) { // a comes before b (in the display order)
 				return -1;
 			}
 			if (a.lastMove < b.lastMove) { // a comes after b
@@ -158,10 +158,10 @@ function updateGamesList() {
 
 		// sort the inactive games array by the end date timestamp
 		inactiveGames.sort(function(a, b) {
-			if (a.endDate > b.endDate) { // a comes before b
+			if (a.endDate > b.endDate || (a.endDate && !b.endDate)) { // a comes before b (in the display order)
 				return -1;
 			}
-			if (a.endDate < b.endDate) { // a comes after b
+			if (a.endDate < b.endDate || (!a.endDate && b.endDate)) { // a comes after b
 				return 1;
 			}
 			// a must be equal to b
