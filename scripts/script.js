@@ -76,10 +76,10 @@ function loadGamesList(done) {
 						account.games = jsonData.data;
 						updateGamesList();
 
-						// done (for pull to refresh)
-						if (done) {
-							done();
-						}
+						// // done (for pull to refresh)
+						// if (done) {
+						// 	done();
+						// }
 					}
 				},
 				error: function() {
@@ -313,13 +313,13 @@ function updateGamesList() {
 			$inactiveGamesListMessage.html(`You have no inactive games. Once any game ends, it will be archived here.`);
 		}
 
-		// initiate the pull to refresh
-		PullToRefresh.init({
-			mainElement: "#activeGames .gamesListWrapper .gamesList",
-			onRefresh(done) {
-				loadGamesList(done);
-			}
-		});
+		// // initiate the pull to refresh
+		// PullToRefresh.init({
+		// 	mainElement: "#activeGames .gamesListWrapper .gamesList",
+		// 	onRefresh(done) {
+		// 		loadGamesList(done);
+		// 	}
+		// });
 	}
 }
 
