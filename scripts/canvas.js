@@ -117,7 +117,10 @@ function drawBoard() {
 				canvas.ctx.font = fontSize + "px Rubik";
 				canvas.ctx.fillStyle = "#f2f5ff";
 				canvas.ctx.textAlign = "center";
-				canvas.ctx.fillText(boardMultiplierStrings[boardModifiers[y][x]], (x * squareWidth) + (x * squareGap) + (squareWidth / 2), (y * squareWidth) + (y * squareGap) + (squareWidth / 2) + (fontSize / 2));
+				canvas.ctx.textBaseline = "middle";
+				canvas.ctx.fillText(boardMultiplierStrings[boardModifiers[y][x]], (x * squareWidth) + (x * squareGap) + (squareWidth / 2), (y * squareWidth) + (y * squareGap) + (squareWidth / 2));
+
+				canvas.ctx.textBaseline = "";
 			}
 		}
 	}
