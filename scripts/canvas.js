@@ -158,7 +158,7 @@ function drawLetterBank() {
 
 		// draw background if hovering
 		if (canvas.bankShuffleButton.hover || canvas.bankShuffleButton.clicking) {
-			canvas.ctx.fillStyle = (canvas.bankShuffleButton.clicking ? "#00000066" : "#00000033");
+			canvas.ctx.fillStyle = (canvas.bankShuffleButton.clicking ? "#0000004C" : "#00000033");
 			canvas.ctx.beginPath();
 			canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
 			canvas.ctx.fill();
