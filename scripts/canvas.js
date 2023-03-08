@@ -94,7 +94,7 @@ function clearCanvas() {
 function drawBoard() {
 	// get some sizes
 	squareWidth = (canvas.c.width - (squareGap * (squareNum - 1))) / squareNum;
-	let fontSize = squareWidth - 25;
+	let fontSize = squareWidth * 0.75;
 	for (var y = 0; y < squareNum; y++) { // for each tile
 		for (var x = 0; x < squareNum; x++) {
 			canvas.ctx.fillStyle = boardColorKey[boardModifiers[y][x]];
@@ -111,9 +111,9 @@ function drawBoard() {
 
 			// draw the square
 			roundRect(canvas.ctx, xPos, yPos, squareWidth, squareWidth, radii);
-
+			//squareWidth >= 35 &&
 			// if size permits, show the board multiplier strings
-			if (squareWidth >= 35 && boardMultiplierStrings[boardModifiers[y][x]]) {
+			if ( boardMultiplierStrings[boardModifiers[y][x]]) {
 				canvas.ctx.font = fontSize + "px Rubik";
 				canvas.ctx.fillStyle = "#f2f5ff";
 				canvas.ctx.textAlign = "center";
