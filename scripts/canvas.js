@@ -226,7 +226,7 @@ function drawLetterBank() {
 		// initialize the first drop zone
 		canvas.dropZones = [{
 			start: {
-				x: firstLetter.position.x - (canvas.extraGapBeforeBank ? extraTileGap : defaultTileGap) - (canvas.bankTileWidth / 2),
+				x: firstLetter.position.x - (minTileGap + (canvas.extraGapBeforeBank * extraTileGap)) - (canvas.bankTileWidth / 2),
 				y: firstLetter.position.y - (canvas.bankTileWidth / 5)
 			},
 			end: {
@@ -313,7 +313,7 @@ function drawLetterBank() {
 				y: canvasLetter.position.y - (canvas.bankTileWidth / 5)
 			},
 			end: {
-				x: canvasLetter.position.x + (canvas.bankTileWidth * 1.5) + (canvasLetter.extraGapAfter ? extraTileGap : defaultTileGap),
+				x: canvasLetter.position.x + (canvas.bankTileWidth * 1.5) + (minTileGap + (canvasLetter.extraGapAfter * extraTileGap)),
 				y: canvasLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
 			orderIndex: parseInt(i) + 1
