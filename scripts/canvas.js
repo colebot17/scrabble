@@ -58,6 +58,12 @@ function canvasInit() {
 	// remove any points preview
 	canvas.pointsPreview = false;
 
+	// remove any extra gap before or after any letter
+	canvas.extraGapBeforeBank = 0;
+	for (let j in canvas.bank) {
+		canvas.bank[j].extraGapAfter = 0;
+	}
+
 	// handle window resize
 	window.onresize = setCanvasSize;
 }
