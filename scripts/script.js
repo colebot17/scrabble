@@ -719,7 +719,8 @@ function gameInit() {
 				x: undefined,
 				y: undefined
 			},
-			bankIndex: parseInt(i)
+			bankIndex: parseInt(i),
+			extraGapAfter: 0
 		});
 	}
 
