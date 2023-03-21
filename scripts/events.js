@@ -11,9 +11,9 @@ function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
     // un-hide all letters in bank
     for (let i in canvas.bank) {
         canvas.bank[i].hidden = false;
-        canvas.bank[i].extraGapAfter = false;
+        canvas.bank[i].extraGapAfter = 0;
     }
-    canvas.extraGapBeforeBank = false;
+    canvas.extraGapBeforeBank = 0;
 
     // remove points preview
     canvas.pointsPreview = false;
@@ -83,9 +83,9 @@ function handleCanvasMouseDown(e) {
                 
                 // add a gap where the letter used to be
                 if (i == 0) {
-                    canvas.extraGapBeforeBank = true;
+                    canvas.extraGapBeforeBank = 1;
                 } else {
-                    canvas.bank[canvas.bankOrder[i - 1]].extraGapAfter = true;
+                    canvas.bank[canvas.bankOrder[i - 1]].extraGapAfter = 1;
                 }
 
                 // temporarily hide the points preview
@@ -232,9 +232,9 @@ function handleCanvasMouseMove(e) {
         }
 
         // remove all gaps between letters in bank
-        canvas.extraGapBeforeBank = false;
+        canvas.extraGapBeforeBank = 0;
         for (let i in canvas.bank) {
-            canvas.bank[i].extraGapAfter = false;
+            canvas.bank[i].extraGapAfter = 0;
         }
 
         if (boardY > 14) {
@@ -248,9 +248,9 @@ function handleCanvasMouseMove(e) {
                 if (xInDropZone && yInDropZone) {
                     // make the gap bigger
                     if (i == 0) {
-                        canvas.extraGapBeforeBank = true;
+                        canvas.extraGapBeforeBank = 1;
                     } else {
-                        canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]].extraGapAfter = true;
+                        canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]].extraGapAfter = 1;
                     }
                 }
             }
@@ -332,14 +332,12 @@ function handleDocumentMouseUp(e) {
                 // move the letter
                 moveBankLetter(from, to);
 
-                // remove any extra gap after any letter
-                canvas.extraGapBeforeBank = false;
+                // remove any extra gap before or after any letter
+                canvas.extraGapBeforeBank = 0;
                 for (let j in canvas.bank) {
-                    canvas.bank[j].extraGapAfter = false;
+                    canvas.bank[j].extraGapAfter = 0;
                 }
-
             }
-
         }
 
         // if there is already a points preview, show it

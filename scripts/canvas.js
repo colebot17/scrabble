@@ -188,15 +188,18 @@ function drawLetterBank() {
 
 	// determine some constants
 	const numTiles = bank.length;
-	const defaultTileGap = 5;
-	const extraTileGap = 55;
 
+	const minTileGap = 5;
+	const extraTileGap = 50;
+
+	// determine the total amount of gap space we will use
 	let totalGapSpace = 0;
 	for (let i in bank) {
-		totalGapSpace += (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
+		totalGapSpace += (minTileGap + (bank[i].extraGapAfter * extraTileGap));
 	}
 	if (canvas.extraGapBeforeBank) {
-		totalGapSpace -= extraTileGap - defaultTileGap;
+		totalGapSpace -= extraTileGap * canvas.extraGapBeforeBank;
+		// we are subtracting here because we will add this value to the x position to get the x position of the first tile
 	}
 
 	const tileWidth = Math.min(remainingSpace - 10, ((canvasWidth - totalGapSpace) / numTiles), 55);
@@ -220,7 +223,7 @@ function drawLetterBank() {
 	}
 
 	if (firstLetter) {
-		// add the first drop zone
+		// initialize the first drop zone
 		canvas.dropZones = [{
 			start: {
 				x: firstLetter.position.x - (canvas.extraGapBeforeBank ? extraTileGap : defaultTileGap) - (canvas.bankTileWidth / 2),
@@ -281,7 +284,7 @@ function drawLetterBank() {
 		const pointsY = y + (tileWidth * 0.9);
 
 		// after calculating, increase the current gap space
-		currentGapSpace += (canvasLetter.extraGapAfter ? extraTileGap : defaultTileGap);
+		currentGapSpace += (minTileGap + (canvasLetter.extraGapAfter * extraTileGap));
 
 		// draw tile
 		canvas.ctx.fillStyle = "#a47449"; // tile brown
