@@ -1,17 +1,17 @@
 class Animation {
-	constructor(duration, delay = 0) {
+	constructor(duration, delay = 0, from = 0, to = 1) {
 		this.timelineStart = document.timeline.currentTime + delay;
 		this.duration = duration;
 		this.getFrame = function (x = document.timeline.currentTime) {
 			// y = mx + b (so only linear for now)
-			let frame = (x - this.timelineStart) / this.duration;
+			let frame = (to - from) * (x - this.timelineStart) / this.duration;
 
-			// limit between 0 and 1
-			return Math.max(Math.min(frame, 1), 0);
+			// limit between from and to
+			return Math.max(Math.min(frame, to), from);
 		};
 		this.isActive = function () {
 			const frame = this.getFrame();
-			return frame === 1 || frame === 0;
+			return frame === to || frame === from;
 		};
 	}
 }
