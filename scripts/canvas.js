@@ -202,8 +202,8 @@ function drawLetterBank() {
 			canvas.gapBeforeBankAnimation = undefined;
 		}
 	}
-	for (let i in canvas.bank) {
-		let current = canvas.bank[i];
+	for (let i in bank) {
+		let current = bank[i];
 		if (!current.hidden) {
 			if (current.gapAnimation) {
 				current.extraGapAfter = current.gapAnimation.getFrame();
