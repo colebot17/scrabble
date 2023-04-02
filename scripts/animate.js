@@ -4,7 +4,7 @@ class Animation {
 		this.duration = duration;
 		this.getFrame = function (x = document.timeline.currentTime) {
 			// y = mx + b (so only linear for now)
-			let frame = (end - start) * (x - this.timelineStart) / this.duration;
+			let frame = ((end - start) * (x - this.timelineStart) / this.duration) + this.start;
 
 			// limit between start and end
 			return Math.max(Math.min(frame, end), start);
