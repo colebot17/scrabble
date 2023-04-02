@@ -6,8 +6,11 @@ class Animation {
 			// prevent division by zero
 			if (this.duration === 0) return end;
 
-			// y = mx + b (so only linear for now)
-			let frame = ((end - start) * (x - this.timelineStart) / this.duration) + start;
+			// linear interpolation
+			let t = (x - this.timelineStart) / duration;
+			let range = end - start;
+
+			let frame = (range * t) + start;
 
 			// limit between start and end
 			return Math.max(Math.min(frame, end), start);
