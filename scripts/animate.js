@@ -1,5 +1,5 @@
 class Animation {
-	constructor(duration, delay = 0, start = 0, end = 1) {
+	constructor(duration, delay = 0, start = 0, end = 1, debug = false) {
 		this.timelineStart = document.timeline.currentTime + delay;
 		this.duration = duration;
 		this.getFrame = function () {
@@ -7,10 +7,13 @@ class Animation {
 			if (this.duration === 0) return end;
 
 			// linear interpolation
-			let t = (document.timeline.currentTime - this.timelineStart) / this.duration;
 			let r = end - start;
+			if (debug) console.log(r);
+			let t = (document.timeline.currentTime - this.timelineStart) / this.duration;
+			if (debug) console.log(t);
 
 			let frame = (r * t) + start;
+			if (debug) console.log(r * t, frame);
 
 			// limit between start and end
 			return Math.max(Math.min(frame, end), start);
