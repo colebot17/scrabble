@@ -7,7 +7,7 @@ class Animation {
 			if (this.duration === 0) return end;
 
 			// linear interpolation
-			let t = (document.timeline.currentTime - this.timelineStart) / duration;
+			let t = (document.timeline.currentTime - this.timelineStart) / this.duration;
 			let r = end - start;
 
 			let frame = (r * t) + start;
