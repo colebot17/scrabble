@@ -13,5 +13,9 @@ class Animation {
 			const frame = this.getFrame();
 			return frame === end || frame === start;
 		};
+		this.isComplete = function () {
+			const frame = this.getFrame();
+			return frame === end;
+		};
 	}
 }

@@ -189,11 +189,24 @@ function drawLetterBank() {
 
 	remainingSpace -= titleSize + 20;
 
-	// determine some constants
+	// define some constants
 	const numTiles = bank.length;
 
 	const minTileGap = 5;
 	const extraTileGap = 50;
+
+	// check and update gap animations
+	for (let i in canvas.bankOrder) {
+		const current = canvas.bank[canvas.bankOrder[i]]
+		if (!current.hidden) {
+			if (current.gapAnimation) {
+				current.extraGapAfter = current.gapAnimation.getFrame();
+				if (current.gapAnimation.isComplete()) {
+					current.gapAnimation = undefined;
+				}
+			}
+		}
+	}
 
 	// determine the total amount of gap space we will use
 	let totalGapSpace = 0;
@@ -203,6 +216,7 @@ function drawLetterBank() {
 	if (canvas.extraGapBeforeBank) {
 		totalGapSpace -= extraTileGap * canvas.extraGapBeforeBank;
 		// we are subtracting here because we will add this value to the x position to get the x position of the first tile
+		// it doesn't make sense but it works
 	}
 
 	const tileWidth = Math.min(remainingSpace - 10, ((canvasWidth - totalGapSpace) / numTiles), 55);
