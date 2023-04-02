@@ -197,7 +197,7 @@ function drawLetterBank() {
 
 	// check and update gap animations
 	for (let i in canvas.bank) {
-		const current = canvas.bank[i];
+		let current = canvas.bank[i];
 		if (!current.hidden) {
 			if (current.gapAnimation) {
 				current.extraGapAfter = current.gapAnimation.getFrame();
