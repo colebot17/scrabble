@@ -231,12 +231,6 @@ function handleCanvasMouseMove(e) {
             cursor = (game.inactive ? 'no-drop' : 'grabbing');
         }
 
-        // remove all gaps between letters in bank
-        canvas.extraGapBeforeBank = 0;
-        for (let i in canvas.bank) {
-            canvas.bank[i].extraGapAfter = 0;
-        }
-
         if (boardY > 14) {
             cursor = 'grabbing';
 
@@ -252,6 +246,14 @@ function handleCanvasMouseMove(e) {
                     } else {
                         const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
                         current.gapAnimation = new Animation(100, 0, current.extraGapAfter, 1);
+                    }
+                } else {
+                    // make the gap smaller
+                    if (i == 0) {
+                        canvas.extraGapBeforeBank = 0;
+                    } else {
+                        const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
+                        current.gapAnimation = new Animation(100, 0, current.extraGapAfter, 0);
                     }
                 }
             }
