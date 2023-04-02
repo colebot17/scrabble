@@ -239,7 +239,7 @@ function handleCanvasMouseMove(e) {
                 // if the user is dragging over this zone
                 const xInDropZone = x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x;
                 const yInDropZone = y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y;
-                if (xInDropZone && yInDropZone) {
+                if (xInDropZone && yInDropZone && canvas.expandedDropZone !== i) {
                     // make the gap bigger
                     if (i == 0) {
                         canvas.extraGapBeforeBank = 1;
@@ -247,7 +247,7 @@ function handleCanvasMouseMove(e) {
                         const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
                         current.gapAnimation = new Animation(50, 0, current.extraGapAfter, 1);
                     }
-                } else {
+                } else if (canvas.expandedDropZone !== i) {
                     // make the gap smaller
                     if (i == 0) {
                         canvas.extraGapBeforeBank = 0;
@@ -256,6 +256,7 @@ function handleCanvasMouseMove(e) {
                         current.gapAnimation = new Animation(50, 0, current.extraGapAfter, 0);
                     }
                 }
+                canvas.expandedDropZone = i;
             }
         }
     }
