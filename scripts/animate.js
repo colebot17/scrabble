@@ -8,9 +8,9 @@ class Animation {
 
 			// linear interpolation
 			let t = (x - this.timelineStart) / duration;
-			let range = end - start;
+			let r = end - start;
 
-			let frame = (range * t) + start;
+			let frame = (r * t) + start;
 
 			// limit between start and end
 			return Math.max(Math.min(frame, end), start);
