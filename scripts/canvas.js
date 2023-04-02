@@ -196,6 +196,12 @@ function drawLetterBank() {
 	const extraTileGap = 50;
 
 	// check and update gap animations
+	if (canvas.gapBeforeBankAnimation) {
+		canvas.extraGapBeforeBank = canvas.gapBeforeBankAnimation.getFrame();
+		if (canvas.gapBeforeBankAnimation.isComplete()) {
+			canvas.gapBeforeBankAnimation = undefined;
+		}
+	}
 	for (let i in canvas.bank) {
 		let current = canvas.bank[i];
 		if (!current.hidden) {
