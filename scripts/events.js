@@ -251,7 +251,7 @@ function handleCanvasMouseMove(e) {
                         canvas.extraGapBeforeBank = 1;
                     } else {
                         const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
-                        current.extraGapAfter = new Animation(100, 0, current.extraGapAfter, 1);
+                        current.gapAnimation = new Animation(100, 0, current.extraGapAfter, 1);
                     }
                 }
             }
