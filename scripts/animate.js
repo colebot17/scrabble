@@ -16,6 +16,8 @@ class Animation {
 			// limit between start and end
 			let answer = Math.max(Math.min(frame, end), start);
 			if (debug) console.log(answer);
+
+			return answer;
 		};
 		this.isActive = function () {
 			const frame = this.getFrame();
