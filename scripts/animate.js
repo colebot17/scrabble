@@ -2,6 +2,8 @@ class Animation {
 	constructor(duration, delay = 0, start = 0, end = 1) {
 		this.timelineStart = document.timeline.currentTime + delay;
 		this.duration = duration;
+		this.start = start;
+		this.end = end;
 		this.getFrame = function () {
 			// prevent division by zero
 			if (this.duration === 0) return end;
