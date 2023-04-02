@@ -7,7 +7,7 @@ class Animation {
 			if (this.duration === 0) return end;
 
 			// y = mx + b (so only linear for now)
-			let frame = ((end - start) * (x - this.timelineStart) / this.duration) + this.start;
+			let frame = ((end - start) * (x - this.timelineStart) / this.duration) + start;
 
 			// limit between start and end
 			return Math.max(Math.min(frame, end), start);
