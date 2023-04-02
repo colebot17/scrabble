@@ -196,8 +196,8 @@ function drawLetterBank() {
 	const extraTileGap = 50;
 
 	// check and update gap animations
-	for (let i in canvas.bankOrder) {
-		const current = canvas.bank[canvas.bankOrder[i]]
+	for (let i in canvas.bank) {
+		const current = canvas.bank[i];
 		if (!current.hidden) {
 			if (current.gapAnimation) {
 				current.extraGapAfter = current.gapAnimation.getFrame();
