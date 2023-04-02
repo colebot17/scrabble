@@ -8,15 +8,14 @@ class Animation {
 
 			// linear interpolation
 			let r = end - start;
-			if (debug) console.log(r);
 			let t = (document.timeline.currentTime - this.timelineStart) / this.duration;
-			if (debug) console.log(t);
 
 			let frame = (r * t) + start;
-			if (debug) console.log(r * t, frame);
+			if (debug) console.log(frame);
 
 			// limit between start and end
-			return Math.max(Math.min(frame, end), start);
+			let answer = Math.max(Math.min(frame, end), start);
+			if (debug) console.log(answer);
 		};
 		this.isActive = function () {
 			const frame = this.getFrame();
