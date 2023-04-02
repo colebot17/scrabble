@@ -3,6 +3,9 @@ class Animation {
 		this.timelineStart = document.timeline.currentTime + delay;
 		this.duration = duration;
 		this.getFrame = function (x = document.timeline.currentTime) {
+			// prevent division by zero
+			if (this.duration === 0) return end;
+
 			// y = mx + b (so only linear for now)
 			let frame = ((end - start) * (x - this.timelineStart) / this.duration) + this.start;
 
