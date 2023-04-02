@@ -1,5 +1,5 @@
 class Animation {
-	constructor(duration, delay = 0, start = 0, end = 1, debug = false) {
+	constructor(duration, delay = 0, start = 0, end = 1) {
 		this.timelineStart = document.timeline.currentTime + delay;
 		this.duration = duration;
 		this.getFrame = function () {
@@ -11,13 +11,12 @@ class Animation {
 			let t = (document.timeline.currentTime - this.timelineStart) / this.duration;
 
 			let frame = (r * t) + start;
-			if (debug) console.log(frame);
 
 			// limit between start and end
-			let answer = Math.max(Math.min(frame, end), start);
-			if (debug) console.log(answer);
+			let smaller = Math.min(start, end);
+			let larger = Math.max(start, end);
 
-			return answer;
+			return Math.max(Math.min(frame, larger), smaller);
 		};
 		this.isActive = function () {
 			const frame = this.getFrame();
