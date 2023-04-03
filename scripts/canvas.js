@@ -357,6 +357,7 @@ function drawLetterBank() {
 		canvas.ctx.fillRect(x, y, width, height);
 
 		canvas.ctx.strokeStyle = "#0000FF99";
+		canvas.ctx.lineWidth = 1;
 		canvas.ctx.strokeRect(x, y, width, height);
 	}
 }
