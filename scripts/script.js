@@ -654,7 +654,7 @@ function endGame() {
 		confirmMsg = "Do you really want to cast your vote to end the game? " + (
 			votesLeft <= 1
 			? "You are the final player to do so, so the game will end."
-			: "If you do, " + votesLeft - 1 + " player" + (votesLeft - 1 === 1 ? "" : "s") + " will still have to vote before the game ends."
+			: "If you do, " + (votesLeft - 1) + " player" + ((votesLeft - 1) === 1 ? "" : "s") + " will still have to vote before the game ends."
 		);
 	}
 
