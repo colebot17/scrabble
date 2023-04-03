@@ -337,10 +337,12 @@ function handleDocumentMouseUp(e) {
                 moveBankLetter(from, to);
 
                 // remove any extra gap before or after any letter
-                canvas.gapBeforeBankAnimation = new Animation(50, 0, canvas.extraGapBeforeBank, 0);
+                canvas.gapBeforeBankAnimation = undefined;
+                canvas.extraGapBeforeBank = 0;
                 for (let j in canvas.bank) {
                     const current = canvas.bank[j];
-                    current.gapAnimation = new Animation(50, 0, current.extraGapAfter, 0);
+                    current.gapAnimation = undefined;
+                    current.extraGapAfter = 0;
                 }
             }
         }
