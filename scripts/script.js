@@ -212,6 +212,17 @@ function updateGamesList() {
 				}
 				playerListHTML = playerListHTML.substring(0, playerListHTML.length - 2); // remove the extra comma at the end
 
+				let playerListSummaryHTML;
+				if (gamesArray[i].players.length === 2) {
+					let otherPlayer = 0;
+					if (gamesArray[i].players[0].id == account.id) otherPlayer = 1;
+					playerListSummaryHTML = /* html */ `You and <b>${gamesArray[i].players[otherPlayer].name}</b>`
+				} else {
+					playerListSummaryHTML = /* html */ `You and ${gamesArray[i].players.length - 1} other players`;
+				}
+
+				let turnSummaryHTML = /* html */ `<b>${gamesArray[i].players[turnIndex].name}</b>'s turn'`;
+
 				// add the game card to the list
 				$activeGamesList.append( /* html */`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
@@ -235,6 +246,14 @@ function updateGamesList() {
 						<div class="listGamePlayerList">
 							${playerListHTML}
 						</div>
+						<div class="listGameInfoSummary">
+							<div class="playerListSummary">
+								${playerListSummaryHTML}
+							</div>
+							<div class="turnSummary">
+								${turnSummaryHTML}
+							</div>
+						</div>
 						<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
 							${(turnUser == account.id ? "Play" : "View")}
 						</button>
@@ -255,6 +274,25 @@ function updateGamesList() {
 					`;
 				}
 				playerListHTML = playerListHTML.substring(0, playerListHTML.length - 2); // remove the extra comma at the end
+
+				let winnerString = "";
+				if (winners.length === 1) {
+					winnerString = /* html */ `<b>${gamesArray[i].players[winners[0]].name}</b>`;
+				} else if (winners.length === 2) {
+					winnerString = /* html */ `<b>${gamesArray[i].players[winners[0]].name}</b> and <b>${gamesArray[i].players[winners[1]].name}</b>`;
+				} else if (winners.length >= 3) {
+					for (let j = 0; j < winners.length; j++) {
+						if (j < winners.length - 1) {
+							winnerString += /* html */ `<b>${gamesArray[i].players[winners[j]].name}</b>, `;
+						} else {
+							winnerString += /* html */ `and <b>${gamesArray[i].players[winners[j]].name}</b>`;
+						}
+					}
+				}
+				for (let j in winners) {
+					winnerString.append(gamesArray[i].players[winners[j]].name);
+				}
+				let infoSummaryHTML = /* html */ `${winnerString} won the game`;
 
 				// add the game card to the list
 				$inactiveGamesList.append(/* html */ `
@@ -281,6 +319,9 @@ function updateGamesList() {
 						</div>
 						<div class="listGamePlayerList">
 							${playerListHTML}
+						</div>
+						<div class="listGameInfoSummary">
+							${infoSummaryHTML}
 						</div>
 						<button class="openGameButton" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
 							View

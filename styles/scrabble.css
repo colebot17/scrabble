@@ -62,6 +62,10 @@
 	align-items: center;
 	column-gap: 2px;
 }
+.gamesList .listGame .listGameInfoSummary {
+	display: flex;
+	flex-direction: column;
+}
 .gamesList .newGameCard {
 	width: 220px;
 	height: 320px;
@@ -140,7 +144,7 @@ body.scrabble {
 #gameBanner {
 	margin: 5px;
 	padding: 10px;
-	background: yellow;
+	background: rgb(195, 195, 86);
 	border-radius: 7px;
 }
 @font-face { /* Scrabble Font - Eurostile */
