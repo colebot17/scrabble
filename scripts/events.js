@@ -1,3 +1,6 @@
+// define constants
+const dropZoneAnimationTime = 50;
+
 function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
     // remove all unlocked tiles from the board
     for (let y in game.board) {
@@ -251,18 +254,18 @@ function handleCanvasMouseMove(e) {
                 if (dropZone == i && dropZoneChanged) {
                     // make the gap bigger
                     if (i == 0) {
-                        canvas.gapBeforeBankAnimation = new Animation(50, 0, canvas.extraGapBeforeBank, 1);
+                        canvas.gapBeforeBankAnimation = new Animation(dropZoneAnimationTime, 0, canvas.extraGapBeforeBank, 1);
                     } else {
                         const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
-                        current.gapAnimation = new Animation(50, 0, current.extraGapAfter, 1);
+                        current.gapAnimation = new Animation(dropZoneAnimationTime, 0, current.extraGapAfter, 1);
                     }
                 } else if (dropZoneChanged) {
                     // make the gap smaller
                     if (i == 0) {
-                        canvas.gapBeforeBankAnimation = new Animation(50, 0, canvas.extraGapBeforeBank, 0);
+                        canvas.gapBeforeBankAnimation = new Animation(dropZoneAnimationTime, 0, canvas.extraGapBeforeBank, 0);
                     } else {
                         const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
-                        current.gapAnimation = new Animation(50, 0, current.extraGapAfter, 0);
+                        current.gapAnimation = new Animation(dropZoneAnimationTime, 0, current.extraGapAfter, 0);
                     }
                 }
             }
