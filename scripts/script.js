@@ -1205,6 +1205,7 @@ function addLetter(x, y, bankIndex) {
 	if (blank) {
 		pickLetter(bankIndex, function(letter) {
 			game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
+			checkPoints();
 		});
 		return;
 	}
