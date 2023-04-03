@@ -641,7 +641,9 @@ function endGame() {
 	
 	let endGameCount = 0;
 	for (let i in game.players) {
-		endGameCount += (game.players[i].endGameRequest === 'true') & 1;
+		if (game.players[i].endGameRequest === 'true') {
+			endGameCount++;
+		}
 	}
 	const votesLeft = game.players.length - endGameCount;
 
