@@ -1094,11 +1094,11 @@ function exchangeLetters() {
 	const letterExchangeButton = document.getElementById('letterExchangeButton')
 	letterExchangeButton.innerText = 'Skip Turn';
 	let bank = game.players[parseInt(game.turn) % game.players.length].letterBank;
-	for (let i in bank) {
+	for (let i in canvas.bankOrder) {
 		letterBank.innerHTML += /* html */ `
-			<button class='letter' data-bankindex='${i}' aria-pressed='false'>
-				<span class='letterLetter'>${bank[i] ? bank[i] : ``}</span>
-				<span class='letterPoints'>${bank[i] ? letterScores[bank[i]] : ``}</span>
+			<button class='letter' data-bankindex='${canvas.bankOrder[i]}' aria-pressed='false'>
+				<span class='letterLetter'>${bank[canvas.bankOrder[i]] ? bank[canvas.bankOrder[i]] : ``}</span>
+				<span class='letterPoints'>${bank[canvas.bankOrder[i]] ? letterScores[bank[i]] : ``}</span>
 			</button>
 		`;
 	}
