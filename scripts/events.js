@@ -94,6 +94,9 @@ function handleCanvasMouseDown(e) {
                 // temporarily hide the points preview
                 canvas.pointsPreview.hidden = true;
 
+                // don't count for double tap
+                canvas.doubleTap = false;
+
                 return; // don't bother to check the board
             }
         }
@@ -127,6 +130,9 @@ function handleCanvasMouseDown(e) {
         // hide the points preview
         canvas.pointsPreview = false;
 
+        // don't count as double tap
+        canvas.doubleTap = false;
+
         return; // nothing else to do
     }
 
@@ -136,12 +142,16 @@ function handleCanvasMouseDown(e) {
     const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
     if (xOnShuffle && yOnShuffle) {
         canvas.bankShuffleButton.clicking = true;
+        canvas.doubleTap = false;
         return;
     }
 
     if (tile && locked) {
         // show the word definition
         lookupWord(boardX, boardY, clientX, clientY);
+
+        // don't count as double tap
+        canvas.doubleTap = false;
     }
 }
 
