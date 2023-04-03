@@ -234,6 +234,8 @@ function handleCanvasMouseMove(e) {
         if (boardY > 14) {
             cursor = 'grabbing';
 
+            let inAnyDropZone = false;
+
             // expand the space between letters in bank as necessary
             for (let i in canvas.dropZones) {
                 // if the user is dragging over this zone
@@ -248,6 +250,7 @@ function handleCanvasMouseMove(e) {
                         current.gapAnimation = new Animation(50, 0, current.extraGapAfter, 1);
                     }
                     canvas.expandedDropZone = i;
+                    inAnyDropZone = true;
                 } else if (canvas.expandedDropZone != i) {
                     // make the gap smaller
                     if (i == 0) {
@@ -257,6 +260,10 @@ function handleCanvasMouseMove(e) {
                         current.gapAnimation = new Animation(50, 0, current.extraGapAfter, 0);
                     }
                 }
+            }
+
+            if (!inAnyDropZone) {
+                canvas.expandedDropZone = undefined;
             }
         }
     }
