@@ -405,8 +405,11 @@ function drawRegions(regions) {
 	// draw each region
 	for (let i = 0; i < regions.length; i++) {
 
+		// determine whether it is the current user's turn
+		const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
+
 		// set up the style
-		canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight');
+		canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
 		canvas.ctx.lineWidth = (squareWidth * 0.1) + 1;
 		const fontSize = 16;
