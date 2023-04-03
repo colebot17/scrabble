@@ -247,6 +247,7 @@ function handleCanvasMouseMove(e) {
                         const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
                         current.gapAnimation = new Animation(50, 0, current.extraGapAfter, 1);
                     }
+                    canvas.expandedDropZone = i;
                 } else if (canvas.expandedDropZone != i) {
                     // make the gap smaller
                     if (i == 0) {
@@ -256,7 +257,6 @@ function handleCanvasMouseMove(e) {
                         current.gapAnimation = new Animation(50, 0, current.extraGapAfter, 0);
                     }
                 }
-                canvas.expandedDropZone = i;
             }
         }
     }
