@@ -58,6 +58,9 @@ function canvasInit() {
 	// remove any points preview
 	canvas.pointsPreview = false;
 
+	// remove any extra gap before the bank
+	canvas.extraGapBeforeBank = 0;
+
 	// handle window resize
 	window.onresize = setCanvasSize;
 }
@@ -94,7 +97,7 @@ function clearCanvas() {
 function drawBoard() {
 	// get some sizes
 	squareWidth = (canvas.c.width - (squareGap * (squareNum - 1))) / squareNum;
-	let fontSize = squareWidth - 25;
+	let fontSize = squareWidth * 0.5;
 	for (var y = 0; y < squareNum; y++) { // for each tile
 		for (var x = 0; x < squareNum; x++) {
 			canvas.ctx.fillStyle = boardColorKey[boardModifiers[y][x]];
@@ -111,13 +114,13 @@ function drawBoard() {
 
 			// draw the square
 			roundRect(canvas.ctx, xPos, yPos, squareWidth, squareWidth, radii);
-
+			//squareWidth >= 35 &&
 			// if size permits, show the board multiplier strings
-			if (squareWidth >= 35 && boardMultiplierStrings[boardModifiers[y][x]]) {
+			if ( boardMultiplierStrings[boardModifiers[y][x]]) {
 				canvas.ctx.font = fontSize + "px Rubik";
 				canvas.ctx.fillStyle = "#f2f5ff";
 				canvas.ctx.textAlign = "center";
-				canvas.ctx.fillText(boardMultiplierStrings[boardModifiers[y][x]], (x * squareWidth) + (x * squareGap) + (squareWidth / 2), (y * squareWidth) + (y * squareGap) + (squareWidth / 2) + (fontSize / 2));
+				canvas.ctx.fillText(boardMultiplierStrings[boardModifiers[y][x]], (x * squareWidth) + (x * squareGap) + (squareWidth / 2), (y * squareWidth) + (y * squareGap) + (squareWidth / 2) + (fontSize / 2.5));
 			}
 		}
 	}
@@ -157,8 +160,8 @@ function drawLetterBank() {
 		const shuffleButtonY = startY + titleSize + 14;
 
 		// draw background if hovering
-		if (canvas.bankShuffleButton.hover) {
-			canvas.ctx.fillStyle = "#00000033";
+		if (canvas.bankShuffleButton.hover || canvas.bankShuffleButton.clicking) {
+			canvas.ctx.fillStyle = (canvas.bankShuffleButton.clicking ? "#0000004C" : "#00000033");
 			canvas.ctx.beginPath();
 			canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
 			canvas.ctx.fill();
@@ -186,17 +189,40 @@ function drawLetterBank() {
 
 	remainingSpace -= titleSize + 20;
 
-	// determine some constants
+	// define some constants
 	const numTiles = bank.length;
-	const defaultTileGap = 5;
-	const extraTileGap = 55;
 
+	const minTileGap = 5;
+	const extraTileGap = 50;
+
+	// check and update gap animations
+	if (canvas.gapBeforeBankAnimation) {
+		canvas.extraGapBeforeBank = canvas.gapBeforeBankAnimation.getFrame();
+		if (canvas.gapBeforeBankAnimation.isComplete()) {
+			canvas.gapBeforeBankAnimation = undefined;
+		}
+	}
+	for (let i in bank) {
+		let current = bank[i];
+		if (!current.hidden) {
+			if (current.gapAnimation) {
+				current.extraGapAfter = current.gapAnimation.getFrame();
+				if (current.gapAnimation.isComplete()) {
+					current.gapAnimation = undefined;
+				}
+			}
+		}
+	}
+
+	// determine the total amount of gap space we will use
 	let totalGapSpace = 0;
 	for (let i in bank) {
-		totalGapSpace += (bank[i].extraGapAfter ? extraTileGap : defaultTileGap);
+		totalGapSpace += (minTileGap + (bank[i].extraGapAfter * extraTileGap));
 	}
 	if (canvas.extraGapBeforeBank) {
-		totalGapSpace -= extraTileGap - defaultTileGap;
+		totalGapSpace -= extraTileGap * canvas.extraGapBeforeBank;
+		// we are subtracting here because we will add this value to the x position to get the x position of the first tile
+		// it doesn't make sense but it works
 	}
 
 	const tileWidth = Math.min(remainingSpace - 10, ((canvasWidth - totalGapSpace) / numTiles), 55);
@@ -220,10 +246,10 @@ function drawLetterBank() {
 	}
 
 	if (firstLetter) {
-		// add the first drop zone
+		// initialize the first drop zone
 		canvas.dropZones = [{
 			start: {
-				x: firstLetter.position.x - (canvas.extraGapBeforeBank ? extraTileGap : defaultTileGap) - (canvas.bankTileWidth / 2),
+				x: firstLetter.position.x - (minTileGap + (canvas.extraGapBeforeBank * extraTileGap)) - (canvas.bankTileWidth / 2),
 				y: firstLetter.position.y - (canvas.bankTileWidth / 5)
 			},
 			end: {
@@ -281,7 +307,7 @@ function drawLetterBank() {
 		const pointsY = y + (tileWidth * 0.9);
 
 		// after calculating, increase the current gap space
-		currentGapSpace += (canvasLetter.extraGapAfter ? extraTileGap : defaultTileGap);
+		currentGapSpace += (minTileGap + (canvasLetter.extraGapAfter * extraTileGap));
 
 		// draw tile
 		canvas.ctx.fillStyle = "#a47449"; // tile brown
@@ -310,7 +336,7 @@ function drawLetterBank() {
 				y: canvasLetter.position.y - (canvas.bankTileWidth / 5)
 			},
 			end: {
-				x: canvasLetter.position.x + (canvas.bankTileWidth * 1.5) + (canvasLetter.extraGapAfter ? extraTileGap : defaultTileGap),
+				x: canvasLetter.position.x + (canvas.bankTileWidth * 1.5) + (minTileGap + (canvasLetter.extraGapAfter * extraTileGap)),
 				y: canvasLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
 			orderIndex: parseInt(i) + 1
@@ -331,6 +357,7 @@ function drawLetterBank() {
 		canvas.ctx.fillRect(x, y, width, height);
 
 		canvas.ctx.strokeStyle = "#0000FF99";
+		canvas.ctx.lineWidth = 1;
 		canvas.ctx.strokeRect(x, y, width, height);
 	} */
 }
@@ -342,7 +369,7 @@ function updateTile(tile) {
 	// don't even bother drawing tile if size is 0
 	if (tileSize === 0) return;
 
-	var borderRadius = tileSize * 5;
+	var borderRadius = 5 * (squareWidth * 0.03) * tileSize;
 
 	var tileWidth = squareWidth * tileSize;
 	var fontSize = tileWidth * 0.83;
@@ -379,8 +406,11 @@ function drawRegions(regions) {
 	// draw each region
 	for (let i = 0; i < regions.length; i++) {
 
+		// determine whether it is the current user's turn
+		const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
+
 		// set up the style
-		canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight');
+		canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
 		canvas.ctx.lineWidth = (squareWidth * 0.1) + 1;
 		const fontSize = 16;
@@ -425,7 +455,7 @@ function drawRegions(regions) {
 		const textSize = canvas.ctx.measureText(regions[i].points.toString());
 
 		// draw the number on the bubble
-		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight-text');
+		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight-text' : '--semi-highlight-text');
 		canvas.ctx.textAlign = "center";
 		canvas.ctx.fillText(regions[i].points.toString(), circX, circY + (fontSize / 3));
 		canvas.ctx.textAlign = "";

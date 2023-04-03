@@ -1,3 +1,6 @@
+// define constants
+const dropZoneAnimationTime = 50;
+
 function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
     // remove all unlocked tiles from the board
     for (let y in game.board) {
@@ -11,9 +14,9 @@ function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
     // un-hide all letters in bank
     for (let i in canvas.bank) {
         canvas.bank[i].hidden = false;
-        canvas.bank[i].extraGapAfter = false;
+        canvas.bank[i].extraGapAfter = 0;
     }
-    canvas.extraGapBeforeBank = false;
+    canvas.extraGapBeforeBank = 0;
 
     // remove points preview
     canvas.pointsPreview = false;
@@ -83,13 +86,16 @@ function handleCanvasMouseDown(e) {
                 
                 // add a gap where the letter used to be
                 if (i == 0) {
-                    canvas.extraGapBeforeBank = true;
+                    canvas.extraGapBeforeBank = 1;
                 } else {
-                    canvas.bank[canvas.bankOrder[i - 1]].extraGapAfter = true;
+                    canvas.bank[canvas.bankOrder[i - 1]].extraGapAfter = 1;
                 }
 
                 // temporarily hide the points preview
                 canvas.pointsPreview.hidden = true;
+
+                // don't count for double tap
+                canvas.doubleTap = false;
 
                 return; // don't bother to check the board
             }
@@ -124,6 +130,9 @@ function handleCanvasMouseDown(e) {
         // hide the points preview
         canvas.pointsPreview = false;
 
+        // don't count as double tap
+        canvas.doubleTap = false;
+
         return; // nothing else to do
     }
 
@@ -133,12 +142,16 @@ function handleCanvasMouseDown(e) {
     const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
     if (xOnShuffle && yOnShuffle) {
         canvas.bankShuffleButton.clicking = true;
+        canvas.doubleTap = false;
         return;
     }
 
     if (tile && locked) {
         // show the word definition
         lookupWord(boardX, boardY, clientX, clientY);
+
+        // don't count as double tap
+        canvas.doubleTap = false;
     }
 }
 
@@ -216,7 +229,7 @@ function handleCanvasMouseMove(e) {
         // show the hover effect on the shuffle button
         const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
         const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
-        if (!dragged && xOnShuffle && yOnShuffle) {
+        if (!dragged && xOnShuffle && yOnShuffle && e.type !== 'touchmove') {
             cursor = 'pointer';
             canvas.bankShuffleButton.hover = true;
         } else {
@@ -231,29 +244,43 @@ function handleCanvasMouseMove(e) {
             cursor = (game.inactive ? 'no-drop' : 'grabbing');
         }
 
-        // remove all gaps between letters in bank
-        canvas.extraGapBeforeBank = false;
-        for (let i in canvas.bank) {
-            canvas.bank[i].extraGapAfter = false;
-        }
-
         if (boardY > 14) {
             cursor = 'grabbing';
 
-            // expand the space between letters in bank as necessary
+            let dropZone;
+
+            // find the current drop zone
             for (let i in canvas.dropZones) {
-                // if the user is dragging over this zone
                 const xInDropZone = x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x;
                 const yInDropZone = y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y;
-                if (xInDropZone && yInDropZone) {
+                const inDropZone = xInDropZone && yInDropZone;
+                if (inDropZone) dropZone = i;
+            }
+
+            const dropZoneChanged = dropZone != canvas.expandedDropZone;
+
+            // expand the space between letters in bank as necessary
+            for (let i in canvas.dropZones) {
+                if (dropZone == i && dropZoneChanged) {
                     // make the gap bigger
                     if (i == 0) {
-                        canvas.extraGapBeforeBank = true;
+                        canvas.gapBeforeBankAnimation = new Animation(dropZoneAnimationTime, 0, canvas.extraGapBeforeBank, 1);
                     } else {
-                        canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]].extraGapAfter = true;
+                        const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
+                        current.gapAnimation = new Animation(dropZoneAnimationTime, 0, current.extraGapAfter, 1);
+                    }
+                } else if (dropZoneChanged) {
+                    // make the gap smaller
+                    if (i == 0) {
+                        canvas.gapBeforeBankAnimation = new Animation(dropZoneAnimationTime, 0, canvas.extraGapBeforeBank, 0);
+                    } else {
+                        const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
+                        current.gapAnimation = new Animation(dropZoneAnimationTime, 0, current.extraGapAfter, 0);
                     }
                 }
             }
+
+            canvas.expandedDropZone = dropZone;
         }
     }
 
@@ -287,6 +314,7 @@ function handleDocumentMouseUp(e) {
             canvas.doubleTap = false;
         }
         canvas.bankShuffleButton.clicking = false;
+        if (e.type === 'touchend') canvas.bankShuffleButton.hover = false;
     }
 
     // cancel if no tile is being dragged
@@ -331,14 +359,15 @@ function handleDocumentMouseUp(e) {
                 // move the letter
                 moveBankLetter(from, to);
 
-                // remove any extra gap after any letter
-                canvas.extraGapBeforeBank = false;
+                // remove any extra gap before or after any letter
+                canvas.gapBeforeBankAnimation = undefined;
+                canvas.extraGapBeforeBank = 0;
                 for (let j in canvas.bank) {
-                    canvas.bank[j].extraGapAfter = false;
+                    const current = canvas.bank[j];
+                    current.gapAnimation = undefined;
+                    current.extraGapAfter = 0;
                 }
-
             }
-
         }
 
         // if there is already a points preview, show it

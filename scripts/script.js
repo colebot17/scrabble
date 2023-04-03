@@ -641,7 +641,9 @@ function endGame() {
 	
 	let endGameCount = 0;
 	for (let i in game.players) {
-		endGameCount += (game.players[i].endGameRequest === 'true') & 1;
+		if (game.players[i].endGameRequest === 'true') {
+			endGameCount++;
+		}
 	}
 	const votesLeft = game.players.length - endGameCount;
 
@@ -652,7 +654,7 @@ function endGame() {
 		confirmMsg = "Do you really want to cast your vote to end the game? " + (
 			votesLeft <= 1
 			? "You are the final player to do so, so the game will end."
-			: "If you do, " + votesLeft - 1 + " player" + (votesLeft - 1 === 1 ? "" : "s") + " will still have to vote before the game ends."
+			: "If you do, " + (votesLeft - 1) + " player" + ((votesLeft - 1) === 1 ? "" : "s") + " will still have to vote before the game ends."
 		);
 	}
 
@@ -719,7 +721,8 @@ function gameInit() {
 				x: undefined,
 				y: undefined
 			},
-			bankIndex: parseInt(i)
+			bankIndex: parseInt(i),
+			extraGapAfter: 0
 		});
 	}
 
@@ -1091,11 +1094,11 @@ function exchangeLetters() {
 	const letterExchangeButton = document.getElementById('letterExchangeButton')
 	letterExchangeButton.innerText = 'Skip Turn';
 	let bank = game.players[parseInt(game.turn) % game.players.length].letterBank;
-	for (let i in bank) {
+	for (let i in canvas.bankOrder) {
 		letterBank.innerHTML += /* html */ `
-			<button class='letter' data-bankindex='${i}' aria-pressed='false'>
-				<span class='letterLetter'>${bank[i] ? bank[i] : ``}</span>
-				<span class='letterPoints'>${bank[i] ? letterScores[bank[i]] : ``}</span>
+			<button class='letter' data-bankindex='${canvas.bankOrder[i]}' aria-pressed='false'>
+				<span class='letterLetter'>${bank[canvas.bankOrder[i]] ? bank[canvas.bankOrder[i]] : ``}</span>
+				<span class='letterPoints'>${bank[canvas.bankOrder[i]] ? letterScores[bank[canvas.bankOrder[i]]] : ``}</span>
 			</button>
 		`;
 	}
@@ -1204,6 +1207,7 @@ function addLetter(x, y, bankIndex) {
 	if (blank) {
 		pickLetter(bankIndex, function(letter) {
 			game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
+			checkPoints();
 		});
 		return;
 	}
