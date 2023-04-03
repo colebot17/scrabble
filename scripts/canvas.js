@@ -454,7 +454,7 @@ function drawRegions(regions) {
 		const textSize = canvas.ctx.measureText(regions[i].points.toString());
 
 		// draw the number on the bubble
-		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--highlight-text');
+		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight-text' : '--semi-highlight-text');
 		canvas.ctx.textAlign = "center";
 		canvas.ctx.fillText(regions[i].points.toString(), circX, circY + (fontSize / 3));
 		canvas.ctx.textAlign = "";
