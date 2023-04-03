@@ -221,7 +221,7 @@ function updateGamesList() {
 					playerListSummaryHTML = /* html */ `You and ${gamesArray[i].players.length - 1} other players`;
 				}
 
-				let turnSummaryHTML = /* html */ `<b>${gamesArray[i].players[turnIndex].name}</b>'s turn'`;
+				let turnSummaryHTML = /* html */ `<b>${gamesArray[i].players[turnIndex].name}</b>'s turn`;
 
 				// add the game card to the list
 				$activeGamesList.append( /* html */`
@@ -290,7 +290,7 @@ function updateGamesList() {
 					}
 				}
 				for (let j in winners) {
-					winnerString.append(gamesArray[i].players[winners[j]].name);
+					winnerString += gamesArray[i].players[winners[j]].name;
 				}
 				let infoSummaryHTML = /* html */ `${winnerString} won the game`;
 
