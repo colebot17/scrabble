@@ -1098,7 +1098,7 @@ function exchangeLetters() {
 		letterBank.innerHTML += /* html */ `
 			<button class='letter' data-bankindex='${canvas.bankOrder[i]}' aria-pressed='false'>
 				<span class='letterLetter'>${bank[canvas.bankOrder[i]] ? bank[canvas.bankOrder[i]] : ``}</span>
-				<span class='letterPoints'>${bank[canvas.bankOrder[i]] ? letterScores[bank[i]] : ``}</span>
+				<span class='letterPoints'>${bank[canvas.bankOrder[i]] ? letterScores[bank[canvas.bankOrder[i]]] : ``}</span>
 			</button>
 		`;
 	}
