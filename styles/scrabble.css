@@ -220,6 +220,9 @@ body.scrabble {
 .accountForm h3 {
 	margin: 0;
 }
+.accountForm .flex {
+	margin: 5px 0 10px 0;
+}
 
 /* grid */
 #scrabbleGrid {
