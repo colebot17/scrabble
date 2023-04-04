@@ -170,7 +170,7 @@ body.scrabble {
 #gameBanner {
 	margin: 5px;
 	padding: 10px;
-	background: rgb(195, 195, 86);
+	background: yellow;
 	border-radius: 7px;
 }
 @font-face { /* Scrabble Font - Eurostile */
