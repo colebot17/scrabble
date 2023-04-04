@@ -221,7 +221,12 @@ function updateGamesList() {
 					playerListSummaryHTML = /* html */ `You and ${gamesArray[i].players.length - 1} other players`;
 				}
 
-				let turnSummaryHTML = /* html */ `<b>${gamesArray[i].players[turnIndex].name}</b>'s turn`;
+				let turnSummaryHTML;
+				if (gamesArray[i].players[turnIndex].id == account.id) {
+					turnSummaryHTML = `Your turn`;
+				} else {
+					turnSummaryHTML = /* html */ `<b>${gamesArray[i].players[turnIndex].name}</b>'s turn`;
+				}
 
 				// add the game card to the list
 				$activeGamesList.append( /* html */`
