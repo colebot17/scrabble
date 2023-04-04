@@ -16,7 +16,7 @@
 	justify-content: flex-start;
 	gap: 10px;
 }
-.gamesList[data-displaytype=list] {
+.gamesList[data-displaymode=list] {
 	flex-direction: column;
 }
 .gamesList .listGame, .gamesList .newGameCard {
@@ -34,7 +34,7 @@
 	justify-content: space-around;
 	align-items: stretch;
 }
-.gamesList[data-displaytype=list] .listGame {
+.gamesList[data-displaymode=list] .listGame {
 	width: 100%;
 	height: auto;
 	flex-direction: row;
@@ -63,7 +63,7 @@
 	font-size: small;
 }
 
-.gamesList[data-displaytype=list] .listGame .listGamePlayerList {
+.gamesList[data-displaymode=list] .listGame .listGamePlayerList {
 	display: none;
 }
 .gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
@@ -76,7 +76,7 @@
 .gamesList .listGame .listGameInfoSummary {
 	display: none;
 }
-.gamesList[data-displaytype=list] .listGame .listGameInfoSummary {
+.gamesList[data-displaymode=list] .listGame .listGameInfoSummary {
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
