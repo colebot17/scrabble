@@ -311,7 +311,7 @@ function updateGamesList() {
 						<div class="listGameTitleBox">
 							<div class="gameTitleLine">
 								<span class="material-symbols-rounded smallIcon" style='padding: 5px'>
-									inventory
+									inventory_2
 								</span>
 								<span class="listGameName">
 									${gamesArray[i].name || `#${gamesArray[i].id}`}
