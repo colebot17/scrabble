@@ -130,8 +130,8 @@
 					<button type="submit" onclick="signIn()">Sign In</button><br>
 					
 					<a onclick="setSignInMode('createAccount')" class="hoverLine small">Create Account</a>
-					–
-					<a onclick="setSignInMode('resetPassword')" class="hoverLine small">Forgot Password?</a>
+					<!-- –
+					<a onclick="setSignInMode('resetPassword')" class="hoverLine small">Forgot Password?</a> -->
 				</form>
 				
 				<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="return false;">
@@ -166,9 +166,10 @@
 					<label for="changePasswordConfirmNewPwd">Confirm New Password:</label>
 					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmNewPwd" id="changePasswordConfirmNewPwd"><br>
 
-					<button type="submit" onclick="changePassword()">Change Password</button><br>
-
-					<span class="finePrint">Email <a class="underline hoverDarken" href="mailto:colebot17@gmail.com?subject=Reset%20my%20Password">colebot17@gmail.com</a> if you don't know your current password.</span>
+					<button type="submit" onclick="changePassword()">Change Password</button>
+					<!-- <br>
+						
+					<span class="finePrint">Email <a class="underline hoverDarken" href="mailto:colebot17@gmail.com?subject=Reset%20my%20Password">colebot17@gmail.com</a> if you don't know your current password.</span> -->
 				</form>
 
 				<form class="hidden accountForm" id="changeUsernameForm" data-action="changeUsername" onsubmit="return false;">
@@ -188,7 +189,7 @@
 					<button type="submit" onclick="changeUsername()">Change Username</button>
 				</form>
 
-				<form class="hidden accountForm" id="resetPasswordForm" data-action="resetPassword" onsubmit="return false;">
+				<!-- <form class="hidden accountForm" id="resetPasswordForm" data-action="resetPassword" onsubmit="return false;">
 					<div class="flex">
 						<button class="iconButton" onclick="setSignInMode('signIn')">
 							<span class="material-symbols-rounded smallIcon">chevron_left</span>
@@ -211,7 +212,7 @@
 					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="resetPasswordConfirmPwd"><br>
 
 					<button type="submit" onclick="resetPassword()">Reset Password</button>
-				</form>
+				</form> -->
 				<div class="hidden accountForm flex gap10 col mobileRow" id="signOutForm">
 					<span id="accountNameLabel"></span>
 					<button onclick="signOut()">Sign Out</button>
