@@ -79,6 +79,7 @@
 .gamesList[data-displaytype=list] .listGame .listGameInfoSummary {
 	display: flex;
 	flex-direction: column;
+	gap: 5px;
 }
 .gamesList .newGameCard {
 	width: 220px;
