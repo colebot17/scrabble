@@ -168,7 +168,7 @@ function drawLetterBank() {
 		}
 		
 		// draw the icon
-		canvas.ctx.font = titleSize + "px Material Icons";
+		canvas.ctx.font = titleSize + "px Material Symbols Rounded";
 		canvas.ctx.fillStyle = "#000000";
 		canvas.ctx.textAlign = "center";
 
