@@ -16,7 +16,9 @@
 	justify-content: flex-start;
 	gap: 10px;
 }
-
+.gamesList[data-displaytype=list] {
+	flex-direction: column;
+}
 .gamesList .listGame, .gamesList .newGameCard {
 	margin: auto;
 	padding: 10px;
@@ -31,6 +33,11 @@
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: stretch;
+}
+.gamesList[data-displaytype=list] .listGame {
+	width: 100%;
+	height: auto;
+	flex-direction: row;
 }
 
 .gamesList .listGame .listGameTitleBox {
@@ -55,6 +62,10 @@
 	color: var(--text-color-light);
 	font-size: small;
 }
+
+.gamesList[data-displaytype=list] .listGame .listGamePlayerList {
+	display: none;
+}
 .gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
 	margin: 0;
 	display: flex;
@@ -63,6 +74,9 @@
 	column-gap: 2px;
 }
 .gamesList .listGame .listGameInfoSummary {
+	display: none;
+}
+.gamesList[data-displaytype=list] .listGame .listGameInfoSummary {
 	display: flex;
 	flex-direction: column;
 }
