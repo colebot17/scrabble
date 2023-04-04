@@ -86,6 +86,10 @@
 	height: 320px;
 	cursor: pointer;
 }
+.gamesList[data-displaytype=list] .newGameCard {
+	width: calc(100% - 35px);
+	height: auto;
+}
 .gamesList .newGameCard:hover {
 	background-color: var(--background-3);
 }
