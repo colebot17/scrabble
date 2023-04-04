@@ -303,9 +303,6 @@ function updateGamesList() {
 						}
 					}
 				}
-				for (let j in winners) {
-					winnerString += gamesArray[i].players[winners[j]].name;
-				}
 				let winnerHTML = /* html */ `${winnerString} won the game`;
 
 				// add the game card to the list
