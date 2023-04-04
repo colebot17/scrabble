@@ -87,7 +87,7 @@
 	cursor: pointer;
 }
 .gamesList[data-displaymode=list] .newGameCard {
-	width: calc(100% - 35px);
+	width: calc(100% - 15px);
 	height: auto;
 }
 .gamesList .newGameCard:hover {
