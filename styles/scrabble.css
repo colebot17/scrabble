@@ -86,7 +86,7 @@
 	height: 320px;
 	cursor: pointer;
 }
-.gamesList[data-displaytype=list] .newGameCard {
+.gamesList[data-displaymode=list] .newGameCard {
 	width: calc(100% - 35px);
 	height: auto;
 }
