@@ -218,7 +218,7 @@ function updateGamesList() {
 					if (gamesArray[i].players[0].id == account.id) otherPlayer = 1;
 					playerListSummaryHTML = /* html */ `You and <b>${gamesArray[i].players[otherPlayer].name}</b>`
 				} else {
-					playerListSummaryHTML = /* html */ `You and ${gamesArray[i].players.length - 1} other players`;
+					playerListSummaryHTML = /* html */ `You and ${gamesArray[i].players.length - 1} others`;
 				}
 
 				let turnSummaryHTML;
