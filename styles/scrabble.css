@@ -35,7 +35,7 @@
 	align-items: stretch;
 }
 .gamesList[data-displaymode=list] .listGame {
-	width: calc(100% - 20px);
+	width: calc(100% - 35px);
 	height: auto;
 	flex-direction: row;
 }
