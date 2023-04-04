@@ -860,7 +860,7 @@ function gameInit() {
 			<div class="gameTitleLine">
 				<button class="iconButton" onclick="getInfo()">
 					<span class="material-symbols-rounded smallIcon">
-						info_outline
+						info
 					</span>
 				</button>
 				<span class="gameName">
