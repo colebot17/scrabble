@@ -391,6 +391,21 @@ function setGamesList(list) {
 	$('#createGameModal').modalClose();
 }
 
+function setDisplayMode(mode) {
+	const gamesCell = document.getElementById('gamesCell');
+	const buttons = document.getElementsByClassName('displayModeButton');
+	
+	gamesCell.dataset.displaymode = mode;
+	
+	for (let i = 0; i < buttons.length; i++) {
+		if (buttons[i].id === (mode + "ViewButton")) {
+			buttons[i].setAttribute("aria-pressed", "true");
+		} else {
+			buttons[i].setAttribute("aria-pressed", "false");
+		}
+	}
+}
+
 function renameGame(gameId) {
 	// get the element(s) to be updated upon completion
 	const nameFields = $('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');

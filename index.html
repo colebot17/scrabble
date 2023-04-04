@@ -205,14 +205,20 @@
 				</div>
 			</div>
 
-			<div id="gamesCell" class="gridCell">
+			<div id="gamesCell" class="gridCell" data-displaymode="list">
 				<div class="gamesListBox" id="activeGames">
-					<button class="iconButton tabNavButton" id="gamesListRefreshButton" onclick="loadGamesList()">
+					<button class="iconButton" id="gamesListRefreshButton" onclick="loadGamesList()">
 						<span class="material-icons">refresh</span>
 					</button>
 					<h1 class="inline">Active Games</h1>
-					<button class="iconButton tabNavButton" id="gamesListRefreshButton" onclick="setGamesList('inactive')">
+					<button class="iconButton tabNavButton" id="viewInactiveGamesButton" onclick="setGamesList('inactive')">
 						<span class="material-icons">chevron_right</span>
+					</button>
+					<button class="iconButton displayModeButton" id="listViewButton" onclick="setDisplayMode('list')">
+						<span class="material-icons">view_list</span>
+					</button>
+					<button class="iconButton displayModeButton" id="cardViewButton" aria-pressed="true" onclick="setDisplayMode('card')">
+						<span class="material-icons">grid_view</span>
 					</button>
 					<br>
 					<span id="activeGamesListMessage">Please create an account or sign in.</span>
@@ -225,6 +231,12 @@
 						<span class="material-icons">chevron_left</span>
 					</button>
 					<h1 class="inline">Inactive Games</h1>
+					<button class="iconButton displayModeButton" id="listViewButton" onclick="setDisplayMode('list')">
+						<span class="material-icons">view_list</span>
+					</button>
+					<button class="iconButton displayModeButton" id="cardViewButton" aria-pressed="true" onclick="setDisplayMode('card')">
+						<span class="material-icons">grid_view</span>
+					</button>
 					<br>
 					<span id="inactiveGamesListMessage">Please create an account or sign in.</span>
 					<div class="gamesListWrapper">
