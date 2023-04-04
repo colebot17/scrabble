@@ -328,6 +328,9 @@ function updateGamesList() {
 								</div>
 							` : ``}
 						</div>
+						<div class="listGamePlayerList">
+							${playerListHTML}
+						</div>
 						<div class="listGameInfoSummary">
 							<div class="playerListSummary">
 								${playerListSummaryHTML}
