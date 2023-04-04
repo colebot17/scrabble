@@ -249,7 +249,11 @@
 			<div id="createGamePlayerList"></div>
 			<div class="addPlayerRow">
 				<input id="createGamePlayerInput" type="text" name="createGamePlayerInput" placeholder="Player Name">
-				<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add</button>
+				<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">
+					<span class="material-symbols-rounded">
+						add
+					</span>
+				</button>
 			</div>
 			<div class="createGameButtons">
 				<button id="createGameCancel" onclick="$('#createGameModal').modalClose()">Cancel</button>
