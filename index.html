@@ -15,6 +15,9 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
 
+	<!-- import material symbols -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+
 	<!-- import material icons -->
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -41,22 +44,22 @@
 			<div id="gameControlsCell" class="gridCell">
 				<div class="contentControls">
 					<button class="iconButton" id="backToGamesListButton" onclick="showTab('account')">
-						<span class="material-icons">
+						<span class="material-symbols-rounded">
 							chevron_left
 						</span>
 					</button>
 					<button class="iconButton" id="reloadGameButton" onclick="reloadGame()">
-						<span class="material-icons">
+						<span class="material-symbols-rounded">
 							refresh
 						</span>
 					</button>
 					<button class="iconButton hidden" id="fullscreenButton" onclick="toggleFullScreen()">
-						<span class="material-icons" id="fullscreenIcon">
+						<span class="material-symbols-rounded" id="fullscreenIcon">
 							fullscreen
 						</span>
 					</button>
 					<button class="iconButton" id="showChatButton" onclick="showTab('chat')">
-						<span class="material-icons">
+						<span class="material-symbols-rounded">
 							chat
 						</span>
 					</button>
@@ -74,7 +77,7 @@
 			<div id="chatCell" class="gridCell">
 				<div class="chatTitleLine">
 					<button id="chatBackButton" class="iconButton backButton" onclick="showTab('game')">
-						<span class="material-icons">
+						<span class="material-symbols-rounded">
 							chevron_left
 						</span>
 					</button>
@@ -82,12 +85,12 @@
 						Game Chat
 					</h3>
 					<button id="chatExpandButton" class="iconButton" onclick="showTab('chat')">
-						<span class="material-icons smallIcon">
+						<span class="material-symbols-rounded smallIcon">
 							open_in_full
 						</span>
 					</button>
 					<button id="chatCloseButton" class="iconButton" onclick="showTab('game')">
-						<span class="material-icons smallIcon">
+						<span class="material-symbols-rounded smallIcon">
 							close_fullscreen
 						</span>
 					</button>
@@ -208,11 +211,11 @@
 			<div id="gamesCell" class="gridCell" data-displaymode="card">
 				<div class="gamesListBox" id="activeGames">
 					<button class="iconButton" id="gamesListRefreshButton" onclick="loadGamesList()">
-						<span class="material-icons">refresh</span>
+						<span class="material-symbols-rounded">refresh</span>
 					</button>
 					<h1 class="inline">Active Games</h1>
 					<button class="iconButton tabNavButton" id="viewInactiveGamesButton" onclick="setGamesList('inactive')">
-						<span class="material-icons">chevron_right</span>
+						<span class="material-symbols-rounded">chevron_right</span>
 					</button>
 					<br>
 					<span id="activeGamesListMessage">Please create an account or sign in.</span>
@@ -222,7 +225,7 @@
 				</div>
 				<div class="gamesListBox hidden" id="inactiveGames">
 					<button class="iconButton tabNavButton" id="activeGamesButton" onclick="setGamesList('active')">
-						<span class="material-icons">chevron_left</span>
+						<span class="material-symbols-rounded">chevron_left</span>
 					</button>
 					<h1 class="inline">Inactive Games</h1>
 					<br>
@@ -233,10 +236,10 @@
 				</div>
 				<div id="displayModeButtonContainer">
 					<button class="iconButton displayModeButton" id="cardViewButton" aria-pressed="true" onclick="setDisplayMode('card')">
-						<span class="material-icons">grid_view</span>
+						<span class="material-symbols-rounded">grid_view</span>
 					</button>
 					<button class="iconButton displayModeButton" id="listViewButton" onclick="setDisplayMode('list')">
-						<span class="material-icons">view_list</span>
+						<span class="material-symbols-rounded">view_list</span>
 					</button>
 				</div>
 			</div>
@@ -280,7 +283,7 @@
 		</div>
 		<div class="popup hidden" id="wordLookupPopup">
 			<button class="iconButton modalCloseButton" onclick="$('#wordLookupPopup').popupClose()">
-				<span class="material-icons">close</span>
+				<span class="material-symbols-rounded">close</span>
 			</button>
 			<div class="wordLookupResults">
 			</div>

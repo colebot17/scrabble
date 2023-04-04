@@ -198,7 +198,7 @@ function updateGamesList() {
 					let endGameVoted = gamesArray[i].players[j].endGameRequest === 'true';
 					playerListHTML += /* html */ `
 						<div class='listGamePlayerListPlayer'>
-							${(winners.includes(j) ? `<span class='material-icons winnerIcon'>emoji_events</span>` : ``)}
+							${(winners.includes(j) ? `<span class='material-symbols-rounded winnerIcon'>emoji_events</span>` : ``)}
 							<b>
 								${(j == turnIndex ? `<u>` : ``)}
 								${gamesArray[i].players[j].name}
@@ -206,7 +206,7 @@ function updateGamesList() {
 							</b>
 							: 
 							${gamesArray[i].players[j].points}
-							${(endGameVoted ? `<span class='material-icons winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
+							${(endGameVoted ? `<span class='material-symbols-rounded winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
 						</div>
 					`;
 				}
@@ -237,7 +237,7 @@ function updateGamesList() {
 									${gamesArray[i].name || `#${gamesArray[i].id}`}
 								</span>
 								<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
-									<span class="material-icons smallIcon">
+									<span class="material-symbols-rounded smallIcon">
 										drive_file_rename_outline
 									</span>
 								</button>
@@ -270,7 +270,7 @@ function updateGamesList() {
 				for (var j in gamesArray[i].players) { // add each player to the list of players in the card
 					playerListHTML += /* html */ `
 						<div class="listGamePlayerListPlayer">
-							${(winners.includes(j) ? "<span class='material-icons winnerIcon'>emoji_events</span>" : "")}
+							${(winners.includes(j) ? "<span class='material-symbols-rounded winnerIcon'>emoji_events</span>" : "")}
 							<b>
 								${gamesArray[i].players[j].name}
 							</b>
@@ -310,14 +310,14 @@ function updateGamesList() {
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
 							<div class="gameTitleLine">
-								<span class="material-icons smallIcon" style='padding: 5px'>
+								<span class="material-symbols-rounded smallIcon" style='padding: 5px'>
 									inventory
 								</span>
 								<span class="listGameName">
 									${gamesArray[i].name || `#${gamesArray[i].id}`}
 								</span>
 								<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
-									<span class="material-icons smallIcon">
+									<span class="material-symbols-rounded smallIcon">
 										drive_file_rename_outline
 									</span>
 								</button>
@@ -347,7 +347,7 @@ function updateGamesList() {
 		// add the new game card to the end of the active games tab
 		$activeGamesList.append(/* html */ `
 			<button class="newGameCard" onclick="newGame();">
-				<span class="material-icons largeIcon">
+				<span class="material-symbols-rounded largeIcon">
 					add
 				</span>
 			</button>
@@ -542,7 +542,7 @@ function updateNewGamePlayerList() {
 				${newGamePlayerList[i].name}
 				${newGamePlayerList[i].id === account.id ? `` : `
 					<button class="iconButton" onclick="removePlayerFromNewGame(${newGamePlayerList[i].id})">
-						<span class="material-icons smallIcon">
+						<span class="material-symbols-rounded smallIcon">
 							remove
 						</span>
 					</button>
@@ -859,7 +859,7 @@ function gameInit() {
 		<div class="gameTitleBox">
 			<div class="gameTitleLine">
 				<button class="iconButton" onclick="getInfo()">
-					<span class="material-icons smallIcon">
+					<span class="material-symbols-rounded smallIcon">
 						info_outline
 					</span>
 				</button>
@@ -867,7 +867,7 @@ function gameInit() {
 					${game.name || `#${game.id}`}
 				</span>
 				<button class="iconButton" onclick="renameGame(${game.id})">
-					<span class="material-icons smallIcon">
+					<span class="material-symbols-rounded smallIcon">
 						drive_file_rename_outline
 					</span>
 				</button>
@@ -897,7 +897,7 @@ function gameInit() {
 		// add the player to the list
 		gameInfo += /* html */ `
 			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}">
-				${(isWinner ? `<span class='material-icons winnerIcon'>emoji_events</span>`: ``)}
+				${(isWinner ? `<span class='material-symbols-rounded winnerIcon'>emoji_events</span>`: ``)}
 				${(isTurn ? `<u>` : ``)}
 					${(isCurrentPlayer ? `<b>` : ``)}
 						${game.players[i].name}: 
@@ -907,7 +907,7 @@ function gameInit() {
 						</span>
 					</b>
 				${(turnIndex == i ? `</u>` : ``)}
-				${(endGameVoted && !game.inactive ? `<span class='material-icons winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
+				${(endGameVoted && !game.inactive ? `<span class='material-symbols-rounded winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
 			</div>
 		`;
 	}

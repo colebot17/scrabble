@@ -56,7 +56,7 @@ function chatInit() {
 					</div>
 					${isCurrentUser ? /* html */ `
 						<button class="iconButton deleteMessageButton" onclick="deleteChatMessage(${i})">
-							<span class="material-icons tinyIcon finePrint hoverDarken">
+							<span class="material-symbols-rounded tinyIcon finePrint hoverDarken">
 								${deleted ? `restore_from_trash` : `delete`}
 							</span>
 						</button>
