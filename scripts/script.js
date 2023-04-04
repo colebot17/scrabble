@@ -280,6 +280,15 @@ function updateGamesList() {
 				}
 				playerListHTML = playerListHTML.substring(0, playerListHTML.length - 2); // remove the extra comma at the end
 
+				let playerListSummaryHTML;
+				if (gamesArray[i].players.length === 2) {
+					let otherPlayer = 0;
+					if (gamesArray[i].players[0].id == account.id) otherPlayer = 1;
+					playerListSummaryHTML = /* html */ `You and <b>${gamesArray[i].players[otherPlayer].name}</b>`
+				} else {
+					playerListSummaryHTML = /* html */ `You and ${gamesArray[i].players.length - 1} others`;
+				}
+
 				let winnerString = "";
 				if (winners.length === 1) {
 					winnerString = /* html */ `<b>${gamesArray[i].players[winners[0]].name}</b>`;
@@ -297,7 +306,7 @@ function updateGamesList() {
 				for (let j in winners) {
 					winnerString += gamesArray[i].players[winners[j]].name;
 				}
-				let infoSummaryHTML = /* html */ `${winnerString} won the game`;
+				let winnerHTML = /* html */ `${winnerString} won the game`;
 
 				// add the game card to the list
 				$inactiveGamesList.append(/* html */ `
@@ -322,11 +331,13 @@ function updateGamesList() {
 								</div>
 							` : ``}
 						</div>
-						<div class="listGamePlayerList">
-							${playerListHTML}
-						</div>
 						<div class="listGameInfoSummary">
-							${infoSummaryHTML}
+							<div class="playerListSummary">
+								${playerListSummaryHTML}
+							</div>
+							<div class="turnSummary">
+								${winnerHTML}
+							</div>
 						</div>
 						<button class="openGameButton" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
 							View
