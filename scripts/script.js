@@ -198,7 +198,7 @@ function updateGamesList() {
 					let endGameVoted = gamesArray[i].players[j].endGameRequest === 'true';
 					playerListHTML += /* html */ `
 						<div class='listGamePlayerListPlayer'>
-							${(winners.includes(j) ? `<span class='material-symbols-rounded winnerIcon'>emoji_events</span>` : ``)}
+							${(winners.includes(j) ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>` : ``)}
 							<b>
 								${(j == turnIndex ? `<u>` : ``)}
 								${gamesArray[i].players[j].name}
@@ -270,7 +270,7 @@ function updateGamesList() {
 				for (var j in gamesArray[i].players) { // add each player to the list of players in the card
 					playerListHTML += /* html */ `
 						<div class="listGamePlayerListPlayer">
-							${(winners.includes(j) ? "<span class='material-symbols-rounded winnerIcon'>emoji_events</span>" : "")}
+							${(winners.includes(j) ? "<span class='material-symbols-rounded winnerIcon'>military_tech</span>" : "")}
 							<b>
 								${gamesArray[i].players[j].name}
 							</b>
@@ -897,7 +897,7 @@ function gameInit() {
 		// add the player to the list
 		gameInfo += /* html */ `
 			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}">
-				${(isWinner ? `<span class='material-symbols-rounded winnerIcon'>emoji_events</span>`: ``)}
+				${(isWinner ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>`: ``)}
 				${(isTurn ? `<u>` : ``)}
 					${(isCurrentPlayer ? `<b>` : ``)}
 						${game.players[i].name}: 
