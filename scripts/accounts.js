@@ -60,8 +60,11 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 				localStorage.name = jsonData.data.name;
 				localStorage.pwd = pwd;
 
-				$('#accountNameLabel').text(jsonData.data.name);
+				const label = document.getElementById('accountNameLabel');
 				
+				label.textContent = jsonData.data.name;
+				label.innerHTML = "<b>" + label.textContent + "</b>";
+
 				setSignInMode('signOut');
 
 				$('#scrabbleGrid').attr('data-signedin', "true");
