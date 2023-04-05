@@ -222,11 +222,26 @@
 						<h3>Settings</h3>
 					</div>
 					<br>
-					<a onclick="setSignInMode('changePassword')" class="hoverLine small">Change Password</a>
-					<br><br>
-					<a onclick="setSignInMode('changeUsername')" class="hoverLine small">Change Username</a>
-					<br><br>
-					<button onclick="signOut()">Sign Out</button>
+					<div class="flex col mobileRow">
+						<div>
+							<a onclick="setSignInMode('changePassword')" class="hoverLine small">Change Password</a>
+							<br><br>
+							<a onclick="setSignInMode('changeUsername')" class="hoverLine small">Change Username</a>
+							<br><br>
+							<button onclick="signOut()">Sign Out</button>
+						</div>
+						<div>
+							<div id="displayModeButtonContainer">
+								<button class="iconButton displayModeButton" id="cardViewButton" aria-pressed="true" onclick="setDisplayMode('card')">
+									<span class="material-symbols-rounded">grid_view</span>
+								</button>
+								<button class="iconButton displayModeButton" id="listViewButton" onclick="setDisplayMode('list')">
+									<span class="material-symbols-rounded">view_list</span>
+								</button>
+							</div>
+							<span class="finePrint">Game List View</span>
+						</div>
+					</div>
 				</div>
 
 				<div class="hidden accountForm flex gap10 col mobileRow" id="signOutForm">
@@ -262,14 +277,6 @@
 					<div class="gamesListWrapper">
 						<div class="gamesList" id="inactiveGamesList"></div>
 					</div>
-				</div>
-				<div id="displayModeButtonContainer">
-					<button class="iconButton displayModeButton" id="cardViewButton" aria-pressed="true" onclick="setDisplayMode('card')">
-						<span class="material-symbols-rounded">grid_view</span>
-					</button>
-					<button class="iconButton displayModeButton" id="listViewButton" onclick="setDisplayMode('list')">
-						<span class="material-symbols-rounded">view_list</span>
-					</button>
 				</div>
 			</div>
 		</div>
