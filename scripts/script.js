@@ -457,7 +457,8 @@ function renameGame(gameId) {
 			inputFields: [
 				{
 					password: false,
-					placeholder: "New Name..."
+					placeholder: "New Name...",
+					default: account.games[gameId].name;
 				}
 			]
 		}

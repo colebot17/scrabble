@@ -186,7 +186,8 @@ function textModal(
 		inputFields: [
 			/*{
 				placeholder: "",
-				password: false
+				password: false,
+				default: ""
 			}*/ // this would only be provided if an input field should appear
 		]
 	}
@@ -221,6 +222,8 @@ function textModal(
 		el.name = 'textModalInput';
 		el.addEventListener('keypress', e => {if (e.key === 'Enter') ok();});
 		document.getElementById('textModalControls').prepend(el);
+		el.value = options.inputFields[i].default;
+		el.select();
 	}
 
 	function ok() {
