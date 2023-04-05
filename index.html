@@ -213,11 +213,25 @@
 
 					<button type="submit" onclick="resetPassword()">Reset Password</button>
 				</form> -->
-				<div class="hidden accountForm flex gap10 col mobileRow" id="signOutForm">
-					<span id="accountNameLabel"></span>
-					<button onclick="signOut()">Sign Out</button>
+
+				<div class="hidden accountForm" id="settingsForm">
+					<div class="flex">
+						<button class="iconButton" onclick="setSignInMode('signOut')">
+							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+						</button>
+						<h3>Settings</h3>
+					</div>
+
 					<a onclick="setSignInMode('changePassword')" class="hoverLine small">Change Password</a>
 					<a onclick="setSignInMode('changeUsername')" class="hoverLine small">Change Username</a>
+					<button onclick="signOut()">Sign Out</button>
+				</div>
+
+				<div class="hidden accountForm flex gap10 col mobileRow" id="signOutForm">
+					<span id="accountNameLabel"></span>
+					<button class="iconButton" id="settingsButton" onclick="setSignInMode('settings')">
+						<span class="material-symbols-rounded">settings</span>
+					</button>
 				</div>
 			</div>
 
