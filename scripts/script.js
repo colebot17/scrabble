@@ -458,7 +458,7 @@ function renameGame(gameId) {
 				{
 					password: false,
 					placeholder: "New Name...",
-					default: account.games[gameId].name;
+					default: account.games[gameId].name
 				}
 			]
 		}
