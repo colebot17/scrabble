@@ -74,11 +74,13 @@ function updateModalSizes() {
 		const actualHeight = modal.height();
 		const height = Math.min(Math.max(prefHeight, actualHeight), window.innerHeight - 20);
 
+		const inPortrait = window.matchMedia("(orientation: portrait)").matches;
+
 		modal.css({
 			'width': width + 'px',
 			'height': height + 'px',
-			'top': (((window.innerHeight - height) / 2) - 10) + 'px',
-			'left': (((window.innerWidth - width) / 2) - 10) + 'px',
+			'top': (((window.innerHeight - height) / (inPortrait ? 3 : 2)) - 10) + 'px',
+			'left': (((window.innerWidth - width) / (inPortrait ? 3 : 2)) - 10) + 'px',
 			'opacity': ''
 		});
 	}
