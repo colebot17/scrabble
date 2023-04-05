@@ -30,15 +30,15 @@
 .gamesList .listGame {
 	width: 200px;
 	height: 300px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	align-items: stretch;
+	display: grid;
+	grid-template-rows: 25% 50% 25%;
+	grid-template-columns: none;
 }
 [data-displaymode=list] .gamesList .listGame {
 	width: calc(100% - 35px);
 	height: auto;
-	flex-direction: row;
+	grid-template-columns: 25% 50% 25%;
+	grid-template-rows: none;
 }
 
 .gamesList .listGame .listGameTitleBox {
