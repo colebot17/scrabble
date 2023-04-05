@@ -80,7 +80,7 @@ function updateModalSizes() {
 			'width': width + 'px',
 			'height': height + 'px',
 			'top': (((window.innerHeight - height) / (inPortrait ? 3 : 2)) - 10) + 'px',
-			'left': (((window.innerWidth - width) / (inPortrait ? 3 : 2)) - 10) + 'px',
+			'left': (((window.innerWidth - width) / 2) - 10) + 'px',
 			'opacity': ''
 		});
 	}
