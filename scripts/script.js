@@ -449,7 +449,7 @@ function renameGame(gameId) {
 										</div>
 									`);
 								}
-								if (game.id === gameId) { // if the game is currently loaded
+								if (game?.id === gameId) { // if the game is currently loaded
 									game.name = jsonData.data || ""; // set the name in game obj
 								}
 							}
