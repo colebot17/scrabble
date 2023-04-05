@@ -127,6 +127,13 @@
 	font-size: 16px!important;
 }
 
+/* settings */
+.settingsSection {
+	background-color: var(--background-2);
+	border-radius: 10px;
+	padding: 10px;
+}
+
 /* game controls */
 #gameControlsCell .contentControls {
 	flex-grow: 1;
