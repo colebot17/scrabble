@@ -220,7 +220,7 @@ function updateGamesList() {
 				if (gamesArray[i].players.length === 2) {
 					let otherPlayer = 0;
 					if (gamesArray[i].players[0].id == account.id) otherPlayer = 1;
-					playerListSummaryHTML = /* html */ `You and <b>${gamesArray[i].players[otherPlayer].name}</b>`
+					playerListSummaryHTML = /* html */ `You, <b>${gamesArray[i].players[otherPlayer].name}</b>`
 				} else {
 					playerListSummaryHTML = /* html */ `You, +${gamesArray[i].players.length - 1}`;
 				}
@@ -283,7 +283,7 @@ function updateGamesList() {
 				if (gamesArray[i].players.length === 2) {
 					let otherPlayer = 0;
 					if (gamesArray[i].players[0].id == account.id) otherPlayer = 1;
-					playerListSummaryHTML = /* html */ `You and <b>${gamesArray[i].players[otherPlayer].name}</b>`
+					playerListSummaryHTML = /* html */ `You, <b>${gamesArray[i].players[otherPlayer].name}</b>`
 				} else {
 					playerListSummaryHTML = /* html */ `You, +${gamesArray[i].players.length - 1}`;
 				}
