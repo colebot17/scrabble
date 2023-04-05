@@ -353,6 +353,10 @@ function updateGamesList() {
 				<span class="material-symbols-rounded largeIcon">
 					add
 				</span>
+				<span class="largeText">
+					New Game
+				</span>
+				<span></span>
 			</button>
 		`);
 

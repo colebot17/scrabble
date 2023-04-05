@@ -96,10 +96,18 @@
 	width: 220px;
 	height: 320px;
 	cursor: pointer;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
 }
 [data-displaymode=list] .gamesList .newGameCard {
 	width: calc(100% - 15px);
 	height: auto;
+
+	flex-direction: row;
 }
 .gamesList .newGameCard:hover {
 	background-color: var(--background-3);
