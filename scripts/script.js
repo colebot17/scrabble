@@ -92,6 +92,10 @@ function loadGamesList(done) {
 
 function updateGamesList() {
 	if (account.games) {
+		if (localStorage.gameListDisplayMode) {
+			setDisplayMode(localStorage.gameListDisplayMode);
+		}
+
 		var noActiveGames = true;
 		var noInactiveGames = true;
 
@@ -400,6 +404,13 @@ function setDisplayMode(mode) {
 		} else {
 			buttons[i].setAttribute("aria-pressed", "false");
 		}
+	}
+
+	// store in local storage
+	if (mode !== "card") {
+		localStorage.gameListDisplayMode = mode;
+	} else {
+		localStorage.removeItem('gameListDisplayMode');
 	}
 }
 
