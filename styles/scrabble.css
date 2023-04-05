@@ -59,6 +59,7 @@
 	border: 1px solid transparent;
 	transition: border-color 0.87s;
 	border-radius: 3px;
+	padding: 3px;
 }
 .gamesList .listGame .listGameTitleBox .listGameName:hover {
 	border-color: var(--text-color-light);
