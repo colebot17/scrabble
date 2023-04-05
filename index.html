@@ -229,10 +229,10 @@
 						</div>
 						<div class="settingsSection">
 							<div id="displayModeButtonContainer">
-								<button class="iconButton displayModeButton" id="cardViewButton" aria-pressed="true" onclick="setDisplayMode('card')">
+								<button class="iconButton displayModeButton" id="cardViewButton" title="Card View" aria-pressed="true" onclick="setDisplayMode('card')">
 									<span class="material-symbols-rounded">grid_view</span>
 								</button>
-								<button class="iconButton displayModeButton" id="listViewButton" onclick="setDisplayMode('list')">
+								<button class="iconButton displayModeButton" id="listViewButton" title="List View" onclick="setDisplayMode('list')">
 									<span class="material-symbols-rounded">view_list</span>
 								</button>
 							</div>
@@ -243,7 +243,7 @@
 
 				<div class="hidden accountForm flex gap10 col mobileRow" id="signOutForm">
 					<span id="accountNameLabel"></span>
-					<button class="iconButton" id="settingsButton" onclick="setSignInMode('settings')">
+					<button class="iconButton" id="settingsButton" onclick="setSignInMode('settings')" title="Settings">
 						<span class="material-symbols-rounded">settings</span>
 					</button>
 				</div>
