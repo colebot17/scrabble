@@ -64,6 +64,12 @@
 	font-size: small;
 }
 
+.gamesList .listGame .listGamePlayerList, .gamePlayerList {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
 [data-displaymode=list] .gamesList .listGame .listGamePlayerList {
 	display: none;
 }
