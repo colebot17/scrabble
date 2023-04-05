@@ -56,11 +56,13 @@
 	font-weight: bold;
 }
 .gamesList .listGame .listGameTitleBox .listGameName {
-	transition: text-decoration 0.87s;
+	border: 1px solid transparent;
+	transition: border-color 0.87s;
+	border-radius: 3px;
 }
 .gamesList .listGame .listGameTitleBox .listGameName:hover {
-	text-decoration: underline;
-	transition: text-decoration 0.37s;
+	border-color: var(--text-color-light);
+	transition: border-color 0.37s;
 }
 .gamesList .listGame .listGameTitleBox .gameIdLine {
 	display: flex;
