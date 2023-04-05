@@ -353,7 +353,7 @@ function updateGamesList() {
 				<span class="material-symbols-rounded largeIcon">
 					add
 				</span>
-				<span class="largeText">
+				<span class="large">
 					New Game
 				</span>
 				<span></span>
