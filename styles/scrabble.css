@@ -193,6 +193,9 @@
 	width: 145px;
 	height: 145px;
 }
+.accountList .addSavedAccountButton:hover {
+	background-color: var(--background-3);
+}
 
 /* game controls */
 #gameControlsCell .contentControls {
