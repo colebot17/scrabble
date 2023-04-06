@@ -434,9 +434,9 @@ function renameGame(gameId, loc) {
 	nameField.classList.add('hidden');
 	nameField.after(inputField);
 	inputField.select();
-
-	// add the listener
-	inputField.addEventListener('keydown', function() {
+	
+	// add the listeners
+	inputField.addEventListener('keydown', function(e) {
 		if (e.key === "Enter") {
 			// rename the game
 			const name = inputField.value;
@@ -483,6 +483,11 @@ function renameGame(gameId, loc) {
 			inputField.remove();
 			nameField.classList.remove('hidden');
 		}
+	});
+
+	inputField.addEventListener('blur', function(e) {
+		inputField.remove();
+		nameField.classList.remove('hidden');
 	});
 }
 
