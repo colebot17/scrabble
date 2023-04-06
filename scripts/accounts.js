@@ -266,20 +266,6 @@ function updateSavedAccountList() {
 
 	list.innerHTML = "";
 
-	list.innerHTML += /* html */ `
-		<div class="account" data-savedaccountid="${savedAccounts.find(a => a.name === account.name)}">
-			<span class="accountName">${account.name} (You)</span>
-			<button class="iconTextButton accountSignInButton noMargin semiHighlight" disabled>
-				<span class="material-symbols-rounded smallIcon">login</span>
-				Signed In
-			</button>
-			<button class="iconTextButton accountRemoveButton noMargin" onclick="signOut()">
-				<span class="material-symbols-rounded smallIcon">logout</span>
-				Sign Out
-			</button>
-		</div>
-	`;
-
 	for (let i = 0; i < savedAccounts.length; i++) {
 		const isCurrent = savedAccounts[i].name === account?.name;
 		list.innerHTML += /* html */ `
@@ -301,7 +287,7 @@ function updateSavedAccountList() {
 		<button class="account addSavedAccountButton" onclick="signOut()">
 			<span class="material-symbols-rounded largeIcon">add</span>
 		</button>
-	`
+	`;
 }
 
 function saveAccount(name, pwd) {
