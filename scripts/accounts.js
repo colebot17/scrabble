@@ -21,8 +21,6 @@ function setSignInMode(mode) {
 	if (!mode) { // go back if no argument is supplied
 		let currentMode = $signInCell.attr('data-mode');
 		mode = backButtonKey[currentMode];
-	} else {
-		return;
 	}
 
 	$signInCell.off();
