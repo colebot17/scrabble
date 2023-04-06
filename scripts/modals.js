@@ -61,7 +61,7 @@ function updateModalSizes() {
 		const prefWidth = modals[visibleModals[i]].width;
 		const prefHeight = modals[visibleModals[i]].height;
 
-		const width = Math.min(prefWidth, window.innerWidth - 20);
+		const width = Math.min(prefWidth, window.innerWidth - 30);
 
 		modal.css({
 			'top': '0',
