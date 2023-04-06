@@ -187,6 +187,12 @@
 .accountList .account .accountName {
 	font-weight: bold;
 }
+.accountList .addSavedAccountButton {
+	border: 0;
+	margin: 0;
+	width: 145px;
+	height: 145px;
+}
 
 /* game controls */
 #gameControlsCell .contentControls {
