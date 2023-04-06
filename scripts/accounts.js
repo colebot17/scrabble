@@ -11,7 +11,18 @@ $(function() {
 var account = {};
 
 function setSignInMode(mode) {
+	const backButtonKey = {
+		settings: "signOut",
+		changePassword: "settings",
+		changeUsername: "settings"
+	};
+
 	let $signInCell = $('#signInCell');
+	if (!mode) { // go back if no argument is supplied
+		let currentMode = $signInCell.attr('data-mode');
+		mode = backButtonKey[currentMode];
+	}
+
 	$signInCell.off();
 	$('#signInCell .accountForm').addClass('hidden');
 	const action = $('#signInCell #' + mode + 'Form').removeClass('hidden').attr('data-action');
@@ -21,6 +32,10 @@ function setSignInMode(mode) {
 			window[action]();
 		}
 	});
+
+	if (backButtonKey[mode]) {
+		addToEscStack(() => setSignInMode(backButtonKey[mode]), 'signInMode_' + mode);
+	}
 }
 
 function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) {
