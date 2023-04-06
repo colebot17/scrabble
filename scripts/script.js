@@ -435,6 +435,12 @@ function renameGame(gameId, loc) {
 	nameField.after(inputField);
 	inputField.value = account.games[gameId].name || '#' + gameId;
 	inputField.select();
+
+	function removeInput() {
+		inputField.remove();
+		nameField.classList.remove('hidden');
+		nameField.blur();
+	}
 	
 	// add the listeners
 	inputField.addEventListener('keydown', function(e) {
@@ -475,8 +481,7 @@ function renameGame(gameId, loc) {
 								game.name = jsonData.data || ""; // set the name in game obj
 							}
 						}
-						inputField.remove();
-						nameField.classList.remove('hidden');
+						removeInput();
 					},
 					error: function() {
 						console.error("Could not rename game.");
@@ -484,15 +489,11 @@ function renameGame(gameId, loc) {
 				}
 			);
 		} else if (e.key === "Escape") {
-			inputField.remove();
-			nameField.classList.remove('hidden');
+			removeInput();
 		}
 	});
 
-	inputField.addEventListener('blur', function(e) {
-		inputField.remove();
-		nameField.classList.remove('hidden');
-	});
+	inputField.addEventListener('blur', removeInput);
 }
 
 function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
