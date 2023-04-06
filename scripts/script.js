@@ -236,11 +236,9 @@ function updateGamesList() {
 				$activeGamesList.append( /* html */`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
-							<div class="gameTitleLine">
-								<span class="listGameName" onclick="renameGame(${gamesArray[i].id})">
-									${gamesArray[i].name || `#${gamesArray[i].id}`}
-								</span>
-							</div>
+							<span class="listGameName" onclick="renameGame(${gamesArray[i].id}, 'list')">
+								${gamesArray[i].name || `#${gamesArray[i].id}`}
+							</span>
 							${gamesArray[i].name ? /* html */ `
 								<div class="gameIdLine">
 									#${gamesArray[i].id}
@@ -312,7 +310,7 @@ function updateGamesList() {
 								<span class="material-symbols-rounded smallIcon" style='padding: 5px'>
 									inventory_2
 								</span>
-								<span class="listGameName" onclick="renameGame(${gamesArray[i].id})">
+								<span class="listGameName" onclick="renameGame(${gamesArray[i].id}, 'list')">
 									${gamesArray[i].name || `#${gamesArray[i].id}`}
 								</span>
 							</div>
@@ -414,66 +412,78 @@ function setDisplayMode(mode) {
 	}
 }
 
-function renameGame(gameId) {
+function renameGame(gameId, loc) {
 	// get the element(s) to be updated upon completion
-	const nameFields = $('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
-	const titleBoxes = $('#listGame' + gameId + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
-	const idLines = $('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
+	const $nameFields = $('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
+	const $titleBoxes = $('#listGame' + gameId + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
+	const $idLines = $('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
 
-	// get a name from the user
-	textModal(
-		"Rename Game",
-		"The new name will be seen by all players in this game. Leave blank to clear name.",
-		{
-			cancelable: true,
-			complete: (obj) => {
-				// rename the game
-				const name = obj[0];
-				$.ajax(
-					location + '/php/renameGame.php',
-					{
-						data: {
-							user: account.id,
-							pwd: account.pwd,
-							game: gameId,
-							name
-						},
-						method: "POST",
-						success: function(data) {
-							let jsonData = JSON.parse(data);
-							if (jsonData.errorLevel) {
-								textModal("Error", jsonData.message);
-							} else {
-								nameFields.text(jsonData.data || '#' + gameId);
-								idLines.remove();
-								if (jsonData.data) { // if the game has a name
-									// show the id line
-									titleBoxes.append(`
-										<div class="gameIdLine">
-											#${gameId}
-										</div>
-									`);
-								}
-								if (game?.id === gameId) { // if the game is currently loaded
-									game.name = jsonData.data || ""; // set the name in game obj
-								}
-							}
-						},
-						error: function() {
-							console.error("Could not rename game.");
-						}
-					}
-				);
-			},
-			inputFields: [
+	// inline name editing!
+	let nameField;
+	if (loc === "list") {
+		nameField = document.querySelector("#listGame" + gameId + " .listGameName");
+	} else if (loc === "game") {
+		nameField = document.querySelector("#gameControlsCell .gameName");
+	}
+
+	// define the input field to temporarily replace the name field
+	const inputField = document.createElement("input");
+	inputField.classList.add('listGameNameInput');
+
+	// add the input field
+	nameField.classList.add('hidden');
+	nameField.after(inputField);
+	inputField.select();
+
+	// add the listener
+	inputField.addEventListener('keydown', function() {
+		if (e.key === "Enter") {
+			// rename the game
+			const name = inputField.value;
+			inputField.disabled = true;
+			inputField.style.cursor = "progress";
+			$.ajax(
+				location + '/php/renameGame.php',
 				{
-					password: false,
-					placeholder: "New Name...",
-					default: account.games[gameId].name
+					data: {
+						user: account.id,
+						pwd: account.pwd,
+						game: gameId,
+						name
+					},
+					method: "POST",
+					success: function(data) {
+						let jsonData = JSON.parse(data);
+						if (jsonData.errorLevel) {
+							textModal("Error", jsonData.message);
+						} else {
+							$nameFields.text(jsonData.data || '#' + gameId);
+							$idLines.remove();
+							if (jsonData.data) { // if the game has a name
+								// show the id line
+								$titleBoxes.append(`
+									<div class="gameIdLine">
+										#${gameId}
+									</div>
+								`);
+							}
+							if (game?.id === gameId) { // if the game is currently loaded
+								game.name = jsonData.data || ""; // set the name in game obj
+							}
+						}
+						inputField.remove();
+						nameField.classList.remove('hidden');
+					},
+					error: function() {
+						console.error("Could not rename game.");
+					}
 				}
-			]
+			);
+		} else if (e.key === "Escape") {
+			inputField.remove();
+			nameField.classList.remove('hidden');
 		}
-	);
+	});
 }
 
 function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
@@ -875,7 +885,7 @@ function gameInit() {
 				<span class="gameName">
 					${game.name || `#${game.id}`}
 				</span>
-				<button class="iconButton" onclick="renameGame(${game.id})">
+				<button class="iconButton" onclick="renameGame(${game.id}, 'game')">
 					<span class="material-symbols-rounded smallIcon">
 						drive_file_rename_outline
 					</span>
