@@ -86,6 +86,8 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 
 				setSignInMode('signOut');
 
+				saveAccount(jsonData.data.name, pwd);
+
 				$('#scrabbleGrid').attr('data-signedin', "true");
 
 				updateGamesList();
@@ -251,4 +253,72 @@ function resetPassword(
 			}
 		}
 	);
+}
+
+// account switcher code
+
+function updateSavedAccountList() {
+	// load saved accounts from local storage and display them
+
+	const savedAccounts = localStorage.savedAccounts ? JSON.parse(localStorage.savedAccounts) : [];
+	
+	const list = document.getElementById('accountSwitcherList');
+
+	list.innerHTML = "";
+
+	list.innerHTML += /* html */ `
+		<div class="account" data-savedaccountid="${savedAccounts.find(a => a.name === account.name)}">
+			<span class="accountName">${account.name} (You)</span>
+			<button class="iconTextButton accountSignInButton noMargin semiHighlight" disabled>
+				<span class="material-symbols-rounded smallIcon">login</span>
+				Signed In
+			</button>
+			<button class="iconTextButton accountRemoveButton noMargin" onclick="signOut()">
+				<span class="material-symbols-rounded smallIcon">logout</span>
+				Sign Out
+			</button>
+		</div>
+	`;
+
+	for (let i = 0; i < savedAccounts.length; i++) {
+		const isCurrent = savedAccounts[i].name === account?.name;
+		list.innerHTML += /* html */ `
+			<div class="account" data-savedaccountid="${i}">
+				<span class="accountName">${savedAccounts[i].name}${isCurrent ? ` (You)` : ``}</span>
+				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}')"${isCurrent ? ` disabled` : ``}>
+					<span class="material-symbols-rounded smallIcon">login</span>
+					${isCurrent ? `Signed In` : `Sign In`}
+				</button>
+				<button class="iconTextButton accountRemoveButton noMargin" onclick="${isCurrent ? `signOut()` : `removeSavedAccount(${i})`}">
+					<span class="material-symbols-rounded smallIcon">${isCurrent ? `logout` : `delete`}</span>
+					${isCurrent ? `Sign Out` : `Remove`}
+				</button>
+			</div>
+		`;
+	}
+
+	list.innerHTML += /* html */ `
+		<button class="account addSavedAccountButton" onclick="signOut()">
+			<span class="material-symbols-rounded largeIcon">add</span>
+		</button>
+	`
+}
+
+function saveAccount(name, pwd) {
+	// save an account into local storage
+	const savedAccounts = localStorage.savedAccounts ? JSON.parse(localStorage.savedAccounts) : [];
+	savedAccounts.push({name, pwd});
+	localStorage.savedAccounts = JSON.stringify(savedAccounts);
+}
+
+function removeSavedAccount(index) {
+	const savedAccounts = JSON.parse(localStorage.savedAccounts);
+	// remove a specific account from local storage (after confirmation)
+	textModal('Remove Saved Account', `Are you sure you want to remove this account? <b>${savedAccounts[index].name}</b> will have to sign in again if they want to use this device later.`, {
+		cancelable: true,
+		complete: function() {
+			localStorage.savedAccounts = JSON.stringify(savedAccounts.splice(index, 1));
+			updateSavedAccountList();
+		}
+	})
 }
