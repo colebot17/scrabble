@@ -87,6 +87,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 				setSignInMode('signOut');
 
 				saveAccount(jsonData.data.name, pwd);
+				updateSavedAccountList();
 
 				$('#scrabbleGrid').attr('data-signedin', "true");
 
@@ -296,7 +297,6 @@ function saveAccount(name, pwd) {
 	if (savedAccounts.find(a => a.name === name)) return;
 	savedAccounts.push({name, pwd});
 	localStorage.savedAccounts = JSON.stringify(savedAccounts);
-	updateSavedAccountList();
 }
 
 function removeSavedAccount(index) {
