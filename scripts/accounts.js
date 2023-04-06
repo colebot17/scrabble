@@ -14,7 +14,8 @@ function setSignInMode(mode) {
 	const backButtonKey = {
 		settings: "signOut",
 		changePassword: "settings",
-		changeUsername: "settings"
+		changeUsername: "settings",
+		accountSwitcher: "settings"
 	};
 
 	let $signInCell = $('#signInCell');
