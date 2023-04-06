@@ -458,6 +458,7 @@ function renameGame(gameId, loc) {
 						if (jsonData.errorLevel) {
 							textModal("Error", jsonData.message);
 						} else {
+							account.games[gameId].name = jsonData.data;
 							$nameFields.text(jsonData.data || '#' + gameId);
 							$idLines.remove();
 							if (jsonData.data) { // if the game has a name
