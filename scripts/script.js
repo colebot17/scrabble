@@ -443,6 +443,10 @@ function renameGame(gameId, loc) {
 			const name = inputField.value;
 			inputField.disabled = true;
 			inputField.style.cursor = "progress";
+
+			if (name === '#' + gameId) {
+				name = "";
+			}
 			$.ajax(
 				location + '/php/renameGame.php',
 				{
@@ -463,7 +467,7 @@ function renameGame(gameId, loc) {
 							$idLines.remove();
 							if (jsonData.data) { // if the game has a name
 								// show the id line
-								$titleBoxes.append(`
+								$titleBoxes.append(/* html */ `
 									<div class="gameIdLine">
 										#${gameId}
 									</div>
