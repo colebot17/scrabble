@@ -214,6 +214,32 @@
 					<button type="submit" onclick="resetPassword()">Reset Password</button>
 				</form> -->
 
+				<div class="hidden accountForm" id="accountSwitcherForm">
+					<div class="flex">
+						<button class="iconButton" onclick="setSignInMode('settings')">
+							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+						</button>
+						<h3>Switch Accounts</h3>
+					</div>
+
+					<div class="accountList">
+						<div class="account">
+							<span class="accountName">FunnyNumber</span>
+							<button>
+								<span class="material-symbols-rounded smallIcon">delete</span>
+								&nbsp;Remove
+							</button>
+						</div>
+						<div class="account">
+							<span class="accountName">GoodGuy69</span>
+							<button>
+								<span class="material-symbols-rounded smallIcon">delete</span>
+								&nbsp;Remove
+							</button>
+						</div>
+					</div>
+				</div>
+
 				<div class="hidden accountForm" id="settingsForm">
 					<div class="flex">
 						<button class="iconButton" onclick="setSignInMode('signOut')">
@@ -225,6 +251,7 @@
 						<div class="settingsSection">
 							<a onclick="setSignInMode('changeUsername')" class="hoverLine small" tabindex="0">Change Username</a>
 							<a onclick="setSignInMode('changePassword')" class="hoverLine small" tabindex="0">Change Password</a>
+							<a onclick="setSignInMode('accountSwitcher')" class="hoverLine small" tabindex="0">Switch Accounts</a>
 							<button onclick="signOut()">Sign Out</button>
 						</div>
 						<div class="settingsSection">

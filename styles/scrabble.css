@@ -164,6 +164,28 @@
 	justify-content: center;
 }
 
+/* account switcher */
+.accountList {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+.accountList .account {
+	width: 150px;
+	height: 150px;
+	background-color: var(--background-2);
+	border-radius: 5px;
+	padding: 10px;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+}
+.accountList .account .accountName {
+	font-weight: bold;
+}
+
 /* game controls */
 #gameControlsCell .contentControls {
 	flex-grow: 1;
