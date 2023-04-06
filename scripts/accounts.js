@@ -29,7 +29,7 @@ function setSignInMode(mode) {
 	$signInCell.on('keydown', (e) => {
 		if (e.key === 'Enter') {
 			e.preventDefault();
-			window[action]();
+			if (action) window[action]();
 		}
 	});
 	
