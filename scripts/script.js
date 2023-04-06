@@ -236,7 +236,7 @@ function updateGamesList() {
 				$activeGamesList.append( /* html */`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
-							<span class="listGameName" onclick="renameGame(${gamesArray[i].id}, 'list')">
+							<span class="listGameName" onclick="renameGame(${gamesArray[i].id}, 'list')" tabindex="0">
 								${gamesArray[i].name || `#${gamesArray[i].id}`}
 							</span>
 							${gamesArray[i].name ? /* html */ `
@@ -310,7 +310,7 @@ function updateGamesList() {
 								<span class="material-symbols-rounded smallIcon" style='padding: 5px'>
 									inventory_2
 								</span>
-								<span class="listGameName" onclick="renameGame(${gamesArray[i].id}, 'list')">
+								<span class="listGameName" onclick="renameGame(${gamesArray[i].id}, 'list')" tabindex="0">
 									${gamesArray[i].name || `#${gamesArray[i].id}`}
 								</span>
 							</div>
