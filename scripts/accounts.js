@@ -11,16 +11,35 @@ $(function() {
 var account = {};
 
 function setSignInMode(mode) {
+	const backButtonKey = {
+		settings: "signOut",
+		changePassword: "settings",
+		changeUsername: "settings"
+	};
+
 	let $signInCell = $('#signInCell');
+	if (!mode) { // go back if no argument is supplied
+		let currentMode = $signInCell.attr('data-mode');
+		mode = backButtonKey[currentMode];
+	}
+
 	$signInCell.off();
 	$('#signInCell .accountForm').addClass('hidden');
 	const action = $('#signInCell #' + mode + 'Form').removeClass('hidden').attr('data-action');
 	$signInCell.on('keydown', (e) => {
 		if (e.key === 'Enter') {
 			e.preventDefault();
-			window[action]();
+			if (action) window[action]();
 		}
 	});
+	
+	removeFromEscStack('signInMode_' + mode);
+
+	if (backButtonKey[mode]) {
+		addToEscStack(() => {
+			setSignInMode(backButtonKey[mode]);
+		}, 'signInMode_' + backButtonKey[mode]);
+	}
 }
 
 function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) {
@@ -60,8 +79,11 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 				localStorage.name = jsonData.data.name;
 				localStorage.pwd = pwd;
 
-				$('#accountNameLabel').text(jsonData.data.name);
+				const label = document.getElementById('accountNameLabel');
 				
+				label.textContent = jsonData.data.name;
+				label.innerHTML = "<b>" + label.textContent + "</b>";
+
 				setSignInMode('signOut');
 
 				$('#scrabbleGrid').attr('data-signedin', "true");

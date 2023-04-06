@@ -92,6 +92,10 @@ function loadGamesList(done) {
 
 function updateGamesList() {
 	if (account.games) {
+		if (localStorage.gameListDisplayMode) {
+			setDisplayMode(localStorage.gameListDisplayMode);
+		}
+
 		var noActiveGames = true;
 		var noInactiveGames = true;
 
@@ -198,7 +202,7 @@ function updateGamesList() {
 					let endGameVoted = gamesArray[i].players[j].endGameRequest === 'true';
 					playerListHTML += /* html */ `
 						<div class='listGamePlayerListPlayer'>
-							${(winners.includes(j) ? `<span class='material-icons winnerIcon'>emoji_events</span>` : ``)}
+							${(winners.includes(j) ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>` : ``)}
 							<b>
 								${(j == turnIndex ? `<u>` : ``)}
 								${gamesArray[i].players[j].name}
@@ -206,26 +210,35 @@ function updateGamesList() {
 							</b>
 							: 
 							${gamesArray[i].players[j].points}
-							${(endGameVoted ? `<span class='material-icons winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
+							${(endGameVoted ? `<span class='material-symbols-rounded winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
 						</div>
 					`;
 				}
 				playerListHTML = playerListHTML.substring(0, playerListHTML.length - 2); // remove the extra comma at the end
 
+				let playerListSummaryHTML;
+				if (gamesArray[i].players.length === 2) {
+					let otherPlayer = 0;
+					if (gamesArray[i].players[0].id == account.id) otherPlayer = 1;
+					playerListSummaryHTML = /* html */ `You, <b>${gamesArray[i].players[otherPlayer].name}</b>`
+				} else {
+					playerListSummaryHTML = /* html */ `You, +${gamesArray[i].players.length - 1}`;
+				}
+
+				let turnSummaryHTML;
+				if (gamesArray[i].players[turnIndex].id == account.id) {
+					turnSummaryHTML = `Your turn`;
+				} else {
+					turnSummaryHTML = /* html */ `<b>${gamesArray[i].players[turnIndex].name}</b>'s turn`;
+				}
+
 				// add the game card to the list
 				$activeGamesList.append( /* html */`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
-							<div class="gameTitleLine">
-								<span class="listGameName">
-									${gamesArray[i].name || `#${gamesArray[i].id}`}
-								</span>
-								<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
-									<span class="material-icons smallIcon">
-										drive_file_rename_outline
-									</span>
-								</button>
-							</div>
+							<span class="listGameName" onclick="renameGame(${gamesArray[i].id}, 'list')">
+								${gamesArray[i].name || `#${gamesArray[i].id}`}
+							</span>
 							${gamesArray[i].name ? /* html */ `
 								<div class="gameIdLine">
 									#${gamesArray[i].id}
@@ -234,6 +247,14 @@ function updateGamesList() {
 						</div>
 						<div class="listGamePlayerList">
 							${playerListHTML}
+						</div>
+						<div class="listGameInfoSummary">
+							<div class="playerListSummary">
+								${playerListSummaryHTML}
+							</div>
+							<div class="turnSummary">
+								${turnSummaryHTML}
+							</div>
 						</div>
 						<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
 							${(turnUser == account.id ? "Play" : "View")}
@@ -246,7 +267,7 @@ function updateGamesList() {
 				for (var j in gamesArray[i].players) { // add each player to the list of players in the card
 					playerListHTML += /* html */ `
 						<div class="listGamePlayerListPlayer">
-							${(winners.includes(j) ? "<span class='material-icons winnerIcon'>emoji_events</span>" : "")}
+							${(winners.includes(j) ? "<span class='material-symbols-rounded winnerIcon'>military_tech</span>" : "")}
 							<b>
 								${gamesArray[i].players[j].name}
 							</b>
@@ -256,24 +277,44 @@ function updateGamesList() {
 				}
 				playerListHTML = playerListHTML.substring(0, playerListHTML.length - 2); // remove the extra comma at the end
 
+				let playerListSummaryHTML;
+				if (gamesArray[i].players.length === 2) {
+					let otherPlayer = 0;
+					if (gamesArray[i].players[0].id == account.id) otherPlayer = 1;
+					playerListSummaryHTML = /* html */ `You, <b>${gamesArray[i].players[otherPlayer].name}</b>`
+				} else {
+					playerListSummaryHTML = /* html */ `You, +${gamesArray[i].players.length - 1}`;
+				}
+
+				let winnerString = "";
+				if (winners.length === 1) {
+					winnerString = /* html */ `<b>${gamesArray[i].players[winners[0]].name}</b>`;
+				} else if (winners.length === 2) {
+					winnerString = /* html */ `<b>${gamesArray[i].players[winners[0]].name}</b> and <b>${gamesArray[i].players[winners[1]].name}</b>`;
+				} else if (winners.length >= 3) {
+					for (let j = 0; j < winners.length; j++) {
+						if (j < winners.length - 1) {
+							winnerString += /* html */ `<b>${gamesArray[i].players[winners[j]].name}</b>, `;
+						} else {
+							winnerString += /* html */ `and <b>${gamesArray[i].players[winners[j]].name}</b>`;
+						}
+					}
+				}
+				let winnerHTML = /* html */ `${winnerString} won`;
+
 				// add the game card to the list
 				$inactiveGamesList.append(/* html */ `
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
 							<div class="gameTitleLine">
-								<span class="material-icons smallIcon" style='padding: 5px'>
-									inventory
+								<span class="material-symbols-rounded smallIcon" style='padding: 5px'>
+									inventory_2
 								</span>
-								<span class="listGameName">
+								<span class="listGameName" onclick="renameGame(${gamesArray[i].id}, 'list')">
 									${gamesArray[i].name || `#${gamesArray[i].id}`}
 								</span>
-								<button class="iconButton" onclick="renameGame(${gamesArray[i].id})">
-									<span class="material-icons smallIcon">
-										drive_file_rename_outline
-									</span>
-								</button>
 							</div>
-							${gamesArray[i].name ?  `
+							${gamesArray[i].name ? /* html */ `
 								<div class="gameIdLine">
 									#${gamesArray[i].id}
 								</div>
@@ -281,6 +322,14 @@ function updateGamesList() {
 						</div>
 						<div class="listGamePlayerList">
 							${playerListHTML}
+						</div>
+						<div class="listGameInfoSummary">
+							<div class="playerListSummary">
+								${playerListSummaryHTML}
+							</div>
+							<div class="turnSummary">
+								${winnerHTML}
+							</div>
 						</div>
 						<button class="openGameButton" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
 							View
@@ -293,9 +342,13 @@ function updateGamesList() {
 		// add the new game card to the end of the active games tab
 		$activeGamesList.append(/* html */ `
 			<button class="newGameCard" onclick="newGame();">
-				<span class="material-icons largeIcon">
+				<span class="material-symbols-rounded largeIcon">
 					add
 				</span>
+				<span class="large">
+					New Game
+				</span>
+				<span></span>
 			</button>
 		`);
 
@@ -337,65 +390,109 @@ function setGamesList(list) {
 	$('#createGameModal').modalClose();
 }
 
-function renameGame(gameId) {
-	// get the element(s) to be updated upon completion
-	const nameFields = $('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
-	const titleBoxes = $('#listGame' + gameId + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
-	const idLines = $('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
-
-	// get a name from the user
-	textModal(
-		"Rename Game",
-		"The new name will be seen by all players in this game. Leave blank to clear name.",
-		{
-			cancelable: true,
-			complete: (obj) => {
-				// rename the game
-				const name = obj[0];
-				$.ajax(
-					location + '/php/renameGame.php',
-					{
-						data: {
-							user: account.id,
-							pwd: account.pwd,
-							game: gameId,
-							name
-						},
-						method: "POST",
-						success: function(data) {
-							let jsonData = JSON.parse(data);
-							if (jsonData.errorLevel) {
-								textModal("Error", jsonData.message);
-							} else {
-								nameFields.text(jsonData.data || '#' + gameId);
-								idLines.remove();
-								if (jsonData.data) { // if the game has a name
-									// show the id line
-									titleBoxes.append(`
-										<div class="gameIdLine">
-											#${gameId}
-										</div>
-									`);
-								}
-								if (game.id === gameId) { // if the game is currently loaded
-									game.name = jsonData.data || ""; // set the name in game obj
-								}
-							}
-						},
-						error: function() {
-							console.error("Could not rename game.");
-						}
-					}
-				);
-			},
-			inputFields: [
-				{
-					password: false,
-					placeholder: "New Name..."
-				}
-			]
+function setDisplayMode(mode) {
+	const gamesCell = document.getElementById('gamesCell');
+	const buttons = document.getElementsByClassName('displayModeButton');
+	
+	gamesCell.dataset.displaymode = mode;
+	
+	for (let i = 0; i < buttons.length; i++) {
+		if (buttons[i].id === (mode + "ViewButton")) {
+			buttons[i].setAttribute("aria-pressed", "true");
+		} else {
+			buttons[i].setAttribute("aria-pressed", "false");
 		}
-	);
+	}
+
+	// store in local storage
+	if (mode !== "card") {
+		localStorage.gameListDisplayMode = mode;
+	} else {
+		localStorage.removeItem('gameListDisplayMode');
+	}
+}
+
+function renameGame(gameId, loc) {
+	// get the element(s) to be updated upon completion
+	const $nameFields = $('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
+	const $titleBoxes = $('#listGame' + gameId + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
+	const $idLines = $('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
+
+	// inline name editing!
+	let nameField;
+	if (loc === "list") {
+		nameField = document.querySelector("#listGame" + gameId + " .listGameName");
+	} else if (loc === "game") {
+		nameField = document.querySelector("#gameControlsCell .gameName");
+	}
+
+	// define the input field to temporarily replace the name field
+	const inputField = document.createElement("input");
+	inputField.classList.add('listGameNameInput');
+
+	// add the input field
+	nameField.classList.add('hidden');
+	nameField.after(inputField);
+	inputField.value = account.games[gameId].name || '#' + gameId;
+	inputField.select();
+
+	function removeInput() {
+		inputField.remove();
+		nameField.classList.remove('hidden');
+	}
+	
+	// add the listeners
+	inputField.addEventListener('keydown', function(e) {
+		if (e.key === "Enter") {
+			// rename the game
+			let name = inputField.value;
+			inputField.disabled = true;
+			inputField.style.cursor = "progress";
+
+			if (name === '#' + gameId) name = "";
+			$.ajax(
+				location + '/php/renameGame.php',
+				{
+					data: {
+						user: account.id,
+						pwd: account.pwd,
+						game: gameId,
+						name
+					},
+					method: "POST",
+					success: function(data) {
+						let jsonData = JSON.parse(data);
+						if (jsonData.errorLevel) {
+							textModal("Error", jsonData.message);
+						} else {
+							account.games[gameId].name = jsonData.data;
+							$nameFields.text(jsonData.data || '#' + gameId);
+							$idLines.remove();
+							if (jsonData.data) { // if the game has a name
+								// show the id line
+								$titleBoxes.append(/* html */ `
+									<div class="gameIdLine">
+										#${gameId}
+									</div>
+								`);
+							}
+							if (game?.id === gameId) { // if the game is currently loaded
+								game.name = jsonData.data || ""; // set the name in game obj
+							}
+						}
+						removeInput();
+					},
+					error: function() {
+						console.error("Could not rename game.");
+					}
+				}
+			);
+		} else if (e.key === "Escape") {
+			removeInput();
+		}
+	});
+
+	inputField.addEventListener('blur', removeInput);
 }
 
 function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
@@ -473,7 +570,7 @@ function updateNewGamePlayerList() {
 				${newGamePlayerList[i].name}
 				${newGamePlayerList[i].id === account.id ? `` : `
 					<button class="iconButton" onclick="removePlayerFromNewGame(${newGamePlayerList[i].id})">
-						<span class="material-icons smallIcon">
+						<span class="material-symbols-rounded smallIcon">
 							remove
 						</span>
 					</button>
@@ -790,15 +887,15 @@ function gameInit() {
 		<div class="gameTitleBox">
 			<div class="gameTitleLine">
 				<button class="iconButton" onclick="getInfo()">
-					<span class="material-icons smallIcon">
-						info_outline
+					<span class="material-symbols-rounded smallIcon">
+						info
 					</span>
 				</button>
 				<span class="gameName">
 					${game.name || `#${game.id}`}
 				</span>
-				<button class="iconButton" onclick="renameGame(${game.id})">
-					<span class="material-icons smallIcon">
+				<button class="iconButton" onclick="renameGame(${game.id}, 'game')">
+					<span class="material-symbols-rounded smallIcon">
 						drive_file_rename_outline
 					</span>
 				</button>
@@ -828,7 +925,7 @@ function gameInit() {
 		// add the player to the list
 		gameInfo += /* html */ `
 			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}">
-				${(isWinner ? `<span class='material-icons winnerIcon'>emoji_events</span>`: ``)}
+				${(isWinner ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>`: ``)}
 				${(isTurn ? `<u>` : ``)}
 					${(isCurrentPlayer ? `<b>` : ``)}
 						${game.players[i].name}: 
@@ -838,7 +935,7 @@ function gameInit() {
 						</span>
 					</b>
 				${(turnIndex == i ? `</u>` : ``)}
-				${(endGameVoted && !game.inactive ? `<span class='material-icons winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
+				${(endGameVoted && !game.inactive ? `<span class='material-symbols-rounded winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
 			</div>
 		`;
 	}
@@ -1174,16 +1271,20 @@ function skipTurn() {
 }
 
 function pickLetter(bankIndex, complete = function(letter) {}) {
-	let letterPicker = $('#letterPicker');
+	let $letterPicker = $('#letterPicker');
 	$('#chooseLetterModal').modalOpen();
-	letterPicker[0].focus();
-	letterPicker.val('').off().on('keyup', function() {
-		if (letterPicker.val()) {
-			letterPicker.off();
-			letterPicker[0].blur();
-			document.scrollTop = 0;
-			complete(letterPicker.val().toUpperCase());
-			$('#chooseLetterModal').modalClose();
+	$letterPicker[0].focus();
+	$letterPicker.val('').off().on('keyup', function() {
+		if ($letterPicker.val()) {
+			if (/[A-Za-z]/.test($letterPicker.val())) {
+				$letterPicker.off();
+				$letterPicker[0].blur();
+				document.scrollTop = 0;
+				complete($letterPicker.val().toUpperCase());
+				$('#chooseLetterModal').modalClose();
+			} else {
+				$letterPicker.val('');
+			}
 		}
 	}).on('blur', function() {
 		canvas.bank[bankIndex].hidden = false;

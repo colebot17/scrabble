@@ -1,6 +1,7 @@
 /* game list */
 #gamesCell {
 	width: calc(100% - 30px);
+	position: relative;
 }
 .gamesListBox {
 	height: calc(100% - 70.88px);
@@ -16,7 +17,9 @@
 	justify-content: flex-start;
 	gap: 10px;
 }
-
+[data-displaymode=list] .gamesList {
+	flex-direction: column;
+}
 .gamesList .listGame, .gamesList .newGameCard {
 	margin: auto;
 	padding: 10px;
@@ -27,10 +30,15 @@
 .gamesList .listGame {
 	width: 200px;
 	height: 300px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	align-items: stretch;
+	display: grid;
+	grid-template-rows: 25% 50% 25%;
+	grid-template-columns: none;
+}
+[data-displaymode=list] .gamesList .listGame {
+	width: calc(100% - 35px);
+	height: auto;
+	grid-template-columns: 25% 50% 25%;
+	grid-template-rows: none;
 }
 
 .gamesList .listGame .listGameTitleBox {
@@ -47,6 +55,33 @@
 
 	font-weight: bold;
 }
+.gamesList .listGame .listGameTitleBox .listGameName {
+	font-weight: bold;
+	border: 1px solid transparent;
+	transition: border-color 0.87s;
+	border-radius: 3px;
+	padding: 3px;
+	cursor: text;
+}
+.gamesList:not(#inactiveGamesList) .listGame .listGameTitleBox .listGameName {
+	width: calc(100% - 16px);
+	margin: 0 5px;
+}
+.gamesList .listGame .listGameTitleBox .listGameName:hover {
+	border-color: var(--text-color-light);
+	transition: border-color 0.37s;
+}
+.listGameNameInput {
+	text-align: center;
+	font-weight: bold;
+	font-size: 16px;
+	border-radius: 3px;
+	padding: 3px;
+}
+.gamesList .listGame .listGameTitleBox .listGameNameInput {
+	width: calc(100% - 16px);
+	margin: 0 5px;
+}
 .gamesList .listGame .listGameTitleBox .gameIdLine {
 	display: flex;
 	justify-content: center;
@@ -55,6 +90,18 @@
 	color: var(--text-color-light);
 	font-size: small;
 }
+
+.gamesList .listGame .listGamePlayerList, .gamePlayerList {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	overflow: auto;
+}
+[data-displaymode=list] .gamesList .listGame .listGamePlayerList {
+	display: none;
+}
 .gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
 	margin: 0;
 	display: flex;
@@ -62,16 +109,59 @@
 	align-items: center;
 	column-gap: 2px;
 }
+.gamesList .listGame .listGameInfoSummary {
+	display: none;
+}
+[data-displaymode=list] .gamesList .listGame .listGameInfoSummary {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+}
 .gamesList .newGameCard {
 	width: 220px;
 	height: 320px;
 	cursor: pointer;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+}
+[data-displaymode=list] .gamesList .newGameCard {
+	width: calc(100% - 15px);
+	height: auto;
+
+	flex-direction: row;
 }
 .gamesList .newGameCard:hover {
 	background-color: var(--background-3);
 }
+
 .winnerIcon {
 	font-size: 16px!important;
+}
+
+/* settings */
+#settings {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: stretch;
+	gap: 20px;
+}
+.settingsSection {
+	background-color: var(--background-2);
+	border-radius: 10px;
+	padding: 10px;
+
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	justify-content: center;
 }
 
 /* game controls */
@@ -187,7 +277,10 @@ body.scrabble {
 }
 
 /* account forms */
-.accountForm h3 {
+.accountForm .flex h3 {
+	margin: 0;
+}
+.accountForm .flex, .accountForm h3 {
 	margin: 5px 0 10px 0;
 }
 

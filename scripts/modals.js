@@ -61,7 +61,7 @@ function updateModalSizes() {
 		const prefWidth = modals[visibleModals[i]].width;
 		const prefHeight = modals[visibleModals[i]].height;
 
-		const width = Math.min(prefWidth, window.innerWidth - 20);
+		const width = Math.min(prefWidth, window.innerWidth - 30);
 
 		modal.css({
 			'top': '0',
@@ -74,10 +74,12 @@ function updateModalSizes() {
 		const actualHeight = modal.height();
 		const height = Math.min(Math.max(prefHeight, actualHeight), window.innerHeight - 20);
 
+		const inPortrait = window.matchMedia("(orientation: portrait)").matches;
+
 		modal.css({
 			'width': width + 'px',
 			'height': height + 'px',
-			'top': (((window.innerHeight - height) / 2) - 10) + 'px',
+			'top': (((window.innerHeight - height) / (inPortrait ? 3 : 2)) - 10) + 'px',
 			'left': (((window.innerWidth - width) / 2) - 10) + 'px',
 			'opacity': ''
 		});
@@ -186,7 +188,8 @@ function textModal(
 		inputFields: [
 			/*{
 				placeholder: "",
-				password: false
+				password: false,
+				default: ""
 			}*/ // this would only be provided if an input field should appear
 		]
 	}
@@ -221,6 +224,8 @@ function textModal(
 		el.name = 'textModalInput';
 		el.addEventListener('keypress', e => {if (e.key === 'Enter') ok();});
 		document.getElementById('textModalControls').prepend(el);
+		el.value = options.inputFields[i].default;
+		el.select();
 	}
 
 	function ok() {

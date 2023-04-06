@@ -15,8 +15,8 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
 
-	<!-- import material icons -->
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- import material symbols -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 	<!-- import the tab icon -->
 	<link rel="shortcut icon" type="image/x-icon" href="http://www.colebot.com/favicon.ico">  
@@ -41,22 +41,22 @@
 			<div id="gameControlsCell" class="gridCell">
 				<div class="contentControls">
 					<button class="iconButton" id="backToGamesListButton" onclick="showTab('account')">
-						<span class="material-icons">
+						<span class="material-symbols-rounded">
 							chevron_left
 						</span>
 					</button>
 					<button class="iconButton" id="reloadGameButton" onclick="reloadGame()">
-						<span class="material-icons">
+						<span class="material-symbols-rounded">
 							refresh
 						</span>
 					</button>
 					<button class="iconButton hidden" id="fullscreenButton" onclick="toggleFullScreen()">
-						<span class="material-icons" id="fullscreenIcon">
+						<span class="material-symbols-rounded" id="fullscreenIcon">
 							fullscreen
 						</span>
 					</button>
 					<button class="iconButton" id="showChatButton" onclick="showTab('chat')">
-						<span class="material-icons">
+						<span class="material-symbols-rounded">
 							chat
 						</span>
 					</button>
@@ -74,7 +74,7 @@
 			<div id="chatCell" class="gridCell">
 				<div class="chatTitleLine">
 					<button id="chatBackButton" class="iconButton backButton" onclick="showTab('game')">
-						<span class="material-icons">
+						<span class="material-symbols-rounded">
 							chevron_left
 						</span>
 					</button>
@@ -82,12 +82,12 @@
 						Game Chat
 					</h3>
 					<button id="chatExpandButton" class="iconButton" onclick="showTab('chat')">
-						<span class="material-icons smallIcon">
+						<span class="material-symbols-rounded smallIcon">
 							open_in_full
 						</span>
 					</button>
 					<button id="chatCloseButton" class="iconButton" onclick="showTab('game')">
-						<span class="material-icons smallIcon">
+						<span class="material-symbols-rounded smallIcon">
 							close_fullscreen
 						</span>
 					</button>
@@ -103,7 +103,9 @@
 				</div>
 				<div class="chatControls">
 					<input name="chatInput" id="chatInput" class="chatInput" placeholder="Send a message..." onkeypress="if (event.key === 'Enter') {sendChatMessage()}">
-					<button class="chatSendButton" onclick="sendChatMessage()">Send</button>
+					<button class="chatSendButton iconButton" onclick="sendChatMessage()">
+						<span class="material-symbols-rounded">send</span>
+					</button>
 				</div>
 			</div>
 
@@ -125,11 +127,11 @@
 					<label for="signInPwd">Password:</label>
 					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="signInPwd"><br>
 
-					<button type="submit" onclick="signIn()">Sign In</button><br>
-					
+					<button type="submit" onclick="signIn()">Sign In</button>
+					<!-- <br> -->
 					<a onclick="setSignInMode('createAccount')" class="hoverLine small">Create Account</a>
-					–
-					<a onclick="setSignInMode('resetPassword')" class="hoverLine small">Forgot Password?</a>
+					<!-- –
+					<a onclick="setSignInMode('resetPassword')" class="hoverLine small">Forgot Password?</a> -->
 				</form>
 				
 				<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="return false;">
@@ -148,7 +150,12 @@
 				</form>
 
 				<form class="hidden accountForm" id="changePasswordForm" data-action="changePassword" onsubmit="return false;">
-					<h3>Change Password</h3>
+					<div class="flex">
+						<button class="iconButton" onclick="setSignInMode('settings')">
+							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+						</button>
+						<h3>Change Password</h3>
+					</div>
 
 					<label for="changePasswordPwd">Current Password:</label>
 					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="changePasswordPwd"><br>
@@ -159,14 +166,19 @@
 					<label for="changePasswordConfirmNewPwd">Confirm New Password:</label>
 					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmNewPwd" id="changePasswordConfirmNewPwd"><br>
 
-					<a onclick="setSignInMode('signOut')" class="hoverLine small">Back</a>
-					<button type="submit" onclick="changePassword()">Change Password</button><br>
-
-					<span class="finePrint">Email <a class="underline hoverDarken" href="mailto:colebot17@gmail.com?subject=Reset%20my%20Password">colebot17@gmail.com</a> if you don't know your current password.</span>
+					<button type="submit" onclick="changePassword()">Change Password</button>
+					<!-- <br>
+						
+					<span class="finePrint">Email <a class="underline hoverDarken" href="mailto:colebot17@gmail.com?subject=Reset%20my%20Password">colebot17@gmail.com</a> if you don't know your current password.</span> -->
 				</form>
 
 				<form class="hidden accountForm" id="changeUsernameForm" data-action="changeUsername" onsubmit="return false;">
-					<h3>Change Username</h3>
+					<div class="flex">
+						<button class="iconButton" onclick="setSignInMode('settings')">
+							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+						</button>
+						<h3>Change Username</h3>
+					</div>
 
 					<label for="changeUsernameNewName">New Username:</label>
 					<input class="accountFormInput" autocomplete="username" type="text" name="newName" id="changeUsernameNewName"><br>
@@ -174,12 +186,17 @@
 					<label for="changeUsernamePwd">Password:</label>
 					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="changeUsernamePwd"><br>
 
-					<a onclick="setSignInMode('signOut')" class="hoverLine small">Back</a>
 					<button type="submit" onclick="changeUsername()">Change Username</button>
 				</form>
 
-				<form class="hidden accountForm" id="resetPasswordForm" data-action="resetPassword" onsubmit="return false;">
-					<h3>Reset Password</h3>
+				<!-- <form class="hidden accountForm" id="resetPasswordForm" data-action="resetPassword" onsubmit="return false;">
+					<div class="flex">
+						<button class="iconButton" onclick="setSignInMode('signIn')">
+							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+						</button>
+						<h3>Reset Password</h3>
+					</div>
+
 					<span class="finePrint">You will need to request a password reset key from <a class="underline hoverDarken" href="mailto:colebot17@gmail.com?subject=Password%20Reset%20Key">colebot17@gmail.com</a>.</span><br><br>
 
 					<label for="resetPasswordUsername">Username:</label>
@@ -195,37 +212,66 @@
 					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="resetPasswordConfirmPwd"><br>
 
 					<button type="submit" onclick="resetPassword()">Reset Password</button>
-					<a onclick="setSignInMode('signIn')" class="hoverLine small">Sign In</a>
-				</form>
+				</form> -->
+
+				<div class="hidden accountForm" id="settingsForm">
+					<div class="flex">
+						<button class="iconButton" onclick="setSignInMode('signOut')">
+							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+						</button>
+						<h3>Settings</h3>
+					</div>
+					<div id="settings">
+						<div class="settingsSection">
+							<a onclick="setSignInMode('changeUsername')" class="hoverLine small" tabindex="0">Change Username</a>
+							<a onclick="setSignInMode('changePassword')" class="hoverLine small" tabindex="0">Change Password</a>
+							<button onclick="signOut()">Sign Out</button>
+						</div>
+						<div class="settingsSection">
+							<div id="displayModeButtonContainer">
+								<button class="iconButton displayModeButton" id="cardViewButton" title="Card View (Default)" aria-pressed="true" onclick="setDisplayMode('card')">
+									<span class="material-symbols-rounded">grid_view</span>
+								</button>
+								<button class="iconButton displayModeButton" id="listViewButton" title="List View" onclick="setDisplayMode('list')">
+									<span class="material-symbols-rounded">view_list</span>
+								</button>
+							</div>
+							<span class="finePrint" title="Affects current browser only">Game List View</span>
+						</div>
+					</div>
+				</div>
+
 				<div class="hidden accountForm flex gap10 col mobileRow" id="signOutForm">
 					<span id="accountNameLabel"></span>
-					<button onclick="signOut()">Sign Out</button>
-					<a onclick="setSignInMode('changePassword')" class="hoverLine small">Change Password</a>
-					<a onclick="setSignInMode('changeUsername')" class="hoverLine small">Change Username</a>
+					<button class="iconButton" id="settingsButton" onclick="setSignInMode('settings')" title="Settings">
+						<span class="material-symbols-rounded">settings</span>
+					</button>
 				</div>
 			</div>
 
-			<div id="gamesCell" class="gridCell">
+			<div id="gamesCell" class="gridCell" data-displaymode="card">
 				<div class="gamesListBox" id="activeGames">
-					<button class="iconButton tabNavButton" id="gamesListRefreshButton" onclick="loadGamesList()">
-						<span class="material-icons">refresh</span>
-					</button>
-					<h1 class="inline">Active Games</h1>
-					<button class="iconButton tabNavButton" id="gamesListRefreshButton" onclick="setGamesList('inactive')">
-						<span class="material-icons">chevron_right</span>
-					</button>
-					<br>
+					<div class="flex gap10">
+						<button class="iconButton" id="gamesListRefreshButton" onclick="loadGamesList()">
+							<span class="material-symbols-rounded">refresh</span>
+						</button>
+						<h1 class="inline">Active Games</h1>
+						<button class="iconButton" id="viewInactiveGamesButton" onclick="setGamesList('inactive')">
+							<span class="material-symbols-rounded">chevron_right</span>
+						</button>
+					</div>
 					<span id="activeGamesListMessage">Please create an account or sign in.</span>
 					<div class="gamesListWrapper">
 						<div class="gamesList" id="activeGamesList"></div>
 					</div>
 				</div>
 				<div class="gamesListBox hidden" id="inactiveGames">
-					<button class="iconButton tabNavButton" id="activeGamesButton" onclick="setGamesList('active')">
-						<span class="material-icons">chevron_left</span>
-					</button>
-					<h1 class="inline">Inactive Games</h1>
-					<br>
+					<div class="flex gap10">
+						<button class="iconButton" id="activeGamesButton" onclick="setGamesList('active')">
+							<span class="material-symbols-rounded">chevron_left</span>
+						</button>
+						<h1 class="inline">Inactive Games</h1>
+					</div>
 					<span id="inactiveGamesListMessage">Please create an account or sign in.</span>
 					<div class="gamesListWrapper">
 						<div class="gamesList" id="inactiveGamesList"></div>
@@ -239,7 +285,11 @@
 			<div id="createGamePlayerList"></div>
 			<div class="addPlayerRow">
 				<input id="createGamePlayerInput" type="text" name="createGamePlayerInput" placeholder="Player Name">
-				<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add</button>
+				<button id="createGamePlayerAddButton" class="iconButton" onclick="addPlayerToNewGame()">
+					<span class="material-symbols-rounded">
+						add
+					</span>
+				</button>
 			</div>
 			<div class="createGameButtons">
 				<button id="createGameCancel" onclick="$('#createGameModal').modalClose()">Cancel</button>
@@ -272,7 +322,7 @@
 		</div>
 		<div class="popup hidden" id="wordLookupPopup">
 			<button class="iconButton modalCloseButton" onclick="$('#wordLookupPopup').popupClose()">
-				<span class="material-icons">close</span>
+				<span class="material-symbols-rounded">close</span>
 			</button>
 			<div class="wordLookupResults">
 			</div>

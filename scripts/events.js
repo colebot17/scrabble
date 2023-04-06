@@ -14,8 +14,10 @@ function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
     // un-hide all letters in bank
     for (let i in canvas.bank) {
         canvas.bank[i].hidden = false;
+        canvas.bank[i].gapAnimation = undefined;
         canvas.bank[i].extraGapAfter = 0;
     }
+    canvas.gapBeforeBankAnimation = undefined;
     canvas.extraGapBeforeBank = 0;
 
     // remove points preview
@@ -377,6 +379,8 @@ function handleDocumentMouseUp(e) {
         }
 
         canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
+        canvas.bank[dragged.bankIndex].gapAnimation = undefined; // remove extra gap after
+        canvas.bank[dragged.bankIndex].extraGapAfter = 0;       //
     }
 
     // show the points preview
