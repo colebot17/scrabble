@@ -273,7 +273,7 @@ function updateSavedAccountList() {
 		list.innerHTML += /* html */ `
 			<div class="account" data-savedaccountid="${i}">
 				<span class="accountName">${savedAccounts[i].name}${isCurrent ? ` (You)` : ``}</span>
-				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}')"${isCurrent ? ` disabled` : ``}>
+				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}');setSignInMode('accountSwitcher');"${isCurrent ? ` disabled` : ``}>
 					<span class="material-symbols-rounded smallIcon">login</span>
 					${isCurrent ? `Signed In` : `Sign In`}
 				</button>
@@ -306,7 +306,7 @@ function removeSavedAccount(index) {
 	textModal('Remove Saved Account', `Are you sure you want to remove this account? <b>${savedAccounts[index].name}</b> will have to sign in again if they want to use this device later.`, {
 		cancelable: true,
 		complete: function() {
-			savedAccounts.splice(index, 1);
+			let savedAccounts.splice(index, 1)[0].name === account.name;
 			localStorage.savedAccounts = JSON.stringify(savedAccounts);
 			updateSavedAccountList();
 		}
