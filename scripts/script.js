@@ -1252,16 +1252,20 @@ function skipTurn() {
 }
 
 function pickLetter(bankIndex, complete = function(letter) {}) {
-	let letterPicker = $('#letterPicker');
+	let $letterPicker = $('#letterPicker');
 	$('#chooseLetterModal').modalOpen();
-	letterPicker[0].focus();
-	letterPicker.val('').off().on('keyup', function() {
-		if (letterPicker.val()) {
-			letterPicker.off();
-			letterPicker[0].blur();
-			document.scrollTop = 0;
-			complete(letterPicker.val().toUpperCase());
-			$('#chooseLetterModal').modalClose();
+	$letterPicker[0].focus();
+	$letterPicker.val('').off().on('keyup', function() {
+		if ($letterPicker.val()) {
+			if (/[A-Za-z]/.test($letterPicker.val())) {
+				$letterPicker.off();
+				$letterPicker[0].blur();
+				document.scrollTop = 0;
+				complete($letterPicker.val().toUpperCase());
+				$('#chooseLetterModal').modalClose();
+			} else {
+				$letterPicker.val('');
+			}
 		}
 	}).on('blur', function() {
 		canvas.bank[bankIndex].hidden = false;
