@@ -439,7 +439,6 @@ function renameGame(gameId, loc) {
 	function removeInput() {
 		inputField.remove();
 		nameField.classList.remove('hidden');
-		nameField.blur();
 	}
 	
 	// add the listeners
