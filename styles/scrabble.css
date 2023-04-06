@@ -168,13 +168,15 @@
 .accountList {
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
 	gap: 10px;
 }
 .accountList .account {
 	width: 150px;
 	height: 150px;
 	background-color: var(--background-2);
-	border-radius: 5px;
+	border-radius: 10px;
 	padding: 10px;
 
 	display: flex;
