@@ -433,6 +433,7 @@ function renameGame(gameId, loc) {
 	// add the input field
 	nameField.classList.add('hidden');
 	nameField.after(inputField);
+	inputField.value = account.games[gameId].name || '#' + gameId;
 	inputField.select();
 	
 	// add the listeners
