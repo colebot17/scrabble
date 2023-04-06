@@ -306,7 +306,8 @@ function removeSavedAccount(index) {
 	textModal('Remove Saved Account', `Are you sure you want to remove this account? <b>${savedAccounts[index].name}</b> will have to sign in again if they want to use this device later.`, {
 		cancelable: true,
 		complete: function() {
-			localStorage.savedAccounts = JSON.stringify(savedAccounts.splice(index, 1));
+			savedAccounts.splice(index, 1);
+			localStorage.savedAccounts = JSON.stringify(savedAccounts);
 			updateSavedAccountList();
 		}
 	})
