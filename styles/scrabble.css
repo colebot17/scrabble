@@ -61,10 +61,11 @@
 	transition: border-color 0.87s;
 	border-radius: 3px;
 	padding: 3px;
-	margin: 0 5px;
-
-	width: calc(100% - 16px);
 	cursor: text;
+}
+.gamesList:not(#inactiveGamesList) .listGame .listGameTitleBox .listGameName {
+	width: calc(100% - 16px);
+	margin: 0 5px;
 }
 .gamesList .listGame .listGameTitleBox .listGameName:hover {
 	border-color: var(--text-color-light);
