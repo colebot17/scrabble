@@ -71,14 +71,16 @@
 	border-color: var(--text-color-light);
 	transition: border-color 0.37s;
 }
-.gamesList .listGame .listGameTitleBox .listGameNameInput {
+.listGameNameInput {
+	text-align: center;
 	font-weight: bold;
-	width: calc(100% - 16px);
+	font-size: 16px;
 	border-radius: 3px;
 	padding: 3px;
+}
+.gamesList .listGame .listGameTitleBox .listGameNameInput {
+	width: calc(100% - 16px);
 	margin: 0 5px;
-	font-size: 16px;
-	text-align: center;
 }
 .gamesList .listGame .listGameTitleBox .gameIdLine {
 	display: flex;
