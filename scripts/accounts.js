@@ -32,12 +32,13 @@ function setSignInMode(mode) {
 			window[action]();
 		}
 	});
+	
+	removeFromEscStack('signInMode_' + mode);
 
 	if (backButtonKey[mode]) {
 		addToEscStack(() => {
 			setSignInMode(backButtonKey[mode]);
-			removeFromEscStack('signInMode_' + mode);
-		}, 'signInMode_' + mode);
+		}, 'signInMode_' + backButtonKey[mode]);
 	}
 }
 
