@@ -173,8 +173,8 @@
 	gap: 10px;
 }
 .accountList .account {
-	width: 150px;
-	height: 150px;
+	width: 125px;
+	height: 125px;
 	background-color: var(--background-2);
 	border-radius: 10px;
 	padding: 10px;
