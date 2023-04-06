@@ -293,8 +293,10 @@ function updateSavedAccountList() {
 function saveAccount(name, pwd) {
 	// save an account into local storage
 	const savedAccounts = localStorage.savedAccounts ? JSON.parse(localStorage.savedAccounts) : [];
+	if (savedAccounts.find(a => a.name === name)) return;
 	savedAccounts.push({name, pwd});
 	localStorage.savedAccounts = JSON.stringify(savedAccounts);
+	updateSavedAccountList();
 }
 
 function removeSavedAccount(index) {
