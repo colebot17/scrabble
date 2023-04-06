@@ -379,6 +379,8 @@ function handleDocumentMouseUp(e) {
         }
 
         canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
+        canvas.bank[dragged.bankIndex].gapAnimation = undefined; // remove extra gap after
+        canvas.bank[dragged.bankIndex].extraGapAfter = 0;       //
     }
 
     // show the points preview
