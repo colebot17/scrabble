@@ -34,7 +34,10 @@ function setSignInMode(mode) {
 	});
 
 	if (backButtonKey[mode]) {
-		addToEscStack(() => setSignInMode(backButtonKey[mode]), 'signInMode_' + mode);
+		addToEscStack(() => {
+			setSignInMode(backButtonKey[mode]);
+			removeFromEscStack('signInMode_' + mode);
+		}, 'signInMode_' + mode);
 	}
 }
 
