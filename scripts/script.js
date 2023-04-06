@@ -440,13 +440,11 @@ function renameGame(gameId, loc) {
 	inputField.addEventListener('keydown', function(e) {
 		if (e.key === "Enter") {
 			// rename the game
-			const name = inputField.value;
+			let name = inputField.value;
 			inputField.disabled = true;
 			inputField.style.cursor = "progress";
 
-			if (name === '#' + gameId) {
-				name = "";
-			}
+			if (name === '#' + gameId) name = "";
 			$.ajax(
 				location + '/php/renameGame.php',
 				{
