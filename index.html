@@ -120,7 +120,12 @@
 
 			<div id="signInCell" class="gridCell">
 				<form class="hidden accountForm" id="signInForm" data-action="signIn" onsubmit="return false;">
-					<h3>Sign In</h3>
+					<div class="flex">
+						<button id="signInBackButton" class="iconButton hidden" onclick="setSignInMode('accountSwitcher')">
+							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+						</button>
+						<h3>Sign In</h3>
+					</div>
 					<label for="signInUsername">Username:</label>
 					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="signInUsername"><br>
 
@@ -129,7 +134,7 @@
 
 					<button type="submit" onclick="signIn()">Sign In</button>
 					<!-- <br> -->
-					<a onclick="setSignInMode('createAccount')" class="hoverLine small">Create Account</a>
+					<a id="createAccountModeButton" onclick="setSignInMode('createAccount')" class="hoverLine small">Create Account</a>
 					<!-- –
 					<a onclick="setSignInMode('resetPassword')" class="hoverLine small">Forgot Password?</a> -->
 				</form>

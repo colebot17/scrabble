@@ -15,7 +15,8 @@ function setSignInMode(mode) {
 		settings: "signOut",
 		changePassword: "settings",
 		changeUsername: "settings",
-		accountSwitcher: "settings"
+		accountSwitcher: "settings",
+		signIn: "accountSwitcher"
 	};
 
 	let $signInCell = $('#signInCell');
@@ -297,10 +298,17 @@ function updateSavedAccountList() {
 	}
 
 	list.innerHTML += /* html */ `
-		<button class="account addSavedAccountButton" onclick="signOut(false, true)">
+		<button class="account addSavedAccountButton" onclick="addAccount()">
 			<span class="material-symbols-rounded largeIcon">add</span>
 		</button>
 	`;
+}
+
+function addAccount() {
+	// set up the sign in form
+	setSignInMode('signIn');
+	document.getElementById('signInBackButton').classList.remove('hidden');
+	document.getElementById('createAccountModeButton').classList.add('hidden');
 }
 
 function saveAccount(name, pwd) {
