@@ -67,7 +67,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 					// set up the form
 					setSignInMode('signIn');
 					document.getElementById('signInUsername').select();
-					document.getElementById('signInPassword').value = "";
+					document.getElementById('signInPwd').value = "";
 
 					return;
 				}
