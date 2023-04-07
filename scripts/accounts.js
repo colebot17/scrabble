@@ -44,7 +44,7 @@ function setSignInMode(mode) {
 }
 
 function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) {
-	$.ajax(
+	return $.ajax(
 		location + '/php/signIn.php',
 		{
 			data: {
@@ -273,7 +273,7 @@ function updateSavedAccountList() {
 		list.innerHTML += /* html */ `
 			<div class="account" data-savedaccountid="${i}">
 				<span class="accountName">${savedAccounts[i].name}${isCurrent ? ` (You)` : ``}</span>
-				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}');setSignInMode('accountSwitcher');"${isCurrent ? ` disabled` : ``}>
+				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}').then(setSignInMode('accountSwitcher'));"${isCurrent ? ` disabled` : ``}>
 					<span class="material-symbols-rounded smallIcon">login</span>
 					${isCurrent ? `Signed In` : `Sign In`}
 				</button>
