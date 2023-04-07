@@ -309,6 +309,7 @@ function addAccount() {
 	setSignInMode('signIn');
 	document.getElementById('signInBackButton').classList.remove('hidden');
 	document.getElementById('createAccountModeButton').classList.add('hidden');
+	document.getElementById('signInForm').reset();
 }
 
 function saveAccount(name, pwd) {
