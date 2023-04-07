@@ -297,7 +297,7 @@ function updateSavedAccountList() {
 	}
 
 	list.innerHTML += /* html */ `
-		<button class="account addSavedAccountButton" onclick="signOut()">
+		<button class="account addSavedAccountButton" onclick="signOut(true, true)">
 			<span class="material-symbols-rounded largeIcon">add</span>
 		</button>
 	`;
