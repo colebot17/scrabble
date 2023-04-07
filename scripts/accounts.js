@@ -333,10 +333,26 @@ function removeSavedAccount(index, confirm = true) {
 	}
 
 	if (confirm) {
-		textModal('Remove Saved Account', `Are you sure you want to remove this account? <b>${savedAccounts[index].name}</b> will have to sign in again if they want to use this device later.`, {
+		textModal('Remove Saved Account', `Are you sure you want to remove this account? <b>${savedAccounts[index].name}</b> will need to sign in again to use this device later.`, {
 			cancelable: true,
 			complete: doIt
 		});
+	} else {
+		doIt();
+	}
+}
+
+function removeAllSavedAccounts(confirm = true) {
+	function doIt() {
+		localStorage.savedAccounts = [{name: account.name, pwd: account.pwd}];
+		updateSavedAccountList();
+	}
+
+	if (confirm) {
+		textModal('Clear Accounts', 'Are you sure you want to remove all other accounts? The owners of these accounts will need to sign in again to use this device later. Your account will not be affected.', {
+			cancelable: true,
+			complete: doIt
+		})
 	} else {
 		doIt();
 	}
