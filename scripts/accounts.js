@@ -278,7 +278,7 @@ function updateSavedAccountList() {
 					<span class="material-symbols-rounded smallIcon">login</span>
 					${isCurrent ? `Signed In` : `Sign In`}
 				</button>
-				<button class="iconTextButton accountRemoveButton noMargin" onclick="${isCurrent ? `signOut();` : ``}removeSavedAccount(${i})">
+				<button class="iconTextButton accountRemoveButton noMargin" onclick="removeSavedAccount(${i});${isCurrent ? `signOut();` : ``}">
 					<span class="material-symbols-rounded smallIcon">${isCurrent ? `logout` : `delete`}</span>
 					${isCurrent ? `Sign Out` : `Remove`}
 				</button>
