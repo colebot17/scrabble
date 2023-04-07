@@ -446,6 +446,7 @@ function renameGame(gameId, loc) {
 		if (e.key === "Enter") {
 			// rename the game
 			let name = inputField.value;
+			inputField.removeEventListener('blur', removeInput);
 			inputField.disabled = true;
 			inputField.style.cursor = "progress";
 
