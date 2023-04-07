@@ -273,7 +273,7 @@ function updateSavedAccountList() {
 		list.innerHTML += /* html */ `
 			<div class="account" data-savedaccountid="${i}">
 				<span class="accountName">${savedAccounts[i].name}${isCurrent ? ` (You)` : ``}</span>
-				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}').then(setSignInMode('accountSwitcher'));"${isCurrent ? ` disabled` : ``}>
+				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}')"${isCurrent ? ` disabled` : ``}>
 					<span class="material-symbols-rounded smallIcon">login</span>
 					${isCurrent ? `Signed In` : `Sign In`}
 				</button>
