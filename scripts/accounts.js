@@ -45,6 +45,16 @@ function setSignInMode(mode) {
 }
 
 function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) {
+	const formEl = document.getElementById('signInForm');
+	const usernameField = document.getElementById('signInUsername');
+	const pwdField = document.getElementById('signInPwd');
+	const submitButton = document.getElementById('signInSubmitButton');
+
+	// disable form elements while we are working
+	usernameField.disabled = true;
+	pwdField.disabled = true;
+	submitButton.disabled = true;
+
 	return $.ajax(
 		location + '/php/signIn.php',
 		{
@@ -58,16 +68,23 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 
 				// if there has been an error (incorrect name/pwd),
 				if (jsonData.errorLevel > 0) {
-					textModal("Error", jsonData.message);
+					textModal("Error", jsonData.message, {
+						complete: function() {
+							// set up the form
+							setSignInMode('signIn');
+
+							usernameField.disabled = false;
+							pwdField.disabled = false;
+							submitButton.disabled = false;
+							
+							usernameField.select();
+							pwdField.value = "";
+						}
+					});
 
 					// clear localStorage
 					localStorage.removeItem('name');
 					localStorage.removeItem('pwd');
-
-					// set up the form
-					setSignInMode('signIn');
-					document.getElementById('signInUsername').select();
-					document.getElementById('signInPwd').value = "";
 
 					return;
 				}
@@ -84,7 +101,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 				label.textContent = jsonData.data.name;
 				label.innerHTML = "<b>" + label.textContent + "</b>";
 
-				document.getElementById('signInForm').reset();
+				formEl.reset();
 				setSignInMode('signOut');
 
 				saveAccount(jsonData.data.name, pwd);
