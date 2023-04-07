@@ -56,17 +56,18 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 			success: function(data) {
 				const jsonData = JSON.parse(data);
 
-				// if there has been an error,
+				// if there has been an error (incorrect name/pwd),
 				if (jsonData.errorLevel > 0) {
 					textModal("Error", jsonData.message);
-					setSignInMode('signIn');
 
 					// clear localStorage
 					localStorage.removeItem('name');
 					localStorage.removeItem('pwd');
 
-					// clear the form
-					document.getElementById('signInForm').reset();
+					// set up the form
+					setSignInMode('signIn');
+					document.getElementById('signInUsername').select();
+					document.getElementById('signInPassword').value = "";
 
 					return;
 				}
@@ -83,12 +84,13 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 				label.textContent = jsonData.data.name;
 				label.innerHTML = "<b>" + label.textContent + "</b>";
 
+				document.getElementById('signInForm').reset();
 				setSignInMode('signOut');
 
 				saveAccount(jsonData.data.name, pwd);
 				updateSavedAccountList();
 
-				$('#scrabbleGrid').attr('data-signedin', "true");
+				document.getElementById('scrabbleGrid').dataset.signedin = true;
 
 				updateGamesList();
 			},
