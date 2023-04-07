@@ -211,10 +211,11 @@ function changeUsername(
 	})
 }
 
-function signOut() {
+function signOut(rem) {
 	textModal("Sign Out", "Are you sure you want to sign out?", {
 		cancelable: true,
 		complete: () => {
+			if (rem) removeSavedAccount(rem);
 			localStorage.removeItem('name');
 			localStorage.removeItem('pwd');
 			location.reload();
@@ -277,7 +278,7 @@ function updateSavedAccountList() {
 					<span class="material-symbols-rounded smallIcon">login</span>
 					${isCurrent ? `Signed In` : `Sign In`}
 				</button>
-				<button class="iconTextButton accountRemoveButton noMargin" onclick="${isCurrent ? `signOut()` : `removeSavedAccount(${i})`}">
+				<button class="iconTextButton accountRemoveButton noMargin" onclick="${isCurrent ? `signOut();` : ``}removeSavedAccount(${i})">
 					<span class="material-symbols-rounded smallIcon">${isCurrent ? `logout` : `delete`}</span>
 					${isCurrent ? `Sign Out` : `Remove`}
 				</button>
