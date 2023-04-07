@@ -345,7 +345,7 @@ function removeSavedAccount(index, confirm = true) {
 
 function removeAllSavedAccounts(confirm = true) {
 	function doIt() {
-		localStorage.savedAccounts = [{name: account.name, pwd: account.pwd}];
+		localStorage.savedAccounts = JSON.stringify([{name: account.name, pwd: account.pwd}]);
 		updateSavedAccountList();
 	}
 
