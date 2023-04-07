@@ -211,16 +211,26 @@ function changeUsername(
 	})
 }
 
-function signOut(rem) {
-	textModal("Sign Out", "Are you sure you want to sign out?", {
-		cancelable: true,
-		complete: () => {
-			if (rem) removeSavedAccount(rem);
-			localStorage.removeItem('name');
-			localStorage.removeItem('pwd');
-			location.reload();
+function signOut(confirm = true, saveAccount = false) {
+	function doIt() {
+		if (!saveAccount && localStorage.savedAccounts) {
+			const savedAccounts = JSON.parse(localStorage.savedAccounts);
+			const index = savedAccounts.findIndex(a => a.name === account.name);
+			removeSavedAccount(index, false);
 		}
-	});
+		localStorage.removeItem('name');
+		localStorage.removeItem('pwd');
+		location.reload();
+	}
+
+	if (confirm) {
+		textModal("Sign Out", "Are you sure you want to sign out?", {
+			cancelable: true,
+			complete: doIt
+		});
+	} else {
+		doIt();
+	}
 }
 
 function resetPassword(
@@ -301,15 +311,25 @@ function saveAccount(name, pwd) {
 	localStorage.savedAccounts = JSON.stringify(savedAccounts);
 }
 
-function removeSavedAccount(index) {
+function removeSavedAccount(index, confirm = true) {
+	// remove a specific account from local storage
+
+	if (!localStorage.savedAccounts) return;
+
 	const savedAccounts = JSON.parse(localStorage.savedAccounts);
-	// remove a specific account from local storage (after confirmation)
-	textModal('Remove Saved Account', `Are you sure you want to remove this account? <b>${savedAccounts[index].name}</b> will have to sign in again if they want to use this device later.`, {
-		cancelable: true,
-		complete: function() {
-			savedAccounts.splice(index, 1)[0].name;
-			localStorage.savedAccounts = JSON.stringify(savedAccounts);
-			updateSavedAccountList();
-		}
-	})
+
+	function doIt() {
+		savedAccounts.splice(index, 1)[0].name;
+		localStorage.savedAccounts = JSON.stringify(savedAccounts);
+		updateSavedAccountList();
+	}
+
+	if (confirm) {
+		textModal('Remove Saved Account', `Are you sure you want to remove this account? <b>${savedAccounts[index].name}</b> will have to sign in again if they want to use this device later.`, {
+			cancelable: true,
+			complete: doIt
+		});
+	} else {
+		doIt();
+	}
 }
