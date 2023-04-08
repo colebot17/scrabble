@@ -17,5 +17,9 @@ function checkForChanges() {
         }
     }).then(response => response.json()).then((res) => {
         console.log(res);
+        if (res.errorLevel > 0) {
+            textModal('Error', res.message);
+            return;
+        }
     });
 }
