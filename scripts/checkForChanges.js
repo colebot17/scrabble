@@ -9,8 +9,8 @@ function checkForChanges() {
     const url = location + "/php/checkForChanges.php";
 
     fetch(url, {
-        method: 'POST',
-        body: postObj,
+        method: 'post',
+        body: post,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
