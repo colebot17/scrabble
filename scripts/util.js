@@ -44,7 +44,7 @@ function request(filename, dataObj) {
 
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST', url, true);
-		xhr.setRequestHeader('Content-type', 'application/json')
+		xhr.setRequestHeader('Content-Type', 'application/json')
 		xhr.send(data);
 
 		xhr.onload = function() {
