@@ -10,7 +10,7 @@ function checkForChanges() {
 
     fetch(url, {
         method: 'POST',
-        body: post,
+        body: postObj,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
