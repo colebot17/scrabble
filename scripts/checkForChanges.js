@@ -4,7 +4,7 @@ function checkForChanges() {
         pwd: account.pwd,
         game: game.id,
         lastUpdate: game.lastUpdate
-    }).then(response => response.json()).then((res) => {
+    }).then((res) => {
         console.log(res);
         if (res.errorLevel > 0) {
             textModal('Error', res.message);
