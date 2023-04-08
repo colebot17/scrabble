@@ -33,9 +33,9 @@ $row = mysqli_fetch_assoc($query);
 $lastUpdateServer = $row['lastUpdate'];
 
 if ($lastUpdateServer > $lastUpdateClient) {
-    echo '{"errorLevel":0,"data": 1,"message":"There is new game data available on the server."}';
+    echo '{"errorLevel":0,"data":1,"message":"There is new game data available on the server."}';
 } else {
-    echo '{"errorLevel":0,"data": 0,"message":"You\'re all caught up!"}';
+    echo '{"errorLevel":0,"data":0,"message":"You\'re all caught up!"}';
 }
 
 // close the connection
