@@ -38,8 +38,8 @@ function range() {
 }
 
 function request(filename, dataObj) {
-	const data = new URLSearchParams(dataObj).toString();;
 	const url = location + '/php/' + filename;
+	const data = new URLSearchParams(dataObj).toString();
 
 	return fetch(url, {
 		method: 'POST',

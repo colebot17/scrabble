@@ -7,7 +7,7 @@ function checkForChanges() {
     }).then((res) => {
         console.log(res);
         if (res.errorLevel > 0) {
-            textModal('Error', res.message);
+            textModal('Error (checkForChanges())', res.message);
             return;
         }
     }).catch((error) => {
