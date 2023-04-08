@@ -12,7 +12,7 @@ function checkForChanges() {
         method: 'post',
         body: post,
         mode: 'cors',
-        headers: {,
+        headers: {
             'Content-Type': 'application/json'
         }
     }).then(response => response.json()).then((res) => {
