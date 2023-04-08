@@ -38,21 +38,12 @@ function range() {
 }
 
 function request(filename, dataObj) {
-	return new Promise((resolve, reject) => {
-		const data = JSON.stringify(dataObj);
-		const url = location + '/php/' + filename;
+	const data = new URLSearchParams(dataObj).toString();;
+	const url = location + '/php/' + filename;
 
-		let xhr = new XMLHttpRequest();
-		xhr.open('POST', url, true);
-		xhr.setRequestHeader('Content-Type', 'application/json')
-		xhr.send(data);
-
-		xhr.onload = function() {
-			if (xhr.status !== 200) {
-				reject();
-			} else {
-				resolve(JSON.parse(xhr.response));
-			}
-		}
+	return fetch(url, {
+		method: 'POST',
+		body: data,
+		headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
 	});
 }
