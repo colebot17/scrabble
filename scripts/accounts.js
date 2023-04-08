@@ -14,7 +14,9 @@ function setSignInMode(mode) {
 	const backButtonKey = {
 		settings: "signOut",
 		changePassword: "settings",
-		changeUsername: "settings"
+		changeUsername: "settings",
+		accountSwitcher: "settings",
+		signIn: "accountSwitcher"
 	};
 
 	let $signInCell = $('#signInCell');
@@ -43,7 +45,17 @@ function setSignInMode(mode) {
 }
 
 function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) {
-	$.ajax(
+	const formEl = document.getElementById('signInForm');
+	const usernameField = document.getElementById('signInUsername');
+	const pwdField = document.getElementById('signInPwd');
+	const submitButton = document.getElementById('signInSubmitButton');
+
+	// disable form elements while we are working
+	usernameField.disabled = true;
+	pwdField.disabled = true;
+	submitButton.disabled = true;
+
+	return $.ajax(
 		location + '/php/signIn.php',
 		{
 			data: {
@@ -54,20 +66,25 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 			success: function(data) {
 				const jsonData = JSON.parse(data);
 
-				// if there has been an error,
+				// if there has been an error (incorrect name/pwd),
 				if (jsonData.errorLevel > 0) {
-					textModal("Error", jsonData.message);
-					setSignInMode('signIn');
+					textModal("Error", jsonData.message, {
+						complete: function() {
+							// set up the form
+							setSignInMode('signIn');
 
-					// show the sign-in page
-					document.getElementById('scrabbleGrid').dataset.signedin = 'false';
+							usernameField.disabled = false;
+							pwdField.disabled = false;
+							submitButton.disabled = false;
+							
+							usernameField.select();
+							pwdField.value = "";
+						}
+					});
 
 					// clear localStorage
 					localStorage.removeItem('name');
 					localStorage.removeItem('pwd');
-
-					// clear the form
-					document.getElementById('signInForm').reset();
 
 					return;
 				}
@@ -84,9 +101,13 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 				label.textContent = jsonData.data.name;
 				label.innerHTML = "<b>" + label.textContent + "</b>";
 
+				formEl.reset();
 				setSignInMode('signOut');
 
-				$('#scrabbleGrid').attr('data-signedin', "true");
+				saveAccount(jsonData.data.name, pwd);
+				updateSavedAccountList();
+
+				document.getElementById('scrabbleGrid').dataset.signedin = true;
 
 				updateGamesList();
 			},
@@ -207,15 +228,26 @@ function changeUsername(
 	})
 }
 
-function signOut() {
-	textModal("Sign Out", "Are you sure you want to sign out?", {
-		cancelable: true,
-		complete: () => {
-			localStorage.removeItem('name');
-			localStorage.removeItem('pwd');
-			location.reload();
+function signOut(confirm = true, saveAccount = false) {
+	function doIt() {
+		if (!saveAccount && localStorage.savedAccounts) {
+			const savedAccounts = JSON.parse(localStorage.savedAccounts);
+			const index = savedAccounts.findIndex(a => a.name === account.name);
+			removeSavedAccount(index, false);
 		}
-	});
+		localStorage.removeItem('name');
+		localStorage.removeItem('pwd');
+		location.reload();
+	}
+
+	if (confirm) {
+		textModal("Sign Out", "Are you sure you want to sign out?", {
+			cancelable: true,
+			complete: doIt
+		});
+	} else {
+		doIt();
+	}
 }
 
 function resetPassword(
@@ -251,4 +283,94 @@ function resetPassword(
 			}
 		}
 	);
+}
+
+// account switcher code
+
+function updateSavedAccountList() {
+	// load saved accounts from local storage and display them
+
+	const savedAccounts = localStorage.savedAccounts ? JSON.parse(localStorage.savedAccounts) : [];
+	
+	const list = document.getElementById('accountSwitcherList');
+
+	list.innerHTML = "";
+
+	for (let i = 0; i < savedAccounts.length; i++) {
+		const isCurrent = savedAccounts[i].name === account?.name;
+		list.innerHTML += /* html */ `
+			<div class="account" data-savedaccountid="${i}">
+				<span class="accountName">${savedAccounts[i].name}${isCurrent ? ` (You)` : ``}</span>
+				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}')"${isCurrent ? ` disabled` : ``}>
+					<span class="material-symbols-rounded smallIcon">login</span>
+					${isCurrent ? `Signed In` : `Sign In`}
+				</button>
+				<button class="iconTextButton accountRemoveButton noMargin" onclick="removeSavedAccount(${i});${isCurrent ? `signOut();` : ``}">
+					<span class="material-symbols-rounded smallIcon">${isCurrent ? `logout` : `delete`}</span>
+					${isCurrent ? `Sign Out` : `Remove`}
+				</button>
+			</div>
+		`;
+	}
+
+	list.innerHTML += /* html */ `
+		<button class="account addSavedAccountButton" onclick="addAccount()">
+			<span class="material-symbols-rounded largeIcon">add</span>
+		</button>
+	`;
+}
+
+function addAccount() {
+	// set up the sign in form
+	setSignInMode('signIn');
+	document.getElementById('signInBackButton').classList.remove('hidden');
+	document.getElementById('createAccountModeButton').classList.add('hidden');
+	document.getElementById('signInForm').reset();
+}
+
+function saveAccount(name, pwd) {
+	// save an account into local storage
+	const savedAccounts = localStorage.savedAccounts ? JSON.parse(localStorage.savedAccounts) : [];
+	if (savedAccounts.find(a => a.name === name)) return;
+	savedAccounts.push({name, pwd});
+	localStorage.savedAccounts = JSON.stringify(savedAccounts);
+}
+
+function removeSavedAccount(index, confirm = true) {
+	// remove a specific account from local storage
+
+	if (!localStorage.savedAccounts) return;
+
+	const savedAccounts = JSON.parse(localStorage.savedAccounts);
+
+	function doIt() {
+		savedAccounts.splice(index, 1)[0].name;
+		localStorage.savedAccounts = JSON.stringify(savedAccounts);
+		updateSavedAccountList();
+	}
+
+	if (confirm) {
+		textModal('Remove Saved Account', `Are you sure you want to remove this account? <b>${savedAccounts[index].name}</b> will need to sign in again to use this device later.`, {
+			cancelable: true,
+			complete: doIt
+		});
+	} else {
+		doIt();
+	}
+}
+
+function removeAllSavedAccounts(confirm = true) {
+	function doIt() {
+		localStorage.savedAccounts = JSON.stringify([{name: account.name, pwd: account.pwd}]);
+		updateSavedAccountList();
+	}
+
+	if (confirm) {
+		textModal('Clear Accounts', 'Are you sure you want to remove all other accounts? The owners of these accounts will need to sign in again to use this device later. Your account will not be affected.', {
+			cancelable: true,
+			complete: doIt
+		})
+	} else {
+		doIt();
+	}
 }

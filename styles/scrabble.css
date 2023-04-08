@@ -164,6 +164,39 @@
 	justify-content: center;
 }
 
+/* account switcher */
+.accountList {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+.accountList .account {
+	width: 125px;
+	height: 125px;
+	background-color: var(--background-2);
+	border-radius: 10px;
+	padding: 10px;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: stretch;
+}
+.accountList .account .accountName {
+	font-weight: bold;
+}
+.accountList .addSavedAccountButton {
+	border: 0;
+	margin: 0;
+	width: 145px;
+	height: 145px;
+}
+.accountList .addSavedAccountButton:hover {
+	background-color: var(--background-3);
+}
+
 /* game controls */
 #gameControlsCell .contentControls {
 	flex-grow: 1;

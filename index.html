@@ -120,16 +120,21 @@
 
 			<div id="signInCell" class="gridCell">
 				<form class="hidden accountForm" id="signInForm" data-action="signIn" onsubmit="return false;">
-					<h3>Sign In</h3>
+					<div class="flex">
+						<button id="signInBackButton" class="iconButton hidden" onclick="setSignInMode('accountSwitcher')">
+							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+						</button>
+						<h3>Sign In</h3>
+					</div>
 					<label for="signInUsername">Username:</label>
 					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="signInUsername"><br>
 
 					<label for="signInPwd">Password:</label>
 					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="signInPwd"><br>
 
-					<button type="submit" onclick="signIn()">Sign In</button>
+					<button id="signInSubmitButton" type="submit" onclick="signIn()">Sign In</button>
 					<!-- <br> -->
-					<a onclick="setSignInMode('createAccount')" class="hoverLine small">Create Account</a>
+					<a id="createAccountModeButton" onclick="setSignInMode('createAccount')" class="hoverLine small">Create Account</a>
 					<!-- –
 					<a onclick="setSignInMode('resetPassword')" class="hoverLine small">Forgot Password?</a> -->
 				</form>
@@ -214,6 +219,21 @@
 					<button type="submit" onclick="resetPassword()">Reset Password</button>
 				</form> -->
 
+				<div class="hidden accountForm" id="accountSwitcherForm">
+					<div class="flex">
+						<button class="iconButton" onclick="setSignInMode('settings')">
+							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+						</button>
+						<h3>Switch Accounts</h3>
+					</div>
+
+					<div class="accountList" id="accountSwitcherList">
+						Available accounts will appear here.
+					</div>
+					<br>
+					<a class="finePrint hoverDarken hoverLine" onclick="removeAllSavedAccounts()">Remove all saved accounts</a>
+				</div>
+
 				<div class="hidden accountForm" id="settingsForm">
 					<div class="flex">
 						<button class="iconButton" onclick="setSignInMode('signOut')">
@@ -225,6 +245,7 @@
 						<div class="settingsSection">
 							<a onclick="setSignInMode('changeUsername')" class="hoverLine small" tabindex="0">Change Username</a>
 							<a onclick="setSignInMode('changePassword')" class="hoverLine small" tabindex="0">Change Password</a>
+							<a onclick="setSignInMode('accountSwitcher')" class="hoverLine small" tabindex="0">Switch Accounts</a>
 							<button onclick="signOut()">Sign Out</button>
 						</div>
 						<div class="settingsSection">
