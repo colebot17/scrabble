@@ -11,8 +11,8 @@ function checkForChanges() {
     fetch(url, {
         method: 'POST',
         mode: 'cors',
-        headers: {'Content-Type': 'application/json'}
-        body: post,
+        headers: {'Content-Type': 'application/json'},
+        body: post
     }).then(response => response.json()).then((res) => {
         console.log(res);
         if (res.errorLevel > 0) {
