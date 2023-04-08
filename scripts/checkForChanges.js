@@ -21,5 +21,7 @@ function checkForChanges() {
             textModal('Error', res.message);
             return;
         }
+    }).catch((error) => {
+        console.error(error);
     });
 }
