@@ -115,7 +115,7 @@ function updateGamesList() {
 			currentGame.id = parseInt(i);
 
 			// convert the dates to date objects
-			currentGame.lastMove = new Date(currentGame.lastMove);
+			currentGame.lastUpdate = new Date(currentGame.lastUpdate);
 			if (currentGame.endDate) {
 				currentGame.endDate = new Date(currentGame.endDate);
 			}
@@ -128,13 +128,12 @@ function updateGamesList() {
 			}
 		}
 
-
 		// sort the active games array by the last move timestamp 
 		activeGames.sort(function(a, b) {
-			if (a.lastMove > b.lastMove) { // a comes before b (in the display order)
+			if (a.lastUpdate > b.lastUpdate) { // a comes before b (in the display order)
 				return -1;
 			}
-			if (a.lastMove < b.lastMove) { // a comes after b
+			if (a.lastUpdate < b.lastUpdate) { // a comes after b
 				return 1;
 			}
 			// a must be equal to b

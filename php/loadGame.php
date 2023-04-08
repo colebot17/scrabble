@@ -22,7 +22,7 @@ $sql = "SELECT pwd, games FROM accounts WHERE id='$user'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row['games'], true))) {
-	$sql = "SELECT name, letterBag, players, turn, inactive, board, creationDate, endDate, chat FROM games WHERE id='$gameId'";
+	$sql = "SELECT name, letterBag, players, turn, inactive, board, creationDate, endDate, chat, lastUpdate FROM games WHERE id='$gameId'";
 	$query = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($query);
 
@@ -35,6 +35,7 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 	$endDate = $row['endDate'];
 	$players = json_decode($row['players'], true);
 	$chat = json_decode($row['chat'], true);
+	$lastUpdate = $row['lastUpdate'];
 
 	// prepare the players list to be sent back
 	for ($i=0; $i < count($players); $i++) {
@@ -91,7 +92,8 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 		"board"        => $board,
 		"creationDate" => $creationDate,
 		"endDate"      => ($inactive ? $endDate : null),
-		"chat"         => $chat
+		"chat"         => $chat,
+		"lastUpdate"   => $lastUpdate
 	);
 	echo json_encode($obj);
 } else {
