@@ -9,12 +9,10 @@ function checkForChanges() {
     const url = location + "/php/checkForChanges.php";
 
     fetch(url, {
-        method: 'post',
-        body: post,
+        method: 'POST',
         mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        headers: {'Content-Type': 'application/json'}
+        body: post,
     }).then(response => response.json()).then((res) => {
         console.log(res);
         if (res.errorLevel > 0) {
