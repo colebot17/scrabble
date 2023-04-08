@@ -10,6 +10,9 @@ function checkForChanges() {
             textModal('Error (checkForChanges())', res.message);
             return;
         }
+        if (res.data === 1) {
+            textModal('Game Changes', 'There is new data associated with this game. Reload the game to see what it is.');
+        }
     }).catch((error) => {
         console.error(error);
     });
