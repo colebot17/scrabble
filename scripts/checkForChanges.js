@@ -1,18 +1,9 @@
 function checkForChanges() {
-    const postObj = {
+    request('checkForChanges.php', {
         user: account.id,
         pwd: account.pwd,
         game: game.id,
         lastUpdate: game.lastUpdate
-    }
-    const post = JSON.stringify(postObj);
-    const url = location + "/php/checkForChanges.php";
-
-    fetch(url, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {'Content-Type': 'application/json'},
-        body: post
     }).then(response => response.json()).then((res) => {
         console.log(res);
         if (res.errorLevel > 0) {

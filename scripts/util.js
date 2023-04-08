@@ -36,3 +36,23 @@ function range() {
 
 	return arr;
 }
+
+function request(filename, dataObj) {
+	return new Promise((resolve, reject) => {
+		const data = JSON.stringify(dataObj);
+		const url = location + '/php/' + filename;
+
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST', url, true);
+		xhr.setRequestHeader('Content-type', 'application/json; charset=UTF-8')
+		xhr.send(data);
+
+		xhr.onload = function() {
+			if (xhr.status !== 200) {
+				reject();
+			} else {
+				resolve(xhr.response);
+			}
+		}
+	});
+}
