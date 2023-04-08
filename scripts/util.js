@@ -51,7 +51,7 @@ function request(filename, dataObj) {
 			if (xhr.status !== 200) {
 				reject();
 			} else {
-				resolve(xhr.response);
+				resolve(JSON.parse(xhr.response));
 			}
 		}
 	});
