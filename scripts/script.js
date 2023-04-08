@@ -128,7 +128,7 @@ function updateGamesList() {
 			}
 		}
 
-		// sort the active games array by the last move timestamp 
+		// sort the active games array by the last update timestamp 
 		activeGames.sort(function(a, b) {
 			if (a.lastUpdate > b.lastUpdate) { // a comes before b (in the display order)
 				return -1;
