@@ -10,7 +10,7 @@ function checkForChanges() {
 
     fetch(url, {
         method: 'post',
-        body: postObj
+        body: post
     }).then(response => response.json()).then((res) => {
         console.log(res);
         if (res.errorLevel > 0) {
