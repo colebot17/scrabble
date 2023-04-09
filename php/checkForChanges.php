@@ -40,7 +40,7 @@ if ($updateNumberServer > $updateNumberClient) {
         "errorLevel" => 0,
         "message" => "There are new changes from the server.",
         "data" => $newUpdates
-    )
+    );
     echo json_encode($ret);
 } else {
     echo '{"errorLevel":0,"data":[],"message":"You\'re all caught up!"}';
