@@ -10,7 +10,7 @@ $dbname = "scrabble";
 $user = $_POST['user'];
 $pwd = $_POST['pwd'];
 $gameId = $_POST['game'];
-$lastUpdateClient = $_POST['lastUpdate'];
+$updateNumberClient = $_POST['updateNumber'];
 
 // create and check connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -23,19 +23,27 @@ $sql = "SELECT pwd FROM accounts WHERE id='$user'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 if (!password_verify($pwd, $row['pwd'])) {
-	exit('{"errorLevel":2,"message":"Invalid Session","debug":"' . $user . ' ' . $pwd . '"}');
+	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
 // get the last update for comparison
-$sql = "SELECT lastUpdate FROM games WHERE id='$gameId'";
+$sql = "SELECT updates FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
-$lastUpdateServer = $row['lastUpdate'];
+$updates = json_decode($row['updates'], true);
+$updateNumberServer = count($updates);
 
-if ($lastUpdateServer > $lastUpdateClient) {
-    echo '{"errorLevel":0,"data":1,"message":"There is new game data available on the server."}';
+if ($updateNumberServer > $updateNumberClient) {
+    $newUpdates = array_values(array_slice($updates, $updateNumberClient));
+
+    $ret = Array(
+        "errorLevel" => 0,
+        "message" => "There are new changes from the server.",
+        "data" => $newUpdates
+    )
+    echo json_encode($ret);
 } else {
-    echo '{"errorLevel":0,"data":0,"message":"You\'re all caught up!"}';
+    echo '{"errorLevel":0,"data":[],"message":"You\'re all caught up!"}';
 }
 
 // close the connection

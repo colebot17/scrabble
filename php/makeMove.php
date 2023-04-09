@@ -246,6 +246,37 @@ $response = Array(
 );
 echo json_encode($response);
 
+// add to update list
+$sql = "SELECT updates FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$updates = json_decode($row['updates'], true);
+
+array_push($updates, Array(
+    "type" => "move",
+    "data" => Array(
+        "player" => $user,
+		"playerIndex" => $currentPlayerIndex
+    ),
+	"timestamp" => time()
+));
+
+if ($inactive) {
+	array_push($updates, Array(
+		"type" => "gameEnd",
+		"data" => Array(
+			"player" => $user,
+			"playerIndex" => $currentPlayerIndex,
+			"reason" => "move"
+		),
+		"timestamp" => time()
+	));
+}
+
+$updatesJson = json_encode($updates);
+$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+
 // close the connection
 $conn->close();
 

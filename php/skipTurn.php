@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 // get data from client
 $user = $_POST['user'];
 $pwd = $_POST['pwd'];
-$game = $_POST['game'];
+$gameId = $_POST['game'];
 $redrawLetters = json_decode($_POST['redrawLetters'], true);
 
 // check password
@@ -32,12 +32,12 @@ $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $userGames = json_decode($row['games'], true);
 
-if (!in_array($game, $userGames)) {
+if (!in_array($gameId, $userGames)) {
 	exit('{"errorLevel":2,"message":"You do not own this game!"}');
 }
 
 // get the turn, state, players, and letter bag of the game
-$sql = "SELECT turn, inactive, players, letterBag FROM games WHERE id='$game'";
+$sql = "SELECT turn, inactive, players, letterBag FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 
@@ -133,7 +133,7 @@ if ($endGame) {
 			$row = mysqli_fetch_assoc($query);
 
 			$playersGames = json_decode($row['games'], true);
-			if (($key = array_search($game, $playersGames)) !== false) {
+			if (($key = array_search($gameId, $playersGames)) !== false) {
 				unset($playersGames[$key]);
 			}
 			$playerGames = json_encode(array_values($playerGames));
@@ -143,16 +143,16 @@ if ($endGame) {
 		}
 
 		// delete the game
-		$sql = "DELETE FROM games WHERE id='$game'";
+		$sql = "DELETE FROM games WHERE id='$gameId'";
 		$query = mysqli_query($conn, $sql);
 	} else { // if players have already scored points
 		// deactivate the game
-		$sql = "UPDATE games SET inactive=1 WHERE id='$game'";
+		$sql = "UPDATE games SET inactive=1 WHERE id='$gameId'";
 		$query = mysqli_query($conn, $sql);
 
 		// set the endDate
 		$datestamp = date("Y-m-d");
-		$sql = "UPDATE games SET endDate='$datestamp' WHERE id='$game'";
+		$sql = "UPDATE games SET endDate='$datestamp' WHERE id='$gameId'";
 		$query = mysqli_query($conn, $sql);
 	}
 }
@@ -162,7 +162,7 @@ $playersJson = json_encode($players);
 $letterBagJson = json_encode($letterBag);
 
 // reupload the turn, players, and letter bag
-$sql = "UPDATE games SET turn='$totalTurn', players='$playersJson', letterBag='$letterBagJson' WHERE id='$game'";
+$sql = "UPDATE games SET turn='$totalTurn', players='$playersJson', letterBag='$letterBagJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 
 if ($endGame) {
@@ -170,6 +170,25 @@ if ($endGame) {
 } else {
 	echo '{"errorLevel":0,"status":0,"message":"You have skipped your turn' . (count($redrawLetters) > 0 ? ' and exchanged ' . count($redrawLetters) . ' letter' . (count($redrawLetters) === 1 ? '' : 's') : '') . '."}';
 }
+
+// add to update list
+$sql = "SELECT updates FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$updates = json_decode($row['updates'], true);
+
+array_push($updates, Array(
+    "type" => "turnSkip",
+    "data" => Array(
+        "player" => $user,
+		"playerIndex" => $userIndex,
+		"turnSkipped" => $totalTurn
+    )
+));
+
+$updatesJson = json_encode($updates);
+$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
 
 // close the connection
 $conn->close();

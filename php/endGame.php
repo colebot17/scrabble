@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 // get data from POST
 $user = $_POST['user'];
 $pwd = $_POST['pwd'];
-$game = $_POST['game'];
+$gameId = $_POST['game'];
 
 // check password
 $sql = "SELECT pwd FROM accounts WHERE id='$user'";
@@ -25,7 +25,7 @@ if (!password_verify($pwd, $row['pwd'])) {
 }
 
 // get the player list from the server
-$sql = "SELECT players FROM games WHERE id='$game'";
+$sql = "SELECT players FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 
@@ -64,7 +64,7 @@ if ($endGame) {
 			$row = mysqli_fetch_assoc($query);
 
 			$playerGames = json_decode($row['games'], true);
-			if (($key = array_search($game, $playerGames)) !== false) {
+			if (($key = array_search($gameId, $playerGames)) !== false) {
 				unset($playerGames[$key]);
 			}
 			$playerGames = json_encode(array_values($playerGames));
@@ -74,26 +74,57 @@ if ($endGame) {
 		}
 
 		// delete the game
-		$sql = "DELETE FROM games WHERE id='$game'";
+		$sql = "DELETE FROM games WHERE id='$gameId'";
 		$query = mysqli_query($conn, $sql);
 	} else { // if players have already scored points
 		// deactivate the game
-		$sql = "UPDATE games SET inactive=1 WHERE id='$game'";
+		$sql = "UPDATE games SET inactive=1 WHERE id='$gameId'";
 		$query = mysqli_query($conn, $sql);
 
 		// set the endDate
 		$datestamp = date("Y-m-d");
-		$sql = "UPDATE games SET endDate='$datestamp' WHERE id='$game'";
+		$sql = "UPDATE games SET endDate='$datestamp' WHERE id='$gameId'";
 		$query = mysqli_query($conn, $sql);
 	}
 }
 
 // reupload the player list to the server
 $playersJson = json_encode($players);
-$sql = "UPDATE games SET players='$playersJson' WHERE id='$game'";
+$sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 
 echo '{"errorLevel":0,"message":"' . ($endGame ? 'The game has ended.' : 'You have voted to end the game.') . '"}';
+
+// add to update list
+$sql = "SELECT updates FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$updates = json_decode($row['updates'], true);
+
+array_push($updates, Array(
+    "type" => "gameEndVote",
+    "data" => Array(
+		"player" => $user,
+		"playerIndex" => array_search($user, $playerList)
+    ),
+	"timestamp" => time()
+));
+
+if ($endGame) {
+	array_push($updates, Array(
+		"type" => "gameEnd",
+		"data" => Array(
+			"player" => $user,
+			"playerIndex" => array_search($user, $playerList),
+			"reason" => "vote"
+		),
+		"timestamp" => time()
+	));
+}
+
+$updatesJson = json_encode($updates);
+$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
 
 // close the connection
 $conn->close();

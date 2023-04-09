@@ -80,6 +80,23 @@ $playersJson = json_encode($players);
 $sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 
+// add to update list
+$sql = "SELECT updates FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$updates = json_decode($row['updates'], true);
+
+array_push($updates, Array(
+    "type" => "chatMessageSend",
+    "data" => Array(
+        "message" => $fullMessage
+    )
+));
+
+$updatesJson = json_encode($updates);
+$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+
 mysqli_close($conn);
 
 ?>

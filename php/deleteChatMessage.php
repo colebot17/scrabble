@@ -60,6 +60,24 @@ if ($query) {
     echo '{"errorLevel":1,"message":"Could not ' . ($delete ? 'delete' : 'restore') . ' message."}';
 }
 
+// add to update list
+$sql = "SELECT updates FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$updates = json_decode($row['updates'], true);
+
+array_push($updates, Array(
+    "type" => ($delete ? 'chatMessageDeletion' : 'chatMessageRestoration'),
+    "data" => Array(
+        "messageId" => $messageId
+    ),
+	"timestamp" => time()
+));
+
+$updatesJson = json_encode($updates);
+$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+
 mysqli_close($conn);
 
 ?>
