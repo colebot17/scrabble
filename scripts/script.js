@@ -861,22 +861,11 @@ function gameInit() {
 	document.addEventListener('touchend', handleDocumentMouseUp);
 
 	if (!userTurn) {
-		$ootDisable = $(ootDisable);
-
-		$ootDisable.css('cursor', 'not-allowed').prop('disabled', true).attr('title', 'It isn\'t your turn!'); // show not-allowed cursor and disable buttons
-
-		$ootDisable.on('mousedown touchstart', function(e) {
-			e.preventDefault();
-			textModal((game.inactive ? "Inactive Game" : "Not your turn!"), (game.inactive ? "This game is inactive, meaning it can no longer be played. You can still look at it all you want, though." : "It's someone else's turn right now. Wait for your turn to make a move.")); // show an alert when the user tries to interact with the canvas or letter bank
-		});
-
-		const banner = document.getElementById('gameBanner');
-		banner.innerHTML = (game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved.");
-		banner.classList.remove('hidden');
+		setOOTD(true);
+		gameBanner((game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved."), "var(--text-highlight)");
 	} else {
-		const banner = document.getElementById('gameBanner');
-		banner.innerHTML = "";
-		banner.classList.add('hidden');
+		setOOTD(false);
+		gameBanner(false);
 	}
 
 	// show the game info
@@ -924,17 +913,14 @@ function gameInit() {
 
 		// add the player to the list
 		gameInfo += /* html */ `
-			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}">
+			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}${isTurn ? ` underline` : ``}" data-playerid="${game.players[i].id}">
 				${(isWinner ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>`: ``)}
-				${(isTurn ? `<u>` : ``)}
-					${(isCurrentPlayer ? `<b>` : ``)}
-						${game.players[i].name}: 
-					${(!isCurrentPlayer ? `<b>` : ``)}
-						<span class="points">
-							${game.players[i].points}
-						</span>
-					</b>
-				${(turnIndex == i ? `</u>` : ``)}
+				<span ${(isCurrentPlayer ? ` class="bold"` : ``)}>
+					${game.players[i].name}: 
+				</span>
+				<span class="points bold">
+					${game.players[i].points}
+				</span>
 				${(endGameVoted && !game.inactive ? `<span class='material-symbols-rounded winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
 			</div>
 		`;
@@ -958,6 +944,28 @@ function gameInit() {
 	setCanvasSize();
 
 	chatInit();
+}
+
+function setOOTD(disabled) {
+	const OOTD = '#makeMoveButton, #skipTurnButton';
+	document.querySelectorAll(OOTD).forEach(el => {
+		el.cursor = (disabled ? "not-allowed" : "");
+		el.disabled = disabled;
+		el.title = (disabled ? "It isn't your turn!" : "");
+	});
+}
+
+function gameBanner(content, color) {
+	const banner = document.getElementById('gameBanner');
+	if (content) {
+		banner.innerHTML = content;
+		banner.style.backgroundColor = color;
+		banner.classList.remove('hidden');
+	} else {
+		banner.innerHTML = '';
+		banner.style.backgroundColor = '';
+		banner.classList.add('hidden');
+	}
 }
 
 function makeMove() {

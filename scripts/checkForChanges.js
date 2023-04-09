@@ -13,9 +13,80 @@ function checkForChanges() {
             return;
         }
         if (res.data.length > 0) {
-            textModal('Game Changes', 'There is new data associated with this game. Reload the game to see what it is.');
+            updateGame(res.data);
         }
     }).catch((error) => {
         console.error(error);
     });
+}
+
+function updateGame(updates) {
+    for (let i = 0; i < updates.length; i++) {
+        const update = updates[i];
+        if (update.type === "move") {
+            updateMove(update.data);
+        } else {
+            textModal('Game Changes', 'New data is available on the server. Reload to access.');
+        }
+
+        game.updateNumber++;
+    }
+}
+
+/*
+updateMove:
+
+    data = {
+        player: int,
+        playerIndex: int,
+        tiles: arr,
+        newPoints: int
+    }
+
+*/
+
+function updateMove(data) {
+    // update points
+    game.players[data.playerIndex].points += data.newPoints;
+    const pointsBox = document.querySelector('gamePlayerListPlayer[data-playerid=' + game.turn + '] .points');
+    pointsBox.innerHTML = game.players[data.playerIndex].points;
+
+    // update the turn
+    setTurn(game.turn + 1);
+
+    // put each tile on the board, replacing any unlocked tiles into the letter bank
+    for (let j = 0; j < data.tiles; j++) {
+        const tile = data.tiles[j];
+        const boardPos = game.board[tile.y][tile.x];
+        if (boardPos && !boardPos.locked) {
+            canvas.bank[boardPos.bankIndex].hidden = false;
+        } else if (boardPos?.locked) {
+            reloadGame();
+            return;
+        }
+        boardPos = tile;
+        boardPos.size = 0;
+        boardPos.animation = new Animation(750);
+    }
+}
+
+function setTurn(turn) {
+    // switch underline in player list
+    const oldTurnPlayer = document.querySelector('gamePlayerListPlayer[data-playerid=' + game.turn + ']');
+    const newTurnPlayer = document.querySelector('gamePlayerListPlayer[data-playerid=' + turn + ']');
+
+    oldTurnPlayer.classList.remove('underline');
+    newTurnPlayer.classList.add('underline');
+
+    // enable/disable buttons and things, and set game banner
+    if (game.players[turn % game.players.length].id == account.id) { // new turn is current user
+        setOOTD(false);
+        gameBanner(false);
+    } else if (game.players[game.turn % game.players.length].id == account.id) { // last turn was current user
+        setOOTD(true);
+		gameBanner((game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved."), "var(--text-highlight)");
+    }
+
+    // change the actual data value (last so we can reference old value)
+    game.turn = turn;
 }

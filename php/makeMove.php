@@ -65,6 +65,8 @@ if (!$players[$currentPlayerIndex]['bankOrder']) {
 	}
 }
 
+$addedTiles = Array();
+
 // add the tiles to the board
 for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to place
 	// make sure tiles are only being placed on empty spaces
@@ -89,6 +91,7 @@ for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to 
 
 	// add tile to board
 	$board[$tile['y']][$tile['x']] = $tile;
+	array_push($addedTiles, $tile);
 
 	// remove the letter from the user's bank and bank order
 	unset($players[$currentPlayerIndex]['letterBank'][$tiles[$i]['bankIndex']]);
@@ -256,7 +259,9 @@ array_push($updates, Array(
     "type" => "move",
     "data" => Array(
         "player" => $user,
-		"playerIndex" => $currentPlayerIndex
+		"playerIndex" => $currentPlayerIndex,
+		"tiles" => $addedTiles,
+		"newPoints" => $pointsSum
     ),
 	"timestamp" => time()
 ));
