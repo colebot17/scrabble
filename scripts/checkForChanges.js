@@ -48,7 +48,7 @@ updateMove:
 function updateMove(data) {
     // update points
     game.players[data.playerIndex].points += data.newPoints;
-    const pointsBox = document.querySelector('.gamePlayerListPlayer[data-playerid="' + game.players[data.playerIndex] + '"] .points');
+    const pointsBox = document.querySelector('.gamePlayerListPlayer[data-playerid="' + game.players[data.playerIndex].id + '"] .points');
     pointsBox.innerHTML = game.players[data.playerIndex].points;
 
     // update the turn
