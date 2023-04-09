@@ -1,4 +1,4 @@
-var checkInterval = setInterval(checkForChanges, 3000);
+var checkInterval;
 
 function checkForChanges() {
     request('checkForChanges.php', {
