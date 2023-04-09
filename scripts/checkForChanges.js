@@ -48,7 +48,7 @@ updateMove:
 function updateMove(data) {
     // update points
     game.players[data.playerIndex].points += data.newPoints;
-    const pointsBox = document.querySelector('.gamePlayerListPlayer[data-playerid="' + game.turn + '"] .points');
+    const pointsBox = document.querySelector('.gamePlayerListPlayer[data-playerid="' + game.players[data.playerIndex] + '"] .points');
     pointsBox.innerHTML = game.players[data.playerIndex].points;
 
     // update the turn
@@ -72,8 +72,11 @@ function updateMove(data) {
 
 function setTurn(turn) {
     // switch underline in player list
-    const oldTurnPlayer = document.querySelector('.gamePlayerListPlayer[data-playerid="' + game.turn + '"]');
-    const newTurnPlayer = document.querySelector('.gamePlayerListPlayer[data-playerid="' + turn + '"]');
+    const oldPlayerId = game.players[game.turn % game.players.length].id;
+    const newPlayerId = game.players[turn % game.players.length].id;
+
+    const oldTurnPlayer = document.querySelector('.gamePlayerListPlayer[data-playerid="' + oldPlayerId + '"]');
+    const newTurnPlayer = document.querySelector('.gamePlayerListPlayer[data-playerid="' + newPlayerId + '"]');
 
     oldTurnPlayer.classList.remove('underline');
     newTurnPlayer.classList.add('underline');
