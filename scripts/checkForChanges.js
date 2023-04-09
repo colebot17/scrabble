@@ -55,8 +55,8 @@ function updateMove(data) {
     setTurn(game.turn + 1);
 
     // put each tile on the board, replacing any unlocked tiles into the letter bank
-    for (let j = 0; j < data.tiles; j++) {
-        const tile = data.tiles[j];
+    for (let i = 0; i < data.tiles.length; i++) {
+        const tile = data.tiles[i];
         const boardPos = game.board[tile.y][tile.x];
         if (boardPos && !boardPos.locked) {
             canvas.bank[boardPos.bankIndex].hidden = false;
