@@ -30,8 +30,8 @@ if (!password_verify($pwd, $row['pwd'])) {
 $message = trim($message);
 
 // escape user input
-$message = str_replace('"', '\"', $message);
-$message = str_replace("'", "\'", $message);
+/* $message = str_replace('"', '\"', $message);
+$message = str_replace("'", "\'", $message); */
 
 // formulate the new chat message
 $fullMessage = Array(
@@ -54,8 +54,9 @@ array_push($chat, $uploadMessage);
 $chatJson = json_encode($chat);
 
 // escape content for SQL
+/* 
 $chatJson = str_replace("'", "\'", $chatJson);
-$chatJson = str_replace('"', '\"', $chatJson);
+$chatJson = str_replace('"', '\"', $chatJson); */
 
 // reupload the chat
 $sql = "UPDATE games SET chat='$chatJson' WHERE id='$gameId'";
