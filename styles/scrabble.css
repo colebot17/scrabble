@@ -617,6 +617,7 @@ body.scrabble {
 	left: calc(50% - 100px);
 	transition: bottom 0.3s cubic-bezier(.3,.6,.3,1.3);
 	bottom: -100px;
+	cursor: pointer;
 }
 
 /* animations */

@@ -231,13 +231,13 @@ function deleteChatMessage(id) {
 
 function showChatUpdatePopup() {
 	const popup = document.createElement('div');
-	popup.onclick = "chatScrollBottom();";
 	popup.classList.add('chatUpdatePopup');
 	popup.innerHTML = /* html */ `
 		<span class="material-symbols-rounded">south</span>
 		<span>New Message(s)</span>
 	`;
 	document.getElementById('chatCell').appendChild(popup);
+	popup.addEventListener('click', chatScrollBottom);
 	popup.style.bottom = "75px";
 
 	document.getElementsByClassName('chatContent')[0].addEventListener('scroll', checkChatUpdatePopup);
