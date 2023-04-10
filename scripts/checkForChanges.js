@@ -7,9 +7,8 @@ function checkForChanges() {
         game: game.id,
         updateNumber: game.updateNumber
     }).then((res) => {
-        console.log(res);
         if (res.errorLevel > 0) {
-            textModal('Error (checkForChanges())', res.message);
+            textModal('Error', res.message);
             return;
         }
         if (res.data.length > 0) {
@@ -25,6 +24,8 @@ function updateGame(updates) {
         const update = updates[i];
         if (update.type === "move") {
             updateMove(update.data);
+        } else if (update.type === "chatMessageSend") {
+            addChatMessage(update.data.message);
         } else {
             textModal('Game Changes', 'New data is available on the server. Reload to access.');
         }
@@ -92,4 +93,9 @@ function setTurn(turn) {
 
     // change the actual data value (last so we can reference old value)
     game.turn = turn;
+}
+
+function addChatMessage(message) {
+    game.chat.push(message);
+    chatInit(false);
 }

@@ -1,7 +1,9 @@
-function chatInit() {
+function chatInit(clearInput = true) {
 	const chat = game.chat;
-	const chatContentBox = $('.chatContent').empty();
-    const chatInput = $('#chatInput');
+	const chatContentBox = document.getElementsByClassName('chatContent')[0];
+	const chatInput = document.getElementById('chatInput');
+
+	chatContentBox.innerHTML = '';
 
 	let chatContent = ``;
 
@@ -79,15 +81,18 @@ function chatInit() {
 		}
 	}
 
-	chatContentBox.html(chatContent || "This chat is empty.").css('align-items', (chatContent ? '' : 'center'));
-    chatInput.val('');
+	chatContentBox.innerHTML = chatContent || "This chat is empty.";
+	chatContentBox.style.alignItems = chatContent ? '' : 'center';
+    if (clearInput) chatInput.value = '';
 
-    chatContentBox[0].scrollTop = chatContentBox[0].scrollHeight;
+	// scroll to bottom
+	chatContentBox.scrollTop = chatContentBox.scrollHeight;
 
 	if (hasUnread) {
 		// read chat on click
-		document.getElementById('chatCell').removeEventListener('click', readChat);
-		document.getElementById('chatCell').addEventListener('click', readChat);
+		const chatCell = document.getElementById('chatCell')
+		chatCell.removeEventListener('click', readChat);
+		chatCell.addEventListener('click', readChat); 
 
 		// show the notification badge
 		document.getElementById('showChatButton').classList.add('badge');
@@ -103,120 +108,100 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
     // trim the message
     message = message.trim();
 
-    // send to the server
-    $.ajax(
-        location + '/php/sendChatMessage.php',
-        {
-            data: {
-                user: account.id,
-                pwd: account.pwd,
-                gameId: game.id,
-                message
-            },
-            method: "POST",
-            success: function(data) {
-                const jsonData = JSON.parse(data);
-                if (jsonData.errorLevel > 0) {
-					textModal("Error", jsonData.message);
-                    return;
-                }
+	const input = document.getElementById('chatInput');
+	const sendButton = document.getElementsByClassName('chatSendButton')[0];
+	input.disabled = true;
+	sendButton.disabled = true;
 
-                // get the timestamp for the local message
-                const today = new Date();
-                const timestamp = today.toISOString();
+	request('sendChatMessage.php', {
+		user: account.id,
+		pwd: account.pwd,
+		gameId: game.id,
+		message
+	}).then(res => {
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message);
+			return;
+		}
 
-                // formulate the local message
-                const newMessage = {
-                    sender: account.id,
-                    senderName: account.name,
-                    message,
-                    timestamp
-                };
+		// get the timestamp for the local message
+		const today = new Date();
+		const timestamp = today.toISOString();
 
-                // push the message to the local chat
-                game.chat.push(newMessage);
+		// formulate the local message
+		const newMessage = {
+			sender: account.id,
+			senderName: account.name,
+			message,
+			timestamp
+		};
 
-				// update the local read marker
-				game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
+		// push the message to the local chat
+		game.chat.push(newMessage);
 
-                // refresh the chat window
-                chatInit();
-            },
-            error: function() {
-                console.error("There was an error sending your message. Check your connection and try again.");
-            }
-        }
-    )
+		// update the local read marker
+		game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
+
+		// refresh the chat window
+		chatInit();
+	}).error(() => {
+		console.error("There was an error sending your message. Check your connection and try again.");
+	}).finally(() => {
+		input.disabled = false;
+		sendButton.disabled = false;
+	});
 }
 
 function readChat() {
 	// don't spam the server with requests if the read marker is already up to date
 	if (game.players.find(el => el.id == account.id).chatRead == game.chat.length - 1) return;
 
-	$.ajax(
-		location + '/php/readChat.php',
-		{
-			data: {
-				user: account.id,
-				pwd: account.pwd,
-				game: game.id
-			},
-			method: "POST",
-			success: function(data) {
-				const jsonData = JSON.parse(data);
-				if (jsonData.errorLevel > 0) {
-					textModal("Error", jsonData.message);
-					return;
-				}
-
-				// update the local read marker after a short timeout
-				setTimeout(() => {
-					game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
-				}, 1000);
-
-				// remove the notification badge
-				document.getElementById('showChatButton').classList.remove('badge');
-
-				// reload the chat window
-				chatInit();
-			},
-			error: function() {
-				textModal("Error", "There was an error marking the chat as read. Check your connection and try again.");
-			}
+	request('readChat.php', {
+		user: account.id,
+		pwd: account.pwd,
+		game: game.id
+	}).then(res => {
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message);
+			return;
 		}
-	)
+
+		// update the local read marker after a short timeout
+		setTimeout(() => {
+			game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
+		}, 1000);
+
+		// remove the notification badge
+		document.getElementById('showChatButton').classList.remove('badge');
+
+		// reload the chat window
+		chatInit();
+	}).catch(() => {
+		textModal("Error", "There was an error marking the chat as read. Check your connection and try again.");
+	});
 }
 
 function deleteChatMessage(id) {
-	$.ajax(
-		location + '/php/deleteChatMessage.php',
-		{
-			data: {
-				user: account.id,
-				pwd: account.pwd,
-				gameId: game.id,
-				messageId: id
-			},
-			method: "POST",
-			success: function(data) {
-				// handle errors
-				const jsonData = JSON.parse(data);
-				if (jsonData.errorLevel > 0) {
-					textModal("Error", jsonData.message);
-					return;
-				}
-
-				// update the local chat object
-				const del = !game.chat[id].deleted;
-				
-				game.chat[id].deleted = del;
-				game.chat[id].message = jsonData.data;
-
-				chatInit(); // refresh chat window
-			},
-			error: function() {
-				textModal("Error", "There was an error deleting your message. Check your connection and try again.");
-			}
+	request('deleteChatMessage.php', {
+		user: account.id,
+		pwd: account.pwd,
+		gameId: game.id,
+		messageId: id
+	}).then(res => {
+		// handle errors
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message);
+			return;
 		}
-	);
+
+		// update the local chat object
+		const del = !game.chat[id].deleted;
+		
+		game.chat[id].deleted = del;
+		game.chat[id].message = res.data;
+
+		chatInit(); // refresh chat window
+	}).catch(() => {
+		textModal("Error", "There was an error deleting your message. Check your connection and try again.");
+	});
 }
