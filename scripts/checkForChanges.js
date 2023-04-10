@@ -13,8 +13,8 @@ function checkForChanges() {
         }
         if (res.data.length > 0) {
             update(res.data);
-            setTimeout(checkForChanges, 3000);
         }
+        setTimeout(checkForChanges, 3000);
     }).catch((error) => {
         console.error(error);
         textModal('Error', 'An error occurred checking for changes. Try again?', {
