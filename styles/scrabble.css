@@ -592,7 +592,7 @@ body.scrabble {
 	text-align: center;
 	border-bottom: 1px solid red;
 	line-height: 0.1em;
-	margin: 5px 0 10px;
+	margin: 10px 0 5px;
 }
 .unreadMessageMarker span {
 	background-color: var(--background-1);
