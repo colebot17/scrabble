@@ -1,4 +1,4 @@
-function chatInit(clearInput = true) {
+function chatInit(transparent = false) {
 	const chat = game.chat;
 	const chatContentBox = document.getElementsByClassName('chatContent')[0];
 	const chatInput = document.getElementById('chatInput');
@@ -83,10 +83,10 @@ function chatInit(clearInput = true) {
 
 	chatContentBox.innerHTML = chatContent || "This chat is empty.";
 	chatContentBox.style.alignItems = chatContent ? '' : 'center';
-    if (clearInput) chatInput.value = '';
+    if (!transparent) chatInput.value = '';
 
 	// scroll to bottom
-	chatScrollBottom();
+	if (!transparent) chatScrollBottom();
 
 	if (hasUnread) {
 		// read chat on click
