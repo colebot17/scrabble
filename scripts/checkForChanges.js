@@ -58,15 +58,15 @@ function updateMove(data) {
     for (let i = 0; i < data.tiles.length; i++) {
         const tile = data.tiles[i];
         let boardPos = game.board[tile.y][tile.x];
-        if (boardPos && !boardPos.locked) {
+        if (boardPos !== null && !boardPos.locked) {
             canvas.bank[boardPos.bankIndex].hidden = false;
         } else if (boardPos?.locked) {
             reloadGame();
             return;
         }
-        boardPos = tile;
-        boardPos.size = 0;
-        boardPos.animation = new Animation(750);
+        canvas.board[tile.y][tile.x] = tile;
+        canvas.board[tile.y][tile.x].size = 0;
+        canvas.board[tile.y][tile.x].animation = new Animation(750);
     }
 }
 
