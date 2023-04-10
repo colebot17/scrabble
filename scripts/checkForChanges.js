@@ -61,9 +61,6 @@ function updateMove(data) {
         let boardPos = game.board[tile.y][tile.x];
         if (boardPos !== null && !boardPos.locked) {
             canvas.bank[boardPos.bankIndex].hidden = false;
-        } else if (boardPos?.locked) {
-            reloadGame();
-            return;
         }
         game.board[tile.y][tile.x] = tile;
         game.board[tile.y][tile.x].size = 0;
