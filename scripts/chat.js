@@ -175,14 +175,20 @@ function readChat() {
 
 		// update the local read marker after a short timeout
 		setTimeout(() => {
+			// mark chat as read
 			game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
+
+			// remove the marker
+			const marker = document.getElementsByClassName('unreadMessageMarker')[0];
+			marker.style.opacity = 0;
+			marker.style.height = 0;
+			marker.style.borderWidth = 0;
+			marker.style.margin = 0;
+			setTimeout(marker.remove, 370);
+
+			// remove the notification badge
+			document.getElementById('showChatButton').classList.remove('badge');
 		}, 1000);
-
-		// remove the notification badge
-		document.getElementById('showChatButton').classList.remove('badge');
-
-		// reload the chat window
-		chatInit();
 	}).catch(() => {
 		textModal("Error", "There was an error marking the chat as read. Check your connection and try again.");
 	});

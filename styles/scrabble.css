@@ -593,6 +593,7 @@ body.scrabble {
 	border-bottom: 1px solid red;
 	line-height: 0.1em;
 	margin: 10px 0 5px;
+	transition: opacity 0.37s, margin 0.37s, height 0.37s, border-width 0.37s;
 }
 .unreadMessageMarker span {
 	background-color: var(--background-1);
