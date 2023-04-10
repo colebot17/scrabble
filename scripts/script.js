@@ -943,6 +943,7 @@ function gameInit() {
 
 	setCanvasSize();
 
+	clearInterval(checkInterval);
 	checkInterval = setInterval(checkForChanges, 3000);
 
 	chatInit();
