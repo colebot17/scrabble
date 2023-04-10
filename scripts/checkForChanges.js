@@ -12,20 +12,20 @@ function checkForChanges() {
             return;
         }
         if (res.data.length > 0) {
-            updateGame(res.data);
+            update(res.data);
         }
     }).catch((error) => {
         console.error(error);
     });
 }
 
-function updateGame(updates) {
+function update(updates) {
     for (let i = 0; i < updates.length; i++) {
         const update = updates[i];
         if (update.type === "move") {
             updateMove(update.data);
         } else if (update.type === "chatMessageSend") {
-            addChatMessage(update.data.message);
+            addChatMessage(update.data.message, update.data.senderName);
         } else {
             textModal('Game Changes', 'New data is available on the server. Reload to access.');
         }
@@ -95,7 +95,8 @@ function setTurn(turn) {
     game.turn = turn;
 }
 
-function addChatMessage(message) {
+function addChatMessage(message, senderName) {
+    message.senderName = senderName;
     game.chat.push(message);
     chatInit(false);
 }

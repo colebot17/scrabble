@@ -96,6 +96,9 @@ function chatInit(clearInput = true) {
 
 		// show the notification badge
 		document.getElementById('showChatButton').classList.add('badge');
+	} else {
+		// hide the notification badge
+		document.getElementById('showChatButton').classList.remove('badge');
 	}
 }
 
@@ -110,6 +113,7 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 
 	const input = document.getElementById('chatInput');
 	const sendButton = document.getElementsByClassName('chatSendButton')[0];
+	
 	input.disabled = true;
 	sendButton.disabled = true;
 

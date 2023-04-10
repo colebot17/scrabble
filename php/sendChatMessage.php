@@ -89,7 +89,8 @@ $updates = json_decode($row['updates'], true);
 array_push($updates, Array(
     "type" => "chatMessageSend",
     "data" => Array(
-        "message" => $fullMessage
+        "message" => $fullMessage,
+        "senderName" => mysqli_fetch_assoc(mysqli_query($conn, "SELECT name FROM accounts WHERE id='$user'"))['name']
     )
 ));
 
