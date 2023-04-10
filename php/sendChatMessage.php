@@ -43,8 +43,15 @@ $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $chat = json_decode($row['chat'], true);
 
+// escape user input for JSON
+$fullMessage = str_replace('"', '\"', $fullMessage);
+$fullMessage = trim($fullMessage);
+
+// escape user input for SQL
+$uploadMessage = str_replace("'", "\'", $fullMessage);
+
 // append the new message to the chat
-array_push($chat, $fullMessage);
+array_push($chat, $uploadMessage);
 
 // encode into JSON
 $chatJson = json_encode($chat);
