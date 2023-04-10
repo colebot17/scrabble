@@ -1,4 +1,4 @@
-var checkInterval;
+var stopChecking = false;
 
 function checkForChanges() {
     request('checkForChanges.php', {
@@ -16,6 +16,10 @@ function checkForChanges() {
         }
     }).catch((error) => {
         console.error(error);
+    }).finally(() => {
+        if (!stopChecking) {
+            setTimeout(checkForChanges, 3000); 
+        }
     });
 }
 

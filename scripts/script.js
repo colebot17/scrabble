@@ -942,9 +942,8 @@ function gameInit() {
 	endGameButton.title = (game.inactive ? 'The game is already over' : votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end');
 
 	setCanvasSize();
-
-	clearInterval(checkInterval);
-	checkInterval = setInterval(checkForChanges, 3000);
+	
+	setTimeout(checkForChanges, 3000);
 
 	chatInit();
 }
