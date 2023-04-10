@@ -237,8 +237,10 @@ function showChatUpdatePopup() {
 		<span class="material-symbols-rounded">south</span>
 		<span>New Message(s)</span>
 	`;
-	document.getElementById('chatCell').appendChild(popup);
+	const chatCell = document.getElementById('chatCell');
+	chatCell.appendChild(popup);
 	popup.addEventListener('click', chatScrollBottom);
+	popup.style.left = ((chatCell.getBoundingClientRect().width - 200) / 2) + 'px';
 	setTimeout(() => {
 		popup.style.bottom = "75px";
 	}, 10);
