@@ -82,11 +82,12 @@ for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to 
 	// generate a tile with only the information we need
 	$tile = Array(
 		"bankIndex" => $tiles[$i]['bankIndex'],
-		"blank" => $tiles[$i]['blank'],
-		"letter" => $tiles[$i]['letter'],
-		"turn" => (int)$totalTurn,
-		"x" => $tiles[$i]['x'],
-		"y" => $tiles[$i]['y']
+		"blank"     => $tiles[$i]['blank'] === "true",
+		"letter"    => $tiles[$i]['letter'],
+		"locked"    => true,
+		"turn"      => (int)$totalTurn,
+		"x"         => $tiles[$i]['x'],
+		"y"         => $tiles[$i]['y']
 	);
 
 	// add tile to board
