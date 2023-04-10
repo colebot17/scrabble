@@ -253,7 +253,7 @@ function checkChatUpdatePopup() {
 	// if scrolled to bottom
 	if (chatContentBox.scrollTop >= chatContentBox.scrollHeight - chatContentBox.getBoundingClientRect().height) {
 		hideChatUpdatePopup();
-		content.removeEventListener('scroll', checkChatUpdatePopup);
+		chatContentBox.removeEventListener('scroll', checkChatUpdatePopup);
 	}
 }
 
