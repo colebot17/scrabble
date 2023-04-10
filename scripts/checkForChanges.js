@@ -104,7 +104,7 @@ function setTurn(turn) {
 function addChatMessage(message, senderName) {
     message.senderName = senderName;
     game.chat.push(message);
-    chatInit(false);
+    chatInit(true);
 
     const chatContentBox = document.getElementsByClassName('chatContent')[0];
     if (Math.floor(chatContentBox.scrollHeight) === Math.floor(chatContentBox.getBoundingClientRect().height + chatContentBox.scrollTop)) showChatUpdatePopup();
