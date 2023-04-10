@@ -86,7 +86,7 @@ function chatInit(clearInput = true) {
     if (clearInput) chatInput.value = '';
 
 	// scroll to bottom
-	chatContentBox.scrollTop = chatContentBox.scrollHeight;
+	chatScrollBottom();
 
 	if (hasUnread) {
 		// read chat on click
@@ -100,6 +100,11 @@ function chatInit(clearInput = true) {
 		// hide the notification badge
 		document.getElementById('showChatButton').classList.remove('badge');
 	}
+}
+
+function chatScrollBottom() {
+	const chatContentBox = document.getElementsByClassName('chatContent')[0];
+	chatContentBox.scrollTop = chatContentBox.scrollHeight;
 }
 
 function sendChatMessage(message = document.getElementById('chatInput').value) {

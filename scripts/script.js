@@ -1358,6 +1358,11 @@ function showTab(tab) {
 	// scroll to the top of the games list
 	$('#activeGames .gamesListWrapper')[0].scrollTop = 0;
 
-	// read the chat
-	if (tab === 'chat') readChat();
+	if (tab === 'chat') {
+		readChat();
+	}
+
+	if (tab === 'chat' || tab === 'game') {
+		chatScrollBottom();
+	}
 }
