@@ -29,6 +29,10 @@ if (!password_verify($pwd, $row['pwd'])) {
 // trim the message
 $message = trim($message);
 
+// escape user input
+$message = str_replace('"', '\"', $message);
+$message = str_replace("'", "\'", $message);
+
 // formulate the new chat message
 $fullMessage = Array(
     "type" => "user",
