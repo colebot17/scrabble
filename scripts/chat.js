@@ -144,6 +144,9 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 
 		// refresh the chat window
 		chatInit();
+
+		// update the updateNumber (so we don't re-pull our own message)
+		game.updateNumber++;
 	}).error(() => {
 		console.error("There was an error sending your message. Check your connection and try again.");
 	}).finally(() => {
