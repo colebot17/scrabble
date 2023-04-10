@@ -69,7 +69,8 @@ $updates = json_decode($row['updates'], true);
 array_push($updates, Array(
     "type" => ($delete ? 'chatMessageDeletion' : 'chatMessageRestoration'),
     "data" => Array(
-        "messageId" => $messageId
+        "messageId" => $messageId,
+        "content" => $chat[$messageId]["message"]
     ),
 	"timestamp" => time()
 ));

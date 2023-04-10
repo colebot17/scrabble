@@ -31,6 +31,10 @@ function update(updates) {
             updateMove(update.data);
         } else if (update.type === "chatMessageSend") {
             addChatMessage(update.data.message, update.data.senderName);
+        } else if (update.type === "chatMessageDeletion") {
+            setChatMessageDeleted(update.data.messageId);
+        } else if (update.type === "chatMessageRestoration") {
+            setChatMessageRestored(update.data.messageId, update.data.content);
         } else {
             textModal('Game Changes', 'New data is available on the server. Reload to access.');
         }
@@ -101,4 +105,16 @@ function addChatMessage(message, senderName) {
     message.senderName = senderName;
     game.chat.push(message);
     chatInit(false);
+}
+
+function setChatMessageDeleted(messageId) {
+    game.chat[messageId].deleted = true;
+    delete game.chat[messageId].message;
+    chatInit();
+}
+
+function setChatMessageRestored(messageId, content) {
+    game.chat[messageId].deleted = false;
+    game.chat[messageId].message = content;
+    chatInit();
 }
