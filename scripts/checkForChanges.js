@@ -107,7 +107,7 @@ function addChatMessage(message, senderName) {
     chatInit(true);
 
     const chatContentBox = document.getElementsByClassName('chatContent')[0];
-    if (Math.floor(chatContentBox.scrollHeight) === Math.floor(chatContentBox.getBoundingClientRect().height + chatContentBox.scrollTop)) showChatUpdatePopup();
+    if (Math.floor(chatContentBox.scrollHeight) !== Math.floor(chatContentBox.getBoundingClientRect().height + chatContentBox.scrollTop)) showChatUpdatePopup();
 }
 
 function setChatMessageDeleted(messageId) {
