@@ -1,6 +1,6 @@
 $(function() {
 	if (sessionStorage.name && sessionStorage.pwd) {
-		signIn(localStorage.name, localStorage.pwd);
+		signIn(sessionStorage.name, sessionStorage.pwd);
 		$('#scrabbleGrid').attr('data-signedin', "loading");
 	} else if (localStorage.name && localStorage.pwd) {
 		signIn(localStorage.name, localStorage.pwd);
