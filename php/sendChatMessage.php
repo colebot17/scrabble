@@ -48,7 +48,7 @@ $row = mysqli_fetch_assoc($query);
 $chat = json_decode($row['chat'], true);
 
 // append the new message to the chat
-array_push($chat, $uploadMessage);
+array_push($chat, $fullMessage);
 
 // encode into JSON
 $chatJson = json_encode($chat);
