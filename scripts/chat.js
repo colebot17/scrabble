@@ -104,7 +104,7 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 
 function chatScrollBottom() {
 	const chatContentBox = document.getElementsByClassName('chatContent')[0];
-	chatContentBox.scrollTop = chatContentBox.scrollHeight;
+	chatContentBox.scrollTop = chatContentBox.scrollHeight - chatContentBox.getBoundingClientRect().height;
 	if (document.getElementsByClassName('chatUpdatePopup')[0]) hideChatUpdatePopup();
 }
 
