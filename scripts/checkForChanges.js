@@ -103,7 +103,7 @@ function setTurn(turn) {
 
 function addChatMessage(message, senderName) {
     const chatContentBox = document.getElementsByClassName('chatContent')[0];
-    const scrolledBottom = Math.floor(chatContentBox.scrollHeight) === Math.floor(chatContentBox.getBoundingClientRect().height + chatContentBox.scrollTop);
+    const scrolledBottom = chatContentBox.scrollHeight >= Math.floor(chatContentBox.getBoundingClientRect().height + chatContentBox.scrollTop);
 
     message.senderName = senderName;
     game.chat.push(message);

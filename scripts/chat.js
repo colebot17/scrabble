@@ -104,7 +104,7 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 
 function chatScrollBottom() {
 	const chatContentBox = document.getElementsByClassName('chatContent')[0];
-	chatContentBox.scrollTop = Math.ceil(chatContentBox.scrollHeight - chatContentBox.getBoundingClientRect().height);
+	chatContentBox.scrollTop = chatContentBox.scrollHeight;
 	if (document.getElementsByClassName('chatUpdatePopup')[0]) hideChatUpdatePopup();
 }
 
@@ -250,7 +250,7 @@ function showChatUpdatePopup() {
 
 function checkChatUpdatePopup() {
 	const content = document.getElementsByClassName('chatContent')[0];
-	if (Math.floor(content.scrollHeight) === Math.floor(content.getBoundingClientRect().height + content.scrollTop)) {
+	if (content.scrollHeight >= Math.floor(content.getBoundingClientRect().height + content.scrollTop)) {
 		hideChatUpdatePopup();
 		content.removeEventListener('scroll', checkChatUpdatePopup);
 	}
