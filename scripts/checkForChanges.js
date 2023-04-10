@@ -13,14 +13,15 @@ function checkForChanges() {
         }
         if (res.data.length > 0) {
             update(res.data);
+            setTimeout(checkForChanges, 3000);
         }
     }).catch((error) => {
         console.error(error);
-    }).finally(() => {
-        if (!stopChecking) {
-            setTimeout(checkForChanges, 3000); 
-        }
-    });
+        textModal('Error', 'An error occurred checking for changes. Try again?', {
+            cancelable: true,
+            complete: () => setTimeout(checkForChanges, 3000)
+        });
+    });]
 }
 
 function update(updates) {
