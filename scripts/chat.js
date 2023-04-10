@@ -113,7 +113,7 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 
 	const input = document.getElementById('chatInput');
 	const sendButton = document.getElementsByClassName('chatSendButton')[0];
-	
+
 	input.disabled = true;
 	sendButton.disabled = true;
 
@@ -151,7 +151,7 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 
 		// update the updateNumber (so we don't re-pull our own message)
 		game.updateNumber++;
-	}).error(() => {
+	}).catch(() => {
 		console.error("There was an error sending your message. Check your connection and try again.");
 	}).finally(() => {
 		input.disabled = false;
