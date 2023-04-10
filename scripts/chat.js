@@ -230,6 +230,7 @@ function deleteChatMessage(id) {
 }
 
 function showChatUpdatePopup() {
+	hideChatUpdatePopup();
 	const popup = document.createElement('div');
 	popup.classList.add('chatUpdatePopup');
 	popup.innerHTML = /* html */ `
@@ -253,6 +254,7 @@ function checkChatUpdatePopup() {
 
 function hideChatUpdatePopup() {
 	const popup = document.getElementsByClassName('chatUpdatePopup')[0];
+	if (!popup) return;
 	popup.style.bottom = "";
 	setTimeout(() => {
 		popup.remove();
