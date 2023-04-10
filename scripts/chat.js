@@ -184,7 +184,9 @@ function readChat() {
 			marker.style.height = 0;
 			marker.style.borderWidth = 0;
 			marker.style.margin = 0;
-			setTimeout(marker.remove, 370);
+			setTimeout(() => {
+				marker.remove();
+			}), 370);
 
 			// remove the notification badge
 			document.getElementById('showChatButton').classList.remove('badge');
