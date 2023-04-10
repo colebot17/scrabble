@@ -64,9 +64,9 @@ function updateMove(data) {
             reloadGame();
             return;
         }
-        canvas.board[tile.y][tile.x] = tile;
-        canvas.board[tile.y][tile.x].size = 0;
-        canvas.board[tile.y][tile.x].animation = new Animation(750);
+        game.board[tile.y][tile.x] = tile;
+        game.board[tile.y][tile.x].size = 0;
+        game.board[tile.y][tile.x].animation = new Animation(750);
     }
 }
 
