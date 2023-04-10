@@ -239,7 +239,9 @@ function showChatUpdatePopup() {
 	`;
 	document.getElementById('chatCell').appendChild(popup);
 	popup.addEventListener('click', chatScrollBottom);
-	popup.style.bottom = "75px";
+	setTimeout(() => {
+		popup.style.bottom = "75px";
+	}, 10);
 
 	document.getElementsByClassName('chatContent')[0].addEventListener('scroll', checkChatUpdatePopup);
 }
