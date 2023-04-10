@@ -21,7 +21,7 @@ function checkForChanges() {
             cancelable: true,
             complete: () => setTimeout(checkForChanges, 3000)
         });
-    });]
+    });
 }
 
 function update(updates) {
