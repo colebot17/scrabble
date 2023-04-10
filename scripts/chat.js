@@ -250,7 +250,8 @@ function showChatUpdatePopup() {
 
 function checkChatUpdatePopup() {
 	const content = document.getElementsByClassName('chatContent')[0];
-	if (Math.floor(content.scrollHeight) <= Math.floor(content.getBoundingClientRect().height + content.scrollTop)) {
+	// if scrolled to bottom
+	if (chatContentBox.scrollTop >= chatContentBox.scrollHeight - chatContentBox.getBoundingClientRect().height) {
 		hideChatUpdatePopup();
 		content.removeEventListener('scroll', checkChatUpdatePopup);
 	}
