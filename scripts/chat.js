@@ -122,6 +122,9 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 	input.disabled = true;
 	sendButton.disabled = true;
 
+	// update the updateNumber (so we don't re-pull our own message)
+	game.updateNumber++;
+
 	request('sendChatMessage.php', {
 		user: account.id,
 		pwd: account.pwd,
@@ -153,9 +156,6 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 
 		// refresh the chat window
 		chatInit();
-
-		// update the updateNumber (so we don't re-pull our own message)
-		game.updateNumber++;
 	}).catch(() => {
 		console.error("There was an error sending your message. Check your connection and try again.");
 	}).finally(() => {
