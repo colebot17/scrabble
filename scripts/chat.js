@@ -244,9 +244,10 @@ function showChatUpdatePopup() {
 }
 
 function checkChatUpdatePopup() {
+	const content = document.getElementsByClassName('chatContent')[0];
 	if (Math.floor(content.scrollHeight) === Math.floor(content.getBoundingClientRect().height + content.scrollTop)) {
 		hideChatUpdatePopup();
-		document.getElementsByClassName('chatContent')[0].removeEventListener('scroll', checkChatUpdatePopup);
+		content.removeEventListener('scroll', checkChatUpdatePopup);
 	}
 }
 
