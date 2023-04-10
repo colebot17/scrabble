@@ -110,11 +110,11 @@ function addChatMessage(message, senderName) {
 function setChatMessageDeleted(messageId) {
     game.chat[messageId].deleted = true;
     delete game.chat[messageId].message;
-    chatInit();
+    chatInit(true);
 }
 
 function setChatMessageRestored(messageId, content) {
     game.chat[messageId].deleted = false;
     game.chat[messageId].message = content;
-    chatInit();
+    chatInit(true);
 }
