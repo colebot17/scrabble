@@ -102,22 +102,24 @@ function setTurn(turn) {
 }
 
 function addChatMessage(message, senderName) {
+    const chatContentBox = document.getElementsByClassName('chatContent')[0];
+    const scrolledBottom = Math.floor(chatContentBox.scrollHeight) === Math.floor(chatContentBox.getBoundingClientRect().height + chatContentBox.scrollTop);
+
     message.senderName = senderName;
     game.chat.push(message);
-    chatInit(true);
+    chatInit(true, !scrolledBottom);
 
-    const chatContentBox = document.getElementsByClassName('chatContent')[0];
-    if (Math.floor(chatContentBox.scrollHeight) !== Math.floor(chatContentBox.getBoundingClientRect().height + chatContentBox.scrollTop)) showChatUpdatePopup();
+    if (!scrolledBottom) showChatUpdatePopup();
 }
 
 function setChatMessageDeleted(messageId) {
     game.chat[messageId].deleted = true;
     delete game.chat[messageId].message;
-    chatInit(true);
+    chatInit(true, true);
 }
 
 function setChatMessageRestored(messageId, content) {
     game.chat[messageId].deleted = false;
     game.chat[messageId].message = content;
-    chatInit(true);
+    chatInit(true, true);
 }
