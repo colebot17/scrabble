@@ -105,6 +105,9 @@ function addChatMessage(message, senderName) {
     message.senderName = senderName;
     game.chat.push(message);
     chatInit(false);
+
+    const chatContentBox = document.getElementsByClassName('chatContent')[0];
+    if (Math.floor(chatContentBox.scrollHeight) === Math.floor(chatContentBox.getBoundingClientRect().height + chatContentBox.scrollTop)) showChatUpdatePopup();
 }
 
 function setChatMessageDeleted(messageId) {

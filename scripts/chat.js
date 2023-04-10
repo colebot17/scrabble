@@ -105,6 +105,7 @@ function chatInit(transparent = false) {
 function chatScrollBottom() {
 	const chatContentBox = document.getElementsByClassName('chatContent')[0];
 	chatContentBox.scrollTop = chatContentBox.scrollHeight;
+	if (document.getElementsByClassName('chatUpdatePopup')[0]) hideChatUpdatePopup();
 }
 
 function sendChatMessage(message = document.getElementById('chatInput').value) {
@@ -226,4 +227,33 @@ function deleteChatMessage(id) {
 	}).catch(() => {
 		textModal("Error", "There was an error deleting your message. Check your connection and try again.");
 	});
+}
+
+function showChatUpdatePopup() {
+	const popup = document.createElement('div');
+	popup.onclick = "chatScrollBottom();";
+	popup.classList.add('chatUpdatePopup');
+	popup.innerHTML = /* html */ `
+		<span class="material-symbols-rounded">south</span>
+		<span>New Message(s)</span>
+	`;
+	document.getElementById('chatCell').appendChild(popup);
+	popup.style.bottom = "75px";
+
+	document.getElementsByClassName('chatContent')[0].addEventListener('scroll', checkChatUpdatePopup);
+}
+
+function checkChatUpdatePopup() {
+	if (Math.floor(content.scrollHeight) === Math.floor(content.getBoundingClientRect().height + content.scrollTop)) {
+		hideChatUpdatePopup();
+		document.getElementsByClassName('chatContent')[0].removeEventListener('scroll', checkChatUpdatePopup);
+	}
+}
+
+function hideChatUpdatePopup() {
+	const popup = document.getElementsByClassName('chatUpdatePopup')[0];
+	popup.style.bottom = "";
+	setTimeout(() => {
+		popup.remove();
+	}, 300);
 }

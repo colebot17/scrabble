@@ -601,6 +601,24 @@ body.scrabble {
 	border-radius: 5px;
 }
 
+.chatUpdatePopup {
+	position: absolute;
+	/*bottom: 75px; <- popped-up value */
+	width: 200px;
+	height: 40px;
+	background: var(--highlight);
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	color: var(--highlight-text);
+	box-shadow: 0 5px 15px #00000030;
+	left: calc(50% - 100px);
+	transition: bottom 0.3s cubic-bezier(.3,.6,.3,1.3);
+	bottom: -100px;
+}
+
 /* animations */
 .spin {
 	animation-name: spin;
