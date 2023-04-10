@@ -183,7 +183,7 @@ function readChat() {
 			marker.style.opacity = 0;
 			marker.style.height = 0;
 			marker.style.borderWidth = 0;
-			marker.style.margin = "-8px 0 -4.5px 0";
+			marker.style.margin = "-8px 0 -3.5px 0";
 			setTimeout(() => {
 				marker.remove();
 			}, 370);
