@@ -185,14 +185,16 @@ function readChat() {
 
 			// remove the marker
 			const marker = document.getElementsByClassName('unreadMessageMarker')[0];
-			marker.style.opacity = 0;
-			marker.style.height = 0;
-			marker.style.borderWidth = 0;
-			marker.style.margin = "-7px 0 -3.5px 0";
-			setTimeout(() => {
-				marker.remove();
-			}, 370);
-
+			if (marker) {
+				marker.style.opacity = 0;
+				marker.style.height = 0;
+				marker.style.borderWidth = 0;
+				marker.style.margin = "-7px 0 -3.5px 0";
+				setTimeout(() => {
+					marker.remove();
+				}, 370);
+			}
+			
 			// remove the notification badge
 			document.getElementById('showChatButton').classList.remove('badge');
 		}, 1000);
