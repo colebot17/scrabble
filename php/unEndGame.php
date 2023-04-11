@@ -51,7 +51,7 @@ $row = mysqli_fetch_assoc($query);
 $updates = json_decode($row['updates'], true);
 
 array_push($updates, Array(
-    "type" => "endGameVoteRevoke",
+    "type" => "gameEndVoteRevoke",
     "data" => Array(
         "player" => $user,
 		"playerIndex" => array_search($user, $playerList)
