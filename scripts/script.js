@@ -919,7 +919,7 @@ function gameInit() {
 				<span class="points bold">
 					${game.players[i].points}
 				</span>
-				${(endGameVoted && !game.inactive ? `<span class='material-symbols-rounded winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
+				${(endGameVoted && !game.inactive ? `<span class='material-symbols-rounded winnerIcon endGameVoteIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
 			</div>
 		`;
 	}

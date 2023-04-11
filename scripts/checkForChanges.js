@@ -30,11 +30,11 @@ Change Types:
     chatMessageDeletion    - done
     chatMessageRestoration - done
     gameEnd
-    gameEndVote
-    gameEndVoteRevoke
+    gameEndVote            - done
+    gameEndVoteRevoke      - done
     move                   - done
     gameRename             - done
-    chatMessageSend
+    chatMessageSend        - done
     turnSkip
 
 */
@@ -58,6 +58,12 @@ function update(updates) {
                 break;
             case "gameRename":
                 setGameName(game.id, update.data.newName);
+                break;
+            case "gameEndVote":
+                setGameEndVote(update.data.playerIndex, true);
+                break;
+            case "gameEndVoteRevoke":
+                setGameEndVote(update.data.playerIndex, false);
                 break;
             default:
                 textModal('Game Changes', 'New data is available on the server. Reload to access.');
@@ -134,4 +140,18 @@ function setChatMessageRestored(messageId, content) {
     game.chat[messageId].deleted = false;
     game.chat[messageId].message = content;
     chatInit(true, true);
+}
+
+function setGameEndVote(playerIndex, vote) {
+    game.players[playerIndex].endGameRequest = vote;
+    if (vote) {
+        const player = document.querySelector('.gamePlayerListPlayer[data-playerid=' + game.players[playerIndex].id + ']');
+        const icon = document.createElement('span');
+        icon.className = 'material-symbols-rounded winnerIcon endGameVoteIcon';
+        icon.title = 'Voted to end the game';
+        icon.innerHTML = 'highlight_off';
+        player.appendChild(icon);
+    } else {
+        document.querySelector('.gamePlayerListPlayer[data-playerid=' + game.players[playerIndex].id + '] .endGameVoteIcon').remove();
+    }
 }
