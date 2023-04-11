@@ -29,7 +29,7 @@ function checkForChanges() {
 Change Types:
     chatMessageDeletion    - done
     chatMessageRestoration - done
-    gameEnd
+    gameEnd                - done
     gameEndVote            - done
     gameEndVoteRevoke      - done
     move                   - done
