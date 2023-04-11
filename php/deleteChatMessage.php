@@ -55,7 +55,14 @@ $chatJson = str_replace('"', '\"', $chatJson);
 $sql = "UPDATE games SET chat='$chatJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 if ($query) {
-    echo '{"errorLevel":0,"message":"Message ' . ($delete ? 'deleted' : 'restored') . '."' . ($delete ? '' : ',"data":"' . $chat[$messageId]["message"] . '"') . '}';
+    $response = Array(
+        "errorLevel" => 0,
+        "message" => "Message " . ($delete ? "deleted" : "restored") . ".",
+    )
+    if (!$delete) {
+        $response['data'] = $chat[$messageId]["message"];
+    }
+    echo json_encode($response);
 } else {
     echo '{"errorLevel":1,"message":"Could not ' . ($delete ? 'delete' : 'restore') . ' message."}';
 }
