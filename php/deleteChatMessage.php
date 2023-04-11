@@ -58,7 +58,7 @@ if ($query) {
     $response = Array(
         "errorLevel" => 0,
         "message" => "Message " . ($delete ? "deleted" : "restored") . ".",
-    )
+    );
     if (!$delete) {
         $response['data'] = $chat[$messageId]["message"];
     }
