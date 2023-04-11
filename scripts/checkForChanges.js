@@ -68,6 +68,8 @@ function update(updates) {
             case "turnSkip":
                 setTurn(update.data.newTurn);
                 break;
+            case "gameEnd":
+                showEndGameScreen(update.data);
             default:
                 textModal('Game Changes', 'New data is available on the server. Reload to access.');
         }
@@ -157,4 +159,21 @@ function setGameEndVote(playerIndex, vote) {
     } else {
         document.querySelector('.gamePlayerListPlayer[data-playerid=' + game.players[playerIndex].id + '] .endGameVoteIcon').remove();
     }
+}
+
+function showEndGameScreen(data) {
+    loadGamesList();
+    textModal("Game Over!", "This game has ended! Good Job!", {
+        complete: () => {
+            showTab('account');
+            setGamesList('inactive');
+        }
+    });
+
+    let confetti = new Confetti('textModal');
+    confetti.setCount(75);
+    confetti.setSize(1);
+    confetti.setPower(25);
+    confetti.setFade(false);
+    confetti.destroyTarget(false); 
 }

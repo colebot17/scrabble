@@ -52,41 +52,33 @@ function loadGamesList(done) {
 				}
 			}, 370);
 		}, 10);
-		$.ajax(
-			location + '/php/loadPlayerGames.php',
-			{
-				data: {
-					user: account.id,
-					pwd: account.pwd
-				},
-				method: "POST",
-				success: function(data) {
-					jsonData = JSON.parse(data);
-					if (jsonData.errorLevel > 0) { // error
-						textModal("Error", jsonData.message);
-					} else { // success
-						// stop the reload button spinning
-						complete = true;
 
-						// blink the games list
-						var $gamesList = $('#activeGamesList');
-						$gamesList.hide().fadeIn(370);
+		request('loadPlayerGames.php', {
+			user: account.id,
+			pwd: account.pwd
+		}).then(res => {
+			if (res.errorLevel > 0) { // error
+				textModal("Error", res.message);
+			} else { // success
+				// stop the reload button spinning
+				complete = true;
 
-						// load the new content
-						account.games = jsonData.data;
-						updateGamesList();
+				// blink the games list
+				var $gamesList = $('#activeGamesList');
+				$gamesList.hide().fadeIn(370);
 
-						// // done (for pull to refresh)
-						// if (done) {
-						// 	done();
-						// }
-					}
-				},
-				error: function() {
-					console.error("Could not fetch updated games list.");
-				}
+				// load the new content
+				account.games = res.data;
+				updateGamesList();
+
+				// // done (for pull to refresh)
+				// if (done) {
+				// 	done();
+				// }
 			}
-		);
+		}).catch(err => {
+			throw new Error(err);
+		});
 	}
 }
 
