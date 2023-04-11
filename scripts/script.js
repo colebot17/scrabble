@@ -413,9 +413,6 @@ function setDisplayMode(mode) {
 
 function renameGame(gameId, loc) {
 	// get the element(s) to be updated upon completion
-	const $nameFields = $('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
-	const $titleBoxes = $('#listGame' + gameId + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
-	const $idLines = $('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
 
 	// inline name editing!
 	let nameField;
@@ -450,49 +447,50 @@ function renameGame(gameId, loc) {
 			inputField.style.cursor = "progress";
 
 			if (name === '#' + gameId) name = "";
-			$.ajax(
-				location + '/php/renameGame.php',
-				{
-					data: {
-						user: account.id,
-						pwd: account.pwd,
-						game: gameId,
-						name
-					},
-					method: "POST",
-					success: function(data) {
-						let jsonData = JSON.parse(data);
-						if (jsonData.errorLevel) {
-							textModal("Error", jsonData.message);
-						} else {
-							account.games[gameId].name = jsonData.data;
-							$nameFields.text(jsonData.data || '#' + gameId);
-							$idLines.remove();
-							if (jsonData.data) { // if the game has a name
-								// show the id line
-								$titleBoxes.append(/* html */ `
-									<div class="gameIdLine">
-										#${gameId}
-									</div>
-								`);
-							}
-							if (game?.id === gameId) { // if the game is currently loaded
-								game.name = jsonData.data || ""; // set the name in game obj
-							}
-						}
-						removeInput();
-					},
-					error: function() {
-						console.error("Could not rename game.");
-					}
+			request('renameGame.php', {
+				user: account.id,
+				pwd: account.pwd,
+				game: gameId,
+				name
+			}).then(res => {
+				if (res.errorLevel) {
+					textModal("Error", res.message);
+				} else {
+					setGameName(gameId, res.data);
 				}
-			);
+				removeInput();
+			}).catch(() => {
+				console.error("Could not rename game.");
+			});
 		} else if (e.key === "Escape") {
 			removeInput();
 		}
 	});
 
 	inputField.addEventListener('blur', removeInput);
+}
+
+function setGameName(gameId, gameName) {
+	// define elements to be updated
+	const titleBoxes = document.querySelectorAll('#listGame' + gameId + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
+	const nameFields = document.querySelectorAll('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');]
+	const idLines = document.querySelectorAll('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
+
+	account.games[gameId].name = gameName;
+	nameFields.forEach(nf => nf.textContent = gameName || '#' + gameId);
+	idLines.forEach(idLine => idLine.remove());
+	if (gameName) { // if the game has a name
+		// show the id line
+		titleBoxes.forEach(tbEl => {
+			const idEl = document.createElement('div');
+			idEl.classList.add('gameIdLine');
+			idEl.innerHTML = `#${gameId}`;
+			tbEl.appendChild(idEl);
+		});
+	}
+	if (game?.id === gameId) { // if the game is currently loaded
+		game.name = gameName || ""; // set the name in game obj
+	}
 }
 
 function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {

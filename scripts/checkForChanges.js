@@ -24,36 +24,43 @@ function checkForChanges() {
     });
 }
 
+/*
+
+Change Types:
+    chatMessageDeletion    - done
+    chatMessageRestoration - done
+    gameEnd
+    gameEndVote
+    gameEndVoteRevoke
+    move                   - done
+    gameRename             - done
+    chatMessageSend
+    turnSkip
+
+*/
+
 function update(updates) {
     for (let i = 0; i < updates.length; i++) {
         const update = updates[i];
-        if (update.type === "move") {
-            updateMove(update.data);
-        } else if (update.type === "chatMessageSend") {
-            addChatMessage(update.data.message, update.data.senderName);
-        } else if (update.type === "chatMessageDeletion") {
-            setChatMessageDeleted(update.data.messageId);
-        } else if (update.type === "chatMessageRestoration") {
-            setChatMessageRestored(update.data.messageId, update.data.content);
-        } else {
-            textModal('Game Changes', 'New data is available on the server. Reload to access.');
+
+        switch(update.type) {
+            case "move":
+                updateMove(update.data);
+            case "chatMessageSend":
+                addChatMessage(update.data.message, update.data.senderName);
+            case "chatMessageDeletion":
+                setChatMessageDeleted(update.data.messageId);
+            case "chatMessageRestoration":
+                setChatMessageRestored(update.data.messageId, update.data.content);
+            case "gameRename":
+                setGameName(game.id, gameName);
+            default:
+                textModal('Game Changes', 'New data is available on the server. Reload to access.');
         }
 
         game.updateNumber++;
     }
 }
-
-/*
-updateMove:
-
-    data = {
-        player: int,
-        playerIndex: int,
-        tiles: arr,
-        newPoints: int
-    }
-
-*/
 
 function updateMove(data) {
     // update points
