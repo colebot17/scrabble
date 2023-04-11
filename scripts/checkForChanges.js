@@ -164,7 +164,7 @@ function setGameEndVote(playerIndex, vote) {
 
 function showEndGameScreen(data) {
     loadGamesList();
-    textModal("Game Over!", "This game has ended! Good Job!", {
+    textModal("Game Over!", "This game has ended! Good Job!<br><br>Reason: " + data.reason, {
         complete: () => {
             showTab('account');
             setGamesList('inactive');
