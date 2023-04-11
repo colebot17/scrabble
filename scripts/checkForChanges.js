@@ -70,6 +70,7 @@ function update(updates) {
                 break;
             case "gameEnd":
                 showEndGameScreen(update.data);
+                break;
             default:
                 textModal('Game Changes', 'New data is available on the server. Reload to access.');
         }
