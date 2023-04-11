@@ -46,14 +46,19 @@ function update(updates) {
         switch(update.type) {
             case "move":
                 updateMove(update.data);
+                break;
             case "chatMessageSend":
                 addChatMessage(update.data.message, update.data.senderName);
+                break;
             case "chatMessageDeletion":
                 setChatMessageDeleted(update.data.messageId);
+                break;
             case "chatMessageRestoration":
                 setChatMessageRestored(update.data.messageId, update.data.content);
+                break;
             case "gameRename":
                 setGameName(game.id, update.data.newName);
+                break;
             default:
                 textModal('Game Changes', 'New data is available on the server. Reload to access.');
         }
