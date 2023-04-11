@@ -225,7 +225,8 @@ function deleteChatMessage(id) {
 
 		chatInit(); // refresh chat window
 	}).catch(err => {
-		textModal("Error", "There was an error deleting your message. Check your connection and try again.<br>" + err);
+		textModal("Error", "There was an error deleting your message. Check your connection and try again.");
+		throw new Error(err);
 	});
 }
 
