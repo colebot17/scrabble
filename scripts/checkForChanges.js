@@ -163,8 +163,14 @@ function setGameEndVote(playerIndex, vote) {
 }
 
 function showEndGameScreen(data) {
+    const endReasons = {
+        move: "A player made the final move.",
+        vote: "All players voted to end the game.",
+        skip: "All players skipped their turn twice consecutively."
+    }
+
     loadGamesList();
-    textModal("Game Over!", "This game has ended! Good Job!<br><br>Reason: " + data.reason, {
+    textModal("Game Over!", "This game has ended! Good Job!<br><br>Reason: " + (endReasons[data.reason] || data.reason), {
         complete: () => {
             showTab('account');
             setGamesList('inactive');
