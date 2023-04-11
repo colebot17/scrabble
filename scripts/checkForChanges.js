@@ -53,7 +53,7 @@ function update(updates) {
             case "chatMessageRestoration":
                 setChatMessageRestored(update.data.messageId, update.data.content);
             case "gameRename":
-                setGameName(game.id, gameName);
+                setGameName(game.id, update.data.newName);
             default:
                 textModal('Game Changes', 'New data is available on the server. Reload to access.');
         }
