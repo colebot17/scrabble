@@ -67,6 +67,8 @@ array_push($updates, Array(
 ));
 
 $updatesJson = json_encode($updates);
+$updatesJson = str_replace("'", "\'", $updatesJson);
+$updatesJson = str_replace('"', '\"', $updatesJson);
 $sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 

@@ -186,7 +186,21 @@ array_push($updates, Array(
     )
 ));
 
+if ($endGame) {
+	array_push($updates, Array(
+		"type" => "gameEnd",
+		"data" => Array(
+			"player" => $user,
+			"playerIndex" => array_search($user, $playerList),
+			"reason" => "skip"
+		),
+		"timestamp" => time()
+	));
+}
+
 $updatesJson = json_encode($updates);
+$updatesJson = str_replace("'", "\'", $updatesJson);
+$updatesJson = str_replace('"', '\"', $updatesJson);
 $sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 

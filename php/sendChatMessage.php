@@ -95,7 +95,8 @@ array_push($updates, Array(
     "data" => Array(
         "message" => $fullMessage,
         "senderName" => mysqli_fetch_assoc(mysqli_query($conn, "SELECT name FROM accounts WHERE id='$user'"))['name']
-    )
+    ),
+    "timestamp" => time()
 ));
 
 $updatesJson = json_encode($updates);

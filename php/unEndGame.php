@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 // get data from POST
 $user = $_POST['user'];
 $pwd = $_POST['pwd'];
-$game = $_POST['game'];
+$gameId = $_POST['game'];
 
 // check password
 $sql = "SELECT pwd FROM accounts WHERE id='$user'";
@@ -25,7 +25,7 @@ if (!password_verify($pwd, $row['pwd'])) {
 }
 
 // get the player list from the server
-$sql = "SELECT players FROM games WHERE id='$game'";
+$sql = "SELECT players FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 
@@ -39,10 +39,31 @@ $players[array_search($user, $playerList)]['endGameRequest'] = "false";
 
 // reupload the player list to the server
 $playersJson = json_encode($players);
-$sql = "UPDATE games SET players='$playersJson' WHERE id='$game'";
+$sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 
 echo '{"errorLevel":0,"message":"Your vote to end the game has been revoked."}';
+
+// add to update list
+$sql = "SELECT updates FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$updates = json_decode($row['updates'], true);
+
+array_push($updates, Array(
+    "type" => "endGameVoteRevoke",
+    "data" => Array(
+        "player" => $user,
+		"playerIndex" => array_search($user, $playerList)
+	),
+	"timestamp" => time()
+));
+
+$updatesJson = json_encode($updates);
+$updatesJson = str_replace("'", "\'", $updatesJson);
+$updatesJson = str_replace('"', '\"', $updatesJson);
+$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
 
 // close the connection
 $conn->close();
