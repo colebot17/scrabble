@@ -182,7 +182,7 @@ array_push($updates, Array(
     "data" => Array(
         "player" => $user,
 		"playerIndex" => $userIndex,
-		"turnSkipped" => $totalTurn
+		"newTurn" => $totalTurn
     )
 ));
 

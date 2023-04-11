@@ -65,6 +65,9 @@ function update(updates) {
             case "gameEndVoteRevoke":
                 setGameEndVote(update.data.playerIndex, false);
                 break;
+            case "turnSkip":
+                setTurn(update.data.newTurn);
+                break;
             default:
                 textModal('Game Changes', 'New data is available on the server. Reload to access.');
         }
