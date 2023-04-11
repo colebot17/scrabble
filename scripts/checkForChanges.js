@@ -120,6 +120,7 @@ function setTurn(turn) {
         setOOTD(true);
 		gameBanner((game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved."), "var(--text-highlight)");
     }
+    setCanvasSize();
 
     // change the actual data value (last so we can reference old value)
     game.turn = turn;
