@@ -145,7 +145,7 @@ function setChatMessageRestored(messageId, content) {
 function setGameEndVote(playerIndex, vote) {
     game.players[playerIndex].endGameRequest = vote;
     if (vote) {
-        const player = document.querySelector('.gamePlayerListPlayer[data-playerid=' + game.players[playerIndex].id + ']');
+        const player = document.querySelector('.gamePlayerListPlayer[data-playerid="' + game.players[playerIndex].id + '"]');
         const icon = document.createElement('span');
         icon.className = 'material-symbols-rounded winnerIcon endGameVoteIcon';
         icon.title = 'Voted to end the game';
