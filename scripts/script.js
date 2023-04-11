@@ -473,7 +473,7 @@ function renameGame(gameId, loc) {
 function setGameName(gameId, gameName) {
 	// define elements to be updated
 	const titleBoxes = document.querySelectorAll('#listGame' + gameId + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
-	const nameFields = document.querySelectorAll('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');]
+	const nameFields = document.querySelectorAll('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
 	const idLines = document.querySelectorAll('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
 
 	account.games[gameId].name = gameName;
