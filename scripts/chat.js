@@ -224,8 +224,8 @@ function deleteChatMessage(id) {
 		game.chat[id].message = res.data;
 
 		chatInit(); // refresh chat window
-	}).catch(() => {
-		textModal("Error", "There was an error deleting your message. Check your connection and try again.");
+	}).catch(err => {
+		textModal("Error", "There was an error deleting your message. Check your connection and try again.<br>" + err);
 	});
 }
 
