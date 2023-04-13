@@ -36,7 +36,7 @@ $message = str_replace("'", "\'", $message); */
 // formulate the new chat message
 $fullMessage = Array(
     "type" => "user",
-    "sender" => $user,
+    "sender" => (int)$user,
     "message" => $message,
     "timestamp" => date(DATE_ISO8601)
 );
