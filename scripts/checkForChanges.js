@@ -159,7 +159,7 @@ function setGameEndVote(playerIndex, vote) {
         icon.innerHTML = 'highlight_off';
         player.appendChild(icon);
     } else {
-        document.querySelector('.gamePlayerListPlayer[data-playerid=' + game.players[playerIndex].id + '] .endGameVoteIcon').remove();
+        document.querySelector('.gamePlayerListPlayer[data-playerid="' + game.players[playerIndex].id + '"] .endGameVoteIcon').remove();
     }
     const endGameButton = document.getElementById('endGameButton');
     button.innerHTML = vote ? "Don't End" : "End Game";
