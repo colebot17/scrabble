@@ -93,7 +93,15 @@ $playersJson = json_encode($players);
 $sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 
-echo '{"errorLevel":0,"message":"' . ($endGame ? 'The game has ended.' : 'You have voted to end the game.') . '"}';
+$res = Array(
+	"errorLevel" => 0,
+	"message" => ($endGame ? "The game has ended." : "You have voted to end the game."),
+	"data" => Array(
+		"gameEnded" => $endGame
+	)
+);
+
+echo json_encode($res);
 
 // add to update list
 $sql = "SELECT updates FROM games WHERE id='$gameId'";

@@ -451,8 +451,8 @@ function renameGame(gameId, loc) {
 					setGameName(gameId, res.data);
 				}
 				removeInput();
-			}).catch(() => {
-				console.error("Could not rename game.");
+			}).catch(err => {
+				throw new Error(err);
 			});
 		} else if (e.key === "Escape") {
 			removeInput();
@@ -749,35 +749,26 @@ function endGame() {
 	textModal("End Game", confirmMsg, {
 		cancelable: true,
 		complete: () => {
-			// send the request
-			$.ajax(
-				location + (voted ? '/php/unEndGame.php' : '/php/endGame.php'),
-				{
-					data: {
-						user: account.id,
-						pwd: account.pwd,
-						game: game.id
-					},
-					method: "POST",
-					success: function(data) {
-						// var tab = window.open("about:blank", "_blank");
-						// tab.document.write(data);
-						jsonData = JSON.parse(data);
-						textModal("End Game", jsonData.message);
-						if (jsonData.errorLevel === 0) {
-							if (voted) {
-								loadGame(game.id);
-							} else {
-								loadGamesList();
-								showTab('account');
-							}
+			request((voted ? 'unEndGame.php' : 'endGame.php'), {
+				user: account.id,
+				pwd: account.pwd,
+				game: game.id
+			}).then(res => {
+				textModal("End Game", res.message);
+				if (res.errorLevel === 0) {
+					if (voted) { // if revoking vote
+						setGameEndVote(game.players.findIndex(a => a.id == account.id), false);
+					} else { // if placing vote
+						if (res.data.gameEnded) {
+							showEndGameScreen();
+						} else {
+							setGameEndVote(game.players.findIndex(a => a.id == account.id), true);
 						}
-					},
-					error: function() {
-						console.error("Could not end the game.");
 					}
 				}
-			);
+			}).catch(err => {
+				throw new Error(err);
+			});
 		}
 	});	
 }
