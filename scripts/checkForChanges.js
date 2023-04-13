@@ -165,7 +165,7 @@ function setGameEndVote(playerIndex, vote) {
     endGameButton.innerHTML = vote ? "Don't End" : "End Game";
     let endGameCount = 0;
     for (let i in game.players) {
-        endGameCount += (game.players[i].endGameRequest === 'true') & 1;
+        endGameCount += (game.players[i].endGameRequest) & 1;
     }
     const votesLeft = game.players.length - endGameCount;
     endGameButton.title = votesLeft + " more vote" + (votesLeft === 1 ? "" : "s") + " to end";
