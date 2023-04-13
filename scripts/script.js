@@ -758,6 +758,7 @@ function endGame() {
 				if (res.errorLevel === 0) {
 					setGameEndVote(game.players.findIndex(a => a.id == account.id), !voted);
 					if (!voted && res.data.gameEnded) showEndGameScreen();
+					game.updateNumber++;
 				}
 			}).catch(err => {
 				throw new Error(err);
