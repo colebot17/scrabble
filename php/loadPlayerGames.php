@@ -74,6 +74,12 @@ for ($i = 0; $i < count($games); $i++) {
 		$query = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($query);
 
+		if ($players[$j]['endGameVote'] === 'true') {
+			$players[$j]['endGameVote'] = true;
+		} else if ($players[$j]['endGameVote'] === 'false') {
+			$players[$j]['endGameVote'] = false;
+		}
+
 		$fullGamesList[$games[$i]]["players"][$j] = Array(
 			"id" => $playerId,
 			"name" => $row['name'],

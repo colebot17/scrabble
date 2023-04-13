@@ -47,8 +47,10 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 		$players[$i]['name'] = $row['name'];
 
 		// make sure things are not strings
-		if (gettype($players[$i]['endGameVote']) === "string") {
-			$players[$i]['endGameVote'] = $players[$i]['endGameVote'] === 'true';
+		if ($players[$i]['endGameVote'] === 'true') {
+			$players[$i]['endGameVote'] = true;
+		} else if ($players[$i]['endGameVote'] === 'false') {
+			$players[$i]['endGameVote'] = false;
 		}
 
 		// remove the letter bank from all players other than the current user - no cheating!
