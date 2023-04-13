@@ -162,7 +162,7 @@ function setGameEndVote(playerIndex, vote) {
         document.querySelector('.gamePlayerListPlayer[data-playerid="' + game.players[playerIndex].id + '"] .endGameVoteIcon').remove();
     }
     const endGameButton = document.getElementById('endGameButton');
-    button.innerHTML = vote ? "Don't End" : "End Game";
+    endGameButton.innerHTML = vote ? "Don't End" : "End Game";
     let endGameCount = 0;
     for (let i in game.players) {
         endGameCount += (game.players[i].endGameRequest === 'true') & 1;
