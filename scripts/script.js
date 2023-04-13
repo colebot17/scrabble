@@ -190,7 +190,7 @@ function updateGamesList() {
 				let turnUser = parseInt(gamesArray[i].players[turnIndex].id);
 				let playerListHTML = ``;
 				for (var j in gamesArray[i].players) { // add each player to the list of players in the card
-					let endGameVoted = gamesArray[i].players[j].endGameRequest === 'true';
+					let endGameVoted = gamesArray[i].players[j].endGameRequest;
 					playerListHTML += /* html */ `
 						<div class='listGamePlayerListPlayer'>
 							${(winners.includes(j) ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>` : ``)}
@@ -724,11 +724,11 @@ function endGame() {
 		return;
 	}
 
-	let voted = game.players[game.currentPlayerIndex].endGameRequest === 'true';
+	let voted = game.players[game.currentPlayerIndex].endGameRequest;
 	
 	let endGameCount = 0;
 	for (let i in game.players) {
-		if (game.players[i].endGameRequest === 'true') {
+		if (game.players[i].endGameRequest) {
 			endGameCount++;
 		}
 	}
@@ -756,15 +756,8 @@ function endGame() {
 			}).then(res => {
 				textModal("End Game", res.message);
 				if (res.errorLevel === 0) {
-					if (voted) { // if revoking vote
-						setGameEndVote(game.players.findIndex(a => a.id == account.id), false);
-					} else { // if placing vote
-						if (res.data.gameEnded) {
-							showEndGameScreen();
-						} else {
-							setGameEndVote(game.players.findIndex(a => a.id == account.id), true);
-						}
-					}
+					setGameEndVote(game.players.findIndex(a => a.id == account.id), !voted);
+					if (!voted && res.data.gameEnded) showEndGameScreen();
 				}
 			}).catch(err => {
 				throw new Error(err);
@@ -890,7 +883,7 @@ function gameInit() {
 		let isWinner = game.players[i].points == winningPoints;
 		let isTurn = turnIndex == i;
 		let isCurrentPlayer = game.players[i].id == account.id;
-		let endGameVoted = game.players[i].endGameRequest === 'true';
+		let endGameVoted = game.players[i].endGameRequest;
 
 		// add the player to the list
 		gameInfo += /* html */ `
@@ -914,10 +907,10 @@ function gameInit() {
 	const endGameButton = document.getElementById('endGameButton');
 	let endGameCount = 0;
 	for (let i in game.players) {
-		endGameCount += (game.players[i].endGameRequest === 'true') & 1;
+		endGameCount += (game.players[i].endGameRequest) & 1;
 	}
 	const votesLeft = game.players.length - endGameCount;
-	endGameButton.textContent = game.players[currentPlayerIndex].endGameRequest === 'true' ? 'Don\'t End' : 'End Game';
+	endGameButton.textContent = game.players[currentPlayerIndex].endGameRequest ? 'Don\'t End' : 'End Game';
 	endGameButton.disabled = game.inactive;
 	endGameButton.style.cursor = (game.inactive ? 'not-allowed' : 'pointer');
 	endGameButton.title = (game.inactive ? 'The game is already over' : votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end');

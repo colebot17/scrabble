@@ -35,12 +35,12 @@ $playerList = Array();
 for ($i=0; $i < count($players); $i++) { 
 	array_push($playerList, $players[$i]['id']);
 }
-$players[array_search($user, $playerList)]['endGameRequest'] = "true";
+$players[array_search($user, $playerList)]['endGameRequest'] = true;
 
 // check whether all players have the endGameRequest property
 $endGame = true;
 for ($i=0; $i < count($players); $i++) { 
-	if ($players[$i]['endGameRequest'] !== "true") {
+	if (!$players[$i]['endGameRequest']) {
 		$endGame = false;
 		break;
 	}

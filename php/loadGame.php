@@ -46,6 +46,11 @@ if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row
 		$row = mysqli_fetch_assoc($query);
 		$players[$i]['name'] = $row['name'];
 
+		// make sure things are not strings
+		if (gettype($players[$i]['endGameVote']) === "string") {
+			$players[$i]['endGameVote'] = $players[$i]['endGameVote'] === 'true';
+		}
+
 		// remove the letter bank from all players other than the current user - no cheating!
 		if ($players[$i]['id'] != $user) {
 			unset($players[$i]['letterBank']);

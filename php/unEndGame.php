@@ -35,7 +35,7 @@ $playerList = Array();
 for ($i=0; $i < count($players); $i++) { 
 	array_push($playerList, $players[$i]['id']);
 }
-$players[array_search($user, $playerList)]['endGameRequest'] = "false";
+$players[array_search($user, $playerList)]['endGameRequest'] = false;
 
 // reupload the player list to the server
 $playersJson = json_encode($players);
