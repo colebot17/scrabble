@@ -754,7 +754,6 @@ function endGame() {
 				pwd: account.pwd,
 				game: game.id
 			}).then(res => {
-				textModal("End Game", res.message);
 				if (res.errorLevel === 0) {
 					setGameEndVote(game.players.findIndex(a => a.id == account.id), !voted);
 					game.updateNumber++;
@@ -762,6 +761,8 @@ function endGame() {
 						showEndGameScreen();
 						game.updateNumber++;
 					};
+				} else {
+					textModal("Error", res.message);
 				}
 			}).catch(err => {
 				throw new Error(err);
