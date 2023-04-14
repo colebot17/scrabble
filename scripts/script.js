@@ -760,7 +760,9 @@ function endGame() {
 					if (!voted && res.data.gameEnded) {
 						showEndGameScreen();
 						game.updateNumber++;
-					};
+					} else {
+						textModal("End Game", res.message);
+					}
 				} else {
 					textModal("Error", res.message);
 				}
