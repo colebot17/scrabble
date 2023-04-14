@@ -51,10 +51,10 @@ function update(updates) {
                 addChatMessage(update.data.message, update.data.senderName);
                 break;
             case "chatMessageDeletion":
-                setChatMessageDeleted(update.data.messageId);
+                setChatMessageDeletion(update.data.messageId);
                 break;
             case "chatMessageRestoration":
-                setChatMessageRestored(update.data.messageId, update.data.content);
+                setChatMessageDeletion(update.data.messageId, update.data.content);
                 break;
             case "gameRename":
                 setGameName(game.id, update.data.newName);
@@ -135,18 +135,6 @@ function addChatMessage(message, senderName) {
     chatInit(true, !scrolledBottom);
 
     if (!scrolledBottom) showChatUpdatePopup();
-}
-
-function setChatMessageDeleted(messageId) {
-    game.chat[messageId].deleted = true;
-    delete game.chat[messageId].message;
-    chatInit(true, true);
-}
-
-function setChatMessageRestored(messageId, content) {
-    game.chat[messageId].deleted = false;
-    game.chat[messageId].message = content;
-    chatInit(true, true);
 }
 
 function setGameEndVote(playerIndex, vote) {

@@ -217,17 +217,22 @@ function deleteChatMessage(id) {
 			return;
 		}
 
-		// update the local chat object
-		const del = !game.chat[id].deleted;
-		
-		game.chat[id].deleted = del;
-		game.chat[id].message = res.data;
-
-		chatInit(); // refresh chat window
+		// update message
+		if (!game.chat[id].deleted) {
+			setChatMessageDeleted(id);
+		} else {
+			setChatMessageRestored(id, res.data);
+		}
 	}).catch(err => {
 		textModal("Error", "There was an error deleting your message. Check your connection and try again.");
 		throw new Error(err);
 	});
+}
+
+function setChatMessageDeletion(messageId, content = undefined) {
+    game.chat[messageId].deleted = content ? true : false;
+	game.chat[messageId].message = content;
+    chatInit(true, true);
 }
 
 function showChatUpdatePopup() {
