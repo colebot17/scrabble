@@ -171,12 +171,8 @@ function showEndGameScreen(data) {
         complete: () => {
             showTab('account');
             setGamesList('inactive');
-            const listGame = document.getElementById('listGame' + game.id);
-            listGame.style.scale = "500%";
-            listGame.style.transition = "scale 0.3s ease-in, opacity 0.3s ease-in";
-            setTimeout(() => {
-                listGame.style.scale = "100%";
-            }, 10);
+
+            endGameAnimation(document.getElementById('listGame' + game.id));
         }
     });
 
@@ -186,4 +182,14 @@ function showEndGameScreen(data) {
     confetti.setPower(25);
     confetti.setFade(false);
     confetti.destroyTarget(false); 
+}
+
+function endGameAnimation(el) {
+    el.style.scale = "500%";
+    el.style.opacity = "0%";
+    el.style.transition = "scale 0.3s ease-in, opacity 0.3s ease-in";
+    setTimeout(() => {
+        el.style.scale = "100%";
+        el.style.opacity = "100%";
+    }, 10);
 }
