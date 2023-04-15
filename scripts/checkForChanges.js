@@ -173,7 +173,7 @@ function showEndGameScreen(data) {
             setGamesList('inactive');
             const listGame = document.getElementById('listGame' + game.id);
             listGame.style.scale = "500%";
-            listGame.style.transition = "scale 0.3s ease-in";
+            listGame.style.transition = "scale 0.3s ease-in, opacity 0.3s ease-in";
             setTimeout(() => {
                 listGame.style.scale = "100%";
             }, 10);
