@@ -269,13 +269,13 @@ array_push($updates, Array(
 
 if ($inactive) {
 	$highestScore = 0;
-	for ($i = 0; i < count($players); $i++) {
+	for ($i = 0; $i < count($players); $i++) {
 		if ($players[$i]["points"] > $highestScore) {
 			$highestScore = $players[$i]["points"];
 		}
 	}
 	$winnerIndicies = Array();
-	for ($i = 0; i < count($players); $i++) {
+	for ($i = 0; $i < count($players); $i++) {
 		if ($players[$i]["points"] === $highestScore) {
 			$winnerIndicies[] = $i;
 		}

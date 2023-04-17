@@ -95,13 +95,13 @@ $query = mysqli_query($conn, $sql);
 
 // calculate the winning player(s)
 $highestScore = 0;
-for ($i = 0; i < count($players); $i++) {
+for ($i = 0; $i < count($players); $i++) {
 	if ($players[$i]["points"] > $highestScore) {
 		$highestScore = $players[$i]["points"];
 	}
 }
 $winnerIndicies = Array();
-for ($i = 0; i < count($players); $i++) {
+for ($i = 0; $i < count($players); $i++) {
 	if ($players[$i]["points"] === $highestScore) {
 		$winnerIndicies[] = $i;
 	}
