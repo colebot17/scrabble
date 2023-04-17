@@ -219,7 +219,7 @@ function endGameAnimation(el) {
     const tempButton = document.createElement('button');
     tempButton.id = "tempButton";
     tempButton.style.position = "fixed";
-    tempButton.style.opacity = "0%";
+    // tempButton.style.opacity = "0%";
 
     const cardBounds = el.getBoundingClientRect();
     tempButton.style.left = cardBounds.x + (cardBounds.width / 2);
