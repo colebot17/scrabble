@@ -757,7 +757,7 @@ function endGame() {
 			};
 
 			request(requestAddress, requestData).then(res => {
-				if (errorLevel > 0) {
+				if (res.errorLevel > 0) {
 					textModal("Error", res.message);
 					return;
 				}
