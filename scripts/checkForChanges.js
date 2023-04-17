@@ -205,13 +205,6 @@ function showEndGameScreen(data) {
             }
         }
     });
-
-    let confetti = new Confetti('textModal');
-    confetti.setCount(75);
-    confetti.setSize(1);
-    confetti.setPower(25);
-    confetti.setFade(false);
-    confetti.destroyTarget(false);
 }
 
 function endGameAnimation(el) {
@@ -222,4 +215,22 @@ function endGameAnimation(el) {
         el.style.scale = "100%";
         el.style.opacity = "100%";
     }, 10);
+
+    const tempButton = document.createElement('button');
+    tempButton.id = "tempButton";
+    tempButton.style.position = "fixed";
+    tempButton.style.opacity = "0%";
+
+    const cardBounds = el.getBoundingClientRect();
+    tempButton.style.left = cardBounds.x + (cardBounds.width / 2);
+    tempButton.style.top = cardBounds.y + (cardBounds.height / 2);
+
+    let confetti = new Confetti('tempButton');
+    confetti.setCount(75);
+    confetti.setSize(1);
+    confetti.setPower(25);
+    confetti.setFade(false);
+    confetti.destroyTarget(true);
+
+    tempButton.click();
 }
