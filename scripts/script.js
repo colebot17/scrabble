@@ -786,6 +786,8 @@ function gameInit() {
 		}
 	}
 
+	game.currentPlayerIndex = currentPlayerIndex;
+
 	// this is the current player's bank
 	const bank = game.players[currentPlayerIndex].letterBank;
 
