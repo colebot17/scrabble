@@ -749,23 +749,26 @@ function endGame() {
 	textModal("End Game", confirmMsg, {
 		cancelable: true,
 		complete: () => {
-			request((voted ? 'unEndGame.php' : 'endGame.php'), {
+			const requestAddress = voted ? "unEndGame.php" : "endGame.php";
+			const requestData = {
 				user: account.id,
 				pwd: account.pwd,
 				game: game.id
-			}).then(res => {
-				if (res.errorLevel === 0) {
-					setGameEndVote(game.players.findIndex(a => a.id == account.id), !voted);
-					game.updateNumber++;
-					if (!voted && res.data.gameEnded) {
-						showEndGameScreen();
-						game.updateNumber++;
-					} else {
-						textModal("End Game", res.message);
-					}
-				} else {
+			};
+
+			request(requestAddress, requestData).then(res => {
+				if (errorLevel > 0) {
 					textModal("Error", res.message);
+					return;
 				}
+				setGameEndVote(game.currentPlayerIndex, !voted);
+				game.updateNumber++;
+				if (res?.data?.gameEnded) {
+					showEndGameScreen();
+					game.updateNumber++; // update a second time for the additional end event
+					return;
+				}
+				textModal("EndGame", res.message);
 			}).catch(err => {
 				throw new Error(err);
 			});
