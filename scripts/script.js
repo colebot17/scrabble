@@ -764,7 +764,7 @@ function endGame() {
 				setGameEndVote(game.currentPlayerIndex, !voted);
 				game.updateNumber++;
 				if (res?.data?.gameEnded) {
-					showEndGameScreen({reason: "vote"}, !res.data.gameDeleted);
+					showEndGameScreen({reason: "vote", gameDeleted: res.data.gameDeleted, winnerIndicies: res.data.winnerIndicies});
 					game.updateNumber++; // update a second time for the additional end event
 					return;
 				}
