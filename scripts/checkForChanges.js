@@ -164,15 +164,45 @@ function showEndGameScreen(data) {
         move: "A player made the final move.",
         vote: "All players voted to end the game.",
         skip: "All players skipped their turn twice consecutively."
+    };
+
+    // create a string displaying the winner(s)
+    let winnerString = ``;
+    if (data.winnerIndicies.length === 1) {
+        winnerString = /* html */ `<b>${game.players[data.winnerIndicies[0]].name}</b>`;
+    } else if (data.winnerIndicies.length === 2) {
+        winnerString = /* html */ `<b>${game.players[data.winnerIndicies[0]].name}</b> and <b>${game.players[winners[1]].name}</b>`;
+    } else if (data.winnerIndicies.length >= 3) {
+        for (let i = 0; i < data.winnerIndicies.length; i++) {
+            if (i < data.winnerIndicies.length - 1) {
+                winnerString += /* html */ `<b>${game.players[data.winnerIndicies[i]].name}</b>, `;
+            } else {
+                winnerString += /* html */ `and <b>${game.players[data.winnerIndicies[i]].name}</b>`;
+            }
+        }
     }
 
-    loadGamesList();
-    textModal("Game Over!", "This game has ended! Good Job!<br><br>Reason: " + (endReasons[data.reason] || data.reason), {
-        complete: () => {
-            showTab('account');
-            setGamesList('inactive');
+    const message = /* html */ `
+        This game has ended! Good Job!
+        <br><br>
+        ${winnerString} won.
+        <br><br>
+        End Reason: ${endReasons[data.reason] || data.reason}
+        <br><br>
+        ${data.gameDeleted
+            ? `This game was deleted because no players scored any points.`
+            : `This game has been archived to the inactive games page.`
+        }
+    `;
 
-            endGameAnimation(document.getElementById('listGame' + game.id));
+    loadGamesList();
+    textModal("Game Over!", message, {
+        complete: () => {
+            if (!data.gameDeleted) {
+                showTab('account');
+                setGamesList('inactive');
+                endGameAnimation(document.getElementById('listGame' + game.id));
+            }
         }
     });
 
@@ -181,7 +211,7 @@ function showEndGameScreen(data) {
     confetti.setSize(1);
     confetti.setPower(25);
     confetti.setFade(false);
-    confetti.destroyTarget(false); 
+    confetti.destroyTarget(false);
 }
 
 function endGameAnimation(el) {

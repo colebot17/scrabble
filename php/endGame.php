@@ -93,11 +93,27 @@ $playersJson = json_encode($players);
 $sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 
+// calculate the winning player(s)
+$highestScore = 0;
+for ($i = 0; i < count($players); $i++) {
+	if ($players[$i]["points"] > $highestScore) {
+		$highestScore = $players[$i]["points"];
+	}
+}
+$winnerIndicies = Array();
+for ($i = 0; i < count($players); $i++) {
+	if ($players[$i]["points"] === $highestScore) {
+		array_push($winnerIndicies, $i);
+	}
+}
+
 $res = Array(
 	"errorLevel" => 0,
 	"message" => ($endGame ? "The game has ended." : "You have voted to end the game."),
 	"data" => Array(
-		"gameEnded" => $endGame
+		"gameEnded" => $endGame,
+		"gameDeleted" => $deleteGame,
+		"winnerIndicies" => $winnerIndicies
 	)
 );
 
@@ -124,7 +140,9 @@ if ($endGame) {
 		"data" => Array(
 			"player" => $user,
 			"playerIndex" => array_search($user, $playerList),
-			"reason" => "vote"
+			"reason" => "vote",
+			"gameDeleted" => $deleteGame,
+			"winnerIndicies" => $winnerIndicies
 		),
 		"timestamp" => time()
 	));

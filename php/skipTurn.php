@@ -187,12 +187,26 @@ array_push($updates, Array(
 ));
 
 if ($endGame) {
+	$highestScore = 0;
+	for ($i = 0; i < count($players); $i++) {
+		if ($players[$i]["points"] > $highestScore) {
+			$highestScore = $players[$i]["points"];
+		}
+	}
+	$winnerIndicies = Array();
+	for ($i = 0; i < count($players); $i++) {
+		if ($players[$i]["points"] === $highestScore) {
+			array_push($winnerIndicies, $i);
+		}
+	}
 	array_push($updates, Array(
 		"type" => "gameEnd",
 		"data" => Array(
 			"player" => $user,
 			"playerIndex" => array_search($user, $playerList),
-			"reason" => "skip"
+			"reason" => "skip",
+			"gameDeleted" => $deleteGame,
+			"winnerIndicies" => $winnerIndicies
 		),
 		"timestamp" => time()
 	));
