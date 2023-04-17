@@ -755,6 +755,8 @@ function endGame() {
 				pwd: account.pwd,
 				game: game.id
 			};
+			
+			game.updateNumber++;
 
 			request(requestAddress, requestData).then(res => {
 				if (res.errorLevel > 0) {
@@ -762,7 +764,6 @@ function endGame() {
 					return;
 				}
 				setGameEndVote(game.currentPlayerIndex, !voted);
-				game.updateNumber++;
 				if (res?.data?.gameEnded) {
 					showEndGameScreen({reason: "vote", gameDeleted: res.data.gameDeleted, winnerIndicies: res.data.winnerIndicies});
 					game.updateNumber++; // update a second time for the additional end event
