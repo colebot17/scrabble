@@ -761,7 +761,7 @@ function endGame() {
 					textModal("Error", res.message);
 					return;
 				}
-				setGameEndVote(game.currentPlayerIndex, !voted);
+				setGameEndVote(res.playerIndex, !voted);
 				game.updateNumber++;
 				if (res?.data?.gameEnded) {
 					showEndGameScreen({reason: "vote", gameDeleted: res.data.gameDeleted, winnerIndicies: res.data.winnerIndicies});
