@@ -103,7 +103,7 @@ for ($i = 0; i < count($players); $i++) {
 $winnerIndicies = Array();
 for ($i = 0; i < count($players); $i++) {
 	if ($players[$i]["points"] === $highestScore) {
-		array_push($winnerIndicies, $i);
+		$winnerIndicies[] = $i;
 	}
 }
 
