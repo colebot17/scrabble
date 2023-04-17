@@ -768,7 +768,7 @@ function endGame() {
 					game.updateNumber++; // update a second time for the additional end event
 					return;
 				}
-				textModal("EndGame", res.message);
+				textModal("End Game", res.message);
 			}).catch(err => {
 				throw new Error(err);
 			});
