@@ -81,7 +81,6 @@ var Confetti3 = function() {
                     });
                 };
                 this.update = function(time) {
-                    console.log("Confetti.update");
                     animation.delta_time = (time - animation.time) / 1e3, animation.time = time;
                     for (var i = animation.bursts.length - 1; i >= 0; i--) {
                         // update the burst
