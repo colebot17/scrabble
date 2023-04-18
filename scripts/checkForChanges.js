@@ -222,14 +222,11 @@ function endGameAnimation(el) {
 
         tempButton.id = "tempButton";
         tempButton.style.position = "fixed";
-        // tempButton.style.opacity = "0%";
-        tempButton.style.backgroundColor = "red";
-        tempButton.style.width = "10px";
-        tempButton.style.height = "10px";
+        tempButton.style.opacity = "0%";
 
         const cardBounds = el.getBoundingClientRect();
-        tempButton.style.left = cardBounds.x + (cardBounds.width / 2);
-        tempButton.style.top = cardBounds.y + (cardBounds.height / 2);
+        tempButton.style.left = (cardBounds.x + (cardBounds.width / 2)) + 'px';
+        tempButton.style.top = (cardBounds.y + (cardBounds.height / 2)) + 'px';
 
         let confetti = new Confetti('tempButton');
         confetti.setCount(75);
