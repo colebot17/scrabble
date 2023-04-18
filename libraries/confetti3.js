@@ -42,7 +42,7 @@ var Confetti3 = function() {
                     // create and size the canvas, and set up resize listener
                     var canvas = document.createElement("canvas");
                     d.CTX = canvas.getContext("2d");
-                    ctx = d.CTX
+                    ctx = d.CTX;
                     canvas.width = 2 * window.innerWidth;
                     canvas.height = 2 * window.innerHeight;
                     canvas.style.position = "fixed";
