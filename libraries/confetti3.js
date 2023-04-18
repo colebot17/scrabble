@@ -199,7 +199,7 @@ var Confetti3 = function() {
                 data.CTX.translate(pt1.x + pt2.x / 2, pt1.y + pt2.y / 2);
                 data.CTX.rotate(rotDeg * Math.PI / 180);
                 data.CTX.rect(-pt2.x / 2, -pt2.y / 2, pt2.x, pt2.y);
-                data.CTX.fillStyle = "hsla(" + hue + "deg, 90%, 65%, " + val + "%)";
+                data.CTX.fillStyle = "hsla(" + hue + "deg, 90%, 65%, " + 100 + "%)";
                 data.CTX.fill();
                 data.CTX.restore(); // restore state of all ctx properties (fillStyle)
             };
