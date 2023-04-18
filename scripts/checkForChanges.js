@@ -240,7 +240,7 @@ function endGameAnimation(el) {
 
         setTimeout(() => {
             tempButton.click();
-            setTimeout(() => tempButton.remove(), 10);
+            // setTimeout(() => tempButton.remove(), 10);
         }, 10);
     }, 300);
 }
