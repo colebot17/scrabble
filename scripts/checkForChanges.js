@@ -222,7 +222,10 @@ function endGameAnimation(el) {
 
         tempButton.id = "tempButton";
         tempButton.style.position = "fixed";
-        tempButton.style.opacity = "0%";
+        // tempButton.style.opacity = "0%";
+        tempButton.style.backgroundColor = "red";
+        tempButton.style.width = "10px";
+        tempButton.style.height = "10px";
 
         const cardBounds = el.getBoundingClientRect();
         tempButton.style.left = (cardBounds.x + (cardBounds.width / 2)) + 'px';
@@ -235,9 +238,8 @@ function endGameAnimation(el) {
         confetti.setFade(false);
         confetti.destroyTarget(false);
 
-        setTimeout(() => {
-            tempButton.click();
-            setTimeout(() => {tempButton.remove()}, 10);
-        }, 10);
+        // setTimeout(() => {
+        //     tempButton.click();
+        // }, 10);
     }, 300);
 }
