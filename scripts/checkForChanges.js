@@ -235,8 +235,9 @@ function endGameAnimation(el) {
         confetti.setFade(false);
         confetti.destroyTarget(false);
 
-        // setTimeout(() => {
-        //     tempButton.click();
-        // }, 10);
+        setTimeout(() => {
+            tempButton.click();
+            setTimeout(() => {tempButton.remove()}, 10);
+        }, 10);
     }, 300);
 }
