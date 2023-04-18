@@ -192,14 +192,14 @@ var Confetti3 = function() {
                 data.CTX && data.CTX.clearRect(0, 0, 2 * window.innerWidth, 2 * window.innerHeight)
             };
             drawing.drawRectangle = function(pt1, pt2, rotDeg, hue, val) {
-                console.log("Confetti.Burst.Particle.drawer.drawRectangle");
+                console.log("Confetti.Burst.Particle.drawer.drawRectangle", arguments);
                 if (!data.ctx) return;
                 data.CTX.save(); // save state of all ctx properties (fillStyle)
                 data.CTX.beginPath();
                 data.CTX.translate(pt1.x + pt2.x / 2, pt1.y + pt2.y / 2);
                 data.CTX.rotate(rotDeg * Math.PI / 180);
                 data.CTX.rect(-pt2.x / 2, -pt2.y / 2, pt2.x, pt2.y);
-                data.CTX.fillStyle = "hsla(" + hue + "deg, 90%, 65%, " + 100 + "%)";
+                data.CTX.fillStyle = "hsla(" + hue + "deg, 90%, 65%, " + val + "%)";
                 data.CTX.fill();
                 data.CTX.restore(); // restore state of all ctx properties (fillStyle)
             };
