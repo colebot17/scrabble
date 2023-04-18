@@ -225,6 +225,8 @@ function endGameAnimation(el) {
     tempButton.style.left = cardBounds.x + (cardBounds.width / 2);
     tempButton.style.top = cardBounds.y + (cardBounds.height / 2);
 
+    document.body.appendChild(tempButton);
+
     let confetti = new Confetti('tempButton');
     confetti.setCount(75);
     confetti.setSize(1);
