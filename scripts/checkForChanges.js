@@ -217,6 +217,8 @@ function endGameAnimation(el) {
     }, 10);
 
     const tempButton = document.createElement('button');
+    document.body.appendChild(tempButton);
+
     tempButton.id = "tempButton";
     tempButton.style.position = "fixed";
     tempButton.style.opacity = "0%";
@@ -224,8 +226,6 @@ function endGameAnimation(el) {
     const cardBounds = el.getBoundingClientRect();
     tempButton.style.left = cardBounds.x + (cardBounds.width / 2);
     tempButton.style.top = cardBounds.y + (cardBounds.height / 2);
-
-    document.body.appendChild(tempButton);
 
     let confetti = new Confetti('tempButton');
     confetti.setCount(75);
