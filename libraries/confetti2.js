@@ -14,7 +14,8 @@ var Confetti = function() {
         data = function() {
             function d(id) {
                 var animation = this;
-                this.bursts = [], this.setCount = function(count) {
+                this.bursts = [];
+                this.setCount = function(count) {
                     if ("number" != typeof count) throw new Error("Input must be of type 'number'");
                     d.CONFIG.particle_count = count;
                 };

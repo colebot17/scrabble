@@ -65,18 +65,19 @@ var Confetti3 = function() {
                     // hide the clicked element if destroyTarget set (and element exists)
                     if (d.CONFIG.destroyTarget && animation.element) animation.element.style.visibility = "hidden";
                 };
-                this.setupElement = function(elId) {
+                this.setupElement = elId => {
                     // store the element
                     var el;
                     animation.element = document.getElementById(elId);
 
                     // return if element is not found
-                    if ((el = animation.element) === null || el === undefined) return;
+                    if ((el = animation.element) === null || el === undefined)
+                        return;
 
                     // listen for click on the element
-                    el.addEventListener("click", function(event) {
+                    el.addEventListener("click", event => {
                         // startBurst accounts for 2x canvas dpi
-                        animation.startBurst(event.clientX, event.clientY);
+                        this.startBurst(event.clientX, event.clientY);
                     });
                 };
                 this.update = function(timeSinceLast) {
