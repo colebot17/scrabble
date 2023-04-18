@@ -127,7 +127,7 @@ var Confetti3 = function() {
             burst.prototype.draw = function() {
                 console.log("Confetti.Burst.draw");
                 for (var i = this.particles.length - 1; i >= 0; i--) {
-                    this.particles[i].draw()
+                    this.particles[i].draw();
                 }
             };
             return burst;
@@ -192,6 +192,7 @@ var Confetti3 = function() {
                 data.CTX && data.CTX.clearRect(0, 0, 2 * window.innerWidth, 2 * window.innerHeight)
             };
             drawing.drawRectangle = function(pt1, pt2, rotDeg, hue, val) {
+                console.log("Confetti.Burst.Particle.drawer.drawRectangle");
                 if (!data.ctx) return;
                 data.CTX.save(); // save state of all ctx properties (fillStyle)
                 data.CTX.beginPath();
