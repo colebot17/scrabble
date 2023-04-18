@@ -99,7 +99,7 @@ var Confetti3 = function() {
                 this.delta_time = 0;
                 this.setupCanvasContext();
                 if (id) this.setupElement(id);
-                window.requestAnimationFrame(this.update);
+                //window.requestAnimationFrame(this.update);
             }
             d.prototype.draw = function() {
                 console.log("Confetti.draw");
