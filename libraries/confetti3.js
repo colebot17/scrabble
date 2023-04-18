@@ -81,6 +81,7 @@ var Confetti3 = function() {
                     });
                 };
                 this.update = function(time) {
+                    console.log("Confetti.update");
                     animation.delta_time = (time - animation.time) / 1e3, animation.time = time;
                     for (var i = animation.bursts.length - 1; i >= 0; i--) {
                         // update the burst
@@ -115,6 +116,7 @@ var Confetti3 = function() {
             }
             // functions to update/draw each particle in the burst object
             burst.prototype.update = function(t) {
+                console.log("Confetti.Burst.update");
                 for (var i = this.particles.length - 1; i >= 0; i--) {
                     // update particle
                     this.particles[i].update(t);
@@ -145,6 +147,7 @@ var Confetti3 = function() {
 
             // update all necessary properties of the particle
             particle.prototype.update = function(t) {
+                console.log("Confetti.Burst.Particle.update");
                 this.velocity.y += data.CONFIG.gravity * (this.size.y / (10 * data.CONFIG.particle_size)) * t;
                 this.velocity.x += 25 * (Math.random() - .5) * t;
                 this.velocity.y *= .98;
