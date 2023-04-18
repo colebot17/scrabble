@@ -80,10 +80,17 @@ var Confetti3 = function() {
                         this.startBurst(event.clientX, event.clientY);
                     });
                 };
-                this.update = function(timeSinceLast) {
-                    animation.delta_time = (timeSinceLast - animation.time) / 1e3, animation.time = timeSinceLast;
-                    for (var i = animation.bursts.length - 1; i >= 0; i--) animation.bursts[i].update(animation.delta_time), 0 == animation.bursts[i].particles.length && animation.bursts.splice(i, 1);
-                    animation.draw(), window.requestAnimationFrame(animation.update)
+                this.update = function(time) {
+                    animation.delta_time = (time - animation.time) / 1e3, animation.time = time;
+                    for (var i = animation.bursts.length - 1; i >= 0; i--) {
+                        // update the burst
+                        animation.bursts[i].update(animation.delta_time);
+
+                        // remove the burst if it has no particles
+                        if (animation.bursts[i].particles.length == 0) animation.bursts.splice(i, 1);
+                    };
+                    animation.draw();
+                    window.requestAnimationFrame(animation.update);
                 };
                 if (!d.CONFIG) d.CONFIG = new DefaultConfig;
                 this.time = (new Date).getTime();
@@ -107,11 +114,21 @@ var Confetti3 = function() {
                 for (var i = 0; i < data.CONFIG.particle_count; i++ ) this.particles.push(new Particle(basePt))
             }
             // functions to update/draw each particle in the burst object
-            return burst.prototype.update = function(t) {
-                for (var i = this.particles.length - 1; i >= 0; i--) this.particles[i].update(t), this.particles[i].checkBounds() && this.particles.splice(i, 1)
-            }, burst.prototype.draw = function() {
-                for (var i = this.particles.length - 1; i >= 0; i--) this.particles[i].draw()
-            }, burst
+            burst.prototype.update = function(t) {
+                for (var i = this.particles.length - 1; i >= 0; i--) {
+                    // update particle
+                    this.particles[i].update(t);
+
+                    // remove particle if off screen
+                    if (this.particles[i].checkBounds()) this.particles.splice(i, 1);
+                }
+            };
+            burst.prototype.draw = function() {
+                for (var i = this.particles.length - 1; i >= 0; i--) {
+                    this.particles[i].draw()
+                }
+            };
+            return burst;
         }(),
         Particle = function() {
             // a particle is one piece of confetti
@@ -130,7 +147,8 @@ var Confetti3 = function() {
             particle.prototype.update = function(t) {
                 this.velocity.y += data.CONFIG.gravity * (this.size.y / (10 * data.CONFIG.particle_size)) * t;
                 this.velocity.x += 25 * (Math.random() - .5) * t;
-                this.velocity.y *= .98, this.velocity.x *= .98;
+                this.velocity.y *= .98;
+                this.velocity.x *= .98;
                 this.position.x += this.velocity.x;
                 this.position.y += this.velocity.y;
                 this.rotation += this.rotation_speed;
@@ -157,12 +175,13 @@ var Confetti3 = function() {
         }(),
         velocityGenerator = function() {
             function generator() {}
-            return generator.generateVelocity = function() {
+            generator.generateVelocity = function() {
                 var powerRandX = Math.random() - .5,
                     powerRandY = Math.random() - .7,
                     hypotenuse = Math.sqrt(powerRandX * powerRandX + powerRandY * powerRandY);
                 return powerRandY /= hypotenuse, new OrderedPair((powerRandX /= hypotenuse) * (Math.random() * data.CONFIG.explosion_power), powerRandY * (Math.random() * data.CONFIG.explosion_power))
-            }, generator
+            };
+            return generator;
         }(),
         drawer = function() {
             function drawing() {}
