@@ -223,7 +223,7 @@ function endGameAnimation(el) {
         tempButton.id = "tempButton";
         tempButton.style.position = "fixed";
         // tempButton.style.opacity = "0%";
-        tempButton.style.background-color = "red";
+        tempButton.style.backgroundColor = "red";
 
         const cardBounds = el.getBoundingClientRect();
         tempButton.style.left = cardBounds.x + (cardBounds.width / 2);
