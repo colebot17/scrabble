@@ -217,12 +217,13 @@ function endGameAnimation(el) {
     }, 10);
 
     setTimeout(() => {
-        const tempButton = document.createElement('button');
+        const tempButton = document.createElement('span');
         document.body.appendChild(tempButton);
 
         tempButton.id = "tempButton";
         tempButton.style.position = "fixed";
         // tempButton.style.opacity = "0%";
+        tempButton.style.background-color = "red";
 
         const cardBounds = el.getBoundingClientRect();
         tempButton.style.left = cardBounds.x + (cardBounds.width / 2);
@@ -233,7 +234,7 @@ function endGameAnimation(el) {
         confetti.setSize(1);
         confetti.setPower(25);
         confetti.setFade(false);
-        confetti.destroyTarget(true);
+        confetti.destroyTarget(false);
 
         // setTimeout(() => {
         //     tempButton.click();
