@@ -1,7 +1,7 @@
 // https://confettijs.org/
 // de-obfuscated by hand
 // modified to fit the needs of this project
-var Confetti = function() {
+var Confetti3 = function() {
     var DefaultConfig = function() {
             return function() {
                 this.gravity = 10;
