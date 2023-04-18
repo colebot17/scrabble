@@ -74,7 +74,6 @@ var Confetti = function() {
                 window.requestAnimationFrame(this.update);
             }
             d.prototype.draw = function() {
-                console.log("Confetti.draw");
                 drawer.clearScreen();
                 for (var i = 0, bursts = this.bursts; i < bursts.length; i++) {
                     bursts[i].draw();
@@ -92,7 +91,6 @@ var Confetti = function() {
             return burst.prototype.update = function(t) {
                 for (var i = this.particles.length - 1; i >= 0; i--) this.particles[i].update(t), this.particles[i].checkBounds() && this.particles.splice(i, 1)
             }, burst.prototype.draw = function() {
-                console.log("Confetti.Burst.draw");
                 for (var i = this.particles.length - 1; i >= 0; i--) this.particles[i].draw()
             }, burst
         }(),
@@ -127,7 +125,6 @@ var Confetti = function() {
 
             // draw a rectangle for the particle (drawRectangle has randomness built in)
             particle.prototype.draw = function() {
-                console.log("Confetti.Burst.Particle.draw");
                 drawer.drawRectangle(this.position, this.size, this.rotation, this.hue, this.opacity);
             };
 

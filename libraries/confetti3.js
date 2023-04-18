@@ -101,6 +101,7 @@ var Confetti3 = function() {
                 window.requestAnimationFrame(this.update);
             }
             d.prototype.draw = function() {
+                console.log("Confetti.draw");
                 drawer.clearScreen();
                 for (var i = 0, bursts = this.bursts; i < bursts.length; i++) {
                     bursts[i].draw();
@@ -116,7 +117,6 @@ var Confetti3 = function() {
             }
             // functions to update/draw each particle in the burst object
             burst.prototype.update = function(t) {
-                console.log("Confetti.Burst.update");
                 for (var i = this.particles.length - 1; i >= 0; i--) {
                     // update particle
                     this.particles[i].update(t);
@@ -126,6 +126,7 @@ var Confetti3 = function() {
                 }
             };
             burst.prototype.draw = function() {
+                console.log("Confetti.Burst.draw");
                 for (var i = this.particles.length - 1; i >= 0; i--) {
                     this.particles[i].draw()
                 }
@@ -147,7 +148,6 @@ var Confetti3 = function() {
 
             // update all necessary properties of the particle
             particle.prototype.update = function(t) {
-                console.log("Confetti.Burst.Particle.update");
                 this.velocity.y += data.CONFIG.gravity * (this.size.y / (10 * data.CONFIG.particle_size)) * t;
                 this.velocity.x += 25 * (Math.random() - .5) * t;
                 this.velocity.y *= .98;
@@ -165,6 +165,7 @@ var Confetti3 = function() {
 
             // draw a rectangle for the particle (drawRectangle has randomness built in)
             particle.prototype.draw = function() {
+                console.log("Confetti.Burst.Particle.draw");
                 drawer.drawRectangle(this.position, this.size, this.rotation, this.hue, this.opacity);
             };
 
