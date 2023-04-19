@@ -214,14 +214,14 @@ function endGameAnimation(el) {
     setTimeout(() => {
         el.style.scale = "100%";
         el.style.opacity = "100%";
-    }, 10);
-
-    setTimeout(() => {
-        const cardBounds = el.getBoundingClientRect();
-        const x = (cardBounds.x + (cardBounds.width / 2));
-        const y = (cardBounds.y + (cardBounds.height / 2));
 
         let confetti = new Confetti();
-        confetti.startBurst(x, y);
-    }, 300);
+        setTimeout(() => {
+            const cardBounds = el.getBoundingClientRect();
+            const x = (cardBounds.x + (cardBounds.width / 2));
+            const y = (cardBounds.y + (cardBounds.height / 2));
+
+            confetti.startBurst(x, y);
+        }, 300);
+    }, 10);
 }
