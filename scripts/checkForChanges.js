@@ -36,6 +36,7 @@ Change Types:
     gameRename             - done
     chatMessageSend        - done
     turnSkip               - done
+    gameDelete
 
 */
 

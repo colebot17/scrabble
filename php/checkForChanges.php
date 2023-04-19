@@ -31,6 +31,16 @@ $sql = "SELECT updates FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $updates = json_decode($row['updates'], true);
+
+if (!$updates) {
+    $ret = Array(
+        "errorLevel" => 1,
+        "message" => "This game has been permanently deleted.",
+        "data" => 0
+    );
+    exit(json_encode($ret));
+}
+
 $updateNumberServer = count($updates);
 
 if ($updateNumberServer > $updateNumberClient) {

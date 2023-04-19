@@ -88,22 +88,24 @@ if ($endGame) {
 	}
 }
 
-// reupload the player list to the server
-$playersJson = json_encode($players);
-$sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
+if (!$deleteGame) {
+	// reupload the player list to the server
+	$playersJson = json_encode($players);
+	$sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
+	$query = mysqli_query($conn, $sql);
 
-// calculate the winning player(s)
-$highestScore = 0;
-for ($i = 0; $i < count($players); $i++) {
-	if ($players[$i]["points"] > $highestScore) {
-		$highestScore = $players[$i]["points"];
+	// calculate the winning player(s)
+	$highestScore = 0;
+	for ($i = 0; $i < count($players); $i++) {
+		if ($players[$i]["points"] > $highestScore) {
+			$highestScore = $players[$i]["points"];
+		}
 	}
-}
-$winnerIndicies = Array();
-for ($i = 0; $i < count($players); $i++) {
-	if ($players[$i]["points"] === $highestScore) {
-		$winnerIndicies[] = $i;
+	$winnerIndicies = Array();
+	for ($i = 0; $i < count($players); $i++) {
+		if ($players[$i]["points"] === $highestScore) {
+			$winnerIndicies[] = $i;
+		}
 	}
 }
 
@@ -113,11 +115,13 @@ $res = Array(
 	"data" => Array(
 		"gameEnded" => $endGame,
 		"gameDeleted" => $deleteGame,
-		"winnerIndicies" => $winnerIndicies
+		"winnerIndicies" => $winnerIndicies || []
 	)
 );
 
 echo json_encode($res);
+
+if ($deleteGame) exit();
 
 // add to update list
 $sql = "SELECT updates FROM games WHERE id='$gameId'";
