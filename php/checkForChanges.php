@@ -30,9 +30,8 @@ if (!password_verify($pwd, $row['pwd'])) {
 $sql = "SELECT updates FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
-$updates = json_decode($row['updates'], true);
 
-if (!$updates) {
+if (!count($row)) {
     $ret = Array(
         "errorLevel" => 0,
         "message" => "This game has been permanently deleted.",
@@ -49,6 +48,7 @@ if (!$updates) {
     exit(json_encode($ret));
 }
 
+$updates = json_decode($row['updates'], true);
 $updateNumberServer = count($updates);
 
 if ($updateNumberServer > $updateNumberClient) {
