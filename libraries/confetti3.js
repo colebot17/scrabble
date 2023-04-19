@@ -115,7 +115,7 @@ var Confetti3 = function() {
             function burst(basePt) {
                 // add all particles to center point
                 this.particles = [];
-                for (var i = 0; i < data.CONFIG.particle_count; i++ ) this.particles.push(new Particle(basePt))
+                for (var i = 0; i < data.CONFIG.particle_count; i++ ) this.particles.push(new Particle(basePt));
             }
             // functions to update/draw each particle in the burst object
             burst.prototype.update = function(t) {
@@ -196,7 +196,7 @@ var Confetti3 = function() {
             };
             drawing.drawRectangle = function(pt1, pt2, rotDeg, hue, val) {
                 console.log("Confetti.Burst.Particle.drawer.drawRectangle", arguments);
-                if (!data.ctx) return;
+                if (!data.CTX) return;
                 data.CTX.save(); // save state of all ctx properties (fillStyle)
                 data.CTX.beginPath();
                 data.CTX.translate(pt1.x + pt2.x / 2, pt1.y + pt2.y / 2);
