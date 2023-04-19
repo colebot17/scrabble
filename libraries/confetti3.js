@@ -1,8 +1,7 @@
 // https://confettijs.org/
 // de-obfuscated by hand
 // modified to fit the needs of this project
-var ctx;
-var Confetti3 = function() {
+var Confetti = function() {
     var DefaultConfig = function() {
             return function() {
                 this.gravity = 10;
@@ -42,7 +41,6 @@ var Confetti3 = function() {
                     // create and size the canvas, and set up resize listener
                     var canvas = document.createElement("canvas");
                     d.CTX = canvas.getContext("2d");
-                    ctx = d.CTX;
                     canvas.width = 2 * window.innerWidth;
                     canvas.height = 2 * window.innerHeight;
                     canvas.style.position = "fixed";
