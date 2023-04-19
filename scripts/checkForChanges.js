@@ -207,6 +207,8 @@ function showEndGameScreen(data) {
     });
 }
 
+var confetti;
+
 function endGameAnimation(el) {
     el.style.scale = "500%";
     el.style.opacity = "0%";
@@ -215,7 +217,7 @@ function endGameAnimation(el) {
         el.style.scale = "100%";
         el.style.opacity = "100%";
 
-        let confetti = new Confetti();
+        if (!confetti) confetti = new Confetti();
         setTimeout(() => {
             const cardBounds = el.getBoundingClientRect();
             const x = (cardBounds.x + (cardBounds.width / 2));
