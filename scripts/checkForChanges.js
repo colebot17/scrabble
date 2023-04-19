@@ -197,9 +197,9 @@ function showEndGameScreen(data) {
     loadGamesList();
     textModal("Game Over!", message, {
         complete: () => {
+            showTab('account');
+            setGamesList(data.gameDeleted ? 'active' : 'inactive');
             if (!data.gameDeleted) {
-                showTab('account');
-                setGamesList('inactive');
                 endGameAnimation(document.getElementById('listGame' + game.id));
             }
         }
