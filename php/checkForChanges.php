@@ -34,7 +34,7 @@ $updates = json_decode($row['updates'], true);
 
 if (!$updates) {
     $ret = Array(
-        "errorLevel" => 1,
+        "errorLevel" => 0,
         "message" => "This game has been permanently deleted.",
         "data" => 0
     );
