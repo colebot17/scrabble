@@ -36,7 +36,15 @@ if (!$updates) {
     $ret = Array(
         "errorLevel" => 0,
         "message" => "This game has been permanently deleted.",
-        "data" => 0
+        "data" => Array(
+            Array(
+                "type" => "gameEnd",
+                "data" => Array(
+                    "gameDeleted" => true,
+                    "winnerIndicies" => Array()
+                )
+            )
+        )
     );
     exit(json_encode($ret));
 }

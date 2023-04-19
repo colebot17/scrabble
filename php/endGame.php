@@ -145,7 +145,7 @@ if ($endGame) {
 			"player" => $user,
 			"playerIndex" => array_search($user, $playerList),
 			"reason" => "vote",
-			"gameDeleted" => $deleteGame,
+			"gameDeleted" => false,
 			"winnerIndicies" => $winnerIndicies
 		),
 		"timestamp" => time()

@@ -184,12 +184,10 @@ function showEndGameScreen(data) {
     }
 
     const message = /* html */ `
-        This game has ended! Good Job!
+        This game is over! Good Job!
         <br><br>
-        ${winnerString} won.
-        <br><br>
-        End Reason: ${endReasons[data.reason] || data.reason}
-        <br><br>
+        ${winnerString ? /* html */ `${winnerString} won.<br><br>` : ``}
+        ${data.reason ? /* html */ `End Reason: ${endReasons[data.reason] || data.reason}<br><br>` : ``}
         ${data.gameDeleted
             ? `This game was deleted because no players scored any points.`
             : `This game has been archived to the inactive games page.`
