@@ -217,30 +217,17 @@ function endGameAnimation(el) {
     }, 10);
 
     setTimeout(() => {
-        const tempButton = document.createElement('span');
-        document.body.appendChild(tempButton);
-
-        tempButton.id = "tempButton";
-        tempButton.style.position = "fixed";
-        // tempButton.style.opacity = "0%";
-        tempButton.style.backgroundColor = "red";
-        tempButton.style.width = "10px";
-        tempButton.style.height = "10px";
-
         const cardBounds = el.getBoundingClientRect();
-        tempButton.style.left = (cardBounds.x + (cardBounds.width / 2)) + 'px';
-        tempButton.style.top = (cardBounds.y + (cardBounds.height / 2)) + 'px';
+        const x = (cardBounds.x + (cardBounds.width / 2));
+        const y = (cardBounds.y + (cardBounds.height / 2));
 
-        let confetti = new Confetti('tempButton');
+        let confetti = new Confetti();
         confetti.setCount(75);
         confetti.setSize(1);
         confetti.setPower(25);
         confetti.setFade(false);
         confetti.destroyTarget(false);
 
-        setTimeout(() => {
-            tempButton.click();
-            // setTimeout(() => tempButton.remove(), 10);
-        }, 10);
+        confetti.startBurst(x, y);
     }, 300);
 }
