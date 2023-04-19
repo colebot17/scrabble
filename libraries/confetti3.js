@@ -83,7 +83,8 @@ var Confetti3 = function() {
                     });
                 };
                 this.update = function(time) {
-                    animation.delta_time = (time - animation.time) / 1e3, animation.time = time;
+                    animation.delta_time = (time - animation.time) / 1e3;
+                    animation.time = time;
                     for (var i = animation.bursts.length - 1; i >= 0; i--) {
                         // update the burst
                         animation.bursts[i].update(animation.delta_time);
@@ -99,7 +100,7 @@ var Confetti3 = function() {
                 this.delta_time = 0;
                 this.setupCanvasContext();
                 if (id) this.setupElement(id);
-                //window.requestAnimationFrame(this.update);
+                window.requestAnimationFrame(this.update);
             }
             d.prototype.draw = function() {
                 console.log("Confetti.draw");
