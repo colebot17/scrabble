@@ -222,12 +222,6 @@ function endGameAnimation(el) {
         const y = (cardBounds.y + (cardBounds.height / 2));
 
         let confetti = new Confetti();
-        confetti.setCount(75);
-        confetti.setSize(1);
-        confetti.setPower(25);
-        confetti.setFade(false);
-        confetti.destroyTarget(false);
-
         confetti.startBurst(x, y);
     }, 300);
 }
