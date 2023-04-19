@@ -31,7 +31,7 @@ $sql = "SELECT updates FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 
-if (!count($row)) {
+if (mysqli_num_rows($query) === 0) {
     $ret = Array(
         "errorLevel" => 0,
         "message" => "This game has been permanently deleted.",
