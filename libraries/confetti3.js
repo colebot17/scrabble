@@ -103,7 +103,6 @@ var Confetti3 = function() {
                 window.requestAnimationFrame(this.update);
             }
             d.prototype.draw = function() {
-                console.log("Confetti.draw");
                 drawer.clearScreen();
                 for (var i = 0, bursts = this.bursts; i < bursts.length; i++) {
                     bursts[i].draw();
@@ -128,7 +127,6 @@ var Confetti3 = function() {
                 }
             };
             burst.prototype.draw = function() {
-                console.log("Confetti.Burst.draw");
                 for (var i = this.particles.length - 1; i >= 0; i--) {
                     this.particles[i].draw();
                 }
@@ -167,7 +165,6 @@ var Confetti3 = function() {
 
             // draw a rectangle for the particle (drawRectangle has randomness built in)
             particle.prototype.draw = function() {
-                console.log("Confetti.Burst.Particle.draw");
                 drawer.drawRectangle(this.position, this.size, this.rotation, this.hue, this.opacity);
             };
 
@@ -195,7 +192,6 @@ var Confetti3 = function() {
                 data.CTX && data.CTX.clearRect(0, 0, 2 * window.innerWidth, 2 * window.innerHeight)
             };
             drawing.drawRectangle = function(pt1, pt2, rotDeg, hue, val) {
-                console.log("Confetti.Burst.Particle.drawer.drawRectangle", arguments);
                 if (!data.CTX) return;
                 data.CTX.save(); // save state of all ctx properties (fillStyle)
                 data.CTX.beginPath();
