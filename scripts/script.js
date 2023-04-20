@@ -975,7 +975,7 @@ function makeMove() {
 
 	request('makeMove.php', {
 		game: game.id,
-		tiles: newTiles,
+		tiles: JSON.stringify(newTiles),
 		user: account.id,
 		pwd: account.pwd
 	}).then(res => {
