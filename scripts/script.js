@@ -733,13 +733,14 @@ function endGame() {
 		}
 	}
 	const votesLeft = game.players.length - endGameCount;
+	const willBeDeleted = votesLeft <= 1;
 
 	let confirmMsg;
 	if (voted) {
 		confirmMsg = "Do you really want to revoke your vote to end the game?";
 	} else {
 		confirmMsg = "Do you really want to cast your vote to end the game? " + (
-			votesLeft <= 1
+			willBeDeleted
 			? "You are the final player to do so, so the game will end."
 			: "If you do, " + (votesLeft - 1) + " player" + ((votesLeft - 1) === 1 ? "" : "s") + " will still have to vote before the game ends."
 		);
@@ -756,7 +757,8 @@ function endGame() {
 				game: game.id
 			};
 			
-			game.updateNumber++;
+			// update update number twice if game will be deleted
+			game.updateNumber += (willBeDeleted ? 2 : 1);
 
 			request(requestAddress, requestData).then(res => {
 				if (res.errorLevel > 0) {
@@ -765,8 +767,18 @@ function endGame() {
 				}
 				setGameEndVote(game.currentPlayerIndex, !voted);
 				if (res?.data?.gameEnded) {
-					showEndGameScreen({reason: "vote", gameDeleted: res.data.gameDeleted, winnerIndicies: res.data.winnerIndicies});
-					game.updateNumber++; // update a second time for the additional end event
+					if (res.data.gameDeleted) {
+						showEndGameScreen({
+							gameDeleted: true,
+							winnerIndicies: []
+						});
+					} else {
+						showEndGameScreen({
+							reason: "vote",
+							gameDeleted: false,
+							winnerIndicies: res.data.winnerIndicies
+						});
+					}
 					return;
 				}
 				textModal("End Game", res.message);
