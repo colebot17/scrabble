@@ -81,7 +81,6 @@ function update(updates) {
                 break;
             case "gameEnd":
                 showEndGameScreen(update.data);
-                if (update.data.gameDeleted) stopChecking = true;
                 break;
             default:
                 textModal('Game Changes', 'New data is available on the server. Reload to access.');
@@ -204,6 +203,9 @@ function showEndGameScreen(data) {
             : `This game has been archived to the inactive games page.`
         }
     `;
+
+    // stop checking for changes if the game ended
+    if (update.data.gameDeleted) stopChecking = true;
 
     loadGamesList();
     textModal("Game Over!", message, {
