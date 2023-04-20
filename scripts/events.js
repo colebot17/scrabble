@@ -240,50 +240,47 @@ function handleCanvasMouseMove(e) {
     }
     
     if (dragged) {
-        cursor = 'no-drop';
+        cursor = 'grabbing';
 
-        if (!tile) {
-            cursor = (game.inactive ? 'no-drop' : 'grabbing');
+        if (tile && locked) cursor = 'no-drop';
+
+        let dropZone;
+
+        // find the current drop zone
+        for (let i in canvas.dropZones) {
+            const xInDropZone = x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x;
+            const yInDropZone = y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y;
+            const inDropZone = xInDropZone && yInDropZone;
+            if (inDropZone) {
+                dropZone = i;
+                break;
+            };
         }
 
-        if (boardY > 14) {
-            cursor = 'grabbing';
+        const dropZoneChanged = dropZone != canvas.expandedDropZone;
 
-            let dropZone;
-
-            // find the current drop zone
-            for (let i in canvas.dropZones) {
-                const xInDropZone = x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x;
-                const yInDropZone = y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y;
-                const inDropZone = xInDropZone && yInDropZone;
-                if (inDropZone) dropZone = i;
-            }
-
-            const dropZoneChanged = dropZone != canvas.expandedDropZone;
-
-            // expand the space between letters in bank as necessary
-            for (let i in canvas.dropZones) {
-                if (dropZone == i && dropZoneChanged) {
-                    // make the gap bigger
-                    if (i == 0) {
-                        canvas.gapBeforeBankAnimation = new Animation(dropZoneAnimationTime, 0, canvas.extraGapBeforeBank, 1);
-                    } else {
-                        const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
-                        current.gapAnimation = new Animation(dropZoneAnimationTime, 0, current.extraGapAfter, 1);
-                    }
-                } else if (dropZoneChanged) {
-                    // make the gap smaller
-                    if (i == 0) {
-                        canvas.gapBeforeBankAnimation = new Animation(dropZoneAnimationTime, 0, canvas.extraGapBeforeBank, 0);
-                    } else {
-                        const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
-                        current.gapAnimation = new Animation(dropZoneAnimationTime, 0, current.extraGapAfter, 0);
-                    }
+        // expand the space between letters in bank as necessary
+        for (let i in canvas.dropZones) {
+            if (dropZone == i && dropZoneChanged) {
+                // make the gap bigger
+                if (i == 0) {
+                    canvas.gapBeforeBankAnimation = new Animation(dropZoneAnimationTime, 0, canvas.extraGapBeforeBank, 1);
+                } else {
+                    const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
+                    current.gapAnimation = new Animation(dropZoneAnimationTime, 0, current.extraGapAfter, 1);
+                }
+            } else if (dropZoneChanged) {
+                // make the gap smaller
+                if (i == 0) {
+                    canvas.gapBeforeBankAnimation = new Animation(dropZoneAnimationTime, 0, canvas.extraGapBeforeBank, 0);
+                } else {
+                    const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
+                    current.gapAnimation = new Animation(dropZoneAnimationTime, 0, current.extraGapAfter, 0);
                 }
             }
-
-            canvas.expandedDropZone = dropZone;
         }
+
+        canvas.expandedDropZone = dropZone;
     }
 
     // set the css
