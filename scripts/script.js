@@ -973,62 +973,70 @@ function makeMove() {
 	// first, get a list of all unlocked tiles
 	var newTiles = getUnlockedTiles();
 
+	request('makeMove.php', {
+		game: game.id,
+		tiles: newTiles,
+		user: account.id,
+		pwd: account.pwd
+	}).then(res => {
+		if (res.errorLevel === 0) {
+			loadGame(game.id);
+			loadGamesList();
+			if (res.status === 1) {
+				textModal("Game Over!", res.message);
+			}
+
+			let newPoints = 0;
+			for (let i = 0; i < res.data.newWords.length; i++) {
+				newPoints += res.data.newWords[i].points;
+			}
+
+			showPointsOverlay(account.id, newPoints);
+		} else {
+			textModal("Error", res.message);
+		}
+	}).catch(err => {
+		throw new Error(err);
+	});
+
 	$.ajax(
 		location + '/php/makeMove.php',
 		{
 			data: {
-				game: game.id,
-				tiles: newTiles,
-				user: account.id,
-				pwd: account.pwd
 			},
 			method: "POST",
 			success: function(data) {
-				// var tab = window.open('about:blank', '_blank');
-				// tab.document.write(data);
-				jsonData = JSON.parse(data);
-				if (jsonData.errorLevel === 0) {
-					loadGame(game.id);
-					loadGamesList();
-					if (jsonData.status === 1) {
-						textModal("Game Over!", jsonData.message);
-					}
-
-					let newPoints = 0;
-					for (let i = 0; i < jsonData.data.newWords.length; i++) {
-						newPoints += jsonData.data.newWords[i].points;
-					}
-
-					const gameControlsCell = document.getElementById('gameControlsCell');
-					const pointsNumber = document.querySelector('.gamePlayerListPlayer.currentPlayer .points');
-					const bound = pointsNumber.getBoundingClientRect();
-					const newPointsOverlay = document.createElement('div');
-					newPointsOverlay.classList.add('overlay');
-					newPointsOverlay.style.color = 'green';
-					newPointsOverlay.style.background = 'var(--background-2)';
-					newPointsOverlay.style.boxShadow = '0 0 10px #00000060';
-					newPointsOverlay.style.padding = '2px 5px';
-					newPointsOverlay.style.borderRadius = '5px';
-					newPointsOverlay.textContent = '+' + newPoints;
-					gameControlsCell.appendChild(newPointsOverlay);
-					newPointsOverlay.style.position = 'fixed';
-					const overlayBound = newPointsOverlay.getBoundingClientRect();
-					newPointsOverlay.style.top = (bound.y - overlayBound.height + 4) + 'px';
-					newPointsOverlay.style.left = (bound.x + (bound.width / 2) - (overlayBound.width / 2)) + 'px';
-					newPointsOverlay.classList.add('fadeUpOut');
-
-					setTimeout(() => {
-						newPointsOverlay.remove();
-					}, 3000);
-				} else {
-					textModal("Error", jsonData.message);
-				}
+				
 			},
 			error: function() {
 				console.error("Request could not be completed.");
 			}
 		}
 	);
+}
+
+function showPointsOverlay(userId, newPoints) {
+	const gameControlsCell = document.getElementById('gameControlsCell');
+	const pointsNumber = document.querySelector('.gamePlayerListPlayer[data-playerId="' + userId + '"] .points');
+	const bound = pointsNumber.getBoundingClientRect();
+	const newPointsOverlay = document.createElement('div');
+	newPointsOverlay.classList.add('overlay');
+	newPointsOverlay.style.color = 'green';
+	newPointsOverlay.style.background = 'var(--background-2)';
+	newPointsOverlay.style.boxShadow = '0 0 10px #00000060';
+	newPointsOverlay.style.padding = '2px 5px';
+	newPointsOverlay.style.borderRadius = '5px';
+	newPointsOverlay.textContent = '+' + newPoints;
+	gameControlsCell.appendChild(newPointsOverlay);
+	newPointsOverlay.style.position = 'fixed';
+	const overlayBound = newPointsOverlay.getBoundingClientRect();
+	newPointsOverlay.style.top = (bound.y - overlayBound.height + 4) + 'px';
+	newPointsOverlay.style.left = (bound.x + (bound.width / 2) - (overlayBound.width / 2)) + 'px';
+	newPointsOverlay.classList.add('fadeUpOut');
+
+	setTimeout(() => {
+		newPointsOverlay.remove();
+	}, 3000);
 }
 
 function checkPoints() {
