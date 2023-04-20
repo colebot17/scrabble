@@ -8,7 +8,7 @@ $dbname = "scrabble";
 
 // get data from GET/POST
 $gameId = $_POST['game'];
-$tiles = $_POST['tiles']; // already an array
+$tiles = json_decode($_POST['tiles'], true);
 $user = $_POST['user'];
 $pwd = $_POST['pwd'];
 
