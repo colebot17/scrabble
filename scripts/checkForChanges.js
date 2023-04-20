@@ -205,7 +205,7 @@ function showEndGameScreen(data) {
     `;
 
     // stop checking for changes if the game ended
-    if (update.data.gameDeleted) stopChecking = true;
+    if (data.gameDeleted) stopChecking = true;
 
     loadGamesList();
     textModal("Game Over!", message, {
