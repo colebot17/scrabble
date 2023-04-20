@@ -1364,4 +1364,8 @@ function showTab(tab) {
 	if (tab === 'chat' || tab === 'game') {
 		chatScrollBottom();
 	}
+
+	if (tab === 'account') {
+		stopChecking = true;
+	}
 }
