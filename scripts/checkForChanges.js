@@ -24,12 +24,12 @@ function checkForChanges() {
         if (res.data.length > 0) {
             update(res.data);
         }
-        startChangeCheck();
+        nextChangeCheck();
     }).catch((error) => {
         console.error(error);
         textModal('Error', 'An error occurred checking for changes. Try again?', {
             cancelable: true,
-            complete: startChangeCheck
+            complete: nextChangeCheck
         });
     });
 }
