@@ -942,7 +942,7 @@ function gameInit() {
 
 	setCanvasSize();
 	
-	setTimeout(checkForChanges, 3000);
+	setTimeout(startChangeCheck, 3000);
 
 	chatInit();
 }

@@ -1,5 +1,15 @@
 var stopChecking = false;
 
+function startChangeCheck() {
+    stopChecking = false;
+    checkForChanges();
+}
+
+function nextChangeCheck() {
+    if (stopChecking) return;
+    setTimeout(checkForChanges, 3000);
+}
+
 function checkForChanges() {
     request('checkForChanges.php', {
         user: account.id,
@@ -14,12 +24,12 @@ function checkForChanges() {
         if (res.data.length > 0) {
             update(res.data);
         }
-        setTimeout(checkForChanges, 3000);
+        setupChangeCheck();
     }).catch((error) => {
         console.error(error);
         textModal('Error', 'An error occurred checking for changes. Try again?', {
             cancelable: true,
-            complete: () => setTimeout(checkForChanges, 3000)
+            complete: setupChangeCheck
         });
     });
 }
@@ -71,6 +81,7 @@ function update(updates) {
                 break;
             case "gameEnd":
                 showEndGameScreen(update.data);
+                if (update.data.gameDeleted) stopChecking = true;
                 break;
             default:
                 textModal('Game Changes', 'New data is available on the server. Reload to access.');
