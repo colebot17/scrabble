@@ -112,7 +112,7 @@ function updateMove(data) {
 
     // show the temporary title if page not visible
     if (document.hidden) {  
-        const currentPlayerTurn = turn % game.players.length == game.currentPlayerIndex;
+        const currentPlayerTurn = game.turn % game.players.length == game.currentPlayerIndex;
         let tempTitle = game.players[update.data.playerIndex].name + " made their move!";
         if (currentPlayerTurn) tempTitle = "It's your turn! " + tempTitle;
         temporaryTitle(tempTitle);
