@@ -248,9 +248,12 @@ function endGameAnimation(el) {
     }, 10);
 }
 
-function temporaryTitle(title) {
+function temporaryTitle(title, callback) {
     document.title = title;
     document.addEventListener('visibilitychange', e => {
-        if (document.hidden === false) document.title = "Scrabble - Colebot.com";
+        if (document.hidden === false) {
+            document.title = "Scrabble - Colebot.com";
+            callback();
+        };
     });
 }
