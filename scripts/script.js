@@ -27,6 +27,8 @@ const scoreMultipliers = [
 	{letter: 1, word: 1},
 ];
 
+const windowTitle = "Scrabble - Colebot.com";
+
 var game;
 
 var dragged;
@@ -1376,4 +1378,14 @@ function showTab(tab) {
 	if (tab === 'account') {
 		stopChecking = true;
 	}
+}
+
+function temporaryTitle(title, callback) {
+    document.title = title;
+    document.addEventListener('visibilitychange', e => {
+        if (document.hidden === false) {
+            document.title = windowTitle;
+            callback();
+        };
+    });
 }

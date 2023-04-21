@@ -247,13 +247,3 @@ function endGameAnimation(el) {
         }, 300);
     }, 10);
 }
-
-function temporaryTitle(title, callback) {
-    document.title = title;
-    document.addEventListener('visibilitychange', e => {
-        if (document.hidden === false) {
-            document.title = "Scrabble - Colebot.com";
-            callback();
-        };
-    });
-}
