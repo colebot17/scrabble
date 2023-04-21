@@ -89,6 +89,15 @@ function update(updates) {
 }
 
 function updateMove(data) {
+    if (document.hidden) { // show temporary title if page not visible
+        const currentPlayerTurn = (game.turn + 1) % game.players.length == game.currentPlayerIndex;
+        let tempTitle = game.players[data.playerIndex].name + " made their move!";
+        if (currentPlayerTurn) tempTitle = "It's your turn! " + tempTitle;
+        // don't actually perform the update until the user switches back (for the animation and performance)
+        temporaryTitle(tempTitle, () => updateMove(data)); 
+        return;
+    }
+
     // update points
     game.players[data.playerIndex].points += data.newPoints;
     const pointsBox = document.querySelector('.gamePlayerListPlayer[data-playerid="' + game.players[data.playerIndex].id + '"] .points');
@@ -108,14 +117,6 @@ function updateMove(data) {
         game.board[tile.y][tile.x] = tile;
         game.board[tile.y][tile.x].size = 0;
         game.board[tile.y][tile.x].animation = new Animation(750);
-    }
-
-    // show the temporary title if page not visible
-    if (document.hidden) {  
-        const currentPlayerTurn = game.turn % game.players.length == game.currentPlayerIndex;
-        let tempTitle = game.players[data.playerIndex].name + " made their move!";
-        if (currentPlayerTurn) tempTitle = "It's your turn! " + tempTitle;
-        temporaryTitle(tempTitle);
     }
 }
 
