@@ -1,6 +1,3 @@
-const checkIntervalLength = 3000;
-const checkIntervalLengthHidden = 30000;
-
 var stopChecking = false;
 
 function startChangeCheck() {
@@ -23,7 +20,7 @@ function checkForChanges() {
         if (res.data.length > 0) {
             update(res.data);
         }
-        setTimeout(checkForChanges, (!document.hidden ? checkIntervalLength : checkIntervalLengthHidden));
+        setTimeout(checkForChanges, 3000);
     }).catch((error) => {
         console.error(error);
         textModal('Error', 'An error occurred checking for changes. Try again?', {
