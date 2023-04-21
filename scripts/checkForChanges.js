@@ -1,3 +1,6 @@
+const checkIntervalLength = 3000;
+const checkIntervalLengthHidden = 30000;
+
 var stopChecking = false;
 
 function startChangeCheck() {
@@ -5,12 +8,8 @@ function startChangeCheck() {
     checkForChanges();
 }
 
-function nextChangeCheck() {
-    if (stopChecking) return;
-    setTimeout(checkForChanges, 3000);
-}
-
 function checkForChanges() {
+    if (stopChecking) return;
     request('checkForChanges.php', {
         user: account.id,
         pwd: account.pwd,
@@ -24,12 +23,12 @@ function checkForChanges() {
         if (res.data.length > 0) {
             update(res.data);
         }
-        nextChangeCheck();
+        setTimeout(checkForChanges, (!document.hidden ? checkIntervalLength : checkIntervalLengthHidden));
     }).catch((error) => {
         console.error(error);
         textModal('Error', 'An error occurred checking for changes. Try again?', {
             cancelable: true,
-            complete: nextChangeCheck
+            complete: checkForChanges
         });
     });
 }
@@ -109,6 +108,14 @@ function updateMove(data) {
         game.board[tile.y][tile.x] = tile;
         game.board[tile.y][tile.x].size = 0;
         game.board[tile.y][tile.x].animation = new Animation(750);
+    }
+
+    // show the temporary title if page not visible
+    if (window.hidden) {  
+        const currentPlayerTurn = turn % game.players.length == game.currentPlayerIndex;
+        let tempTitle = game.players[update.data.playerIndex].name + " made their move!";
+        if (currentPlayerTurn) tempTitle = "It's your turn! " + tempTitle;
+        temporaryTitle(tempTitle);
     }
 }
 
@@ -238,4 +245,11 @@ function endGameAnimation(el) {
             confetti.startBurst(x, y);
         }, 300);
     }, 10);
+}
+
+function temporaryTitle(title) {
+    document.title = title;
+    document.addEventListener('visibilitychange', e => {
+        if (document.hidden === false) document.title = "Scrabble - Colebot.com";
+    });
 }
