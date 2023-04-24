@@ -7,72 +7,17 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 
 	let chatContent = ``;
 
-	const currentDate = new Date();
-
 	let hasUnread = false;
 
 	for (let i in chat) {
-		// determine what to show in the timestamp field
-		const messageDate = new Date(chat[i].timestamp);
-
-		const isToday = currentDate.toDateString() === messageDate.toDateString();
-        let yesterdayDate = new Date();
-        yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-		const isYesterday = yesterdayDate.toDateString() === messageDate.toDateString();
-		const sameWeek = new Date().setDate(currentDate.getDate() - 7) < messageDate;
-
-		let dateString;
-
-		if (isToday) {
-			// display time
-			const rawHours = messageDate.getHours();
-			const rawMinutes = messageDate.getMinutes();
-
-			const hours = (rawHours % 12) + (rawHours % 12 === 0 ? 12 : 0);
-			const minutes = (rawMinutes.toString().length === 1 ? "0" : "") + rawMinutes;
-			const period = (rawHours > 11 ? "PM" : "AM");
-
-			dateString = `${hours}:${minutes} ${period}`;
-		} else if (isYesterday) {
-			dateString = "Yesterday";
-		} else if (sameWeek) {
-			// show day of week
-			const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-			dateString = daysOfWeek[messageDate.getDay()];
+		// add the correct type of message
+		if (chat[i].type === "system") {
+			chatContent += systemMessage(chat[i], i);
 		} else {
-			// show month abbrv. and day of month
-			const monthAbbrvs = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-			const dayOfMonth = (messageDate.getDate().toString().length === 1 ? "0" : "") + messageDate.getDate();
-
-			dateString = `${monthAbbrvs[messageDate.getMonth()]} ${dayOfMonth}`;
+			chatContent += userMessage(chat[i], i);
 		}
 
-		const deleted = chat[i].deleted;
-		const isCurrentUser = chat[i].sender == account.id;
-
-		chatContent += /* html */ `
-			<div class="chatMessage" data-messageid="${i}">
-				<div class="chatMessageLine1">
-					<div class="chatMessageSender flexGrow">
-						${chat[i].senderName}
-					</div>
-					${isCurrentUser ? /* html */ `
-						<button class="iconButton deleteMessageButton" onclick="deleteChatMessage(${i})">
-							<span class="material-symbols-rounded tinyIcon finePrint hoverDarken">
-								${deleted ? `restore_from_trash` : `delete`}
-							</span>
-						</button>
-					` : ``}
-					<div class="chatMessageTimestamp">
-						${dateString}
-					</div>
-				</div>
-				<div class="chatMessageText">
-					${deleted ? /* html */ `<span class="finePrint"><i>This message has been deleted.</i></span>` : chat[i].message}
-				</div>
-			</div>
-		`;
-
+		// add the unread marker if needed
 		if (game.players.find(el => el.id === account.id).chatRead == i && i != chat.length - 1) {
 			chatContent += /* html */ `
 				<div class="unreadMessageMarker"><span>New</span></div>
@@ -102,6 +47,127 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 	}
 }
 
+function userMessage(message, i) {
+	// determine what to show in the timestamp field
+	const messageDate = new Date(message.timestamp);
+	const dateString = dateString(messageDate);
+
+	const deleted = message.deleted;
+	const isCurrentUser = message.sender == account.id;
+
+	return /* html */ `
+		<div class="chatMessage" data-messageid="${i}">
+			<div class="chatMessageLine1">
+				<div class="chatMessageSender flexGrow">
+					${message.senderName}
+				</div>
+				${isCurrentUser ? /* html */ `
+					<button class="iconButton deleteMessageButton" onclick="deleteChatMessage(${i})">
+						<span class="material-symbols-rounded tinyIcon finePrint hoverDarken">
+							${deleted ? `restore_from_trash` : `delete`}
+						</span>
+					</button>
+				` : ``}
+				<div class="chatMessageTimestamp">
+					${dateString}
+				</div>
+			</div>
+			<div class="chatMessageText">
+				${deleted
+					? /* html */ `<i class="finePrint">This message has been deleted.</i>`
+					: message.message
+				}
+			</div>
+		</div>
+	`;
+}
+
+function systemMessage(message, i) {
+	// determine what to show in the timestamp field
+	const messageDate = new Date(message.timestamp);
+	const dateString = dateString(messageDate);
+
+	const systemMessageString = systemMessageString(message.type, message.data);
+
+	return /* html */ `
+		<div class="chatMessage" data-messageid="${i}">
+			<div class="systemChatMessageLine">
+				<div class="chatMessageTimestamp finePrint">
+					${dateString}
+				</div>
+				<div class="chatMessageText">
+					${systemMessageString}
+				</div>
+			</div>
+		</div>
+	`;
+}
+
+function dateString(messageDate) {
+	const currentDate = new Date();
+
+	const isToday = currentDate.toDateString() === messageDate.toDateString();
+	let yesterdayDate = new Date();
+	yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+	const isYesterday = yesterdayDate.toDateString() === messageDate.toDateString();
+	const sameWeek = new Date().setDate(currentDate.getDate() - 7) < messageDate;
+
+	let dateString;
+
+	if (isToday) {
+		// display time
+		const rawHours = messageDate.getHours();
+		const rawMinutes = messageDate.getMinutes();
+
+		const hours = (rawHours % 12) + (rawHours % 12 === 0 ? 12 : 0);
+		const minutes = (rawMinutes.toString().length === 1 ? "0" : "") + rawMinutes;
+		const period = (rawHours > 11 ? "PM" : "AM");
+
+		dateString = `${hours}:${minutes} ${period}`;
+	} else if (isYesterday) {
+		dateString = "Yesterday";
+	} else if (sameWeek) {
+		// show day of week
+		const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+		dateString = daysOfWeek[messageDate.getDay()];
+	} else {
+		// show month abbrv. and day of month
+		const monthAbbrvs = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		const dayOfMonth = (messageDate.getDate().toString().length === 1 ? "0" : "") + messageDate.getDate();
+
+		dateString = `${monthAbbrvs[messageDate.getMonth()]} ${dayOfMonth}`;
+	}
+
+	return dateString;
+}
+
+function systemMessageString(type, data) {
+	let systemMessageString = type;
+	switch (type) {
+		case "gameRename":
+			systemMessageString = /* html */ `
+				<i class="hoverDarken">${game.players.find(a => a.id == data.playerId).name}</i>
+				renamed the game to
+				<i class="hoverDarken">${data.newName}</i>
+			`;
+			break;
+		case "endGameVote":
+			systemMessageString = /* html */ `
+				<i class="hoverDarken">${game.players.find(a => a.id == data.playerId).name}</i>
+				voted to end the game
+			`;
+			break;
+		case "endGameVoteRevoke":
+			systemMessageString = /* html */ `
+				<i class="hoverDarken">${game.players.find(a => a.id == data.playerId).name}</i>
+				revoked their vote to end the game
+			`;
+			break;
+	}
+	
+	return systemMessageString;
+}
+
 function chatScrollBottom() {
 	const chatContentBox = document.getElementsByClassName('chatContent')[0];
 	chatContentBox.scrollTop = chatContentBox.scrollHeight;
@@ -109,13 +175,13 @@ function chatScrollBottom() {
 }
 
 function sendChatMessage(message = document.getElementById('chatInput').value) {
-    // make sure there is a real message
-    if (!message.trim()) {
-        return;
-    }
-
     // trim the message
     message = message.trim();
+
+    // make sure there is a real message
+    if (!message) {
+        return;
+    }
 
 	const input = document.getElementById('chatInput');
 	const sendButton = document.getElementsByClassName('chatSendButton')[0];

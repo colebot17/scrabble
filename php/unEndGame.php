@@ -65,6 +65,13 @@ $updatesJson = str_replace('"', '\"', $updatesJson);
 $sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 
+// add system message to chat
+require "addSystemChatMessage.php";
+$data = Array(
+	"playerId" => $user
+);
+addSystemChatMessage($conn, $gameId, "gameEndVoteRevoke", $data);
+
 // close the connection
 $conn->close();
 

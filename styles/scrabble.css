@@ -575,6 +575,14 @@ body.scrabble {
     margin-right: 5px;
 }
 
+.systemChatMessageLine {
+	text-align: center;
+	color: var(--text-color-light);
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+  }
+
 .chatControls {
     display: flex;
     justify-content: center;
