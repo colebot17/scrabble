@@ -103,7 +103,7 @@ function systemMessage(message, i) {
 	`;
 }
 
-function dateString(messageDate) {
+function dateToString(messageDate) {
 	const currentDate = new Date();
 
 	const isToday = currentDate.toDateString() === messageDate.toDateString();
@@ -141,7 +141,7 @@ function dateString(messageDate) {
 	return dateString;
 }
 
-function systemMessageString(type, data) {
+function systemMessageToString(type, data) {
 	let systemMessageString = type;
 	switch (type) {
 		case "gameRename":
