@@ -112,7 +112,7 @@ function dateString(messageDate) {
 	const isYesterday = yesterdayDate.toDateString() === messageDate.toDateString();
 	const sameWeek = new Date().setDate(currentDate.getDate() - 7) < messageDate;
 
-	let dateString;
+	let dateString = "";
 
 	if (isToday) {
 		// display time
@@ -164,7 +164,7 @@ function systemMessageString(type, data) {
 			`;
 			break;
 	}
-	
+
 	return systemMessageString;
 }
 
