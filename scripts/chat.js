@@ -151,13 +151,13 @@ function systemMessageToString(type, data) {
 				<i class="hoverDarken">${data.newName}</i>
 			`;
 			break;
-		case "endGameVote":
+		case "gameEndVote":
 			systemMessageString = /* html */ `
 				<i class="hoverDarken">${game.players.find(a => a.id == data.playerId).name}</i>
 				voted to end the game
 			`;
 			break;
-		case "endGameVoteRevoke":
+		case "gameEndVoteRevoke":
 			systemMessageString = /* html */ `
 				<i class="hoverDarken">${game.players.find(a => a.id == data.playerId).name}</i>
 				revoked their vote to end the game
