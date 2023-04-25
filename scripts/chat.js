@@ -92,7 +92,7 @@ function systemMessage(message, i) {
 	return /* html */ `
 		<div class="chatMessage" data-messageid="${i}">
 			<div class="systemChatMessageLine">
-				<div class="chatMessageTimestamp finePrint">
+				<div class="finePrint">
 					${dateString}
 				</div>
 				<div class="chatMessageText">
