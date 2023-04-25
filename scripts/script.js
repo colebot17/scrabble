@@ -966,15 +966,17 @@ function setOOTD(disabled) {
 	});
 }
 
-function gameBanner(content, color) {
+function gameBanner(content, color, textColor = "black") {
 	const banner = document.getElementById('gameBanner');
 	if (content) {
 		banner.innerHTML = content;
 		banner.style.backgroundColor = color;
+		banner.style.color = textColor;
 		banner.classList.remove('hidden');
 	} else {
 		banner.innerHTML = '';
 		banner.style.backgroundColor = '';
+		banner.style.color = '';
 		banner.classList.add('hidden');
 	}
 	setCanvasSize();
