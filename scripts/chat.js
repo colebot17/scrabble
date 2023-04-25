@@ -87,7 +87,7 @@ function systemMessage(message, i) {
 	const messageDate = new Date(message.timestamp);
 	const dateString = dateToString(messageDate);
 
-	const systemMessageString = systemMessageToString(message.type, message.data);
+	const systemMessageString = systemMessageToString(message.action, message.data);
 
 	return /* html */ `
 		<div class="chatMessage" data-messageid="${i}">
