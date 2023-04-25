@@ -14,8 +14,8 @@ function canvasInit() {
 	canvas.ctx = canvas.c.getContext('2d');
 
 	// set the frame refresh rate
-	if (canvas.interval) {clearInterval(canvas.interval)}
-	canvas.interval = setInterval(updateDisplay, 20);
+	if (canvas.animationFrame) {window.cancelAnimationFrame(canvas.animationFrame)}
+	canvas.animationFrame = window.requestAnimationFrame(updateDisplay);
 
 	// get the player's last turn
 	let playerLastTurn = getPlayerLastTurn();
@@ -486,6 +486,9 @@ function updateDisplay() {
 	if (dragged) {
 		updateTile(dragged);
 	}
+
+	// request the next animation frame
+	canvas.animationFrame = window.requestAnimationFrame(updateDisplay);
 }
 
 // from https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-using-html-canvas
