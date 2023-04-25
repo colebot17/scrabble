@@ -17,11 +17,8 @@ function canvasInit() {
 	if (canvas.interval) {clearInterval(canvas.interval)}
 	canvas.interval = setInterval(updateDisplay, 20);
 
-	// surely there is a better way but we'll just loop back through the players to find the player's last turn
-	let playerLastTurn = game.turn - 1;
-	while (game.players?.[playerLastTurn % game.players.length]?.id != account.id && playerLastTurn > -1) {
-		playerLastTurn--;
-	}
+	// get the player's last turn
+	let playerLastTurn = getPlayerLastTurn();
 
 	let highlightTurns = range(playerLastTurn + 1, game.turn);
 

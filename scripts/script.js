@@ -949,6 +949,14 @@ function gameInit() {
 	chatInit();
 }
 
+function getPlayerLastTurn() {
+	let playerLastTurn = game.turn - 1;
+	while (game.players?.[playerLastTurn % game.players.length]?.id != account.id && playerLastTurn > -1) {
+		playerLastTurn--;
+	}
+	return playerLastTurn;
+}
+
 function setOOTD(disabled) {
 	const OOTD = '#makeMoveButton, #skipTurnButton';
 	document.querySelectorAll(OOTD).forEach(el => {
