@@ -57,7 +57,7 @@ function update(updates) {
                 updateMove(update.data);
                 break;
             case "chatMessageSend":
-                addChatMessage(update.data.message, update.data.senderName);
+                addChatMessage(update.data.message, update.data?.senderName);
                 break;
             case "chatMessageDeletion":
                 setChatMessageDeletion(update.data.messageId);
@@ -149,7 +149,7 @@ function addChatMessage(message, senderName) {
     const chatContentBox = document.getElementsByClassName('chatContent')[0];
     const scrolledBottom = chatContentBox.scrollTop >= Math.floor(chatContentBox.scrollHeight - chatContentBox.getBoundingClientRect().height);
 
-    message.senderName = senderName;
+    if (senderName) message.senderName = senderName;
     game.chat.push(message);
     chatInit(true, !scrolledBottom);
 

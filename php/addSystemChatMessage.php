@@ -27,11 +27,28 @@ function addSystemChatMessage($conn, $gameId, $action, $data) {
     // upload the chat
     $sql = "UPDATE games SET chat='$chatJson' WHERE id='$gameId'";
     $query = mysqli_query($conn, $sql);
-    if ($query) {
-        return true;
-    } else {
-        return false;
-    }
+    
+    //
+
+    // add to update list
+    $sql = "SELECT updates FROM games WHERE id='$gameId'";
+    $query = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($query);
+    $updates = json_decode($row['updates'], true);
+
+    array_push($updates, Array(
+        "type" => "chatMessageSend",
+        "data" => Array(
+            "message" => $message
+        ),
+        "timestamp" => time()
+    ));
+
+    $updatesJson = json_encode($updates);
+    $updatesJson = str_replace("'", "\'", $updatesJson);
+    $updatesJson = str_replace('"', '\"', $updatesJson);
+    $sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
+    $query = mysqli_query($conn, $sql);
 }
 
 ?>
