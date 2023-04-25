@@ -12,9 +12,9 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 	for (let i in chat) {
 		// add the correct type of message
 		if (chat[i].type === "system") {
-			chatContent += systemMessage(chat[i], i);
+			chatContent += systemMessage(chat, i);
 		} else {
-			chatContent += userMessage(chat[i], i);
+			chatContent += userMessage(chat, i);
 		}
 
 		// add the unread marker if needed
@@ -47,7 +47,9 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 	}
 }
 
-function userMessage(message, i) {
+function userMessage(chat, i) {
+	const message = chat[i];
+
 	// determine what to show in the timestamp field
 	const messageDate = new Date(message.timestamp);
 	const dateString = dateToString(messageDate);
@@ -82,7 +84,9 @@ function userMessage(message, i) {
 	`;
 }
 
-function systemMessage(message, i) {
+function systemMessage(chat, i) {
+	const message = chat[i];
+
 	// determine what to show in the timestamp field
 	const messageDate = new Date(message.timestamp);
 	const dateString = dateToString(messageDate);
@@ -92,9 +96,15 @@ function systemMessage(message, i) {
 	return /* html */ `
 		<div class="chatMessage" data-messageid="${i}">
 			<div class="systemChatMessageLine">
-				<div class="finePrint">
-					${dateString}
-				</div>
+				${
+					chat[i - 1]?.type === "system" && dateToString(new Date(chat[i - 1].timestamp)) !== dateString
+					? /* html */ `
+						<div class="finePrint">
+							${dateString}
+						</div>	
+					`
+					: ``
+				}
 				<div class="chatMessageText">
 					${systemMessageString}
 				</div>
