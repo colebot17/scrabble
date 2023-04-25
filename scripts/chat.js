@@ -50,7 +50,7 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 function userMessage(message, i) {
 	// determine what to show in the timestamp field
 	const messageDate = new Date(message.timestamp);
-	const dateString = dateString(messageDate);
+	const dateString = dateToString(messageDate);
 
 	const deleted = message.deleted;
 	const isCurrentUser = message.sender == account.id;
@@ -85,9 +85,9 @@ function userMessage(message, i) {
 function systemMessage(message, i) {
 	// determine what to show in the timestamp field
 	const messageDate = new Date(message.timestamp);
-	const dateString = dateString(messageDate);
+	const dateString = dateToString(messageDate);
 
-	const systemMessageString = systemMessageString(message.type, message.data);
+	const systemMessageString = systemMessageToString(message.type, message.data);
 
 	return /* html */ `
 		<div class="chatMessage" data-messageid="${i}">
