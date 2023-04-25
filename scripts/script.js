@@ -966,7 +966,7 @@ function setOOTD(disabled) {
 	});
 }
 
-function gameBanner(content, color, textColor = "black") {
+function gameBanner(content, color, textColor = "") {
 	const banner = document.getElementById('gameBanner');
 	if (content) {
 		banner.innerHTML = content;
