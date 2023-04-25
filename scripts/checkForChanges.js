@@ -26,6 +26,12 @@ function checkForChanges() {
         checkTimeout = setTimeout(checkForChanges, 3000);
     }).catch((error) => {
         console.error(error);
+
+        if (document.hidden) {
+            showTab('account');
+            return;
+        }
+
         textModal('Error', 'An error occurred checking for changes. Try again?', {
             cancelable: true,
             complete: checkForChanges
