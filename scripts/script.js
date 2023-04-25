@@ -977,6 +977,7 @@ function gameBanner(content, color) {
 		banner.style.backgroundColor = '';
 		banner.classList.add('hidden');
 	}
+	setCanvasSize();
 }
 
 function makeMove() {
