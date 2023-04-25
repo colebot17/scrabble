@@ -97,13 +97,13 @@ function systemMessage(chat, i) {
 		<div class="chatMessage" data-messageid="${i}">
 			<div class="systemChatMessageLine">
 				${
-					chat[i - 1]?.type === "system" && dateToString(new Date(chat[i - 1].timestamp)) !== dateString
-					? /* html */ `
+					chat[i - 1]?.type === "system" && dateToString(new Date(chat[i - 1].timestamp)) === dateString
+					? ``
+					: /* html */ `
 						<div class="finePrint">
 							${dateString}
 						</div>	
 					`
-					: ``
 				}
 				<div class="chatMessageText">
 					${systemMessageString}
