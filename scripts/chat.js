@@ -295,9 +295,9 @@ function deleteChatMessage(id) {
 
 		// update message
 		if (!game.chat[id].deleted) {
-			setChatMessageDeleted(id);
+			setChatMessageDeletion(id, false);
 		} else {
-			setChatMessageRestored(id, res.data);
+			setChatMessageDeletion(id, res.data);
 		}
 	}).catch(err => {
 		textModal("Error", "There was an error deleting your message. Check your connection and try again.");
