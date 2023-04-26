@@ -308,7 +308,7 @@ function deleteChatMessage(id) {
 function setChatMessageDeletion(messageId, content = undefined) {
 	const deleted = content ? true : false;
     game.chat[messageId].deleted = deleted;
-	game.chat[messageId].message = content;
+	game.chat[messageId].message = deleted ? content : undefined;
     chatInit(true, true);
 }
 
