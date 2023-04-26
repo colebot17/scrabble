@@ -47,8 +47,8 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 	}
 }
 
-function userMessage(chat, i) {
-	const message = chat[i];
+function userMessage(c, i) {
+	const message = c[i];
 
 	// determine what to show in the timestamp field
 	const messageDate = new Date(message.timestamp);
@@ -84,8 +84,8 @@ function userMessage(chat, i) {
 	`;
 }
 
-function systemMessage(chat, i) {
-	const message = chat[i];
+function systemMessage(c, i) {
+	const message = c[i];
 
 	// determine what to show in the timestamp field
 	const messageDate = new Date(message.timestamp);
@@ -97,7 +97,7 @@ function systemMessage(chat, i) {
 		<div class="chatMessage" data-messageid="${i}">
 			<div class="systemChatMessageLine">
 				${
-					chat[i - 1]?.type === "system" && dateToString(new Date(chat[i - 1].timestamp)) === dateString
+					c[i - 1]?.type === "system" && dateToString(new Date(c[i - 1].timestamp)) === dateString
 					? ``
 					: /* html */ `
 						<div class="finePrint">
@@ -113,21 +113,21 @@ function systemMessage(chat, i) {
 	`;
 }
 
-function dateToString(messageDate) {
+function dateToString(d) {
 	const currentDate = new Date();
 
-	const isToday = currentDate.toDateString() === messageDate.toDateString();
+	const isToday = currentDate.toDateString() === d.toDateString();
 	let yesterdayDate = new Date();
 	yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-	const isYesterday = yesterdayDate.toDateString() === messageDate.toDateString();
-	const sameWeek = new Date().setDate(currentDate.getDate() - 7) < messageDate;
+	const isYesterday = yesterdayDate.toDateString() === d.toDateString();
+	const sameWeek = new Date().setDate(currentDate.getDate() - 7) < d;
 
 	let dateString = "";
 
 	if (isToday) {
 		// display time
-		const rawHours = messageDate.getHours();
-		const rawMinutes = messageDate.getMinutes();
+		const rawHours = d.getHours();
+		const rawMinutes = d.getMinutes();
 
 		const hours = (rawHours % 12) + (rawHours % 12 === 0 ? 12 : 0);
 		const minutes = (rawMinutes.toString().length === 1 ? "0" : "") + rawMinutes;
@@ -139,13 +139,13 @@ function dateToString(messageDate) {
 	} else if (sameWeek) {
 		// show day of week
 		const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-		dateString = daysOfWeek[messageDate.getDay()];
+		dateString = daysOfWeek[d.getDay()];
 	} else {
 		// show month abbrv. and day of month
 		const monthAbbrvs = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-		const dayOfMonth = (messageDate.getDate().toString().length === 1 ? "0" : "") + messageDate.getDate();
+		const dayOfMonth = (d.getDate().toString().length === 1 ? "0" : "") + d.getDate();
 
-		dateString = `${monthAbbrvs[messageDate.getMonth()]} ${dayOfMonth}`;
+		dateString = `${monthAbbrvs[d.getMonth()]} ${dayOfMonth}`;
 	}
 
 	return dateString;
@@ -306,7 +306,8 @@ function deleteChatMessage(id) {
 }
 
 function setChatMessageDeletion(messageId, content = undefined) {
-    game.chat[messageId].deleted = content ? true : false;
+	const deleted = content ? true : false;
+    game.chat[messageId].deleted = deleted;
 	game.chat[messageId].message = content;
     chatInit(true, true);
 }
