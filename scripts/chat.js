@@ -295,7 +295,7 @@ function deleteChatMessage(id) {
 
 		// update message
 		if (!game.chat[id].deleted) {
-			setChatMessageDeletion(id, false);
+			setChatMessageDeletion(id);
 		} else {
 			setChatMessageDeletion(id, res.data);
 		}
