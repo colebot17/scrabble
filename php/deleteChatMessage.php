@@ -60,6 +60,7 @@ if ($query) {
         "message" => "Message " . ($delete ? "deleted" : "restored") . ".",
     );
     if (!$delete) {
+        // return the message content if we are restoring the message
         $response['data'] = $chat[$messageId]["message"];
     }
     echo json_encode($response);
