@@ -435,10 +435,10 @@ function drawRegions(regions) {
 		const onRightEdge = regions[i].end[0] === 14;
 		// move the bubble over if it is on an edge
 		if (onRightEdge && !onTopEdge) {
-			circX -= (numberWidth + 5);
+			circX -= (numberWidth + 2);
 		}
 		if (onTopEdge && !onRightEdge) {
-			circY += (numberWidth + 5);
+			circY += (numberWidth + 2);
 		}
 
 		// draw the bubble
