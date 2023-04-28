@@ -1200,7 +1200,6 @@ function shuffleBank() {
 	canvas.bankShuffleButton.cooldown = setTimeout(() => {
 		let btn = canvas.bankShuffleButton;
 		btn.cooldown = undefined;
-		btn.hover = false;
 		btn.clicking = false;
 	}, animationTime);
 }
