@@ -306,7 +306,7 @@ function handleDocumentMouseUp(e) {
         // check for the shuffle button
         const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
         const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
-        if (!dragged && xOnShuffle && yOnShuffle && canvas.bankShuffleButton.clicking) {
+        if (!dragged && xOnShuffle && yOnShuffle && canvas.bankShuffleButton.clicking && !canvas.bankShuffleButton.cooldown) {
             shuffleBank();
 
             // don't register double click on shuffle button as double click on canvas

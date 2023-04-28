@@ -1190,10 +1190,16 @@ function shuffleBank() {
 	const animationTime = 370;
 	canvas.animations.bankShuffle = new Animation(animationTime);
 
+	// actually switch the letters halfway through the animation (when all the letters are in the middle)
 	setTimeout(() => {
 		canvas.bankOrder = shuffleArr(canvas.bankOrder);
 		setBankOrder();
 	}, animationTime / 2);
+
+	// disable the shuffle button until the animation is complete
+	canvas.bankShuffleButton.cooldown = setTimeout(() => {
+		canvas.bankShuffleButton.cooldown = undefined;
+	}, animationTime);
 }
 
 function exchangeLetters() {
