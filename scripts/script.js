@@ -1198,7 +1198,10 @@ function shuffleBank() {
 
 	// disable the shuffle button until the animation is complete
 	canvas.bankShuffleButton.cooldown = setTimeout(() => {
-		canvas.bankShuffleButton.cooldown = undefined;
+		let btn = canvas.bankShuffleButton;
+		btn.cooldown = undefined;
+		btn.hover = false;
+		btn.clicking = false;
 	}, animationTime);
 }
 
