@@ -429,28 +429,22 @@ function drawRegions(regions) {
 		let circX = x2;
 		let circY = y1;
 		const radius = 15;
+		const numberWidth = canvas.ctx.measureText(regions[i].points.toString()).width;
 
 		const onTopEdge = regions[i].start[1] === 0;
 		const onRightEdge = regions[i].end[0] === 14;
 		// move the bubble over if it is on an edge
 		if (onRightEdge && !onTopEdge) {
-			circX -= (squareWidth / 2);
+			circX -= (numberWidth + 5);
 		}
 		if (onTopEdge && !onRightEdge) {
-			circY += (squareWidth / 2);
-		}
-		if (onTopEdge && onRightEdge) {
-			circX -= (radius / 1.5);
-			circY += (radius / 1.5);
+			circY += (numberWidth + 5);
 		}
 
 		// draw the bubble
 		canvas.ctx.beginPath();
 		canvas.ctx.arc(circX, circY, radius, 0, 2*Math.PI);
 		canvas.ctx.fill();
-
-		// calculate position for the number
-		const textSize = canvas.ctx.measureText(regions[i].points.toString());
 
 		// draw the number on the bubble
 		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight-text' : '--semi-highlight-text');
