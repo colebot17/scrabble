@@ -415,10 +415,17 @@ function drawRegions(regions) {
 		canvas.ctx.font = fontSize + "px Rubik";
 
 		// draw a rectangle around the affected letters
-		const x1 = regions[i].start[0] * (squareWidth + squareGap);
-		const y1 = regions[i].start[1] * (squareWidth + squareGap);
-		const x2 = (regions[i].end[0] * (squareWidth + squareGap)) + squareWidth;
-		const y2 = (regions[i].end[1] * (squareWidth + squareGap)) + squareWidth;
+		let x1 = regions[i].start[0] * (squareWidth + squareGap);
+		let y1 = regions[i].start[1] * (squareWidth + squareGap);
+		let x2 = (regions[i].end[0] * (squareWidth + squareGap)) + squareWidth;
+		let y2 = (regions[i].end[1] * (squareWidth + squareGap)) + squareWidth;
+
+		const onTopEdge = regions[i].start[1] === 0;
+		const onRightEdge = regions[i].end[0] === 14;
+
+		// move over if on edge
+		if (onTopEdge) y1 += (canvas.ctx.lineWidth / 2);
+		if (onRightEdge) x2 -= (canvas.ctx.lineWidth / 2);
 
 		const width = x2 - x1;
 		const height = y2 - y1;
@@ -429,9 +436,6 @@ function drawRegions(regions) {
 		let circX = x2;
 		let circY = y1;
 		const radius = 15;
-
-		const onTopEdge = regions[i].start[1] === 0;
-		const onRightEdge = regions[i].end[0] === 14;
 		// move the bubble over if it is on an edge
 		if (onRightEdge) {
 			circX -= (radius);
