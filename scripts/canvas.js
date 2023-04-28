@@ -429,16 +429,15 @@ function drawRegions(regions) {
 		let circX = x2;
 		let circY = y1;
 		const radius = 15;
-		const numberWidth = canvas.ctx.measureText(regions[i].points.toString()).width;
 
 		const onTopEdge = regions[i].start[1] === 0;
 		const onRightEdge = regions[i].end[0] === 14;
 		// move the bubble over if it is on an edge
-		if (onRightEdge && !onTopEdge) {
-			circX -= (numberWidth + 2);
+		if (onRightEdge) {
+			circX -= (radius);
 		}
-		if (onTopEdge && !onRightEdge) {
-			circY += (numberWidth + 2);
+		if (onTopEdge) {
+			circY += (radius);
 		}
 
 		// draw the bubble
