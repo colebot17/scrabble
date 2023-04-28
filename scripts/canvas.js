@@ -420,6 +420,10 @@ function drawRegions(regions) {
 		let x2 = (regions[i].end[0] * (squareWidth + squareGap)) + squareWidth;
 		let y2 = (regions[i].end[1] * (squareWidth + squareGap)) + squareWidth;
 
+		// calculate position for the bubble
+		let circX = x2;
+		let circY = y1;
+		
 		const onTopEdge = regions[i].start[1] === 0;
 		const onRightEdge = regions[i].end[0] === 14;
 
@@ -431,10 +435,6 @@ function drawRegions(regions) {
 		const height = y2 - y1;
 
 		roundRect(canvas.ctx, x1, y1, width, height, 5, false);
-
-		// calculate position for the bubble
-		let circX = x2;
-		let circY = y1;
 		const radius = 15;
 		// move the bubble over if it is on an edge
 		if (onRightEdge) {
