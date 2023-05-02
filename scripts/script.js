@@ -453,7 +453,7 @@ function renameGame(gameId, loc) {
 					setGameName(gameId, res.data);
 					// update chat read for current user if chat read is already up to date
 					if (game.players[game.currentPlayerIndex].chatRead >= game.chat.length - 1) {
-						game.players[game.currentPlayerIndex].chatRead++;
+						readChat();
 					}
 				}
 				removeInput();
