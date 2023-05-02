@@ -1330,20 +1330,17 @@ function pickLetter(bankIndex, complete = function(letter) {}) {
 	});
 }
 
-function addLetter(x, y, bankIndex) {
-	var bank;
-	for (let i in game.players) {
-		if (game.players[i].id == account.id) {
-			bank = game.players[i].letterBank;
-			break;
-		}
+function addLetter(x, y, bankIndex, assignedLetter = false) {
+	const bank = game.players[game.currentPlayerIndex].bank;
+
+	let letter = bank[bankIndex];
+	const blank = !letter;
+
+	if (blank && assignedLetter) {
+		letter = assignedLetter;
 	}
 
-	var letter = bank[bankIndex];
-
-	var blank = !letter;
-
-	if (blank) {
+	if (blank && !assignedLetter) {
 		pickLetter(bankIndex, function(letter) {
 			game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
 			checkPoints();

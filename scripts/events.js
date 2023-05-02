@@ -341,7 +341,7 @@ function handleDocumentMouseUp(e) {
 
     // only if the letter was moved to a free space on the board
     if (onBoard && !onExistingTile && !stayedStill && !game.inactive) {
-        addLetter(boardX, boardY, dragged.bankIndex); // add the letter to the appropriate spot on the board
+        addLetter(boardX, boardY, dragged.bankIndex, dragged.letter); // add the letter to the appropriate spot on the board
     } else { // if the letter was dropped anywhere else or stayed still
 
         // find out if it was dropped into a drop zone
