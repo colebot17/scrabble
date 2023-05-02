@@ -21,6 +21,15 @@
 	<!-- import the tab icon -->
 	<link rel="shortcut icon" type="image/x-icon" href="http://www.colebot.com/favicon.ico">  
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MKX80G4261"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MKX80G4261');
+</script>
 <body class="scrabble">
 	<center>
 		<div class="grid" id="scrabbleGrid" data-tab="account" data-signedin="loading">
@@ -363,8 +372,11 @@
 	<script type="text/javascript" src="scripts/animate.js" defer></script>
 	<script type="text/javascript" src="scripts/fullscreen.js" defer></script>
 	<script type="text/javascript" src="scripts/info.js" defer></script>
-	<!-- <script type="text/javascript" src="libraries/pullToRefresh.min.js" defer></script>
-	<script type="text/javascript" src="libraries/confetti.js" defer></script> -->
+	<script type="text/javascript" src="scripts/checkForChanges.js" defer></script>
+	<!-- <script type="text/javascript" src="libraries/pullToRefresh.min.js" defer></script> -->
+	<!-- <script type="text/javascript" src="libraries/confetti.js" defer></script> -->
+	<!-- <script type="text/javascript" src="libraries/confetti2.min.js" defer></script> -->
+	<script type="text/javascript" src="libraries/confetti3.js" defer></script>
 	<script type="text/javascript" src="scripts/script.js" defer></script>
 </body>
 </html>

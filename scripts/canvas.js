@@ -14,14 +14,11 @@ function canvasInit() {
 	canvas.ctx = canvas.c.getContext('2d');
 
 	// set the frame refresh rate
-	if (canvas.interval) {clearInterval(canvas.interval)}
-	canvas.interval = setInterval(updateDisplay, 20);
+	if (canvas.animationFrame) {window.cancelAnimationFrame(canvas.animationFrame)}
+	canvas.animationFrame = window.requestAnimationFrame(updateDisplay);
 
-	// surely there is a better way but we'll just loop back through the players to find the player's last turn
-	let playerLastTurn = game.turn - 1;
-	while (game.players?.[playerLastTurn % game.players.length]?.id != account.id && playerLastTurn > -1) {
-		playerLastTurn--;
-	}
+	// get the player's last turn
+	let playerLastTurn = getPlayerLastTurn();
 
 	let highlightTurns = range(playerLastTurn + 1, game.turn);
 
@@ -144,9 +141,10 @@ function drawLetterBank() {
 	let remainingSpace = canvas.c.height - startY;
 
 	// draw title ("Letter Bank")
+	const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
 	const titleSize = (canvas.bank.length > 0 ? 25 : 15);
 	canvas.ctx.font = titleSize + "px Rubik";
-	canvas.ctx.fillStyle = "#000000";
+	canvas.ctx.fillStyle = textColor;
 	canvas.ctx.textAlign = "center";
 	canvas.ctx.fillText((canvas.bank.length > 0 ? "Letter Bank" : "Your letter bank is empty."), canvasWidth / 2, startY + titleSize + 10);
 
@@ -159,9 +157,9 @@ function drawLetterBank() {
 		const shuffleButtonX = (canvasWidth / 2) + 90;
 		const shuffleButtonY = startY + titleSize + 14;
 
-		// draw background if hovering
+		// draw background if hovering/clicking and cooldown is not active
 		if (canvas.bankShuffleButton.hover || canvas.bankShuffleButton.clicking) {
-			canvas.ctx.fillStyle = (canvas.bankShuffleButton.clicking ? "#0000004C" : "#00000033");
+			canvas.ctx.fillStyle = ((!canvas.bankShuffleButton.cooldown && canvas.bankShuffleButton.clicking) ? "#0000004C" : "#00000033");
 			canvas.ctx.beginPath();
 			canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
 			canvas.ctx.fill();
@@ -169,7 +167,7 @@ function drawLetterBank() {
 		
 		// draw the icon
 		canvas.ctx.font = titleSize + "px Material Symbols Rounded";
-		canvas.ctx.fillStyle = "#000000";
+		canvas.ctx.fillStyle = textColor;
 		canvas.ctx.textAlign = "center";
 
 		canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
@@ -417,42 +415,39 @@ function drawRegions(regions) {
 		canvas.ctx.font = fontSize + "px Rubik";
 
 		// draw a rectangle around the affected letters
-		const x1 = regions[i].start[0] * (squareWidth + squareGap);
-		const y1 = regions[i].start[1] * (squareWidth + squareGap);
-		const x2 = (regions[i].end[0] * (squareWidth + squareGap)) + squareWidth;
-		const y2 = (regions[i].end[1] * (squareWidth + squareGap)) + squareWidth;
+		let x1 = regions[i].start[0] * (squareWidth + squareGap);
+		let y1 = regions[i].start[1] * (squareWidth + squareGap);
+		let x2 = (regions[i].end[0] * (squareWidth + squareGap)) + squareWidth;
+		let y2 = (regions[i].end[1] * (squareWidth + squareGap)) + squareWidth;
+
+		// calculate position for the bubble
+		let circX = x2;
+		let circY = y1;
+		
+		const onTopEdge = regions[i].start[1] === 0;
+		const onRightEdge = regions[i].end[0] === 14;
+
+		// move over if on edge
+		/* if (onTopEdge) y1 += ((canvas.ctx.lineWidth / 2) - 1);
+		if (onRightEdge) x2 -= ((canvas.ctx.lineWidth / 2) - 1); */
 
 		const width = x2 - x1;
 		const height = y2 - y1;
 
 		roundRect(canvas.ctx, x1, y1, width, height, 5, false);
-
-		// calculate position for the bubble
-		let circX = x2;
-		let circY = y1;
 		const radius = 15;
-
-		const onTopEdge = regions[i].start[1] === 0;
-		const onRightEdge = regions[i].end[0] === 14;
 		// move the bubble over if it is on an edge
-		if (onRightEdge && !onTopEdge) {
-			circX -= (squareWidth / 2);
+		if (onRightEdge) {
+			circX -= (radius - 1);
 		}
-		if (onTopEdge && !onRightEdge) {
-			circY += (squareWidth / 2);
-		}
-		if (onTopEdge && onRightEdge) {
-			circX -= (radius / 1.5);
-			circY += (radius / 1.5);
+		if (onTopEdge) {
+			circY += (radius - 1);
 		}
 
 		// draw the bubble
 		canvas.ctx.beginPath();
 		canvas.ctx.arc(circX, circY, radius, 0, 2*Math.PI);
 		canvas.ctx.fill();
-
-		// calculate position for the number
-		const textSize = canvas.ctx.measureText(regions[i].points.toString());
 
 		// draw the number on the bubble
 		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight-text' : '--semi-highlight-text');
@@ -489,6 +484,9 @@ function updateDisplay() {
 	if (dragged) {
 		updateTile(dragged);
 	}
+
+	// request the next animation frame
+	canvas.animationFrame = window.requestAnimationFrame(updateDisplay);
 }
 
 // from https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-using-html-canvas

@@ -27,6 +27,8 @@ const scoreMultipliers = [
 	{letter: 1, word: 1},
 ];
 
+const windowTitle = "Scrabble - Colebot.com";
+
 var game;
 
 var dragged;
@@ -52,41 +54,33 @@ function loadGamesList(done) {
 				}
 			}, 370);
 		}, 10);
-		$.ajax(
-			location + '/php/loadPlayerGames.php',
-			{
-				data: {
-					user: account.id,
-					pwd: account.pwd
-				},
-				method: "POST",
-				success: function(data) {
-					jsonData = JSON.parse(data);
-					if (jsonData.errorLevel > 0) { // error
-						textModal("Error", jsonData.message);
-					} else { // success
-						// stop the reload button spinning
-						complete = true;
 
-						// blink the games list
-						var $gamesList = $('#activeGamesList');
-						$gamesList.hide().fadeIn(370);
+		request('loadPlayerGames.php', {
+			user: account.id,
+			pwd: account.pwd
+		}).then(res => {
+			if (res.errorLevel > 0) { // error
+				textModal("Error", res.message);
+			} else { // success
+				// stop the reload button spinning
+				complete = true;
 
-						// load the new content
-						account.games = jsonData.data;
-						updateGamesList();
+				// blink the games list
+				var $gamesList = $('#activeGamesList');
+				$gamesList.hide().fadeIn(370);
 
-						// // done (for pull to refresh)
-						// if (done) {
-						// 	done();
-						// }
-					}
-				},
-				error: function() {
-					console.error("Could not fetch updated games list.");
-				}
+				// load the new content
+				account.games = res.data;
+				updateGamesList();
+
+				// // done (for pull to refresh)
+				// if (done) {
+				// 	done();
+				// }
 			}
-		);
+		}).catch(err => {
+			throw new Error(err);
+		});
 	}
 }
 
@@ -115,7 +109,7 @@ function updateGamesList() {
 			currentGame.id = parseInt(i);
 
 			// convert the dates to date objects
-			currentGame.lastMove = new Date(currentGame.lastMove);
+			currentGame.lastUpdate = new Date(currentGame.lastUpdate);
 			if (currentGame.endDate) {
 				currentGame.endDate = new Date(currentGame.endDate);
 			}
@@ -128,13 +122,12 @@ function updateGamesList() {
 			}
 		}
 
-
-		// sort the active games array by the last move timestamp 
+		// sort the active games array by the last update timestamp 
 		activeGames.sort(function(a, b) {
-			if (a.lastMove > b.lastMove) { // a comes before b (in the display order)
+			if (a.lastUpdate > b.lastUpdate) { // a comes before b (in the display order)
 				return -1;
 			}
-			if (a.lastMove < b.lastMove) { // a comes after b
+			if (a.lastUpdate < b.lastUpdate) { // a comes after b
 				return 1;
 			}
 			// a must be equal to b
@@ -199,7 +192,7 @@ function updateGamesList() {
 				let turnUser = parseInt(gamesArray[i].players[turnIndex].id);
 				let playerListHTML = ``;
 				for (var j in gamesArray[i].players) { // add each player to the list of players in the card
-					let endGameVoted = gamesArray[i].players[j].endGameRequest === 'true';
+					let endGameVoted = gamesArray[i].players[j].endGameRequest;
 					playerListHTML += /* html */ `
 						<div class='listGamePlayerListPlayer'>
 							${(winners.includes(j) ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>` : ``)}
@@ -414,9 +407,6 @@ function setDisplayMode(mode) {
 
 function renameGame(gameId, loc) {
 	// get the element(s) to be updated upon completion
-	const $nameFields = $('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
-	const $titleBoxes = $('#listGame' + gameId + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
-	const $idLines = $('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
 
 	// inline name editing!
 	let nameField;
@@ -451,49 +441,54 @@ function renameGame(gameId, loc) {
 			inputField.style.cursor = "progress";
 
 			if (name === '#' + gameId) name = "";
-			$.ajax(
-				location + '/php/renameGame.php',
-				{
-					data: {
-						user: account.id,
-						pwd: account.pwd,
-						game: gameId,
-						name
-					},
-					method: "POST",
-					success: function(data) {
-						let jsonData = JSON.parse(data);
-						if (jsonData.errorLevel) {
-							textModal("Error", jsonData.message);
-						} else {
-							account.games[gameId].name = jsonData.data;
-							$nameFields.text(jsonData.data || '#' + gameId);
-							$idLines.remove();
-							if (jsonData.data) { // if the game has a name
-								// show the id line
-								$titleBoxes.append(/* html */ `
-									<div class="gameIdLine">
-										#${gameId}
-									</div>
-								`);
-							}
-							if (game?.id === gameId) { // if the game is currently loaded
-								game.name = jsonData.data || ""; // set the name in game obj
-							}
-						}
-						removeInput();
-					},
-					error: function() {
-						console.error("Could not rename game.");
+			request('renameGame.php', {
+				user: account.id,
+				pwd: account.pwd,
+				game: gameId,
+				name
+			}).then(res => {
+				if (res.errorLevel) {
+					textModal("Error", res.message);
+				} else {
+					setGameName(gameId, res.data);
+					// update chat read for current user if chat read is already up to date
+					if (game.players[game.currentPlayerIndex].chatRead >= game.chat.length - 1) {
+						readChat();
 					}
 				}
-			);
+				removeInput();
+			}).catch(err => {
+				throw new Error(err);
+			});
 		} else if (e.key === "Escape") {
 			removeInput();
 		}
 	});
 
 	inputField.addEventListener('blur', removeInput);
+}
+
+function setGameName(gameId, gameName) {
+	// define elements to be updated
+	const titleBoxes = document.querySelectorAll('#listGame' + gameId + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
+	const nameFields = document.querySelectorAll('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
+	const idLines = document.querySelectorAll('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
+
+	account.games[gameId].name = gameName;
+	nameFields.forEach(nf => nf.textContent = gameName || '#' + gameId);
+	idLines.forEach(idLine => idLine.remove());
+	if (gameName) { // if the game has a name
+		// show the id line
+		titleBoxes.forEach(tbEl => {
+			const idEl = document.createElement('div');
+			idEl.classList.add('gameIdLine');
+			idEl.innerHTML = `#${gameId}`;
+			tbEl.appendChild(idEl);
+		});
+	}
+	if (game?.id === gameId) { // if the game is currently loaded
+		game.name = gameName || ""; // set the name in game obj
+	}
 }
 
 function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
@@ -735,22 +730,23 @@ function endGame() {
 		return;
 	}
 
-	let voted = game.players[game.currentPlayerIndex].endGameRequest === 'true';
+	let voted = game.players[game.currentPlayerIndex].endGameRequest;
 	
 	let endGameCount = 0;
 	for (let i in game.players) {
-		if (game.players[i].endGameRequest === 'true') {
+		if (game.players[i].endGameRequest) {
 			endGameCount++;
 		}
 	}
 	const votesLeft = game.players.length - endGameCount;
+	const willBeDeleted = votesLeft <= 1;
 
 	let confirmMsg;
 	if (voted) {
 		confirmMsg = "Do you really want to revoke your vote to end the game?";
 	} else {
 		confirmMsg = "Do you really want to cast your vote to end the game? " + (
-			votesLeft <= 1
+			willBeDeleted
 			? "You are the final player to do so, so the game will end."
 			: "If you do, " + (votesLeft - 1) + " player" + ((votesLeft - 1) === 1 ? "" : "s") + " will still have to vote before the game ends."
 		);
@@ -760,35 +756,41 @@ function endGame() {
 	textModal("End Game", confirmMsg, {
 		cancelable: true,
 		complete: () => {
-			// send the request
-			$.ajax(
-				location + (voted ? '/php/unEndGame.php' : '/php/endGame.php'),
-				{
-					data: {
-						user: account.id,
-						pwd: account.pwd,
-						game: game.id
-					},
-					method: "POST",
-					success: function(data) {
-						// var tab = window.open("about:blank", "_blank");
-						// tab.document.write(data);
-						jsonData = JSON.parse(data);
-						textModal("End Game", jsonData.message);
-						if (jsonData.errorLevel === 0) {
-							if (voted) {
-								loadGame(game.id);
-							} else {
-								loadGamesList();
-								showTab('account');
-							}
-						}
-					},
-					error: function() {
-						console.error("Could not end the game.");
-					}
+			const requestAddress = voted ? "unEndGame.php" : "endGame.php";
+			const requestData = {
+				user: account.id,
+				pwd: account.pwd,
+				game: game.id
+			};
+			
+			// update update number twice if game will be deleted
+			game.updateNumber += (willBeDeleted ? 2 : 1);
+
+			request(requestAddress, requestData).then(res => {
+				if (res.errorLevel > 0) {
+					textModal("Error", res.message);
+					return;
 				}
-			);
+				setGameEndVote(game.currentPlayerIndex, !voted);
+				if (res?.data?.gameEnded) {
+					if (res.data.gameDeleted) {
+						showEndGameScreen({
+							gameDeleted: true,
+							winnerIndicies: []
+						});
+					} else {
+						showEndGameScreen({
+							reason: "vote",
+							gameDeleted: false,
+							winnerIndicies: res.data.winnerIndicies
+						});
+					}
+					return;
+				}
+				textModal("End Game", res.message);
+			}).catch(err => {
+				throw new Error(err);
+			});
 		}
 	});	
 }
@@ -805,6 +807,8 @@ function gameInit() {
 			break;
 		}
 	}
+
+	game.currentPlayerIndex = currentPlayerIndex;
 
 	// this is the current player's bank
 	const bank = game.players[currentPlayerIndex].letterBank;
@@ -862,22 +866,11 @@ function gameInit() {
 	document.addEventListener('touchend', handleDocumentMouseUp);
 
 	if (!userTurn) {
-		$ootDisable = $(ootDisable);
-
-		$ootDisable.css('cursor', 'not-allowed').prop('disabled', true).attr('title', 'It isn\'t your turn!'); // show not-allowed cursor and disable buttons
-
-		$ootDisable.on('mousedown touchstart', function(e) {
-			e.preventDefault();
-			textModal((game.inactive ? "Inactive Game" : "Not your turn!"), (game.inactive ? "This game is inactive, meaning it can no longer be played. You can still look at it all you want, though." : "It's someone else's turn right now. Wait for your turn to make a move.")); // show an alert when the user tries to interact with the canvas or letter bank
-		});
-
-		const banner = document.getElementById('gameBanner');
-		banner.innerHTML = (game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved.");
-		banner.classList.remove('hidden');
+		setOOTD(true);
+		gameBanner((game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved."), "var(--text-highlight)");
 	} else {
-		const banner = document.getElementById('gameBanner');
-		banner.innerHTML = "";
-		banner.classList.add('hidden');
+		setOOTD(false);
+		gameBanner(false);
 	}
 
 	// show the game info
@@ -921,22 +914,19 @@ function gameInit() {
 		let isWinner = game.players[i].points == winningPoints;
 		let isTurn = turnIndex == i;
 		let isCurrentPlayer = game.players[i].id == account.id;
-		let endGameVoted = game.players[i].endGameRequest === 'true';
+		let endGameVoted = game.players[i].endGameRequest;
 
 		// add the player to the list
 		gameInfo += /* html */ `
-			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}">
+			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}${isTurn ? ` underline` : ``}" data-playerid="${game.players[i].id}">
 				${(isWinner ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>`: ``)}
-				${(isTurn ? `<u>` : ``)}
-					${(isCurrentPlayer ? `<b>` : ``)}
-						${game.players[i].name}: 
-					${(!isCurrentPlayer ? `<b>` : ``)}
-						<span class="points">
-							${game.players[i].points}
-						</span>
-					</b>
-				${(turnIndex == i ? `</u>` : ``)}
-				${(endGameVoted && !game.inactive ? `<span class='material-symbols-rounded winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
+				<span ${(isCurrentPlayer ? ` class="bold"` : ``)}>
+					${game.players[i].name}: 
+				</span>
+				<span class="points bold">
+					${game.players[i].points}
+				</span>
+				${(endGameVoted && !game.inactive ? `<span class='material-symbols-rounded winnerIcon endGameVoteIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
 			</div>
 		`;
 	}
@@ -948,79 +938,122 @@ function gameInit() {
 	const endGameButton = document.getElementById('endGameButton');
 	let endGameCount = 0;
 	for (let i in game.players) {
-		endGameCount += (game.players[i].endGameRequest === 'true') & 1;
+		endGameCount += (game.players[i].endGameRequest) & 1;
 	}
 	const votesLeft = game.players.length - endGameCount;
-	endGameButton.textContent = game.players[currentPlayerIndex].endGameRequest === 'true' ? 'Don\'t End' : 'End Game';
+	endGameButton.textContent = game.players[currentPlayerIndex].endGameRequest ? 'Don\'t End' : 'End Game';
 	endGameButton.disabled = game.inactive;
 	endGameButton.style.cursor = (game.inactive ? 'not-allowed' : 'pointer');
 	endGameButton.title = (game.inactive ? 'The game is already over' : votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end');
 
 	setCanvasSize();
+	
+	setTimeout(startChangeCheck, 3000);
 
 	chatInit();
+}
+
+function getPlayerLastTurn() {
+	let playerLastTurn = game.turn - 1;
+	while (game.players?.[playerLastTurn % game.players.length]?.id != account.id && playerLastTurn > -1) {
+		playerLastTurn--;
+	}
+	return playerLastTurn;
+}
+
+function setOOTD(disabled) {
+	const OOTD = '#makeMoveButton, #skipTurnButton';
+	document.querySelectorAll(OOTD).forEach(el => {
+		el.cursor = (disabled ? "not-allowed" : "");
+		el.disabled = disabled;
+		el.title = (disabled ? "It isn't your turn!" : "");
+	});
+}
+
+function gameBanner(content, color, textColor = "") {
+	const banner = document.getElementById('gameBanner');
+	if (content) {
+		banner.innerHTML = content;
+		banner.style.backgroundColor = color;
+		banner.style.color = textColor;
+		banner.classList.remove('hidden');
+	} else {
+		banner.innerHTML = '';
+		banner.style.backgroundColor = '';
+		banner.style.color = '';
+		banner.classList.add('hidden');
+	}
+	setCanvasSize();
 }
 
 function makeMove() {
 	// first, get a list of all unlocked tiles
 	var newTiles = getUnlockedTiles();
 
+	request('makeMove.php', {
+		game: game.id,
+		tiles: JSON.stringify(newTiles),
+		user: account.id,
+		pwd: account.pwd
+	}).then(res => {
+		if (res.errorLevel === 0) {
+			loadGame(game.id);
+			loadGamesList();
+			if (res.status === 1) {
+				textModal("Game Over!", res.message);
+			}
+
+			let newPoints = 0;
+			for (let i = 0; i < res.data.newWords.length; i++) {
+				newPoints += res.data.newWords[i].points;
+			}
+
+			showPointsOverlay(account.id, newPoints);
+		} else {
+			textModal("Error", res.message);
+		}
+	}).catch(err => {
+		throw new Error(err);
+	});
+
 	$.ajax(
 		location + '/php/makeMove.php',
 		{
 			data: {
-				game: game.id,
-				tiles: newTiles,
-				user: account.id,
-				pwd: account.pwd
 			},
 			method: "POST",
 			success: function(data) {
-				// var tab = window.open('about:blank', '_blank');
-				// tab.document.write(data);
-				jsonData = JSON.parse(data);
-				if (jsonData.errorLevel === 0) {
-					loadGame(game.id);
-					loadGamesList();
-					if (jsonData.status === 1) {
-						textModal("Game Over!", jsonData.message);
-					}
-
-					let newPoints = 0;
-					for (let i = 0; i < jsonData.data.newWords.length; i++) {
-						newPoints += jsonData.data.newWords[i].points;
-					}
-
-					const gameControlsCell = document.getElementById('gameControlsCell');
-					const pointsNumber = document.querySelector('.gamePlayerListPlayer.currentPlayer .points');
-					const bound = pointsNumber.getBoundingClientRect();
-					const newPointsOverlay = document.createElement('div');
-					newPointsOverlay.classList.add('overlay');
-					newPointsOverlay.style.color = 'green';
-					newPointsOverlay.style.background = 'var(--background-2)';
-					newPointsOverlay.style.boxShadow = '0 0 10px #00000060';
-					newPointsOverlay.style.padding = '2px 5px';
-					newPointsOverlay.style.borderRadius = '5px';
-					newPointsOverlay.textContent = '+' + newPoints;
-					gameControlsCell.appendChild(newPointsOverlay);
-					newPointsOverlay.style.position = 'fixed';
-					const overlayBound = newPointsOverlay.getBoundingClientRect();
-					newPointsOverlay.style.top = (bound.y - overlayBound.height + 4) + 'px';
-					newPointsOverlay.style.left = (bound.x + (bound.width / 2) - (overlayBound.width / 2)) + 'px';
-					newPointsOverlay.classList.add('fadeUpOut');
-
-					setTimeout(() => {
-						newPointsOverlay.remove();
-					}, 3000);
-				} else {
-					textModal("Error", jsonData.message);
-				}
+				
 			},
 			error: function() {
 				console.error("Request could not be completed.");
 			}
 		}
 	);
+}
+
+function showPointsOverlay(userId, newPoints) {
+	const gameControlsCell = document.getElementById('gameControlsCell');
+	const pointsNumber = document.querySelector('.gamePlayerListPlayer[data-playerId="' + userId + '"] .points');
+	const bound = pointsNumber.getBoundingClientRect();
+	const newPointsOverlay = document.createElement('div');
+	newPointsOverlay.classList.add('overlay');
+	newPointsOverlay.style.color = 'green';
+	newPointsOverlay.style.background = 'var(--background-2)';
+	newPointsOverlay.style.boxShadow = '0 0 10px #00000060';
+	newPointsOverlay.style.padding = '2px 5px';
+	newPointsOverlay.style.borderRadius = '5px';
+	newPointsOverlay.textContent = '+' + newPoints;
+	gameControlsCell.appendChild(newPointsOverlay);
+	newPointsOverlay.style.position = 'fixed';
+	const overlayBound = newPointsOverlay.getBoundingClientRect();
+	newPointsOverlay.style.top = (bound.y - overlayBound.height + 4) + 'px';
+	newPointsOverlay.style.left = (bound.x + (bound.width / 2) - (overlayBound.width / 2)) + 'px';
+	newPointsOverlay.classList.add('fadeUpOut');
+
+	setTimeout(() => {
+		newPointsOverlay.remove();
+	}, 3000);
 }
 
 function checkPoints() {
@@ -1161,10 +1194,18 @@ function shuffleBank() {
 	const animationTime = 370;
 	canvas.animations.bankShuffle = new Animation(animationTime);
 
+	// actually switch the letters halfway through the animation (when all the letters are in the middle)
 	setTimeout(() => {
 		canvas.bankOrder = shuffleArr(canvas.bankOrder);
 		setBankOrder();
 	}, animationTime / 2);
+
+	// disable the shuffle button until the animation is complete
+	canvas.bankShuffleButton.cooldown = setTimeout(() => {
+		let btn = canvas.bankShuffleButton;
+		btn.cooldown = undefined;
+		btn.clicking = false;
+	}, animationTime);
 }
 
 function exchangeLetters() {
@@ -1293,20 +1334,17 @@ function pickLetter(bankIndex, complete = function(letter) {}) {
 	});
 }
 
-function addLetter(x, y, bankIndex) {
-	var bank;
-	for (let i in game.players) {
-		if (game.players[i].id == account.id) {
-			bank = game.players[i].letterBank;
-			break;
-		}
+function addLetter(x, y, bankIndex, assignedLetter = false) {
+	const bank = game.players[game.currentPlayerIndex].letterBank;
+
+	let letter = bank[bankIndex];
+	const blank = !letter;
+
+	if (blank && assignedLetter) {
+		letter = assignedLetter;
 	}
 
-	var letter = bank[bankIndex];
-
-	var blank = !letter;
-
-	if (blank) {
+	if (blank && !assignedLetter) {
 		pickLetter(bankIndex, function(letter) {
 			game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
 			checkPoints();
@@ -1349,6 +1387,25 @@ function showTab(tab) {
 	// scroll to the top of the games list
 	$('#activeGames .gamesListWrapper')[0].scrollTop = 0;
 
-	// read the chat
-	if (tab === 'chat') readChat();
+	if (tab === 'chat') {
+		readChat();
+	}
+
+	if (tab === 'chat' || tab === 'game') {
+		chatScrollBottom();
+	}
+
+	if (tab === 'account') {
+		stopChecking = true;
+	}
+}
+
+function temporaryTitle(title, callback) {
+    document.title = title;
+    document.addEventListener('visibilitychange', e => {
+        if (document.hidden === false) {
+            document.title = windowTitle;
+            callback();
+        };
+    });
 }

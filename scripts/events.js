@@ -240,50 +240,47 @@ function handleCanvasMouseMove(e) {
     }
     
     if (dragged) {
-        cursor = 'no-drop';
+        cursor = 'grabbing';
 
-        if (!tile) {
-            cursor = (game.inactive ? 'no-drop' : 'grabbing');
+        if (tile && locked) cursor = 'no-drop';
+
+        let dropZone;
+
+        // find the current drop zone
+        for (let i in canvas.dropZones) {
+            const xInDropZone = x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x;
+            const yInDropZone = y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y;
+            const inDropZone = xInDropZone && yInDropZone;
+            if (inDropZone) {
+                dropZone = i;
+                break;
+            };
         }
 
-        if (boardY > 14) {
-            cursor = 'grabbing';
+        const dropZoneChanged = dropZone != canvas.expandedDropZone;
 
-            let dropZone;
-
-            // find the current drop zone
-            for (let i in canvas.dropZones) {
-                const xInDropZone = x >= canvas.dropZones[i].start.x && x < canvas.dropZones[i].end.x;
-                const yInDropZone = y >= canvas.dropZones[i].start.y && y < canvas.dropZones[i].end.y;
-                const inDropZone = xInDropZone && yInDropZone;
-                if (inDropZone) dropZone = i;
-            }
-
-            const dropZoneChanged = dropZone != canvas.expandedDropZone;
-
-            // expand the space between letters in bank as necessary
-            for (let i in canvas.dropZones) {
-                if (dropZone == i && dropZoneChanged) {
-                    // make the gap bigger
-                    if (i == 0) {
-                        canvas.gapBeforeBankAnimation = new Animation(dropZoneAnimationTime, 0, canvas.extraGapBeforeBank, 1);
-                    } else {
-                        const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
-                        current.gapAnimation = new Animation(dropZoneAnimationTime, 0, current.extraGapAfter, 1);
-                    }
-                } else if (dropZoneChanged) {
-                    // make the gap smaller
-                    if (i == 0) {
-                        canvas.gapBeforeBankAnimation = new Animation(dropZoneAnimationTime, 0, canvas.extraGapBeforeBank, 0);
-                    } else {
-                        const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
-                        current.gapAnimation = new Animation(dropZoneAnimationTime, 0, current.extraGapAfter, 0);
-                    }
+        // expand the space between letters in bank as necessary
+        for (let i in canvas.dropZones) {
+            if (dropZone == i && dropZoneChanged) {
+                // make the gap bigger
+                if (i == 0) {
+                    canvas.gapBeforeBankAnimation = new Animation(dropZoneAnimationTime, 0, canvas.extraGapBeforeBank, 1);
+                } else {
+                    const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
+                    current.gapAnimation = new Animation(dropZoneAnimationTime, 0, current.extraGapAfter, 1);
+                }
+            } else if (dropZoneChanged) {
+                // make the gap smaller
+                if (i == 0) {
+                    canvas.gapBeforeBankAnimation = new Animation(dropZoneAnimationTime, 0, canvas.extraGapBeforeBank, 0);
+                } else {
+                    const current = canvas.bank[canvas.bankOrder[canvas.dropZones[i].orderIndex - 1]]
+                    current.gapAnimation = new Animation(dropZoneAnimationTime, 0, current.extraGapAfter, 0);
                 }
             }
-
-            canvas.expandedDropZone = dropZone;
         }
+
+        canvas.expandedDropZone = dropZone;
     }
 
     // set the css
@@ -309,7 +306,7 @@ function handleDocumentMouseUp(e) {
         // check for the shuffle button
         const xOnShuffle = x > canvas.bankShuffleButton.position.start.x && x < canvas.bankShuffleButton.position.end.x;
         const yOnShuffle = y > canvas.bankShuffleButton.position.start.y && y < canvas.bankShuffleButton.position.end.y;
-        if (!dragged && xOnShuffle && yOnShuffle && canvas.bankShuffleButton.clicking) {
+        if (!dragged && xOnShuffle && yOnShuffle && canvas.bankShuffleButton.clicking && !canvas.bankShuffleButton.cooldown) {
             shuffleBank();
 
             // don't register double click on shuffle button as double click on canvas
@@ -344,7 +341,7 @@ function handleDocumentMouseUp(e) {
 
     // only if the letter was moved to a free space on the board
     if (onBoard && !onExistingTile && !stayedStill && !game.inactive) {
-        addLetter(boardX, boardY, dragged.bankIndex); // add the letter to the appropriate spot on the board
+        addLetter(boardX, boardY, dragged.bankIndex, dragged.letter); // add the letter to the appropriate spot on the board
     } else { // if the letter was dropped anywhere else or stayed still
 
         // find out if it was dropped into a drop zone

@@ -55,10 +55,39 @@ $chatJson = str_replace('"', '\"', $chatJson);
 $sql = "UPDATE games SET chat='$chatJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 if ($query) {
-    echo '{"errorLevel":0,"message":"Message ' . ($delete ? 'deleted' : 'restored') . '."' . ($delete ? '' : ',"data":"' . $chat[$messageId]["message"] . '"') . '}';
+    $response = Array(
+        "errorLevel" => 0,
+        "message" => "Message " . ($delete ? "deleted" : "restored") . ".",
+    );
+    if (!$delete) {
+        // return the message content if we are restoring the message
+        $response['data'] = $chat[$messageId]["message"];
+    }
+    echo json_encode($response);
 } else {
     echo '{"errorLevel":1,"message":"Could not ' . ($delete ? 'delete' : 'restore') . ' message."}';
 }
+
+// add to update list
+$sql = "SELECT updates FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$updates = json_decode($row['updates'], true);
+
+array_push($updates, Array(
+    "type" => ($delete ? 'chatMessageDeletion' : 'chatMessageRestoration'),
+    "data" => Array(
+        "messageId" => $messageId,
+        "content" => $chat[$messageId]["message"]
+    ),
+	"timestamp" => time()
+));
+
+$updatesJson = json_encode($updates);
+$updatesJson = str_replace("'", "\'", $updatesJson);
+$updatesJson = str_replace('"', '\"', $updatesJson);
+$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
 
 mysqli_close($conn);
 

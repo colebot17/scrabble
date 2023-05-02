@@ -1,5 +1,8 @@
 $(function() {
-	if (localStorage.name && localStorage.pwd) {
+	if (sessionStorage.name && sessionStorage.pwd) {
+		signIn(sessionStorage.name, sessionStorage.pwd);
+		$('#scrabbleGrid').attr('data-signedin', "loading");
+	} else if (localStorage.name && localStorage.pwd) {
 		signIn(localStorage.name, localStorage.pwd);
 		$('#scrabbleGrid').attr('data-signedin', "loading");
 	} else {
@@ -82,9 +85,11 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 						}
 					});
 
-					// clear localStorage
+					// clear localStorage and sessionStorage
 					localStorage.removeItem('name');
 					localStorage.removeItem('pwd');
+					sessionStorage.removeItem('name');
+					sessionStorage.removeItem('pwd');
 
 					return;
 				}
@@ -95,6 +100,8 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 
 				localStorage.name = jsonData.data.name;
 				localStorage.pwd = pwd;
+				sessionStorage.name = jsonData.data.name;
+				sessionStorage.pwd = pwd;
 
 				const label = document.getElementById('accountNameLabel');
 				
@@ -237,6 +244,8 @@ function signOut(confirm = true, saveAccount = false) {
 		}
 		localStorage.removeItem('name');
 		localStorage.removeItem('pwd');
+		sessionStorage.removeItem('name');
+		sessionStorage.removeItem('pwd');
 		location.reload();
 	}
 
@@ -326,6 +335,10 @@ function addAccount() {
 	document.getElementById('signInBackButton').classList.remove('hidden');
 	document.getElementById('createAccountModeButton').classList.add('hidden');
 	document.getElementById('signInForm').reset();
+
+	document.getElementById('signInUsername').disabled = false;
+	document.getElementById('signInPwd').disabled = false;
+	document.getElementById('signInSubmitButton').disabled = false;
 }
 
 function saveAccount(name, pwd) {

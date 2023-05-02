@@ -36,3 +36,16 @@ function range() {
 
 	return arr;
 }
+
+function request(filename, dataObj) {
+	const url = location + '/php/' + filename;
+	const data = new URLSearchParams(dataObj).toString();
+
+	return new Promise((resolve, reject) => {
+		fetch(url, {
+			method: 'POST',
+			body: data,
+			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+		}).then(response => response.json()).then(res => resolve(res)).catch(reason => reject(reason));
+	});
+}

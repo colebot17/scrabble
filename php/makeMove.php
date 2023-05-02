@@ -8,7 +8,7 @@ $dbname = "scrabble";
 
 // get data from GET/POST
 $gameId = $_POST['game'];
-$tiles = $_POST['tiles']; // already an array
+$tiles = json_decode($_POST['tiles'], true);
 $user = $_POST['user'];
 $pwd = $_POST['pwd'];
 
@@ -65,6 +65,8 @@ if (!$players[$currentPlayerIndex]['bankOrder']) {
 	}
 }
 
+$addedTiles = Array();
+
 // add the tiles to the board
 for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to place
 	// make sure tiles are only being placed on empty spaces
@@ -80,15 +82,17 @@ for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to 
 	// generate a tile with only the information we need
 	$tile = Array(
 		"bankIndex" => $tiles[$i]['bankIndex'],
-		"blank" => $tiles[$i]['blank'],
-		"letter" => $tiles[$i]['letter'],
-		"turn" => (int)$totalTurn,
-		"x" => $tiles[$i]['x'],
-		"y" => $tiles[$i]['y']
+		"blank"     => $tiles[$i]['blank'] === "true",
+		"letter"    => $tiles[$i]['letter'],
+		"locked"    => true,
+		"turn"      => (int)$totalTurn,
+		"x"         => $tiles[$i]['x'],
+		"y"         => $tiles[$i]['y']
 	);
 
 	// add tile to board
 	$board[$tile['y']][$tile['x']] = $tile;
+	array_push($addedTiles, $tile);
 
 	// remove the letter from the user's bank and bank order
 	unset($players[$currentPlayerIndex]['letterBank'][$tiles[$i]['bankIndex']]);
@@ -245,6 +249,55 @@ $response = Array(
 	)
 );
 echo json_encode($response);
+
+// add to update list
+$sql = "SELECT updates FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$updates = json_decode($row['updates'], true);
+
+array_push($updates, Array(
+    "type" => "move",
+    "data" => Array(
+        "player" => $user,
+		"playerIndex" => $currentPlayerIndex,
+		"tiles" => $addedTiles,
+		"newPoints" => $pointsSum
+    ),
+	"timestamp" => time()
+));
+
+if ($inactive) {
+	$highestScore = 0;
+	for ($i = 0; $i < count($players); $i++) {
+		if ($players[$i]["points"] > $highestScore) {
+			$highestScore = $players[$i]["points"];
+		}
+	}
+	$winnerIndicies = Array();
+	for ($i = 0; $i < count($players); $i++) {
+		if ($players[$i]["points"] === $highestScore) {
+			$winnerIndicies[] = $i;
+		}
+	}
+	array_push($updates, Array(
+		"type" => "gameEnd",
+		"data" => Array(
+			"player" => $user,
+			"playerIndex" => $currentPlayerIndex,
+			"reason" => "move",
+			"gameDeleted" => false,
+			"winnerIndicies" => $winnerIndicies
+		),
+		"timestamp" => time()
+	));
+}
+
+$updatesJson = json_encode($updates);
+$updatesJson = str_replace("'", "\'", $updatesJson);
+$updatesJson = str_replace('"', '\"', $updatesJson);
+$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
 
 // close the connection
 $conn->close();

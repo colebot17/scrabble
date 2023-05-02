@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 // get data from client
 $user = $_POST['user'];
 $pwd = $_POST['pwd'];
-$game = $_POST['game'];
+$gameId = $_POST['game'];
 $name = $_POST['name'];
 
 // check password
@@ -31,7 +31,7 @@ $sql = "SELECT games FROM accounts WHERE id='$user'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $userGames = json_decode($row['games'], true);
-if (!in_array($game, $userGames)) {
+if (!in_array($gameId, $userGames)) {
 	exit('{"errorLevel":2,"message":"You do not own this game!"}');
 }
 
@@ -43,7 +43,7 @@ $name = trim($name);
 $uploadName = str_replace("'", "\'", $name);
 
 // set the name
-$sql = "UPDATE games SET name='$uploadName' WHERE id='$game'";
+$sql = "UPDATE games SET name='$uploadName' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 
 if (!$query) {
@@ -51,6 +51,34 @@ if (!$query) {
 }
 
 echo '{"errorLevel":0,"message":"Game renamed to \"' . $name . '\".","data":"' . $name . '"}';
+
+// add to update list
+$sql = "SELECT updates FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$updates = json_decode($row['updates'], true);
+
+array_push($updates, Array(
+    "type" => "gameRename",
+    "data" => Array(
+        "newName" => $name
+	),
+	"timestamp" => time()
+));
+
+$updatesJson = json_encode($updates);
+$updatesJson = str_replace("'", "\'", $updatesJson);
+$updatesJson = str_replace('"', '\"', $updatesJson);
+$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+
+// add system message to chat
+require "addSystemChatMessage.php";
+$data = Array(
+	"playerId" => $user,
+	"newName" => $name
+);
+addSystemChatMessage($conn, $gameId, "gameRename", $data);
 
 mysqli_close($conn);
 

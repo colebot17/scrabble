@@ -31,13 +31,11 @@ $row = mysqli_fetch_assoc($query);
 $players = json_decode($row['players'], true);
 $chat = json_decode($row['chat'], true);
 
-// find out the most recent message id (the index of the last chat message)
-$lastMessageId = count($chat) - 1;
-
-// mark that message as the last message read
-for ($i=0; $i < count($players); $i++) { 
+// loop through to find the current player
+for ($i=0; $i < count($players); $i++) {
     if ((int)$players[$i]['id'] === (int)$user) {
-        $players[$i]['chatRead'] = (int)$lastMessageId;
+        // mark the last message as the last one read
+        $players[$i]['chatRead'] = count($chat) - 1;
     }
 }
 
