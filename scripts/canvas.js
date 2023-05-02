@@ -428,8 +428,8 @@ function drawRegions(regions) {
 		const onRightEdge = regions[i].end[0] === 14;
 
 		// move over if on edge
-		if (onTopEdge) y1 += (canvas.ctx.lineWidth / 2);
-		if (onRightEdge) x2 -= (canvas.ctx.lineWidth / 2);
+		/* if (onTopEdge) y1 += ((canvas.ctx.lineWidth / 2) - 1);
+		if (onRightEdge) x2 -= ((canvas.ctx.lineWidth / 2) - 1); */
 
 		const width = x2 - x1;
 		const height = y2 - y1;
@@ -438,10 +438,10 @@ function drawRegions(regions) {
 		const radius = 15;
 		// move the bubble over if it is on an edge
 		if (onRightEdge) {
-			circX -= (radius);
+			circX -= (radius - 1);
 		}
 		if (onTopEdge) {
-			circY += (radius);
+			circY += (radius - 1);
 		}
 
 		// draw the bubble
