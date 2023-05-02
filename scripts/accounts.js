@@ -244,6 +244,8 @@ function signOut(confirm = true, saveAccount = false) {
 		}
 		localStorage.removeItem('name');
 		localStorage.removeItem('pwd');
+		sessionStorage.removeItem('name');
+		sessionStorage.removeItem('pwd');
 		location.reload();
 	}
 
