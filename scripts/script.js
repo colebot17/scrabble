@@ -1331,7 +1331,7 @@ function pickLetter(bankIndex, complete = function(letter) {}) {
 }
 
 function addLetter(x, y, bankIndex, assignedLetter = false) {
-	const bank = game.players[game.currentPlayerIndex].bank;
+	const bank = game.players[game.currentPlayerIndex].letterBank;
 
 	let letter = bank[bankIndex];
 	const blank = !letter;
