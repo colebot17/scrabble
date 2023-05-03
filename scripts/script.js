@@ -1395,7 +1395,7 @@ function showTab(tab) {
 		chatScrollBottom();
 	}
 
-	if (tab === 'account') {
+	if (tab === 'home') {
 		stopChecking = true;
 	}
 }
