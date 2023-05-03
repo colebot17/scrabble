@@ -763,6 +763,7 @@ body.scrabble {
 	}
 	#scrabbleGrid[data-tab=account][data-signedin=true] #friendsCell {
 		display: flex;
+		justify-content: stretch;
 		grid-column: 1;
 		grid-row: 2;
 	}
