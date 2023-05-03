@@ -28,7 +28,7 @@ function checkForChanges() {
         console.error(error);
 
         if (document.hidden) {
-            showTab('account');
+            showTab('home');
             return;
         }
 
@@ -224,7 +224,7 @@ function showEndGameScreen(data) {
     loadGamesList();
     textModal("Game Over!", message, {
         complete: () => {
-            showTab('account');
+            showTab('home');
             setGamesList(data.gameDeleted ? 'active' : 'inactive');
             if (!data.gameDeleted) {
                 endGameAnimation(document.getElementById('listGame' + game.id));
