@@ -310,8 +310,16 @@
 			</div>
 
 			<div id="friendsCell" class="gridCell flex col" data-positionname="friends">
-				<span>You have no friends because this feature doesn't exist yet</span>
-				<span>But I am about to change that</span>
+				<div class="flex">
+					<button id="friendsBackButton" class="iconButton hidden" onclick="showTab('home')">
+						<span class="material-symbols-rounded smallIcon">chevron_left</span>
+					</button>
+					<h3>Friends</h3>
+					<button id="deleteSelectedFriendsButton" class="iconButton">
+						<span class="material-symbols-rounded">delete</span>
+						3
+					</button>
+				</div>
 			</div>
 		</div>
 		<div class="modal hidden" id="createGameModal">
