@@ -309,557 +309,578 @@
 				</div>
 			</div>
 
-			<div id="friendsCell" class="gridCell">
-				<div class="flex">
-					<button id="friendsBackButton" class="iconButton hidden" onclick="showTab('home')">
-						<span class="material-symbols-rounded smallIcon">chevron_left</span>
-					</button>
-					<h3>Friends</h3>
-					<button id="manageRequestsButton" class="iconButton" title="Manage Requests">
-						<span class="material-symbols-rounded">group</span>
-					</button>
-					<button id="removeSelectedFriendsButton" class="iconButton" title="Remove Selected" disabled>
-						<span class="material-symbols-rounded"><script>document.write(Math.random() >= 0.5 ? 'group_remove' : 'person_remove')</script></span>
-					</button>
-					<button id="goToAddFriendsButton" class="iconButton" title="Add Friends">
-						<span class="material-symbols-rounded">group_add</span>
+			<div id="friendsCell" class="gridCell" data-page="friends">
+				<div class="friendsPage contents" id="friendsPage-friends">
+					<div class="flex">
+						<button id="friendsBackButton" class="iconButton desktopHidden" onclick="showTab('home')">
+							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+						</button>
+						<h3>Friends</h3>
+						<button id="manageRequestsButton" class="iconButton" title="Manage Requests">
+							<span class="material-symbols-rounded">group</span>
+						</button>
+						<button id="removeSelectedFriendsButton" class="iconButton" title="Remove Selected" disabled>
+							<span class="material-symbols-rounded"><script>document.write(Math.random() >= 0.5 ? 'group_remove' : 'person_remove')</script></span>
+						</button>
+						<button id="goToAddFriendsButton" class="iconButton" title="Add Friends">
+							<span class="material-symbols-rounded">group_add</span>
+						</button>
+					</div>
+
+					<div class="friendList" id="friendList">
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+						<div class="friendListFriend">
+							<button class="friendCheckbox iconButton">
+								<span class="material-symbols-rounded">
+									check_box_outline_blank
+								</span>
+							</button>
+							<div class="friendNameContainer flex col">
+								<span class="friendName">
+									Test69
+								</span>
+								<span class="finePrint friendInfo">
+									1 game
+								</span>
+							</div>
+							<div class="friendControls">
+								<button id="removeFriendButton" class="iconButton" title="Remove Friend">
+									<span class="material-symbols-rounded">
+										person_remove
+									</span>
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<button class="highlight">
+						New Game with Selected
 					</button>
 				</div>
 
-				<div class="friendList" id="friendList">
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
+				<div class="friendsPage contents" id="friendsPage-requests">
+					<div class="flex">
+						<button id="requestsBackButton" class="iconButton desktopHidden" onclick="showTab('home')">
+							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+						</button>
+						<h3>Requests</h3>
+						<button id="clearRequestsButton" class="iconButton" title="Reject All">
 							<span class="material-symbols-rounded">
-								check_box_outline_blank
+								close
 							</span>
 						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
+						<button id="AcceptAllRequestsButton" class="iconButton" title="Accept All">
 							<span class="material-symbols-rounded">
-								check_box_outline_blank
+								check
 							</span>
 						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
-					</div>
-					<div class="friendListFriend">
-						<button class="friendCheckbox iconButton">
-							<span class="material-symbols-rounded">
-								check_box_outline_blank
-							</span>
-						</button>
-						<div class="friendNameContainer flex col">
-							<span class="friendName">
-								Test69
-							</span>
-							<span class="finePrint friendInfo">
-								1 game
-							</span>
-						</div>
-						<div class="friendControls">
-							<button id="removeFriendButton" class="iconButton" title="Remove Friend">
-								<span class="material-symbols-rounded">
-									person_remove
-								</span>
-							</button>
-						</div>
 					</div>
 				</div>
-
-				<button class="highlight">
-					New Game with Selected
-				</button>
 			</div>
 		</div>
 		<div class="modal hidden" id="createGameModal">

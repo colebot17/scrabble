@@ -620,6 +620,16 @@ body.scrabble {
 }
 
 /* friends */
+.friendsPage {
+	display: none;
+}
+#friendsCell[data-page=friends] #friendspage-friends {
+	display: unset;
+}
+#friendsCell[data-page=requests] #friendspage-requests {
+	display: unset;
+}
+
 .friendList {
 	width: calc(100% - 20px);
 	margin: 5px;
@@ -715,6 +725,10 @@ body.scrabble {
 
 /* desktop */
 @media (orientation: landscape) {
+	.desktopHidden {
+		display: none!important;
+	}
+
 	/* all tabs */
 	#scrabbleGrid #gamesCell {
 		height: calc(100vh - 40px);
@@ -826,6 +840,10 @@ body.scrabble {
 	}
 	.mobileCol {
 		flex-direction: column;
+	}
+
+	.mobileHidden {
+		display: none!important;
 	}
 
 	/* all tabs */
