@@ -631,6 +631,9 @@ body.scrabble {
 	grid-template-columns: max-content 1fr max-content;
 	padding: 10px;
 }
+.friendNameContainer {
+	align-items: flex-start;
+}
 .friendListFriend:not(:last-child) {
 	border-bottom: 1px solid black;
 }
