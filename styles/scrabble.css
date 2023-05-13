@@ -623,10 +623,10 @@ body.scrabble {
 .friendsPage {
 	display: none;
 }
-#friendsCell[data-page=friends] #friendspage-friends {
+#friendsCell[data-page=friends] #friendsPage-friends {
 	display: unset;
 }
-#friendsCell[data-page=requests] #friendspage-requests {
+#friendsCell[data-page=requests] #friendsPage-requests {
 	display: unset;
 }
 
