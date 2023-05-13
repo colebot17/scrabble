@@ -619,6 +619,18 @@ body.scrabble {
 	cursor: pointer;
 }
 
+/* friends */
+.friendList {
+	width: 40vw;
+	margin: 5px;
+	border: 1px solid black;
+	border-radius: 10px;
+}
+.friendListFriend {
+	justify-content: space-between;
+	padding: 10px;
+}
+
 /* animations */
 .spin {
 	animation-name: spin;
