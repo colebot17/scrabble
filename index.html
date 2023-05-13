@@ -315,12 +315,27 @@
 						<span class="material-symbols-rounded smallIcon">chevron_left</span>
 					</button>
 					<h3>Friends</h3>
-					<button id="deleteSelectedFriendsButton" class="iconButton" title="Remove Selected">
+					<button id="removeSelectedFriendsButton" class="iconButton" title="Remove Selected" disabled>
 						<span class="material-symbols-rounded"><script>document.write(Math.random() >= 0.5 ? 'group_remove' : 'person_remove')</script></span>
 					</button>
-					<button id="deleteSelectedFriendsButton" class="iconButton" title="Manage Requests">
+					<button id="manageRequestsButton" class="iconButton" title="Manage Requests">
 						<span class="material-symbols-rounded">group</span>
 					</button>
+				</div>
+
+				<div class="flex insetList" id="friendList">
+					<div class="friendListFriend flex stretch">
+						<div class="friendName">
+							Test69
+						</div>
+						<div class="friendControls">
+							<button id="removeFriendButton" class="iconutton" title="Remove Friend">
+								<span class="material-symbols-rounded">
+									person_remove
+								</span>
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
