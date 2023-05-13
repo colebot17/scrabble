@@ -313,10 +313,10 @@
 				<div class="friendsPage contents" id="friendsPage-friends">
 					<div class="flex">
 						<button id="friendsBackButton" class="iconButton desktopHidden" onclick="showTab('home')">
-							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+							<span class="material-symbols-rounded">chevron_left</span>
 						</button>
 						<h3>Friends</h3>
-						<button id="manageRequestsButton" class="iconButton" title="Manage Requests">
+						<button id="manageRequestsButton" class="iconButton" title="Manage Requests" onclick="setFriendsPage('requests')">
 							<span class="material-symbols-rounded">group</span>
 						</button>
 						<button id="removeSelectedFriendsButton" class="iconButton" title="Remove Selected" disabled>
@@ -865,8 +865,8 @@
 
 				<div class="friendsPage contents" id="friendsPage-requests">
 					<div class="flex">
-						<button id="requestsBackButton" class="iconButton" onclick="showTab('home')">
-							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+						<button id="requestsBackButton" class="iconButton" onclick="setFriendsPage('friends')">
+							<span class="material-symbols-rounded">chevron_left</span>
 						</button>
 						<h3>Requests</h3>
 						<button id="clearRequestsButton" class="iconButton" title="Reject All">
@@ -943,6 +943,7 @@
 	<script type="text/javascript" src="scripts/accounts.js" defer></script>
 	<script type="text/javascript" src="scripts/lookup.js" defer></script>
 	<script type="text/javascript" src="scripts/chat.js" defer></script>
+	<script type="text/javascript" src="scripts/friends.js" defer></script>
 	<script type="text/javascript" src="scripts/animate.js" defer></script>
 	<script type="text/javascript" src="scripts/fullscreen.js" defer></script>
 	<script type="text/javascript" src="scripts/info.js" defer></script>
