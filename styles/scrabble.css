@@ -633,6 +633,8 @@ body.scrabble {
 }
 .friendNameContainer {
 	align-items: flex-start;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 .friendListFriend:not(:last-child) {
 	border-bottom: 1px solid black;
