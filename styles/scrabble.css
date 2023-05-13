@@ -630,6 +630,9 @@ body.scrabble {
 	justify-content: space-between;
 	padding: 10px;
 }
+.friendListFriend:not(:last-child) {
+	border-bottom: 1px solid black;
+}
 
 /* animations */
 .spin {
