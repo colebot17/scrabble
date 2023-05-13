@@ -627,7 +627,8 @@ body.scrabble {
 	border-radius: 10px;
 }
 .friendListFriend {
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: max-content 1fr max-content;
 	padding: 10px;
 }
 .friendListFriend:not(:last-child) {
