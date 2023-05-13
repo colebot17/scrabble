@@ -621,7 +621,7 @@ body.scrabble {
 
 /* friends */
 .friendList {
-	width: 40vw;
+	width: calc(100% - 20px);
 	margin: 5px;
 	border: 1px solid black;
 	border-radius: 10px;
@@ -774,7 +774,7 @@ body.scrabble {
 
 	/* signed in account tab */
 	#scrabbleGrid[data-tab=home][data-signedin=true] {
-		grid-template-columns: minmax(min-content, max-content) 1fr;
+		grid-template-columns: minmax(max-content, min(400px, 40vw)) 1fr;
 		grid-template-rows: minmax(min-content, max-content) 1fr;
 	}
 	#scrabbleGrid[data-tab=home][data-signedin=true] #signInCell {
