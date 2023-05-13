@@ -785,6 +785,7 @@ body.scrabble {
 	#scrabbleGrid[data-tab=home][data-signedin=true] #friendsCell {
 		display: flex;
 		justify-content: stretch;
+		align-items: stretch;
 		height: calc(100% - 30px);
 		grid-column: 1;
 		grid-row: 2;
