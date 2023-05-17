@@ -44,7 +44,7 @@ function toggleFriendCheckbox(friendIndex) {
     const checked = 'check_box';
     const unchecked = 'check_box_outline_blank';
 
-    const icon = document.querySelector('#friend' + friendIndex + ' .friendCheckbox span.material-icons-rounded');
+    const icon = document.querySelector('#friend' + friendIndex + ' .friendCheckbox span');
 
     const isChecked = icon.innerHTML === checked;
     icon.innerHTML = isChecked ? unchecked : checked;
