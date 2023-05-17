@@ -635,6 +635,8 @@ body.scrabble {
 	margin: 5px;
 	border: 1px solid black;
 	border-radius: 10px;
+
+	overflow: auto;
 }
 .friendListFriend {
 	display: grid;
@@ -797,10 +799,12 @@ body.scrabble {
 		grid-row: 1;
 	}
 	#scrabbleGrid[data-tab=home][data-signedin=true] #friendsCell {
-		display: unset;
+		display: flex;
 		height: calc(100% - 30px);
 		grid-column: 1;
 		grid-row: 2;
+
+		overflow: auto;
 	}
 	#scrabbleGrid[data-tab=home][data-signedin=true] #gamesCell {
 		display: unset;
