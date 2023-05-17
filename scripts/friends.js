@@ -3,9 +3,9 @@ function setFriendsPage(page) {
 }
 
 function updateFriendsList(friends) {
-    const friendsList = document.getElementById('friendsList');
+    const friendList = document.getElementById('friendList');
 
-    friendsList.innerHTML = "";
+    friendList.innerHTML = "";
 
     // add each friend
     let listContents = ``;
@@ -35,7 +35,9 @@ function updateFriendsList(friends) {
                 </div>
             </div>
         `;
+        listContents += listItem;
     }
+    friendList.innerHTML = listContents;
 }
 
 function toggleFriendCheckbox(friendIndex) {
