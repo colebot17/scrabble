@@ -13,7 +13,7 @@ function updateFriendsList(friends) {
         const friend = friends[i];
         let listItem = `
             <div class="friendListFriend" id="friend${i}" data-friendid="${friend.id}">
-                <button class="friendCheckbox iconButton" onclick="toggleFriendCheckbox(${i})>
+                <button class="friendCheckbox iconButton" onclick="toggleFriendCheckbox(${i})">
                     <span class="material-symbols-rounded">
                         check_box_outline_blank
                     </span>
