@@ -805,6 +805,7 @@ body.scrabble {
 		grid-row: 2;
 
 		overflow: auto;
+		justify-content: flex-start;
 	}
 	#scrabbleGrid[data-tab=home][data-signedin=true] #gamesCell {
 		display: unset;
