@@ -624,10 +624,10 @@ body.scrabble {
 	display: none;
 }
 #friendsCell[data-page=friends] #friendsPage-friends {
-	display: unset;
+	display: contents;
 }
 #friendsCell[data-page=requests] #friendsPage-requests {
-	display: unset;
+	display: contents;
 }
 
 .friendList {
