@@ -651,12 +651,6 @@ body.scrabble {
 .friendListFriend:not(:last-child) {
 	border-bottom: 1px solid black;
 }
-.friendListFriend[data-checked="true"] .unchecked {
-	display: none;
-}
-.friendListFriend[data-checked="false"] .checked {
-	display: none;
-}
 
 /* animations */
 .spin {

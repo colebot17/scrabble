@@ -17,9 +17,6 @@ function updateFriendsList(friends) {
                     <span class="material-symbols-rounded unchecked">
                         check_box_outline_blank
                     </span>
-                    <span class="material-symbols-rounded checked">
-                        check_box
-                    </span>
                 </button>
                 <div class="friendNameContainer flex col">
                     <span class="friendName">
