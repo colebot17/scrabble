@@ -12,7 +12,7 @@ function updateFriendsList(friends) {
     for (let i = 0; i < friends.length; i++) {
         const friend = friends[i];
         let listItem = `
-            <div class="friendListFriend" id="friend${i}" data-friendid="${friend.id}" data-checked="false">
+            <div class="friendListFriend" id="friend${i}" data-playerid="${friend.id}" data-checked="false">
                 <button class="friendCheckbox iconButton" onclick="toggleFriendCheckbox(${i})">
                     <span class="material-symbols-rounded unchecked">
                         check_box_outline_blank
@@ -64,13 +64,7 @@ function updateFriendListControls() {
     const friendList = document.getElementById('friendList');
     const friends = friendList.getElementsByClassName('friendListFriend');
 
-    let checkedCount = 0;
-    for (let i = 0; i < friends.length; i++) {
-        const listItem = friends[i];
-        if (listItem.dataset.checked === "true") {
-            checkedCount++;
-        }
-    }
+    const checkedCount = getCheckedFriends().length;
 
     // enable/disable buttons
     const checkedEnable = document.querySelectorAll('#removeSelectedFriendsButton, #newGameWithSelectedButton');
@@ -85,4 +79,19 @@ function updateFriendListControls() {
     // update button text
     const newGameButton = document.getElementById('newGameWithSelectedButton');
     newGameButton.innerHTML = `New Game with ${checkedCount} other player${checkedCount !== 1 ? `s` : ``}`;
+}
+
+function getCheckedFriends() {
+    const friendList = document.getElementById('friendList');
+    const friends = friendList.getElementsByClassName('friendListFriend');
+
+    let checked = [];
+    for (let i = 0; i < friends.length; i++) {
+        const listItem = friends[i];
+        if (listItem.dataset.checked === "true") {
+            checked.push(listItem.dataset.playerid);
+        }
+    }
+
+    return checked;
 }
