@@ -638,7 +638,7 @@ body.scrabble {
 
 	overflow: auto;
 }
-.friendListFriend {
+.friendListItem {
 	display: grid;
 	grid-template-columns: max-content 1fr max-content;
 	padding: 10px;
@@ -648,7 +648,7 @@ body.scrabble {
 	margin-left: 5px;
 	margin-right: 5px;
 }
-.friendListFriend:not(:last-child) {
+.friendListItem:not(:last-child) {
 	border-bottom: 1px solid black;
 }
 
