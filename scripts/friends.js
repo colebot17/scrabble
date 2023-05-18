@@ -12,10 +12,13 @@ function updateFriendsList(friends) {
     for (let i = 0; i < friends.length; i++) {
         const friend = friends[i];
         let listItem = `
-            <div class="friendListFriend" id="friend${i}" data-friendid="${friend.id}">
+            <div class="friendListFriend" id="friend${i}" data-friendid="${friend.id}" data-checked="false">
                 <button class="friendCheckbox iconButton" onclick="toggleFriendCheckbox(${i})">
-                    <span class="material-symbols-rounded">
+                    <span class="material-symbols-rounded unchecked">
                         check_box_outline_blank
+                    </span>
+                    <span class="material-symbols-rounded checked">
+                        check_box
                     </span>
                 </button>
                 <div class="friendNameContainer flex col">
@@ -41,13 +44,10 @@ function updateFriendsList(friends) {
 }
 
 function toggleFriendCheckbox(friendIndex) {
-    const checked = 'check_box';
-    const unchecked = 'check_box_outline_blank';
+    const listItem = document.querySelector('#friend' + friendIndex + ' .friendCheckbox span');
 
-    const icon = document.querySelector('#friend' + friendIndex + ' .friendCheckbox span');
-
-    const isChecked = icon.innerHTML === checked;
-    icon.innerHTML = isChecked ? unchecked : checked;
+    const isChecked = listItem.dataset.checked === "true";
+    listItem.dataset.checked = !isChecked;
 
     return !isChecked;
 }
