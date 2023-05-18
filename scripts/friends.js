@@ -38,6 +38,8 @@ function updateFriendsList(friends) {
         listContents += listItem;
     }
     friendList.innerHTML = listContents;
+
+    updateFriendListControls();
 }
 
 function toggleFriendCheckbox(friendIndex) {
@@ -52,5 +54,31 @@ function toggleFriendCheckbox(friendIndex) {
 
     listItem.dataset.checked = !isChecked;
 
+    updateFriendListControls();
+
     return !isChecked;
+}
+
+function updateFriendListControls() {
+    // get number of checked friends
+    const friendList = document.getElementById('friendList');
+    const friends = friendList.getElementsByClassName('friendListFriend');
+
+    let checkedCount = 0;
+    for (let i = 0; i < friends.length; i++) {
+        const listItem = friends[i];
+        if (listItem.dataset.checked === "true") {
+            checkedCount++;
+        }
+    }
+
+    const checkedEnable = document.querySelectorAll('#removeSelectedFriendsButton, #newGameWithSelectedButton');
+
+    checkedEnable.forEach(el => {
+        if (checkedCount > 0) {
+            el.disabled = false;
+        } else {
+            el.disabled = true;
+        }
+    });
 }
