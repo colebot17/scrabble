@@ -44,7 +44,7 @@ function updateFriendsList(friends) {
 }
 
 function toggleFriendCheckbox(friendIndex) {
-    const listItem = document.querySelector('#friend' + friendIndex + ' .friendCheckbox span');
+    const listItem = document.querySelector('#friend' + friendIndex);
 
     const isChecked = listItem.dataset.checked === "true";
     listItem.dataset.checked = !isChecked;
