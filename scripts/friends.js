@@ -118,7 +118,7 @@ function updateRequestList(requests) {
 
     // add each request
     let listContents = ``;
-    for (let i = 0; i < friends.length; i++) {
+    for (let i = 0; i < requests.length; i++) {
         const request = requests[i];
         let listItem = `
             <div class="friendListItem requestListFriend" id="request${i}" data-playerid="${request.id}" data-checked="false">
