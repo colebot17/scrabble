@@ -27,7 +27,7 @@ function updateFriendsList(friends) {
                     </span>
                 </div>
                 <div class="friendControls">
-                    <button id="removeFriendButton" class="iconButton" title="Remove Friend" onclick="removeFriend(${friend.id})">
+                    <button class="iconButton" title="Remove Friend" onclick="removeFriend(${friend.id})">
                         <span class="material-symbols-rounded">
                             person_remove
                         </span>
@@ -96,21 +96,6 @@ function updateFriendListControls() {
     newGameButton.innerHTML = `New Game with ${checkedCount} other player${checkedCount !== 1 ? `s` : ``}`;
 }
 
-function getCheckedFriends() {
-    const friendList = document.getElementById('friendList');
-    const friends = friendList.getElementsByClassName('friendListFriend');
-
-    let checked = [];
-    for (let i = 0; i < friends.length; i++) {
-        const listItem = friends[i];
-        if (listItem.dataset.checked === "true") {
-            checked.push(listItem.dataset.playerid);
-        }
-    }
-
-    return checked;
-}
-
 function updateRequestList(requests) {
     const requestList = document.getElementById('requestList');
 
@@ -122,20 +107,20 @@ function updateRequestList(requests) {
         const request = requests[i];
         let listItem = `
             <div class="friendListItem requestListFriend" id="request${i}" data-playerid="${request.id}" data-checked="false">
-                <button class="friendCheckbox iconButton" onclick="toggleRequestCheckbox(${i})">
-                    <span class="material-symbols-rounded unchecked">
-                        check_box_outline_blank
-                    </span>
-                </button>
                 <div class="friendNameContainer flex col">
                     <span class="friendName">
                         ${request.name}
                     </span>
                 </div>
                 <div class="friendControls">
-                    <button id="removeFriendButton" class="iconButton" title="Remove Friend" onclick="removeFriend(${request.id})">
+                    <button class="iconButton" title="Reject">
                         <span class="material-symbols-rounded">
-                            person_remove
+                            check
+                        </span>
+                    </button>
+                    <button class="iconButton" title="Reject">
+                        <span class="material-symbols-rounded">
+                            close
                         </span>
                     </button>
                 </div>
