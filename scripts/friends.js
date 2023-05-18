@@ -72,8 +72,8 @@ function updateFriendListControls() {
         }
     }
 
+    // enable/disable buttons
     const checkedEnable = document.querySelectorAll('#removeSelectedFriendsButton, #newGameWithSelectedButton');
-
     checkedEnable.forEach(el => {
         if (checkedCount > 0) {
             el.disabled = false;
@@ -81,4 +81,8 @@ function updateFriendListControls() {
             el.disabled = true;
         }
     });
+
+    // update button text
+    const newGameButton = document.getElementById('newGameWithSelectedButton');
+    newGameButton.innerHTML = `New Game with ${checkedCount} player${checkedCount !== 1 ? `s` : ``}`;
 }
