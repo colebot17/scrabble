@@ -121,7 +121,7 @@ function updateRequestList(requests) {
     for (let i = 0; i < friends.length; i++) {
         const request = requests[i];
         let listItem = `
-            <div class="friendListItem requestListFriend" id="request${i}" data-playerid="${friend.id}" data-checked="false">
+            <div class="friendListItem requestListFriend" id="request${i}" data-playerid="${request.id}" data-checked="false">
                 <button class="friendCheckbox iconButton" onclick="toggleRequestCheckbox(${i})">
                     <span class="material-symbols-rounded unchecked">
                         check_box_outline_blank
@@ -133,7 +133,7 @@ function updateRequestList(requests) {
                     </span>
                 </div>
                 <div class="friendControls">
-                    <button id="removeFriendButton" class="iconButton" title="Remove Friend" onclick="removeFriend(${friend.id})">
+                    <button id="removeFriendButton" class="iconButton" title="Remove Friend" onclick="removeFriend(${request.id})">
                         <span class="material-symbols-rounded">
                             person_remove
                         </span>
