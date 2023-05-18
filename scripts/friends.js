@@ -59,21 +59,6 @@ function toggleFriendCheckbox(friendIndex) {
     return !isChecked;
 }
 
-function toggleRequestCheckbox(requestIndex) {
-    const checked = 'check_box';
-    const unchecked = 'check_box_outline_blank';
-
-    const listItem = document.querySelector('#request' + requestIndex);
-    const icon = document.querySelector('#request' + requestIndex + ' .requestCheckbox span');
-
-    const isChecked = listItem.dataset.checked === "true";
-    icon.innerHTML = isChecked ? unchecked : checked;
-
-    listItem.dataset.checked = !isChecked;
-
-    return !isChecked;
-}
-
 function updateFriendListControls() {
     // get number of checked friends
     const friendList = document.getElementById('friendList');
@@ -94,6 +79,21 @@ function updateFriendListControls() {
     // update button text
     const newGameButton = document.getElementById('newGameWithSelectedButton');
     newGameButton.innerHTML = `New Game with ${checkedCount} other player${checkedCount !== 1 ? `s` : ``}`;
+}
+
+function getCheckedFriends() {
+    const friendList = document.getElementById('friendList');
+    const friends = friendList.getElementsByClassName('friendListFriend');
+
+    let checked = [];
+    for (let i = 0; i < friends.length; i++) {
+        const listItem = friends[i];
+        if (listItem.dataset.checked === "true") {
+            checked.push(listItem.dataset.playerid);
+        }
+    }
+
+    return checked;
 }
 
 function updateRequestList(requests) {
