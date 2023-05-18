@@ -640,8 +640,13 @@ body.scrabble {
 }
 .friendListItem {
 	display: grid;
-	grid-template-columns: max-content 1fr max-content;
 	padding: 10px;
+}
+.friendListFriend {
+	grid-template-columns: max-content 1fr max-content;
+}
+.requestListFriend {
+	grid-template-columns: 1fr max-content;
 }
 .friendNameContainer {
 	align-items: flex-start;
