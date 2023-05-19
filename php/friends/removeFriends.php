@@ -33,7 +33,7 @@ $friends = json_decode($row['friends'], true);
 
 // find and remove each friend
 for ($i = 0; $i < count($friendIds); $i++) {
-	if (($key = array_search($friendId, $friends)) !== false) {
+	if (($key = array_search($friendIds[$i], $friends)) !== false) {
 		unset($friends[$key]);
 		$friends = array_values($friends);
 	}
