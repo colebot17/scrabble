@@ -180,7 +180,7 @@ function updateSentRequestList(sentRequests) {
                     </span>
                 </div>
                 <div class="friendControls">
-                    <button class="iconButton" title="Cancel">
+                    <button class="iconButton" title="Cancel" onclick="cancelSentRequest([${sentRequest.id}])">
                         <span class="material-symbols-rounded">
                             close
                         </span>
@@ -238,12 +238,19 @@ function acceptRequests(ids) {
 }
 
 function acceptAllRequests() {
-    const ids = [];
-    for (let i = 0; i < account.requests.length; i++) {
-        account.requests[i];
-        ids.push(account.requests[i].id);
-    }
-    acceptRequests(ids);
+    acceptRequests(getPropArray(account.requests, 'id'));
+}
+
+function cancelSentRequests(ids) {
+    request('friends/cancelSentRequests.php', {
+        userId: account.id,
+        pwd: account.pwd,
+        ids: JSON.stringify(ids)
+    }).then(friendUpdateHandler);
+}
+
+function cancelAllSentRequests() {
+    cancelSentRequests(getPropArray(account.sentRequests, 'id'));
 }
 
 function friendUpdateHandler(res) {
