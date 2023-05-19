@@ -88,7 +88,7 @@ function updateFriendListControls() {
         newGameButton.innerHTML = `Select players to create game`;
         return;
     }
-    newGameButton.innerHTML = `New Game with ${checkedCount} other player${checkedCount !== 1 ? `s` : ``}`;
+    newGameButton.innerHTML = `New Game with ${checkedCount} friend${checkedCount !== 1 ? `s` : ``}`;
 }
 
 function getCheckedFriends() {
