@@ -209,10 +209,10 @@ function loadFriendsList() {
     }).then(friendUpdateHandler);
 }
 
-function addFriend(name = document.getElementById('addFriendField').value) {
+function sendFriendRequest(name = document.getElementById('addFriendField').value) {
     name = name.trim();
     if (!name) return;
-    request('friends/addFriend.php', {
+    request('friends/sendRequest.php', {
         userId: account.id,
         pwd: account.pwd,
         friendName: name
