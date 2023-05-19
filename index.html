@@ -322,7 +322,7 @@
 						<button id="removeSelectedFriendsButton" class="iconButton" title="Remove Selected" disabled>
 							<span class="material-symbols-rounded"><script>document.write(Math.random() >= 0.5 ? 'group_remove' : 'person_remove')</script></span>
 						</button>
-						<button id="goToAddFriendsButton" class="iconButton" title="Add Friends">
+						<button id="goToAddFriendsButton" class="iconButton" title="Add Friends" onclick="setFriendsPage('addFriends')">
 							<span class="material-symbols-rounded">group_add</span>
 						</button>
 					</div>
@@ -355,6 +355,21 @@
 
 					<div class="friendList" id="requestList">
 					</div>
+				</div>
+
+				<div class="friendsPage contents" id="friendsPage-addFriends">
+					<div class="flex">
+						<button id="addFriendsBackButton" class="iconButton" onclick="setFriendsPage('friends')">
+							<span class="material-symbols-rounded">chevron_left</span>
+						</button>
+						<h3>Add Friends</h3>
+					</div>
+
+					<input type="text" class="largeTextInput" id="addFriendsField">
+
+					<button id="addFriendButton">
+						Add Friend
+					</button>
 				</div>
 			</div>
 		</div>
