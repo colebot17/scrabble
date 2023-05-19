@@ -34,6 +34,7 @@ $friends = json_decode($row['friends'], true);
 // find and remove the friend
 if (($key = array_search($friendId, $friends)) !== false) {
     unset($friends[$key]);
+	$friends = array_values($friends);
 }
 
 // re-upload the friends list
