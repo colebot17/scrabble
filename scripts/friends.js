@@ -1,5 +1,9 @@
 function setFriendsPage(page) {
     document.getElementById('friendsCell').dataset.page = page;
+
+    if (page === 'addFriends') {
+        document.getElementById('addFriendField').focus();
+    }
 }
 
 function updateFriendsList(friends) {
