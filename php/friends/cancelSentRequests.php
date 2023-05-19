@@ -46,7 +46,7 @@ for ($i = 0; $i < count($ids); $i++) {
     $row = mysqli_fetch_assoc($query);
     $requests = json_decode($row['requests'], true);
 
-    if (($key = array_search($userId, $requests)) !== false) {
+    if (($key = array_search((int)$userId, $requests)) !== false) {
 		unset($requests[$key]);
 		$requests = array_values($requests);
 	}
