@@ -150,6 +150,7 @@ function loadFriendsList() {
 
 function addFriend(name = document.getElementById('addFriendField').value) {
     name = name.trim();
+    if (!name) return;
     request('friends/addFriend.php', {
         userId: account.id,
         pwd: account.pwd,
