@@ -99,10 +99,9 @@ function updateFriendListControls() {
     }
     newGameButton.innerHTML = `New Game with ${checkedCount} friend${checkedCount !== 1 ? `s` : ``}`;
 
-    { // update remove selected friends button
-        const span = document.querySelector('#removeSelectedFriendsButton span');
-        span.innerHTML = checkedCount === 1 ? 'person_remove' : 'group_remove';
-    }
+    // update remove selected friends button
+    const removeGroupButton = document.querySelector('#removeSelectedFriendsButton span');
+    span.innerHTML = checkedCount === 1 ? 'person_remove' : 'group_remove';
 }
 
 function getCheckedFriends() {
