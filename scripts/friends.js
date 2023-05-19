@@ -180,7 +180,7 @@ function updateSentRequestList(sentRequests) {
                     </span>
                 </div>
                 <div class="friendControls">
-                    <button class="iconButton" title="Cancel" onclick="cancelSentRequest([${sentRequest.id}])">
+                    <button class="iconButton" title="Cancel" onclick="cancelSentRequests([${sentRequest.id}])">
                         <span class="material-symbols-rounded">
                             close
                         </span>
