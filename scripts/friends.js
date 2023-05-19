@@ -122,7 +122,7 @@ function getCheckedFriends() {
 function updateRequestList(requests) {
     const requestList = document.getElementById('requestList');
 
-    friendList.innerHTML = "";
+    requestList.innerHTML = "";
 
     // add each request
     let listContents = ``;
