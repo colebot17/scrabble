@@ -41,7 +41,7 @@ for ($i = 0; $i < count($ids); $i++) {
 	}
 
     // remove from the other user's side
-    $sql = "SELECT requests FROM accounts WHERE id='$ids[$i]";
+    $sql = "SELECT requests FROM accounts WHERE id='$ids[$i]'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
     $requests = json_decode($row['requests'], true);
