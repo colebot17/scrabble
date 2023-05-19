@@ -9,7 +9,7 @@ $dbname = "scrabble";
 // get data from GET/POST
 $userId = $_POST['userId'];
 $pwd = $_POST['pwd'];
-$friendId = $_POST['friendId'];
+$friendIds = $_POST['friendIds'];
 
 // create and check connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -31,10 +31,12 @@ $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $friends = json_decode($row['friends'], true);
 
-// find and remove the friend
-if (($key = array_search($friendId, $friends)) !== false) {
-    unset($friends[$key]);
-	$friends = array_values($friends);
+// find and remove each friend
+for ($i = 0; $i < count($friendIds); $i++) {
+	if (($key = array_search($friendId, $friends)) !== false) {
+		unset($friends[$key]);
+		$friends = array_values($friends);
+	}
 }
 
 // re-upload the friends list

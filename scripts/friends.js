@@ -31,7 +31,7 @@ function updateFriendsList(friends) {
                     </span>
                 </div>
                 <div class="friendControls">
-                    <button class="iconButton" title="Remove Friend" onclick="removeFriend(${friend.id})">
+                    <button class="iconButton" title="Remove Friend" onclick="removeFriends([${friend.id}])">
                         <span class="material-symbols-rounded">
                             person_remove
                         </span>
@@ -89,6 +89,11 @@ function updateFriendListControls() {
         return;
     }
     newGameButton.innerHTML = `New Game with ${checkedCount} friend${checkedCount !== 1 ? `s` : ``}`;
+
+    { // update remove selected friends button
+        const span = document.querySelector('#removeSelectedFriendsButton span');
+        span.innerHTML = checkedCount === 1 ? 'person_remove' : 'group_remove';
+    }
 }
 
 function getCheckedFriends() {
@@ -160,11 +165,11 @@ function addFriend(name = document.getElementById('addFriendField').value) {
     });
 }
 
-function removeFriend(id) {
-    request('friends/removeFriend.php', {
+function removeFriends(ids = getCheckedFriends()) {
+    request('friends/removeFriends.php', {
         userId: account.id,
         pwd: account.pwd,
-        friendId: id
+        friendIds: ids
     }).then(friendUpdateHandler);
 }
 

@@ -319,8 +319,8 @@
 						<button id="manageRequestsButton" class="iconButton" title="Manage Requests" onclick="setFriendsPage('requests')">
 							<span class="material-symbols-rounded">group</span>
 						</button>
-						<button id="removeSelectedFriendsButton" class="iconButton" title="Remove Selected" disabled>
-							<span class="material-symbols-rounded"><script>document.write(Math.random() >= 0.5 ? 'group_remove' : 'person_remove')</script></span>
+						<button id="removeSelectedFriendsButton" class="iconButton" title="Remove Selected" onclick="removeFriends()" disabled>
+							<span class="material-symbols-rounded">group_remove</span>
 						</button>
 						<button id="goToAddFriendsButton" class="iconButton" title="Add Friends" onclick="setFriendsPage('addFriends')">
 							<span class="material-symbols-rounded">group_add</span>
