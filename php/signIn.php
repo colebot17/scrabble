@@ -99,10 +99,14 @@ if ($gameRemoved) {
 
 $obj['games'] = json_encode($newGames);
 
-// get the full friends list
+// get the full friends and requests list
 require "friends/getFriends.php";
+
 $friends = getFriends($conn, $obj['id']);
 $obj['friends'] = $friends;
+
+$requests = getRequests($conn, $obj['id']);
+$obj['requests'] = $requests;
 
 $returnArr = Array(
 	"errorLevel" => 0,

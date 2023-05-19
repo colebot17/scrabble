@@ -29,4 +29,28 @@ function getFriends($conn, $userId) {
     return $friendsList;
 }
 
+function getRequests($conn, $userId) {
+    // get the requests list
+    $sql = "SELECT requests FROM accounts WHERE id='$userId'";
+    $query = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($query);
+    $requests = json_decode($row['requests'], true);
+
+    $requestsList = Array();
+    for ($i = 0; $i < count($requests); $i++) {
+        // get the friend's info
+        $sql = "SELECT name FROM accounts WHERE id='$requests[$i]'";
+        $query = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($query);
+        $friendName = $row['name'];
+
+        array_push($requestsList, Array(
+            "id" => $requests[$i],
+            "name" => $friendName
+        ));
+    }
+
+    return $requestsList;
+}
+
 ?>
