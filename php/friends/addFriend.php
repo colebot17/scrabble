@@ -61,6 +61,7 @@ $res = Array(
 	"message" => "Friend Added.",
 	"data" => $friendsList
 );
+echo json_encode($res);
 
 mysqli_close($conn);
 
