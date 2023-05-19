@@ -136,7 +136,7 @@ function updateRequestList(requests) {
                     </span>
                 </div>
                 <div class="friendControls">
-                    <button class="iconButton" title="Accept" onclick="acceptRequests([${request.id}])>
+                    <button class="iconButton" title="Accept" onclick="acceptRequests([${request.id}])">
                         <span class="material-symbols-rounded">
                             check
                         </span>
