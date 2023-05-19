@@ -365,7 +365,7 @@
 						<h3>Add Friend</h3>
 					</div>
 
-					<input type="text" class="largeTextInput" id="addFriendField">
+					<input type="text" class="largeTextInput" id="addFriendField" onkeypress="if(event.key==='Enter'){addFriend()}">
 
 					<button id="addFriendButton" onclick="addFriend()">
 						Add Friend
