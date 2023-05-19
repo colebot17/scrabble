@@ -68,7 +68,7 @@ function getSentRequests($conn, $userId) {
         $row = mysqli_fetch_assoc($query);
         $friendName = $row['name'];
 
-        array_push($requestsList, Array(
+        array_push($sentRequestsList, Array(
             "id" => $sentRequests[$i],
             "name" => $friendName
         ));
