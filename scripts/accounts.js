@@ -94,7 +94,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 		localStorage.pwd = pwd;
 		sessionStorage.name = res.data.name;
 		sessionStorage.pwd = pwd;
-z
+
 		const label = document.getElementById('accountNameLabel');
 
 		label.textContent = res.data.name;
