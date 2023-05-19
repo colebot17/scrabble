@@ -237,6 +237,15 @@ function acceptRequests(ids) {
     }).then(friendUpdateHandler);
 }
 
+function acceptAllRequests() {
+    const ids = [];
+    for (let i = 0; i < account.requests.length; i++) {
+        account.requests[i];
+        ids.push(account.requests[i].id);
+    }
+    acceptRequests(ids);
+}
+
 function friendUpdateHandler(res) {
     if (res.errorLevel > 0) {
         textModal("Error", res.message);
