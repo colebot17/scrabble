@@ -9,7 +9,7 @@ $dbname = "scrabble";
 // get data from GET/POST
 $userId = $_POST['userId'];
 $pwd = $_POST['pwd'];
-$friendIds = $_POST['friendIds'];
+$friendIds = json_decode($_POST['friendIds'], true);
 
 // create and check connection
 $conn = new mysqli($servername, $username, $password, $dbname);
