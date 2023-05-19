@@ -35,11 +35,11 @@ if (mysqli_num_rows($query) === 0) {
 }
 
 // get friends and requests list
-$sql = "SELECT friends, requests FROM accounts WHERE id='$userId'";
+$sql = "SELECT friends, sentRequests FROM accounts WHERE id='$userId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $friends = json_decode($row['friends'], true);
-$requests = json_decode($row['requests']);
+$sentRequests = json_decode($row['sentRequests']);
 
 // cannot add yourself
 if ($friendId == $userId) {
@@ -52,16 +52,28 @@ if (array_search($friendId, $friends)) {
 }
 
 // check if request already sent
-if (array_search($friendId, $requests)) {
+if (array_search($friendId, $sentRequests)) {
     exit('{"errorLevel":1,"message":"You have already sent a request to this person."}');
 }
 
-// add the request
-$requests[] = (int)$friendId;
+// add to sent requests
+$sentRequests[] = (int)$friendId;
 
-// re-upload the requests list
+// re-upload the sent requests list
+$sentRequestsJson = json_encode($sentRequests);
+$sql = "UPDATE accounts SET requests='$sentRequestsJson' WHERE id='$userId'";
+$query = mysqli_query($conn, $sql);
+
+// update the other user's request list
+$sql = "SELECT requests FROM accounts WHERE id='$friendId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$requests = json_decode($row['requests'], true);
+
+$requests[] = $userId;
+
 $requestsJson = json_encode($requests);
-$sql = "UPDATE accounts SET requests='$requestsJson' WHERE id='$userId'";
+$sql = "UPDATE accounts SET requests='$requestsJson' WHERE id='$friendId'";
 $query = mysqli_query($conn, $sql);
 
 // get the full requests list to return to the client
