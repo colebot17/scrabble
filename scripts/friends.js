@@ -95,9 +95,9 @@ function updateFriendListControls() {
     const newGameButton = document.getElementById('newGameWithSelectedButton');
     if (checkedCount === 0) {
         newGameButton.innerHTML = `Select friends to create game`;
-        return;
+    } else {
+        newGameButton.innerHTML = `New Game with ${checkedCount} friend${checkedCount !== 1 ? `s` : ``}`;
     }
-    newGameButton.innerHTML = `New Game with ${checkedCount} friend${checkedCount !== 1 ? `s` : ``}`;
 
     // update remove selected friends button
     const removeGroupButton = document.querySelector('#removeSelectedFriendsButton span');
