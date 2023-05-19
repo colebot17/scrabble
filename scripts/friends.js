@@ -144,7 +144,7 @@ function loadFriendsList() {
     }).then(friendUpdateHandler);
 }
 
-function addFriend(name = document.getElementById('addFriendField')) {
+function addFriend(name = document.getElementById('addFriendField').value) {
     name = name.trim();
     request('friends/addFriend.php', {
         userId: account.id,
