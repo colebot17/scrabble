@@ -61,7 +61,7 @@ $sentRequests[] = (int)$friendId;
 
 // re-upload the sent requests list
 $sentRequestsJson = json_encode($sentRequests);
-$sql = "UPDATE accounts SET requests='$sentRequestsJson' WHERE id='$userId'";
+$sql = "UPDATE accounts SET sentRequests='$sentRequestsJson' WHERE id='$userId'";
 $query = mysqli_query($conn, $sql);
 
 // update the other user's request list
