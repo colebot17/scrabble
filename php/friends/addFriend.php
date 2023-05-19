@@ -40,6 +40,11 @@ $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $friends = json_decode($row['friends'], true);
 
+// cannot add yourself
+if ($friendId == $userId) {
+    exit('{"errorLevel":1,"message":"You cannot be friends with yourself."}');
+}
+
 // check if already friends
 if (array_search($friendId, $friends)) {
     exit('{"errorLevel":1,"message":"You are already friends with this person."}');
