@@ -52,7 +52,7 @@ for ($i = 0; $i < count($ids); $i++) {
 	}
 
     $requestsJson = json_encode($requests);
-    $sql = "UPDATE accounts SET requests='$requestsJson' WHERE id='$ids[$i]";
+    $sql = "UPDATE accounts SET requests='$requestsJson' WHERE id='$ids[$i]'";
     $query = mysqli_query($conn, $sql);
 }
 
