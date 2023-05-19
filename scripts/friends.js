@@ -150,7 +150,9 @@ function addFriend(name = document.getElementById('addFriendField').value) {
         userId: account.id,
         pwd: account.pwd,
         friendName: name
-    }).then(friendUpdateHandler);
+    }).then(friendUpdateHandler).then(() => {
+        document.getElementById('addFriendField').value = "";
+    });
 }
 
 function removeFriend(id) {
