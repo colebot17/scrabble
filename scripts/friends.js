@@ -42,13 +42,13 @@ function updateFriendsList(friends) {
         listContents += listItem;
     }
 
-    if (friends.length === 0) {
+    /* if (friends.length === 0) {
         listContents += /* html */ `
             <div>
                 You have no friends. Press the <span class="material-symbols-rounde smallIcon">group_add</span> button to add some.
             </div>
         `;
-    }
+    } */
 
     friendList.innerHTML = listContents;
 
@@ -153,13 +153,13 @@ function updateRequestList(requests) {
         listContents += listItem;
     }
 
-    if (requests.length === 0) {
+    /* if (requests.length === 0) {
         listContents += /* html */ `
             <div>
                 You have no pending requests
             </div>
         `;
-    }
+    } */
 
     requestList.innerHTML = listContents;
 }
