@@ -66,12 +66,12 @@ $query = mysqli_query($conn, $sql);
 
 // get the full requests list to return to the client
 require "getFriends.php";
-$requestsList = getRequests($conn, $userId);
+$listsList = getAllLists($conn, $userId);
 
 $res = Array(
 	"errorLevel" => 0,
 	"message" => "Friend Added.",
-	"data" => $requestsList
+	"data" => $listsList
 );
 echo json_encode($res);
 

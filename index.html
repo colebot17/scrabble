@@ -346,14 +346,36 @@
 								close
 							</span>
 						</button>
-						<button id="AcceptAllRequestsButton" class="iconButton" title="Accept All">
+						<button id="acceptAllRequestsButton" class="iconButton" title="Accept All">
 							<span class="material-symbols-rounded">
 								done_all
+							</span>
+						</button>
+						<button id="showSentRequestsButton" class="iconButton" title="Sent Requests" onclick="setFriendsPage('sentRequests')">
+							<span class="material-symbols-rounded">
+								outbox
 							</span>
 						</button>
 					</div>
 
 					<div class="friendList" id="requestList">
+					</div>
+				</div>
+
+				<div class="friendsPage contents" id="friendsPage-sentRequests">
+					<div class="flex">
+						<button id="sentRequestsBackButton" class="iconButton" onclick="setFriendsPage('requests')">
+							<span class="material-symbols-rounded">chevron_left</span>
+						</button>
+						<h3>Sent Requests</h3>
+						<button id="cancelAllRequestsButton" class="iconButton" title="Cancel All">
+							<span class="material-symbols-rounded">
+								close
+							</span>
+						</button>
+					</div>
+
+					<div class="friendList" id="sentRequestList">
 					</div>
 				</div>
 

@@ -108,6 +108,9 @@ $obj['friends'] = $friends;
 $requests = getRequests($conn, $obj['id']);
 $obj['requests'] = $requests;
 
+$sentRequests = getSentRequests($conn, $obj['id']);
+$obj['sentRequests'] = $sentRequests;
+
 $returnArr = Array(
 	"errorLevel" => 0,
 	"message" => "Sign-in successful.",

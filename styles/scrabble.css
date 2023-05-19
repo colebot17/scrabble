@@ -629,6 +629,9 @@ body.scrabble {
 #friendsCell[data-page=requests] #friendsPage-requests {
 	display: contents;
 }
+#friendsCell[data-page=sentRequests] #friendsPage-sentRequests {
+	display: contents;
+}
 #friendsCell[data-page=addFriends] #friendsPage-addFriends {
 	display: contents;
 }

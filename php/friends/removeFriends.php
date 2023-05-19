@@ -45,12 +45,12 @@ $sql = "UPDATE accounts SET friends='$friendsJson' WHERE id='$userId'";
 $query = mysqli_query($conn, $sql);
 
 require "getFriends.php";
-$friendsList = getFriends($conn, $userId);
+$listsList = getAllLists($conn, $userId);
 
 $res = Array(
 	"errorLevel" => 0,
 	"message" => "Friend Removed.",
-	"data" => $friendsList
+	"data" => $listsList
 );
 
 echo json_encode($res);

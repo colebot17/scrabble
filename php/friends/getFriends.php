@@ -53,4 +53,36 @@ function getRequests($conn, $userId) {
     return $requestsList;
 }
 
+function getSentRequests($conn, $userId) {
+    // get the sent requests list
+    $sql = "SELECT sentRequests FROM accounts WHERE id='$userId'";
+    $query = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($query);
+    $sentRequests = json_decode($row['requests'], true);
+
+    $sentRequestsList = Array();
+    for ($i = 0; $i < count($sentRequests); $i++) {
+        // get the friend's info
+        $sql = "SELECT name FROM accounts WHERE id='$sentRequests[$i]'";
+        $query = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($query);
+        $friendName = $row['name'];
+
+        array_push($requestsList, Array(
+            "id" => $sentRequests[$i],
+            "name" => $friendName
+        ));
+    }
+
+    return $sentRequestsList;
+}
+
+function getAllLists($conn, $userId) {
+    return Array(
+        "friendList" => getFriends($conn, $userId),
+        "requestList" => getRequests($conn, $userId),
+        "sentRequestList" => getSentRequests($conn, $userId)
+    );
+}
+
 ?>

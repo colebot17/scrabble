@@ -136,7 +136,7 @@ function updateRequestList(requests) {
                     </span>
                 </div>
                 <div class="friendControls">
-                    <button class="iconButton" title="Reject">
+                    <button class="iconButton" title="Accept" onclick="acceptRequests([${request.id}])>
                         <span class="material-symbols-rounded">
                             check
                         </span>
@@ -161,6 +161,45 @@ function updateRequestList(requests) {
     } */
 
     requestList.innerHTML = listContents;
+}
+
+function updateSentRequestList(sentRequests) {
+    const sentRequestList = document.getElementById('sentRequestList');
+
+    sentRequestList.innerHTML = "";
+
+    // add each request
+    let listContents = ``;
+    for (let i = 0; i < sentRequests.length; i++) {
+        const sentRequest = sentRequests[i];
+        let listItem = `
+            <div class="friendListItem requestListFriend" id="request${i}" data-playerid="${sentRequest.id}" data-checked="false">
+                <div class="friendNameContainer flex col">
+                    <span class="friendName">
+                        ${sentRequest.name}
+                    </span>
+                </div>
+                <div class="friendControls">
+                    <button class="iconButton" title="Cancel">
+                        <span class="material-symbols-rounded">
+                            close
+                        </span>
+                    </button>
+                </div>
+            </div>
+        `;
+        listContents += listItem;
+    }
+
+    /* if (sentRequests.length === 0) {
+        listContents += `
+            <div>
+                You have no outgoing requests
+            </div>
+        `;
+    } */
+
+    sentRequestList.innerHTML = listContents;
 }
 
 function loadFriendsList() {
@@ -190,12 +229,24 @@ function removeFriends(ids = getCheckedFriends()) {
     }).then(friendUpdateHandler);
 }
 
+function acceptRequests(ids) {
+    request('friends/acceptRequests.php', {
+        userId: account.id,
+        pwd: account.pwd,
+        ids: JSON.stringify(ids)
+    }).then(friendUpdateHandler);
+}
+
 function friendUpdateHandler(res) {
     if (res.errorLevel > 0) {
         textModal("Error", res.message);
         return;
     }
 
-    account.friends = res.data;
+    account.friends = res.data.friendList;
+    account.requests = res.data.requestList;
+    account.sentRequests = res.data.sentRequestList;
     updateFriendsList(account.friends);
+    updateRequestList(account.requests);
+    updateSentRequestList(account.sentRequests);
 }

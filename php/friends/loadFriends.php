@@ -25,13 +25,12 @@ if (!password_verify($pwd, $row['pwd'])) {
 }
 
 require "getFriends.php";
-
-$friends = getFriends($conn, $userId);
+$listsList = getAllLists($conn, $userId);
 
 $res = Array(
     "errorLevel" => 0,
     "message" => "Friend list returned.",
-    "data" => $friends
+    "data" => $listsList
 );
 
 echo json_encode($res);

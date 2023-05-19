@@ -89,6 +89,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 		account.games = JSON.parse(res.data.games);
 		account.friends = res.data.friends;
 		account.requests = res.data.requests;
+		account.sentRequests = res.data.sentRequests;
 
 		localStorage.name = res.data.name;
 		localStorage.pwd = pwd;
@@ -112,6 +113,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 		
 		updateFriendsList(account.friends);
 		updateRequestList(account.requests);
+		updateSentRequestList(account.sentRequests);
 	}).catch(err => {
 		console.error("Sign-in could not be completed:", err);
 		setSignInMode('signIn');
