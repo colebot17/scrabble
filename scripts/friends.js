@@ -43,7 +43,7 @@ function updateFriendsList(friends) {
     }
 
     /* if (friends.length === 0) {
-        listContents += /* html */ `
+        listContents += `
             <div>
                 You have no friends. Press the <span class="material-symbols-rounde smallIcon">group_add</span> button to add some.
             </div>
@@ -154,7 +154,7 @@ function updateRequestList(requests) {
     }
 
     /* if (requests.length === 0) {
-        listContents += /* html */ `
+        listContents += `
             <div>
                 You have no pending requests
             </div>
