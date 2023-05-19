@@ -40,6 +40,8 @@ function updateFriendsList(friends) {
     friendList.innerHTML = listContents;
 
     updateFriendListControls();
+    
+    setFriendsPage('friends');
 }
 
 function toggleFriendCheckbox(friendIndex) {
@@ -133,4 +135,38 @@ function updateRequestList(requests) {
         listContents += listItem;
     }
     requestList.innerHTML = listContents;
+}
+
+function loadFriendsList() {
+    request('friends/loadFriends.php', {
+        userId: account.id,
+        pwd: account.pwd
+    }).then(friendUpdateHandler);
+}
+
+function addFriend(name = document.getElementById('addFriendField')) {
+    name = name.trim();
+    request('friends/addFriend.php', {
+        userId: account.id,
+        pwd: account.pwd,
+        friendName: name
+    }).then(friendUpdateHandler);
+}
+
+function removeFriend(id) {
+    request('friends/removeFriend.php', {
+        userId: account.id,
+        pwd: account.pwd,
+        friendId: id
+    }).then(friendUpdateHandler);
+}
+
+function friendUpdateHandler(res) {
+    if (res.errorLevel > 0) {
+        textModal("Error", res.message);
+        return;
+    }
+
+    account.friends = res.data;
+    updateFriendsList(account.friends);
 }

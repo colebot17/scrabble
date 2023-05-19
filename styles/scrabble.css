@@ -659,7 +659,7 @@ body.scrabble {
 .friendListItem:not(:last-child) {
 	border-bottom: 1px solid black;
 }
-#addFriendsField {
+#addFriendField {
 	width: calc(100% - 40px);
 	text-align: center;
 }

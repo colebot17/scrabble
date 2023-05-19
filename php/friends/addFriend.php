@@ -53,7 +53,14 @@ $friendsJson = json_encode($friends);
 $sql = "UPDATE accounts SET friends='$friendsJson' WHERE id='$userId'";
 $query = mysqli_query($conn, $sql);
 
-echo '{"errorLevel":0,"message":"Friend Added."}';
+require "getFriends.php";
+$friendsList = getFriends($conn, $userId);
+
+$res = Array(
+	"errorLevel" => 0,
+	"message" => "Friend Added.",
+	"data" => $friendsList
+);
 
 mysqli_close($conn);
 
