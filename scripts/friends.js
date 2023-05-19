@@ -169,7 +169,7 @@ function removeFriends(ids = getCheckedFriends()) {
     request('friends/removeFriends.php', {
         userId: account.id,
         pwd: account.pwd,
-        friendIds: ids
+        friendIds: JSON.stringify(ids)
     }).then(friendUpdateHandler);
 }
 
