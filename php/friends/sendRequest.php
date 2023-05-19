@@ -70,7 +70,7 @@ $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $requests = json_decode($row['requests'], true);
 
-$requests[] = $userId;
+$requests[] = (int)$userId;
 
 $requestsJson = json_encode($requests);
 $sql = "UPDATE accounts SET requests='$requestsJson' WHERE id='$friendId'";
