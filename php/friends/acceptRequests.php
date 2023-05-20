@@ -53,8 +53,8 @@ for ($i = 0; $i < count($ids); $i++) {
     }
 
     // add the friend to each list
-    $friends[] = $ids[$i];
-    $otherUserFriends[] = $userId;
+    $friends[] = (int)$ids[$i];
+    $otherUserFriends[] = (int)$userId;
 
     // re-upload other user's stuff
     $sentRequestsJson = json_encode($sentRequests);
