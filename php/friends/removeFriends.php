@@ -49,6 +49,10 @@ for ($i = 0; $i < count($friendIds); $i++) {
 		unset($otherUserFriends[$key]);
 		$otherUserFriends = array_values($otherUserFriends);
 	}
+
+	$otherUserFriendsJson = json_encode($otherUserFriends);
+	$sql = "UPDATE accounts SET friends='$otherUserFriendsJson' WHERE id='$friendIds[$i]'";
+	$query = mysqli_query($conn, $sql);
 }
 
 // re-upload the friends list
