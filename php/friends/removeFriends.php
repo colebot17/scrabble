@@ -33,9 +33,21 @@ $friends = json_decode($row['friends'], true);
 
 // find and remove each friend
 for ($i = 0; $i < count($friendIds); $i++) {
+	// remove from current user
 	if (($key = array_search($friendIds[$i], $friends)) !== false) {
 		unset($friends[$key]);
 		$friends = array_values($friends);
+	}
+
+	// remove from other user
+	$sql = "SELECT friends FROM accounts WHERE id='$friendIds[$i]'";
+	$query = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($query);
+	$otherUserFriends = json_decode($row['friends'], true);
+
+	if (($key = array_search($userId, $otherUserFriends)) !== false) {
+		unset($otherUserFriends[$key]);
+		$otherUserFriends = array_values($otherUserFriends);
 	}
 }
 
