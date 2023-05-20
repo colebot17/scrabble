@@ -59,7 +59,7 @@ for ($i = 0; $i < count($ids); $i++) {
     // re-upload other user's stuff
     $sentRequestsJson = json_encode($sentRequests);
     $otherUserFriendsJson = json_encode($otherUserFriends);
-    $sql = "UPDATE accounts SET sentRequests='$sentRequestsJson', friends='$otherUserFriendsJson' WHERE id='$ids[$i]";
+    $sql = "UPDATE accounts SET sentRequests='$sentRequestsJson', friends='$otherUserFriendsJson' WHERE id='$ids[$i]'";
     $query = mysqli_query($conn, $sql);
 }
 
