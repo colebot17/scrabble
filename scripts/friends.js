@@ -53,8 +53,6 @@ function updateFriendsList(friends) {
     friendList.innerHTML = listContents;
 
     updateFriendListControls();
-    
-    setFriendsPage('friends');
 }
 
 function toggleFriendCheckbox(friendIndex) {
@@ -227,6 +225,7 @@ function sendFriendRequest(name = document.getElementById('addFriendField').valu
     }).then(friendUpdateHandler).then(() => {
         document.getElementById('addFriendField').value = "";
     });
+    setFriendsPage('sentRequests');
 }
 
 function removeFriends(ids = getCheckedFriends()) {
@@ -235,6 +234,7 @@ function removeFriends(ids = getCheckedFriends()) {
         pwd: account.pwd,
         friendIds: JSON.stringify(ids)
     }).then(friendUpdateHandler);
+    setFriendsPage('friends');
 }
 
 function acceptRequests(ids) {
@@ -243,6 +243,7 @@ function acceptRequests(ids) {
         pwd: account.pwd,
         ids: JSON.stringify(ids)
     }).then(friendUpdateHandler);
+    setFriendsPage('requests');
 }
 
 function acceptAllRequests() {
@@ -255,6 +256,7 @@ function rejectRequests(ids) {
         pwd: account.pwd,
         ids: JSON.stringify(ids)
     }).then(friendUpdateHandler);
+    setFriendsPage('requests');
 }
 
 function rejectAllRequests() {
@@ -267,6 +269,7 @@ function cancelSentRequests(ids) {
         pwd: account.pwd,
         ids: JSON.stringify(ids)
     }).then(friendUpdateHandler);
+    setFriendsPage('sentRequests');
 }
 
 function cancelAllSentRequests() {
