@@ -29,7 +29,7 @@ if (!password_verify($pwd, $row['pwd'])) {
 $sql = "SELECT id FROM accounts WHERE name='$friendName'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
-$friendId = $row['id'];
+$friendId = (int)$row['id'];
 if (mysqli_num_rows($query) === 0) {
     exit('{"errorLevel":1,"message":"The person you are trying to add doesn\'t exist."}');
 }
