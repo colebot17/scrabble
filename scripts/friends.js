@@ -27,7 +27,7 @@ function updateFriendsList(friends) {
                         ${friend.name}
                     </span>
                     <span class="finePrint friendInfo">
-                        ${friend.numGames} game${friend.numGames !== 1 ? `s` : ``}
+                        ${friend.numGames} active game${friend.numGames !== 1 ? `s` : ``}
                     </span>
                 </div>
                 <div class="friendControls">
