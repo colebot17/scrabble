@@ -141,7 +141,7 @@ function updateRequestList(requests) {
                             check
                         </span>
                     </button>
-                    <button class="iconButton" title="Reject">
+                    <button class="iconButton" title="Reject" onclick="rejectRequests([${request.id}])">
                         <span class="material-symbols-rounded">
                             close
                         </span>
@@ -247,6 +247,18 @@ function acceptRequests(ids) {
 
 function acceptAllRequests() {
     acceptRequests(getPropArray(account.requests, 'id'));
+}
+
+function rejectRequests(ids) {
+    request('friends/rejectRequests.php', {
+        userId: account.id,
+        pwd: account.pwd,
+        ids: JSON.stringify(ids)
+    }).then(friendUpdateHandler);
+}
+
+function rejectAllRequests() {
+    rejectRequests(getPropArray(account.requests, 'id'));
 }
 
 function cancelSentRequests(ids) {
