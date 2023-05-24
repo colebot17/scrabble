@@ -7,7 +7,7 @@ $password = "96819822";
 $dbname = "scrabble";
 
 // get data from GET/POST
-$userId = $_POST['userId'];
+$userId = (int)$_POST['userId'];
 $pwd = $_POST['pwd'];
 $friendIds = json_decode($_POST['friendIds'], true);
 
