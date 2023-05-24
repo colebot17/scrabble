@@ -152,6 +152,14 @@ function updateRequestList(requests) {
         listContents += listItem;
     }
 
+    // show badge if unresolved requests
+    const btn = document.getElementById('manageRequestsButton');
+    if (requests.length > 0) {
+        btn.classList.add('badge');
+    } else {
+        btn.classList.remove('badge');
+    }
+
     /* if (requests.length === 0) {
         listContents += `
             <div>
