@@ -229,6 +229,7 @@ function sendFriendRequest(name = document.getElementById('addFriendField').valu
 }
 
 function removeFriends(ids = getCheckedFriends()) {
+    if (ids.length === 0) return;
     request('friends/removeFriends.php', {
         userId: account.id,
         pwd: account.pwd,
@@ -238,6 +239,7 @@ function removeFriends(ids = getCheckedFriends()) {
 }
 
 function acceptRequests(ids) {
+    if (ids.length === 0) return;
     request('friends/acceptRequests.php', {
         userId: account.id,
         pwd: account.pwd,
@@ -251,6 +253,7 @@ function acceptAllRequests() {
 }
 
 function rejectRequests(ids) {
+    if (ids.length === 0) return;
     request('friends/rejectRequests.php', {
         userId: account.id,
         pwd: account.pwd,
@@ -264,6 +267,7 @@ function rejectAllRequests() {
 }
 
 function cancelSentRequests(ids) {
+    if (ids.length === 0) return;
     request('friends/cancelSentRequests.php', {
         userId: account.id,
         pwd: account.pwd,
