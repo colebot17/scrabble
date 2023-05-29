@@ -330,7 +330,7 @@
 					<div class="friendList" id="friendList">
 					</div>
 
-					<button class="highlight" id="newGameWithSelectedButton" onclick="createGame(getCheckedFriends())">
+					<button class="highlight" id="newGameWithSelectedButton" onclick="createGame([account.id, ...getCheckedFriends()])">
 						New Game with Selected
 					</button>
 				</div>
