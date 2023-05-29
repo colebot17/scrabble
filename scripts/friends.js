@@ -259,7 +259,7 @@ function requestFieldKeyHandler(e) {
         if (existingRequest) {
             acceptRequests([existingRequest])
         } else {
-            sendFriendRequest(e.target.value);
+            sendFriendRequest(e.target.value + e.key);
         }
     }
 }
