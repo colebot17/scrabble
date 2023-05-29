@@ -218,6 +218,29 @@ function loadFriendsList() {
     }).then(friendUpdateHandler);
 }
 
+function updateSendRequestPage(name = document.getElementById('addFriendField').value) {
+    name = name.trim().toLowerCase();
+    const btn = document.getElementById('addFriendButton');
+    const notice = document.getElementById('existingRequestNotice');
+    let nothingFound = true;
+    for (let i = 0; i < account.requests.length; i++) {
+        const request = account.requests[i];
+        if (name === request.name.toLowerCase()) {
+            btn.innerHTML = "Accept Request";
+            btn.classList.add('highlight');
+            btn.onclick = "acceptRequests([" + request.id + "])";
+            notice.classList.remove('hidden');
+            nothingFound = false;
+        }
+    }
+    if (nothingFound) {
+        btn.innerHTML = "Send Request";
+        btn.classList.remove('highlight');
+        btn.onclick = "sendFriendRequest()";
+        notice.classList.add('hidden');
+    }
+}
+
 function sendFriendRequest(name = document.getElementById('addFriendField').value) {
     name = name.trim();
     if (!name) return;

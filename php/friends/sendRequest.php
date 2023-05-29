@@ -52,55 +52,36 @@ if (array_search($friendId, $friends)) {
     exit('{"errorLevel":1,"message":"You are already friends with this person."}');
 }
 
+// check if request already received
+if (array_search($friendId, $requests)) {
+	exit('{"errorLevel":1,"message":"This person has already sent a request to you."}');
+}
+
 // check if request already sent
 if (array_search($friendId, $sentRequests)) {
     exit('{"errorLevel":1,"message":"You have already sent a request to this person."}');
 }
 
-// accept request if request already received
-if (array_search($friendId, $requests)) {
-	// from https://stackoverflow.com/questions/5647461/how-do-i-send-a-post-request-with-php
-	$url = 'acceptRequests.php';
-	$data = Array(
-		'userId' => $userId,
-		'pwd' => $pwd,
-		'ids' => json_encode(Array($friendId))
-	);
+// add to sent requests
+$sentRequests[] = (int)$friendId;
 
-	// use key 'http' even if you send the request to https://...
-	$options = Array(
-		'http' => Array(
-			'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-			'method'  => 'POST',
-			'content' => http_build_query($data)
-		)
-	);
-	$context  = stream_context_create($options);
-	$result = file_get_contents($url, false, $context);
-	if ($result === FALSE) {
-		exit('{"errorLevel":1,"message":"This person has already sent a request to you."}');
-	}
-} else {
-	// add to sent requests
-	$sentRequests[] = (int)$friendId;
+// re-upload the sent requests list
+$sentRequestsJson = json_encode($sentRequests);
+$sql = "UPDATE accounts SET sentRequests='$sentRequestsJson' WHERE id='$userId'";
+$query = mysqli_query($conn, $sql);
 
-	// re-upload the sent requests list
-	$sentRequestsJson = json_encode($sentRequests);
-	$sql = "UPDATE accounts SET sentRequests='$sentRequestsJson' WHERE id='$userId'";
-	$query = mysqli_query($conn, $sql);
+// update the other user's request list
+$sql = "SELECT requests FROM accounts WHERE id='$friendId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$requests = json_decode($row['requests'], true);
 
-	// update the other user's request list
-	$sql = "SELECT requests FROM accounts WHERE id='$friendId'";
-	$query = mysqli_query($conn, $sql);
-	$row = mysqli_fetch_assoc($query);
-	$requests = json_decode($row['requests'], true);
+$requests[] = (int)$userId;
 
-	$requests[] = (int)$userId;
+$requestsJson = json_encode($requests);
+$sql = "UPDATE accounts SET requests='$requestsJson' WHERE id='$friendId'";
+$query = mysqli_query($conn, $sql);
 
-	$requestsJson = json_encode($requests);
-	$sql = "UPDATE accounts SET requests='$requestsJson' WHERE id='$friendId'";
-	$query = mysqli_query($conn, $sql);
-}
 
 // get the full requests list to return to the client
 require "getFriends.php";
