@@ -160,7 +160,7 @@ function updateRequestList(requests) {
 
     if (requests.length === 0) {
         listContents += `
-            <div>
+            <div class="flex friendListPlaceholder">
                 No pending requests
             </div>
         `;
@@ -199,7 +199,7 @@ function updateSentRequestList(sentRequests) {
 
     if (sentRequests.length === 0) {
         listContents += `
-            <div>
+            <div class="flex friendListPlaceholder">
                 You have no outgoing requests
             </div>
         `;
