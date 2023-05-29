@@ -229,8 +229,8 @@ function updateSendRequestPage(name = document.getElementById('addFriendField').
             btn.classList.add('highlight');
             btn.onclick = "acceptRequests([" + request.id + "])";
             notice.classList.remove('hidden');
+            return request.id;
         }
-        return request.id;
     }
     btn.innerHTML = "Send Request";
     btn.classList.remove('highlight');
