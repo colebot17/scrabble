@@ -40,7 +40,7 @@ $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $friends = json_decode($row['friends'], true);
 $requests = json_decode($row['requests'], true);
-$sentRequests = json_decode($row['sentRequests']);
+$sentRequests = json_decode($row['sentRequests'], true);
 
 // cannot add yourself
 if ($friendId == $userId) {
