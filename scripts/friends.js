@@ -158,13 +158,13 @@ function updateRequestList(requests) {
         btn.classList.remove('badge');
     }
 
-    /* if (requests.length === 0) {
+    if (requests.length === 0) {
         listContents += `
             <div>
-                You have no pending requests
+                No pending requests
             </div>
         `;
-    } */
+    }
 
     requestList.innerHTML = listContents;
 }
@@ -197,13 +197,13 @@ function updateSentRequestList(sentRequests) {
         listContents += listItem;
     }
 
-    /* if (sentRequests.length === 0) {
+    if (sentRequests.length === 0) {
         listContents += `
             <div>
                 You have no outgoing requests
             </div>
         `;
-    } */
+    }
 
     sentRequestList.innerHTML = listContents;
 }
