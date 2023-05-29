@@ -253,6 +253,7 @@ function sendFriendRequest(name = document.getElementById('addFriendField').valu
 }
 
 function requestFieldKeyHandler(e) {
+    console.log(e);
     const existingRequest = updateSendRequestPage();
     if (e.key === 'Enter') {
         if (existingRequest) {
