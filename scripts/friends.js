@@ -44,10 +44,8 @@ function updateFriendsList(friends) {
 
     if (friends.length === 0) {
         listContents += `
-            <div class="friendListItem friendListFriend">
-                <div class="flex">
-                    Add your friends with the <span class="material-symbols-rounded smallIcon">group_add</span> button!
-                <div>
+            <div class="flex friendListPlaceholder">
+                Add your friends with the <span class="material-symbols-rounded smallIcon">group_add</span> button!
             </div>
         `;
     }
