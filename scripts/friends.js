@@ -42,13 +42,15 @@ function updateFriendsList(friends) {
         listContents += listItem;
     }
 
-    /* if (friends.length === 0) {
+    if (friends.length === 0) {
         listContents += `
-            <div>
-                You have no friends. Press the <span class="material-symbols-rounde smallIcon">group_add</span> button to add some.
+            <div class="friendListItem friendListFriend">
+                <span>
+                    You have no friends. Press the <span class="material-symbols-rounded smallIcon">group_add</span> button to add some.
+                <span>
             </div>
         `;
-    } */
+    }
 
     friendList.innerHTML = listContents;
 
