@@ -607,12 +607,7 @@ function newGame() {
 	}
 }
 
-function createGame(playerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players)) {
-	var players = [];
-	for (let i in playerList) {
-		players.push(playerList[i].id);
-	}
-
+function createGame(players = getPropArray(JSON.parse(document.getElementById('createGamePlayerList').dataset.players), 'id')) {
 	if (!account.id) {
 		textModal("Error", "You must be signed in to create a new game.");
 		return;
