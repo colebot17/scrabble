@@ -278,9 +278,9 @@ function cancelSentRequests(ids) {
     setFriendsPage('sentRequests');
 }
 
-function cancelAllSentRequests() {
+/* function cancelAllSentRequests() {
     cancelSentRequests(getPropArray(account.sentRequests, 'id'));
-}
+} */
 
 function friendUpdateHandler(res) {
     if (res.errorLevel > 0) {
