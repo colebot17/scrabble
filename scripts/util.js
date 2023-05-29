@@ -52,7 +52,7 @@ function request(filename, dataObj) {
 
 function getPropArray(input, prop) {
     const out = [];
-    for (let i = 0; i < account.requests.length; i++) {
+    for (let i = 0; i < input.length; i++) {
         input[i];
         out.push(input[i][prop]);
     }
