@@ -222,7 +222,6 @@ function updateSendRequestPage(name = document.getElementById('addFriendField').
     name = name.trim().toLowerCase();
     const btn = document.getElementById('addFriendButton');
     const notice = document.getElementById('existingRequestNotice');
-    let nothingFound = true;
     for (let i = 0; i < account.requests.length; i++) {
         const request = account.requests[i];
         if (name === request.name.toLowerCase()) {
@@ -230,15 +229,14 @@ function updateSendRequestPage(name = document.getElementById('addFriendField').
             btn.classList.add('highlight');
             btn.onclick = "acceptRequests([" + request.id + "])";
             notice.classList.remove('hidden');
-            nothingFound = false;
         }
+        return request.id;
     }
-    if (nothingFound) {
-        btn.innerHTML = "Send Request";
-        btn.classList.remove('highlight');
-        btn.onclick = "sendFriendRequest()";
-        notice.classList.add('hidden');
-    }
+    btn.innerHTML = "Send Request";
+    btn.classList.remove('highlight');
+    btn.onclick = "sendFriendRequest()";
+    notice.classList.add('hidden');
+    return false;
 }
 
 function sendFriendRequest(name = document.getElementById('addFriendField').value) {
@@ -252,6 +250,17 @@ function sendFriendRequest(name = document.getElementById('addFriendField').valu
         document.getElementById('addFriendField').value = "";
     });
     setFriendsPage('sentRequests');
+}
+
+function requestFieldKeypressHandler(e) {
+    const existingRequest = updateSendRequestPage();
+    if (e.key === 'Enter') {
+        if (existingRequest) {
+            acceptRequests([existingRequest])
+        } else {
+            sendFriendRequest();
+        }
+    }
 }
 
 function removeFriends(ids = getCheckedFriends()) {

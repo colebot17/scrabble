@@ -387,14 +387,14 @@
 						<h3>Add Friend</h3>
 					</div>
 
-					<input type="text" class="largeTextInput" placeholder="Username" id="addFriendField" onkeypress="updateSendRequestPage();if(event.key==='Enter'){sendFriendRequest()}">
+					<input type="text" class="largeTextInput" placeholder="Username" id="addFriendField" onkeypress="requestFieldKeypressHandler(event)">
 
-					<button id="addFriendButton" onclick="sendFriendRequest()">
-						Send Request
-					</button>
 					<div class="finePrint hidden" id="existingRequestNotice">
 						This person has already sent a request to you.
 					</div>
+					<button id="addFriendButton" onclick="sendFriendRequest()">
+						Send Request
+					</button>
 				</div>
 			</div>
 		</div>
