@@ -53,6 +53,8 @@ function updateFriendsList(friends) {
     friendList.innerHTML = listContents;
 
     updateFriendListControls();
+
+    updateSendRequestPage();
 }
 
 function toggleFriendCheckbox(friendIndex) {
@@ -170,6 +172,8 @@ function updateRequestList(requests) {
     }
 
     requestList.innerHTML = listContents;
+
+    updateSendRequestPage();
 }
 
 function updateSentRequestList(sentRequests) {
@@ -209,6 +213,8 @@ function updateSentRequestList(sentRequests) {
     }
 
     sentRequestList.innerHTML = listContents;
+
+    updateSendRequestPage();
 }
 
 function loadFriendsList() {
