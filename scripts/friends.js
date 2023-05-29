@@ -133,7 +133,7 @@ function updateRequestList(requests) {
                         ${request.name}
                     </span>
                     <span class="finePrint">
-                        wants to be your friend!
+                        wants to be your friend
                     </span>
                 </div>
                 <div class="friendControls">
