@@ -252,7 +252,7 @@ function sendFriendRequest(name = document.getElementById('addFriendField').valu
     setFriendsPage('sentRequests');
 }
 
-function requestFieldKeypressHandler(e) {
+function requestFieldKeyHandler(e) {
     const existingRequest = updateSendRequestPage();
     if (e.key === 'Enter') {
         if (existingRequest) {
