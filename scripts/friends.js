@@ -200,7 +200,7 @@ function updateSentRequestList(sentRequests) {
     if (sentRequests.length === 0) {
         listContents += `
             <div class="flex friendListPlaceholder">
-                You have no outgoing requests
+                No outgoing requests
             </div>
         `;
     }
