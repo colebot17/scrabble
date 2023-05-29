@@ -132,6 +132,9 @@ function updateRequestList(requests) {
                     <span class="friendName">
                         ${request.name}
                     </span>
+                    <span class="finePrint">
+                        wants to be your friend!
+                    </span>
                 </div>
                 <div class="friendControls">
                     <button class="iconButton" title="Accept" onclick="acceptRequests([${request.id}])">
