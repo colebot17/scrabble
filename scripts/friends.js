@@ -5,6 +5,7 @@ function setFriendsPage(page) {
         const field = document.getElementById('addFriendField');
         field.value = "";
         field.focus();
+        updateSendRequestPage();
     }
 }
 
