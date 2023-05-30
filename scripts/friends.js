@@ -404,7 +404,7 @@ function addMoreToGame() {
     for (let i = 0; i < selectedFriends.length; i++) {
         list.push({
             id: selectedFriends[i],
-            name: account.friends.find(a => a.id === selectedFriends[i]).name
+            name: account.friends.find(a => a.id == selectedFriends[i]).name
         });
     }
     newGame(list);
