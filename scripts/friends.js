@@ -225,9 +225,6 @@ function loadFriendsList() {
 }
 
 function updateSendRequestPage(name = document.getElementById('addFriendField').value) {
-    const SEND_REQUEST = "sendFriendRequest()";
-    const ACCEPT_REQUEST_FN = id => "acceptRequests([" + id + "])";
-
     const existingFriendNotice = document.getElementById('existingFriendNotice');
     const existingRequestNotice = document.getElementById('existingRequestNotice');
     const existingSentRequestNotice = document.getElementById('existingSentRequestNotice');
@@ -247,7 +244,7 @@ function updateSendRequestPage(name = document.getElementById('addFriendField').
         btn.classList.remove('highlight');
     }
     btn.disabled = inFriendsList || inSentRequestsList;
-    btn.onclick = inRequestsList ? "acceptRequests([" + inRequestsList + "])" : "sendFriendRequest()";
+    btn.onclick = inRequestsList ? () => {acceptRequests([inRequestsList])} : sendFriendRequest;
 
     if (inFriendsList) {
         existingFriendNotice.classList.remove('hidden');
