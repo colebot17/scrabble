@@ -631,7 +631,7 @@ function startGame(players) {
 			return;
 		}
 		$('#createGameModal').modalClose(); // hide the modal
-		loadGame(data);
+		loadGame(res.data);
 		loadGamesList();
 	});
 }
