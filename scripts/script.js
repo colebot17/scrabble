@@ -617,27 +617,23 @@ function createGame(players = getPropArray(JSON.parse(document.getElementById('c
 		return;
 	}
 
-	$.ajax(
-		location + '/php/newGame.php',
-		{
-			data: {user: account.id, pwd: account.pwd, players: JSON.stringify(players)},
-			method: "POST",
-			success: function(data) {
-				// var tab = window.open('about:blank', '_blank');
-				// tab.document.write(data);
-				if (data !== 0) {
-					$('#createGameModal').modalClose(); // hide the modal
-					loadGame(data);
-					loadGamesList();
-				} else {
-					textModal("Error", "You don't have permission to create a new game!");
-				}
-			},
-			error: function() {
-				console.error("Game could not be created.");
-			}
+	startGame(players);
+}
+
+function startGame(players) {
+	request('newGame.php', {
+		user: account.id,
+		pwd: account.pwd,
+		players: JSON.stringify(players)
+	}).then(res => {
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message);
+			return;
 		}
-	);
+		$('#createGameModal').modalClose(); // hide the modal
+		loadGame(data);
+		loadGamesList();
+	});
 }
 
 function loadGame(id = prompt("Enter the id of the game you want to load:"), expand = false) {
