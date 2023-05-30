@@ -324,11 +324,20 @@ function requestFieldKeyHandler(e) {
 
 function removeFriends(ids = getCheckedFriends()) {
     if (ids.length === 0) return;
-    request('friends/removeFriends.php', {
-        userId: account.id,
-        pwd: account.pwd,
-        friendIds: JSON.stringify(ids)
-    }).then(friendUpdateHandler);
+    textModal(
+        "Remove Friend" + (ids.length !== 1 ? "s" : ""),
+        "Are you sure you want to remove " + ids.length + " friend" + (ids.length !== 1 ? "s" : "") + "? You will have to send a new request if you change your mind.",
+        {
+            cancelable: true,
+            complete: () => {
+                request('friends/removeFriends.php', {
+                    userId: account.id,
+                    pwd: account.pwd,
+                    friendIds: JSON.stringify(ids)
+                }).then(friendUpdateHandler);
+            }
+        }
+    );
 }
 
 function acceptRequests(ids) {
