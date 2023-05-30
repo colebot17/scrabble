@@ -620,9 +620,10 @@ function createGame(players = getPropArray(JSON.parse(document.getElementById('c
 	// confirm before starting if a game with the same players exists already
 	let confirm = false;
 	const gamesArr = Object.values(account.games);
+	const playersDup = JSON.stringify(JSON.parse(players));
 	for (let i = 0; i < gamesArr.length; i++) {
 		const JOIN_STR = " ";
-		const identical = getPropArray(gamesArr[i].players, 'id').toSorted().join(JOIN_STR) === players.toSorted().join(JOIN_STR);
+		const identical = getPropArray(gamesArr[i].players, 'id').sort().join(JOIN_STR) === playersDup.sort().join(JOIN_STR);
 		if (identical) {
 			confirm = true;
 			break;
