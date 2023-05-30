@@ -287,7 +287,7 @@ function sendFriendRequest(name = document.getElementById('addFriendField').valu
 function requestFieldKeyHandler(e) {
     const existingRequest = updateSendRequestPage();
     if (e.key === 'Enter') {
-        if (existingRequest > 0) {
+        if (typeof existingRequest === 'number') {
             acceptRequests([existingRequest])
         } else if (!existingRequest) {
             sendFriendRequest();
