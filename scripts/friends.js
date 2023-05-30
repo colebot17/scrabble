@@ -290,8 +290,14 @@ function sendFriendRequest(name = document.getElementById('addFriendField').valu
     }).then(friendUpdateHandler).then(() => {
         document.getElementById('addFriendField').value = "";
         updateSendRequestPage();
-        document.getElementById('addFriendButton').innerHTML = "Request Sent!";
-        setTimeout(updateSendRequestPage, 2000);
+        const addFriendButton = document.getElementById('addFriendButton');
+        addFriendButton.innerHTML = "Request Sent!";
+        addFriendButton.style.backgroundColor = "rgb(0, 255, 0)";
+        addFriendButton.style.transition = "background-color 0.37s";
+        setTimeout(() => {
+            updateSendRequestPage();
+            addFriendButton.style.backgroundColor = "";
+        }, 2000);
     });
 }
 
