@@ -617,7 +617,31 @@ function createGame(players = getPropArray(JSON.parse(document.getElementById('c
 		return;
 	}
 
-	startGame(players);
+	// confirm before starting if a game with the same players exists already
+	let confirm = false;
+	for (let i = 0; i < account.games.length; i++) {
+		const JOIN_STR = " ";
+		const identical = getPropArray(account.games[i].players, 'id').toSorted().join(JOIN_STR) === players.toSorted().join(JOIN_STR);
+		if (identical) {
+			confirm = true;
+			break;
+		}
+	}
+
+	if (confirm) {
+		textModal(
+			"New Game",
+			"You are already in a game with this group of players. Are you sure you want to start another one?",
+			{
+				cancelable: true,
+				complete: () => {
+					startGame(players);
+				}
+			}
+		);
+	} else {
+		startGame(players);
+	}
 }
 
 function startGame(players) {
