@@ -389,8 +389,14 @@
 
 					<input type="text" class="largeTextInput" placeholder="Username" id="addFriendField" onkeyup="requestFieldKeyHandler(event)">
 
+					<div class="finePrint hidden" id="existingFriendNotice">
+						You are already friends with this person.
+					</div>
 					<div class="finePrint hidden" id="existingRequestNotice">
 						This person has already sent a request to you.
+					</div>
+					<div class="finePrint hidden" id="existingSentRequestNotice">
+						You have already sent a request to this person.
 					</div>
 					<button id="addFriendButton" onclick="sendFriendRequest()">
 						Send Request

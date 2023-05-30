@@ -225,23 +225,50 @@ function loadFriendsList() {
 }
 
 function updateSendRequestPage(name = document.getElementById('addFriendField').value) {
+    const SEND_REQUEST = "sendFriendRequest()";
+    const ACCEPT_REQUEST_FN = id => "acceptRequests([" + id + "])";
+
+    const existingFriendNotice = document.getElementById('existingFriendNotice');
+    const existingRequestNotice = document.getElementById('existingRequestNotice');
+    const existingSentRequestNotice = document.getElementById('existingSentRequestNotice');
+
     name = name.trim().toLowerCase();
     const btn = document.getElementById('addFriendButton');
-    const notice = document.getElementById('existingRequestNotice');
-    for (let i = 0; i < account.requests.length; i++) {
-        const request = account.requests[i];
-        if (name === request.name.toLowerCase()) {
-            btn.innerHTML = "Accept Request";
-            btn.classList.add('highlight');
-            btn.onclick = "acceptRequests([" + request.id + "])";
-            notice.classList.remove('hidden');
-            return request.id;
-        }
+
+    const inFriendsList = account.friends.filter(a => a.name.toLowerCase() === name)?.[0]?.id;
+    const inRequestsList = account.requests.filter(a => a.name.toLowerCase() === name)?.[0]?.id;
+    const inSentRequestsList = account.sentRequests.filter(a => a.name.toLowerCase() === name)?.[0]?.id;
+
+    // update the button and notices
+    btn.innerHTML = inRequestsList ? "Accept Request" : "Send Request";
+    if (inRequestsList) {
+        btn.classList.add('highlight');
+    } else {
+        btn.classList.remove('highlight');
     }
-    btn.innerHTML = "Send Request";
-    btn.classList.remove('highlight');
-    btn.onclick = "sendFriendRequest()";
-    notice.classList.add('hidden');
+    btn.disabled = inFriendsList || inSentRequestsList;
+    btn.onclick = inRequestsList ? "acceptRequests([" + inRequestsList + "])" : "sendFriendRequest()";
+
+    if (inFriendsList) {
+        existingFriendNotice.classList.remove('hidden');
+    } else {
+        existingFriendNotice.classList.add('hidden');
+    }
+
+    if (inRequestsList) {
+        existingRequestNotice.classList.remove('hidden');
+    } else {
+        existingRequestNotice.classList.add('hidden');
+    }
+
+    if (inSentRequestsList) {
+        existingSentRequestNotice.classList.remove('hidden');
+    } else {
+        existingSentRequestNotice.classList.add('hidden');
+    }
+
+    if (inRequestsList) return inRequestsList;
+    if (inFriendsList || inSentRequestsList) return true;
     return false;
 }
 
@@ -262,9 +289,9 @@ function requestFieldKeyHandler(e) {
     console.log(e);
     const existingRequest = updateSendRequestPage();
     if (e.key === 'Enter') {
-        if (existingRequest) {
+        if (existingRequest > 0) {
             acceptRequests([existingRequest])
-        } else {
+        } else if (!existingRequest) {
             sendFriendRequest();
         }
     }
