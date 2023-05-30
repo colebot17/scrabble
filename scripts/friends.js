@@ -94,12 +94,15 @@ function updateFriendListControls() {
         }
     });
 
-    // update button text
+    // update button and link text
     const newGameButton = document.getElementById('newGameWithSelectedButton');
+    const addMoreToGameLink = document.getElementById('addMoreToGameLink');
     if (checkedCount === 0) {
         newGameButton.innerHTML = `Select friends to create game`;
+        addMoreToGameLink.innerHTML = `New game with others`;
     } else {
         newGameButton.innerHTML = `New Game with ${checkedCount} friend${checkedCount !== 1 ? `s` : ``}`;
+        addMoreToGameLink.innerHTML = `New game with selected and others`;
     }
 
     // update remove selected friends button
@@ -393,4 +396,16 @@ function friendUpdateHandler(res) {
     updateFriendsList(account.friends);
     updateRequestList(account.requests);
     updateSentRequestList(account.sentRequests);
+}
+
+function addMoreToGame() {
+    const selectedFriends = getCheckedFriends();
+    let list = [];
+    for (let i = 0; i < selectedFriends.length; i++) {
+        list.push({
+            id: selectedFriends[i],
+            name: account.friends.find(a => a.id === selectedFriends[i]).name
+        });
+    }
+    newGame(list);
 }

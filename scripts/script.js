@@ -578,14 +578,14 @@ function updateNewGamePlayerList() {
 	playerList.html(playerListContent);
 }
 
-function newGame() {
+function newGame(initialPlayers = []) {
 	if (account.id) {
 		$('#createGameModal').modalOpen(); // show the modal
 
 		var newGamePlayerList = [{
 			id: account.id,
 			name: account.name
-		}]; // create the player list
+		}, ...initialPlayers]; // create the player list
 
 		// add the player list to the dataset of the player list element
 		document.getElementById('createGamePlayerList').dataset.players = JSON.stringify(newGamePlayerList);
