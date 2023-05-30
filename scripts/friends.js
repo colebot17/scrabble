@@ -290,6 +290,8 @@ function sendFriendRequest(name = document.getElementById('addFriendField').valu
     }).then(friendUpdateHandler).then(() => {
         document.getElementById('addFriendField').value = "";
         updateSendRequestPage();
+        document.getElementById('addFriendButton').innerHTML = "Request Sent!";
+        setTimeout(updateSendRequestPage, 2000);
     });
 }
 
