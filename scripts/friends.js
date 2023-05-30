@@ -289,6 +289,7 @@ function sendFriendRequest(name = document.getElementById('addFriendField').valu
         friendName: name
     }).then(friendUpdateHandler).then(() => {
         document.getElementById('addFriendField').value = "";
+        updateSendRequestPage();
     });
 }
 
