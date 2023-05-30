@@ -26,7 +26,7 @@ if (!password_verify($pwd, $row['pwd'])) {
 
 $obj = Array();
 
-$sql = "SELECT id, name, pwd, games FROM accounts WHERE name='$name'";
+$sql = "SELECT id, name, pwd, games, friends FROM accounts WHERE name='$name'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 
@@ -36,10 +36,10 @@ $obj['pwd'] = $row['pwd'];
 
 // parse the games
 $games = json_decode($row['games'], true);
-$gameRemoved = false;
-$newGames = Array();
 
 // for each game, get the names of the players, the current turn, whether it is inactive, and the last move timestamp
+$gameRemoved = false;
+$newGames = Array();
 for ($i = 0; $i < count($games); $i++) {
 	$sql = "SELECT name, turn, inactive, players, lastUpdate, endDate FROM games WHERE id='$games[$i]'";
 	$query = mysqli_query($conn, $sql);
@@ -99,6 +99,17 @@ if ($gameRemoved) {
 
 $obj['games'] = json_encode($newGames);
 
+// get the full friends and requests list
+require "friends/getFriends.php";
+
+$friends = getFriends($conn, $obj['id']);
+$obj['friends'] = $friends;
+
+$requests = getRequests($conn, $obj['id']);
+$obj['requests'] = $requests;
+
+$sentRequests = getSentRequests($conn, $obj['id']);
+$obj['sentRequests'] = $sentRequests;
 
 $returnArr = Array(
 	"errorLevel" => 0,

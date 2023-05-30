@@ -578,14 +578,14 @@ function updateNewGamePlayerList() {
 	playerList.html(playerListContent);
 }
 
-function newGame() {
+function newGame(initialPlayers = []) {
 	if (account.id) {
 		$('#createGameModal').modalOpen(); // show the modal
 
 		var newGamePlayerList = [{
 			id: account.id,
 			name: account.name
-		}]; // create the player list
+		}, ...initialPlayers]; // create the player list
 
 		// add the player list to the dataset of the player list element
 		document.getElementById('createGamePlayerList').dataset.players = JSON.stringify(newGamePlayerList);
@@ -607,12 +607,7 @@ function newGame() {
 	}
 }
 
-function createGame(playerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players)) {
-	var players = [];
-	for (let i in playerList) {
-		players.push(playerList[i].id);
-	}
-
+function createGame(players = getPropArray(JSON.parse(document.getElementById('createGamePlayerList').dataset.players), 'id')) {
 	if (!account.id) {
 		textModal("Error", "You must be signed in to create a new game.");
 		return;
@@ -622,27 +617,49 @@ function createGame(playerList = JSON.parse(document.getElementById('createGameP
 		return;
 	}
 
-	$.ajax(
-		location + '/php/newGame.php',
-		{
-			data: {user: account.id, pwd: account.pwd, players: JSON.stringify(players)},
-			method: "POST",
-			success: function(data) {
-				// var tab = window.open('about:blank', '_blank');
-				// tab.document.write(data);
-				if (data !== 0) {
-					$('#createGameModal').modalClose(); // hide the modal
-					loadGame(data);
-					loadGamesList();
-				} else {
-					textModal("Error", "You don't have permission to create a new game!");
-				}
-			},
-			error: function() {
-				console.error("Game could not be created.");
-			}
+	// confirm before starting if a game with the same players exists already
+	let confirm = false;
+	const gamesArr = Object.values(account.games);
+	const playersDup = JSON.parse(JSON.stringify(players));
+	for (let i = 0; i < gamesArr.length; i++) {
+		const JOIN_STR = " ";
+		const identical = getPropArray(gamesArr[i].players, 'id').sort().join(JOIN_STR) === playersDup.sort().join(JOIN_STR);
+		if (identical && !gamesArr[i].inactive) {
+			confirm = true;
+			break;
 		}
-	);
+	}
+
+	if (confirm) {
+		textModal(
+			"New Game",
+			"You are already in a game with this group of players. Are you sure you want to start another one?",
+			{
+				cancelable: true,
+				complete: () => {
+					startGame(players);
+				}
+			}
+		);
+	} else {
+		startGame(players);
+	}
+}
+
+function startGame(players) {
+	request('newGame.php', {
+		user: account.id,
+		pwd: account.pwd,
+		players: JSON.stringify(players)
+	}).then(res => {
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message);
+			return;
+		}
+		$('#createGameModal').modalClose(); // hide the modal
+		loadGame(res.data);
+		loadGamesList();
+	});
 }
 
 function loadGame(id = prompt("Enter the id of the game you want to load:"), expand = false) {
@@ -1395,7 +1412,7 @@ function showTab(tab) {
 		chatScrollBottom();
 	}
 
-	if (tab === 'account') {
+	if (tab === 'home') {
 		stopChecking = true;
 	}
 }

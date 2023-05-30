@@ -58,72 +58,66 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 	pwdField.disabled = true;
 	submitButton.disabled = true;
 
-	return $.ajax(
-		location + '/php/signIn.php',
-		{
-			data: {
-				name,
-				pwd
-			},
-			method: "POST",
-			success: function(data) {
-				const jsonData = JSON.parse(data);
+	request('signIn.php', {name, pwd}).then(res => {
+		// if there has been an error (incorrect name/pwd),
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message, {
+				complete: function() {
+					// set up the form
+					setSignInMode('signIn');
 
-				// if there has been an error (incorrect name/pwd),
-				if (jsonData.errorLevel > 0) {
-					textModal("Error", jsonData.message, {
-						complete: function() {
-							// set up the form
-							setSignInMode('signIn');
-
-							usernameField.disabled = false;
-							pwdField.disabled = false;
-							submitButton.disabled = false;
-							
-							usernameField.select();
-							pwdField.value = "";
-						}
-					});
-
-					// clear localStorage and sessionStorage
-					localStorage.removeItem('name');
-					localStorage.removeItem('pwd');
-					sessionStorage.removeItem('name');
-					sessionStorage.removeItem('pwd');
-
-					return;
+					usernameField.disabled = false;
+					pwdField.disabled = false;
+					submitButton.disabled = false;
+					
+					usernameField.select();
+					pwdField.value = "";
 				}
-				account.name = jsonData.data.name;
-				account.pwd = pwd;
-				account.id = parseInt(jsonData.data.id);
-				account.games = JSON.parse(jsonData.data.games);
+			});
 
-				localStorage.name = jsonData.data.name;
-				localStorage.pwd = pwd;
-				sessionStorage.name = jsonData.data.name;
-				sessionStorage.pwd = pwd;
+			// clear localStorage and sessionStorage
+			localStorage.removeItem('name');
+			localStorage.removeItem('pwd');
+			sessionStorage.removeItem('name');
+			sessionStorage.removeItem('pwd');
 
-				const label = document.getElementById('accountNameLabel');
-				
-				label.textContent = jsonData.data.name;
-				label.innerHTML = "<b>" + label.textContent + "</b>";
-
-				formEl.reset();
-				setSignInMode('signOut');
-
-				saveAccount(jsonData.data.name, pwd);
-				updateSavedAccountList();
-
-				document.getElementById('scrabbleGrid').dataset.signedin = true;
-
-				updateGamesList();
-			},
-			error: function() {
-				console.error("Sign-in could not be completed.");
-				setSignInMode('signIn');
-			}
+			return;
 		}
-	);
+		account.name = res.data.name;
+		account.pwd = pwd;
+		account.id = parseInt(res.data.id);
+		account.games = JSON.parse(res.data.games);
+		account.friends = res.data.friends;
+		account.requests = res.data.requests;
+		account.sentRequests = res.data.sentRequests;
+
+		localStorage.name = res.data.name;
+		localStorage.pwd = pwd;
+		sessionStorage.name = res.data.name;
+		sessionStorage.pwd = pwd;
+
+		const label = document.getElementById('accountNameLabel');
+
+		label.textContent = res.data.name;
+		label.innerHTML = "<b>" + label.textContent + "</b>";
+
+		formEl.reset();
+		setSignInMode('signOut');
+
+		saveAccount(res.data.name, pwd);
+		updateSavedAccountList();
+
+		document.getElementById('scrabbleGrid').dataset.signedin = true;
+
+		updateGamesList();
+		
+		updateFriendsList(account.friends);
+		updateRequestList(account.requests);
+		updateSentRequestList(account.sentRequests);
+	}).catch(err => {
+		console.error("Sign-in could not be completed:", err);
+		setSignInMode('signIn');
+	});
 }
 
 function createAccount(name = $('#createAccountUsername').val(), pwd = $('#createAccountPwd').val(), confirmPwd = $('#createAccountConfirmPwd').val()) {

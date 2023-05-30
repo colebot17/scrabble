@@ -49,3 +49,12 @@ function request(filename, dataObj) {
 		}).then(response => response.json()).then(res => resolve(res)).catch(reason => reject(reason));
 	});
 }
+
+function getPropArray(input, prop) {
+    const out = [];
+    for (let i = 0; i < input.length; i++) {
+        input[i];
+        out.push(input[i][prop]);
+    }
+    return out;
+}
