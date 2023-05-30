@@ -228,6 +228,7 @@ function loadFriendsList() {
 }
 
 function updateSendRequestPage(name = document.getElementById('addFriendField').value) {
+    const isSelfNotice = document.getElementById('isSelfNotice');
     const existingFriendNotice = document.getElementById('existingFriendNotice');
     const existingRequestNotice = document.getElementById('existingRequestNotice');
     const existingSentRequestNotice = document.getElementById('existingSentRequestNotice');
@@ -235,6 +236,7 @@ function updateSendRequestPage(name = document.getElementById('addFriendField').
     name = name.trim().toLowerCase();
     const btn = document.getElementById('addFriendButton');
 
+    const isSelf = name === account.name.toLowerCase();
     const inFriendsList = account.friends.filter(a => a.name.toLowerCase() === name)?.[0]?.id;
     const inRequestsList = account.requests.filter(a => a.name.toLowerCase() === name)?.[0]?.id;
     const inSentRequestsList = account.sentRequests.filter(a => a.name.toLowerCase() === name)?.[0]?.id;
@@ -246,9 +248,15 @@ function updateSendRequestPage(name = document.getElementById('addFriendField').
     } else {
         btn.classList.remove('highlight');
     }
-    btn.disabled = inFriendsList || inSentRequestsList;
+    btn.disabled = isSelf || inFriendsList || inSentRequestsList;
     btn.onclick = inRequestsList ? () => {acceptRequests([inRequestsList])} : () => {sendFriendRequest()};
 
+    if (isSelf) {
+        isSelfNotice.classList.remove('hidden');
+    } else {
+        isSelfNotice.classList.add('hidden');
+    }
+    
     if (inFriendsList) {
         existingFriendNotice.classList.remove('hidden');
     } else {
@@ -268,7 +276,7 @@ function updateSendRequestPage(name = document.getElementById('addFriendField').
     }
 
     if (inRequestsList) return inRequestsList;
-    if (inFriendsList || inSentRequestsList) return true;
+    if (isSelf || inFriendsList || inSentRequestsList) return true;
     return false;
 }
 
