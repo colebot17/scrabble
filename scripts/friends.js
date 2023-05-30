@@ -326,7 +326,7 @@ function removeFriends(ids = getCheckedFriends()) {
     if (ids.length === 0) return;
     textModal(
         "Remove Friend" + (ids.length !== 1 ? "s" : ""),
-        "Are you sure you want to remove " + ids.length + " friend" + (ids.length !== 1 ? "s" : "") + "? You will have to send a new request if you change your mind.",
+        "Are you sure you want to remove " + ids.length + " friend" + (ids.length !== 1 ? "s" : "") + "? You will have to send " + (ids.length !== 1 ? "new requests" : "a new request"), + " if you change your mind.",
         {
             cancelable: true,
             complete: () => {
