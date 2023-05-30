@@ -298,6 +298,7 @@ function sendFriendRequest(name = document.getElementById('addFriendField').valu
         addFriendField.value = "";
         addFriendButton.disabled = false;
         addFriendField.disabled = false;
+        addFriendField.focus();
 
         updateSendRequestPage();
         addFriendButton.innerHTML = "Request Sent!";
