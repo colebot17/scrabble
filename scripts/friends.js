@@ -244,7 +244,7 @@ function updateSendRequestPage(name = document.getElementById('addFriendField').
         btn.classList.remove('highlight');
     }
     btn.disabled = inFriendsList || inSentRequestsList;
-    btn.onclick = inRequestsList ? () => {acceptRequests([inRequestsList])} : sendFriendRequest;
+    btn.onclick = inRequestsList ? () => {acceptRequests([inRequestsList])} : () => {sendFriendRequest()};
 
     if (inFriendsList) {
         existingFriendNotice.classList.remove('hidden');
