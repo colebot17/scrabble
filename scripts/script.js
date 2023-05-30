@@ -1415,6 +1415,10 @@ function showTab(tab) {
 	if (tab === 'home') {
 		stopChecking = true;
 	}
+
+	if (tab === 'friends' || tab === 'account') {
+		loadFriendsList();
+	}
 }
 
 function temporaryTitle(title, callback) {
