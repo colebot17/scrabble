@@ -808,16 +808,16 @@ body.scrabble {
 	}
 
 	/* signed in account tab */
-	#scrabbleGrid[data-tab=home][data-signedin=true] {
+	#scrabbleGrid[data-tab=home][data-signedin=true], #scrabbleGrid[data-tab=friends][data-signedin=true] {
 		grid-template-columns: minmax(max-content, min(400px, 40vw)) 1fr;
 		grid-template-rows: minmax(min-content, max-content) 1fr;
 	}
-	#scrabbleGrid[data-tab=home][data-signedin=true] #signInCell {
+	#scrabbleGrid[data-tab=home][data-signedin=true] #signInCell, #scrabbleGrid[data-tab=friends][data-signedin=true] #signInCell {
 		display: unset;
 		grid-column: 1;
 		grid-row: 1;
 	}
-	#scrabbleGrid[data-tab=home][data-signedin=true] #friendsCell {
+	#scrabbleGrid[data-tab=home][data-signedin=true] #friendsCell, #scrabbleGrid[data-tab=friends][data-signedin=true] #friendsCell {
 		display: flex;
 		height: calc(100% - 30px);
 		grid-column: 1;
@@ -826,7 +826,7 @@ body.scrabble {
 		overflow: auto;
 		justify-content: flex-start;
 	}
-	#scrabbleGrid[data-tab=home][data-signedin=true] #gamesCell {
+	#scrabbleGrid[data-tab=home][data-signedin=true] #gamesCell, #scrabbleGrid[data-tab=friends][data-signedin=true] #gamesCell {
 		display: unset;
 		grid-column: 2;
 		grid-row: 1 / 3;
@@ -928,6 +928,17 @@ body.scrabble {
 		display: unset;
 		grid-column: 1;
 		grid-row: 1;
+	}
+
+	/* friends tab */
+	#scrabbleGrid[data-tab=friends][data-signedin=true] #friendsCell {
+		display: flex;
+		height: calc(100% - 30px);
+		grid-column: 1;
+		grid-row: 1;
+
+		overflow: auto;
+		justify-content: flex-start;
 	}
 
 	/* signed out account tab */
