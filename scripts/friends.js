@@ -283,14 +283,23 @@ function updateSendRequestPage(name = document.getElementById('addFriendField').
 function sendFriendRequest(name = document.getElementById('addFriendField').value) {
     name = name.trim();
     if (!name) return;
+
+    const addFriendButton = document.getElementById('addFriendButton');
+    const addFriendField = document.getElementById('addFriendField');
+    
+    addFriendButton.disabled = true;
+    addFriendField.disabled = true;
+
     request('friends/sendRequest.php', {
         userId: account.id,
         pwd: account.pwd,
         friendName: name
     }).then(friendUpdateHandler).then(() => {
-        document.getElementById('addFriendField').value = "";
+        addFriendField.value = "";
+        addFriendButton.disabled = false;
+        addFriendField.disabled = false;
+
         updateSendRequestPage();
-        const addFriendButton = document.getElementById('addFriendButton');
         addFriendButton.innerHTML = "Request Sent!";
         addFriendButton.style.backgroundColor = "rgb(0, 255, 0)";
         addFriendButton.style.transition = "background-color 0.37s";
