@@ -2,7 +2,9 @@ function setFriendsPage(page) {
     document.getElementById('friendsCell').dataset.page = page;
 
     if (page === 'addFriends') {
-        document.getElementById('addFriendField').focus();
+        const field = document.getElementById('addFriendField');
+        field.value = "";
+        field.focus();
     }
 }
 
