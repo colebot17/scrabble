@@ -187,6 +187,9 @@ function updateSentRequestList(sentRequests) {
                     <span class="friendName">
                         ${sentRequest.name}
                     </span>
+                    <span class="finePrint">
+                        request sent
+                    </span>
                 </div>
                 <div class="friendControls">
                     <button class="iconButton" title="Cancel" onclick="cancelSentRequests([${sentRequest.id}])">
