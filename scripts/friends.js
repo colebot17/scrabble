@@ -162,11 +162,9 @@ function updateRequestList(requests) {
     }
 
     if (requests.length === 0) {
-        listContents += `
-            <div class="flex friendListPlaceholder">
-                No pending requests
-            </div>
-        `;
+        requestList.classList.add('hidden');
+    } else {
+        requestList.classList.remove('hidden');
     }
 
     requestList.innerHTML = listContents;
@@ -203,11 +201,9 @@ function updateSentRequestList(sentRequests) {
     }
 
     if (sentRequests.length === 0) {
-        listContents += `
-            <div class="flex friendListPlaceholder">
-                No outgoing requests
-            </div>
-        `;
+        sentRequestList.classList.add('hidden');
+    } else {
+        sentRequestList.classList.remove('hidden');
     }
 
     sentRequestList.innerHTML = listContents;
