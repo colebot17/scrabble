@@ -25,7 +25,7 @@ function getFriends($conn, $userId) {
             $sql = "SELECT inactive FROM games WHERE id='$sharedGames[$j]'";
             $query = mysqli_query($conn, $sql);
             $row = mysqli_fetch_assoc($query);
-            if ($row['inactive'] == 0) {
+            if ($row['inactive'] === false) {
                 $sharedGamesActive[] = $sharedGames[$j];
             }
         }
