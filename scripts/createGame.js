@@ -88,7 +88,7 @@ function updateNewGamePlayerList() {
 function newGame(initialPlayers = []) {
 	if (account.id) {
 		$('#createGameModal').modalOpen(); // show the modal
-
+        /* 
 		var newGamePlayerList = [{
 			id: account.id,
 			name: account.name
@@ -108,7 +108,7 @@ function newGame(initialPlayers = []) {
 			}
 		});
 
-		updateNewGamePlayerList(); // update the player list
+		updateNewGamePlayerList(); // update the player list */
 	} else {
 		textModal("Error", "You must be signed in to create a new game.");
 	}
