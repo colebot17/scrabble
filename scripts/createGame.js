@@ -88,6 +88,8 @@ function updateNewGamePlayerList() {
 function newGame(initialPlayers = []) {
 	if (account.id) {
 		$('#createGameModal').modalOpen(); // show the modal
+        updateCreateGameFriendsList(account.friends);
+
         /* 
 		var newGamePlayerList = [{
 			id: account.id,
