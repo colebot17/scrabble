@@ -319,9 +319,6 @@
 							<span class="material-symbols-rounded">chevron_left</span>
 						</button>
 						<h3>Friends</h3>
-						<button id="manageRequestsButton" class="iconButton" title="Manage Requests" onclick="setFriendsPage('requests')">
-							<span class="material-symbols-rounded">group</span>
-						</button>
 						<button id="removeSelectedFriendsButton" class="iconButton" title="Remove Selected" onclick="removeFriends()" disabled>
 							<span class="material-symbols-rounded">group_remove</span>
 						</button>
@@ -330,57 +327,19 @@
 						</button>
 					</div>
 
+					<div class="friendList" id="requestList">
+					</div>
+
 					<div class="friendList" id="friendList">
+					</div>
+
+					<div class="friendList" id="sentRequestList">
 					</div>
 
 					<button class="highlight" id="newGameWithSelectedButton" onclick="createGame([account.id, ...getCheckedFriends()])">
 						New Game with Selected
 					</button>
 					<a class="small hoverLine" id="addMoreToGameLink" onclick="addMoreToGame()">Add Others</a>
-				</div>
-
-				<div class="friendsPage contents" id="friendsPage-requests">
-					<div class="flex">
-						<button id="requestsBackButton" class="iconButton" onclick="setFriendsPage('friends')">
-							<span class="material-symbols-rounded">chevron_left</span>
-						</button>
-						<h3>Requests</h3>
-						<!-- <button id="clearRequestsButton" class="iconButton" title="Reject All" onclick="rejectAllRequests()">
-							<span class="material-symbols-rounded">
-								close
-							</span>
-						</button>
-						<button id="acceptAllRequestsButton" class="iconButton" title="Accept All" onclick="acceptAllRequests()">
-							<span class="material-symbols-rounded">
-								done_all
-							</span>
-						</button> -->
-						<button id="showSentRequestsButton" class="iconButton" title="Sent Requests" onclick="setFriendsPage('sentRequests')">
-							<span class="material-symbols-rounded">
-								outbox
-							</span>
-						</button>
-					</div>
-
-					<div class="friendList" id="requestList">
-					</div>
-				</div>
-
-				<div class="friendsPage contents" id="friendsPage-sentRequests">
-					<div class="flex">
-						<button id="sentRequestsBackButton" class="iconButton" onclick="setFriendsPage('requests')">
-							<span class="material-symbols-rounded">chevron_left</span>
-						</button>
-						<h3>Sent Requests</h3>
-						<!-- <button id="cancelAllRequestsButton" class="iconButton" title="Cancel All" onclick="cancelAllSentRequests()">
-							<span class="material-symbols-rounded">
-								close
-							</span>
-						</button> -->
-					</div>
-
-					<div class="friendList" id="sentRequestList">
-					</div>
 				</div>
 
 				<div class="friendsPage contents" id="friendsPage-addFriends">

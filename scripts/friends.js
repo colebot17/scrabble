@@ -161,20 +161,10 @@ function updateRequestList(requests) {
         listContents += listItem;
     }
 
-    // show badge if unresolved requests
-    const btn = document.getElementById('manageRequestsButton');
-    if (requests.length > 0) {
-        btn.classList.add('badge');
-    } else {
-        btn.classList.remove('badge');
-    }
-
     if (requests.length === 0) {
-        listContents += `
-            <div class="flex friendListPlaceholder">
-                No pending requests
-            </div>
-        `;
+        requestList.classList.add('hidden');
+    } else {
+        requestList.classList.remove('hidden');
     }
 
     requestList.innerHTML = listContents;
@@ -197,6 +187,9 @@ function updateSentRequestList(sentRequests) {
                     <span class="friendName">
                         ${sentRequest.name}
                     </span>
+                    <span class="finePrint">
+                        request sent
+                    </span>
                 </div>
                 <div class="friendControls">
                     <button class="iconButton" title="Cancel" onclick="cancelSentRequests([${sentRequest.id}])">
@@ -211,11 +204,9 @@ function updateSentRequestList(sentRequests) {
     }
 
     if (sentRequests.length === 0) {
-        listContents += `
-            <div class="flex friendListPlaceholder">
-                No outgoing requests
-            </div>
-        `;
+        sentRequestList.classList.add('hidden');
+    } else {
+        sentRequestList.classList.remove('hidden');
     }
 
     sentRequestList.innerHTML = listContents;
