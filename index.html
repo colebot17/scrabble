@@ -373,14 +373,13 @@
 		<div class="modal hidden" id="createGameModal">
 			<h2>Create Game</h2>
 			<h3>Players</h3>
-			<div id="createGamePlayerList"></div>
-			<div class="addPlayerRow">
-				<input id="createGamePlayerInput" type="text" name="createGamePlayerInput" placeholder="Player Name">
-				<button id="createGamePlayerAddButton" class="iconButton" onclick="addPlayerToNewGame()">
-					<span class="material-symbols-rounded">
-						add
-					</span>
-				</button>
+			<div class="grid gridCol">
+				<div>
+					<h3>With Friends</h3>
+				</div>
+				<div>
+					<h3>With Others</h3>
+				</div>
 			</div>
 			<div class="createGameButtons">
 				<button id="createGameCancel" onclick="$('#createGameModal').modalClose()">Cancel</button>
@@ -435,6 +434,7 @@
 	<script type="text/javascript" src="scripts/fullscreen.js" defer></script>
 	<script type="text/javascript" src="scripts/info.js" defer></script>
 	<script type="text/javascript" src="scripts/checkForChanges.js" defer></script>
+	<script type="text/javascript" src="scripts/createGame.js" defer></script>
 	<!-- <script type="text/javascript" src="libraries/pullToRefresh.min.js" defer></script> -->
 	<!-- <script type="text/javascript" src="libraries/confetti.js" defer></script> -->
 	<!-- <script type="text/javascript" src="libraries/confetti2.min.js" defer></script> -->
