@@ -27,7 +27,7 @@ function getFriends($conn, $userId) {
             $sql = "SELECT inactive FROM games WHERE id='$currentId'";
             $query = mysqli_query($conn, $sql);
             $row = mysqli_fetch_assoc($query);
-            if ($row['inactive'] === 0) {
+            if ($row['inactive'] !== 1) {
                 $numSharedGamesActive++;
             }
         }
