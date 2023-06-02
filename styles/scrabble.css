@@ -347,10 +347,8 @@ body.scrabble {
 
 /* create game modal */
 #createGameModal {
-	display: flex;
-	flex-direction: column;
-	justify-content: stretch;
-	align-items: stretch;
+	display: grid;
+	grid-auto-flow: row;
 }
 #createGameModal h2 {
 	margin: 0 0 10px 0;
@@ -358,35 +356,6 @@ body.scrabble {
 #createGameModal h3 {
 	margin: 0;
 	font-weight: normal;
-}
-#createGamePlayerList {
-	margin: 5px;
-	border-radius: 5px;
-	flex-grow: 1;
-	background-color: var(--background-1);
-	box-shadow: 0 0 5px var(--text-color-light) inset;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: stretch;
-	overflow: auto;
-}
-#createGamePlayerList .createGamePlayer {
-	width: 100%;
-	padding: 5px 0px;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-#createGameModal .addPlayerRow {
-	display: flex;
-	justify-content: stretch;
-	align-items: center;
-}
-#createGameModal .addPlayerRow #createGamePlayerInput {
-	flex-grow: 1;
 }
 #createGameModal .createGameButtons {
 	display: flex;
