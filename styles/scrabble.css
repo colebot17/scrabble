@@ -360,13 +360,12 @@ body.scrabble {
 	font-weight: normal;
 }
 #createGameModal .createGameButtons {
-	display: flex;
-	justify-content: stretch;
-	align-items: center;
+	display: grid;
+	grid-auto-flow: column;
 	height: max-content;
 }
 #createGameModal .createGameButtons button {
-	flex-grow: 1;
+	width: 100%;
 }
 
 /* letter exchange modal */
