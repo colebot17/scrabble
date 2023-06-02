@@ -22,7 +22,8 @@ function getFriends($conn, $userId) {
         // only count the games that are active
         $numSharedGamesActive = 0;
         for ($j = 0; $j < count($sharedGames); $j++) {
-            $sql = "SELECT inactive FROM games WHERE id='$sharedGames[$j]'";
+            $currentId = $sharedGames[$i];
+            $sql = "SELECT inactive FROM games WHERE id='$currentId'";
             $query = mysqli_query($conn, $sql);
             $row = mysqli_fetch_assoc($query);
             if ($row['inactive'] === 0) {
