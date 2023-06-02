@@ -362,6 +362,8 @@ body.scrabble {
 #createGameModal .createGameButtons {
 	display: grid;
 	grid-auto-flow: column;
+	grid-template-columns: 50% 50%;
+	
 	height: max-content;
 }
 
