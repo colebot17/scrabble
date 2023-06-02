@@ -364,9 +364,6 @@ body.scrabble {
 	grid-auto-flow: column;
 	height: max-content;
 }
-#createGameModal .createGameButtons button {
-	width: 100%;
-}
 
 /* letter exchange modal */
 #letterExchangeModal {
