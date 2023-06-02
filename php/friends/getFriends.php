@@ -20,20 +20,20 @@ function getFriends($conn, $userId) {
         $sharedGames = array_intersect($games, $friendGames);
 
         // only count the games that are active
-        $sharedGamesActive = Array();
+        $numSharedGamesActive = 0;
         for ($j = 0; $j < count($sharedGames); $j++) {
             $sql = "SELECT inactive FROM games WHERE id='$sharedGames[$j]'";
             $query = mysqli_query($conn, $sql);
             $row = mysqli_fetch_assoc($query);
             if ($row['inactive'] === 0) {
-                $sharedGamesActive[] = $sharedGames[$j];
+                $numSharedGamesActive++;
             }
         }
 
         array_push($friendsList, Array(
             "id" => $friends[$i],
             "name" => $friendName,
-            "numGames" => count($sharedGamesActive)
+            "numGames" => $numSharedGamesActive
         ));
     }
 
