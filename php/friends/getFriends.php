@@ -18,7 +18,7 @@ function getFriends($conn, $userId) {
         $friendName = $row['name'];
         $friendGames = json_decode($row['games'], true);
 
-        $sharedGames = array_intersect($games, $friendGames);
+        $sharedGames = array_values(array_intersect($games, $friendGames));
 
         // only count the games that are active
         $numSharedGamesActive = 0;
