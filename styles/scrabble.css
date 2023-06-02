@@ -361,6 +361,7 @@ body.scrabble {
 	display: flex;
 	justify-content: stretch;
 	align-items: center;
+	height: max-content;
 }
 #createGameModal .createGameButtons button {
 	flex-grow: 1;
