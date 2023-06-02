@@ -60,6 +60,44 @@ function updateFriendsList(friends) {
     updateSendRequestPage();
 }
 
+function updateCreateGameFriendsList(friends) {
+    const list = document.getElementById('createGameFriendList');
+    list.innerHTML = "";
+
+    let listContents = ``;
+    for (let i = 0; i < friends.length; i++) {
+        const friend = friends[i];
+        let listItem = `
+            <div class="friendListItem friendListFriend" id="createGameFriend${i}" data-playerid="${friend.id}" data-checked="false">
+                <button class="friendCheckbox iconButton" onclick="toggleCreateGameFriendCheckbox(${i})">
+                    <span class="material-symbols-rounded unchecked">
+                        check_box_outline_blank
+                    </span>
+                </button>
+                <div class="friendNameContainer flex col">
+                    <span class="friendName">
+                        ${friend.name}
+                    </span>
+                    <span class="finePrint friendInfo">
+                        ${friend.numGames} active game${friend.numGames !== 1 ? `s` : ``}
+                    </span>
+                </div>
+            </div>
+        `;
+        listContents += listItem;
+    }
+
+    if (friends.length === 0) {
+        listContents += `
+            <div class="flex friendListPlaceholder">
+                Add some friends so you can quickly access them here!
+            </div>
+        `;
+    }
+
+    list.innerHTML = listContents;
+}
+
 function toggleFriendCheckbox(friendIndex) {
     const checked = 'check_box';
     const unchecked = 'check_box_outline_blank';
@@ -385,6 +423,7 @@ function friendUpdateHandler(res) {
     account.requests = res.data.requestList;
     account.sentRequests = res.data.sentRequestList;
     updateFriendsList(account.friends);
+    updateCreateGameFriendsList(account.friends);
     updateRequestList(account.requests);
     updateSentRequestList(account.sentRequests);
 }
