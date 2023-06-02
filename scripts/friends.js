@@ -115,6 +115,23 @@ function toggleFriendCheckbox(friendIndex) {
     return !isChecked;
 }
 
+function toggleCreateGameFriendCheckbox(friendIndex) {
+    const checked = 'check_box';
+    const unchecked = 'check_box_outline_blank';
+
+    const listItem = document.querySelector('#createGameFriend' + friendIndex);
+    const icon = document.querySelector('#createGameFriend' + friendIndex + ' .friendCheckbox span');
+
+    const isChecked = listItem.dataset.checked === "true";
+    icon.innerHTML = isChecked ? unchecked : checked;
+
+    listItem.dataset.checked = !isChecked;
+
+    updateFriendListControls();
+
+    return !isChecked;
+}
+
 function updateFriendListControls() {
     // get number of checked friends
     const friendList = document.getElementById('friendList');
@@ -423,7 +440,6 @@ function friendUpdateHandler(res) {
     account.requests = res.data.requestList;
     account.sentRequests = res.data.sentRequestList;
     updateFriendsList(account.friends);
-    updateCreateGameFriendsList(account.friends);
     updateRequestList(account.requests);
     updateSentRequestList(account.sentRequests);
 }
