@@ -352,6 +352,7 @@ body.scrabble {
 }
 #createGameModal h2 {
 	margin: 0 0 10px 0;
+	height: max-content;
 }
 #createGameModal h3 {
 	margin: 0;
