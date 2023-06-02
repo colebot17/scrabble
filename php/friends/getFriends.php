@@ -11,7 +11,8 @@ function getFriends($conn, $userId) {
     $friendsList = Array();
     for ($i = 0; $i < count($friends); $i++) {
         // get the friend's info
-        $sql = "SELECT name, games FROM accounts WHERE id='$friends[$i]'";
+        $currentFriend = $friends[$i];
+        $sql = "SELECT name, games FROM accounts WHERE id='$currentFriend'";
         $query = mysqli_query($conn, $sql);
         $row = mysqli_fetch_assoc($query);
         $friendName = $row['name'];
