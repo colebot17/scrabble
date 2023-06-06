@@ -170,3 +170,7 @@ function startGame(players) {
 		loadGamesList();
 	});
 }
+
+function updateCreateGamePlayerList(players = ) {
+	
+}
