@@ -370,7 +370,7 @@ body.scrabble {
 	height: max-content;
 }
 #createGamePlayerInput {
-	width: calc(100% - 40px);
+	width: calc(100% - 30px);
 }
 
 /* letter exchange modal */
