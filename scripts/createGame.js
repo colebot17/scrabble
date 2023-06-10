@@ -63,7 +63,7 @@ function updateCreateGamePlayerList(players = JSON.parse(document.getElementById
     for (let i = 0; i < players.length; i++) {
         const player = players[i];
         let listItem = `
-            <div class="friendListItem friendListFriend" id="createGamePlayer${i}" data-playerid="${player.id}">
+            <div class="friendListItem requestListFriend" id="createGamePlayer${i}" data-playerid="${player.id}">
                 <div class="friendNameContainer flex col">
                     <span class="friendName">
                         ${player.name}
