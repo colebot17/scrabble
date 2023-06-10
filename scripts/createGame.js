@@ -1,44 +1,36 @@
-function addPlayerToNewGame(name = $('#createGamePlayerInput').val()) {
-	var newGamePlayerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players);
-	$.ajax(
-		location + '/php/getIdFromName.php',
-		{
-			data: {
-				user: account.id,
-				pwd: account.pwd,
-				name: name
-			},
-			method: "POST",
-			success: function(data) {
-				jsonData = JSON.parse(data);
-				if (jsonData.errorLevel > 0) { // if there is an error
-					textModal("Error", jsonData.message);
-				} else { // if everything went well
-					// make sure the player isn't already in the list
-					for (let i in newGamePlayerList) {
-						if (newGamePlayerList[i].id == jsonData.value.id) {
-							textModal("Error", "That player is already in the game.");
-							$('#createGamePlayerInput').val(""); // clear the user's input
-							return;
-						}
-					}
-					newGamePlayerList.push({ // store the returned name and id in the list
-						id: parseInt(jsonData.value.id),
-						name: jsonData.value.name
-					});
-				
-					// add the player list to the dataset of the player list element
-					document.getElementById('createGamePlayerList').dataset.players = JSON.stringify(newGamePlayerList);
+function addPlayerToNewGame(name = document.getElementById('createGamePlayerInput').value) {
+	let newGamePlayerList = JSON.parse(document.getElementById('createGameModal').dataset.players);
+	request('getIdFromName.php', {
+		user: account.id,
+		pwd: account.pwd,
+		name: name
+	}).then(res => {
+		if (res.errorLevel > 0) { // if there is an error
+			textModal("Error", res.message);
+			return;
+		}
+		
+		const input = document.getElementById('createGamePlayerInput');
 
-					updateNewGamePlayerList(); // update the player list
-					$('#createGamePlayerInput').val(""); // clear the user's input
-				}
-			},
-			error: function() {
-				console.error("Could not request the user's id from the server.");
+		// make sure the player isn't already in the list
+		for (let i in newGamePlayerList) {
+			if (newGamePlayerList[i].id == res.value.id) {
+				textModal("Error", "That player is already in the game.");
+				input.value = ""; // clear the user's input
+				return;
 			}
 		}
-	);
+		newGamePlayerList.push({ // store the returned name and id in the list
+			id: parseInt(res.value.id),
+			name: res.value.name
+		});
+	
+		// add the player list to the dataset of the player list element
+		document.getElementById('createGameModal').dataset.players = JSON.stringify(newGamePlayerList);
+
+		updateCreateGamePlayerList(); // update the player list
+		input.value = ""; // clear the user's input
+	});
 }
 
 function removePlayerFromNewGame(id) {
@@ -48,75 +40,88 @@ function removePlayerFromNewGame(id) {
 		return;
 	}
 
-	let newGamePlayerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players);
+	let newGamePlayerList = JSON.parse(document.getElementById('createGameModal').dataset.players);
 	for (let i in newGamePlayerList) {
 		if (newGamePlayerList[i].id === id) {
 			newGamePlayerList.splice(i, 1);
-			document.getElementById('createGamePlayerList').dataset.players = JSON.stringify(newGamePlayerList);
-			updateNewGamePlayerList();
+			document.getElementById('createGameModal').dataset.players = JSON.stringify(newGamePlayerList);
+			updateCreateGamePlayerList();
+			updateCreateGameFriendsList();
 			return;
 		}
 	}
 
-	textModal("Unexpected Error", "For an unknown reason, that player cannot be removed from the game.");
+	textModal("Unexpected Error", "For an unknown reason, the player cannot be removed from the game.");
 }
 
-function updateNewGamePlayerList() {
-	const newGamePlayerList = JSON.parse(document.getElementById('createGamePlayerList').dataset.players);
+function updateCreateGamePlayerList(players = JSON.parse(document.getElementById('createGameModal').dataset.players)) {
+	const list = document.getElementById('createGamePlayerList');
+    list.innerHTML = "";
 
-	const playerList = $('#createGamePlayerList').empty();
+    let listContents = ``;
 
-	let playerListContent = ``;
-	for (let i in newGamePlayerList) {
-		playerListContent += `
-			<div class="createGamePlayer">
-				${newGamePlayerList[i].name}
-				${newGamePlayerList[i].id === account.id ? `` : `
-					<button class="iconButton" onclick="removePlayerFromNewGame(${newGamePlayerList[i].id})">
-						<span class="material-symbols-rounded smallIcon">
-							remove
-						</span>
-					</button>
-				`}
+    for (let i = 0; i < players.length; i++) {
+        const player = players[i];
+        let listItem = `
+            <div class="friendListItem friendListFriend" id="createGamePlayer${i}" data-playerid="${player.id}">
+                <div class="friendNameContainer flex col">
+                    <span class="friendName">
+                        ${player.name}
+                    </span>
+                </div>
+            </div>
+			<div class="friendControls">
+				<button class="iconButton" title="Remove Player" onclick="removePlayerFromNewGame(${player.id})">
+					<span class="material-symbols-rounded">
+						remove
+					</span>
+				</button>
 			</div>
-		`;
-	}
+        `;
+        listContents += listItem;
+    }
 
-	playerList.html(playerListContent);
+	list.style.display = (players.length === 0 ? "none" : "");
+
+    list.innerHTML = listContents;
 }
 
 function newGame(initialPlayers = []) {
 	if (account.id) {
 		$('#createGameModal').modalOpen(); // show the modal
         updateCreateGameFriendsList(account.friends);
-
-        /* 
+ 
 		var newGamePlayerList = [{
 			id: account.id,
 			name: account.name
 		}, ...initialPlayers]; // create the player list
 
-		// add the player list to the dataset of the player list element
-		document.getElementById('createGamePlayerList').dataset.players = JSON.stringify(newGamePlayerList);
+		// add the player list to the dataset of the modal element
+		document.getElementById('createGameModal').dataset.players = JSON.stringify(newGamePlayerList);
 
 		// assign the enter key on the player input field to add the player
-		$('#createGamePlayerInput').on('keypress', function(e) {
-			if (e.key === 'Enter') {
-				if (!$(this).val().trim()) {
-					createGame();
-				} else {
-					addPlayerToNewGame();
-				}
-			}
-		});
+		const input = document.getElementById('createGamePlayerInput');
+		input.removeEventListener('keypress', addPlayerKeyHandler);
+		input.addEventListener('keypress', addPlayerKeyHandler);
 
-		updateNewGamePlayerList(); // update the player list */
+		updateCreateGamePlayerList(); // update the player list
 	} else {
 		textModal("Error", "You must be signed in to create a new game.");
 	}
 }
 
-function createGame(players = getPropArray(JSON.parse(document.getElementById('createGamePlayerList').dataset.players), 'id')) {
+function addPlayerKeyHandler(e) {
+	// this function is called whenever a key is pressed while focus is on #createGamePlayerInput
+	if (e.key === 'Enter') {
+		if (!document.getElementById('createGamePlayerInput').value.trim()) {
+			createGame();
+		} else {
+			addPlayerToNewGame();
+		}
+	}
+}
+
+function createGame(players = getPropArray(JSON.parse(document.getElementById('createGameModal').dataset.players), 'id')) {
 	if (!account.id) {
 		textModal("Error", "You must be signed in to create a new game.");
 		return;
@@ -169,8 +174,4 @@ function startGame(players) {
 		loadGame(res.data);
 		loadGamesList();
 	});
-}
-
-function updateCreateGamePlayerList(players = ) {
-	
 }
