@@ -68,15 +68,17 @@ function updateCreateGamePlayerList(players = JSON.parse(document.getElementById
                     <span class="friendName">
                         ${player.name}
                     </span>
-                </div>
+				</div>
+				${players.id == account.id ? `` : `
+					<div class="friendControls">
+						<button class="iconButton" title="Remove Player" onclick="removePlayerFromNewGame(${player.id})">
+							<span class="material-symbols-rounded">
+								remove
+							</span>
+						</button>
+					</div>
+				`}
             </div>
-			<div class="friendControls">
-				<button class="iconButton" title="Remove Player" onclick="removePlayerFromNewGame(${player.id})">
-					<span class="material-symbols-rounded">
-						remove
-					</span>
-				</button>
-			</div>
         `;
         listContents += listItem;
     }
