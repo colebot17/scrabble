@@ -60,7 +60,7 @@ function updateFriendsList(friends) {
     updateSendRequestPage();
 }
 
-function updateCreateGameFriendsList(friends) {
+function updateCreateGameFriendsList(friends = account.friends) {
     const list = document.getElementById('createGameFriendList');
     list.innerHTML = "";
 

@@ -46,7 +46,7 @@ function removePlayerFromNewGame(id) {
 			newGamePlayerList.splice(i, 1);
 			document.getElementById('createGameModal').dataset.players = JSON.stringify(newGamePlayerList);
 			updateCreateGamePlayerList();
-			updateCreateGameFriendsList();
+			updateCreateGameFriendsList(account.friends);
 			return;
 		}
 	}
