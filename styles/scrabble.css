@@ -363,7 +363,7 @@ body.scrabble {
 	grid-template-columns: 50% 50%;
 }
 #createGameModal .addPlayerPanel {
-	grid-template-rows: 1fr max-content;
+	grid-template-rows: min(max-content 1fr) max-content;
 }
 #createGameModal .createGameButtons {
 	display: grid;
