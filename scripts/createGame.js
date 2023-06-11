@@ -81,7 +81,7 @@ function updateCreateGamePlayerList(players = JSON.parse(document.getElementById
             <div class="friendListItem requestListFriend" id="createGamePlayer${i}" data-playerid="${player.id}">
                 <div class="friendNameContainer flex col">
                     <span class="friendName">
-                        ${player.name}
+                        ${player.name}${player.id == account.id ? ` (You)` : ``}
                     </span>
 				</div>
 				${player.id == account.id ? `` : `
