@@ -132,15 +132,16 @@ function newGame(initialPlayers = []) {
 }
 
 function addPlayerKeyupHandler(e) {
-	// this function is called whenever a key is pressed while focus is on #createGamePlayerInput
+	// this function is called whenever a key is released while focus is on #createGamePlayerInput
 
-	const inputValue = document.getElementById('createGamePlayerInput').value.trim();
+	let inputValue = document.getElementById('createGamePlayerInput').value.trim();
 
 	if (e.key === 'Enter') {
 		if (!inputValue) {
 			createGame();
 		} else {
 			addPlayerToNewGame();
+			inputValue = "";
 		}
 	}
 	
