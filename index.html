@@ -373,14 +373,20 @@
 		<div class="modal hidden" id="createGameModal">
 			<h2>Create Game</h2>
 			<div class="grid gridCol optionsHolder">
-				<div>
-					<h3>With Friends</h3>
-					<div class="friendList" id="createGameFriendList"></div>
+				<div class="flex col stretch">
+					<div>
+						<h3>Add Friends</h3>
+						<div class="friendList" id="createGameFriendList"></div>
+					</div>
+					<div>
+						<h3>Add Others</h3>
+						<input type="text" class="largeTextInput textCenter" id="createGamePlayerInput" placeholder="Username">
+						<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add Player</button>
+						
+					</div>
 				</div>
 				<div>
-					<h3>With Others</h3>
-					<input type="text" class="largeTextInput textCenter" id="createGamePlayerInput" placeholder="Username">
-					<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add Player</button>
+					<h3>Players</h3>
 					<div class="friendList" id="createGamePlayerList"></div>
 				</div>
 			</div>
