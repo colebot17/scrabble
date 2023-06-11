@@ -84,7 +84,7 @@ function updateCreateGamePlayerList(players = JSON.parse(document.getElementById
                         ${player.name}
                     </span>
 				</div>
-				${players.id == account.id ? `` : `
+				${player.id == account.id ? `` : `
 					<div class="friendControls">
 						<button class="iconButton" title="Remove Player" onclick="removePlayerFromNewGame(${player.id})">
 							<span class="material-symbols-rounded">
