@@ -77,9 +77,6 @@ function updateCreateGameFriendsList(friends = account.friends) {
                     <span class="friendName">
                         ${friend.name}
                     </span>
-                    <span class="finePrint friendInfo">
-                        ${friend.numGames} active game${friend.numGames !== 1 ? `s` : ``}
-                    </span>
                 </div>
                 <div class="friendControls">
                     <button class="iconButton" title="Add to Game" onclick="addFriendToNewGame(${friend.id})">
