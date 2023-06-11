@@ -347,54 +347,36 @@ body.scrabble {
 
 /* create game modal */
 #createGameModal {
-	display: flex;
-	flex-direction: column;
-	justify-content: stretch;
-	align-items: stretch;
+	display: grid;
+	grid-auto-flow: row;
+	grid-template-rows: max-content 1fr max-content;
 }
 #createGameModal h2 {
 	margin: 0 0 10px 0;
+	height: max-content;
 }
 #createGameModal h3 {
 	margin: 0;
 	font-weight: normal;
 }
-#createGamePlayerList {
-	margin: 5px;
-	border-radius: 5px;
-	flex-grow: 1;
-	background-color: var(--background-1);
-	box-shadow: 0 0 5px var(--text-color-light) inset;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: stretch;
-	overflow: auto;
+#createGameModal .optionsHolder {
+	grid-template-columns: 50% 50%;
 }
-#createGamePlayerList .createGamePlayer {
-	width: 100%;
-	padding: 5px 0px;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.addPlayerPanelPage {
+	display: none;
 }
-#createGameModal .addPlayerRow {
-	display: flex;
-	justify-content: stretch;
-	align-items: center;
+#addPlayerPanel[data-page=friends] #addPlayerPanel-friends {
+	display: contents;
 }
-#createGameModal .addPlayerRow #createGamePlayerInput {
-	flex-grow: 1;
+#addPlayerPanel[data-page=others] #addPlayerPanel-others {
+	display: contents;
 }
 #createGameModal .createGameButtons {
-	display: flex;
-	justify-content: stretch;
-	align-items: center;
-}
-#createGameModal .createGameButtons button {
-	flex-grow: 1;
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-columns: 50% 50%;
+
+	height: max-content;
 }
 
 /* letter exchange modal */
@@ -626,23 +608,19 @@ body.scrabble {
 #friendsCell[data-page=friends] #friendsPage-friends {
 	display: contents;
 }
-#friendsCell[data-page=requests] #friendsPage-requests {
-	display: contents;
-}
-#friendsCell[data-page=sentRequests] #friendsPage-sentRequests {
-	display: contents;
-}
 #friendsCell[data-page=addFriends] #friendsPage-addFriends {
 	display: contents;
 }
 
 .friendList {
-	width: calc(100% - 20px);
 	margin: 5px;
 	border: 1px solid black;
 	border-radius: 10px;
 
 	overflow: auto;
+}
+#friendsCell .friendList {
+	width: calc(100% - 20px);
 }
 .friendListItem {
 	display: grid;

@@ -20,7 +20,7 @@ function updateFriendsList(friends) {
         const friend = friends[i];
         let listItem = `
             <div class="friendListItem friendListFriend" id="friend${i}" data-playerid="${friend.id}" data-checked="false">
-                <button class="friendCheckbox iconButton" onclick="toggleFriendCheckbox(${i})">
+                <button class="friendCheckbox iconButton" onclick="toggleCheckbox(${i}, 'friend')">
                     <span class="material-symbols-rounded unchecked">
                         check_box_outline_blank
                     </span>
@@ -60,12 +60,54 @@ function updateFriendsList(friends) {
     updateSendRequestPage();
 }
 
-function toggleFriendCheckbox(friendIndex) {
+function updateCreateGameFriendsList(friends = account.friends) {
+    const list = document.getElementById('createGameFriendList');
+    list.innerHTML = "";
+
+    let listContents = ``;
+    for (let i = 0; i < friends.length; i++) {
+        const friend = friends[i];
+
+        let newGamePlayerList = JSON.parse(document.getElementById('createGameModal').dataset.players);
+        if (newGamePlayerList.find(a => a.id == friend.id)) continue;
+
+        let listItem = `
+            <div class="friendListItem requestListFriend" id="createGameFriend${i}" data-playerid="${friend.id}">
+                <div class="friendNameContainer flex col">
+                    <span class="friendName">
+                        ${friend.name}
+                    </span>
+                </div>
+                <div class="friendControls">
+                    <button class="iconButton" title="Add to Game" onclick="addFriendToNewGame(${friend.id})">
+                        <span class="material-symbols-rounded">
+                            add
+                        </span>
+                    </button>
+                </div>
+            </div>
+        `;
+        listContents += listItem;
+    }
+
+    if (!listContents) {
+        listContents += `
+            <div class="flex friendListPlaceholder">
+                Add some friends so you can quickly access them here!
+            </div>
+        `;
+        setAddPlayerPanelPage('others');
+    }
+
+    list.innerHTML = listContents;
+}
+
+function toggleCheckbox(friendIndex, prefix = "friend") {
     const checked = 'check_box';
     const unchecked = 'check_box_outline_blank';
 
-    const listItem = document.querySelector('#friend' + friendIndex);
-    const icon = document.querySelector('#friend' + friendIndex + ' .friendCheckbox span');
+    const listItem = document.querySelector('#' + prefix + friendIndex);
+    const icon = document.querySelector('#' + prefix + friendIndex + ' .friendCheckbox span');
 
     const isChecked = listItem.dataset.checked === "true";
     icon.innerHTML = isChecked ? unchecked : checked;
