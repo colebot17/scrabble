@@ -362,6 +362,9 @@ body.scrabble {
 #createGameModal .optionsHolder {
 	grid-template-columns: 50% 50%;
 }
+#createGameModal .addPlayerPanel {
+	grid-template-rows: 1fr max-content;
+}
 #createGameModal .createGameButtons {
 	display: grid;
 	grid-auto-flow: column;
