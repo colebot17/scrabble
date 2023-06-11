@@ -121,8 +121,8 @@ function newGame(initialPlayers = []) {
 
 		// assign the enter key on the player input field to add the player
 		const input = document.getElementById('createGamePlayerInput');
-		input.removeEventListener('keypress', addPlayerKeyHandler);
-		input.addEventListener('keypress', addPlayerKeyHandler);
+		input.removeEventListener('keyup', addPlayerKeyupHandler);
+		input.addEventListener('keyup', addPlayerKeyupHandler);
 
 		updateCreateGamePlayerList();                 // update the player list and friends list
 		updateCreateGameFriendsList(account.friends); //
@@ -131,7 +131,7 @@ function newGame(initialPlayers = []) {
 	}
 }
 
-function addPlayerKeyHandler(e) {
+function addPlayerKeyupHandler(e) {
 	// this function is called whenever a key is pressed while focus is on #createGamePlayerInput
 
 	const inputValue = document.getElementById('createGamePlayerInput').value.trim();
