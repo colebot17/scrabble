@@ -99,6 +99,7 @@ function updateCreateGameFriendsList(friends = account.friends) {
                 Add some friends so you can quickly access them here!
             </div>
         `;
+        setAddPlayerPanelPage('others');
     }
 
     list.innerHTML = listContents;
