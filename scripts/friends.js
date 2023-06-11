@@ -93,7 +93,7 @@ function updateCreateGameFriendsList(friends = account.friends) {
         listContents += listItem;
     }
 
-    if (friends.length === 0) {
+    if (!listContents) {
         listContents += `
             <div class="flex friendListPlaceholder">
                 Add some friends so you can quickly access them here!
