@@ -613,12 +613,14 @@ body.scrabble {
 }
 
 .friendList {
-	width: calc(100% - 20px);
 	margin: 5px;
 	border: 1px solid black;
 	border-radius: 10px;
 
 	overflow: auto;
+}
+#friendList {
+	width: calc(100% - 20px);
 }
 .friendListItem {
 	display: grid;
