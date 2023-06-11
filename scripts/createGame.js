@@ -37,6 +37,7 @@ function addAnyToNewGame(id, name) {
 		if (newGamePlayerList[i].id == id) {
 			textModal("Error", "That player is already in the game.");
 			input.value = ""; // clear the user's input
+			setHighlightedCreateGameButton(false);
 			return;
 		}
 	}
@@ -51,6 +52,7 @@ function addAnyToNewGame(id, name) {
 	updateCreateGamePlayerList();  // update the player list and friend list
 	updateCreateGameFriendsList(); //
 	input.value = ""; // clear the user's input
+	setHighlightedCreateGameButton(false);
 }
 
 function removePlayerFromNewGame(id) {
@@ -124,8 +126,6 @@ function newGame(initialPlayers = []) {
 		const input = document.getElementById('createGamePlayerInput');
 		input.removeEventListener('keyup', addPlayerKeyupHandler);
 		input.addEventListener('keyup', addPlayerKeyupHandler);
-		input.removeEventListener('change', addPlayerKeyupHandler);
-		input.addEventListener('change', addPlayerKeyupHandler);
 
 		updateCreateGamePlayerList();                 // update the player list and friends list
 		updateCreateGameFriendsList(account.friends); //
@@ -139,7 +139,7 @@ function addPlayerKeyupHandler(e) {
 
 	let inputValue = document.getElementById('createGamePlayerInput').value.trim();
 
-	if (e?.key === 'Enter') {
+	if (e.key === 'Enter') {
 		if (!inputValue) {
 			createGame();
 		} else {
@@ -147,8 +147,12 @@ function addPlayerKeyupHandler(e) {
 			inputValue = "";
 		}
 	}
-	
-	if (inputValue) {
+
+	setHighlightedCreateGameButton(inputValue);
+}
+
+function setHighlightedCreateGameButton(alt = false) {
+	if (alt) {
 		document.getElementById('createGameModalButton').classList.remove('highlight');
 		document.getElementById('createGamePlayerAddButton').classList.add('highlight');
 	} else {
