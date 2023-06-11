@@ -108,6 +108,12 @@ function updateCreateGamePlayerList(players = JSON.parse(document.getElementById
 	list.style.display = (players.length === 0 ? "none" : "");
 
     list.innerHTML = listContents;
+
+	// enable/disable create game button
+	const button = document.getElementById('createGameModalButton');
+	const disableButton = players.length < 2;
+	button.disabled = disableButton;
+	button.title = disableButton ? "Add players to create a game" : "";
 }
 
 function newGame(initialPlayers = []) {
