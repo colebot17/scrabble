@@ -127,6 +127,8 @@ function newGame(initialPlayers = []) {
 		input.removeEventListener('keyup', addPlayerKeyupHandler);
 		input.addEventListener('keyup', addPlayerKeyupHandler);
 
+		setAddPlayerPanelPage('friends'); // show the default page
+
 		updateCreateGamePlayerList();                 // update the player list and friends list
 		updateCreateGameFriendsList(account.friends); //
 	} else {
