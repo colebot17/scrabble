@@ -362,8 +362,14 @@ body.scrabble {
 #createGameModal .optionsHolder {
 	grid-template-columns: 50% 50%;
 }
-#createGameModal .addPlayerPanel {
-	grid-template-rows: min(max-content 1fr) max-content;
+.addPlayerPanelPage {
+	display: none;
+}
+#addPlayerPanel[data-page=friends] #addPlayerPanel-friends {
+	display: contents;
+}
+#addPlayerPanel[data-page=others] #addPlayerPanel-others {
+	display: contents;
 }
 #createGameModal .createGameButtons {
 	display: grid;
@@ -600,12 +606,6 @@ body.scrabble {
 	display: none;
 }
 #friendsCell[data-page=friends] #friendsPage-friends {
-	display: contents;
-}
-#friendsCell[data-page=requests] #friendsPage-requests {
-	display: contents;
-}
-#friendsCell[data-page=sentRequests] #friendsPage-sentRequests {
 	display: contents;
 }
 #friendsCell[data-page=addFriends] #friendsPage-addFriends {

@@ -1,3 +1,7 @@
+function setAddPlayerPanelPage(page) {
+	document.getElementById('addPlayerPanel').dataset.page = page;
+}
+
 function addPlayerToNewGame(name = document.getElementById('createGamePlayerInput').value) {
 	let newGamePlayerList = JSON.parse(document.getElementById('createGameModal').dataset.players);
 	request('getIdFromName.php', {

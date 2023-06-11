@@ -376,15 +376,21 @@
 			</button>
 			<h2>Create Game</h2>
 			<div class="grid gridCol optionsHolder">
-				<div class="grid addPlayerPanel">
-					<div class="flex col stretch">
-						<h3>Add Friends</h3>
-						<div class="friendList" id="createGameFriendList"></div>
+				<div class="addPlayerPanel" id="addPlayerPanel" data-page="friends">
+					<div class="addPlayerPanelPage" id="addPlayerPanel-friends">
+						<div class="flex col stretch">
+							<h3>Add Friends</h3>
+							<div class="friendList" id="createGameFriendList"></div>
+							<a class="finePrint hoverLine hoverDarken" id="addOthersButton" onclick="setAddPlayerPanelPage('others')">Add Others</a>
+						</div>
 					</div>
-					<div class="flex col stretch">
-						<h3>Add Others</h3>
-						<input type="text" class="largeTextInput textCenter" id="createGamePlayerInput" placeholder="Username">
-						<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add Player</button>
+					<div class="addPlayerPanelPage" id="addPlayerPanel-others">
+						<div class="flex col stretch">
+							<h3>Add Others</h3>
+							<input type="text" class="largeTextInput textCenter" id="createGamePlayerInput" placeholder="Username">
+							<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add Player</button>
+							<a class="finePrint hoverLine hoverDarken" id="addFriendsButton" onclick="setAddPlayerPanelPage('friends')">Add Friends</a>
+						</div>
 					</div>
 				</div>
 				<div class="flex col stretch existingPlayerPanel">
