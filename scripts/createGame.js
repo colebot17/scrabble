@@ -100,7 +100,6 @@ function updateCreateGamePlayerList(players = JSON.parse(document.getElementById
 function newGame(initialPlayers = []) {
 	if (account.id) {
 		$('#createGameModal').modalOpen(); // show the modal
-        updateCreateGameFriendsList(account.friends);
  
 		var newGamePlayerList = [{
 			id: account.id,
@@ -115,7 +114,8 @@ function newGame(initialPlayers = []) {
 		input.removeEventListener('keypress', addPlayerKeyHandler);
 		input.addEventListener('keypress', addPlayerKeyHandler);
 
-		updateCreateGamePlayerList(); // update the player list
+		updateCreateGamePlayerList();                 // update the player list and friends list
+		updateCreateGameFriendsList(account.friends); //
 	} else {
 		textModal("Error", "You must be signed in to create a new game.");
 	}
