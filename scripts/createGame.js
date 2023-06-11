@@ -133,12 +133,23 @@ function newGame(initialPlayers = []) {
 
 function addPlayerKeyHandler(e) {
 	// this function is called whenever a key is pressed while focus is on #createGamePlayerInput
+
+	const inputValue = document.getElementById('createGamePlayerInput').value.trim();
+
 	if (e.key === 'Enter') {
-		if (!document.getElementById('createGamePlayerInput').value.trim()) {
+		if (!inputValue) {
 			createGame();
 		} else {
 			addPlayerToNewGame();
 		}
+	}
+	
+	if (inputValue) {
+		document.getElementById('createGameModalButton').classList.remove('highlight');
+		document.getElementById('createGamePlayerAddButton').classList.add('highlight');
+	} else {
+		document.getElementById('createGameModalButton').classList.add('highlight');
+		document.getElementById('createGamePlayerAddButton').classList.remove('highlight');
 	}
 }
 
