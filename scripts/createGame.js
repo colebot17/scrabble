@@ -7,14 +7,15 @@ function setAddPlayerPanelPage(page) {
 }
 
 function addPlayerToNewGame(name = document.getElementById('createGamePlayerInput').value) {
-	let newGamePlayerList = JSON.parse(document.getElementById('createGameModal').dataset.players);
 	request('getIdFromName.php', {
 		user: account.id,
 		pwd: account.pwd,
 		name: name
 	}).then(res => {
 		if (res.errorLevel > 0) { // if there is an error
-			textModal("Error", res.message);
+			textModal("Error", res.message, {complete: () => {
+				document.getElementById('createGamePlayerInput').select();
+			}});
 			return;
 		}
 		
