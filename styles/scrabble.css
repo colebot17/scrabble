@@ -619,7 +619,7 @@ body.scrabble {
 
 	overflow: auto;
 }
-#friendList {
+#friendsCell .friendList {
 	width: calc(100% - 20px);
 }
 .friendListItem {
