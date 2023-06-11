@@ -23,6 +23,7 @@ function addAnyToNewGame(id, name) {
 	const input = document.getElementById('createGamePlayerInput');
 
 	// make sure the player isn't already in the list
+	const newGamePlayerList = JSON.parse(document.getElementById('createGameModal').dataset.players);
 	for (let i in newGamePlayerList) {
 		if (newGamePlayerList[i].id == id) {
 			textModal("Error", "That player is already in the game.");
