@@ -10,27 +10,37 @@ function addPlayerToNewGame(name = document.getElementById('createGamePlayerInpu
 			return;
 		}
 		
-		const input = document.getElementById('createGamePlayerInput');
-
-		// make sure the player isn't already in the list
-		for (let i in newGamePlayerList) {
-			if (newGamePlayerList[i].id == res.value.id) {
-				textModal("Error", "That player is already in the game.");
-				input.value = ""; // clear the user's input
-				return;
-			}
-		}
-		newGamePlayerList.push({ // store the returned name and id in the list
-			id: parseInt(res.value.id),
-			name: res.value.name
-		});
-	
-		// add the player list to the dataset of the player list element
-		document.getElementById('createGameModal').dataset.players = JSON.stringify(newGamePlayerList);
-
-		updateCreateGamePlayerList(); // update the player list
-		input.value = ""; // clear the user's input
+		addAnyToNewGame(res.value.id, res.value.name);
 	});
+}
+
+function addFriendToNewGame(id) {
+	const friend = account.friends.find(a => a.id == id);
+	addAnyToNewGame(friend.id, friend.name);
+}
+
+function addAnyToNewGame(id, name) {	
+	const input = document.getElementById('createGamePlayerInput');
+
+	// make sure the player isn't already in the list
+	for (let i in newGamePlayerList) {
+		if (newGamePlayerList[i].id == id) {
+			textModal("Error", "That player is already in the game.");
+			input.value = ""; // clear the user's input
+			return;
+		}
+	}
+	newGamePlayerList.push({ // store the returned name and id in the list
+		id: parseInt(id),
+		name: name
+	});
+
+	// add the player list to the dataset of the player list element
+	document.getElementById('createGameModal').dataset.players = JSON.stringify(newGamePlayerList);
+
+	updateCreateGamePlayerList();  // update the player list and friend list
+	updateCreateGameFriendsList(); //
+	input.value = ""; // clear the user's input
 }
 
 function removePlayerFromNewGame(id) {

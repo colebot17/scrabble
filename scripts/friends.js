@@ -67,13 +67,12 @@ function updateCreateGameFriendsList(friends = account.friends) {
     let listContents = ``;
     for (let i = 0; i < friends.length; i++) {
         const friend = friends[i];
+
+        let newGamePlayerList = JSON.parse(document.getElementById('createGameModal').dataset.players);
+        if (newGamePlayerList.find(a => a.id == friend.id)) continue;
+
         let listItem = `
-            <div class="friendListItem friendListFriend" id="createGameFriend${i}" data-playerid="${friend.id}" data-checked="false">
-                <button class="friendCheckbox iconButton" onclick="toggleCheckbox(${i}, 'createGameFriend')">
-                    <span class="material-symbols-rounded unchecked">
-                        check_box_outline_blank
-                    </span>
-                </button>
+            <div class="friendListItem requestListFriend" id="createGameFriend${i}" data-playerid="${friend.id}">
                 <div class="friendNameContainer flex col">
                     <span class="friendName">
                         ${friend.name}
@@ -81,6 +80,13 @@ function updateCreateGameFriendsList(friends = account.friends) {
                     <span class="finePrint friendInfo">
                         ${friend.numGames} active game${friend.numGames !== 1 ? `s` : ``}
                     </span>
+                </div>
+                <div class="friendControls">
+                    <button class="iconButton" title="Add to Game" onclick="addFriendToNewGame(${friend.id})">
+                        <span class="material-symbols-rounded">
+                            add
+                        </span>
+                    </button>
                 </div>
             </div>
         `;
