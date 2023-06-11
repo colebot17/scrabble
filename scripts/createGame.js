@@ -124,6 +124,8 @@ function newGame(initialPlayers = []) {
 		const input = document.getElementById('createGamePlayerInput');
 		input.removeEventListener('keyup', addPlayerKeyupHandler);
 		input.addEventListener('keyup', addPlayerKeyupHandler);
+		input.removeEventListener('change', addPlayerKeyupHandler);
+		input.addEventListener('change', addPlayerKeyupHandler);
 
 		updateCreateGamePlayerList();                 // update the player list and friends list
 		updateCreateGameFriendsList(account.friends); //
@@ -137,7 +139,7 @@ function addPlayerKeyupHandler(e) {
 
 	let inputValue = document.getElementById('createGamePlayerInput').value.trim();
 
-	if (e.key === 'Enter') {
+	if (e?.key === 'Enter') {
 		if (!inputValue) {
 			createGame();
 		} else {
