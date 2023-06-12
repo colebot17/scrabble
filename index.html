@@ -375,17 +375,17 @@
 				<span class="material-symbols-rounded">close</span>
 			</button>
 			<h2>Create Game</h2>
-			<div class="grid gridCol optionsHolder">
-				<div class="addPlayerPanel" id="addPlayerPanel" data-page="friends">
+			<div class="grid gridCol optionsHolder scrollable">
+				<div class="addPlayerPanel contents" id="addPlayerPanel" data-page="friends">
 					<div class="addPlayerPanelPage" id="addPlayerPanel-friends">
-						<div class="flex col stretch">
+						<div class="flex col stretch scrollable">
 							<h3>Add Friends</h3>
 							<div class="friendList" id="createGameFriendList"></div>
 							<a class="finePrint hoverLine hoverDarken" id="addOthersButton" onclick="setAddPlayerPanelPage('others')">Add Others</a>
 						</div>
 					</div>
 					<div class="addPlayerPanelPage" id="addPlayerPanel-others">
-						<div class="flex col stretch">
+						<div class="flex col stretch scrollable">
 							<h3>Add Others</h3>
 							<input type="text" class="largeTextInput textCenter" id="createGamePlayerInput" placeholder="Username">
 							<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add Player</button>
@@ -393,7 +393,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="flex col stretch existingPlayerPanel">
+				<div class="flex col stretch existingPlayerPanel scrollable">
 					<h3>Players</h3>
 					<div class="friendList" id="createGamePlayerList"></div>
 					<button class="highlight" id="createGameModalButton" onclick="createGame()">Create Game</button>
