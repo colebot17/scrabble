@@ -7,6 +7,11 @@ function setAddPlayerPanelPage(page) {
 }
 
 function addPlayerToNewGame(name = document.getElementById('createGamePlayerInput').value) {
+	if (!name.trim()) {
+		textModal("Error", "Enter a username to add a player to this game");
+		return;
+	}
+	
 	request('getIdFromName.php', {
 		user: account.id,
 		pwd: account.pwd,
@@ -28,7 +33,7 @@ function addFriendToNewGame(id) {
 	addAnyToNewGame(friend.id, friend.name);
 }
 
-function addAnyToNewGame(id, name) {	
+function addAnyToNewGame(id, name) {
 	const input = document.getElementById('createGamePlayerInput');
 
 	// make sure the player isn't already in the list
