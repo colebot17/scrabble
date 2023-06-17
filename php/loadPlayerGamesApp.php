@@ -78,7 +78,7 @@ for ($i = 0; $i < count($games); $i++) {
 		$fullGamesList[$i]["players"][$j] = Array(
 			"id" => (int)$playerId,
 			"name" => $row['name'],
-			"points" => $players[$j]["points"],
+			"points" => (int)$players[$j]["points"],
 			"endGameRequest" => $players[$j]["endGameRequest"]
 		);
 	}
