@@ -57,7 +57,7 @@ for ($i = 0; $i < count($games); $i++) {
 		$endDate = null;
 	}
 
-	$fullGamesList[] = Array(
+	$fullGamesList[$i] = Array(
 		"id" => $row['id'],
 		"name" => $row['name'],
 		"turn" => $row['turn'],
@@ -75,7 +75,7 @@ for ($i = 0; $i < count($games); $i++) {
 		$query = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($query);
 
-		$fullGamesList[$games[$i]]["players"][$j] = Array(
+		$fullGamesList[$i]["players"][$j] = Array(
 			"id" => $playerId,
 			"name" => $row['name'],
 			"points" => $players[$j]["points"],
@@ -84,8 +84,11 @@ for ($i = 0; $i < count($games); $i++) {
 	}
 
 	// make sure the players array is not associative
-	$fullGamesList[$games[$i]]["players"] = array_values($fullGamesList[$games[$i]]["players"]);
+	$fullGamesList[$i]["players"] = array_values($fullGamesList[$i]["players"]);
 }
+
+// make sure the games array is not associative
+$fullGamesList = array_values($fullGamesList);
 
 // if any game has been removed, upload the new games list
 if ($gameRemoved) {
