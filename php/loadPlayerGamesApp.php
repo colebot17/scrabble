@@ -60,7 +60,7 @@ for ($i = 0; $i < count($games); $i++) {
 	$fullGamesList[$i] = Array(
 		"id" => (int)$row['id'],
 		"name" => $row['name'],
-		"turn" => $row['turn'],
+		"turn" => (int)$row['turn'],
 		"inactive" => ((int)$row['inactive'] === 1 ? true : false),
 		"players" => Array(),
 		"lastUpdate" => $row['lastUpdate'],
