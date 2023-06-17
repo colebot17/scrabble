@@ -58,7 +58,7 @@ for ($i = 0; $i < count($games); $i++) {
 	}
 
 	$fullGamesList[$i] = Array(
-		"id" => $row['id'],
+		"id" => (int)$row['id'],
 		"name" => $row['name'],
 		"turn" => $row['turn'],
 		"inactive" => ((int)$row['inactive'] === 1 ? true : false),
@@ -76,7 +76,7 @@ for ($i = 0; $i < count($games); $i++) {
 		$row = mysqli_fetch_assoc($query);
 
 		$fullGamesList[$i]["players"][$j] = Array(
-			"id" => $playerId,
+			"id" => (int)$playerId,
 			"name" => $row['name'],
 			"points" => $players[$j]["points"],
 			"endGameRequest" => $players[$j]["endGameRequest"]
