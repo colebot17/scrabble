@@ -1,6 +1,6 @@
 <?php
 
-$servername = "p3nlmysql21plsk.secureserver.net:3306";
+$servername = "173.201.180.187";
 $username = "Colebot";
 $password = "96819822";
 $dbname = "scrabble";
