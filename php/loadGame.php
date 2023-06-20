@@ -8,7 +8,7 @@ $dbname = "scrabble";
 
 // get data from GET/POST
 $user = $_POST['user'];
-$userPwd = $_POST['pwd'];
+$pwd = $_POST['pwd'];
 $gameId = $_POST['game'];
 
 // create and check connection
