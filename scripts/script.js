@@ -524,7 +524,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 				return;
 			}
 
-			game = JSON.parse(res.data); // store the game in the game object
+			game = res.data; // store the game in the game object
 
 			// determine and store the current player index
 			for (let i = 0; i < game.players.length; i++) {
