@@ -17,11 +17,9 @@ $pwd = $_POST['pwd'];
 $gameId = $_POST['game'];
 
 // check password
-$sql = "SELECT pwd FROM accounts WHERE id='$user'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-if (!password_verify($pwd, $row['pwd'])) {
-	exit('{"errorLevel":2,"message":"Invalid Session!"}');
+require "verifyPassword.php";
+if (!verifyPassword($conn, $user, $pwd)) {
+	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
 // get the player list from the server
@@ -44,29 +42,21 @@ $query = mysqli_query($conn, $sql);
 
 echo '{"errorLevel":0,"message":"Your vote to end the game has been revoked."}';
 
-// add to update list
-$sql = "SELECT updates FROM games WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-$updates = json_decode($row['updates'], true);
+//////////
+// add to updates list
+//////////
 
-array_push($updates, Array(
-    "type" => "gameEndVoteRevoke",
-    "data" => Array(
-        "player" => $user,
-		"playerIndex" => array_search($user, $playerList)
-	),
-	"timestamp" => time()
-));
+// generate the data
+$updateData = Array(
+	"player" => $user,
+	"playerIndex" => array_search($user, $playerList)
+);
 
-$updatesJson = json_encode($updates);
-$updatesJson = str_replace("'", "\'", $updatesJson);
-$updatesJson = str_replace('"', '\"', $updatesJson);
-$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
+require "addUpdate.php";
+addUpdate($conn, $gameId, "gameEndVoteRevoke", $updateData);
 
 // add system message to chat
-require "addSystemChatMessage.php";
+require "chat/addSystemChatMessage.php";
 $data = Array(
 	"playerId" => $user
 );

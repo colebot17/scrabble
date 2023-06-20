@@ -245,7 +245,7 @@ function readChat() {
 	// don't spam the server with requests if the read marker is already up to date
 	if (game.players.find(el => el.id == account.id).chatRead == game.chat.length - 1) return;
 
-	request('readChat.php', {
+	request('chat/readChat.php', {
 		user: account.id,
 		pwd: account.pwd,
 		game: game.id
@@ -281,7 +281,7 @@ function readChat() {
 }
 
 function deleteChatMessage(id) {
-	request('deleteChatMessage.php', {
+	request('chat/deleteChatMessage.php', {
 		user: account.id,
 		pwd: account.pwd,
 		gameId: game.id,

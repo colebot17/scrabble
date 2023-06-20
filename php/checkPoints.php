@@ -19,10 +19,8 @@ if ($conn->connect_error) {
 }
 
 // check password
-$sql = "SELECT pwd FROM accounts WHERE id='$user'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-if (!password_verify($pwd, $row['pwd'])) {
+require "verifyPassword.php";
+if (!verifyPassword($conn, $user, $pwd)) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 

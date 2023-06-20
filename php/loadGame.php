@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 }
 
 // check password and if game belongs to user
-$sql = "SELECT pwd, games FROM accounts WHERE id='$user'";
+$sql = "SELECT games FROM accounts WHERE id='$user'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 if (password_verify($userPwd, $row['pwd']) && in_array($gameId, json_decode($row['games'], true))) {

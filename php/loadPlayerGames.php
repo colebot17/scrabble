@@ -26,8 +26,9 @@ if (!$row) {
 	exit('{"errorLevel":2,"message":"This user does not exist!"}');
 }
 
-// check for the correct password
-if (!password_verify($userPwd, $row['pwd'])) {
+// check password
+require "verifyPassword.php";
+if (!verifyPassword($conn, $user, $userPwd)) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 

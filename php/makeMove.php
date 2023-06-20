@@ -19,10 +19,8 @@ if ($conn->connect_error) {
 }
 
 // check password
-$sql = "SELECT pwd FROM accounts WHERE id='$user'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-if (!password_verify($pwd, $row['pwd'])) {
+require "verifyPassword.php";
+if (!verifyPassword($conn, $user, $pwd)) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
@@ -250,22 +248,20 @@ $response = Array(
 );
 echo json_encode($response);
 
-// add to update list
-$sql = "SELECT updates FROM games WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-$updates = json_decode($row['updates'], true);
+//////////
+// add to updates list
+//////////
 
-array_push($updates, Array(
-    "type" => "move",
-    "data" => Array(
-        "player" => $user,
-		"playerIndex" => $currentPlayerIndex,
-		"tiles" => $addedTiles,
-		"newPoints" => $pointsSum
-    ),
-	"timestamp" => time()
-));
+// generate the data
+$updateData = Array(
+	"player" => $user,
+	"playerIndex" => $currentPlayerIndex,
+	"tiles" => $addedTiles,
+	"newPoints" => $pointsSum
+);
+
+require "addUpdate.php";
+addUpdate($conn, $gameId, "move", $updateData);
 
 if ($inactive) {
 	$highestScore = 0;
@@ -280,24 +276,15 @@ if ($inactive) {
 			$winnerIndicies[] = $i;
 		}
 	}
-	array_push($updates, Array(
-		"type" => "gameEnd",
-		"data" => Array(
-			"player" => $user,
-			"playerIndex" => $currentPlayerIndex,
-			"reason" => "move",
-			"gameDeleted" => false,
-			"winnerIndicies" => $winnerIndicies
-		),
-		"timestamp" => time()
-	));
+	$updateData = Array(
+		"player" => $user,
+		"playerIndex" => $currentPlayerIndex,
+		"reason" => "move",
+		"gameDeleted" => false,
+		"winnerIndicies" => $winnerIndicies
+	);
+	addUpdate($conn, $gameId, "gameEnd", $updateData);
 }
-
-$updatesJson = json_encode($updates);
-$updatesJson = str_replace("'", "\'", $updatesJson);
-$updatesJson = str_replace('"', '\"', $updatesJson);
-$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
 
 // close the connection
 $conn->close();

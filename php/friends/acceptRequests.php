@@ -18,11 +18,9 @@ if ($conn->connect_error) {
 }
 
 // check password
-$sql = "SELECT pwd FROM accounts WHERE id='$userId'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-if (!password_verify($pwd, $row['pwd'])) {
-	exit('{"errorLevel":2,"message":"Invalid Session!"}');
+require "../verifyPassword.php";
+if (!verifyPassword($conn, $userId, $pwd)) {
+	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
 // get friends and requests list

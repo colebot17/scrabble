@@ -32,11 +32,11 @@ function getFriends($conn, $userId) {
             }
         }
 
-        array_push($friendsList, Array(
+        $friendsList[] = Array(
             "id" => $friends[$i],
             "name" => $friendName,
             "numGames" => $numGames
-        ));
+        );
     }
 
     return $friendsList;

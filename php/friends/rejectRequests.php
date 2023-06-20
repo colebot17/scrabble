@@ -18,14 +18,12 @@ if ($conn->connect_error) {
 }
 
 // check password
-$sql = "SELECT pwd FROM accounts WHERE id='$userId'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-if (!password_verify($pwd, $row['pwd'])) {
-	exit('{"errorLevel":2,"message":"Invalid Session!"}');
+require "../verifyPassword.php";
+if (!verifyPassword($conn, $userId, $pwd)) {
+	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
-// get friends and requests list
+// get requests list
 $sql = "SELECT requests FROM accounts WHERE id='$userId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
@@ -50,14 +48,14 @@ for ($i = 0; $i < count($ids); $i++) {
       $sentRequests = array_values($sentRequests);
     }
 
-    // re-upload other user's stuff
+    // re-upload other user's sent requests
     $sentRequestsJson = json_encode($sentRequests);
     $otherUserFriendsJson = json_encode($otherUserFriends);
     $sql = "UPDATE accounts SET sentRequests='$sentRequestsJson' WHERE id='$ids[$i]'";
     $query = mysqli_query($conn, $sql);
 }
 
-// re-upload current user's stuff
+// re-upload current user's requests
 $friendsJson = json_encode($friends);
 $requestsJson = json_encode($requests);
 $sql = "UPDATE accounts SET requests='$requestsJson' WHERE id='$userId'";

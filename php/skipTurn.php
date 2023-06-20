@@ -19,11 +19,9 @@ $gameId = $_POST['game'];
 $redrawLetters = json_decode($_POST['redrawLetters'], true);
 
 // check password
-$sql = "SELECT pwd FROM accounts WHERE id='$user'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-if (!password_verify($pwd, $row['pwd'])) {
-	exit('{"errorLevel":2,"message":"Invalid Session!"}');
+require "verifyPassword.php";
+if (!verifyPassword($conn, $user, $pwd)) {
+	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
 // make sure the game belongs to the user
@@ -171,20 +169,19 @@ if ($endGame) {
 	echo '{"errorLevel":0,"status":0,"message":"You have skipped your turn' . (count($redrawLetters) > 0 ? ' and exchanged ' . count($redrawLetters) . ' letter' . (count($redrawLetters) === 1 ? '' : 's') : '') . '."}';
 }
 
-// add to update list
-$sql = "SELECT updates FROM games WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-$updates = json_decode($row['updates'], true);
+//////////
+// add to updates list
+//////////
 
-array_push($updates, Array(
-    "type" => "turnSkip",
-    "data" => Array(
-        "player" => $user,
-		"playerIndex" => $userIndex,
-		"newTurn" => $totalTurn
-    )
-));
+// generate the data
+$updateData = Array(
+	"player" => $user,
+	"playerIndex" => $userIndex,
+	"newTurn" => $totalTurn
+);
+
+require "addUpdate.php";
+addUpdate($conn, $gameId, "turnSkip", $updateData);
 
 if ($endGame) {
 	$highestScore = 0;
@@ -199,24 +196,15 @@ if ($endGame) {
 			$winnerIndicies[] = $i;
 		}
 	}
-	array_push($updates, Array(
-		"type" => "gameEnd",
-		"data" => Array(
-			"player" => $user,
-			"playerIndex" => array_search($user, $playerList),
-			"reason" => "skip",
-			"gameDeleted" => $deleteGame,
-			"winnerIndicies" => $winnerIndicies
-		),
-		"timestamp" => time()
-	));
+	$updateData = Array(
+		"player" => $user,
+		"playerIndex" => array_search($user, $playerList),
+		"reason" => "skip",
+		"gameDeleted" => $deleteGame,
+		"winnerIndicies" => $winnerIndicies
+	);
+	addUpdate($conn, $gameId, "gameEnd", $updateData);
 }
-
-$updatesJson = json_encode($updates);
-$updatesJson = str_replace("'", "\'", $updatesJson);
-$updatesJson = str_replace('"', '\"', $updatesJson);
-$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
 
 // close the connection
 $conn->close();

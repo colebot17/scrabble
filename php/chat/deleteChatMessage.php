@@ -19,10 +19,8 @@ if ($conn->connect_error) {
 }
 
 // check password
-$sql = "SELECT pwd FROM accounts WHERE id='$user'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-if (!password_verify($pwd, $row['pwd'])) {
+require "../verifyPassword.php";
+if (!verifyPassword($conn, $user, $pwd)) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
@@ -68,26 +66,18 @@ if ($query) {
     echo '{"errorLevel":1,"message":"Could not ' . ($delete ? 'delete' : 'restore') . ' message."}';
 }
 
-// add to update list
-$sql = "SELECT updates FROM games WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-$updates = json_decode($row['updates'], true);
+//////////
+// add to updates list
+//////////
 
-array_push($updates, Array(
-    "type" => ($delete ? 'chatMessageDeletion' : 'chatMessageRestoration'),
-    "data" => Array(
-        "messageId" => $messageId,
-        "content" => $chat[$messageId]["message"]
-    ),
-	"timestamp" => time()
-));
+// generate the data
+$updateData = Array(
+    "messageId" => $messageId,
+    "content" => $chat[$messageId]["message"]
+);
 
-$updatesJson = json_encode($updates);
-$updatesJson = str_replace("'", "\'", $updatesJson);
-$updatesJson = str_replace('"', '\"', $updatesJson);
-$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
+require "../addUpdate.php";
+addUpdate($conn, $gameId, ($delete ? 'chatMessageDeletion' : 'chatMessageRestoration'), $updateData);
 
 mysqli_close($conn);
 
