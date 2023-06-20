@@ -491,9 +491,9 @@ function setGameName(gameId, gameName) {
 	}
 }
 
-function loadGame(id = prompt("Enter the id of the game you want to load:"), expand = false) {
+function loadGame(id = prompt("Enter the id of the game you want to load:"), animate = false) {
 	if (id) {
-		if (expand) { // expanding animation of the play button
+		if (animate) { // expanding animation of the play button
 			let expandEl = $('#listGame' + id + ' .openGameButton');
 
 			// position the element
@@ -512,33 +512,33 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), exp
 			clone.addClass('expandAnimation');
 			setTimeout(function() {clone.remove()}, 740);
 		}
-		return $.ajax(
-			location + '/php/loadGame.php',
-			{
-				data: {user: account.id, pwd: account.pwd, game: id},
-				method: "POST",
-				success: function(data) {
-					// var tab = window.open('about:blank', '_blank');
-					// tab.document.write(data);
-					if (data !== "0") {
-						game = JSON.parse(data);
-						for (var i = 0; i < game.players.length; i++) {
-							if (game.players[i].id == account.id) {
-								game.currentPlayerIndex = i;
-								break;
-							}
-						}
-						showTab('game'); // show the game tab
-						gameInit(); // initialize the game
-					} else {
-						textModal("Error", "You don't have permission to load that game!");
-					}
-				},
-				error: function() {
-					console.error("Game could not be loaded.");
+
+		request("loadGame.php", {
+			user: account.id,
+			pwd: account.pwd,
+			game: id
+		}).then(res => {
+			// catch any errors
+			if (res.errorLevel > 0) {
+				textModal("Error", res.message);
+				return;
+			}
+
+			game = JSON.parse(res.data); // store the game in the game object
+
+			// determine and store the current player index
+			for (let i = 0; i < game.players.length; i++) {
+				if (game.players[i].id == account.id) {
+					game.currentPlayerIndex = i;
+					break;
 				}
 			}
-		);
+
+			showTab('game');
+			gameInit();
+		}).catch(err => {
+			throw new Error(err);
+		});
 	}
 }
 
