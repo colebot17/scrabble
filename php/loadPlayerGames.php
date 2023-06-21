@@ -7,8 +7,8 @@ $password = "96819822";
 $dbname = "scrabble";
 
 // get data from GET/POST
-$user = $_POST['user'];
-$userPwd = $_POST['pwd'];
+$userId = $_POST['user'];
+$pwd = $_POST['pwd'];
 
 // create and check connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -16,89 +16,21 @@ if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
 }
 
-// get the data we need
-$sql = "SELECT pwd, games FROM accounts WHERE id='$user'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-
-// make sure the user exists
-if (!$row) {
-	exit('{"errorLevel":2,"message":"This user does not exist!"}');
-}
-
 // check password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $user, $userPwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+if (!verifyPassword($conn, $userId, $pwd)) exit('{"errorLevel":2,"message":"Invalid Session"}');
 
-// parse the games
-$games = json_decode($row['games'], true);
-$gameRemoved = false;
-$fullGamesList = Array();
+// get the games list
+require "getGamesList.php";
+$list = getGamesList($conn, $userId);
 
-// for each game, get the names of the players, the current turn, whether it is inactive, and the last move timestamp
-for ($i = 0; $i < count($games); $i++) {
-	$sql = "SELECT name, turn, inactive, players, lastUpdate, endDate FROM games WHERE id='$games[$i]'";
-	$query = mysqli_query($conn, $sql);
-	$row = mysqli_fetch_assoc($query);
-
-	// if the game cannot be found
-	if (!$row) {
-		// remove it from the list (we will upload this later)
-		unset($games[$i]);
-		$gameRemoved = true;
-		continue;
-	}
-
-	$players = json_decode($row['players'], true);
-
-	$endDate = $row['endDate'];
-	if ($endDate === '0000-00-00') {
-		$endDate = null;
-	}
-
-	$fullGamesList[$games[$i]] = Array(
-		"name" => $row['name'],
-		"turn" => $row['turn'],
-		"inactive" => ((int)$row['inactive'] === 1 ? true : false),
-		"players" => Array(),
-		"lastUpdate" => $row['lastUpdate'],
-		"endDate" => $endDate
-	);
-
-	// for each player, add their name, id, points, and request status into the new game array
-	for ($j = 0; $j < count($players); $j++) {
-		$playerId = $players[$j]['id'];
-
-		$sql = "SELECT name FROM accounts WHERE id='$playerId'";
-		$query = mysqli_query($conn, $sql);
-		$row = mysqli_fetch_assoc($query);
-
-		$fullGamesList[$games[$i]]["players"][$j] = Array(
-			"id" => $playerId,
-			"name" => $row['name'],
-			"points" => $players[$j]["points"],
-			"endGameRequest" => $players[$j]["endGameRequest"]
-		);
-	}
-
-	// make sure the players array is not associative
-	$fullGamesList[$games[$i]]["players"] = array_values($fullGamesList[$games[$i]]["players"]);
-}
-
-// if any game has been removed, upload the new games list
-if ($gameRemoved) {
-	$games = array_values($games);
-	$gamesJson = json_encode($games);
-	$sql = "UPDATE accounts SET games='$gamesJson' WHERE id='$user'";
-	$query = mysqli_query($conn, $sql);
-}
+// make sure a list was actually returned
+if (!$list) exit('{"errorLevel":2,"message":"Could not fetch games list"}');
 
 // return the encoded games object
-echo '{"errorLevel":0,"data":' . json_encode($fullGamesList) . '}';
+echo '{"errorLevel":0,"data":' . json_encode($list) . '}';
 
 // close the connection
-$conn->close();
+mysqli_close($conn);
 
 ?>

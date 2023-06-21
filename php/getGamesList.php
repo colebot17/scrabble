@@ -1,0 +1,79 @@
+<?php
+
+function getGamesList($conn, int $userId) {
+    // get the data we need
+    $sql = "SELECT pwd, games FROM accounts WHERE id='$userId'";
+    $query = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($query);
+    $games = json_decode($row['games'], true);
+
+    // define empty variables
+    $anyGameRemoved = false;
+    $fullGamesList = Array();
+
+    // for each game, get the names of the players, the current turn, whether it is inactive, and the last move timestamp
+    for ($i = 0; $i < count($games); $i++) {
+        $sql = "SELECT name, turn, inactive, players, lastUpdate, endDate FROM games WHERE id='$games[$i]'";
+        $query = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($query);
+
+        // if the game cannot be found
+        if (!$row) {
+            // remove it from the list (we will upload this later)
+            unset($games[$i]);
+            $anyGameRemoved = true;
+            continue;
+        }
+
+        // get the players apart of the game
+        $players = json_decode($row['players'], true);
+
+        // get the end date of the game (or null if it hasn't ended yet)
+        $endDate = $row['endDate'];
+        if ($endDate === '0000-00-00') $endDate = null;
+
+        $game = Array(
+            "id" => (int)$games[$i],
+            "name" => $row['name'],
+            "turn" => (int)$row['turn'],
+            "inactive" => ((int)$row['inactive'] === 1 ? true : false),
+            "players" => Array(),
+            "lastUpdate" => $row['lastUpdate'],
+            "endDate" => $endDate
+        );
+
+        // for each player, add their name, id, points, and end game request status into the new game array
+        for ($j = 0; $j < count($players); $j++) {
+            $player = $players[$j];
+            $playerId = $player['id'];
+
+            $sql = "SELECT name FROM accounts WHERE id='$playerId'";
+            $query = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_assoc($query);
+
+            $playerObj = Array(
+                "id" => $playerId,
+                "name" => $row['name'],
+                "points" => $player['points'],
+                "endGameRequest" => $player['endGameRequest']
+            );
+
+            $game['players'][] = $playerObj;
+        }
+
+        // add the new game to the full list
+        $fullGamesList[] = $game;
+    }
+
+    // if any game has been removed, upload the new games list
+    if ($anyGameRemoved) {
+        $games = array_values($games);
+        $gamesJson = json_encode($games);
+        $sql = "UPDATE accounts SET games='$gamesJson' WHERE id='$userId'";
+        $query = mysqli_query($conn, $sql);
+    }
+
+    return $fullGamesList;
+}
+
+?>
