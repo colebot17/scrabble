@@ -24,6 +24,7 @@ if (!password_verify($pwd, $row['pwd'])) {
 	exit('{"errorLevel":1,"message":"Incorrect username or password."}');
 }
 
+// define empty object to return
 $obj = Array();
 
 // get the id and name
@@ -35,7 +36,7 @@ $obj['name'] = $row['name'];
 
 // get the games list
 require "getGamesList.php";
-$gamesList = getGamesList($conn, $userId);
+$gamesList = getGamesList($conn, $obj['id']);
 if (!$gamesList) exit('{"errorLevel":2,"message":"Could not fetch games list"}');
 $obj['games'] = json_encode($gamesList);
 
