@@ -38,7 +38,7 @@ $obj['name'] = $row['name'];
 require "getGamesList.php";
 $gamesList = getGamesList($conn, $obj['id']);
 if (!$gamesList) exit('{"errorLevel":2,"message":"Could not fetch games list"}');
-$obj['games'] = json_encode($gamesList);
+$obj['games'] = $gamesList;
 
 // get the full friends, requests, and sent requests lists
 require "friends/getFriends.php";

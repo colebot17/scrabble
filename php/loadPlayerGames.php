@@ -27,8 +27,13 @@ $list = getGamesList($conn, $userId);
 // make sure a list was actually returned
 if (!$list) exit('{"errorLevel":2,"message":"Could not fetch games list"}');
 
-// return the encoded games object
-echo '{"errorLevel":0,"data":' . json_encode($list) . '}';
+// return the games object
+$res = Array(
+	"errorLevel" => 0,
+	"data" => $list
+);
+
+echo json_encode($res);
 
 // close the connection
 mysqli_close($conn);

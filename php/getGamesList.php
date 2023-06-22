@@ -12,9 +12,10 @@ function getGamesList($conn, int $userId) {
     $anyGameRemoved = false;
     $fullGamesList = Array();
 
-    // for each game, get the names of the players, the current turn, whether it is inactive, and the last move timestamp
+    // add each game object to the full games list
     for ($i = 0; $i < count($games); $i++) {
-        $sql = "SELECT name, turn, inactive, players, lastUpdate, endDate FROM games WHERE id='$games[$i]'";
+        $gameId = $games[$i];
+        $sql = "SELECT name, turn, inactive, players, lastUpdate, endDate FROM games WHERE id='$gameId'";
         $query = mysqli_query($conn, $sql);
         if (!$query) return false;
         $row = mysqli_fetch_assoc($query);
