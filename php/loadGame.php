@@ -55,6 +55,7 @@ for ($i=0; $i < count($players); $i++) {
 	$query = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($query);
 	$players[$i]['name'] = $row['name'];
+	$players[$i]['id'] = (int)$players[$i]['id'];
 	
 	// remove the letter bank from all players other than the current user - no cheating!
 	if ($players[$i]['id'] != $user) {
