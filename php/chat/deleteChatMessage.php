@@ -39,7 +39,7 @@ if ($chat[$messageId]['sender'] != $user) {
 }
 
 // toggle 'deleted' on the chat message
-$delete = !$chat[$messageId]["deleted"];
+$delete = !$chat[$messageId]?->deleted;
 $chat[$messageId]["deleted"] = $delete;
 
 // encode into JSON
