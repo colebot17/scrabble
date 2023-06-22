@@ -12,13 +12,13 @@ if ($conn->connect_error) {
 }
 
 // get data from POST
-$user = $_POST['user'];
+$userId = (int)$_POST['user'];
 $pwd = $_POST['pwd'];
 $gameId = $_POST['game'];
 
 // check password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
+if (!verifyPassword($conn, $userId, $pwd)) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
@@ -29,11 +29,12 @@ $row = mysqli_fetch_assoc($query);
 
 // set the endGameRequest property for the current user
 $players = json_decode($row['players'], true);
-$playerList = Array();
-for ($i=0; $i < count($players); $i++) { 
-	array_push($playerList, $players[$i]['id']);
+for ($i = 0; $i < count($players); $i++) {
+	if ((int)$players[$i]['id'] === $userId) {
+		$players[$i]['endGameRequest'] = false;
+		break;
+	}
 }
-$players[array_search($user, $playerList)]['endGameRequest'] = false;
 
 // reupload the player list to the server
 $playersJson = json_encode($players);
@@ -49,7 +50,7 @@ echo '{"errorLevel":0,"message":"Your vote to end the game has been revoked."}';
 // generate the data
 $updateData = Array(
 	"player" => $user,
-	"playerIndex" => array_search($user, $playerList)
+	"playerIndex" => array_search($userId, $playerList)
 );
 
 require "addUpdate.php";
@@ -58,7 +59,7 @@ addUpdate($conn, $gameId, "gameEndVoteRevoke", $updateData);
 // add system message to chat
 require "chat/addSystemChatMessage.php";
 $data = Array(
-	"playerId" => $user
+	"playerId" => $userId
 );
 addSystemChatMessage($conn, $gameId, "gameEndVoteRevoke", $data);
 
