@@ -38,9 +38,14 @@ if ($chat[$messageId]['sender'] != $user) {
     exit('{"errorLevel":2,"message":"You can only delete messages sent by you"}');
 }
 
+$delete = true;
+
 // toggle 'deleted' on the chat message
-$delete = !$chat[$messageId]?->deleted;
-$chat[$messageId]["deleted"] = $delete;
+if (array_key_exists('deleted', $chat[$messageId])) {
+    $delete = !$chat[$messageId]['deleted'];
+}
+$chat[$messageId]['deleted'] = $delete;
+
 
 // encode into JSON
 $chatJson = json_encode($chat);
