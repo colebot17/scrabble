@@ -63,6 +63,6 @@ $data = Array(
 addSystemChatMessage($conn, $gameId, "gameEndVoteRevoke", $data);
 
 // close the connection
-$conn->close();
+mysqli_close($conn);
 
 ?>
