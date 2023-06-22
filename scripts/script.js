@@ -424,7 +424,7 @@ function renameGame(gameId, loc) {
 	// add the input field
 	nameField.classList.add('hidden');
 	nameField.after(inputField);
-	inputField.value = account.games[gameId].name || '#' + gameId;
+	inputField.value = account.games.find(a => a.id === gameId).name || '#' + gameId;
 	inputField.select();
 
 	function removeInput() {
