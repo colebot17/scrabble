@@ -97,7 +97,7 @@ function updateGamesList() {
 		const inactiveGamesList = document.getElementById('inactiveGamesList');
 
 		// empty all games lists
-		document.getElementsByClassName('gamesList').forEach(v => {v.innerHTML = "";});
+		Array.from(document.getElementsByClassName('gamesList')).forEach(v => {v.innerHTML = "";});
 
 		const activeGamesListMessage = document.getElementById('activeGamesListMessage');
 		const inactiveGamesListMessage = document.getElementById('inactiveGamesListMessage');
