@@ -29,9 +29,11 @@ $row = mysqli_fetch_assoc($query);
 $players = json_decode($row['players'], true);
 
 // set the endGameRequest property for the current user
+$currentPlayerIndex;
 for ($i = 0; $i < count($players); $i++) {
 	if ((int)$players[$i]['id'] === $userId) {
 		$players[$i]['endGameRequest'] = false;
+		$currentPlayerIndex = $players[$i]['id'];
 		break;
 	}
 }
@@ -49,8 +51,8 @@ echo '{"errorLevel":0,"message":"Your vote to end the game has been revoked."}';
 
 // generate the data
 $updateData = Array(
-	"player" => $user,
-	"playerIndex" => array_search($userId, $playerList)
+	"player" => $userId,
+	"playerIndex" => $currentPlayerIndex
 );
 
 require "addUpdate.php";
