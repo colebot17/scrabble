@@ -25,7 +25,7 @@ require "getGamesList.php";
 $list = getGamesList($conn, $userId);
 
 // make sure a list was actually returned
-if (!$list) exit('{"errorLevel":2,"message":"Could not fetch games list"}');
+if ($list === false) exit('{"errorLevel":2,"message":"Could not fetch games list"}');
 
 // return the games object
 $res = Array(
