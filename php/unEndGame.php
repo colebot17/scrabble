@@ -33,7 +33,7 @@ $currentPlayerIndex;
 for ($i = 0; $i < count($players); $i++) {
 	if ((int)$players[$i]['id'] === $userId) {
 		$players[$i]['endGameRequest'] = false;
-		$currentPlayerIndex = $players[$i]['id'];
+		$currentPlayerIndex = $i;
 		break;
 	}
 }
