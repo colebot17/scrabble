@@ -305,10 +305,10 @@ function deleteChatMessage(id) {
 	});
 }
 
-function setChatMessageDeletion(messageId, content) {
-	const deleted = arguments.length === 1;
+function setChatMessageDeletion(messageId, content = false) {
+	const deleted = !!content;
     game.chat[messageId].deleted = deleted;
-	game.chat[messageId].message = deleted ? content : undefined;
+	game.chat[messageId].message = deleted ? undefined : content;
     chatInit(true, true);
 }
 

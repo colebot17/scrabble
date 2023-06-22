@@ -65,7 +65,7 @@ $response = Array(
 );
 if (!$delete) {
     // return the message content if we are restoring the message
-    $response['data'] = $chat[$messageId]["message"];
+    $response['data'] = $chat[$messageId]['message'];
 }
 echo json_encode($response);
 
@@ -76,7 +76,7 @@ echo json_encode($response);
 // generate the data
 $updateData = Array(
     "messageId" => $messageId,
-    "content" => $chat[$messageId]["message"]
+    "content" => $chat[$messageId]['message']
 );
 
 require "../addUpdate.php";
