@@ -89,7 +89,7 @@ for ($i=0; $i < count($chat); $i++) {
 		}
 	} else $senderName = $chatSenderBuffer[$senderId];
 	$chat[$i]['senderName'] = $senderName;
-	if ($chat[$i]['deleted']) {
+	if (array_key_exists('deleted', $chat[$i]) && $chat[$i]['deleted']) {
 		unset($chat[$i]['message']);
 	}
 }
