@@ -202,7 +202,7 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 	// update the updateNumber (so we don't re-pull our own message)
 	game.updateNumber++;
 
-	request('sendChatMessage.php', {
+	request('chat/sendChatMessage.php', {
 		user: account.id,
 		pwd: account.pwd,
 		gameId: game.id,
