@@ -74,7 +74,7 @@ for ($i=0; $i < count(array_values($letterBag)); $i++) {
 // and remove message content from deleted messages
 $chatSenderBuffer = Array(); // use a buffer so we don't send more requests than necessary
 for ($i=0; $i < count($chat); $i++) { 
-	$senderId = $chat[$i]['sender'];
+	if (!$senderId = $chat[$i]['sender']) continue;
 	$senderName = '';
 	if (!$senderName = $chatSenderBuffer[$senderId]) {
 		$sql = "SELECT name FROM accounts WHERE id='$senderId'";
