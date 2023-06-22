@@ -44,6 +44,8 @@ for ($i=0; $i < count($players); $i++) {
 	}
 }
 
+$deleteGame = false;
+
 if ($endGame) {
 	// if no players have scored any points yet, completely delete the game
 	$deleteGame = true;
