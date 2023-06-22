@@ -475,7 +475,7 @@ function setGameName(gameId, gameName) {
 	const nameFields = document.querySelectorAll('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
 	const idLines = document.querySelectorAll('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
 
-	account.games[gameId].name = gameName;
+	account.games.find(a => a.id === gameId).name = gameName;
 	nameFields.forEach(nf => nf.textContent = gameName || '#' + gameId);
 	idLines.forEach(idLine => idLine.remove());
 	if (gameName) { // if the game has a name
