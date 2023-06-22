@@ -93,21 +93,22 @@ function updateGamesList() {
 		var noActiveGames = true;
 		var noInactiveGames = true;
 
-		var $activeGamesList = $('#activeGamesList');
-		var $inactiveGamesList = $('#inactiveGamesList');
-		$('.gamesList').empty(); // empty both game lists
+		const activeGamesList = document.getElementById('activeGamesList');
+		const inactiveGamesList = document.getElementById('inactiveGamesList');
 
-		var $activeGamesListMessage = $('#activeGamesListMessage');
-		var $inactiveGamesListMessage = $('#inactiveGamesListMessage');
+		// empty all games lists
+		document.getElementsByClassName('gamesList').forEach(v => {v.innerHTML = "";});
+
+		const activeGamesListMessage = document.getElementById('activeGamesListMessage');
+		const inactiveGamesListMessage = document.getElementById('inactiveGamesListMessage');
 
 		// convert games object into two arrays, one for active games, and another for inactive games
 		let activeGames = [];
 		let inactiveGames = [];
 
-		for (let i in account.games) {
+		for (let i = 0; i < account.games.length; i++) {
 			let currentGame = account.games[i];
-			currentGame.id = parseInt(i);
-
+			
 			// convert the dates to date objects
 			currentGame.lastUpdate = new Date(currentGame.lastUpdate);
 			if (currentGame.endDate) {
@@ -226,7 +227,7 @@ function updateGamesList() {
 				}
 
 				// add the game card to the list
-				$activeGamesList.append( /* html */`
+				activeGamesList.innerHTML += /* html */`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
 							<span class="listGameName" onclick="renameGame(${gamesArray[i].id}, 'list')">
@@ -253,7 +254,7 @@ function updateGamesList() {
 							${(turnUser == account.id ? "Play" : "View")}
 						</button>
 					</div>
-				`);
+				`;
 			} else { // if the game is inactive
 				noInactiveGames = false;
 				let playerListHTML = ``;
@@ -296,7 +297,7 @@ function updateGamesList() {
 				let winnerHTML = /* html */ `${winnerString} won`;
 
 				// add the game card to the list
-				$inactiveGamesList.append(/* html */ `
+				inactiveGamesList.innerHTML += /* html */ `
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
 							<div class="gameTitleLine">
@@ -328,12 +329,12 @@ function updateGamesList() {
 							View
 						</button>
 					</div>
-				`);
+				`;
 			}
 		}
 
 		// add the new game card to the end of the active games tab
-		$activeGamesList.append(/* html */ `
+		activeGamesList.innerHTML += /* html */ `
 			<button class="newGameCard" onclick="newGame();">
 				<span class="material-symbols-rounded largeIcon">
 					add
@@ -343,20 +344,20 @@ function updateGamesList() {
 				</span>
 				<span></span>
 			</button>
-		`);
+		`;
 
 		// set the message for the active games list
 		if (!noActiveGames) {
-			$activeGamesListMessage.empty();
+			activeGamesListMessage.innerHTML = "";
 		} else {
-			$activeGamesListMessage.html(`You have no active games. Create a new one below.`);
+			activeGamesListMessage.innerHTML = `You have no active games. Create a new one below.`;
 		}
 
 		// set the message for the inactive games list
 		if (!noInactiveGames) {
-			$inactiveGamesListMessage.empty();
+			inactiveGamesListMessage.innerHTML = "";
 		} else {
-			$inactiveGamesListMessage.html(`You have no inactive games. Once any game ends, it will be archived here.`);
+			inactiveGamesListMessage.innerHTML = `You have no inactive games. Once any game ends, it will be archived here.`;
 		}
 
 		// // initiate the pull to refresh
