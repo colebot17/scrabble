@@ -10,7 +10,11 @@ function addSystemChatMessage($conn, int $gameId, string $action, array $data) {
     );
 
     require "addChatMessage.php";
-    addChatMessage($conn, $gameId, $message);
+    $messageAdded = addChatMessage($conn, $gameId, $message);
+
+    if (!$messageAdded) return false;
+
+    return true;
 }
 
 ?>

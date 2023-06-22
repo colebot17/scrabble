@@ -40,6 +40,8 @@ function addChatMessage($conn, int $gameId, array $message) {
 
     require "../addUpdate.php";
     addUpdate($conn, $gameId, "chatMessageSend", $updateData);
+
+    return true;
 }
 
 ?>

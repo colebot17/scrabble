@@ -26,13 +26,11 @@ if (!verifyPassword($conn, $user, $pwd)) {
 require "updateChatRead.php";
 $success = updateChatRead($conn, $game, $user);
 
-if ($success) {
-    echo '{"errorLevel":0,"message":"The chat has been marked as read"}';
-} else {
-    echo '{"errorLevel":2,"message":"The chat could not be marked as read"}';
-}
+if (!$success) exit('{"errorLevel":2,"message":"The chat could not be marked as read"}');
+
+echo '{"errorLevel":0,"message":"The chat has been marked as read"}';
 
 // close the connection
-$conn->close();
+mysqli_close($conn);
 
 ?>

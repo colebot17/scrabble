@@ -37,7 +37,8 @@ $fullMessage = Array(
 
 // add the chat message
 require "addChatMessage.php";
-addChatMessage($conn, $gameId, $fullMessage);
+$messageAdded = addChatMessage($conn, $gameId, $fullMessage);
+if(!$messageAdded) exit('{"errorLevel":2,"message":"The message could not be sent."}');
 
 // return success message
 echo '{"errorLevel":0,"message":"Message Sent."}';
