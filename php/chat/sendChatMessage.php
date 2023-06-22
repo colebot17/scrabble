@@ -35,6 +35,8 @@ $fullMessage = Array(
     "timestamp" => date(DATE_ISO8601)
 );
 
+echo '{"errorLevel":0,"message":"Message Sent."}';
+
 // add the chat message
 require "addChatMessage.php";
 addChatMessage($conn, $gameId, $fullMessage);
