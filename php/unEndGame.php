@@ -1,6 +1,6 @@
 <?php
 
-$servername = "p3nlmysql21plsk.secureserver.net:3306";
+$servername = "173.201.180.187";
 $username = "Colebot";
 $password = "96819822";
 $dbname = "scrabble";
@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 // get data from POST
 $userId = (int)$_POST['user'];
 $pwd = $_POST['pwd'];
-$gameId = $_POST['game'];
+$gameId = (int)$_POST['game'];
 
 // check password
 require "verifyPassword.php";
@@ -26,9 +26,9 @@ if (!verifyPassword($conn, $userId, $pwd)) {
 $sql = "SELECT players FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
+$players = json_decode($row['players'], true);
 
 // set the endGameRequest property for the current user
-$players = json_decode($row['players'], true);
 for ($i = 0; $i < count($players); $i++) {
 	if ((int)$players[$i]['id'] === $userId) {
 		$players[$i]['endGameRequest'] = false;
