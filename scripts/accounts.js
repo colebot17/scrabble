@@ -86,7 +86,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 		account.name = res.data.name;
 		account.pwd = pwd;
 		account.id = parseInt(res.data.id);
-		account.games = JSON.parse(res.data.games);
+		account.games = res.data.games;
 		account.friends = res.data.friends;
 		account.requests = res.data.requests;
 		account.sentRequests = res.data.sentRequests;
