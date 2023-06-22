@@ -4,6 +4,7 @@ function getGamesList($conn, int $userId) {
     // get the data we need
     $sql = "SELECT pwd, games FROM accounts WHERE id='$userId'";
     $query = mysqli_query($conn, $sql);
+    if (!$query) return false;
     $row = mysqli_fetch_assoc($query);
     $games = json_decode($row['games'], true);
 
@@ -15,6 +16,7 @@ function getGamesList($conn, int $userId) {
     for ($i = 0; $i < count($games); $i++) {
         $sql = "SELECT name, turn, inactive, players, lastUpdate, endDate FROM games WHERE id='$games[$i]'";
         $query = mysqli_query($conn, $sql);
+        if (!$query) return false;
         $row = mysqli_fetch_assoc($query);
 
         // if the game cannot be found
@@ -42,13 +44,14 @@ function getGamesList($conn, int $userId) {
             "endDate" => $endDate
         );
 
-        // for each player, add their name, id, points, and end game request status into the new game array
+        // add each player object to the game
         for ($j = 0; $j < count($players); $j++) {
             $player = $players[$j];
             $playerId = $player['id'];
 
             $sql = "SELECT name FROM accounts WHERE id='$playerId'";
             $query = mysqli_query($conn, $sql);
+            if (!$query) return false;
             $row = mysqli_fetch_assoc($query);
 
             $playerObj = Array(
