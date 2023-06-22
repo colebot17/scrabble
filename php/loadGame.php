@@ -79,7 +79,7 @@ for ($i=0; $i < count($chat); $i++) {
 	
 	$senderId = $chat[$i]['sender'];
 	$senderName = '';
-	if (!$senderName = $chatSenderBuffer[$senderId]) {
+	if (!array_key_exists($senderId, $chatSenderBuffer)) {
 		$sql = "SELECT name FROM accounts WHERE id='$senderId'";
 		$query = mysqli_query($conn, $sql);
 		if ($query) {
@@ -87,7 +87,7 @@ for ($i=0; $i < count($chat); $i++) {
 			$senderName = $row['name'];
 			$chatSenderBuffer[$senderId] = $senderName;
 		}
-	}
+	} else $senderName = $chatSenderBuffer[$senderId];
 	$chat[$i]['senderName'] = $senderName;
 	if ($chat[$i]['deleted']) {
 		unset($chat[$i]['message']);
