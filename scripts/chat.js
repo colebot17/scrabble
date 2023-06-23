@@ -155,18 +155,15 @@ function systemMessageToString(type, data) {
 	let systemMessageString = type;
 	switch (type) {
 		case "gameRename":
-			if (data.newName !== "") {
-				systemMessageString = /* html */ `
-					<i class="hoverDarken">${game.players.find(a => a.id == data.playerId).name}</i>
+			systemMessageString = /* html */ `
+				<i class="hoverDarken">${game.players.find(a => a.id == data.playerId).name}</i>
+				${data.newName
+				? /* html */ `
 					renamed the game to
 					<i class="hoverDarken">${data.newName}</i>
-				`;
-			} else {
-				systemMessageString = /* html */ `
-					<i class="hoverDarken">$game.players.find(a => a.id == data.playerId).name}</i>
-					removed the game name
 				`
-			}
+				: `removed the game name`}
+			`;
 			break;
 		case "gameEndVote":
 			systemMessageString = /* html */ `
