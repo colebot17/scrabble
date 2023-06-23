@@ -63,12 +63,12 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 	const scrabbleGrid = document.getElementById('scrabbleGrid');
 	scrabbleGrid.dataset.signedin = "loading";
 
-	var request = request('signIn.php', {name, pwd});
+	var req = request('signIn.php', {name, pwd});
 	var timer = new Promise(resolve => {
 		setTimeout(resolve, 500);
 	});
 
-	Promise.all([request, timer]).then(values => {
+	Promise.all([req, timer]).then(values => {
 		res = values[0];
 
 		// if there has been an error (incorrect name/pwd),
