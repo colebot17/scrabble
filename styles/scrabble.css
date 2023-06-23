@@ -1,3 +1,7 @@
+.material-symbols-rounded {
+	font-display: auto;
+}
+
 /* game list */
 #gamesCell {
 	width: calc(100% - 30px);
