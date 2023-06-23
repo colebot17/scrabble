@@ -62,6 +62,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 	// show the loading screen
 	const scrabbleGrid = document.getElementById('scrabbleGrid');
 	scrabbleGrid.dataset.signedin = "loading";
+	document.getElementById('shuffleLoader').currentTime = 0;
 
 	var req = request('signIn.php', {name, pwd});
 	var timer = new Promise(resolve => {

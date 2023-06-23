@@ -271,7 +271,7 @@ body.scrabble {
 	src: url(https://scrabble.colebot.com/fonts/eurostile.ttf);
 }
 
-.shuffleLoader {
+#shuffleLoader {
 	width: 100%;
 	max-width: 600px;
 	border-radius: 10px;
