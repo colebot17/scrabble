@@ -65,7 +65,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 
 	var req = request('signIn.php', {name, pwd});
 	var timer = new Promise(resolve => {
-		setTimeout(resolve, 500);
+		setTimeout(resolve, 740);
 	});
 
 	Promise.all([req, document.fonts.ready, timer]).then(values => {
