@@ -123,8 +123,6 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 		saveAccount(res.data.name, pwd);
 		updateSavedAccountList();
 
-		document.getElementById('scrabbleGrid').dataset.signedin = true;
-
 		updateGamesList();
 		
 		updateFriendsList(account.friends);
