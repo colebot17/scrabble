@@ -1,4 +1,5 @@
 $(function() {
+	// auto sign in
 	if (sessionStorage.name && sessionStorage.pwd) {
 		signIn(sessionStorage.name, sessionStorage.pwd);
 		$('#scrabbleGrid').attr('data-signedin', "loading");
@@ -58,7 +59,18 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 	pwdField.disabled = true;
 	submitButton.disabled = true;
 
-	request('signIn.php', {name, pwd}).then(res => {
+	// show the loading screen
+	const scrabbleGrid = document.getElementById('scrabbleGrid');
+	scrabbleGrid.dataset.signedin = "loading";
+
+	var request = request('signIn.php', {name, pwd});
+	var timer = new Promise(resolve => {
+		setTimeout(resolve, 500);
+	});
+
+	Promise.all([request, timer]).then(values => {
+		res = values[0];
+
 		// if there has been an error (incorrect name/pwd),
 		if (res.errorLevel > 0) {
 			textModal("Error", res.message, {
@@ -66,6 +78,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 					// set up the form
 					setSignInMode('signIn');
 
+					// re-enable fields
 					usernameField.disabled = false;
 					pwdField.disabled = false;
 					submitButton.disabled = false;
@@ -80,6 +93,9 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 			localStorage.removeItem('pwd');
 			sessionStorage.removeItem('name');
 			sessionStorage.removeItem('pwd');
+
+			// show the signed out screen
+			scrabbleGrid.dataset.signedin = "false";
 
 			return;
 		}
@@ -114,9 +130,14 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 		updateFriendsList(account.friends);
 		updateRequestList(account.requests);
 		updateSentRequestList(account.sentRequests);
+
+		// show the signed in page
+		scrabbleGrid.dataset.signedin = "true";
 	}).catch(err => {
 		console.error("Sign-in could not be completed:", err);
 		setSignInMode('signIn');
+		
+		scrabbleGrid.dataset.signedin = "false";
 	});
 }
 
