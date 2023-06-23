@@ -157,8 +157,12 @@ function systemMessageToString(type, data) {
 		case "gameRename":
 			systemMessageString = /* html */ `
 				<i class="hoverDarken">${game.players.find(a => a.id == data.playerId).name}</i>
-				renamed the game to
-				<i class="hoverDarken">${data.newName}</i>
+				${data.newName
+				? /* html */ `
+					renamed the game to
+					<i class="hoverDarken">${data.newName}</i>
+				`
+				: `removed the game name`}
 			`;
 			break;
 		case "gameEndVote":
@@ -202,7 +206,7 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 	// update the updateNumber (so we don't re-pull our own message)
 	game.updateNumber++;
 
-	request('sendChatMessage.php', {
+	request('chat/sendChatMessage.php', {
 		user: account.id,
 		pwd: account.pwd,
 		gameId: game.id,
@@ -245,7 +249,7 @@ function readChat() {
 	// don't spam the server with requests if the read marker is already up to date
 	if (game.players.find(el => el.id == account.id).chatRead == game.chat.length - 1) return;
 
-	request('readChat.php', {
+	request('chat/readChat.php', {
 		user: account.id,
 		pwd: account.pwd,
 		game: game.id
@@ -281,7 +285,7 @@ function readChat() {
 }
 
 function deleteChatMessage(id) {
-	request('deleteChatMessage.php', {
+	request('chat/deleteChatMessage.php', {
 		user: account.id,
 		pwd: account.pwd,
 		gameId: game.id,
@@ -308,7 +312,7 @@ function deleteChatMessage(id) {
 function setChatMessageDeletion(messageId, content) {
 	const deleted = arguments.length === 1;
     game.chat[messageId].deleted = deleted;
-	game.chat[messageId].message = deleted ? content : undefined;
+	game.chat[messageId].message = deleted ? undefined : content;
     chatInit(true, true);
 }
 

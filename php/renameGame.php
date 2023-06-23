@@ -19,11 +19,9 @@ $gameId = $_POST['game'];
 $name = $_POST['name'];
 
 // check password
-$sql = "SELECT pwd FROM accounts WHERE id='$user'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-if (!password_verify($pwd, $row['pwd'])) {
-	exit('{"errorLevel":2,"message":"Invalid Session!"}');
+require "verifyPassword.php";
+if (!verifyPassword($conn, $user, $pwd)) {
+	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
 // make sure the game belongs to the user
@@ -52,28 +50,20 @@ if (!$query) {
 
 echo '{"errorLevel":0,"message":"Game renamed to \"' . $name . '\".","data":"' . $name . '"}';
 
-// add to update list
-$sql = "SELECT updates FROM games WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-$updates = json_decode($row['updates'], true);
+//////////
+// add to updates list
+//////////
 
-array_push($updates, Array(
-    "type" => "gameRename",
-    "data" => Array(
-        "newName" => $name
-	),
-	"timestamp" => time()
-));
+// generate the data
+$updateData = Array(
+	"newName" => $name
+);
 
-$updatesJson = json_encode($updates);
-$updatesJson = str_replace("'", "\'", $updatesJson);
-$updatesJson = str_replace('"', '\"', $updatesJson);
-$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
+require "addUpdate.php";
+addUpdate($conn, $gameId, "chatMessageSend", $updateData);
 
 // add system message to chat
-require "addSystemChatMessage.php";
+require "chat/addSystemChatMessage.php";
 $data = Array(
 	"playerId" => $user,
 	"newName" => $name

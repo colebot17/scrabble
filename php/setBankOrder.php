@@ -19,11 +19,9 @@ $game = $_POST['game'];
 $bankOrder = json_decode($_POST['bankOrder'], true);
 
 // check password
-$sql = "SELECT pwd FROM accounts WHERE id='$user'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-if (!password_verify($pwd, $row['pwd'])) {
-	exit('{"errorLevel":2,"message":"Invalid Session!"}');
+require "verifyPassword.php";
+if (!verifyPassword($conn, $user, $pwd)) {
+	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
 // make sure the game is active

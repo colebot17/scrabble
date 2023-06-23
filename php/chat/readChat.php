@@ -6,33 +6,31 @@ $username = "Colebot";
 $password = "96819822";
 $dbname = "scrabble";
 
-// get data from GET/POST
-$userId = (int)$_POST['userId'];
-$pwd = $_POST['pwd'];
-
 // create and check connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
 }
 
+// get data from POST
+$user = $_POST['user'];
+$pwd = $_POST['pwd'];
+$game = $_POST['game'];
+
 // check password
 require "../verifyPassword.php";
-if (!verifyPassword($conn, $userId, $pwd)) {
+if (!verifyPassword($conn, $user, $pwd)) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
-require "getFriends.php";
-$listsList = getAllLists($conn, $userId);
+require "updateChatRead.php";
+$success = updateChatRead($conn, $game, $user);
 
-$res = Array(
-    "errorLevel" => 0,
-    "message" => "Friend list returned.",
-    "data" => $listsList
-);
+if (!$success) exit('{"errorLevel":2,"message":"The chat could not be marked as read"}');
 
-echo json_encode($res);
+echo '{"errorLevel":0,"message":"The chat has been marked as read"}';
 
+// close the connection
 mysqli_close($conn);
 
 ?>

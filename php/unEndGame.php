@@ -1,6 +1,6 @@
 <?php
 
-$servername = "p3nlmysql21plsk.secureserver.net:3306";
+$servername = "173.201.180.187";
 $username = "Colebot";
 $password = "96819822";
 $dbname = "scrabble";
@@ -12,30 +12,31 @@ if ($conn->connect_error) {
 }
 
 // get data from POST
-$user = $_POST['user'];
+$userId = (int)$_POST['user'];
 $pwd = $_POST['pwd'];
-$gameId = $_POST['game'];
+$gameId = (int)$_POST['game'];
 
 // check password
-$sql = "SELECT pwd FROM accounts WHERE id='$user'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-if (!password_verify($pwd, $row['pwd'])) {
-	exit('{"errorLevel":2,"message":"Invalid Session!"}');
+require "verifyPassword.php";
+if (!verifyPassword($conn, $userId, $pwd)) {
+	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
 // get the player list from the server
 $sql = "SELECT players FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
+$players = json_decode($row['players'], true);
 
 // set the endGameRequest property for the current user
-$players = json_decode($row['players'], true);
-$playerList = Array();
-for ($i=0; $i < count($players); $i++) { 
-	array_push($playerList, $players[$i]['id']);
+$currentPlayerIndex;
+for ($i = 0; $i < count($players); $i++) {
+	if ((int)$players[$i]['id'] === $userId) {
+		$players[$i]['endGameRequest'] = false;
+		$currentPlayerIndex = $i;
+		break;
+	}
 }
-$players[array_search($user, $playerList)]['endGameRequest'] = false;
 
 // reupload the player list to the server
 $playersJson = json_encode($players);
@@ -44,35 +45,27 @@ $query = mysqli_query($conn, $sql);
 
 echo '{"errorLevel":0,"message":"Your vote to end the game has been revoked."}';
 
-// add to update list
-$sql = "SELECT updates FROM games WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-$updates = json_decode($row['updates'], true);
+//////////
+// add to updates list
+//////////
 
-array_push($updates, Array(
-    "type" => "gameEndVoteRevoke",
-    "data" => Array(
-        "player" => $user,
-		"playerIndex" => array_search($user, $playerList)
-	),
-	"timestamp" => time()
-));
+// generate the data
+$updateData = Array(
+	"player" => $userId,
+	"playerIndex" => $currentPlayerIndex
+);
 
-$updatesJson = json_encode($updates);
-$updatesJson = str_replace("'", "\'", $updatesJson);
-$updatesJson = str_replace('"', '\"', $updatesJson);
-$sql = "UPDATE games SET updates='$updatesJson' WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
+require "addUpdate.php";
+addUpdate($conn, $gameId, "gameEndVoteRevoke", $updateData);
 
 // add system message to chat
-require "addSystemChatMessage.php";
+require "chat/addSystemChatMessage.php";
 $data = Array(
-	"playerId" => $user
+	"playerId" => $userId
 );
 addSystemChatMessage($conn, $gameId, "gameEndVoteRevoke", $data);
 
 // close the connection
-$conn->close();
+mysqli_close($conn);
 
 ?>

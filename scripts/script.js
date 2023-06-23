@@ -93,21 +93,22 @@ function updateGamesList() {
 		var noActiveGames = true;
 		var noInactiveGames = true;
 
-		var $activeGamesList = $('#activeGamesList');
-		var $inactiveGamesList = $('#inactiveGamesList');
-		$('.gamesList').empty(); // empty both game lists
+		const activeGamesList = document.getElementById('activeGamesList');
+		const inactiveGamesList = document.getElementById('inactiveGamesList');
 
-		var $activeGamesListMessage = $('#activeGamesListMessage');
-		var $inactiveGamesListMessage = $('#inactiveGamesListMessage');
+		// empty all games lists
+		Array.from(document.getElementsByClassName('gamesList')).forEach(v => {v.innerHTML = "";});
+
+		const activeGamesListMessage = document.getElementById('activeGamesListMessage');
+		const inactiveGamesListMessage = document.getElementById('inactiveGamesListMessage');
 
 		// convert games object into two arrays, one for active games, and another for inactive games
 		let activeGames = [];
 		let inactiveGames = [];
 
-		for (let i in account.games) {
+		for (let i = 0; i < account.games.length; i++) {
 			let currentGame = account.games[i];
-			currentGame.id = parseInt(i);
-
+			
 			// convert the dates to date objects
 			currentGame.lastUpdate = new Date(currentGame.lastUpdate);
 			if (currentGame.endDate) {
@@ -226,7 +227,7 @@ function updateGamesList() {
 				}
 
 				// add the game card to the list
-				$activeGamesList.append( /* html */`
+				activeGamesList.innerHTML += /* html */`
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
 							<span class="listGameName" onclick="renameGame(${gamesArray[i].id}, 'list')">
@@ -253,7 +254,7 @@ function updateGamesList() {
 							${(turnUser == account.id ? "Play" : "View")}
 						</button>
 					</div>
-				`);
+				`;
 			} else { // if the game is inactive
 				noInactiveGames = false;
 				let playerListHTML = ``;
@@ -296,7 +297,7 @@ function updateGamesList() {
 				let winnerHTML = /* html */ `${winnerString} won`;
 
 				// add the game card to the list
-				$inactiveGamesList.append(/* html */ `
+				inactiveGamesList.innerHTML += /* html */ `
 					<div class="listGame" id="listGame${gamesArray[i].id}">
 						<div class="listGameTitleBox">
 							<div class="gameTitleLine">
@@ -328,12 +329,12 @@ function updateGamesList() {
 							View
 						</button>
 					</div>
-				`);
+				`;
 			}
 		}
 
 		// add the new game card to the end of the active games tab
-		$activeGamesList.append(/* html */ `
+		activeGamesList.innerHTML += /* html */ `
 			<button class="newGameCard" onclick="newGame();">
 				<span class="material-symbols-rounded largeIcon">
 					add
@@ -343,20 +344,20 @@ function updateGamesList() {
 				</span>
 				<span></span>
 			</button>
-		`);
+		`;
 
 		// set the message for the active games list
 		if (!noActiveGames) {
-			$activeGamesListMessage.empty();
+			activeGamesListMessage.innerHTML = "";
 		} else {
-			$activeGamesListMessage.html(`You have no active games. Create a new one below.`);
+			activeGamesListMessage.innerHTML = `You have no active games. Create a new one below.`;
 		}
 
 		// set the message for the inactive games list
 		if (!noInactiveGames) {
-			$inactiveGamesListMessage.empty();
+			inactiveGamesListMessage.innerHTML = "";
 		} else {
-			$inactiveGamesListMessage.html(`You have no inactive games. Once any game ends, it will be archived here.`);
+			inactiveGamesListMessage.innerHTML = `You have no inactive games. Once any game ends, it will be archived here.`;
 		}
 
 		// // initiate the pull to refresh
@@ -423,7 +424,7 @@ function renameGame(gameId, loc) {
 	// add the input field
 	nameField.classList.add('hidden');
 	nameField.after(inputField);
-	inputField.value = account.games[gameId].name || '#' + gameId;
+	inputField.value = account.games.find(a => a.id === gameId).name || '#' + gameId;
 	inputField.select();
 
 	function removeInput() {
@@ -452,7 +453,7 @@ function renameGame(gameId, loc) {
 				} else {
 					setGameName(gameId, res.data);
 					// update chat read for current user if chat read is already up to date
-					if (game.players[game.currentPlayerIndex].chatRead >= game.chat.length - 1) {
+					if (game && game.players[game.currentPlayerIndex].chatRead >= game.chat.length - 1) {
 						readChat();
 					}
 				}
@@ -474,7 +475,7 @@ function setGameName(gameId, gameName) {
 	const nameFields = document.querySelectorAll('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
 	const idLines = document.querySelectorAll('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
 
-	account.games[gameId].name = gameName;
+	account.games.find(a => a.id === gameId).name = gameName;
 	nameFields.forEach(nf => nf.textContent = gameName || '#' + gameId);
 	idLines.forEach(idLine => idLine.remove());
 	if (gameName) { // if the game has a name
@@ -491,9 +492,9 @@ function setGameName(gameId, gameName) {
 	}
 }
 
-function loadGame(id = prompt("Enter the id of the game you want to load:"), expand = false) {
+function loadGame(id = prompt("Enter the id of the game you want to load:"), animate = false) {
 	if (id) {
-		if (expand) { // expanding animation of the play button
+		if (animate) { // expanding animation of the play button
 			let expandEl = $('#listGame' + id + ' .openGameButton');
 
 			// position the element
@@ -512,33 +513,33 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), exp
 			clone.addClass('expandAnimation');
 			setTimeout(function() {clone.remove()}, 740);
 		}
-		return $.ajax(
-			location + '/php/loadGame.php',
-			{
-				data: {user: account.id, pwd: account.pwd, game: id},
-				method: "POST",
-				success: function(data) {
-					// var tab = window.open('about:blank', '_blank');
-					// tab.document.write(data);
-					if (data !== "0") {
-						game = JSON.parse(data);
-						for (var i = 0; i < game.players.length; i++) {
-							if (game.players[i].id == account.id) {
-								game.currentPlayerIndex = i;
-								break;
-							}
-						}
-						showTab('game'); // show the game tab
-						gameInit(); // initialize the game
-					} else {
-						textModal("Error", "You don't have permission to load that game!");
-					}
-				},
-				error: function() {
-					console.error("Game could not be loaded.");
+
+		request("loadGame.php", {
+			user: account.id,
+			pwd: account.pwd,
+			game: id
+		}).then(res => {
+			// catch any errors
+			if (res.errorLevel > 0) {
+				textModal("Error", res.message);
+				return;
+			}
+
+			game = res.data; // store the game in the game object
+
+			// determine and store the current player index
+			for (let i = 0; i < game.players.length; i++) {
+				if (game.players[i].id == account.id) {
+					game.currentPlayerIndex = i;
+					break;
 				}
 			}
-		);
+
+			showTab('game');
+			gameInit();
+		}).catch(err => {
+			throw new Error(err);
+		});
 	}
 }
 
