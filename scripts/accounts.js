@@ -68,7 +68,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 		setTimeout(resolve, 500);
 	});
 
-	Promise.all([req, timer]).then(values => {
+	Promise.all([req, document.fonts.ready, timer]).then(values => {
 		res = values[0];
 
 		// if there has been an error (incorrect name/pwd),
