@@ -272,7 +272,7 @@ body.scrabble {
 }
 
 .shuffleLoader {
-	width: auto;
+	width: 100%;
 	border-radius: 10px;
 }
 
