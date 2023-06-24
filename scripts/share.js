@@ -1,6 +1,6 @@
 const SHARE_DATA = {
     title: "Scrabble",
-    text: "Scrabble Game on Colebot.com",
+    text: "Play Scrabble with me on Colebot.com!",
     url: "https://scrabble.colebot.com"
 };
 
