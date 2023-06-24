@@ -62,7 +62,9 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 	// show the loading screen
 	const scrabbleGrid = document.getElementById('scrabbleGrid');
 	scrabbleGrid.dataset.signedin = "loading";
-	document.getElementById('shuffleLoader').currentTime = 0;
+	const loaderVideo = document.getElementById('shuffleLoader');
+	loaderVideo.currentTime = 0;
+	loaderVideo.play();
 
 	var req = request('signIn.php', {name, pwd});
 	var timer = new Promise(resolve => {
@@ -97,6 +99,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 
 			// show the signed out screen
 			scrabbleGrid.dataset.signedin = "false";
+			loaderVideo.pause();
 
 			return;
 		}
@@ -132,6 +135,7 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 
 		// show the signed in page
 		scrabbleGrid.dataset.signedin = "true";
+		loaderVideo.pause();
 	}).catch(err => {
 		console.error("Sign-in could not be completed:", err);
 		setSignInMode('signIn');
