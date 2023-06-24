@@ -10,6 +10,9 @@ $(function() {
 		setSignInMode('signIn');
 		$('#scrabbleGrid').attr('data-signedin', "false");
 	}
+
+	// check share ability
+	enableShare();
 });
 
 var account = {};
