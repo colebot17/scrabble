@@ -3,7 +3,7 @@
 
   --num-tiles: 8;
   --num-gaps: calc(var(--num-tiles) - 1);
-  --total-width: max(calc(100vw - 40px), 600px);
+  --total-width: min(calc(100vw - 40px), 600px);
 
   --tile-gap-ratio: calc((var(--num-gaps) * 12) / var(--num-tiles));
 
