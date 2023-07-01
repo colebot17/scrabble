@@ -1,22 +1,16 @@
 .scrabbleLoader {
-  position: fixed;
-  left: 100px;
-  top: 100px;
-}
-
-.scrabbleLoader {
   --animation-time: 0.37s;
   --tile-width: 50px;
   --tile-radius: calc(var(--tile-width) / 2);
   
-  --offset1: -40px;
-  --offset2: 45px;
-  --offset3: -30px;
-  --offset4: 20px;
-  --offset5: -20px;
-  --offset6: 30px;
-  --offset7: -45px;
-  --offset8: 40px;
+  --yOffset1: -40px;
+  --yOffset2: 45px;
+  --yOffset3: -30px;
+  --yOffset4: 20px;
+  --yOffset5: -20px;
+  --yOffset6: 30px;
+  --yOffset7: -45px;
+  --yOffset8: 40px;
 }
 
 .slLetter {
@@ -30,11 +24,12 @@
   
   background-color: #a47449;
   
+  margin: 2px;
   padding: 10px;
   border-radius: 5px;
   
   display: inline-block;
-  position: absolute;
+  position: relative;
 }
 
 @keyframes letter1 {
@@ -48,105 +43,105 @@
   }
   to {
     left: calc(300px - var(--tile-radius));
-    top: var(--offset1);
+    top: var(--yOffset1);
   }
 }
 @keyframes letter2 {
   from {
-    left: 75px;
+    left: 0;
     top: 0;
   }
   50% {
-    left: 75px;
+    left: 0;
     top: 0;
   }
   to {
-    left: calc(300px - var(--tile-radius));
-    top: var(--offset2);
+    left: calc(225px - var(--tile-radius));
+    top: var(--yOffset2);
   }
 }
 @keyframes letter3 {
   from {
-    left: 150px;
+    left: 0;
     top: 0;
   }
   50% {
-    left: 150px;
+    left: 0;
     top: 0;
   }
   to {
-    left: calc(300px - var(--tile-radius));
-    top: var(--offset3);
+    left: calc(150px - var(--tile-radius));
+    top: var(--yOffset3);
   }
 }
 @keyframes letter4 {
   from {
-    left: 225px;
+    left: 0;
     top: 0;
   }
   50% {
-    left: 225px;
+    left: 0;
     top: 0;
   }
   to {
-    left: calc(300px - var(--tile-radius));
-    top: var(--offset4);
+    left: calc(75px - var(--tile-radius));
+    top: var(--yOffset4);
   }
 }
 @keyframes letter5 {
   from {
-    left: 300px;
+    left: 0;
     top: 0;
   }
   50% {
-    left: 300px;
+    left: 0;
     top: 0;
   }
   to {
-    left: calc(300px - var(--tile-radius));
-    top: var(--offset5);
+    left: calc(0px - var(--tile-radius));
+    top: var(--yOffset5);
   }
 }
 @keyframes letter6 {
   from {
-    left: 375px;
+    left: 0;
     top: 0;
   }
   50% {
-    left: 375px;
+    left: 0;
     top: 0;
   }
   to {
-    left: calc(300px - var(--tile-radius));
-    top: var(--offset6);
+    left: calc(-75px - var(--tile-radius));
+    top: var(--yOffset6);
   }
 }
 @keyframes letter7 {
   from {
-    left: 450px;
+    left: 0;
     top: 0;
   }
   50% {
-    left: 450px;
+    left: 0;
     top: 0;
   }
   to {
-    left: calc(300px - var(--tile-radius));
-    top: var(--offset7);
+    left: calc(-150px - var(--tile-radius));
+    top: var(--yOffset7);
   }
 }
 @keyframes letter8 {
   from {
-    left: 525px;
+    left: 0;
     top: 0;
   }
   50% {
-    left: 525px;
+    left: 0;
     top: 0;
   }
   to {
-    left: calc(300px - var(--tile-radius));
-    top: var(--offset8);
+    left: calc(-225px - var(--tile-radius));
+    top: var(--yOffset8);
   }
 }
 
