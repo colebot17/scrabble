@@ -31,7 +31,6 @@
   background-color: #a47449;
   
   margin: calc(var(--space-between) / 2);
-  padding: 10px;
   border-radius: 5px;
   
   display: inline-block;
