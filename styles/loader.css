@@ -1,8 +1,10 @@
 .scrabbleLoader {
   --animation-time: 0.37s;
 
+  /* calculations: https://files.colebot.com/sl-animation-calculations.HEIC */
+
   --num-tiles: 8;
-  --num-gaps: calc(var(--num-tiles) - 1);
+  --num-gaps: calc(var(--num-tiles) + 1);
   --total-width: min(calc(100vw - 40px), 600px);
 
   --tile-gap-ratio: calc((var(--num-gaps) * 12) / var(--num-tiles));
@@ -12,11 +14,6 @@
 
   --tile-width: calc(var(--total-tile-space) / var(--num-tiles));
   --gap-width: calc(var(--total-gap-space) / var(--num-gaps));
-
-  /* --total-width: calc((var(--tile-width) * 8) + (var(--gap-width) * 7));
-
-  --tile-width: 60px;
-  --gap-width: 5px; */
   
   --y-offset-max: var(--tile-width);
 
