@@ -26,7 +26,7 @@
   height: calc(var(--tile-width));
   
   font-family: Eurostile;
-  font-size: var(--tile-width);
+  font-size: calc(var(--tile-width) * 0.9);
   color: white;
   
   background-color: #a47449;
