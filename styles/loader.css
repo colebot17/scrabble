@@ -1,7 +1,6 @@
 .scrabbleLoader {
   --animation-time: 0.37s;
   --tile-width: 50px;
-  --tile-radius: calc(var(--tile-width) / 2);
   --space-between: 4px;
 
   --total-width: calc((var(--tile-width) * 8) + (var(--space-between) * 7));
@@ -47,7 +46,7 @@
     top: 0;
   }
   to {
-    left: calc((var(--total-width) / 2) - var(--tile-radius));
+    left: calc((var(--total-width) / 2) - calc(var(--tile-width) / 2));
     top: var(--yOffset1);
   }
 }
@@ -61,7 +60,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * 0.75) - var(--tile-radius));
+    left: calc(((var(--totalWidth) / 2) * 0.75) - calc(var(--tile-width) / 2));
     top: var(--yOffset2);
   }
 }
@@ -75,7 +74,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * 0.5) - var(--tile-radius));
+    left: calc(((var(--totalWidth) / 2) * 0.5) - calc(var(--tile-width) / 2));
     top: var(--yOffset3);
   }
 }
@@ -89,7 +88,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * 0.25) - var(--tile-radius));
+    left: calc(((var(--totalWidth) / 2) * 0.25) - calc(var(--tile-width) / 2));
     top: var(--yOffset4);
   }
 }
@@ -103,7 +102,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * 0) - var(--tile-radius));
+    left: calc(((var(--totalWidth) / 2) * 0) - calc(var(--tile-width) / 2));
     top: var(--yOffset5);
   }
 }
@@ -117,7 +116,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * -0.25) - var(--tile-radius));
+    left: calc(((var(--totalWidth) / 2) * -0.25) - calc(var(--tile-width) / 2));
     top: var(--yOffset6);
   }
 }
@@ -131,7 +130,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * -0.5) - var(--tile-radius));
+    left: calc(((var(--totalWidth) / 2) * -0.5) - calc(var(--tile-width) / 2));
     top: var(--yOffset7);
   }
 }
@@ -145,7 +144,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * -0.75) - var(--tile-radius));
+    left: calc(((var(--totalWidth) / 2) * -0.75) - calc(var(--tile-width) / 2));
     top: var(--yOffset8);
   }
 }
