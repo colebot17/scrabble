@@ -5,16 +5,18 @@
 
   --total-width: calc((var(--tile-width) * 8) + (var(--space-between) * 7));
   
-  --yOffset1: -40px;
-  --yOffset2: 45px;
-  --yOffset3: -30px;
-  --yOffset4: 20px;
-  --yOffset5: -20px;
-  --yOffset6: 30px;
-  --yOffset7: -45px;
-  --yOffset8: 40px;
+  --y-offset-max: var(--tile-width);
 
-  margin: 50px 0;
+  --y-offset-1: calc(var(--y-offset-max) * -0.8);
+  --y-offset-2: calc(var(--y-offset-max) * 0.9);
+  --y-offset-3: calc(var(--y-offset-max) * -0.6);
+  --y-offset-4: calc(var(--y-offset-max) * 0.4);
+  --y-offset-5: calc(var(--y-offset-max) * -0.4);
+  --y-offset-6: calc(var(--y-offset-max) * 0.6);
+  --y-offset-7: calc(var(--y-offset-max) * -0.9);
+  --y-offset-8: calc(var(--y-offset-max) * 0.8);
+
+  margin: var(--y-offset-max) 0;
 
   user-select: none;
 }
@@ -65,7 +67,7 @@
   }
   to {
     left: calc(((var(--total-width) / 2) * 0.75) - (var(--tile-width) / 2));
-    top: var(--yOffset2);
+    top: var(--y-offset-2);
   }
 }
 @keyframes letter3 {
@@ -79,7 +81,7 @@
   }
   to {
     left: calc(((var(--total-width) / 2) * 0.5) - (var(--tile-width) / 2));
-    top: var(--yOffset3);
+    top: var(--y-offset-3);
   }
 }
 @keyframes letter4 {
@@ -93,7 +95,7 @@
   }
   to {
     left: calc(((var(--total-width) / 2) * 0.25) - (var(--tile-width) / 2));
-    top: var(--yOffset4);
+    top: var(--y-offset-4);
   }
 }
 @keyframes letter5 {
@@ -107,7 +109,7 @@
   }
   to {
     left: calc(((var(--total-width) / 2) * 0) - (var(--tile-width) / 2));
-    top: var(--yOffset5);
+    top: var(--y-offset-5);
   }
 }
 @keyframes letter6 {
@@ -121,7 +123,7 @@
   }
   to {
     left: calc(((var(--total-width) / 2) * -0.25) - (var(--tile-width) / 2));
-    top: var(--yOffset6);
+    top: var(--y-offset-6);
   }
 }
 @keyframes letter7 {
@@ -135,7 +137,7 @@
   }
   to {
     left: calc(((var(--total-width) / 2) * -0.5) - (var(--tile-width) / 2));
-    top: var(--yOffset7);
+    top: var(--y-offset-7);
   }
 }
 @keyframes letter8 {
@@ -149,7 +151,7 @@
   }
   to {
     left: calc(((var(--total-width) / 2) * -0.75) - (var(--tile-width) / 2));
-    top: var(--yOffset8);
+    top: var(--y-offset-8);
   }
 }
 
