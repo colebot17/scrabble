@@ -53,7 +53,7 @@
   }
   to {
     left: calc((var(--total-width) / 2) - (var(--tile-width) / 2));
-    top: var(--yOffset1);
+    top: var(--y-offset-1);
   }
 }
 @keyframes letter2 {
