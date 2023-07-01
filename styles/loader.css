@@ -45,7 +45,7 @@
   background-color: #a47449;
   
   margin: calc(var(--gap-width) / 2);
-  border-radius: calc(var(--tile-width) * (1 / 6));
+  border-radius: calc(var(--tile-width) * (1 / 8));
   
   display: inline-flex;
   flex-direction: column;
