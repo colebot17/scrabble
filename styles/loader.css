@@ -60,7 +60,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * 0.75) - calc(var(--tile-width) / 2));
+    left: calc(((var(--total-width) / 2) * 0.75) - calc(var(--tile-width) / 2));
     top: var(--yOffset2);
   }
 }
@@ -74,7 +74,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * 0.5) - calc(var(--tile-width) / 2));
+    left: calc(((var(--total-width) / 2) * 0.5) - calc(var(--tile-width) / 2));
     top: var(--yOffset3);
   }
 }
@@ -88,7 +88,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * 0.25) - calc(var(--tile-width) / 2));
+    left: calc(((var(--total-width) / 2) * 0.25) - calc(var(--tile-width) / 2));
     top: var(--yOffset4);
   }
 }
@@ -102,7 +102,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * 0) - calc(var(--tile-width) / 2));
+    left: calc(((var(--total-width) / 2) * 0) - calc(var(--tile-width) / 2));
     top: var(--yOffset5);
   }
 }
@@ -116,7 +116,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * -0.25) - calc(var(--tile-width) / 2));
+    left: calc(((var(--total-width) / 2) * -0.25) - calc(var(--tile-width) / 2));
     top: var(--yOffset6);
   }
 }
@@ -130,7 +130,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * -0.5) - calc(var(--tile-width) / 2));
+    left: calc(((var(--total-width) / 2) * -0.5) - calc(var(--tile-width) / 2));
     top: var(--yOffset7);
   }
 }
@@ -144,7 +144,7 @@
     top: 0;
   }
   to {
-    left: calc(((var(--totalWidth) / 2) * -0.75) - calc(var(--tile-width) / 2));
+    left: calc(((var(--total-width) / 2) * -0.75) - calc(var(--tile-width) / 2));
     top: var(--yOffset8);
   }
 }
