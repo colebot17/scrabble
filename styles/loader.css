@@ -7,14 +7,14 @@
   
   --y-offset-max: var(--tile-width);
 
-  --y-offset-multiplier-1: -0.8;
-  --y-offset-multiplier-2: 0.9;
-  --y-offset-multiplier-3: -0.6;
-  --y-offset-multiplier-4: 0.4;
-  --y-offset-multiplier-5: -0.4;
-  --y-offset-multiplier-6: 0.6;
-  --y-offset-multiplier-7: -0.9;
-  --y-offset-multiplier-8: 0.8;
+  --y-offset-multiplier-1: -0.65;
+  --y-offset-multiplier-2: 0.5;
+  --y-offset-multiplier-3: -0.75;
+  --y-offset-multiplier-4: 0.6;
+  --y-offset-multiplier-5: -0.6;
+  --y-offset-multiplier-6: 0.75;
+  --y-offset-multiplier-7: -0.5;
+  --y-offset-multiplier-8: 0.65;
 
   margin: var(--y-offset-max) 0;
 
