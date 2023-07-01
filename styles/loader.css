@@ -24,7 +24,7 @@
   height: calc(var(--tile-width));
   
   font-family: Eurostile;
-  font-size: 50px;
+  font-size: var(--tile-width);
   text-align: center;
   color: white;
   
