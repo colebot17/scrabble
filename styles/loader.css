@@ -1,0 +1,199 @@
+.scrabbleLoader {
+  --animation-time: 0.37s;
+
+  /* calculations: https://files.colebot.com/sl-animation-calculations.HEIC */
+
+  --num-tiles: 8;
+  --num-gaps: calc(var(--num-tiles) + 1);
+  --total-width: min(calc(100vw - 40px), 600px);
+
+  --tile-gap-ratio: calc((var(--num-gaps) * 12) / var(--num-tiles));
+
+  --total-tile-space: calc(var(--total-width) * (var(--tile-gap-ratio) / (var(--tile-gap-ratio) + 1)));
+  --total-gap-space: calc(var(--total-width) / (var(--tile-gap-ratio) + 1));
+
+  --tile-width: calc(var(--total-tile-space) / var(--num-tiles));
+  --gap-width: calc(var(--total-gap-space) / var(--num-gaps));
+  
+  --y-offset-max: var(--tile-width);
+
+  --y-offset-multiplier-1: -0.65;
+  --y-offset-multiplier-2: 0.5;
+  --y-offset-multiplier-3: -0.75;
+  --y-offset-multiplier-4: 0.6;
+  --y-offset-multiplier-5: -0.6;
+  --y-offset-multiplier-6: 0.75;
+  --y-offset-multiplier-7: -0.5;
+  --y-offset-multiplier-8: 0.65;
+
+  margin: var(--y-offset-max) 0;
+
+  user-select: none;
+}
+
+.slLetter {
+  width: calc(var(--tile-width));
+  height: calc(var(--tile-width));
+  
+  font-family: Eurostile;
+  font-size: calc(var(--tile-width) * 0.9);
+  color: white;
+  
+  background-color: #a47449;
+  
+  margin: calc(var(--gap-width) / 2);
+  border-radius: calc(var(--tile-width) * (1 / 8));
+  
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+}
+
+@keyframes letter1 {
+  from {
+    left: 0;
+    top: 0;
+  }
+  50% {
+    left: 0;
+    top: 0;
+  }
+  to {
+    left: calc((var(--total-width) / 2) - (var(--tile-width) / 2));
+    top: calc(var(--y-offset-multiplier-1) * var(--y-offset-max));
+  }
+}
+@keyframes letter2 {
+  from {
+    left: 0;
+    top: 0;
+  }
+  50% {
+    left: 0;
+    top: 0;
+  }
+  to {
+    left: calc(((var(--total-width) / 2) * 0.75) - (var(--tile-width) / 2));
+    top: calc(var(--y-offset-multiplier-2) * var(--y-offset-max));
+  }
+}
+@keyframes letter3 {
+  from {
+    left: 0;
+    top: 0;
+  }
+  50% {
+    left: 0;
+    top: 0;
+  }
+  to {
+    left: calc(((var(--total-width) / 2) * 0.5) - (var(--tile-width) / 2));
+    top: calc(var(--y-offset-multiplier-3) * var(--y-offset-max));
+  }
+}
+@keyframes letter4 {
+  from {
+    left: 0;
+    top: 0;
+  }
+  50% {
+    left: 0;
+    top: 0;
+  }
+  to {
+    left: calc(((var(--total-width) / 2) * 0.25) - (var(--tile-width) / 2));
+    top: calc(var(--y-offset-multiplier-4) * var(--y-offset-max));
+  }
+}
+@keyframes letter5 {
+  from {
+    left: 0;
+    top: 0;
+  }
+  50% {
+    left: 0;
+    top: 0;
+  }
+  to {
+    left: calc(((var(--total-width) / 2) * 0) - (var(--tile-width) / 2));
+    top: calc(var(--y-offset-multiplier-5) * var(--y-offset-max));
+  }
+}
+@keyframes letter6 {
+  from {
+    left: 0;
+    top: 0;
+  }
+  50% {
+    left: 0;
+    top: 0;
+  }
+  to {
+    left: calc(((var(--total-width) / 2) * -0.25) - (var(--tile-width) / 2));
+    top: calc(var(--y-offset-multiplier-6) * var(--y-offset-max));
+  }
+}
+@keyframes letter7 {
+  from {
+    left: 0;
+    top: 0;
+  }
+  50% {
+    left: 0;
+    top: 0;
+  }
+  to {
+    left: calc(((var(--total-width) / 2) * -0.5) - (var(--tile-width) / 2));
+    top: calc(var(--y-offset-multiplier-7) * var(--y-offset-max));
+  }
+}
+@keyframes letter8 {
+  from {
+    left: 0;
+    top: 0;
+  }
+  50% {
+    left: 0;
+    top: 0;
+  }
+  to {
+    left: calc(((var(--total-width) / 2) * -0.75) - (var(--tile-width) / 2));
+    top: calc(var(--y-offset-multiplier-8) * var(--y-offset-max));
+  }
+}
+
+#slLetter1 {
+  animation: letter1 var(--animation-time) infinite linear alternate;
+  z-index: 8;
+}
+#slLetter2 {
+  animation: letter2 var(--animation-time) infinite linear alternate;
+  z-index: 7;
+}
+#slLetter3 {
+  animation: letter3 var(--animation-time) infinite linear alternate;
+  z-index: 6;
+}
+#slLetter4 {
+  animation: letter4 var(--animation-time) infinite linear alternate;
+  z-index: 5;
+}
+#slLetter5 {
+  animation: letter5 var(--animation-time) infinite linear alternate;
+  z-index: 4;
+}
+#slLetter6 {
+  animation: letter6 var(--animation-time) infinite linear alternate;
+  z-index: 3;
+}
+#slLetter7 {
+  animation: letter7 var(--animation-time) infinite linear alternate;
+  z-index: 2;
+}
+#slLetter8 {
+  animation: letter8 var(--animation-time) infinite linear alternate;
+  z-index: 1;
+}
