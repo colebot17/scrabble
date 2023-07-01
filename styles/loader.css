@@ -3,7 +3,7 @@
   --tile-width: 50px;
   --space-between: 4px;
 
-  --total-width: calc((var(--tile-width) * 8) + (var(--space-between) * 7));
+  --total-width: calc((var(--tile-width) * 8) + (var(--space-between) * 9));
   
   --yOffset1: -40px;
   --yOffset2: 45px;
