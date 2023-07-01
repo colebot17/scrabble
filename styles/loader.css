@@ -1,9 +1,9 @@
 .scrabbleLoader {
   --animation-time: 0.37s;
-  --tile-width: 50px;
-  --space-between: 4px;
+  --tile-width: 60px;
+  --space-between: 5px;
 
-  --total-width: calc((var(--tile-width) * 8) + (var(--space-between) * 9));
+  --total-width: calc((var(--tile-width) * 8) + (var(--space-between) * 7));
   
   --yOffset1: -40px;
   --yOffset2: 45px;
@@ -25,7 +25,6 @@
   
   font-family: Eurostile;
   font-size: var(--tile-width);
-  text-align: center;
   color: white;
   
   background-color: #a47449;
@@ -33,7 +32,11 @@
   margin: calc(var(--space-between) / 2);
   border-radius: 5px;
   
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   position: relative;
 }
 
