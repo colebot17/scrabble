@@ -73,7 +73,6 @@
 }
 .listGameNameInput {
 	text-align: center;
-	text-align: -webkit-center;
 	font-weight: bold;
 	font-size: 16px;
 	border-radius: 3px;
@@ -450,7 +449,6 @@ body.scrabble {
     font-size: 50px;
     font-family: 'Eurostile';
     text-align: center;
-    text-align: -webkit-center;
     text-transform: uppercase;
 
     background-color: #a47449; /* tile brown */
@@ -561,8 +559,7 @@ body.scrabble {
     margin-right: 5px;
 }
 .systemChatMessageLine {
-	/* text-align: center;
-	text-align: -webkit-center; */
+	/* text-align: center; */
 	color: var(--text-color-light);
 	display: flex;
 	justify-content: center;
@@ -581,7 +578,6 @@ body.scrabble {
 	color: red;
 	width: 100%;
 	text-align: center;
-	text-align: -webkit-center;
 	border-bottom: 1px solid red;
 	line-height: 0.1em;
 	margin: 10px 0 5px;
@@ -650,6 +646,7 @@ body.scrabble {
 	align-items: flex-start;
 	margin-left: 5px;
 	margin-right: 5px;
+	text-align: start;
 }
 .friendListItem:not(:last-child) {
 	border-bottom: 1px solid black;
@@ -657,7 +654,6 @@ body.scrabble {
 #addFriendField {
 	width: calc(100% - 40px);
 	text-align: center;
-	text-align: -webkit-center;
 }
 
 /* animations */
