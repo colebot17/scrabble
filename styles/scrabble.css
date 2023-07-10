@@ -268,7 +268,7 @@ body.scrabble {
 }
 @font-face { /* Scrabble Font - Eurostile */
 	font-family: Eurostile;
-	src: url(https://scrabble.colebot.com/fonts/eurostile.ttf);
+	src: url(https://scrabble.colebot.com/fonts/eurostile.TTF);
 }
 
 #shuffleLoader {
