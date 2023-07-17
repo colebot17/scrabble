@@ -94,10 +94,20 @@ function parseWords($gameId, $tiles, $user) {
         return '{"errorLevel":1,"message":"You can only enter one word per turn."}';
     }
 
-    // when there is only one tile, it is always on the x axis (because it doesn't matter)
+    // prevent axis confusion when there is only one tile
     if (count($tiles) === 1) {
-        $onAxisX = true;
-        $onAxisY = false;
+        // detect tiles around the tile
+        $otherLetterSideSide = $board[$tiles[0]["y"]][$tiles[0]["x"] + 1] || $board[$tiles[0]["y"]][$tiles[0]["x"] - 1];
+        $otherLetterAboveBelow = $board[$tiles[0]["y"] + 1][$tiles[0]["x"]] || $board[$tiles[0]["y"] - 1][$tiles[0]["x"]];
+
+        // the order of the logic is important here
+        if ($otherLetterSideSide) {
+            $onAxisX = true;
+            $onAxisY = false;
+        } else if ($otherLetterAboveBelow) {
+            $onAxisX = false;
+            $onAxisY = true;
+        }
     }
 
     // make sure all tiles are connected to the center of the board
