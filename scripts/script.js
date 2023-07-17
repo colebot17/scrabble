@@ -514,7 +514,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			setTimeout(function() {clone.remove()}, 740);
 		}
 
-		request("loadGame.php", {
+		return request("loadGame.php", {
 			user: account.id,
 			pwd: account.pwd,
 			game: id
