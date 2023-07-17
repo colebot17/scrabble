@@ -2,6 +2,8 @@ var stopChecking = false;
 var checkTimeout = 0;
 
 function startChangeCheck() {
+    return;
+
     stopChecking = true;
     clearTimeout(checkTimeout);
     stopChecking = false;
@@ -9,6 +11,8 @@ function startChangeCheck() {
 }
 
 function checkForChanges() {
+    return;
+
     if (stopChecking) return;
     request('checkForChanges.php', {
         user: account.id,
