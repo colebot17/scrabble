@@ -307,6 +307,23 @@
 				</div>
 			</div>
 
+			<div id="createAccountCell" class="gridCell">
+				<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="return false;">
+					<h3>Create Account</h3>
+					<label for="createAccountUsername">Username:</label>
+					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="createAccountUsername"><br>
+
+					<label for="createAccountPwd">Password:</label>
+					<input class="accountFormInput" autocomplete="new-password" type="password" name="pwd" id="createAccountPwd"><br>
+
+					<label for="createAccountConfirmPwd">Confirm Password:</label>
+					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="createAccountConfirmPwd"><br>
+
+					<button type="submit" onclick="createAccount()">Create Account</button>
+					<a onclick="setSignInMode('signIn')" class="hoverLine small">Sign In</a>
+				</form>
+			</div>
+
 			<div id="friendsCell" class="gridCell flex col" data-page="friends">
 				<div class="friendsPage contents" id="friendsPage-friends">
 					<div class="flex">
