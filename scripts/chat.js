@@ -192,10 +192,8 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
     // trim the message
     message = message.trim();
 
-    // make sure there is a real message
-    if (!message) {
-        return;
-    }
+    // make sure there is actually a message
+    if (!message) return;
 
 	const input = document.getElementById('chatInput');
 	const sendButton = document.getElementsByClassName('chatSendButton')[0];

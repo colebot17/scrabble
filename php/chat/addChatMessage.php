@@ -31,7 +31,7 @@ function addChatMessage($conn, int $gameId, array $message) {
     );
 
     // get and add the sender name if sender exists
-    if ($senderId = $message['sender']) {
+    if (array_key_exists('sender', $message) && $senderId = $message['sender']) {
         $sql = "SELECT name FROM accounts WHERE id='$senderId'";
         $query = mysqli_query($conn, $sql);
         $row = mysqli_fetch_assoc($query);

@@ -459,6 +459,7 @@ function renameGame(gameId, loc) {
 				}
 				removeInput();
 			}).catch(err => {
+				removeInput();
 				throw new Error(err);
 			});
 		} else if (e.key === "Escape") {
