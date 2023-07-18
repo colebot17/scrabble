@@ -931,15 +931,23 @@ body.scrabble {
 		grid-template-columns: 100%;
 		grid-template-rows: max-content max-content;
 	}
-	#scrabbleGrid[data-tab=home][data-signedin=false] #welcomeCell {
+	#scrabbleGrid[data-tab=home][data-signedin=false] #loadingCell {
 		display: unset;
 		grid-column: 1;
 		grid-row: 1;
 	}
-	#scrabbleGrid[data-tab=home][data-signedin=false] #signInCell {
+	#scrabbleGrid[data-tab=home][data-signedin=false] #loadingCell .slLetter {
+		animation-play-state: paused;
+	}
+	#scrabbleGrid[data-tab=home][data-signedin=false] #welcomeCell {
 		display: unset;
 		grid-column: 1;
 		grid-row: 2;
+	}
+	#scrabbleGrid[data-tab=home][data-signedin=false] #signInCell {
+		display: unset;
+		grid-column: 1;
+		grid-row: 3;
 	}
 
 	/* loading account tab */
