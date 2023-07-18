@@ -464,7 +464,9 @@ function renameGame(gameId, loc) {
 				nameField.style.transition = "color 0.37s";
 				setTimeout(() => {
 					nameField.style.color = "";
-					nameField.style.transition = "";
+					setTimeout(() => {
+						nameField.style.transition = "";
+					}, 370);
 				}, 1000);
 				throw new Error(err);
 			});
