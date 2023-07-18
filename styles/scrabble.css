@@ -929,7 +929,7 @@ body.scrabble {
 	/* signed out account tab */
 	#scrabbleGrid[data-tab=home][data-signedin=false] {
 		grid-template-columns: 100%;
-		grid-template-rows: max-content max-content;
+		grid-template-rows: max-content max-content max-content;
 	}
 	#scrabbleGrid[data-tab=home][data-signedin=false] #loadingCell {
 		display: unset;
