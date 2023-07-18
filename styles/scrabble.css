@@ -316,10 +316,10 @@ body.scrabble {
 }
 
 /* account forms */
-.accountForm .flex h3 {
+.accountForm .accountFormTitle h3 {
 	margin: 0;
 }
-.accountForm .flex, .accountForm h3 {
+.accountForm .accountFormTitle {
 	margin: 5px 0 10px 0;
 }
 

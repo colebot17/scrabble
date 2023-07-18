@@ -151,7 +151,7 @@
 
 			<div id="signInCell" class="gridCell">
 				<form class="hidden accountForm" id="signInForm" data-action="signIn" onsubmit="return false;">
-					<div class="flex">
+					<div class="flex accountFormTitle">
 						<button id="signInBackButton" class="iconButton" onclick="setSignInMode('accountSwitcher')">
 							<span class="material-symbols-rounded smallIcon">chevron_left</span>
 						</button>
@@ -171,7 +171,7 @@
 				</form>
 				
 				<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="return false;">
-					<h3>Create Account</h3>
+					<h3 class="accountFormTitle">Create Account</h3>
 					<label for="createAccountUsername">Username:</label>
 					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="createAccountUsername"><br>
 
@@ -186,7 +186,7 @@
 				</form>
 
 				<form class="hidden accountForm" id="changePasswordForm" data-action="changePassword" onsubmit="return false;">
-					<div class="flex">
+					<div class="flex accountFormTitle">
 						<button class="iconButton" onclick="setSignInMode('settings')">
 							<span class="material-symbols-rounded smallIcon">chevron_left</span>
 						</button>
@@ -209,7 +209,7 @@
 				</form>
 
 				<form class="hidden accountForm" id="changeUsernameForm" data-action="changeUsername" onsubmit="return false;">
-					<div class="flex">
+					<div class="flex accountFormTitle">
 						<button class="iconButton" onclick="setSignInMode('settings')">
 							<span class="material-symbols-rounded smallIcon">chevron_left</span>
 						</button>
@@ -226,7 +226,7 @@
 				</form>
 
 				<div class="hidden accountForm" id="accountSwitcherForm">
-					<div class="flex">
+					<div class="flex accountFormTitle">
 						<button class="iconButton" onclick="setSignInMode('settings')">
 							<span class="material-symbols-rounded smallIcon">chevron_left</span>
 						</button>
@@ -241,7 +241,7 @@
 				</div>
 
 				<div class="hidden accountForm" id="settingsForm">
-					<div class="flex">
+					<div class="flex accountFormTitle">
 						<button class="iconButton" onclick="setSignInMode('signOut')">
 							<span class="material-symbols-rounded smallIcon">chevron_left</span>
 						</button>
@@ -252,7 +252,10 @@
 							<a onclick="setSignInMode('changeUsername')" class="hoverLine small" tabindex="0">Change Username</a>
 							<a onclick="setSignInMode('changePassword')" class="hoverLine small" tabindex="0">Change Password</a>
 							<a onclick="setSignInMode('accountSwitcher')" class="hoverLine small" tabindex="0">Switch Accounts</a>
-							<button onclick="setSignInMode('signOutConfirm')">Sign Out</button>
+							<button onclick="setSignInMode('signOutConfirm')">
+								<span class="material-symbols-rounded smallIcon">logout</span>
+								Sign Out
+							</button>
 						</div>
 						<div class="settingsSection">
 							<div id="displayModeButtonContainer">
@@ -269,7 +272,7 @@
 				</div>
 
 				<div class="hidden accountForm flex col stretch" id="signOutConfirmForm">
-					<h3 class="margin5">Really Sign Out?</h3>
+					<h3 class="accountFormTitle">Really Sign Out?</h3>
 					<div class="flex stretch noMargin">
 						<button class="flexGrow" onclick="setSignInMode('settings')">Cancel</button>
 						<button class="flexGrow highlight" onclick="signOut(false)">Sign Out</button>
