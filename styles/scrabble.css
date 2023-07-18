@@ -732,6 +732,10 @@ body.scrabble {
 	display: none;
 }
 
+#scrabbleGrid[data-signedin=false] #signInBackButton, #scrabbleGrid[data-signedin=loading] #signInBackButton {
+	display: none;
+}
+
 /* desktop */
 @media (orientation: landscape) {
 	.desktopHidden {

@@ -258,11 +258,22 @@ function signOut(confirm = true, saveAccount = false) {
 			const index = savedAccounts.findIndex(a => a.name === account.name);
 			removeSavedAccount(index, false);
 		}
+
+		// remove name and password from storage
 		localStorage.removeItem('name');
 		localStorage.removeItem('pwd');
 		sessionStorage.removeItem('name');
 		sessionStorage.removeItem('pwd');
-		location.reload();
+
+		// remove the account and any loaded game
+		account = {};
+		game = {};
+
+		// switch the sign in mode
+		setSignInMode('signIn');
+
+		// change the app state
+		document.getElementById('scrabbleGrid').dataset.signedin = "false";
 	}
 
 	if (confirm) {
