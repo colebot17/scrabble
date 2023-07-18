@@ -461,12 +461,12 @@ function renameGame(gameId, loc) {
 			}).catch(err => {
 				removeInput();
 				nameField.style.color = "red";
-				nameField.style.transition = "color 0.37s";
+				nameField.style.transition = "color 1s";
 				setTimeout(() => {
 					nameField.style.color = "";
 					setTimeout(() => {
 						nameField.style.transition = "";
-					}, 370);
+					}, 1000);
 				}, 1000);
 				throw new Error(err);
 			});
