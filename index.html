@@ -268,11 +268,11 @@
 					</div>
 				</div>
 
-				<div class="hidden accountForm" id="signOutConfirmForm">
-					<h3>Really Sign Out?</h3>
-					<div class="flex stretch">
-						<button onclick="setSignInMode('settings')">Cancel</button>
-						<button onclick="signOut(false)">Sign Out</button>
+				<div class="hidden accountForm flex col stretch" id="signOutConfirmForm">
+					<h3 class="margin5">Really Sign Out?</h3>
+					<div class="flex stretch noMargin">
+						<button class="flexGrow" onclick="setSignInMode('settings')">Cancel</button>
+						<button class="flexGrow highlight" onclick="signOut(false)">Sign Out</button>
 					</div>
 				</div>
 
