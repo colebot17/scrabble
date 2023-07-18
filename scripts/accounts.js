@@ -249,6 +249,9 @@ function changeUsername(
 
 function signOut(confirm = true, saveAccount = false) {
 	function doIt() {
+		// show the loader for a little bit
+		document.getElementById('scrabbleGrid').dataset.signedin = "loading";
+
 		if (!saveAccount && localStorage.savedAccounts) {
 			const savedAccounts = JSON.parse(localStorage.savedAccounts);
 			const index = savedAccounts.findIndex(a => a.name === account.name);
@@ -268,8 +271,10 @@ function signOut(confirm = true, saveAccount = false) {
 		// switch the sign in mode
 		setSignInMode('signIn');
 
-		// change the app state
-		document.getElementById('scrabbleGrid').dataset.signedin = "false";
+		// wait a bit then change the app state
+		setTimeout(() => {
+			document.getElementById('scrabbleGrid').dataset.signedin = "false";
+		}, 740);
 	}
 
 	if (confirm) {
