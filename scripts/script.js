@@ -460,6 +460,12 @@ function renameGame(gameId, loc) {
 				removeInput();
 			}).catch(err => {
 				removeInput();
+				nameField.style.color = "red";
+				nameField.style.transition = "color 0.37s";
+				setTimeout(() => {
+					nameField.style.color = "";
+					nameField.style.transition = "";
+				}, 1000);
 				throw new Error(err);
 			});
 		} else if (e.key === "Escape") {
