@@ -472,6 +472,11 @@ body.scrabble {
 }
 
 /* word lookup popup */
+.lookupDivider {
+	border: 0.5px solid var(--selection-color);
+	margin: 0;
+	width: calc(100% - 20px);
+}
 #wordLookupPopup {
 	overflow-y: auto;
 }

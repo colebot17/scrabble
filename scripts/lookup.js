@@ -99,7 +99,7 @@ function lookup(boardX, boardY, clientX, clientY) {
         if (!gameWord) continue; // move on if the word can't be found
 
         if (i !== 0) {
-            content += `<hr>`;
+            content += `<hr class="lookupDivider">`;
         }
 
         content += `
