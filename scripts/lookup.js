@@ -100,13 +100,13 @@ function lookup(boardX, boardY, clientX, clientY) {
 
         content += `
             <div class="wordLookupEntry">
-                <div class="wordLookupWord">
-                    ${gameWord.word.replace(/^\w/, (c) => c.toUpperCase())}
-                </div>
+                <h3 class="wordLookupWord">
+                    ${gameWord.word.toLowerCase().replace(/^\w/, (c) => c.toUpperCase())}
+                </h3>
                 <div class="wordLookupInfo">
                     Played by <b>${gameWord.playerName}</b> for <b>${gameWord.points}</b> points
                 </div>
-                <a class="wordLookupLink flex" href="https://www.merriam-webster.com/dictionary/${gameWord.word}">
+                <a class="wordLookupLink flex fakeHoverLine" href="https://www.merriam-webster.com/dictionary/${gameWord.word}">
                     <span class="material-symbols-rounded smallIcon">search</span>
                     Look up
                 </a>
