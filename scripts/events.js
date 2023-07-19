@@ -322,7 +322,6 @@ function handleDocumentMouseUp(e) {
         if (e.type === 'touchend') canvas.bankShuffleButton.hover = false;
     }
     
-    canvas.lookingUp = false;
 
     // if no tile is being dragged
     if (!dragged) {
@@ -331,8 +330,12 @@ function handleDocumentMouseUp(e) {
             lookup(boardX, boardY, clientX, clientY);
         };
 
+        canvas.lookingUp = false;
+
         return; // then don't do anything else
     }
+
+    canvas.lookingUp = false;
 
     // cancel if a popup is open
     if (visiblePopups.length > 0) {
