@@ -79,8 +79,8 @@ function lookup(boardX, boardY, clientX, clientY) {
         words.push({
             word: yWord,
             pos: {
-                start: [sweepYMin, boardY],
-                end: [sweepYMax, boardY]
+                start: [boardX, sweepYMin],
+                end: [boardX, sweepYMax]
             }
         });
     }
@@ -100,7 +100,7 @@ function lookup(boardX, boardY, clientX, clientY) {
 
         content += `
             <div class="wordLookupEntry">
-                <h3 class="wordLookupWord accountFormTitle">
+                <h3 class="wordLookupWord narrowHeading">
                     ${gameWord.word.toLowerCase().replace(/^\w/, (c) => c.toUpperCase())}
                 </h3>
                 <div class="wordLookupInfo">
