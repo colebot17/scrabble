@@ -85,6 +85,8 @@ function lookup(boardX, boardY, clientX, clientY) {
         });
     }
 
+    let content = ``;
+
     // for each word
     for (let i = 0; i < words.length; i++) {
         // find the word in the words list
