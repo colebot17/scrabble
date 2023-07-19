@@ -100,7 +100,7 @@ function lookup(boardX, boardY, clientX, clientY) {
 
         content += `
             <div class="wordLookupEntry">
-                <h3 class="wordLookupWord">
+                <h3 class="wordLookupWord accountFormTitle">
                     ${gameWord.word.toLowerCase().replace(/^\w/, (c) => c.toUpperCase())}
                 </h3>
                 <div class="wordLookupInfo">
