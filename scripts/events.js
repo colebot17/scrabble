@@ -150,7 +150,7 @@ function handleCanvasMouseDown(e) {
 
     if (tile && locked) {
         // show the word definition
-        lookupWord(boardX, boardY, clientX, clientY);
+        lookup(boardX, boardY, clientX, clientY);
 
         // don't count as double tap
         canvas.doubleTap = false;

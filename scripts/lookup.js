@@ -1,4 +1,4 @@
-function dictLookup(words, callback = function(entries) {}) {
+/* function dictLookup(words, callback = function(entries) {}) {
 	let entries = [];
 	let promises = [
 		...words.map(x => $.get("https://api.dictionaryapi.dev/api/v2/entries/en/" + x, function(def) {
@@ -14,79 +14,105 @@ function dictLookup(words, callback = function(entries) {}) {
 			document.addEventListener('touchend', res);
 		})
 	];
+
 	Promise.allSettled(promises).then(() => {
 		if (entries.length > 0) {
 			callback(entries);
 		}
 	});
-}
+} */
 
-function lookupWord(boardX, boardY, clientX, clientY) {
+function lookup(boardX, boardY, clientX, clientY) {
+    let words = [];
+
     // start with x axis word
-    // sweep left and right
-    let sweepX = boardX;
     let xWord = '';
+
+    // sweep right
+    let sweepX = boardX;
     while (game.board?.[boardY]?.[sweepX]) {
         xWord += game.board[boardY][sweepX].letter;
         sweepX++;
     }
+    const sweepXMax = sweepX - 1;
+
+    // sweep left
     sweepX = boardX - 1;
     while (game.board?.[boardY]?.[sweepX]) {
         xWord = game.board[boardY][sweepX].letter + xWord;
         sweepX--;
     }
+    const sweepXMin = sweepX + 1;
+
+    // add to words array
+    if (xWord.length > 1) {
+        words.push({
+            word: xWord,
+            pos: {
+                start: [sweepXMin, boardY],
+                end: [sweepXMax, boardY]
+            }
+        });
+    }
 
     // then do y axis word
-    let sweepY = boardY;
     let yWord = '';
+
+    // sweep down
+    let sweepY = boardY;
     while (game.board?.[sweepY]?.[boardX]) {
         yWord += game.board[sweepY][boardX].letter;
         sweepY++;
     }
+    const sweepYMax = sweepY - 1;
+
+    // sweep up
     sweepY = boardY - 1;
     while (game.board?.[sweepY]?.[boardX]) {
         yWord = game.board[sweepY][boardX].letter + yWord;
         sweepY--;
     }
+    const sweepYMin = sweepY + 1;
 
-    let words = [];
-    if (xWord.length > 1) {
-        words.push(xWord);
-    }
+    // add to words array
     if (yWord.length > 1) {
-        words.push(yWord);
+        words.push({
+            word: yWord,
+            pos: {
+                start: [sweepYMin, boardY],
+                end: [sweepYMax, boardY]
+            }
+        });
     }
 
-    dictLookup(words, function(entries) {
-        let content = ``;
-        for (let i in entries) {
-            const v = entries[i][0];
-            content += `
-                <div class="wordLookupEntry">
-                    <div class="wordLookupWord">
-                        <a title="View on Merriam-Webster" href="https://www.merriam-webster.com/dictionary/${v.word}" class="blue hoverLine" target="_blank">
-                            ${v.word.replace(/^\w/, (c) => c.toUpperCase())}
-                        </a>
-                    </div>
-                    <div class="wordLookupDefinitions">
-            `;
-            for (let j in v.meanings) {
-                const w = v.meanings[j];
-                for (let k in w.definitions) {
-                    const x = w.definitions[k];
-                    content += `
-                        <div class="definition">
-                            <b>${w.partOfSpeech.replace(/^\w/, (c) => c.toUpperCase())}</b>: ${x.definition}
-                        </div>
-                    `;
-                }
-            }
-            content += `
-                    </div>
+    // for each word
+    for (let i = 0; i < words.length; i++) {
+        // find the word in the words list
+        const word = words[i];
+        const gameWord = game.words.find(a => 
+            JSON.stringify(a.pos) === JSON.stringify(word.pos)
+            && a.word.toUpperCase() === word.word.toUpperCase()
+        );
+
+        if (!gameWord) continue; // move on if the word can't be found
+
+        content += `
+            <div class="wordLookupEntry">
+                <div class="wordLookupWord">
+                    ${gameWord.word.replace(/^\w/, (c) => c.toUpperCase())}
                 </div>
-            `;
-        }
-        $('#wordLookupPopup .wordLookupResults').html(content);
-        $('#wordLookupPopup').popupOpen(clientX, clientY);
-    });
+                <div class="wordLookupInfo">
+                    Played by <b>${gameWord.playerName}</b> for <b>${gameWord.points}</b> points
+                </div>
+                <a class="wordLookupLink flex" href="https://www.merriam-webster.com/dictionary/${gameWord.word}">
+                    <span class="material-symbols-rounded smallIcon">search</span>
+                    Look up
+                </a>
+            </div>
+        `;
+    }
+
+    // add the content and show the popup
+    $('#wordLookupPopup .wordLookupResults').html(content);
+    $('#wordLookupPopup').popupOpen(clientX, clientY);
 }
