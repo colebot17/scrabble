@@ -1,3 +1,32 @@
+function addHandlers() {
+    const canvas = document.getElementById('canvas');
+
+    canvas.addEventListener('dblclick', handleCanvasDblClick);
+
+    canvas.addEventListener('mousedown', handleCanvasMouseDown);
+    canvas.addEventListener('touchstart', handleCanvasMouseDown);
+
+    canvas.addEventListener('mousemove', handleCanvasMouseMove);
+    canvas.addEventListener('touchmove', handleCanvasMouseMove);
+    
+    document.addEventListener('mouseup', handleDocumentMouseUp);
+    document.addEventListener('touchend', handleDocumentMouseUp);
+}
+function removeHandlers() {
+    const canvas = document.getElementById('canvas');
+
+    canvas.removeEventListener('dblclick', handleCanvasDblClick);
+
+    canvas.removeEventListener('mousedown', handleCanvasMouseDown);
+    canvas.removeEventListener('touchstart', handleCanvasMouseDown);
+
+    canvas.removeEventListener('mousemove', handleCanvasMouseMove);
+    canvas.removeEventListener('touchmove', handleCanvasMouseMove);
+    
+    document.removeEventListener('mouseup', handleDocumentMouseUp);
+    document.removeEventListener('touchend', handleDocumentMouseUp);
+}
+
 // define constants
 const dropZoneAnimationTime = 50;
 

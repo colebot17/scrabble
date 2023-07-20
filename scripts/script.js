@@ -696,30 +696,13 @@ function gameInit() {
 	} else {
 		canvas.bankOrder = bankOrder;
 	}
-
-	// clear event listeners from canvas
-	let $canvas = $(canvas.c);
-	$canvas.off();
-
-	// go ahead and define the things we will disable when it isn't the user's turn
-	const ootDisable = '#makeMoveButton, #skipTurnButton';
-
-	// make sure everything is enabled (we will disable them again if we need to)
-	$(ootDisable).css('cursor', '').prop('disabled', false).attr('title', '').off('mousedown touchstart');
+	
+	// refresh handlers
+	removeHandlers();
+	addHandlers();
 
 	// determine whether it is the current user's turn
 	const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
-
-	$canvas.on('dblclick', handleCanvasDblClick);
-
-	$canvas.on("mousedown", handleCanvasMouseDown);
-	$canvas.on("touchstart", handleCanvasMouseDown);
-
-	$canvas.on("mousemove", handleCanvasMouseMove);
-	$canvas.on("touchmove", handleCanvasMouseMove);
-
-	document.addEventListener('mouseup', handleDocumentMouseUp);
-	document.addEventListener('touchend', handleDocumentMouseUp);
 
 	if (!userTurn) {
 		setOOTD(true);
@@ -730,7 +713,6 @@ function gameInit() {
 	}
 
 	// show the game info
-	let gameInfoBox = $('#gameControlsCell .gameInfoBox');
 	
 	// start with the game name
 	let gameInfo = /* html */ `
@@ -788,7 +770,7 @@ function gameInit() {
 	}
 
 	// set the content of the game info box
-	gameInfoBox.html(gameInfo);
+	document.querySelector('#gameControlsCell .gameInfoBox').innerHTML = gameInfo;
 
 	// show the correct text for end game button
 	const endGameButton = document.getElementById('endGameButton');
@@ -1225,6 +1207,7 @@ function showTab(tab) {
 
 	if (tab === 'home') {
 		stopChecking = true;
+		removeHandlers();
 	}
 
 	if (tab === 'friends' || tab === 'account') {
