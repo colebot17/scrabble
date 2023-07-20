@@ -96,21 +96,23 @@ function lookup(boardX, boardY, clientX, clientY) {
             && a.word.toUpperCase() === word.word.toUpperCase()
         );
 
-        if (!gameWord) continue; // move on if the word can't be found
-
         if (i !== 0) {
             content += `<hr class="lookupDivider">`;
         }
 
+        const w = gameWord?.word || word;
+
         content += `
             <div class="wordLookupEntry">
                 <h3 class="wordLookupWord narrowHeading">
-                    ${gameWord.word.toLowerCase().replace(/^\w/, (c) => c.toUpperCase())}
+                    ${w.toLowerCase().replace(/^\w/, (c) => c.toUpperCase())}
                 </h3>
                 <div class="wordLookupInfo">
-                    Played by <b>${gameWord.playerName}</b> for <b>${gameWord.points}</b> points
+                    ${gameWord ?
+                        `Played by <b>${gameWord.playerName}</b> for <b>${gameWord.points}</b> points`
+                        : `Valid Move`}
                 </div>
-                <a class="wordLookupLink flex blue fakeHoverLine" href="https://www.merriam-webster.com/dictionary/${gameWord.word.toLowerCase()}" target="_blank">
+                <a class="wordLookupLink flex blue fakeHoverLine" href="https://www.merriam-webster.com/dictionary/${w.toLowerCase()}" target="_blank">
                     <span class="material-symbols-rounded smallIcon">search</span>
                     Look up
                 </a>
