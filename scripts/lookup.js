@@ -51,7 +51,8 @@ function lookup(boardX, boardY, clientX, clientY) {
             pos: {
                 start: [sweepXMin, boardY],
                 end: [sweepXMax, boardY]
-            }
+            },
+            axis: "x"
         });
     }
 
@@ -81,7 +82,8 @@ function lookup(boardX, boardY, clientX, clientY) {
             pos: {
                 start: [boardX, sweepYMin],
                 end: [boardX, sweepYMax]
-            }
+            },
+            axis: "y"
         });
     }
 
@@ -107,19 +109,67 @@ function lookup(boardX, boardY, clientX, clientY) {
                 <h3 class="wordLookupWord narrowHeading">
                     ${w.toLowerCase().replace(/^\w/, (c) => c.toUpperCase())}
                 </h3>
-                <div class="wordLookupInfo">
+                <div class="wordLookupInfo" id="lookupInfo${i}>
                     ${gameWord ?
                         `Played by <b>${gameWord.playerName}</b> for <b>${gameWord.points}</b> points`
-                        : (canvas.pointsPreview ? `Valid Move` : `Invalid Move`)}
+                        : `Checking Validity...`}
                 </div>
-                ${gameWord || canvas.pointsPreview ? `
-                    <a class="wordLookupLink flex blue fakeHoverLine" href="https://www.merriam-webster.com/dictionary/${w.toLowerCase()}" target="_blank">
-                        <span class="material-symbols-rounded smallIcon">search</span>
-                        Look up
-                    </a>`
-                    : ``}
+                <a class="wordLookupLink flex blue fakeHoverLine" href="https://www.merriam-webster.com/dictionary/${w.toLowerCase()}" target="_blank">
+                    <span class="material-symbols-rounded smallIcon">search</span>
+                    Look up
+                </a>
             </div>
         `;
+
+        if (!gameWord) {
+            // send a request to get the points for just this word
+
+            // gather all unlocked tiles in the region
+            let tiles = [];
+            if (word.axis === "x") {
+                const boardY = word.pos.start[1];
+                let sweepX = word.pos.start[0];
+
+                while (game.board[boardY][sweepX]) {
+                    if (!game.board[boardY][sweepX].locked) {
+                        tiles.push(game.board[boardY][sweepX]);
+                    }
+                    sweepX++;
+                }
+            }
+
+            if (word.axis === "y") {
+                const boardX = word.pos.start[0];
+                let sweepY = word.pos.start[1];
+
+                while (game.board[sweepY][boardX]) {
+                    if (!game.board[sweepY][boardX].locked) {
+                        tiles.push(game.board[sweepY][boardX]);
+                    }
+                    sweepY++;
+                }
+            }
+
+            request('checkPoints.php', {
+                game: game.id,
+                tiles: tiles,
+                user: account.id,
+                pwd: account.pwd
+            }).then(res => {
+                // we are making the assumption that the entire for loop (i) is
+                // done and the DOM is ready by the time this request completes
+                const el = document.getElementById('lookupInfo' + i);
+                if (res.errorLevel) {
+                    el.innerHTML = "Invalid Move";
+                } else {
+                    el.innerHTML = "Valid Move";
+                }
+            }).catch(() => {
+                const el = document.getElementById('lookupInfo' + i);
+                el.innerHTML = "Error checking word";
+                el.style.color = "red";
+            })
+        }
     }
 
     // add the content and show the popup
