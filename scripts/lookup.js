@@ -152,7 +152,7 @@ function lookup(boardX, boardY, clientX, clientY) {
 
             request('checkPoints.php', {
                 game: game.id,
-                tiles: tiles,
+                tiles: JSON.stringify(tiles),
                 user: account.id,
                 pwd: account.pwd
             }).then(res => {
