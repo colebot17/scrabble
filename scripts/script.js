@@ -871,21 +871,6 @@ function makeMove() {
 	}).catch(err => {
 		throw new Error(err);
 	});
-
-	$.ajax(
-		location + '/php/makeMove.php',
-		{
-			data: {
-			},
-			method: "POST",
-			success: function(data) {
-				
-			},
-			error: function() {
-				console.error("Request could not be completed.");
-			}
-		}
-	);
 }
 
 function showPointsOverlay(userId, newPoints) {
@@ -922,46 +907,35 @@ function checkPoints() {
 		return;
 	}
 
-	$.ajax(
-		location + '/php/checkPoints.php',
-		{
-			data: {
-				game: game.id,
-				tiles: newTiles,
-				user: account.id,
-				pwd: account.pwd
-			},
-			method: "POST",
-			success: function(data) {
-				// var tab = window.open('about:blank', '_blank');
-				// tab.document.write(data);
-				jsonData = JSON.parse(data);
-				if (jsonData.errorLevel === 0) {
-					// find the first non-cross word
-					let mainWordId = 0;
-					for (let i = 0; i < jsonData.data.newWords.length; i++) {
-						if (!jsonData.data.newWords[i].cross) {
-							mainWordId = i;
-							break;
-						}
-					}
-
-					// draw the points box
-					canvas.pointsPreview = {
-						points: jsonData.data.newPoints,
-						start: jsonData.data.newWords[mainWordId].pos.start,
-						end: jsonData.data.newWords[mainWordId].pos.end
-					}
-				} else {
-					// just clear the points box
-					canvas.pointsPreview = false;
+	request('checkPoints.php', {
+		game: game.id,
+		tiles: JSON.stringify(newTiles),
+		user: account.id,
+		pwd: account.pwd
+	}).then(res => {
+		if (res.errorLevel === 0) {
+			// find the first non-cross word
+			let mainWordId = 0;
+			for (let i = 0; i < res.data.newWords.length; i++) {
+				if (!res.data.newWords[i].cross) {
+					mainWordId = i;
+					break;
 				}
-			},
-			error: function() {
-				console.error("Request could not be completed.");
 			}
+
+			// draw the points box
+			canvas.pointsPreview = {
+				points: res.data.newPoints,
+				start: res.data.newWords[mainWordId].pos.start,
+				end: res.data.newWords[mainWordId].pos.end
+			}
+		} else {
+			// just clear the points box
+			canvas.pointsPreview = false;
 		}
-	);
+	}).catch(err => {
+		console.error(err);
+	})
 }
 
 function getUnlockedTiles() {
@@ -986,30 +960,28 @@ function getUnlockedTiles() {
 
 function setBankOrder() {
 	if (game.inactive) return;
-	$.ajax(
-		location + '/php/setBankOrder.php',
-		{
-			data: {
-				user: account.id,
-				pwd: account.pwd,
-				game: game.id,
-				bankOrder: JSON.stringify(canvas.bankOrder)
-			},
-			method: "POST",
-			success: function(data) {
-				const jsonData = JSON.parse(data);
-				if (jsonData.errorLevel > 0) {
-					// restore from the old bank order
-					canvas.bankOrder = JSON.parse(JSON.stringify(oldOrder));
 
-					// show an error message if the error level is high enough
-					if (jsonData.errorLevel >= 2) {
-						textModal("Error", jsonData.message);
-					}
-				}
+	request('setBankOrder.php', {
+		user: account.id,
+		pwd: account.pwd,
+		game: game.id,
+		bankOrder: JSON.stringify(canvas.bankOrder)
+	}).then(res => {
+		if (res.errorLevel > 0) {
+			// restore from the old bank order
+			canvas.bankOrder = JSON.parse(JSON.stringify(oldOrder));
+
+			// show an error message if the error level is high enough
+			if (res.errorLevel >= 2) {
+				textModal("Error", res.message);
 			}
 		}
-	);
+	}).catch(err => {
+		// restore from the old bank order
+		canvas.bankOrder = JSON.parse(JSON.stringify(oldOrder));
+		
+		console.error(err);
+	});
 }
 
 function moveBankLetter(from, to) {

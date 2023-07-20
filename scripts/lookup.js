@@ -109,7 +109,7 @@ function lookup(boardX, boardY, clientX, clientY) {
                 <h3 class="wordLookupWord narrowHeading">
                     ${w.toLowerCase().replace(/^\w/, (c) => c.toUpperCase())}
                 </h3>
-                <div class="wordLookupInfo" id="lookupInfo${i}>
+                <div class="wordLookupInfo" id="lookupInfo${i}">
                     ${gameWord ?
                         `Played by <b>${gameWord.playerName}</b> for <b>${gameWord.points}</b> points`
                         : `Checking Validity...`}
