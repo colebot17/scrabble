@@ -267,6 +267,9 @@ function signOut(confirm = true, saveAccount = false) {
 		// remove the account and any loaded game
 		account = {};
 		game = {};
+		canvas = {};
+
+		removeHandlers();
 
 		// switch the sign in mode
 		setSignInMode('signIn');
