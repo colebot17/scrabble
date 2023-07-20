@@ -267,7 +267,7 @@ function signOut(confirm = true, saveAccount = false) {
 		// remove the account and any loaded game
 		account = {};
 		game = {};
-		canvas = {};
+		canvas.destruct = true;
 
 		removeHandlers();
 

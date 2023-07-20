@@ -461,6 +461,13 @@ function drawRegions(regions) {
 // this function is run to draw each frame
 function updateDisplay() {
 	clearCanvas();
+	
+	// destruct if necessary
+	if (canvas.destruct) {
+		canvas = {};
+		return;
+	}
+
 	drawBoard();
 	drawLetterBank(game.letterBank);
 	for (var y in game.board) {
