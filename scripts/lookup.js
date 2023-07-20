@@ -110,12 +110,14 @@ function lookup(boardX, boardY, clientX, clientY) {
                 <div class="wordLookupInfo">
                     ${gameWord ?
                         `Played by <b>${gameWord.playerName}</b> for <b>${gameWord.points}</b> points`
-                        : `Valid Move`}
+                        : (canvas.pointsPreview ? `Valid Move` : `Invalid Move`)}
                 </div>
-                <a class="wordLookupLink flex blue fakeHoverLine" href="https://www.merriam-webster.com/dictionary/${w.toLowerCase()}" target="_blank">
-                    <span class="material-symbols-rounded smallIcon">search</span>
-                    Look up
-                </a>
+                ${gameWord || canvas.pointsPreview ? `
+                    <a class="wordLookupLink flex blue fakeHoverLine" href="https://www.merriam-webster.com/dictionary/${w.toLowerCase()}" target="_blank">
+                        <span class="material-symbols-rounded smallIcon">search</span>
+                        Look up
+                    </a>`
+                    : ``}
             </div>
         `;
     }
