@@ -13,7 +13,7 @@ function addHandlers() {
     document.addEventListener('touchend', handleDocumentMouseUp);
 }
 function removeHandlers() {
-    const canvas = document.getElementById('canvas');
+    const canvas = document.getElementById('scrabbleCanvas');
 
     canvas.removeEventListener('dblclick', handleCanvasDblClick);
 
