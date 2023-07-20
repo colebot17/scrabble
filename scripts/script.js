@@ -459,6 +459,15 @@ function renameGame(gameId, loc) {
 				}
 				removeInput();
 			}).catch(err => {
+				removeInput();
+				nameField.style.color = "red";
+				nameField.style.transition = "color 1s";
+				setTimeout(() => {
+					nameField.style.color = "";
+					setTimeout(() => {
+						nameField.style.transition = "";
+					}, 1000);
+				}, 1000);
 				throw new Error(err);
 			});
 		} else if (e.key === "Escape") {
@@ -687,30 +696,13 @@ function gameInit() {
 	} else {
 		canvas.bankOrder = bankOrder;
 	}
-
-	// clear event listeners from canvas
-	let $canvas = $(canvas.c);
-	$canvas.off();
-
-	// go ahead and define the things we will disable when it isn't the user's turn
-	const ootDisable = '#makeMoveButton, #skipTurnButton';
-
-	// make sure everything is enabled (we will disable them again if we need to)
-	$(ootDisable).css('cursor', '').prop('disabled', false).attr('title', '').off('mousedown touchstart');
+	
+	// refresh handlers
+	removeHandlers();
+	addHandlers();
 
 	// determine whether it is the current user's turn
 	const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
-
-	$canvas.on('dblclick', handleCanvasDblClick);
-
-	$canvas.on("mousedown", handleCanvasMouseDown);
-	$canvas.on("touchstart", handleCanvasMouseDown);
-
-	$canvas.on("mousemove", handleCanvasMouseMove);
-	$canvas.on("touchmove", handleCanvasMouseMove);
-
-	document.addEventListener('mouseup', handleDocumentMouseUp);
-	document.addEventListener('touchend', handleDocumentMouseUp);
 
 	if (!userTurn) {
 		setOOTD(true);
@@ -721,7 +713,6 @@ function gameInit() {
 	}
 
 	// show the game info
-	let gameInfoBox = $('#gameControlsCell .gameInfoBox');
 	
 	// start with the game name
 	let gameInfo = /* html */ `
@@ -765,7 +756,7 @@ function gameInit() {
 
 		// add the player to the list
 		gameInfo += /* html */ `
-			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}${isTurn ? ` underline` : ``}" data-playerid="${game.players[i].id}">
+			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}${isTurn ? ` fakeUnderline` : ``}" data-playerid="${game.players[i].id}">
 				${(isWinner ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>`: ``)}
 				<span ${(isCurrentPlayer ? ` class="bold"` : ``)}>
 					${game.players[i].name}: 
@@ -779,7 +770,7 @@ function gameInit() {
 	}
 
 	// set the content of the game info box
-	gameInfoBox.html(gameInfo);
+	document.querySelector('#gameControlsCell .gameInfoBox').innerHTML = gameInfo;
 
 	// show the correct text for end game button
 	const endGameButton = document.getElementById('endGameButton');
@@ -862,21 +853,6 @@ function makeMove() {
 	}).catch(err => {
 		throw new Error(err);
 	});
-
-	$.ajax(
-		location + '/php/makeMove.php',
-		{
-			data: {
-			},
-			method: "POST",
-			success: function(data) {
-				
-			},
-			error: function() {
-				console.error("Request could not be completed.");
-			}
-		}
-	);
 }
 
 function showPointsOverlay(userId, newPoints) {
@@ -913,46 +889,35 @@ function checkPoints() {
 		return;
 	}
 
-	$.ajax(
-		location + '/php/checkPoints.php',
-		{
-			data: {
-				game: game.id,
-				tiles: newTiles,
-				user: account.id,
-				pwd: account.pwd
-			},
-			method: "POST",
-			success: function(data) {
-				// var tab = window.open('about:blank', '_blank');
-				// tab.document.write(data);
-				jsonData = JSON.parse(data);
-				if (jsonData.errorLevel === 0) {
-					// find the first non-cross word
-					let mainWordId = 0;
-					for (let i = 0; i < jsonData.data.newWords.length; i++) {
-						if (!jsonData.data.newWords[i].cross) {
-							mainWordId = i;
-							break;
-						}
-					}
-
-					// draw the points box
-					canvas.pointsPreview = {
-						points: jsonData.data.newPoints,
-						start: jsonData.data.newWords[mainWordId].pos.start,
-						end: jsonData.data.newWords[mainWordId].pos.end
-					}
-				} else {
-					// just clear the points box
-					canvas.pointsPreview = false;
+	request('checkPoints.php', {
+		game: game.id,
+		tiles: JSON.stringify(newTiles),
+		user: account.id,
+		pwd: account.pwd
+	}).then(res => {
+		if (res.errorLevel === 0) {
+			// find the first non-cross word
+			let mainWordId = 0;
+			for (let i = 0; i < res.data.newWords.length; i++) {
+				if (!res.data.newWords[i].cross) {
+					mainWordId = i;
+					break;
 				}
-			},
-			error: function() {
-				console.error("Request could not be completed.");
 			}
+
+			// draw the points box
+			canvas.pointsPreview = {
+				points: res.data.newPoints,
+				start: res.data.newWords[mainWordId].pos.start,
+				end: res.data.newWords[mainWordId].pos.end
+			}
+		} else {
+			// just clear the points box
+			canvas.pointsPreview = false;
 		}
-	);
+	}).catch(err => {
+		console.error(err);
+	})
 }
 
 function getUnlockedTiles() {
@@ -977,30 +942,28 @@ function getUnlockedTiles() {
 
 function setBankOrder() {
 	if (game.inactive) return;
-	$.ajax(
-		location + '/php/setBankOrder.php',
-		{
-			data: {
-				user: account.id,
-				pwd: account.pwd,
-				game: game.id,
-				bankOrder: JSON.stringify(canvas.bankOrder)
-			},
-			method: "POST",
-			success: function(data) {
-				const jsonData = JSON.parse(data);
-				if (jsonData.errorLevel > 0) {
-					// restore from the old bank order
-					canvas.bankOrder = JSON.parse(JSON.stringify(oldOrder));
 
-					// show an error message if the error level is high enough
-					if (jsonData.errorLevel >= 2) {
-						textModal("Error", jsonData.message);
-					}
-				}
+	request('setBankOrder.php', {
+		user: account.id,
+		pwd: account.pwd,
+		game: game.id,
+		bankOrder: JSON.stringify(canvas.bankOrder)
+	}).then(res => {
+		if (res.errorLevel > 0) {
+			// restore from the old bank order
+			canvas.bankOrder = JSON.parse(JSON.stringify(oldOrder));
+
+			// show an error message if the error level is high enough
+			if (res.errorLevel >= 2) {
+				textModal("Error", res.message);
 			}
 		}
-	);
+	}).catch(err => {
+		// restore from the old bank order
+		canvas.bankOrder = JSON.parse(JSON.stringify(oldOrder));
+		
+		console.error(err);
+	});
 }
 
 function moveBankLetter(from, to) {
@@ -1244,6 +1207,7 @@ function showTab(tab) {
 
 	if (tab === 'home') {
 		stopChecking = true;
+		removeHandlers();
 	}
 
 	if (tab === 'friends' || tab === 'account') {

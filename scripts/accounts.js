@@ -51,28 +51,29 @@ function setSignInMode(mode) {
 	}
 }
 
-function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) {
+function signIn(name = document.getElementById('signInUsername').value, pwd = document.getElementById('signInPwd').value) {
 	const formEl = document.getElementById('signInForm');
 	const usernameField = document.getElementById('signInUsername');
 	const pwdField = document.getElementById('signInPwd');
 	const submitButton = document.getElementById('signInSubmitButton');
 
-	// disable form elements while we are working
-	usernameField.disabled = true;
-	pwdField.disabled = true;
-	submitButton.disabled = true;
-
 	// show the loading screen
 	const scrabbleGrid = document.getElementById('scrabbleGrid');
 	scrabbleGrid.dataset.signedin = "loading";
 
+	// make the request
 	var req = request('signIn.php', {name, pwd});
+
+	// set a minimum load time
 	var timer = new Promise(resolve => {
 		setTimeout(resolve, 740);
 	});
 
+	// when the request is finished, the document's fonts are loaded, and the timer is up
 	Promise.all([req, document.fonts.ready, timer]).then(values => {
-		res = values[0];
+		// the response from the sign in request specifically
+		// (we don't care about the other requests)
+		const res = values[0];
 
 		// if there has been an error (incorrect name/pwd),
 		if (res.errorLevel > 0) {
@@ -80,11 +81,6 @@ function signIn(name = $('#signInUsername').val(), pwd = $('#signInPwd').val()) 
 				complete: function() {
 					// set up the form
 					setSignInMode('signIn');
-
-					// re-enable fields
-					usernameField.disabled = false;
-					pwdField.disabled = false;
-					submitButton.disabled = false;
 					
 					usernameField.select();
 					pwdField.value = "";
@@ -253,16 +249,35 @@ function changeUsername(
 
 function signOut(confirm = true, saveAccount = false) {
 	function doIt() {
+		// show the loader for a little bit
+		document.getElementById('scrabbleGrid').dataset.signedin = "loading";
+
 		if (!saveAccount && localStorage.savedAccounts) {
 			const savedAccounts = JSON.parse(localStorage.savedAccounts);
 			const index = savedAccounts.findIndex(a => a.name === account.name);
 			removeSavedAccount(index, false);
 		}
+
+		// remove name and password from storage
 		localStorage.removeItem('name');
 		localStorage.removeItem('pwd');
 		sessionStorage.removeItem('name');
 		sessionStorage.removeItem('pwd');
-		location.reload();
+
+		// remove the account and any loaded game
+		account = {};
+		game = {};
+		canvas.destruct = true;
+
+		removeHandlers();
+
+		// switch the sign in mode
+		setSignInMode('signIn');
+
+		// wait a bit then change the app state
+		setTimeout(() => {
+			document.getElementById('scrabbleGrid').dataset.signedin = "false";
+		}, 740);
 	}
 
 	if (confirm) {
