@@ -486,6 +486,7 @@ body.scrabble {
 	gap: 15px;
 	justify-content: flex-start;
 	align-items: center;
+	padding: 5px;
 }
 #wordLookupPopup::-webkit-scrollbar-track {
 	background-color: var(--background-3);
