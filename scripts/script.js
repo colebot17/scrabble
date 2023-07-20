@@ -774,7 +774,7 @@ function gameInit() {
 
 		// add the player to the list
 		gameInfo += /* html */ `
-			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}${isTurn ? ` underline` : ``}" data-playerid="${game.players[i].id}">
+			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}${isTurn ? ` fakeUnderline` : ``}" data-playerid="${game.players[i].id}">
 				${(isWinner ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>`: ``)}
 				<span ${(isCurrentPlayer ? ` class="bold"` : ``)}>
 					${game.players[i].name}: 
