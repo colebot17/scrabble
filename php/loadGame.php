@@ -32,7 +32,7 @@ if (!in_array($gameId, json_decode($row['games'], true))) {
 	exit('{"errorLevel":2,"message":"You don\'t have permission to load this game!"}');
 }
 	
-$sql = "SELECT name, letterBag, players, turn, inactive, board, creationDate, endDate, chat, updates FROM games WHERE id='$gameId'";
+$sql = "SELECT name, letterBag, players, turn, inactive, board, words, creationDate, endDate, chat, updates FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 
@@ -41,20 +41,40 @@ $letterBag = json_decode($row['letterBag'], true);
 $turn = (int)$row['turn'];
 $inactive = ((int)$row['inactive'] === 1 ? true : false);
 $board = json_decode($row['board'], true);
+$words = json_decode($row['words'], true);
 $creationDate = $row['creationDate'];
 $endDate = $row['endDate'];
 $players = json_decode($row['players'], true);
 $chat = json_decode($row['chat'], true);
 $updateNumber = count(json_decode($row['updates'], true));
 
-// prepare the players list to be sent back
-for ($i=0; $i < count($players); $i++) {
-	// get the username for each player
-	$idI = $players[$i]['id'];
-	$sql = "SELECT name FROM accounts WHERE id='$idI'";
-	$query = mysqli_query($conn, $sql);
+// get the number of letters left in the letter bag
+$lettersLeft = 0;
+for ($i = 0; $i < count(array_values($letterBag)); $i++) {
+	$lettersLeft += array_values($letterBag)[$i];
+}
+
+// start a name buffer
+$nameBuffer = Array(); // this will fill up with id => name
+
+function getName(int $id) : string {
+	if (array_key_exists($id, $GLOBALS['nameBuffer'])) return $GLOBALS['nameBuffer'][$id];
+
+	$sql = "SELECT name FROM accounts WHERE id='$id'";
+	$query = mysqli_query($GLOBALS['conn'], $sql);
 	$row = mysqli_fetch_assoc($query);
-	$players[$i]['name'] = $row['name'];
+	
+	$name = $row['name'];
+	$GLOBALS['nameBuffer'][$id] = $name;
+	return $name;
+}
+
+// prepare the players list to be sent back
+for ($i = 0; $i < count($players); $i++) {
+	// get the username
+	$players[$i]['name'] = getName($players[$i]['id']);
+
+	// make sure the player id is an int
 	$players[$i]['id'] = (int)$players[$i]['id'];
 	
 	// remove the letter bank from all players other than the current user - no cheating!
@@ -65,31 +85,20 @@ for ($i=0; $i < count($players); $i++) {
 	}
 }
 
-// get the number of letters left in the letter bag
-$lettersLeft = 0;
-for ($i=0; $i < count(array_values($letterBag)); $i++) {
-	$lettersLeft += array_values($letterBag)[$i];
-}
+// add usernames into the words list using the players list
+for ($i = 0; $i < count($words); $i++) {
+	$words[$i]['playerName'] = getName($words[$i]['player']);
+};
 
 // find the names of users who send chat messages
 // and remove message content from deleted messages
-$chatSenderBuffer = Array(); // use a buffer so we don't send more requests than necessary
-for ($i=0; $i < count($chat); $i++) {
+for ($i = 0; $i < count($chat); $i++) {
 	// only look over user messages
 	if ($chat[$i]['type'] !== 'user') continue;
 	
 	$senderId = $chat[$i]['sender'];
 	$senderName = '';
-	if (!array_key_exists($senderId, $chatSenderBuffer)) {
-		$sql = "SELECT name FROM accounts WHERE id='$senderId'";
-		$query = mysqli_query($conn, $sql);
-		if ($query) {
-			$row = mysqli_fetch_assoc($query);
-			$senderName = $row['name'];
-			$chatSenderBuffer[$senderId] = $senderName;
-		}
-	} else $senderName = $chatSenderBuffer[$senderId];
-	$chat[$i]['senderName'] = $senderName;
+	$chat[$i]['senderName'] = getName($senderId);
 	if (array_key_exists('deleted', $chat[$i]) && $chat[$i]['deleted']) {
 		unset($chat[$i]['message']);
 	}
@@ -104,6 +113,7 @@ $obj = Array(
 	"turn"         => (int)$turn,
 	"inactive"     => $inactive,
 	"board"        => $board,
+	"words"        => $words,
 	"creationDate" => $creationDate,
 	"endDate"      => ($inactive ? $endDate : null),
 	"chat"         => $chat,

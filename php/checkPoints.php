@@ -7,9 +7,9 @@ $password = "96819822";
 $dbname = "scrabble";
 
 // get data from GET/POST
-$gameId = $_POST['game'];
-$tiles = $_POST['tiles']; // already an array
-$user = $_POST['user'];
+$gameId = (int)$_POST['game'];
+$tiles = json_decode($_POST['tiles'], true);
+$user = (int)$_POST['user'];
 $pwd = $_POST['pwd'];
 
 // create and check connection

@@ -149,8 +149,7 @@ function handleCanvasMouseDown(e) {
     }
 
     if (tile && locked) {
-        // show the word definition
-        lookupWord(boardX, boardY, clientX, clientY);
+        canvas.lookingUp = true;
 
         // don't count as double tap
         canvas.doubleTap = false;
@@ -292,14 +291,21 @@ function handleDocumentMouseUp(e) {
 	const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
     
     // get the pixel position of the mouse/finger
-    let x, y;
+    let x, y, clientX, clientY;
     if (e.type === 'touchend') {
         x = e.changedTouches[0].clientX - canvas.c.getBoundingClientRect().left;
         y = e.changedTouches[0].clientY - canvas.c.getBoundingClientRect().top;
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
     } else {
         x = e.offsetX;
         y = e.offsetY;
+        clientX = e.clientX;
+        clientY = e.clientY;
     }
+
+    const boardX = Math.floor(x / (squareWidth + squareGap));
+    const boardY = Math.floor(y / (squareWidth + squareGap));
 
     // if the game is active
     if (!game.inactive) {
@@ -315,19 +321,26 @@ function handleDocumentMouseUp(e) {
         canvas.bankShuffleButton.clicking = false;
         if (e.type === 'touchend') canvas.bankShuffleButton.hover = false;
     }
+    
 
-    // cancel if no tile is being dragged
+    // if no tile is being dragged
     if (!dragged) {
-        return;
+        // word lookup
+        if (canvas.lookingUp) {
+            lookup(boardX, boardY, clientX, clientY);
+        };
+
+        canvas.lookingUp = false;
+
+        return; // then don't do anything else
     }
+
+    canvas.lookingUp = false;
 
     // cancel if a popup is open
     if (visiblePopups.length > 0) {
         return;
     }
-
-    const boardX = Math.floor(x / (squareWidth + squareGap));
-    const boardY = Math.floor(y / (squareWidth + squareGap));
 
     // determine whether the tile has moved since touchdown (or if it has been clicked)
     const stayedStill = dragged?.posHistory?.length === 1;
