@@ -138,7 +138,7 @@ function lookup(boardX, boardY, clientX, clientY) {
                 if (res.errorLevel) {
                     el.innerHTML = "Invalid Move";
                 } else {
-                    el.innerHTML = "Valid Move";
+                    el.innerHTML = "Valid Move: <b>" + res.data.newPoints + "</b> points";
                 }
             }).catch(() => {
                 const el = document.getElementById('lookupInfo' + i);
