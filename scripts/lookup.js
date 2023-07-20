@@ -100,7 +100,7 @@ function lookup(boardX, boardY, clientX, clientY) {
             content += `<hr class="lookupDivider">`;
         }
 
-        const w = gameWord?.word || word;
+        const w = gameWord?.word || word.word;
 
         content += `
             <div class="wordLookupEntry">
