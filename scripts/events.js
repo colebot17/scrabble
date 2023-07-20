@@ -1,5 +1,5 @@
 function addHandlers() {
-    const canvas = document.getElementById('canvas');
+    const canvas = document.getElementById('scrabbleCanvas');
 
     canvas.addEventListener('dblclick', handleCanvasDblClick);
 
