@@ -1,6 +1,6 @@
 {
     "short_name": "Scrabble",
-    "name": "Scrabble on Colebot.com",
+    "name": "Scrabble Game",
     "icons": [
         {
             "src": "/assets/appicons/appicon-vector.svg",
@@ -18,11 +18,11 @@
             "sizes": "512x512"
         }
     ],
-    "id": "/?source=pwa",
-    "start_url": "/?source=pwa",
+    "id": "/",
+    "start_url": "/",
     "background_color": "#F2F5FF",
     "display": "standalone",
     "scope": "/",
-    "theme_color": "#6BBAEC",
+    "theme_color": "#F2F5FF",
     "shortcuts": []
 }
