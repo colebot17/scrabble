@@ -21,7 +21,7 @@
     "id": "/",
     "start_url": "/",
     "background_color": "#F2F5FF",
-    "display": "standalone",
+    "display": "fullscreen",
     "scope": "/",
     "theme_color": "#F2F5FF",
     "shortcuts": []
