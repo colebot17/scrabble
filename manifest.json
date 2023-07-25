@@ -1,0 +1,28 @@
+{
+    "short_name": "Scrabble",
+    "name": "Scrabble on Colebot.com",
+    "icons": [
+        {
+            "src": "/assets/appicons/appicon-vector.svg",
+            "type": "image/svg+xml",
+            "sizes": "512x512"
+        },
+        {
+            "src": "/assets/appicons/appicon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/assets/appicons/appicon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "id": "/?source=pwa",
+    "start_url": "/?source=pwa",
+    "background_color": "#F2F5FF",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#6BBAEC",
+    "shortcuts": []
+}
