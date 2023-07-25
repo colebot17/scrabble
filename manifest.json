@@ -22,7 +22,8 @@
     "start_url": "/",
     "background_color": "#F2F5FF",
     "display": "fullscreen",
+    "display_override": ["window-controls-overlay"],
     "scope": "/",
-    "theme_color": "#F2F5FF",
+    "theme_color": "#F2F500",
     "shortcuts": []
 }
