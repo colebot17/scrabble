@@ -102,6 +102,97 @@ function updateCreateGameFriendsList(friends = account.friends) {
     list.innerHTML = listContents;
 }
 
+function updateRequestList(requests) {
+    const requestList = document.getElementById('requestList');
+
+    requestList.innerHTML = "";
+
+    // add each request
+    let listContents = ``;
+    for (let i = 0; i < requests.length; i++) {
+        const request = requests[i];
+        let listItem = `
+            <div class="friendListItem requestListFriend" id="request${i}" data-playerid="${request.id}" data-checked="false">
+                <div class="friendNameContainer flex col">
+                    <span class="friendName">
+                        ${request.name}
+                    </span>
+                    <span class="finePrint">
+                        wants to be your friend
+                    </span>
+                </div>
+                <div class="friendControls">
+                    <button class="iconButton" title="Accept" onclick="acceptRequests([${request.id}])">
+                        <span class="material-symbols-rounded">
+                            check
+                        </span>
+                    </button>
+                    <button class="iconButton" title="Reject" onclick="rejectRequests([${request.id}])">
+                        <span class="material-symbols-rounded">
+                            close
+                        </span>
+                    </button>
+                </div>
+            </div>
+        `;
+        listContents += listItem;
+    }
+
+    if (requests.length === 0) {
+        requestList.classList.add('hidden');
+        document.getElementById('friendsButton').classList.remove('badge');
+    } else {
+        requestList.classList.remove('hidden');
+        document.getElementById('friendsButton').classList.add('badge');
+    }
+
+    requestList.innerHTML = listContents;
+
+    updateSendRequestPage();
+}
+
+function updateSentRequestList(sentRequests) {
+    const sentRequestList = document.getElementById('sentRequestList');
+
+    sentRequestList.innerHTML = "";
+
+    // add each request
+    let listContents = ``;
+    for (let i = 0; i < sentRequests.length; i++) {
+        const sentRequest = sentRequests[i];
+        let listItem = `
+            <div class="friendListItem requestListFriend" id="request${i}" data-playerid="${sentRequest.id}" data-checked="false">
+                <div class="friendNameContainer flex col">
+                    <span class="friendName">
+                        ${sentRequest.name}
+                    </span>
+                    <span class="finePrint">
+                        request sent
+                    </span>
+                </div>
+                <div class="friendControls">
+                    <button class="iconButton" title="Cancel" onclick="cancelSentRequests([${sentRequest.id}])">
+                        <span class="material-symbols-rounded">
+                            close
+                        </span>
+                    </button>
+                </div>
+            </div>
+        `;
+        listContents += listItem;
+    }
+
+    if (sentRequests.length === 0) {
+        sentRequestList.classList.add('hidden');
+    } else {
+        sentRequestList.classList.remove('hidden');
+    }
+
+    sentRequestList.innerHTML = listContents;
+
+    updateSendRequestPage();
+}
+
 function toggleCheckbox(friendIndex, prefix = "friend") {
     const checked = 'check_box';
     const unchecked = 'check_box_outline_blank';
@@ -165,95 +256,6 @@ function getCheckedFriends() {
     }
 
     return checked;
-}
-
-function updateRequestList(requests) {
-    const requestList = document.getElementById('requestList');
-
-    requestList.innerHTML = "";
-
-    // add each request
-    let listContents = ``;
-    for (let i = 0; i < requests.length; i++) {
-        const request = requests[i];
-        let listItem = `
-            <div class="friendListItem requestListFriend" id="request${i}" data-playerid="${request.id}" data-checked="false">
-                <div class="friendNameContainer flex col">
-                    <span class="friendName">
-                        ${request.name}
-                    </span>
-                    <span class="finePrint">
-                        wants to be your friend
-                    </span>
-                </div>
-                <div class="friendControls">
-                    <button class="iconButton" title="Accept" onclick="acceptRequests([${request.id}])">
-                        <span class="material-symbols-rounded">
-                            check
-                        </span>
-                    </button>
-                    <button class="iconButton" title="Reject" onclick="rejectRequests([${request.id}])">
-                        <span class="material-symbols-rounded">
-                            close
-                        </span>
-                    </button>
-                </div>
-            </div>
-        `;
-        listContents += listItem;
-    }
-
-    if (requests.length === 0) {
-        requestList.classList.add('hidden');
-    } else {
-        requestList.classList.remove('hidden');
-    }
-
-    requestList.innerHTML = listContents;
-
-    updateSendRequestPage();
-}
-
-function updateSentRequestList(sentRequests) {
-    const sentRequestList = document.getElementById('sentRequestList');
-
-    sentRequestList.innerHTML = "";
-
-    // add each request
-    let listContents = ``;
-    for (let i = 0; i < sentRequests.length; i++) {
-        const sentRequest = sentRequests[i];
-        let listItem = `
-            <div class="friendListItem requestListFriend" id="request${i}" data-playerid="${sentRequest.id}" data-checked="false">
-                <div class="friendNameContainer flex col">
-                    <span class="friendName">
-                        ${sentRequest.name}
-                    </span>
-                    <span class="finePrint">
-                        request sent
-                    </span>
-                </div>
-                <div class="friendControls">
-                    <button class="iconButton" title="Cancel" onclick="cancelSentRequests([${sentRequest.id}])">
-                        <span class="material-symbols-rounded">
-                            close
-                        </span>
-                    </button>
-                </div>
-            </div>
-        `;
-        listContents += listItem;
-    }
-
-    if (sentRequests.length === 0) {
-        sentRequestList.classList.add('hidden');
-    } else {
-        sentRequestList.classList.remove('hidden');
-    }
-
-    sentRequestList.innerHTML = listContents;
-
-    updateSendRequestPage();
 }
 
 function loadFriendsList() {
