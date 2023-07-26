@@ -5,7 +5,7 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 
 	chatInput.removeEventListener('input', chatBoxResize);
 	chatInput.addEventListener('input', chatBoxResize);
-	
+
 	chatContentBox.innerHTML = '';
 
 	let chatContent = ``;
@@ -51,8 +51,12 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 }
 
 function chatBoxResize() {
+	const scrolledBottom = isChatScrolledBottom();
+	
 	this.style.height = 'auto';
 	this.style.height = this.scrollHeight - 10 + 'px';
+
+	if (scrolledBottom) chatScrollBottom();
 }
 
 function userMessage(c, i) {
@@ -344,7 +348,7 @@ function showChatUpdatePopup() {
 function checkChatUpdatePopup() {
 	const chatContentBox = document.getElementsByClassName('chatContent')[0];
 	// if scrolled to bottom
-	if (chatContentBox.scrollTop >= Math.floor(chatContentBox.scrollHeight - chatContentBox.getBoundingClientRect().height)) {
+	if (isChatScrolledBottom()) {
 		hideChatUpdatePopup();
 		chatContentBox.removeEventListener('scroll', checkChatUpdatePopup);
 	}
@@ -357,4 +361,9 @@ function hideChatUpdatePopup() {
 	setTimeout(() => {
 		popup.remove();
 	}, 300);
+}
+
+function isChatScrolledBottom() {
+	const chatContentBox = document.getElementsByClassName('chatContent')[0];
+	return chatContentBox.scrollTop >= Math.floor(chatContentBox.scrollHeight - chatContentBox.getBoundingClientRect().height);
 }

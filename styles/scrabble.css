@@ -575,6 +575,7 @@ body.scrabble {
     display: flex;
     justify-content: center;
     align-items: center;
+	max-height: 67%;
 }
 #chatInput {
     flex-grow: 1;
