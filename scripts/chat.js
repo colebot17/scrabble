@@ -3,6 +3,9 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 	const chatContentBox = document.getElementsByClassName('chatContent')[0];
 	const chatInput = document.getElementById('chatInput');
 
+	chatInput.removeEventListener('input', chatBoxResize);
+	chatInput.addEventListener('input', chatBoxResize);
+
 	chatContentBox.innerHTML = '';
 
 	let chatContent = ``;
@@ -45,6 +48,21 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 		// hide the notification badge
 		document.getElementById('showChatButton').classList.remove('badge');
 	}
+
+	chatBoxResize();
+}
+
+function chatBoxResize() {
+	const scrolledBottom = isChatScrolledBottom();
+
+	const input = document.getElementById('chatInput');
+
+	input.style.height = '1px';
+	input.style.overflow = 'hidden';
+	input.style.height = (input.scrollHeight - 10) + 'px';
+	input.style.overflow = '';
+
+	if (scrolledBottom) chatScrollBottom();
 }
 
 function userMessage(c, i) {
@@ -223,7 +241,7 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 		const newMessage = {
 			sender: account.id,
 			senderName: account.name,
-			message,
+			message: message.replace(/\n/g, "<br>"),
 			timestamp
 		};
 
@@ -336,7 +354,7 @@ function showChatUpdatePopup() {
 function checkChatUpdatePopup() {
 	const chatContentBox = document.getElementsByClassName('chatContent')[0];
 	// if scrolled to bottom
-	if (chatContentBox.scrollTop >= Math.floor(chatContentBox.scrollHeight - chatContentBox.getBoundingClientRect().height)) {
+	if (isChatScrolledBottom()) {
 		hideChatUpdatePopup();
 		chatContentBox.removeEventListener('scroll', checkChatUpdatePopup);
 	}
@@ -349,4 +367,9 @@ function hideChatUpdatePopup() {
 	setTimeout(() => {
 		popup.remove();
 	}, 300);
+}
+
+function isChatScrolledBottom() {
+	const chatContentBox = document.getElementsByClassName('chatContent')[0];
+	return chatContentBox.scrollTop >= Math.floor(chatContentBox.scrollHeight - chatContentBox.getBoundingClientRect().height);
 }

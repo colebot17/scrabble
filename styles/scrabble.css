@@ -568,10 +568,16 @@ body.scrabble {
 	justify-content: center;
 	flex-direction: column;
 }
+.chatInput {
+	resize: none;
+	max-height: 100%!important;
+	overflow: auto;
+}
 .chatControls {
     display: flex;
     justify-content: center;
     align-items: center;
+	max-height: 67%!important;
 }
 #chatInput {
     flex-grow: 1;
