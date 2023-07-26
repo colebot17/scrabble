@@ -5,7 +5,6 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 
 	chatInput.removeEventListener('input', chatBoxResize);
 	chatInput.addEventListener('input', chatBoxResize);
-	chatBoxResize();
 
 	chatContentBox.innerHTML = '';
 
@@ -49,6 +48,8 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 		// hide the notification badge
 		document.getElementById('showChatButton').classList.remove('badge');
 	}
+	
+	chatBoxResize();
 }
 
 function chatBoxResize() {
