@@ -524,9 +524,6 @@ body.scrabble {
 }
 
 /* chat */
-.chatInput {
-	resize: none;
-}
 .chatTitleLine {
 	display: flex;
 	justify-content: center;
@@ -570,6 +567,11 @@ body.scrabble {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
+}
+.chatInput {
+	resize: none;
+	max-height: 100%!important;
+	overflow: auto;
 }
 .chatControls {
     display: flex;
