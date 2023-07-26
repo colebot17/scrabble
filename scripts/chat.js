@@ -56,9 +56,9 @@ function chatBoxResize() {
 	
 	let input = this;
 	if (!input) input = document.getElementById('chatInput');
-	
-	this.style.height = 'auto';
-	this.style.height = this.scrollHeight - 10 + 'px';
+
+	input.style.height = 'auto';
+	input.style.height = input.scrollHeight - 10 + 'px';
 
 	if (scrolledBottom) chatScrollBottom();
 }
