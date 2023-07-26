@@ -524,6 +524,9 @@ body.scrabble {
 }
 
 /* chat */
+.chatInput {
+	resize: none;
+}
 .chatTitleLine {
 	display: flex;
 	justify-content: center;

@@ -47,6 +47,13 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 	}
 }
 
+function chatBoxResize(el = false) {
+	const box = el || this;
+
+	box.style.height = 'auto';
+	box.style.height = box.scrollHeight - 10 + 'px';
+}
+
 function userMessage(c, i) {
 	const message = c[i];
 

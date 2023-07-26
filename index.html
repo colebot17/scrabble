@@ -104,7 +104,13 @@
 					</div>
 				</div>
 				<div class="chatControls">
-					<input name="chatInput" id="chatInput" class="chatInput" placeholder="Send a message..." onkeypress="if (event.key === 'Enter') {sendChatMessage()}">
+					<textarea
+						name="chatInput"
+						id="chatInput"
+						class="chatInput"
+						placeholder="Send a message..."
+						onkeypress="if (event.key === 'Enter' && !event.shiftKey) {event.preventDefault();sendChatMessage()}"
+					></textarea>
 					<button class="chatSendButton iconButton" onclick="sendChatMessage()">
 						<span class="material-symbols-rounded">send</span>
 					</button>
