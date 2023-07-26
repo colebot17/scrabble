@@ -8,11 +8,6 @@ function addChatMessage($conn, int $gameId, array $message) {
     $row = mysqli_fetch_assoc($query);
     $chat = json_decode($row['chat'], true);
 
-    // convert the message
-    $hexMessage = bin2hex($message['content']);
-    $hexMessage = str_replace('0d0a', '3c62723e', $hexMessage); // line break --> <br>
-    $message['content'] = hex2bin($hexMessage);
-
     // add the message to the chat
     $chat[] = $message;
 
