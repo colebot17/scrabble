@@ -55,7 +55,7 @@ function request(filename, dataObj) {
 			}
 		});
 		
-		Promise.all([f, onLine]).then(response => response[0].json()).then(res => resolve(res[0])).catch(reason => reject(reason));
+		Promise.all([f, onLine]).then(response => response[0].json()).then(res => resolve(res)).catch(reason => reject(reason));
 	});
 }
 
