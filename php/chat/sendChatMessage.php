@@ -27,10 +27,7 @@ if (!verifyPassword($conn, $user, $pwd)) {
 // trim the message
 $message = trim($message);
 $message = htmlentities($message);
-
-$hexMessage = bin2hex($message);
-$hexMessage = str_replace('0d0a', '3c62723e', $hexMessage); // line break --> <br>
-$message = hex2bin($hexMessage);
+$message = nl2br($message);
 
 // formulate the new chat message
 $fullMessage = Array(
