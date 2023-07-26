@@ -26,6 +26,7 @@ if (!verifyPassword($conn, $user, $pwd)) {
 
 // trim the message
 $message = trim($message);
+$message = htmlentities($message);
 
 // formulate the new chat message
 $fullMessage = Array(
