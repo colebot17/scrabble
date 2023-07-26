@@ -3,6 +3,10 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 	const chatContentBox = document.getElementsByClassName('chatContent')[0];
 	const chatInput = document.getElementById('chatInput');
 
+	chatInput.removeEventListener('input', chatBoxResize);
+	chatInput.addEventListener('input', chatBoxResize);
+	chatBoxResize(chatInput);
+
 	chatContentBox.innerHTML = '';
 
 	let chatContent = ``;
