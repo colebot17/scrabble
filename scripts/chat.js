@@ -48,7 +48,7 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 		// hide the notification badge
 		document.getElementById('showChatButton').classList.remove('badge');
 	}
-	
+
 	chatBoxResize();
 }
 
@@ -58,7 +58,9 @@ function chatBoxResize() {
 	const input = document.getElementById('chatInput');
 
 	input.style.height = 'auto';
+	input.style.overflow = 'hidden';
 	input.style.height = input.scrollHeight - 10 + 'px';
+	input.style.overflow = '';
 
 	if (scrolledBottom) chatScrollBottom();
 }
