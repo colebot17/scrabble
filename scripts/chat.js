@@ -5,8 +5,7 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 
 	chatInput.removeEventListener('input', chatBoxResize);
 	chatInput.addEventListener('input', chatBoxResize);
-	chatBoxResize(chatInput);
-
+	
 	chatContentBox.innerHTML = '';
 
 	let chatContent = ``;
@@ -51,11 +50,9 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 	}
 }
 
-function chatBoxResize(el = false) {
-	const box = el || this;
-
-	box.style.height = 'auto';
-	box.style.height = box.scrollHeight - 10 + 'px';
+function chatBoxResize() {
+	this.style.height = 'auto';
+	this.style.height = this.scrollHeight - 10 + 'px';
 }
 
 function userMessage(c, i) {
