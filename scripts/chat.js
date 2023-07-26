@@ -235,7 +235,7 @@ function sendChatMessage(message = document.getElementById('chatInput').value) {
 		const newMessage = {
 			sender: account.id,
 			senderName: account.name,
-			message: message.replace("\n", "<br>"),
+			message: message.replace(/\n/g, "<br>"),
 			timestamp
 		};
 
