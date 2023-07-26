@@ -59,7 +59,7 @@ function chatBoxResize() {
 
 	input.style.height = '1px';
 	input.style.overflow = 'hidden';
-	input.style.height = input.scrollHeight - 10 + 'px';
+	input.style.height = (input.scrollHeight - 10) + 'px';
 	input.style.overflow = '';
 
 	if (scrolledBottom) chatScrollBottom();
