@@ -53,9 +53,8 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 
 function chatBoxResize() {
 	const scrolledBottom = isChatScrolledBottom();
-	
-	let input = this;
-	if (!input) input = document.getElementById('chatInput');
+
+	const input = document.getElementById('chatInput');
 
 	input.style.height = 'auto';
 	input.style.height = input.scrollHeight - 10 + 'px';
