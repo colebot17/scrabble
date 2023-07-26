@@ -1,0 +1,28 @@
+{
+    "short_name": "Scrabble",
+    "name": "Scrabble Game",
+    "icons": [
+        {
+            "src": "/assets/appicons/appicon-vector.svg",
+            "type": "image/svg+xml",
+            "sizes": "512x512"
+        },
+        {
+            "src": "/assets/appicons/appicon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/assets/appicons/appicon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "id": "/",
+    "start_url": "/",
+    "background_color": "#F2F5FF",
+    "display": "fullscreen",
+    "scope": "/",
+    "theme_color": "#F2F5FF",
+    "shortcuts": []
+}
