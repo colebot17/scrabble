@@ -6,6 +6,8 @@ function chatInit(dontClearInput = false, dontScroll = false) {
 	chatInput.removeEventListener('input', chatBoxResize);
 	chatInput.addEventListener('input', chatBoxResize);
 
+	chatInput.chatBoxResize();
+
 	chatContentBox.innerHTML = '';
 
 	let chatContent = ``;
