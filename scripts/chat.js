@@ -57,7 +57,7 @@ function chatBoxResize() {
 
 	const input = document.getElementById('chatInput');
 
-	input.style.height = 'auto';
+	input.style.height = '1px';
 	input.style.overflow = 'hidden';
 	input.style.height = input.scrollHeight - 10 + 'px';
 	input.style.overflow = '';
