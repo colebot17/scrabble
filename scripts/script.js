@@ -1203,6 +1203,7 @@ function showTab(tab) {
 
 	if (tab === 'chat' || tab === 'game') {
 		chatScrollBottom();
+		chatBoxResize();
 	}
 
 	if (tab === 'home') {
