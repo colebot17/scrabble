@@ -42,11 +42,20 @@ function request(filename, dataObj) {
 	const data = new URLSearchParams(dataObj).toString();
 
 	return new Promise((resolve, reject) => {
-		fetch(url, {
+		const f = fetch(url, {
 			method: 'POST',
 			body: data,
 			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
-		}).then(response => response.json()).then(res => resolve(res)).catch(reason => reject(reason));
+		});
+		const onLine = new Promise((resolve, reject) => {
+			if (navigator.onLine) {
+				resolve();
+			} else {
+				reject("You are not connected to the internet.");
+			}
+		});
+		
+		Promise.all([f, onLine]).then(response => response[0].json()).then(res => resolve(res[0])).catch(reason => reject(reason));
 	});
 }
 
