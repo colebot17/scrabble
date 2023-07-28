@@ -68,17 +68,15 @@ function animateMoves(startingAt = 0) {
 
 	const buttonIcon = document.querySelector('#moveHistoryButton span');
 	buttonIcon.innerHTML = "stop";
-	canvas.movesAnimating = setTimeout(() => {
-		stopAnimatingMoves();
-	}, duration * (game.turn - startingAt));
+	canvas.movesAnimating = setTimeout(stopAnimatingMoves, duration * (game.turn - startingAt));
 }
 
 function stopAnimatingMoves() {
-	if (canvas.movesAnimating) {
+	if (!canvas.movesAnimating) {
+		return;
+	} else {
 		clearTimeout(canvas.movesAnimating);
 		canvas.movesAnimating = undefined;
-	} else {
-		return;
 	}
 
 	for (let y in game.board) {
