@@ -17,28 +17,9 @@ function canvasInit() {
 	if (canvas.animationFrame) {window.cancelAnimationFrame(canvas.animationFrame)}
 	canvas.animationFrame = window.requestAnimationFrame(updateDisplay);
 
-	// get the player's last turn
-	let playerLastTurn = getPlayerLastTurn();
-
-	let highlightTurns = range(playerLastTurn + 1, game.turn);
-
-	let delay = 0;
-	const duration = 750;
-	let animations = {};
-	for (let i in highlightTurns) {
-		animations[highlightTurns[i]] = new Animation(duration, delay);
-		delay += duration;
-	}
-
-	// figure out what tiles should animate
-	for (let y in game.board) {
-		for (let x in game.board) {
-			if (game.board?.[y]?.[x] && animations[game.board[y][x].turn]) {
-				game.board[y][x].animation = animations[game.board[y][x].turn];
-			}
-		}
-	}
-
+	// animate the new tiles in
+	animateMoves(getPlayerLastTurn() + 1);
+	
 	// initialize the shuffle button
 	canvas.bankShuffleButton = {
 		hover: false,
@@ -60,6 +41,54 @@ function canvasInit() {
 
 	// handle window resize
 	window.onresize = setCanvasSize;
+}
+
+function animateMoves(startingAt = 0) {
+	if (canvas.movesAnimating) {
+		stopAnimatingMoves();
+		return;
+	}
+
+	let delay = 0;
+	const duration = 750;
+	let animations = {};
+	for (let i = startingAt; i < game.turn; i++) {
+		animations[i] = new Animation(duration, delay);
+		delay += duration;
+	}
+
+	// figure out what tiles should animate
+	for (let y in game.board) {
+		for (let x in game.board[y]) {
+			if (game.board?.[y]?.[x] && animations[game.board[y][x].turn]) {
+				game.board[y][x].animation = animations[game.board[y][x].turn];
+			}
+		}
+	}
+
+	const buttonIcon = document.querySelector('#moveHistoryButton span');
+	buttonIcon.innerHTML = "stop";
+	canvas.movesAnimating = setTimeout(stopAnimatingMoves, duration * (game.turn - startingAt));
+}
+
+function stopAnimatingMoves() {
+	if (!canvas.movesAnimating) {
+		return;
+	} else {
+		clearTimeout(canvas.movesAnimating);
+		canvas.movesAnimating = undefined;
+	}
+
+	for (let y in game.board) {
+		for (let x in game.board[y]) {
+			if (game.board?.[y]?.[x]) {
+				game.board[y][x].animation = undefined;
+			}
+		}
+	}
+
+	const buttonIcon = document.querySelector('#moveHistoryButton span');
+	buttonIcon.innerHTML = "history";
 }
 
 function setCanvasSize() {
