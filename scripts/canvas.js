@@ -44,6 +44,11 @@ function canvasInit() {
 }
 
 function animateMoves(startingAt = 0) {
+	if (canvas.movesAnimating) {
+		stopAnimatingMoves();
+		return;
+	}
+
 	let delay = 0;
 	const duration = 750;
 	let animations = {};
@@ -60,6 +65,32 @@ function animateMoves(startingAt = 0) {
 			}
 		}
 	}
+
+	const buttonIcon = document.querySelector('#moveHistoryButton span');
+	buttonIcon.innerHTML = "stop";
+	canvas.movesAnimating = setTimeout(() => {
+		stopAnimatingMoves();
+	}, duration * (game.turn - startingAt));
+}
+
+function stopAnimatingMoves() {
+	if (canvas.movesAnimating) {
+		clearTimeout(canvas.movesAnimating);
+		canvas.movesAnimating = undefined;
+	} else {
+		return;
+	}
+
+	for (let y in game.board) {
+		for (let x in game.board) {
+			if (game.board?.[x]?.[y]) {
+				game.board[y][x].animation = undefined;
+			}
+		}
+	}
+
+	const buttonIcon = document.querySelector('#moveHistoryButton span');
+	buttonIcon.innerHTML = "history";
 }
 
 function setCanvasSize() {
