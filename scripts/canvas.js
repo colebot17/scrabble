@@ -59,7 +59,7 @@ function animateMoves(startingAt = 0) {
 
 	// figure out what tiles should animate
 	for (let y in game.board) {
-		for (let x in game.board) {
+		for (let x in game.board[y]) {
 			if (game.board?.[y]?.[x] && animations[game.board[y][x].turn]) {
 				game.board[y][x].animation = animations[game.board[y][x].turn];
 			}
