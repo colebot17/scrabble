@@ -117,11 +117,24 @@
 			</div>
 
 			<div id="canvasCell" class="gridCell flex col">
-				<div id="gameBanner" class="hidden"></div>
-				<div id="canvasWrapper">
-					<canvas id="scrabbleCanvas">
-						This project requires the canvas element, which is not supported on your browser.
-					</canvas>
+				<div class="canvasPage contents" id="canvasCanvasPage">
+					<div id="gameBanner" class="hidden"></div>
+					<div id="canvasWrapper">
+						<canvas id="scrabbleCanvas">
+							This project requires the canvas element, which is not supported on your browser.
+						</canvas>
+					</div>
+				</div>
+				<div class="canvasPage contents hidden" id="historyCanvasPage">
+					<div class="titleLine">
+						<button class="iconButton">
+							<span class="material-symbols-rounded">chevron_left</span>
+						</button>
+						<h3>Move History</h3>
+					</div>
+					<div id="historyContents">
+						Move History will show up here
+					</div>
 				</div>
 			</div>
 

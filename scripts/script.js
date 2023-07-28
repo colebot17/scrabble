@@ -1191,31 +1191,6 @@ function shuffleArr(a) {
 	let b=a.length,c;while(b!=0){c=Math.floor(Math.random()*b);b--;[a[b],a[c]]=[a[c],a[b]];}return a;
 }
 
-function showTab(tab) {
-	document.getElementById('scrabbleGrid').dataset.tab = tab;
-
-	// scroll to the top of the games list
-	$('#activeGames .gamesListWrapper')[0].scrollTop = 0;
-
-	if (tab === 'chat') {
-		readChat();
-	}
-
-	if (tab === 'chat' || tab === 'game') {
-		chatScrollBottom();
-		chatBoxResize();
-	}
-
-	if (tab === 'home') {
-		stopChecking = true;
-		removeHandlers();
-	}
-
-	if (tab === 'friends' || tab === 'account') {
-		loadFriendsList();
-	}
-}
-
 function temporaryTitle(title, callback) {
     document.title = title;
     document.addEventListener('visibilitychange', e => {

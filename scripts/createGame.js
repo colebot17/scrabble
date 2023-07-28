@@ -1,11 +1,3 @@
-function setAddPlayerPanelPage(page) {
-	document.getElementById('addPlayerPanel').dataset.page = page;
-
-	if (page === 'others') {
-		document.getElementById('createGamePlayerInput').focus();
-	}
-}
-
 function addPlayerToNewGame(name = document.getElementById('createGamePlayerInput').value) {
 	if (!name.trim()) {
 		textModal("Error", "Enter a username to add a player to this game");
