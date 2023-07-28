@@ -80,8 +80,8 @@ function stopAnimatingMoves() {
 	}
 
 	for (let y in game.board) {
-		for (let x in game.board) {
-			if (game.board?.[x]?.[y]) {
+		for (let x in game.board[y]) {
+			if (game.board?.[y]?.[x]) {
 				game.board[y][x].animation = undefined;
 			}
 		}
