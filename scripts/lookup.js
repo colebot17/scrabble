@@ -142,7 +142,7 @@ function lookup(boardX, boardY, clientX, clientY) {
                 }
             }).catch(() => {
                 const el = document.getElementById('lookupInfo' + i);
-                el.innerHTML = navigator.onLine ? "No Connection" : "Error checking word";
+                el.innerHTML = !navigator.onLine ? "No Connection" : "Error checking word";
                 el.style.color = "red";
             })
         }
