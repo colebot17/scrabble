@@ -18,7 +18,7 @@ function canvasInit() {
 	canvas.animationFrame = window.requestAnimationFrame(updateDisplay);
 
 	// animate the new tiles in
-	animateMoves(getPlayerLastTurn() + 1);
+	if (!game.inactive) animateMoves(getPlayerLastTurn() + 1);
 	
 	// initialize the shuffle button
 	canvas.bankShuffleButton = {
