@@ -53,7 +53,7 @@
 							refresh
 						</span>
 					</button>
-					<button class="iconButton" id="moveHistoryButton" onclick="setCanvasPage('history')">
+					<button class="iconButton" id="moveHistoryButton" onclick="if (canvas.animatingMoves) {stopAnimatingMoves()} else {setCanvasPage('history')}">
 						<span class="material-symbols-rounded">
 							history
 						</span>
