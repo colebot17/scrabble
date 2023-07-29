@@ -22,15 +22,17 @@ function updateMoveHistory() {
     historyEl.innerHTML = "";
     for (let i = moves.length - 1; i >= 0; i--) {
         const moveEl = document.createElement('div');
+        moveEl.className = "moveHistoryMove flex col flexGrow";
 
         const moveTitle = document.createElement('span');
-        moveTitle.className = "bold";
+        moveTitle.className = "moveHistoryMoveTitle bold";
         moveTitle.innerHTML = moves[i].playerName + " - " + moves[i].points + "pts";
         moveEl.appendChild(moveTitle);
         
         const words = moves[i].words;
         for (let j = 0; j < words.length; j++) {
             const wordEl = document.createElement('div');
+            wordEl.className = "moveHistoryWord";
             wordEl.innerHTML = words[j].word + " - " + words[j].points + "pts";
             moveEl.appendChild(wordEl);
         }

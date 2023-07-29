@@ -665,6 +665,14 @@ body.scrabble {
 	text-align: center;
 }
 
+/* move history */
+.moveHistoryMove {
+	max-width: 200px;
+	padding: 20px;
+	background-color: var(--background-2);
+	border-radius: 10px;
+}
+
 /* animations */
 .spin {
 	animation-name: spin;
