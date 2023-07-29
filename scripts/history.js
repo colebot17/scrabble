@@ -42,7 +42,7 @@ function updateMoveHistory() {
         for (let j = 0; j < words.length; j++) {
             const wordEl = document.createElement('div');
             wordEl.className = "moveHistoryWord";
-            wordEl.innerHTML = words[j].word.toTitleCase() + (words.length > 1 ? " - " + words[j].points + "pts" : "");
+            wordEl.innerHTML = "<span class='bold'>" + words[j].word.toTitleCase() + "</span>" + (words.length > 1 ? " - " + words[j].points + "pts" : "");
             wordsEl.appendChild(wordEl);
         }
 
