@@ -29,7 +29,18 @@ function updateMoveHistory() {
         moveEl.addEventListener('click', () => {
             setCanvasPage('canvas');
             setTimeout(() => {
-                tempHighlight(moves[i].words.find(a => a.cross === false).pos);
+                const word = moves[i].words.find(a => a.cross === false);
+                const region = {
+                    start: [
+                        word.pos.start[0],
+                        word.pos.start[1]
+                    ],
+                    end: [
+                        word.pos.end[0],
+                        word.pos.end[1]
+                    ]
+                }
+                tempHighlight(region);
             }, 200);
         })
 
