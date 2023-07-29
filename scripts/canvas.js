@@ -448,7 +448,9 @@ function drawRegions(regions) {
 		let color = regions[i].color || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
 
 		let opacity;
-		if (typeof regions[i].opacity === 'object') {
+		if (regions[i].opacity.type !== 'number' && !regions[i].opacity) {
+			opacity = false;
+		} else if (typeof regions[i].opacity === 'object') {
 			opacity = regions[i].opacity.getFrame();
 			if (regions[i].opacity.isComplete()) {
 				// remove the region if the opacity animation is complete
@@ -461,8 +463,7 @@ function drawRegions(regions) {
 		}
 
 		const [r, g, b] = getRGBA(color);
-
-		canvas.ctx.strokeStyle = "rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")";
+		canvas.ctx.strokeStyle = opacity ? "rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")" : color;
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
 		canvas.ctx.lineWidth = (squareWidth * 0.1) + 1;
 		const fontSize = 16;
