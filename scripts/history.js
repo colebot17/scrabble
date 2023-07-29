@@ -21,6 +21,8 @@ function updateMoveHistory() {
 
     historyEl.innerHTML = "";
     for (let i = moves.length - 1; i >= 0; i--) {
+        if (!moves[i]) continue; // there may be gaps in the moves array due to players skipping turns
+
         const moveEl = document.createElement('div');
         moveEl.className = "moveHistoryMove flex col flexGrow";
 
