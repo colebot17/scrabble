@@ -24,7 +24,12 @@ function updateMoveHistory() {
         if (!moves[i]) continue; // there may be gaps in the moves array due to players skipping turns
 
         const moveEl = document.createElement('div');
-        moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow";
+        moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow pointer";
+        moveEl.tabIndex = "0";
+        moveEl.addEventListener('click', () => {
+            setCanvasPage('canvas');
+            tempHighlight(moves[i].words.find(a => a.cross === false).pos);
+        })
 
         const moveTitle = document.createElement('span');
         moveTitle.className = "moveHistoryMoveTitle";

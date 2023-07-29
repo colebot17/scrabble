@@ -62,3 +62,21 @@ function getPropArray(input, prop) {
 String.prototype.toTitleCase = function() {
 	return this.toLowerCase().replace(/^\w/, (c) => c.toUpperCase());
 }
+
+// copied from colebot.com themes.js
+function autoContrast(color) {
+	const [r, g, b] = getRGBA(color);
+
+	var uicolors = [r / 255, g / 255, b / 255];
+	var c = uicolors.map((col) => {
+		if (col <= 0.03928) {
+			return col / 12.92;
+		}
+		return Math.pow((col + 0.055) / 1.055, 2.4);
+	});
+	var L = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
+	return (L > 0.179);
+	// true if text should be black, false if text should be white
+	// https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
+	// MUST be used with black (#000000) and white (#FFFFFF), or constant 0.179 needs to be recalculated somehow
+}

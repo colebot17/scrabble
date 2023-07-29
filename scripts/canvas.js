@@ -440,7 +440,7 @@ function drawRegions(regions) {
 		const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
 		// set up the style
-		canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
+		canvas.ctx.strokeStyle = regions[i].color || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
 		canvas.ctx.lineWidth = (squareWidth * 0.1) + 1;
 		const fontSize = 16;
@@ -459,15 +459,13 @@ function drawRegions(regions) {
 		const onTopEdge = regions[i].start[1] === 0;
 		const onRightEdge = regions[i].end[0] === 14;
 
-		// move over if on edge
-		/* if (onTopEdge) y1 += ((canvas.ctx.lineWidth / 2) - 1);
-		if (onRightEdge) x2 -= ((canvas.ctx.lineWidth / 2) - 1); */
-
 		const width = x2 - x1;
 		const height = y2 - y1;
 
 		roundRect(canvas.ctx, x1, y1, width, height, 5, false);
+
 		const radius = 15;
+
 		// move the bubble over if it is on an edge
 		if (onRightEdge) {
 			circX -= (radius - 1);
@@ -482,11 +480,27 @@ function drawRegions(regions) {
 		canvas.ctx.fill();
 
 		// draw the number on the bubble
-		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight-text' : '--semi-highlight-text');
-		canvas.ctx.textAlign = "center";
-		canvas.ctx.fillText(regions[i].points.toString(), circX, circY + (fontSize / 3));
-		canvas.ctx.textAlign = "";
+		if (regions[i].points) {
+			canvas.ctx.fillStyle = regions[i].textColor || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight-text' : '--semi-highlight-text');
+			canvas.ctx.textAlign = "center";
+			canvas.ctx.fillText(regions[i].points.toString(), circX, circY + (fontSize / 3));
+			canvas.ctx.textAlign = "";
+		}
 	}
+}
+
+function tempHighlight(region, color = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight')) {
+	region.color = color;
+	region.textColor = autoContrast(color) ? "#000000" : "#FFFFFF";
+	region.opacity = 1;
+
+	if (!canvas.regions) canvas.regions = [];
+
+	const regionIndex = canvas.regions.push(region) - 1;
+
+	setTimeout(() => {
+		canvas.regions.splice(regionIndex, 1);
+	}, 3000);
 }
 
 // draw loop
@@ -520,6 +534,9 @@ function updateDisplay() {
 	}
 	if (canvas.pointsPreview && !canvas.pointsPreview.hidden) {
 		drawRegions([{points: canvas.pointsPreview.points, start: canvas.pointsPreview.start, end: canvas.pointsPreview.end}]);
+	}
+	if (canvas.regions) {
+		drawRegions(canvas.regions);
 	}
 	if (dragged) {
 		updateTile(dragged);
