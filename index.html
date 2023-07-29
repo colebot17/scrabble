@@ -52,7 +52,7 @@
 							refresh
 						</span>
 					</button>
-					<button class="iconButton" id="moveHistoryButton" onclick="animateMoves()">
+					<button class="iconButton" id="moveHistoryButton" onclick="if (canvas.movesAnimating) {stopAnimatingMoves()} else {setCanvasPage('history')}">
 						<span class="material-symbols-rounded">
 							history
 						</span>
@@ -117,11 +117,25 @@
 			</div>
 
 			<div id="canvasCell" class="gridCell flex col">
-				<div id="gameBanner" class="hidden"></div>
-				<div id="canvasWrapper">
-					<canvas id="scrabbleCanvas">
-						This project requires the canvas element, which is not supported on your browser.
-					</canvas>
+				<div class="canvasPage contents" id="canvasCanvasPage">
+					<div id="gameBanner" class="hidden"></div>
+					<div id="canvasWrapper">
+						<canvas id="scrabbleCanvas">
+							This project requires the canvas element, which is not supported on your browser.
+						</canvas>
+					</div>
+				</div>
+				<div class="canvasPage flex col flexStart fullHeight hidden" id="historyCanvasPage">
+					<div class="flex titleLine">
+						<button class="iconButton" onclick="setCanvasPage('canvas')">
+							<span class="material-symbols-rounded">chevron_left</span>
+						</button>
+						<h3>Move History</h3>
+						<button id="playMoveAnimationButton" class="iconButton" onclick="setCanvasPage('canvas');animateMoves();" title="Play Animation">
+							<span class="material-symbols-rounded">play_arrow</span>
+						</button>
+					</div>
+					<div id="historyContents" class="flex wrap noMargin stretch fullWidth scrollable"></div>
 				</div>
 			</div>
 
@@ -424,11 +438,13 @@
 	</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- import jQuery -->
 	<script type="text/javascript" src="scripts/util.js" defer></script>
+	<script type="text/javascript" src="scripts/pages.js" defer></script>
 	<script type="text/javascript" src="scripts/canvas.js" defer></script>
 	<script type="text/javascript" src="scripts/events.js" defer></script>
 	<script type="text/javascript" src="scripts/modals.js" defer></script>
 	<script type="text/javascript" src="scripts/accounts.js" defer></script>
 	<script type="text/javascript" src="scripts/lookup.js" defer></script>
+	<script type="text/javascript" src="scripts/history.js" defer></script>
 	<script type="text/javascript" src="scripts/chat.js" defer></script>
 	<script type="text/javascript" src="scripts/friends.js" defer></script>
 	<script type="text/javascript" src="scripts/animate.js" defer></script>

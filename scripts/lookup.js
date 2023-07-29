@@ -71,7 +71,7 @@ function lookup(boardX, boardY, clientX, clientY) {
         const word = words[i];
         const gameWord = game.words.find(a => 
             JSON.stringify(a.pos) === JSON.stringify(word.pos)
-            && a.word.toUpperCase() === word.word.toUpperCase()
+            && a.word?.toUpperCase() === word.word?.toUpperCase()
         );
 
         if (i !== 0) {
@@ -83,17 +83,25 @@ function lookup(boardX, boardY, clientX, clientY) {
         content += `
             <div class="wordLookupEntry">
                 <h3 class="wordLookupWord narrowHeading">
-                    ${w.toLowerCase().replace(/^\w/, (c) => c.toUpperCase())}
+                    ${w.toTitleCase()}
                 </h3>
                 <div class="wordLookupInfo" id="lookupInfo${i}">
                     ${gameWord ?
                         `Played by <b>${gameWord.playerName}</b> for <b>${gameWord.points}</b> points`
                         : `Checking Validity...`}
                 </div>
-                <a class="wordLookupLink flex blue fakeHoverLine" href="https://www.merriam-webster.com/dictionary/${w.toLowerCase()}" target="_blank">
-                    <span class="material-symbols-rounded smallIcon">search</span>
-                    Look up
-                </a>
+                <div class="flex gap10">
+                    ${gameWord ? `
+                        <a class="flex blue fakeHoverLine pointer" onclick="highlightHistoryEntry(${gameWord.turn})">
+                            <span class="material-symbols-rounded smallIcon">info</span>
+                            More Info
+                        </a>
+                    ` : ``}
+                    <a class="wordLookupLink flex blue fakeHoverLine" href="https://www.merriam-webster.com/dictionary/${w.toLowerCase()}" target="_blank">
+                        <span class="material-symbols-rounded smallIcon">search</span>
+                        Look up
+                    </a>
+                </div>
             </div>
         `;
 
@@ -142,7 +150,7 @@ function lookup(boardX, boardY, clientX, clientY) {
                 }
             }).catch(() => {
                 const el = document.getElementById('lookupInfo' + i);
-                el.innerHTML = "Error checking word";
+                el.innerHTML = !navigator.onLine ? "No Connection" : "Error checking word";
                 el.style.color = "red";
             })
         }

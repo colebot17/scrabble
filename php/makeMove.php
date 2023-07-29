@@ -206,8 +206,16 @@ $wordsList = json_decode($row["words"], true);
 
 // add words to the list
 $newWordsList = Array();
-for ($i=0; $i < count($words); $i++) { 
+for ($i = 0; $i < count($words); $i++) { 
 	if ($words[$i]["placeholder"]) {
+		$newWord = Array(
+			"placeholder" => true,
+			"type" => "allLetterBonus",
+			"player" => (int)$user,
+			"turn" => (int)$totalTurn,
+			"points" => $words[$i]["points"]
+		);
+		array_push($newWordsList, $newWord);
 		continue;
 	}
 	$newWord = Array(

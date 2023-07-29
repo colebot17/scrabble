@@ -653,6 +653,8 @@ function endGame() {
 
 // initialize the game in the global variable 'game'
 function gameInit() {
+	setCanvasPage('canvas');
+
 	canvasInit(); // initialize the canvas
 
 	// get the current player
@@ -789,6 +791,8 @@ function gameInit() {
 	setTimeout(startChangeCheck, 3000);
 
 	chatInit();
+
+	updateMoveHistory();
 }
 
 function getPlayerLastTurn() {
@@ -1189,31 +1193,6 @@ function Tile(x, y, letter, bankIndex, blank, locked, pixelX, pixelY) {
 // Fisher-Yates Shuffle (https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array)
 function shuffleArr(a) {
 	let b=a.length,c;while(b!=0){c=Math.floor(Math.random()*b);b--;[a[b],a[c]]=[a[c],a[b]];}return a;
-}
-
-function showTab(tab) {
-	document.getElementById('scrabbleGrid').dataset.tab = tab;
-
-	// scroll to the top of the games list
-	$('#activeGames .gamesListWrapper')[0].scrollTop = 0;
-
-	if (tab === 'chat') {
-		readChat();
-	}
-
-	if (tab === 'chat' || tab === 'game') {
-		chatScrollBottom();
-		chatBoxResize();
-	}
-
-	if (tab === 'home') {
-		stopChecking = true;
-		removeHandlers();
-	}
-
-	if (tab === 'friends' || tab === 'account') {
-		loadFriendsList();
-	}
 }
 
 function temporaryTitle(title, callback) {

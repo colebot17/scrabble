@@ -17,40 +17,6 @@ $(function() {
 
 var account = {};
 
-function setSignInMode(mode) {
-	const backButtonKey = {
-		settings: "signOut",
-		changePassword: "settings",
-		changeUsername: "settings",
-		accountSwitcher: "settings",
-		signIn: "accountSwitcher"
-	};
-
-	let $signInCell = $('#signInCell');
-	if (!mode) { // go back if no argument is supplied
-		let currentMode = $signInCell.attr('data-mode');
-		mode = backButtonKey[currentMode];
-	}
-
-	$signInCell.off();
-	$('#signInCell .accountForm').addClass('hidden');
-	const action = $('#signInCell #' + mode + 'Form').removeClass('hidden').attr('data-action');
-	$signInCell.on('keydown', (e) => {
-		if (e.key === 'Enter') {
-			e.preventDefault();
-			if (action) window[action]();
-		}
-	});
-	
-	removeFromEscStack('signInMode_' + mode);
-
-	if (backButtonKey[mode]) {
-		addToEscStack(() => {
-			setSignInMode(backButtonKey[mode]);
-		}, 'signInMode_' + backButtonKey[mode]);
-	}
-}
-
 function signIn(name = document.getElementById('signInUsername').value, pwd = document.getElementById('signInPwd').value) {
 	const formEl = document.getElementById('signInForm');
 	const usernameField = document.getElementById('signInUsername');

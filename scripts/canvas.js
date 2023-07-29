@@ -44,6 +44,8 @@ function canvasInit() {
 
 	// handle window resize
 	window.onresize = setCanvasSize;
+
+	canvas.initialized = true;
 }
 
 function animateMoves(startingAt = 0) {
@@ -117,6 +119,9 @@ function setCanvasSize() {
 
 	// show the canvas again
 	canvas.c.style.display = "";
+
+	// resize the chat box
+	chatBoxResize();
 }
 
 function clearCanvas() {
@@ -440,7 +445,25 @@ function drawRegions(regions) {
 		const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
 		// set up the style
-		canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
+		let color = regions[i].color || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
+
+		let opacity;
+		if (typeof regions[i].opacity !== 'number' && !regions[i].opacity) {
+			opacity = false;
+		} else if (typeof regions[i].opacity === 'object') {
+			opacity = regions[i].opacity.getFrame();
+			if (regions[i].opacity.isComplete()) {
+				// remove the region if the opacity animation is complete
+				regions.splice(i, 1);
+				i--;
+				continue;
+			}
+		} else {
+			opacity = regions[i].opacity;
+		}
+
+		const [r, g, b] = getRGBA(color);
+		canvas.ctx.strokeStyle = opacity ? "rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")" : color;
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
 		canvas.ctx.lineWidth = (squareWidth * 0.1) + 1;
 		const fontSize = 16;
@@ -459,15 +482,13 @@ function drawRegions(regions) {
 		const onTopEdge = regions[i].start[1] === 0;
 		const onRightEdge = regions[i].end[0] === 14;
 
-		// move over if on edge
-		/* if (onTopEdge) y1 += ((canvas.ctx.lineWidth / 2) - 1);
-		if (onRightEdge) x2 -= ((canvas.ctx.lineWidth / 2) - 1); */
-
 		const width = x2 - x1;
 		const height = y2 - y1;
 
 		roundRect(canvas.ctx, x1, y1, width, height, 5, false);
+
 		const radius = 15;
+
 		// move the bubble over if it is on an edge
 		if (onRightEdge) {
 			circX -= (radius - 1);
@@ -477,16 +498,27 @@ function drawRegions(regions) {
 		}
 
 		// draw the bubble
-		canvas.ctx.beginPath();
-		canvas.ctx.arc(circX, circY, radius, 0, 2*Math.PI);
-		canvas.ctx.fill();
+		if (regions[i].points) {
+			canvas.ctx.beginPath();
+			canvas.ctx.arc(circX, circY, radius, 0, 2*Math.PI);
+			canvas.ctx.fill();
 
 		// draw the number on the bubble
-		canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight-text' : '--semi-highlight-text');
-		canvas.ctx.textAlign = "center";
-		canvas.ctx.fillText(regions[i].points.toString(), circX, circY + (fontSize / 3));
-		canvas.ctx.textAlign = "";
+			canvas.ctx.fillStyle = regions[i].textColor || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight-text' : '--semi-highlight-text');
+			canvas.ctx.textAlign = "center";
+			canvas.ctx.fillText(regions[i].points.toString(), circX, circY + (fontSize / 3));
+			canvas.ctx.textAlign = "";
+		}
 	}
+}
+
+function tempHighlight(region, color = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight')) {
+	region.color = color;
+	region.textColor = autoContrast(color) ? "#000000" : "#FFFFFF";
+	region.opacity = new Animation(1000, 2000, 1, 0);
+
+	if (!canvas.regions) canvas.regions = [];
+	canvas.regions.push(region);
 }
 
 // draw loop
@@ -501,6 +533,7 @@ function updateDisplay() {
 	}
 
 	drawBoard();
+	
 	drawLetterBank(game.letterBank);
 	for (var y in game.board) {
 		for (var x in game.board[y]) {
@@ -519,6 +552,9 @@ function updateDisplay() {
 	}
 	if (canvas.pointsPreview && !canvas.pointsPreview.hidden) {
 		drawRegions([{points: canvas.pointsPreview.points, start: canvas.pointsPreview.start, end: canvas.pointsPreview.end}]);
+	}
+	if (canvas.regions) {
+		drawRegions(canvas.regions);
 	}
 	if (dragged) {
 		updateTile(dragged);
