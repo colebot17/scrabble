@@ -455,7 +455,9 @@ function drawRegions(regions) {
 			opacity = regions[i].opacity;
 		}
 
-		canvas.ctx.strokeStyle = color += (opacity * 255).toString(16);
+		const [r, g, b] = getRGBA(color);
+
+		canvas.ctx.strokeStyle = "rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")";
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
 		canvas.ctx.lineWidth = (squareWidth * 0.1) + 1;
 		const fontSize = 16;
