@@ -408,7 +408,10 @@ function updateTile(tile) {
 	var pixelY = (tile.pixelY + (tile.mouseOffset?.y || -(squareWidth / 2)) || (tile.y * squareWidth) + (tile.y * squareGap)) + ((squareWidth - tileWidth) / 2);
 
 	// draw the tile
-	canvas.ctx.fillStyle = (tile.locked ? "#a47449" : "#a47449cc"); // tile brown
+
+	// TILE BROWN "#a47449"
+	const colorDistance = 360 / game.turn;
+	canvas.ctx.fillStyle = (tile.turn ?  "hsl(" + (colorDistance * tile.turn) + ", 100%, 50%)": "#a47449cc"); // tile brown
 	roundRect(canvas.ctx, pixelX, pixelY, tileWidth, tileWidth, borderRadius);
 
 	// draw the letter on the tile
