@@ -58,3 +58,7 @@ function getPropArray(input, prop) {
     }
     return out;
 }
+
+String.prototype.toTitleCase = function() {
+	return this.toLowerCase().replace(/^\w/, (c) => c.toUpperCase());
+}
