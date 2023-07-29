@@ -408,9 +408,7 @@ function updateTile(tile) {
 	var pixelY = (tile.pixelY + (tile.mouseOffset?.y || -(squareWidth / 2)) || (tile.y * squareWidth) + (tile.y * squareGap)) + ((squareWidth - tileWidth) / 2);
 
 	// draw the tile
-
-	// TILE BROWN LIGHT "#a47449cc"
-	canvas.ctx.fillStyle = (["A","E","I","O","U"].includes(tile.letter) ? "red": "blue"); // tile brown
+	canvas.ctx.fillStyle = (tile.locked ? "#a47449" : "#a47449cc"); // tile brown
 	roundRect(canvas.ctx, pixelX, pixelY, tileWidth, tileWidth, borderRadius);
 
 	// draw the letter on the tile
