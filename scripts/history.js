@@ -67,7 +67,7 @@ function updateMoveHistory() {
             } else {
                 const bonusEl = document.createElement('div');
                 bonusEl.className = "moveHistoryWord flex";
-                bonusEl.innerHTML = "<span class='material-symbols-rounded'>add_circle</span><span>" + words[j].points + " points</span>";
+                bonusEl.innerHTML = "<span class='material-symbols-rounded smallIcon'>add_circle</span><span>" + words[j].points + " points</span>";
                 bonusEl.title = "The player used all 7 of their letters in this single turn.";
                 wordsEl.appendChild(bonusEl);
             }
