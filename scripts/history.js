@@ -49,7 +49,6 @@ function updateMoveHistory() {
         moveEl.appendChild(wordsEl);
 
         const totalPointsEl = document.createElement('div');
-        totalPointsEl.className = "bold";
         totalPointsEl.innerHTML = moves[i].points + " points";
         moveEl.appendChild(totalPointsEl);
 
