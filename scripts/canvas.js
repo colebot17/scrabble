@@ -475,12 +475,12 @@ function drawRegions(regions) {
 		}
 
 		// draw the bubble
-		canvas.ctx.beginPath();
-		canvas.ctx.arc(circX, circY, radius, 0, 2*Math.PI);
-		canvas.ctx.fill();
+		if (regions[i].points) {
+			canvas.ctx.beginPath();
+			canvas.ctx.arc(circX, circY, radius, 0, 2*Math.PI);
+			canvas.ctx.fill();
 
 		// draw the number on the bubble
-		if (regions[i].points) {
 			canvas.ctx.fillStyle = regions[i].textColor || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight-text' : '--semi-highlight-text');
 			canvas.ctx.textAlign = "center";
 			canvas.ctx.fillText(regions[i].points.toString(), circX, circY + (fontSize / 3));
