@@ -59,10 +59,17 @@ function updateMoveHistory() {
 
         const words = moves[i].words;
         for (let j = 0; j < words.length; j++) {
-            const wordEl = document.createElement('div');
-            wordEl.className = "moveHistoryWord";
-            wordEl.innerHTML = "<span class='bold'>" + words[j].word.toTitleCase() + "</span>" + (words.length > 1 ? " - " + words[j].points + "pts" : "");
-            wordsEl.appendChild(wordEl);
+            if (!words[j].placeholder) {
+                const wordEl = document.createElement('div');
+                wordEl.className = "moveHistoryWord";
+                wordEl.innerHTML = "<span class='bold'>" + words[j].word.toTitleCase() + "</span>" + (words.length > 1 ? " - " + words[j].points + "pts" : "");
+                wordsEl.appendChild(wordEl);
+            } else {
+                const bonusEl = document.createElement('div');
+                bonusEl.className = "moveHistoryWord flex";
+                bonusEl.innerHTML = "<span class='material-symbols-rounded'>add_circle</span><span>" + words[j].points + " points</span>";
+                bonusEl.title = "The player used all 7 of their letters in this single turn.";
+            }
         }
 
         moveEl.appendChild(wordsEl);

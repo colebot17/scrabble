@@ -71,7 +71,7 @@ function lookup(boardX, boardY, clientX, clientY) {
         const word = words[i];
         const gameWord = game.words.find(a => 
             JSON.stringify(a.pos) === JSON.stringify(word.pos)
-            && a.word.toUpperCase() === word.word.toUpperCase()
+            && a.word?.toUpperCase() === word.word?.toUpperCase()
         );
 
         if (i !== 0) {
