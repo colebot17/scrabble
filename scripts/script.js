@@ -789,6 +789,8 @@ function gameInit() {
 	setTimeout(startChangeCheck, 3000);
 
 	chatInit();
+
+	updateMoveHistory();
 }
 
 function getPlayerLastTurn() {
