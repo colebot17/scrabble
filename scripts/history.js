@@ -36,7 +36,7 @@ function updateMoveHistory() {
         moveEl.appendChild(moveTitle);
         
         const wordsEl = document.createElement('div');
-        wordsEl.className = "flex col fullHeight";
+        wordsEl.className = "flex col fullHeight gap2";
 
         const words = moves[i].words;
         for (let j = 0; j < words.length; j++) {
