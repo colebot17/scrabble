@@ -8,6 +8,7 @@ var squareWidth;
 
 function canvasInit() {
 	canvas.c = document.getElementById("scrabbleCanvas");
+	canvas.initialized = true;
 
 	setCanvasSize();
 
