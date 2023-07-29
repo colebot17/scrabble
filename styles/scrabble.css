@@ -668,6 +668,7 @@ body.scrabble {
 /* move history */
 #historyContents {
 	padding: 5px;
+	gap: 20px 10px;
 }
 .moveHistoryMove {
 	max-width: 200px;
