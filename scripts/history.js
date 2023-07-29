@@ -82,7 +82,7 @@ function updateMoveHistory() {
     }
 
     if (moves.length === 0) {
-        historyEl.innerHTML = "When a player makes a move, it will appear here";
+        historyEl.innerHTML = "When a player makes a move, it will appear here.";
     }
 }
 
