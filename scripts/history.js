@@ -80,6 +80,10 @@ function updateMoveHistory() {
 
         historyEl.appendChild(moveEl);
     }
+
+    if (moves.length === 0) {
+        historyEl.innerHTML = "When a player makes a move, it will appear here";
+    }
 }
 
 function highlightHistoryEntry(turn) {
