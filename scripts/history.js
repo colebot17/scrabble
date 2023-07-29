@@ -29,7 +29,7 @@ function updateMoveHistory() {
         const moveTitle = document.createElement('span');
         moveTitle.className = "moveHistoryMoveTitle bold";
         moveTitle.innerHTML = /* html */ `
-            <span class="finePrint">Move ${moves[i].turn}</span>
+            <span class="finePrint">Turn ${moves[i].turn}</span>
             <br>
             <span class="bold">${moves[i].playerName}</span>
         `;
