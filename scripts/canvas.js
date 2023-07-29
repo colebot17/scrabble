@@ -448,7 +448,7 @@ function drawRegions(regions) {
 		let color = regions[i].color || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
 
 		let opacity;
-		if (regions[i].opacity.type !== 'number' && !regions[i].opacity) {
+		if (typeof regions[i].opacity !== 'number' && !regions[i].opacity) {
 			opacity = false;
 		} else if (typeof regions[i].opacity === 'object') {
 			opacity = regions[i].opacity.getFrame();
