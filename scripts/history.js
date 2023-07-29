@@ -30,7 +30,7 @@ function updateMoveHistory() {
             setCanvasPage('canvas');
             setTimeout(() => {
                 tempHighlight(moves[i].words.find(a => a.cross === false).pos);
-            }, 370);
+            }, 200);
         })
 
         const moveTitle = document.createElement('span');
