@@ -42,18 +42,16 @@ function updateMoveHistory() {
         for (let j = 0; j < words.length; j++) {
             const wordEl = document.createElement('div');
             wordEl.className = "moveHistoryWord";
-            wordEl.innerHTML = words[j].word + " - " + words[j].points + "pts";
+            wordEl.innerHTML = words[j].word + (words.length > 1 ? " - " + words[j].points + "pts" : "");
             wordsEl.appendChild(wordEl);
         }
 
         moveEl.appendChild(wordsEl);
 
-        if (moves[i].words.length > 1) {
-            const totalPointsEl = document.createElement('div');
-            totalPointsEl.className = "bold";
-            totalPointsEl.innerHTML = moves[i].points + " points";
-            moveEl.appendChild(totalPointsEl);
-        }
+        const totalPointsEl = document.createElement('div');
+        totalPointsEl.className = "bold";
+        totalPointsEl.innerHTML = moves[i].points + " points";
+        moveEl.appendChild(totalPointsEl);
 
         historyEl.appendChild(moveEl);
     }
