@@ -48,6 +48,12 @@ function updateMoveHistory() {
 
         moveEl.appendChild(wordsEl);
 
+        if (moves[i].words.length > 1) {
+            const totalPointsEl = document.createElement('div');
+            totalPointsEl.className = "bold";
+            totalPointsEl.innerHTML = moves[i].points + " points";
+        }
+
         historyEl.appendChild(moveEl);
     }
 }
