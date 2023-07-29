@@ -31,7 +31,7 @@ function updateMoveHistory() {
         const words = moves[i].words;
         for (let j = 0; j < words.length; j++) {
             const wordEl = document.createElement('div');
-            wordEl.innerHTML = words[i].word + " - " + words[i].points + "pts";
+            wordEl.innerHTML = words[j].word + " - " + words[j].points + "pts";
             moveEl.appendChild(wordEl);
         }
 
