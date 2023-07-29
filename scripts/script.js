@@ -653,6 +653,8 @@ function endGame() {
 
 // initialize the game in the global variable 'game'
 function gameInit() {
+	setCanvasPage('canvas');
+
 	canvasInit(); // initialize the canvas
 
 	// get the current player
