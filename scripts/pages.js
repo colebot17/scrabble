@@ -4,6 +4,10 @@ function showTab(tab) {
 	// scroll to the top of the games list
 	$('#activeGames .gamesListWrapper')[0].scrollTop = 0;
 
+	if (tab === 'game') {
+		setCanvasSize();
+	}
+
 	if (tab === 'chat') {
 		readChat();
 	}
@@ -82,5 +86,7 @@ function setCanvasPage(page = 'canvas') {
         }, 'canvasPage_canvas');
     } else if (page === 'canvas') {
         removeFromEscStack('canvasPage_canvas');
+
+		setCanvasSize();
     }
 }
