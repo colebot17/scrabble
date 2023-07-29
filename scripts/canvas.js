@@ -410,7 +410,7 @@ function updateTile(tile) {
 	// draw the tile
 
 	// TILE BROWN LIGHT "#a47449cc"
-	canvas.ctx.fillStyle = (tile.turn % 2 === 0 ? "red": "blue"); // tile brown
+	canvas.ctx.fillStyle = (["A","E","I","O","U"].includes(tile.letter) ? "red": "blue"); // tile brown
 	roundRect(canvas.ctx, pixelX, pixelY, tileWidth, tileWidth, borderRadius);
 
 	// draw the letter on the tile
