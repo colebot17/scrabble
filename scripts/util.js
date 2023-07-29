@@ -92,3 +92,10 @@ function getRGBA(color) {
 		return [r, g, b];
 	}
 }
+function makeHex(r, g, b, a) {
+	let str = "#";
+	str += r.toString(16);
+	str += g.toString(16);
+	str += b.toString(16);
+	return str;
+}

@@ -440,7 +440,22 @@ function drawRegions(regions) {
 		const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
 		// set up the style
-		canvas.ctx.strokeStyle = regions[i].color || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
+		let color = regions[i].color || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
+
+		let opacity;
+		if (typeof regions[i].opacity === 'object') {
+			opacity = regions[i].opacity.getFrame();
+			if (regions[i].opacity.isComplete()) {
+				// remove the region if the opacity animation is complete
+				regions.splice(i, 1);
+				i--;
+				continue;
+			}
+		} else {
+			opacity = regions[i].opacity;
+		}
+
+		canvas.ctx.strokeStyle = makeHex(...getRGBA(color), opacity * 255);
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
 		canvas.ctx.lineWidth = (squareWidth * 0.1) + 1;
 		const fontSize = 16;
@@ -492,15 +507,10 @@ function drawRegions(regions) {
 function tempHighlight(region, color = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight')) {
 	region.color = color;
 	region.textColor = autoContrast(color) ? "#000000" : "#FFFFFF";
-	region.opacity = 1;
+	region.opacity = new Animation(3000, 0, 1, 0);
 
 	if (!canvas.regions) canvas.regions = [];
-
-	const regionIndex = canvas.regions.push(region) - 1;
-
-	setTimeout(() => {
-		canvas.regions.splice(regionIndex, 1);
-	}, 3000);
+	canvas.regions.push(region);
 }
 
 // draw loop
