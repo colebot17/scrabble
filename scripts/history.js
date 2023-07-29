@@ -25,6 +25,7 @@ function updateMoveHistory() {
 
         const moveEl = document.createElement('div');
         moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow pointer";
+        moveEl.id = "historyEntry" + moves[i].turn;
         moveEl.tabIndex = "0";
         moveEl.addEventListener('click', () => {
             setCanvasPage('canvas');
@@ -72,4 +73,17 @@ function updateMoveHistory() {
 
         historyEl.appendChild(moveEl);
     }
+}
+
+function highlightHistoryEntry(turn) {
+    const entry = document.getElementById('historyEntry' + turn);
+
+    entry.style.backgroundColor = "var(--text-highlight)";
+    entry.style.transition = "background-color 3s";
+    setTimeout(() => {
+        entry.style.backgroundColor = "";
+        setTimeout(() => {
+            entry.style.transition = "";
+        }, 3000);
+    }, 1000);
 }

@@ -90,10 +90,16 @@ function lookup(boardX, boardY, clientX, clientY) {
                         `Played by <b>${gameWord.playerName}</b> for <b>${gameWord.points}</b> points`
                         : `Checking Validity...`}
                 </div>
-                <a class="wordLookupLink flex blue fakeHoverLine" href="https://www.merriam-webster.com/dictionary/${w.toLowerCase()}" target="_blank">
-                    <span class="material-symbols-rounded smallIcon">search</span>
-                    Look up
-                </a>
+                <div class="flex gap10">
+                    <a class="flex blue fakeHoverLine pointer" onclick="highlightHistoryEntry(${w.turn})">
+                        <span class="material-symbols-rounded smallIcon">info</span>
+                        More Info
+                    </a>
+                    <a class="wordLookupLink flex blue fakeHoverLine" href="https://www.merriam-webster.com/dictionary/${w.toLowerCase()}" target="_blank">
+                        <span class="material-symbols-rounded smallIcon">search</span>
+                        Look up
+                    </a>
+                </div>
             </div>
         `;
 
