@@ -83,12 +83,14 @@ function highlightHistoryEntry(turn) {
 
     entry.scrollIntoView();
 
-    entry.style.backgroundColor = "var(--text-highlight)";
-    entry.style.transition = "background-color 0.37s";
     setTimeout(() => {
-        entry.style.backgroundColor = "";
+        entry.style.backgroundColor = "var(--text-highlight)";
         setTimeout(() => {
-            entry.style.transition = "";
-        }, 370);
-    }, 1000);
+            entry.style.transition = "background-color 1s";
+            entry.style.backgroundColor = "";
+            setTimeout(() => {
+                entry.style.transition = "";
+            }, 1000);
+        }, 2000);
+    }, 200);
 }
