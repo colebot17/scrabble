@@ -81,8 +81,12 @@ function updateMoveHistory() {
         historyEl.appendChild(moveEl);
     }
 
+    const playEl = document.getElementById('playMoveAnimationButton');
     if (moves.length === 0) {
         historyEl.innerHTML = "When a player makes a move, it will appear here.";
+        playEl.disabled = true;
+    } else {
+        playEl.disabled = false;
     }
 }
 
