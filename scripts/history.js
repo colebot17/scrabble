@@ -26,7 +26,11 @@ function updateMoveHistory() {
 
         const moveTitle = document.createElement('span');
         moveTitle.className = "moveHistoryMoveTitle bold";
-        moveTitle.innerHTML = moves[i].playerName + " - " + moves[i].points + "pts";
+        moveTitle.innerHTML = /* html */ `
+            <span class="finePrint">Move ${moves[i].turn}</span>
+            <br>
+            <span class="bold">${moves[i].playerName}</span>
+        `;
         moveEl.appendChild(moveTitle);
         
         const words = moves[i].words;
