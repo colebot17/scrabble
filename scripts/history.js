@@ -31,7 +31,7 @@ function updateMoveHistory() {
         moveTitle.innerHTML = /* html */ `
             <span class="finePrint">Turn ${moves[i].turn}</span>
             <br>
-            <span class="bold">${moves[i].playerName}</span>
+            <span>${moves[i].playerName}</span>
         `;
         moveEl.appendChild(moveTitle);
         
