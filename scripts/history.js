@@ -82,11 +82,11 @@ function highlightHistoryEntry(turn) {
     const entry = document.getElementById('historyEntry' + turn);
 
     entry.style.backgroundColor = "var(--text-highlight)";
-    entry.style.transition = "background-color 3s";
+    entry.style.transition = "background-color 1s";
     setTimeout(() => {
         entry.style.backgroundColor = "";
         setTimeout(() => {
             entry.style.transition = "";
-        }, 3000);
-    }, 1000);
+        }, 1000);
+    }, 3000);
 }
