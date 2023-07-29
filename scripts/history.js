@@ -28,7 +28,9 @@ function updateMoveHistory() {
         moveEl.tabIndex = "0";
         moveEl.addEventListener('click', () => {
             setCanvasPage('canvas');
-            tempHighlight(moves[i].words.find(a => a.cross === false).pos);
+            setTimeout(() => {
+                tempHighlight(moves[i].words.find(a => a.cross === false).pos);
+            }, 370);
         })
 
         const moveTitle = document.createElement('span');
