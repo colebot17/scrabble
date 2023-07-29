@@ -455,7 +455,7 @@ function drawRegions(regions) {
 			opacity = regions[i].opacity;
 		}
 
-		canvas.ctx.strokeStyle = makeHex(...getRGBA(color), opacity * 255);
+		canvas.ctx.strokeStyle = color += (opacity * 255).toString(16);
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
 		canvas.ctx.lineWidth = (squareWidth * 0.1) + 1;
 		const fontSize = 16;
