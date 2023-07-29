@@ -84,6 +84,7 @@ function setCanvasPage(page = 'canvas') {
         addToEscStack(() => {
             setCanvasPage('canvas');
         }, 'canvasPage_canvas');
+		document.getElementById('historyContents').scrollTo(0, 0);
     } else if (page === 'canvas') {
         removeFromEscStack('canvasPage_canvas');
 
