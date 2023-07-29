@@ -509,7 +509,7 @@ function drawRegions(regions) {
 function tempHighlight(region, color = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight')) {
 	region.color = color;
 	region.textColor = autoContrast(color) ? "#000000" : "#FFFFFF";
-	region.opacity = new Animation(3000, 0, 1, 0);
+	region.opacity = new Animation(3000, 1000, 1, 0);
 
 	if (!canvas.regions) canvas.regions = [];
 	canvas.regions.push(region);
