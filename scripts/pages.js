@@ -87,6 +87,6 @@ function setCanvasPage(page = 'canvas') {
     } else if (page === 'canvas') {
         removeFromEscStack('canvasPage_canvas');
 
-		setCanvasSize();
+		if (canvas.initialized) setCanvasSize();
     }
 }
