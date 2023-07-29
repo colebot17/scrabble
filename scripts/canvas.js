@@ -409,9 +409,9 @@ function updateTile(tile) {
 
 	// draw the tile
 
-	// TILE BROWN "#a47449"
-	const colorDistance = 360 / game.turn;
-	canvas.ctx.fillStyle = (tile.turn ?  "hsl(" + (colorDistance * tile.turn) + ", 100%, 50%)": "#a47449cc"); // tile brown
+	// TILE BROWN LIGHT "#a47449cc"
+	const colorDistance = 100 / game.turn;
+	canvas.ctx.fillStyle = (tile.turn ?  "hsl(0, 100%, " + (colorDistance * tile.turn) + ")": "#a47449"); // tile brown
 	roundRect(canvas.ctx, pixelX, pixelY, tileWidth, tileWidth, borderRadius);
 
 	// draw the letter on the tile
