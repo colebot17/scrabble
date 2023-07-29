@@ -411,7 +411,7 @@ function updateTile(tile) {
 
 	// TILE BROWN LIGHT "#a47449cc"
 	const distFromCenter = Math.sqrt(Math.pow(tile.x - 7, 2) + Math.pow(tile.y - 7, 2));
-	canvas.ctx.fillStyle = (tile.turn ?  "hsl(" + ((360 * 10) / distFromCenter) + ", 100%, 50%)": "#a47449"); // tile brown
+	canvas.ctx.fillStyle = (tile.turn ?  "hsl(" + ((360 / 10) * distFromCenter) + ", 100%, 50%)": "#a47449"); // tile brown
 	roundRect(canvas.ctx, pixelX, pixelY, tileWidth, tileWidth, borderRadius);
 
 	// draw the letter on the tile
