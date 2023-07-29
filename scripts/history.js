@@ -77,6 +77,7 @@ function updateMoveHistory() {
 
 function highlightHistoryEntry(turn) {
     setCanvasPage('history');
+    $('#wordLookupPopup').popupClose();
 
     const entry = document.getElementById('historyEntry' + turn);
 
