@@ -27,7 +27,7 @@ function updateMoveHistory() {
         moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow";
 
         const moveTitle = document.createElement('span');
-        moveTitle.className = "moveHistoryMoveTitle bold";
+        moveTitle.className = "moveHistoryMoveTitle";
         moveTitle.innerHTML = /* html */ `
             <span class="finePrint">Turn ${moves[i].turn}</span>
             <br>
