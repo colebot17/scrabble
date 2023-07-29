@@ -672,16 +672,16 @@ body.scrabble {
 	background-color: var(--background-2);
 	border-radius: 10px;
 }
-#historyContents:nth-child(1) {
+.moveHistoryMove:nth-child(1) {
 	border: 4px solid var(--text-highlight);
 }
-#historyContents:nth-child(2) {
+.moveHistoryMove:nth-child(2) {
 	border: 3px solid var(--text-highlight);
 }
-#historyContents:nth-child(3) {
+.moveHistoryMove:nth-child(3) {
 	border: 2px solid var(--text-highlight);
 }
-#historyContents:nth-child(4) {
+.moveHistoryMove:nth-child(4) {
 	border: 1px solid var(--text-highlight);
 }
 
