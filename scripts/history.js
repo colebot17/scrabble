@@ -76,6 +76,8 @@ function updateMoveHistory() {
 }
 
 function highlightHistoryEntry(turn) {
+    setCanvasPage('history');
+
     const entry = document.getElementById('historyEntry' + turn);
 
     entry.style.backgroundColor = "var(--text-highlight)";

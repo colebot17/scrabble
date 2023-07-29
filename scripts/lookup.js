@@ -91,10 +91,12 @@ function lookup(boardX, boardY, clientX, clientY) {
                         : `Checking Validity...`}
                 </div>
                 <div class="flex gap10">
-                    <a class="flex blue fakeHoverLine pointer" onclick="highlightHistoryEntry(${w.turn})">
-                        <span class="material-symbols-rounded smallIcon">info</span>
-                        More Info
-                    </a>
+                    ${gameWord ? `
+                        <a class="flex blue fakeHoverLine pointer" onclick="highlightHistoryEntry(${gameWord.turn})">
+                            <span class="material-symbols-rounded smallIcon">info</span>
+                            More Info
+                        </a>
+                    ` : ``}
                     <a class="wordLookupLink flex blue fakeHoverLine" href="https://www.merriam-webster.com/dictionary/${w.toLowerCase()}" target="_blank">
                         <span class="material-symbols-rounded smallIcon">search</span>
                         Look up
