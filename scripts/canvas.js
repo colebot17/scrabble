@@ -124,12 +124,6 @@ function clearCanvas() {
 }
 
 function drawBoard() {
-
-	canvas.ctx.fillStyle = "purple";
-	canvas.ctx.fillRect(0, 0, canvas.c.width, canvas.c.height);
-
-	return;
-
 	// get some sizes
 	squareWidth = (canvas.c.width - (squareGap * (squareNum - 1))) / squareNum;
 	let fontSize = squareWidth * 0.5;
@@ -509,7 +503,10 @@ function updateDisplay() {
 		return;
 	}
 
-	drawBoard();
+	//drawBoard();
+	canvas.ctx.fillStyle = "purple";
+	canvas.ctx.fillRect(0, 0, canvas.c.width, canvas.c.height);
+	
 	drawLetterBank(game.letterBank);
 	for (var y in game.board) {
 		for (var x in game.board[y]) {
