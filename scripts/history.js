@@ -81,6 +81,8 @@ function highlightHistoryEntry(turn) {
 
     const entry = document.getElementById('historyEntry' + turn);
 
+    entry.scrollIntoView();
+
     entry.style.backgroundColor = "var(--text-highlight)";
     entry.style.transition = "background-color 0.37s";
     setTimeout(() => {
