@@ -80,3 +80,15 @@ function autoContrast(color) {
 	// https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
 	// MUST be used with black (#000000) and white (#FFFFFF), or constant 0.179 needs to be recalculated somehow
 }
+function getRGBA(color) {
+	const r = parseInt(color.slice(1, 3), 16);
+	const g = parseInt(color.slice(3, 5), 16);
+	const b = parseInt(color.slice(5, 7), 16);
+	let a;
+	if (color.length > 7) {
+		a = parseInt(color.slice(7, 9), 16);
+		return [r, g, b, a];
+	} else {
+		return [r, g, b];
+	}
+}
