@@ -503,9 +503,7 @@ function updateDisplay() {
 		return;
 	}
 
-	//drawBoard();
-	canvas.ctx.fillStyle = "purple";
-	canvas.ctx.fillRect(0, 0, canvas.c.width, canvas.c.height);
+	drawBoard();
 	
 	drawLetterBank(game.letterBank);
 	for (var y in game.board) {
