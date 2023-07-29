@@ -24,7 +24,7 @@ function updateMoveHistory() {
         if (!moves[i]) continue; // there may be gaps in the moves array due to players skipping turns
 
         const moveEl = document.createElement('div');
-        moveEl.className = "moveHistoryMove flex col flexGrow";
+        moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow";
 
         const moveTitle = document.createElement('span');
         moveTitle.className = "moveHistoryMoveTitle bold";
@@ -35,13 +35,18 @@ function updateMoveHistory() {
         `;
         moveEl.appendChild(moveTitle);
         
+        const wordsEl = document.createElement('div');
+        wordsEl.className = "flex col fullHeight";
+
         const words = moves[i].words;
         for (let j = 0; j < words.length; j++) {
             const wordEl = document.createElement('div');
             wordEl.className = "moveHistoryWord";
             wordEl.innerHTML = words[j].word + " - " + words[j].points + "pts";
-            moveEl.appendChild(wordEl);
+            wordsEl.appendChild(wordEl);
         }
+
+        moveEl.appendChild(wordsEl);
 
         historyEl.appendChild(moveEl);
     }
