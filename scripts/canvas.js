@@ -119,6 +119,9 @@ function setCanvasSize() {
 
 	// show the canvas again
 	canvas.c.style.display = "";
+
+	// resize the chat box
+	chatBoxResize();
 }
 
 function clearCanvas() {
