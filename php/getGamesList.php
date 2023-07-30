@@ -48,18 +48,6 @@ function getGamesList($conn, int $userId) {
             "endDate" => $endDate
         );
 
-        // if the game has ended and hasn't been seen by the current player
-        if ($inactive && $playerId === (int)$userId && $player['gameEndUnseen']) {
-            // send this back with the game
-            $game['newlyInactive'] = true;
-
-            // set the game end as seen and upload it
-            /* $players[$j]['gameEndUnseen'] = false;
-            $playersJson = json_encode($players);
-            $sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
-            $query = mysqli_query($conn, $sql); */
-        }
-
         // add each player object to the game
         for ($j = 0; $j < count($players); $j++) {
             $player = $players[$j];
@@ -78,6 +66,18 @@ function getGamesList($conn, int $userId) {
             );
 
             $game['players'][] = $playerObj;
+
+            // if the game has ended and hasn't been seen by the current player
+            if ($inactive && $playerId === (int)$userId && $player['gameEndUnseen']) {
+                // send this back with the game
+                $game['newlyInactive'] = true;
+
+                // set the game end as seen and upload it
+                /* $players[$j]['gameEndUnseen'] = false;
+                $playersJson = json_encode($players);
+                $sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
+                $query = mysqli_query($conn, $sql); */
+            }
         }
 
         // add the new game to the full list
