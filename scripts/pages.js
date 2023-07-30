@@ -61,6 +61,20 @@ function setSignInMode(mode) {
 	}
 }
 
+function setGamesList(list) {
+	var $gamesCell = $('#gamesCell');
+	if (list === 'active') {
+		$('#gamesCell .gamesListBox').addClass('hidden');
+		$('#activeGames').removeClass('hidden');
+	} else if (list === 'inactive') {
+		$('#gamesCell .gamesListBox').addClass('hidden');
+		$('#inactiveGames').removeClass('hidden');
+	} else {
+		console.error(`Failed to set games list: List ${list} not recognized.`);
+	}
+	$('#createGameModal').modalClose();
+}
+
 function setAddPlayerPanelPage(page) {
 	document.getElementById('addPlayerPanel').dataset.page = page;
 
