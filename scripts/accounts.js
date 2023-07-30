@@ -39,7 +39,7 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 	var msLoaded = new Promise((resolve, reject) => {
 		let num = 0;
 		const int = setInterval(() => {
-			const ready = document.fonts.check('Material Symbols Rounded');
+			const ready = document.fonts.check("24px 'Material Symbols Rounded'");
 			if (ready) {
 				clearInterval(int);
 				resolve();
