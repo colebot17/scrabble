@@ -289,20 +289,7 @@ function updateGamesList() {
 				playerListSummaryHTML = /* html */ `You, +${gamesArray[i].players.length - 1}`;
 			}
 
-			let winnerString = "";
-			if (winners.length === 1) {
-				winnerString = /* html */ `<b>${gamesArray[i].players[winners[0]].name}</b>`;
-			} else if (winners.length === 2) {
-				winnerString = /* html */ `<b>${gamesArray[i].players[winners[0]].name}</b> and <b>${gamesArray[i].players[winners[1]].name}</b>`;
-			} else if (winners.length >= 3) {
-				for (let j = 0; j < winners.length; j++) {
-					if (j < winners.length - 1) {
-						winnerString += /* html */ `<b>${gamesArray[i].players[winners[j]].name}</b>, `;
-					} else {
-						winnerString += /* html */ `and <b>${gamesArray[i].players[winners[j]].name}</b>`;
-					}
-				}
-			}
+			const winnerString = winnerString(winners);
 			let winnerHTML = /* html */ `${winnerString} won`;
 
 			// add the game card to the list
@@ -380,7 +367,15 @@ function updateGamesList() {
 			const card = document.getElementById('listGame' + newlyInactiveGames[i].id);
 			card.scrollIntoView();
 			endGameAnimation(card).then(() => {
-				textModal('Game Ended', 'This game has ended! Good Job!');
+				const game = newlyInactiveGames[i];
+
+				const winners = [];
+				for (let j = 0; j < game.winnerIndicies.length; j++) {
+					winners.push(game.players[game.winnerIndicies[j]]);
+				}
+
+				const str = `<b>${game.name || "Game #" + game.id}</b> has ended. ${winnerString(winners)} won!`;
+				textModal('Game Ended', str);
 			});
 		}
 	}
@@ -393,6 +388,33 @@ function updateGamesList() {
 	// 		loadGamesList(done);
 	// 	}
 	// });
+}
+
+function winnerString(winners) {
+	let winnerString = "";
+	if (winners.length === 1) {
+		if (winners[0].id === account.id) {
+			winnerString = "You";
+		} else {
+			winnerString = /* html */ `<b>${winners[0].name}</b>`;
+		}
+	} else if (winners.length === 2) {
+		if (winners[0].id === account.id || winners[1].id === account.id) {
+			winnerString = "You and ";
+			winnerString += `<b>${winners.find(a => a.id !== account.id).name}</b>`;
+		} else {
+			winnerString = /* html */ `<b>${winners[0].name}</b> and <b>${winners[1].name}</b>`;
+		}
+	} else if (winners.length >= 3) {
+		for (let j = 0; j < winners.length; j++) {
+			if (j < winners.length - 1) {
+				winnerString += /* html */ `<b>${winners[j].name}</b>, `;
+			} else {
+				winnerString += /* html */ `and <b>${winners[j].name}</b>`;
+			}
+		}
+	}
+	return winnerString;
 }
 
 function setDisplayMode(mode) {

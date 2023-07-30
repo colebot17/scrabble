@@ -42,7 +42,6 @@ function getGamesList($conn, int $userId) {
             "name" => $row['name'],
             "turn" => (int)$row['turn'],
             "inactive" => $inactive,
-            "newlyInactive" => false,
             "players" => Array(),
             "lastUpdate" => $row['lastUpdate'],
             "endDate" => $endDate
@@ -78,6 +77,24 @@ function getGamesList($conn, int $userId) {
                 $sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
                 $query = mysqli_query($conn, $sql); */
             }
+        }
+
+        if ($inactive) {
+            $winningPoints = 0;
+            for ($j = 0; $j < count($players); $i++) {
+                if ($players[$j]['points'] > $winningPoints) {
+                    $winningPoints = $players[$j]['points'];
+                }
+            }
+
+            $winningPlayers = Array();
+            for ($j = 0; $j < count($players); $j++) {
+                if ($players[$j]['points'] === $winningPoints) {
+                    $winningPlayers[] = $j;
+                }
+            }
+
+            $game['winnerIndicies'] = $winningPlayers;
         }
 
         // add the new game to the full list
