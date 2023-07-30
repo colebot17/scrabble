@@ -378,6 +378,7 @@ function updateGamesList() {
 			//newlyInactiveGames[i].newlyInactive = false;
 
 			const card = document.getElementById('listGame' + newlyInactiveGames[i].id);
+			card.scrollIntoView();
 			endGameAnimation(card).then(() => {
 				textModal('Game Ended', 'This game has ended! Good Job!');
 			});
