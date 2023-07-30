@@ -35,8 +35,27 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 		setTimeout(resolve, 740);
 	});
 
+	// make sure the material-symbols are ready
+	var msLoaded = new Promise((resolve, reject) => {
+		let num = 0;
+		const int = setInterval(() => {
+			const ready = document.fonts.check('Material Symbols Rounded');
+			if (ready) {
+				clearInterval(int);
+				resolve();
+				return;
+			}
+			num++;
+			if (num > 600) {
+				clearInterval(int);
+				reject();
+				return;
+			}
+		}, 100);
+	})
+
 	// when the request is finished, the document's fonts are loaded, and the timer is up
-	Promise.all([req, document.fonts.ready, timer]).then(values => {
+	Promise.all([req, document.fonts.ready, msLoaded, timer]).then(values => {
 		// the response from the sign in request specifically
 		// (we don't care about the other requests)
 		const res = values[0];
