@@ -12,9 +12,9 @@ if ($conn->connect_error) {
 }
 
 // get data from POST
-$user = $_POST['user'];
+$user = (int)$_POST['user'];
 $pwd = $_POST['pwd'];
-$gameId = $_POST['game'];
+$gameId = (int)$_POST['game'];
 
 // check password
 require "verifyPassword.php";
@@ -80,6 +80,11 @@ if ($endGame) {
 		// deactivate the game
 		$sql = "UPDATE games SET inactive=1 WHERE id='$gameId'";
 		$query = mysqli_query($conn, $sql);
+
+		// set all the players' gameEndUnseen (except current player)
+		for ($i = 0; $i < count($players); $i++) {
+			$players[$i]['gameEndUnseen'] = (int)$players[$i]['id'] !== $user;
+		}
 
 		// set the endDate
 		$datestamp = date("Y-m-d");

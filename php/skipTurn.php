@@ -13,9 +13,9 @@ if ($conn->connect_error) {
 }
 
 // get data from client
-$user = $_POST['user'];
+$user = (int)$_POST['user'];
 $pwd = $_POST['pwd'];
-$gameId = $_POST['game'];
+$gameId = (int)$_POST['game'];
 $redrawLetters = json_decode($_POST['redrawLetters'], true);
 
 // check password
@@ -134,9 +134,9 @@ if ($endGame) {
 			if (($key = array_search($gameId, $playersGames)) !== false) {
 				unset($playersGames[$key]);
 			}
-			$playerGames = json_encode(array_values($playerGames));
+			$playerGamesJson = json_encode(array_values($playerGames));
 
-			$sql = "UPDATE accounts SET games='$playerGames' WHERE id='$playerList[$i]'";
+			$sql = "UPDATE accounts SET games='$playerGamesJson' WHERE id='$playerList[$i]'";
 			$query = mysqli_query($conn, $sql);
 		}
 
@@ -144,13 +144,17 @@ if ($endGame) {
 		$sql = "DELETE FROM games WHERE id='$gameId'";
 		$query = mysqli_query($conn, $sql);
 	} else { // if players have already scored points
-		// deactivate the game
-		$sql = "UPDATE games SET inactive=1 WHERE id='$gameId'";
-		$query = mysqli_query($conn, $sql);
+		// set all the players' gameEndUnseen (except current player)
+		for ($i = 0; $i < count($players); $i++) {
+			$players[$i]['gameEndUnseen'] = (int)$players[$i]['id'] !== $user;
+		}
 
 		// set the endDate
 		$datestamp = date("Y-m-d");
-		$sql = "UPDATE games SET endDate='$datestamp' WHERE id='$gameId'";
+
+		// deactivate the game and upload
+		$playersJson = json_encode($players);
+		$sql = "UPDATE games SET inactive=1,endDate='$datestamp',players='$playersJson' WHERE id='$gameId'";
 		$query = mysqli_query($conn, $sql);
 	}
 }

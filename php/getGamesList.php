@@ -28,6 +28,8 @@ function getGamesList($conn, int $userId) {
             continue;
         }
 
+        $inactive = (int)$row['inactive'] === 1 ? true : false;
+
         // get the players apart of the game
         $players = json_decode($row['players'], true);
 
@@ -39,7 +41,8 @@ function getGamesList($conn, int $userId) {
             "id" => (int)$games[$i],
             "name" => $row['name'],
             "turn" => (int)$row['turn'],
-            "inactive" => ((int)$row['inactive'] === 1 ? true : false),
+            "inactive" => $inactive,
+            "newlyInactive" => false,
             "players" => Array(),
             "lastUpdate" => $row['lastUpdate'],
             "endDate" => $endDate
@@ -48,7 +51,7 @@ function getGamesList($conn, int $userId) {
         // add each player object to the game
         for ($j = 0; $j < count($players); $j++) {
             $player = $players[$j];
-            $playerId = $player['id'];
+            $playerId = (int)$player['id'];
 
             $sql = "SELECT name FROM accounts WHERE id='$playerId'";
             $query = mysqli_query($conn, $sql);
@@ -58,11 +61,23 @@ function getGamesList($conn, int $userId) {
             $playerObj = Array(
                 "id" => $playerId,
                 "name" => $row['name'],
-                "points" => $player['points'],
+                "points" => (int)$player['points'],
                 "endGameRequest" => $player['endGameRequest']
             );
 
             $game['players'][] = $playerObj;
+
+            // if the game has ended and hasn't been seen by the current player
+            if ($inactive && $playerId === (int)$userId && $player['gameEndUnseen']) {
+                // send this back with the game
+                $game['newlyInactive'] = true;
+
+                // set the game end as seen and upload it
+                $players[$j]['gameEndUnseen'] = false;
+                $playersJson = json_encode($players);
+                $sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
+                $query = mysqli_query($conn, $sql);
+            }
         }
 
         // add the new game to the full list
