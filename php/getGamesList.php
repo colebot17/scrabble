@@ -81,7 +81,7 @@ function getGamesList($conn, int $userId) {
 
         if ($inactive) {
             $winningPoints = 0;
-            for ($j = 0; $j < count($players); $i++) {
+            for ($j = 0; $j < count($players); $j++) {
                 if ($players[$j]['points'] > $winningPoints) {
                     $winningPoints = $players[$j]['points'];
                 }
