@@ -342,6 +342,8 @@ function updateGamesList() {
 		}
 	}
 
+	console.log(newlyInactiveGames);
+
 	// add the new game card to the end of the active games tab
 	activeGamesList.innerHTML += /* html */ `
 		<button class="newGameCard" onclick="newGame();">
