@@ -54,10 +54,10 @@ function getGamesList($conn, int $userId) {
             $game['newlyInactive'] = true;
 
             // set the game end as seen and upload it
-            $players[$j]['gameEndUnseen'] = false;
+            /* $players[$j]['gameEndUnseen'] = false;
             $playersJson = json_encode($players);
             $sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
-            $query = mysqli_query($conn, $sql);
+            $query = mysqli_query($conn, $sql); */
         }
 
         // add each player object to the game

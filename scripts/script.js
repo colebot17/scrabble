@@ -375,7 +375,7 @@ function updateGamesList() {
 		setGamesList('inactive');
 
 		for (let i = 0; i < newlyInactiveGames; i++) {
-			newlyInactiveGames[i].newlyInactive = false;
+			//newlyInactiveGames[i].newlyInactive = false;
 
 			const card = document.getElementById('listGame' + newlyInactiveGames[i].id);
 			endGameAnimation(card).then(() => {
