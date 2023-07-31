@@ -409,7 +409,7 @@ function updateGamesList() {
 					titleBox.className = "listGameTitleBox";
 
 					const titleLine = document.createElement('div');
-						titleLine.className = "listGameTitleLine";
+						titleLine.className = "gameTitleLine";
 
 						const icon = document.createElement('span');
 							icon.className = "material-symbols-rounded smallIcon";
