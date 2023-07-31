@@ -464,7 +464,12 @@ function updateGamesList() {
 		}
 
 		const txt = document.createElement('div');
-			txt.className = "flex col";
+			txt.className = "flex col gap10";
+			txt.style.opacity = "0%";
+			txt.style.transition = "opacity 0.37s";
+			setTimeout(() => { // animate this in
+				txt.style.opacity = "";
+			}, 1000);
 		txt.appendChild(cardBox);
 		
 		const msg = document.createElement('span');
