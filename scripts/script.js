@@ -426,6 +426,7 @@ function updateGamesList() {
 					if (game.name) {
 						const idLine = document.createElement('div');
 							idLine.className = "gameIdLine";
+							idLine.innerHTML = '#' + game.id;
 						titleBox.appendChild(idLine);
 					}
 
