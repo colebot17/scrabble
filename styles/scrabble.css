@@ -680,6 +680,10 @@ body.scrabble {
 	text-align: center;
 }
 
+.friendsSubHeading {
+	margin: 10px 0 0 0;
+}
+
 /* move history */
 #historyContents {
 	padding: 5px;
