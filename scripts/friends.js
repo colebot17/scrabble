@@ -92,7 +92,7 @@ function updateRequestList(requests) {
         requestList.classList.add('hidden');
         friendsButton.classList.remove('badge');
         heading.classList.add('hidden');
-        otherHeading.classList.add('hiddin');
+        otherHeading.classList.add('hidden');
     } else {
         requestList.classList.remove('hidden');
         friendsButton.classList.add('badge');
