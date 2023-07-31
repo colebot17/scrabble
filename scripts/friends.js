@@ -86,7 +86,7 @@ function updateRequestList(requests) {
     }
 
     const friendsButton = document.getElementById('friendsButton');
-    const heading = document.getElementById('outgoingRequestsHeading');
+    const heading = document.getElementById('incomingRequestsHeading');
     const otherHeading = document.getElementById('mutualFriendsHeading');
     if (requests.length === 0) {
         requestList.classList.add('hidden');
