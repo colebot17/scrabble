@@ -463,7 +463,15 @@ function updateGamesList() {
 			cardBox.appendChild(card);
 		}
 
-		textModal(`Game${newlyInactiveGames.length > 1 ? 's' : ''} Ended!`, cardBox);
+		const txt = document.createElement('div');
+			txt.className = "flex col";
+		txt.appendChild(cardBox);
+		
+		const msg = document.createElement('span');
+			msg.innerHTML = "This game has been archived. You can still view it by pressing the <span class='material-symbols-rounded smallIcon'>chevron_right</span> button above the active games list.";
+		txt.appendChild(msg);
+
+		textModal(`Game${newlyInactiveGames.length > 1 ? 's' : ''} Ended!`, txt);
 
 		// animate each one
 		const cards = cardBox.children;
