@@ -91,7 +91,7 @@
 	font-size: small;
 }
 
-.gamePlayerList {
+.listGamePlayerList, .gamePlayerList {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
