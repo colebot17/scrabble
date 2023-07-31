@@ -466,9 +466,11 @@ function updateGamesList() {
 		const txt = document.createElement('div');
 			txt.className = "flex col gap10";
 		txt.appendChild(cardBox);
+
+		const plural = newlyInactiveGames.length > 1;
 		
 		const msg = document.createElement('span');
-			msg.innerHTML = "This game is over and has been archived. You can still view it by pressing the <span class='material-symbols-rounded smallIcon'>chevron_right</span> button above the active games list.";
+			msg.innerHTML = (plural ? "These games are" : "This game is") + " over and " + (plural ? "have" : "has") + " been archived. You can still view it by pressing the <span class='material-symbols-rounded smallIcon'>chevron_right</span> button above the active games list.";
 			msg.style.opacity = "0%";
 			msg.style.transition = "opacity 0.37s";
 			setTimeout(() => { // animate this in
@@ -476,7 +478,7 @@ function updateGamesList() {
 			}, 1500);
 		txt.appendChild(msg);
 
-		textModal(`Game${newlyInactiveGames.length > 1 ? 's' : ''} Ended!`, txt);
+		textModal(`Game${plural ? 's' : ''} Ended!`, txt);
 
 		// animate each one
 		const cards = cardBox.children;
