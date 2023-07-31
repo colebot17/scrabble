@@ -455,7 +455,7 @@ function updateGamesList() {
 							}
 
 							const text = document.createElement('span');
-								span.innerHTML = `<b>${player.name}</b>: ${player.points}`;
+								text.innerHTML = `<b>${player.name}</b>: ${player.points}`;
 							playerEl.appendChild(text);
 						playersList.appendChild(playerEl);
 					}
