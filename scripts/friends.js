@@ -219,6 +219,11 @@ function updateFriendListControls() {
     // update button and link text
     const newGameButton = document.getElementById('newGameWithSelectedButton');
     const addMoreToGameLink = document.getElementById('addMoreToGameLink');
+    if (account.friends.length === 0) {
+        newGameButton.classList.add('hidden');
+    } else {
+        newGameButton.classList.remove('hidden');
+    }
     if (checkedCount === 0) {
         newGameButton.innerHTML = `Select friends to create game`;
         addMoreToGameLink.innerHTML = `New Game with others`;
@@ -226,7 +231,7 @@ function updateFriendListControls() {
         newGameButton.innerHTML = `New Game with ${checkedCount} friend${checkedCount !== 1 ? `s` : ``}`;
         addMoreToGameLink.innerHTML = `Add others`;
     }
-
+    
     // update remove selected friends button
     const removeGroupButton = document.querySelector('#removeSelectedFriendsButton span');
     removeGroupButton.innerHTML = checkedCount === 1 ? 'person_remove' : 'group_remove';
