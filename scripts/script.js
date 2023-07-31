@@ -465,15 +465,15 @@ function updateGamesList() {
 
 		const txt = document.createElement('div');
 			txt.className = "flex col gap10";
-			txt.style.opacity = "0%";
-			txt.style.transition = "opacity 0.37s";
-			setTimeout(() => { // animate this in
-				txt.style.opacity = "";
-			}, 1000);
 		txt.appendChild(cardBox);
 		
 		const msg = document.createElement('span');
 			msg.innerHTML = "This game has been archived. You can still view it by pressing the <span class='material-symbols-rounded smallIcon'>chevron_right</span> button above the active games list.";
+			msg.style.opacity = "0%";
+			msg.style.transition = "opacity 0.37s";
+			setTimeout(() => { // animate this in
+				msg.style.opacity = "";
+			}, 1000);
 		txt.appendChild(msg);
 
 		textModal(`Game${newlyInactiveGames.length > 1 ? 's' : ''} Ended!`, txt);
