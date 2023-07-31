@@ -41,21 +41,21 @@
 	grid-template-rows: none;
 }
 
-.gamesList .listGame .listGameTitleBox {
+.listGameTitleBox {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	gap: 5px;
 }
-.gamesList .listGame .listGameTitleBox .gameTitleLine {
+.gameTitleLine {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 
 	font-weight: bold;
 }
-.gamesList .listGame .listGameTitleBox .listGameName {
+.listGameName {
 	font-weight: bold;
 	border: 1px solid transparent;
 	transition: border-color 0.87s;
@@ -82,7 +82,7 @@
 	width: calc(100% - 16px);
 	margin: 0 5px;
 }
-.gamesList .listGame .listGameTitleBox .gameIdLine {
+.gameIdLine {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -91,7 +91,7 @@
 	font-size: small;
 }
 
-.gamesList .listGame .listGamePlayerList, .gamePlayerList {
+.gamePlayerList {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -102,7 +102,7 @@
 [data-displaymode=list] .gamesList .listGame .listGamePlayerList {
 	display: none;
 }
-.gamesList .listGame .listGamePlayerListPlayer, .gamePlayerListPlayer {
+.listGamePlayerListPlayer, .gamePlayerListPlayer {
 	margin: 0;
 	display: flex;
 	justify-content: center;
@@ -138,6 +138,16 @@
 }
 .gamesList .newGameCard:hover {
 	background-color: var(--background-3);
+}
+.miniGameCard {
+	width: 150px;
+	background-color: var(--background-3);
+	border-radius: 10px;
+	padding: 20px;
+
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }
 
 .winnerIcon {
@@ -415,6 +425,10 @@ body.scrabble {
 }
 #textModal #textModalTitle {
 	margin: 0;
+}
+#textModal #textModalText {
+	text-align: center;
+	text-align: -webkit-center;
 }
 #textModal #textModalControls {
 	display: flex;

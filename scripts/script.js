@@ -388,22 +388,89 @@ function updateGamesList() {
 		// show the inactive games list
 		setGamesList('inactive');
 
+		const cardBox = document.createElement('div');
+		cardBox.className = "flex gap20";
+
 		for (let i = 0; i < newlyInactiveGames.length; i++) {
-			//newlyInactiveGames[i].newlyInactive = false;
+			const game = newlyInactiveGames[i];
 
-			const card = document.getElementById('listGame' + newlyInactiveGames[i].id);
-			card.scrollIntoView();
-			endGameAnimation(card).then(() => {
-				const game = newlyInactiveGames[i];
+			//game.newlyInactive = false;
 
-				const winners = [];
-				for (let j = 0; j < game.winnerIndicies.length; j++) {
-					winners.push(game.players[game.winnerIndicies[j]]);
-				}
+			const winners = [];
+			for (let j = 0; j < game.winnerIndicies.length; j++) {
+				winners.push(game.players[game.winnerIndicies[j]]);
+			}
 
-				const str = `<b>${game.name || "Game #" + game.id}</b> has ended. ${winnerString(winners)} won!`;
-				textModal('Game Ended', str);
-			});
+			const str = `<b>${game.name || "Game #" + game.id}</b> has ended. ${winnerString(winners)} won!`;
+			const card = document.createElement('div');
+				card.className = "miniGameCard";
+
+				const titleBox = document.createElement('div');
+					titleBox.className = "listGameTitleBox";
+
+					const titleLine = document.createElement('div');
+						titleLine.className = "listGameTitleLine";
+
+						const icon = document.createElement('span');
+							icon.className = "material-symbols-rounded smallIcon";
+							icon.innerHTML = "inventory_2";
+						titleLine.appendChild(icon);
+
+						const name = document.createElement('span');
+							name.className = "listGameName";
+							name.innerHTML = game.name ? game.name : '#' + game.id;
+						titleLine.appendChild(name);
+
+					titleBox.appendChild(titleLine);
+					
+					if (game.name) {
+						const idLine = document.createElement('div');
+							idLine.className = "gameIdLine";
+						titleBox.appendChild(idLine);
+					}
+
+				card.appendChild(titleBox);
+
+				const playersList = document.createElement('div');
+					playersList.className = "listGamePlayerList";
+
+					let winningPoints = 1;
+					for (let j = 0; j < game.players.length; j++) {
+						if (game.players[j].points > winningPoints) {
+							winningPoints = game.players[j].points;
+						}
+					}
+
+					for (let j = 0; j < game.players.length; j++) {
+						const player = game.players[j];
+
+						const playerEl = document.createElement('div');
+							playerEl.className = "listGamePlayerListPlayer";
+
+							if (player.points === winningPoints) {
+								const icon = document.createElement('span');
+									icon.className = "material-symbols-rounded smallIcon";
+									icon.innerHTML = "military_tech";
+								playerEl.appendChild(icon);
+							}
+
+							const text = document.createElement('span');
+								span.innerHTML = `<b>${player.name}</b>: ${player.points}`;
+							playerEl.appendChild(text);
+						playersList.appendChild(playerEl);
+					}
+					
+				card.appendChild(playersList);
+
+			cardBox.appendChild(card);
+		}
+
+		textModal(`Game${newlyInactiveGames.length > 1 ? 's' : ''} Ended`, cardBox);
+
+		// animate each one
+		const cards = cardBox.children;
+		for (let i = 0; i < cards.length; i++) {
+			endGameAnimation(cards[i]);
 		}
 	}
 	
