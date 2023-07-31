@@ -34,7 +34,7 @@ function updateFriendsList(friends) {
         listContents += listItem;
     }
 
-    if (friends.length === 0) {
+    if (friends.length === 0 && account.requests.length === 0) {
         listContents += `
             <div class="flex friendListPlaceholder">
                 Add your friends with the <span class="material-symbols-rounded smallIcon">group_add</span> button!
@@ -45,6 +45,107 @@ function updateFriendsList(friends) {
     friendList.innerHTML = listContents;
 
     updateFriendListControls();
+
+    updateSendRequestPage();
+}
+
+function updateRequestList(requests) {
+    const requestList = document.getElementById('requestList');
+
+    requestList.innerHTML = "";
+
+    // add each request
+    let listContents = ``;
+    for (let i = 0; i < requests.length; i++) {
+        const request = requests[i];
+        let listItem = `
+            <div class="friendListItem requestListFriend" id="request${i}" data-playerid="${request.id}" data-checked="false">
+                <div class="friendNameContainer flex col">
+                    <span class="friendName">
+                        ${request.name}
+                    </span>
+                    <span class="finePrint">
+                        wants to be your friend
+                    </span>
+                </div>
+                <div class="friendControls">
+                    <button class="iconButton" title="Accept" onclick="acceptRequests([${request.id}])">
+                        <span class="material-symbols-rounded">
+                            check
+                        </span>
+                    </button>
+                    <button class="iconButton" title="Reject" onclick="rejectRequests([${request.id}])">
+                        <span class="material-symbols-rounded">
+                            close
+                        </span>
+                    </button>
+                </div>
+            </div>
+        `;
+        listContents += listItem;
+    }
+
+    const friendsButton = document.getElementById('friendsButton');
+    const heading = document.getElementById('outgoingRequestsHeading');
+    const otherHeading = document.getElementById('mutualFriendsHeading');
+    if (requests.length === 0) {
+        requestList.classList.add('hidden');
+        friendsButton.classList.remove('badge');
+        heading.classList.add('hidden');
+        otherHeading.classList.add('hiddin');
+    } else {
+        requestList.classList.remove('hidden');
+        friendsButton.classList.add('badge');
+        heading.classList.remove('hidden');
+        otherHeading.classList.remove('hidden');
+    }
+
+    requestList.innerHTML = listContents;
+
+    updateSendRequestPage();
+}
+
+function updateSentRequestList(sentRequests) {
+    const sentRequestList = document.getElementById('sentRequestList');
+
+    sentRequestList.innerHTML = "";
+
+    // add each request
+    let listContents = ``;
+    for (let i = 0; i < sentRequests.length; i++) {
+        const sentRequest = sentRequests[i];
+        let listItem = `
+            <div class="friendListItem requestListFriend" id="request${i}" data-playerid="${sentRequest.id}" data-checked="false">
+                <div class="friendNameContainer flex col">
+                    <span class="friendName">
+                        ${sentRequest.name}
+                    </span>
+                    <span class="finePrint">
+                        request sent
+                    </span>
+                </div>
+                <div class="friendControls">
+                    <button class="iconButton" title="Cancel" onclick="cancelSentRequests([${sentRequest.id}])">
+                        <span class="material-symbols-rounded">
+                            close
+                        </span>
+                    </button>
+                </div>
+            </div>
+        `;
+        listContents += listItem;
+    }
+
+    const heading = document.getElementById('outgoingRequestsHeading');
+    if (sentRequests.length === 0) {
+        sentRequestList.classList.add('hidden');
+        heading.classList.add('hidden');
+    } else {
+        sentRequestList.classList.remove('hidden');
+        heading.classList.remove('hidden');
+    }
+
+    sentRequestList.innerHTML = listContents;
 
     updateSendRequestPage();
 }
@@ -89,97 +190,6 @@ function updateCreateGameFriendsList(friends = account.friends) {
     }
 
     list.innerHTML = listContents;
-}
-
-function updateRequestList(requests) {
-    const requestList = document.getElementById('requestList');
-
-    requestList.innerHTML = "";
-
-    // add each request
-    let listContents = ``;
-    for (let i = 0; i < requests.length; i++) {
-        const request = requests[i];
-        let listItem = `
-            <div class="friendListItem requestListFriend" id="request${i}" data-playerid="${request.id}" data-checked="false">
-                <div class="friendNameContainer flex col">
-                    <span class="friendName">
-                        ${request.name}
-                    </span>
-                    <span class="finePrint">
-                        wants to be your friend
-                    </span>
-                </div>
-                <div class="friendControls">
-                    <button class="iconButton" title="Accept" onclick="acceptRequests([${request.id}])">
-                        <span class="material-symbols-rounded">
-                            check
-                        </span>
-                    </button>
-                    <button class="iconButton" title="Reject" onclick="rejectRequests([${request.id}])">
-                        <span class="material-symbols-rounded">
-                            close
-                        </span>
-                    </button>
-                </div>
-            </div>
-        `;
-        listContents += listItem;
-    }
-
-    if (requests.length === 0) {
-        requestList.classList.add('hidden');
-        document.getElementById('friendsButton').classList.remove('badge');
-    } else {
-        requestList.classList.remove('hidden');
-        document.getElementById('friendsButton').classList.add('badge');
-    }
-
-    requestList.innerHTML = listContents;
-
-    updateSendRequestPage();
-}
-
-function updateSentRequestList(sentRequests) {
-    const sentRequestList = document.getElementById('sentRequestList');
-
-    sentRequestList.innerHTML = "";
-
-    // add each request
-    let listContents = ``;
-    for (let i = 0; i < sentRequests.length; i++) {
-        const sentRequest = sentRequests[i];
-        let listItem = `
-            <div class="friendListItem requestListFriend" id="request${i}" data-playerid="${sentRequest.id}" data-checked="false">
-                <div class="friendNameContainer flex col">
-                    <span class="friendName">
-                        ${sentRequest.name}
-                    </span>
-                    <span class="finePrint">
-                        request sent
-                    </span>
-                </div>
-                <div class="friendControls">
-                    <button class="iconButton" title="Cancel" onclick="cancelSentRequests([${sentRequest.id}])">
-                        <span class="material-symbols-rounded">
-                            close
-                        </span>
-                    </button>
-                </div>
-            </div>
-        `;
-        listContents += listItem;
-    }
-
-    if (sentRequests.length === 0) {
-        sentRequestList.classList.add('hidden');
-    } else {
-        sentRequestList.classList.remove('hidden');
-    }
-
-    sentRequestList.innerHTML = listContents;
-
-    updateSendRequestPage();
 }
 
 function toggleCheckbox(friendIndex, prefix = "friend") {
