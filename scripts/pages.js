@@ -75,6 +75,17 @@ function setGamesList(list) {
 	$('#createGameModal').modalClose();
 }
 
+function setFriendsPage(page) {
+    document.getElementById('friendsCell').dataset.page = page;
+
+    if (page === 'addFriends') {
+        const field = document.getElementById('addFriendField');
+        field.value = "";
+        field.focus();
+        updateSendRequestPage();
+    }
+}
+
 function setAddPlayerPanelPage(page) {
 	document.getElementById('addPlayerPanel').dataset.page = page;
 
