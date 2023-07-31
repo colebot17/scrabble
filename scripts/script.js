@@ -466,7 +466,7 @@ function updateGamesList() {
 			cardBox.appendChild(card);
 		}
 
-		textModal(`Game${newlyInactiveGames.length > 1 ? 's' : ''} Ended`, cardBox);
+		textModal(`Game${newlyInactiveGames.length > 1 ? 's' : ''} Ended!`, cardBox);
 
 		// animate each one
 		const cards = cardBox.children;
