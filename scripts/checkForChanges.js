@@ -243,8 +243,9 @@ function endGameAnimation(el) {
     return new Promise(resolve => {
         el.style.scale = "500%";
         el.style.opacity = "0%";
-        el.style.transition = "scale 0.3s ease-in, opacity 0.3s ease-in";
         setTimeout(() => {
+            el.style.transition = "scale 0.3s ease-in, opacity 0.3s ease-in";
+            
             // start the animation
             el.style.scale = "100%";
             el.style.opacity = "100%";
