@@ -200,7 +200,14 @@ function textModal(
 	// set the content of the modal
 	document.getElementById('textModalTitle').innerHTML = title;
 	const contentEl = document.getElementById('textModalText');
-	contentEl.innerHTML = text;
+
+	if (typeof text === 'object') {
+		contentEl.innerHTML = "";
+		contentEl.appendChild(text);
+	} else {
+		contentEl.innerHTML = text;
+	}
+
 	contentEl.style.order = (!title ? '-1' : '');
 
 	if (options.cancelable) {

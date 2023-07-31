@@ -240,20 +240,34 @@ function showEndGameScreen(data) {
 var confetti;
 
 function endGameAnimation(el) {
-    el.style.scale = "500%";
-    el.style.opacity = "0%";
-    el.style.transition = "scale 0.3s ease-in, opacity 0.3s ease-in";
-    setTimeout(() => {
-        el.style.scale = "100%";
-        el.style.opacity = "100%";
-
-        if (!confetti) confetti = new Confetti();
+    return new Promise(resolve => {
+        el.style.scale = "500%";
+        el.style.opacity = "0%";
         setTimeout(() => {
-            const cardBounds = el.getBoundingClientRect();
-            const x = (cardBounds.x + (cardBounds.width / 2));
-            const y = (cardBounds.y + (cardBounds.height / 2));
+            el.style.transition = "scale 0.3s ease-in, opacity 0.3s ease-in";
+            
+            // start the animation
+            el.style.scale = "100%";
+            el.style.opacity = "100%";
 
-            confetti.startBurst(x, y);
-        }, 300);
-    }, 10);
+            // pre-initialize the confetti
+            if (!confetti) confetti = new Confetti();
+            setTimeout(() => { // when the animation is over
+                // find midpoint of card
+                const cardBounds = el.getBoundingClientRect();
+                const x = (cardBounds.x + (cardBounds.width / 2));
+                const y = (cardBounds.y + (cardBounds.height / 2));
+
+                confetti.startBurst(x, y); // explode the confetti
+
+                // remove styles
+                el.style.scale = "";
+                el.style.opacity = "";
+                el.style.transition = "";
+
+                // resolve promise
+                resolve();
+            }, 300);
+        }, 10);
+    });
 }

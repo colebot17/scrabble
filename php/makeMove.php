@@ -7,9 +7,9 @@ $password = "96819822";
 $dbname = "scrabble";
 
 // get data from GET/POST
-$gameId = $_POST['game'];
+$gameId = (int)$_POST['game'];
 $tiles = json_decode($_POST['tiles'], true);
-$user = $_POST['user'];
+$user = (int)$_POST['user'];
 $pwd = $_POST['pwd'];
 
 // create and check connection
@@ -283,7 +283,16 @@ if ($inactive) {
 		if ($players[$i]["points"] === $highestScore) {
 			$winnerIndicies[] = $i;
 		}
+
+		// set all the players' gameEndUnseen (except current player)
+		$players[$i]['gameEndUnseen'] = (int)$players[$i]['id'] !== $user;
 	}
+	// upload the player list again (because of gameEndUnseen)
+	$playersJson = json_encode($players);
+	$sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
+	$query = mysqli_query($conn, $sql);
+
+	// add the game end update
 	$updateData = Array(
 		"player" => $user,
 		"playerIndex" => $currentPlayerIndex,
