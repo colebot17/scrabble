@@ -468,7 +468,7 @@ function updateGamesList() {
 		txt.appendChild(cardBox);
 		
 		const msg = document.createElement('span');
-			msg.innerHTML = "This game has been archived. You can still view it by pressing the <span class='material-symbols-rounded smallIcon'>chevron_right</span> button above the active games list.";
+			msg.innerHTML = "This game is over and has been archived. You can still view it by pressing the <span class='material-symbols-rounded smallIcon'>chevron_right</span> button above the active games list.";
 			msg.style.opacity = "0%";
 			msg.style.transition = "opacity 0.37s";
 			setTimeout(() => { // animate this in
