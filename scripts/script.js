@@ -385,9 +385,6 @@ function updateGamesList() {
 
 	// animate any newly inactive games
 	if (newlyInactiveGames.length) {
-		// show the inactive games list
-		setGamesList('inactive');
-
 		const cardBox = document.createElement('div');
 		cardBox.className = "flex gap20";
 
