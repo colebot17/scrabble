@@ -473,7 +473,7 @@ function updateGamesList() {
 			msg.style.transition = "opacity 0.37s";
 			setTimeout(() => { // animate this in
 				msg.style.opacity = "";
-			}, 2000);
+			}, 1500);
 		txt.appendChild(msg);
 
 		textModal(`Game${newlyInactiveGames.length > 1 ? 's' : ''} Ended!`, txt);
