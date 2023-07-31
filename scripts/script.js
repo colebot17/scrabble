@@ -470,7 +470,7 @@ function updateGamesList() {
 		const plural = newlyInactiveGames.length > 1;
 		
 		const msg = document.createElement('span');
-			msg.innerHTML = (plural ? "These games are" : "This game is") + " over and " + (plural ? "have" : "has") + " been archived. You can still view it by pressing the <span class='material-symbols-rounded smallIcon'>chevron_right</span> button above the active games list.";
+			msg.innerHTML = (plural ? "These games are" : "This game is") + " over and " + (plural ? "have" : "has") + " been archived. You can still view " + (plural ? "them" : "it") + " by pressing the <span class='material-symbols-rounded smallIcon'>chevron_right</span> button above the active games list.";
 			msg.style.opacity = "0%";
 			msg.style.transition = "opacity 0.37s";
 			setTimeout(() => { // animate this in
