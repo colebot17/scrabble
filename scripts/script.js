@@ -391,7 +391,7 @@ function updateGamesList() {
 		for (let i = 0; i < newlyInactiveGames.length; i++) {
 			const game = newlyInactiveGames[i];
 
-			//game.newlyInactive = false;
+			game.newlyInactive = false;
 
 			const winners = [];
 			for (let j = 0; j < game.winnerIndicies.length; j++) {
