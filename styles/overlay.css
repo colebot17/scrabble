@@ -1,0 +1,53 @@
+/* https://codepen.io/colebot17/pen/jOQXaZj */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    z-index: 2;
+
+    background-color: var(--text-color-light);
+}
+
+.overlayContent {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: 4;
+
+    background-color: var(--background-1);
+    color: var(--text-color);
+
+    padding: 10px;
+    border-radius: 5px;
+    
+    transition: width 0.2s, height 0.2s, top 0.2s, right 0.2s;
+}
+
+.overlayMask {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 0;
+    height: 0;
+
+    background-color: var(--text-highlight);
+
+    border-radius: 10px;
+
+    transition: width 0.2s, height 0.2s, top 0.2s, right 0.2s;
+}
+
+.maskedElement {
+    position: relative;
+    z-index: 3;
+
+    background-color: inherit;
+    
+    border-radius: 5px;
+}
