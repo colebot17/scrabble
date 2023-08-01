@@ -55,8 +55,8 @@ function showOverlay(element, text, next = hideOverlay) {
 
     const maskPadding = 5;
 
-    const maskX = bounds.left;
-    const maskY = bounds.top;
+    const maskX = bounds.left - maskPadding;
+    const maskY = bounds.top - maskPadding;
 
     const maskWidth = (bounds.right - bounds.left) + (2 * maskPadding);
     const maskHeight = (bounds.bottom - bounds.top) + (2 * maskPadding);
