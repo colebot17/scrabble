@@ -12,7 +12,8 @@ class TutorialStep {
 const scrabbleTutorial = [
     new TutorialStep('#gamesListRefreshButton', "Press this to get the latest games list!"),
     new TutorialStep('#viewInactiveGamesButton', "Your inactive games live here!", () => {setGamesList('active')}),
-    new TutorialStep('.newGameCard', "Create a new game by clicking here!", () => {setGamesList('active')})
+    new TutorialStep('.newGameCard', "Create a new game by clicking here!", () => {setGamesList('active')}),
+    new TutorialStep('#addPlayerPanel', "Add players to the game here.", () => {newGame()})
 ];
 
 function startTutorial(tutorial = scrabbleTutorial, startingAt = 0) {
