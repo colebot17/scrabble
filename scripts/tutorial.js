@@ -10,7 +10,8 @@ class TutorialStep {
 }
 
 const scrabbleTutorial = [
-    new TutorialStep('#gamesListRefreshButton', "Press this to get the latest games list!", () => {console.log("pre")}, () => {console.log("post")})
+    new TutorialStep('#gamesListRefreshButton', "Press this to get the latest games list!"),
+    new TutorialStep('#viewInactiveGamesButton', "Your inactive games live here!")
 ];
 
 function startTutorial(tutorial = scrabbleTutorial, startingAt = 0) {
