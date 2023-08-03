@@ -14,7 +14,8 @@ const scrabbleTutorial = [
     new TutorialStep('#gamesListRefreshButton', "Press this to get the latest games list!", () => {setGamesList('active')}),
     new TutorialStep('#viewInactiveGamesButton', "When a game ends, it gets archived.<br>You can view inactive games here.", () => {}, () => {setGamesList('inactive')}),
     new TutorialStep('#activeGamesButton', "Click here to go back", () => {}, () => {setGamesList('active')}),
-    new TutorialStep('.newGameCard', "Create a new game by clicking here!", () => {}, () => {newGame()}, 370)
+    new TutorialStep('.newGameCard', "Create a new game by clicking here!", () => {}, () => {newGame();setAddPlayerPanelPage('others');}, 370),
+    new TutorialStep('#createGamePlayerInput', "Add your friends by entering their usernames here")
 ];
 
 function startTutorial(tutorial = scrabbleTutorial, startingAt = 0) {
