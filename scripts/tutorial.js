@@ -1,11 +1,12 @@
 // https://codepen.io/colebot17/pen/jOQXaZj
 
 class TutorialStep {
-    constructor (selector, content, preFn = () => {}, postFn = () => {}) {
+    constructor (selector, content, preFn = () => {}, postFn = () => {}, delay = 0) {
         this.selector = selector;
         this.content = content;
         this.preFn = preFn;
         this.postFn = postFn;
+        this.delay = delay;
     }
 }
 
@@ -13,7 +14,7 @@ const scrabbleTutorial = [
     new TutorialStep('#gamesListRefreshButton', "Press this to get the latest games list!", () => {setGamesList('active')}),
     new TutorialStep('#viewInactiveGamesButton', "When a game ends, it gets archived.<br>You can view inactive games here.", () => {}, () => {setGamesList('inactive')}),
     new TutorialStep('#activeGamesButton', "Click here to go back", () => {}, () => {setGamesList('active')}),
-    new TutorialStep('.newGameCard', "Create a new game by clicking here!", () => {})
+    new TutorialStep('.newGameCard', "Create a new game by clicking here!", () => {}, () => {newGame()}, 370)
 ];
 
 function startTutorial(tutorial = scrabbleTutorial, startingAt = 0) {
@@ -25,11 +26,13 @@ function startTutorial(tutorial = scrabbleTutorial, startingAt = 0) {
     const pointingAt = document.querySelector(step.selector);
     showOverlay(pointingAt, step.content, () => {
         step.postFn();
-        if (nextStep) {
-            startTutorial(tutorial, startingAt + 1);
-        } else {
-            hideOverlay();
-        }
+        setTimeout(() => {
+            if (nextStep) {
+                startTutorial(tutorial, startingAt + 1);
+            } else {
+                hideOverlay();
+            }
+        }, step.delay);
     });
 }
 
