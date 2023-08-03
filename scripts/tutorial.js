@@ -71,7 +71,7 @@ function showOverlay(element, text, next = hideOverlay) {
     const elCompStyle = window.getComputedStyle(element);
 
     const elBorderRadius = elCompStyle.getPropertyValue('border-radius').slice(0, -2);
-    const maskBorderRadius = elBorderRadius - maskPadding;
+    const maskBorderRadius = elBorderRadius + maskPadding;
     mask.style.borderRadius = maskBorderRadius + 'px';
 
 
