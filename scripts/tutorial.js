@@ -11,9 +11,9 @@ class TutorialStep {
 
 const scrabbleTutorial = [
     new TutorialStep('#gamesListRefreshButton', "Press this to get the latest games list!", () => {setGamesList('active')}),
-    new TutorialStep('.newGameCard', "Create a new game by clicking here!", () => {}),
     new TutorialStep('#viewInactiveGamesButton', "When a game ends, it gets archived.<br>You can view inactive games here.", () => {}, () => {setGamesList('inactive')}),
-    new TutorialStep('#activeGamesButton', "Click here to go back", () => {}, () => {setGamesList('active')})
+    new TutorialStep('#activeGamesButton', "Click here to go back", () => {}, () => {setGamesList('active')}),
+    new TutorialStep('.newGameCard', "Create a new game by clicking here!", () => {})
 ];
 
 function startTutorial(tutorial = scrabbleTutorial, startingAt = 0) {
