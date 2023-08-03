@@ -68,6 +68,13 @@ function showOverlay(element, text, next = hideOverlay) {
     mask.style.width = maskWidth + 'px';
     mask.style.height = maskHeight + 'px';
 
+    const elCompStyle = window.getComputedStyle(element);
+
+    const elBorderRadius = elCompStyle.getPropertyValue('border-radius').slice(0, -2);
+    const maskBorderRadius = elBorderRadius - maskPadding;
+    mask.style.borderRadius = maskBorderRadius + 'px';
+
+
     overlay.addEventListener('click', next, {once: true});
 }
 
