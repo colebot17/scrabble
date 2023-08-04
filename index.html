@@ -301,6 +301,24 @@
 					</div>
 				</div>
 
+				<div class="hidden accountForm flex col stretch" id="changeUsernameConfirmForm">
+					<h3 class="accountFormTitle">Really Change Your Username?</h3>
+					<div>This action will change how others see you across the site.</div>
+					<div class="flex stretch noMargin">
+						<button class="flexGrow" onclick="setSignInMode('settings')">Cancel</button>
+						<button class="flexGrow highlight" onclick="changeUsername(true)">Change</button>
+					</div>
+				</div>
+
+				<div class="hidden accountForm flex col stretch" id="changePasswordConfirmForm">
+					<h3 class="accountFormTitle">Really Change Your Password?</h3>
+					<div>You will be signed out of all devices, and you will lose the ability to sign in using your old password.</div>
+					<div class="flex stretch noMargin">
+						<button class="flexGrow" onclick="setSignInMode('settings')">Cancel</button>
+						<button class="flexGrow highlight" onclick="changePassword(true)">Change</button>
+					</div>
+				</div>
+
 				<div class="hidden accountForm flex gap10" id="signOutForm">
 					<button class="iconButton hidden" id="shareButton" onclick="share()" title="Share">
 						<span class="material-symbols-rounded">share</span>

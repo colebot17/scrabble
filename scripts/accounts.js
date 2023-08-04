@@ -161,6 +161,7 @@ function createAccount(name = $('#createAccountUsername').val(), pwd = $('#creat
 }
 
 function changePassword(
+	confirmed = false,
 	pwd = document.getElementById('changePasswordPwd').value,
 	newPwd = document.getElementById('changePasswordNewPwd').value,
 	newPwdConfirm = document.getElementById('changePasswordConfirmNewPwd').value
@@ -170,66 +171,42 @@ function changePassword(
 		return;
 	}
 
-	textModal('Change Password', 'Are you sure you want to change your password? You will be signed out of all devices, and you will lose the ability to sign in using your old password.', {
-		cancelable: true,
-		complete: () => {
-			$.ajax(
-				location + '/php/changePassword.php',
-				{
-					data: {
-						user: account.id,
-						pwd,
-						newPwd
-					},
-					method: "POST",
-					success: function(data) {
-						const jsonData = JSON.parse(data);
-						if (jsonData.errorLevel > 0) {
-							textModal("Error", jsonData.message);
-							return;
-						}
-						signIn(account.name, newPwd);
-						textModal("Change Password", "Password changed.");
-					},
-					error: function() {
-						textModal("Unknown Error", "Could not change password.")
-						console.error("Could not change password.");
-					}
-				}
-			);
+	if (!confirmed) {
+		setSignInMode('changePasswordConfirm');
+		return;
+	}
+	request('changePassword.php', {user: account.id, pwd, newPwd}).then(res => {
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message);
+			return;
 		}
+		signIn(account.name, newPwd);
+		textModal("Change Password", "Password Changed.");
+	}).catch(err => {
+		console.error(err);
 	});
 }
 
 function changeUsername(
+	confirmed = false,
 	pwd = document.getElementById('changeUsernamePwd').value,
 	newName = document.getElementById('changeUsernameNewName').value
 ) {
-	textModal('Change Username', 'Are you sure you want to change your username? This action will change how others see you across the site.', {
-		cancelable: true,
-		complete: () => {
-			$.ajax(
-				location + '/php/changeUsername.php',
-				{
-					data: {
-						user: account.id,
-						pwd,
-						newName
-					},
-					method: "POST",
-					success: function(data) {
-						const jsonData = JSON.parse(data);
-						if (jsonData.errorLevel > 0) {
-							textModal("Error", jsonData.message);
-							return;
-						}
-						signIn(newName, account.pwd);
-						textModal('Change Username', jsonData.message);
-					}
-				}
-			)
+	if (!confirmed) {
+		setSignInMode('changeUsernameConfirm');
+		return;
+	}
+
+	request('changeUsername.php', {user: account.id, pwd, newName}).then(res => {
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message);
+			return;
 		}
-	})
+		signIn(newName, account.pwd);
+		textModal("Change Username", jsonData.message);
+	}).catch(err => {
+		console.error(err);
+	});
 }
 
 function signOut(confirm = true, saveAccount = false) {
