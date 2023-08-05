@@ -109,7 +109,7 @@ function updateMetaTag(name, option, value) {
 	const meta = document.querySelector('meta[name=' + name + ']');
 	const rules = parseMetaString(meta.content);
 
-	if (value = undefined) {
+	if (value === undefined) {
 		delete rules[option];
 	} else {
 		rules[option] = value;
