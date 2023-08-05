@@ -102,7 +102,7 @@ function makeHex(r, g, b, a) {
 
 function resetMobileZoom() {
 	updateMetaTag('viewport', 'maximum-scale', 1.0);
-	updateMetaTag('viewport', 'maximum-scale', 10.0);
+	setTimeout(() => {updateMetaTag('viewport', 'maximum-scale', 10.0)}, 1000);
 }
 
 function updateMetaTag(name, option, value) {
