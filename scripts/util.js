@@ -100,11 +100,6 @@ function makeHex(r, g, b, a) {
 	return str;
 }
 
-function resetMobileZoom() {
-	updateMetaTag('viewport', 'maximum-scale', 1.0);
-	setTimeout(() => {updateMetaTag('viewport', 'maximum-scale', 10.0)}, 1000);
-}
-
 function updateMetaTag(name, option, value) {
 	const meta = document.querySelector('meta[name=' + name + ']');
 	const rules = parseMetaString(meta.content);
