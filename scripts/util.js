@@ -99,3 +99,44 @@ function makeHex(r, g, b, a) {
 	str += b.toString(16);
 	return str;
 }
+
+function resetMobileZoom() {
+	updateMetaTag('viewport', 'maximum-scale', 1.0);
+	updateMetaTag('viewport', 'maximum-scale', 10.0);
+}
+
+function updateMetaTag(name, option, value) {
+	const meta = document.querySelector('meta[name=' + name + ']');
+	const rules = parseMetaString(meta.content);
+
+	if (value = undefined) {
+		delete rules[option];
+	} else {
+		rules[option] = value;
+	}
+
+	meta.content = createMetaString(rules);
+}
+
+function parseMetaString(string) {
+	const rules = string.split(",");
+	const object = {};
+	for (let i = 0; i < rules.length; i++) {
+		const rule = rules[i].trim();
+		const pair = rule.split('=');
+		object[pair[0]] = pair[1];
+	}
+}
+
+function createMetaString(object) {
+	const keys = Object.keys(object);
+	const values = Object.values(object);
+	let string = "";
+	for (let i = 0; i < Math.min(keys.length, values.length); i++) {
+		if (i !== 0) string += ", ";
+ 
+		string += keys[i];
+		string += "=";
+		string += values[i];
+	}
+}
