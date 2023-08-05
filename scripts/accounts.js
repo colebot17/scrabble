@@ -193,7 +193,7 @@ function changeUsername(
 		}
 		removeSavedAccount(getSavedAccountIndex(account.name), false);
 		signIn(newName, account.pwd);
-		textModal("Change Username", jsonData.message);
+		textModal("Change Username", res.message);
 	}).catch(err => {
 		console.error(err);
 	});
