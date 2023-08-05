@@ -137,27 +137,15 @@ function createAccount(name = $('#createAccountUsername').val(), pwd = $('#creat
 		return;
 	}
 
-	$.ajax(
-		location + '/php/createAccount.php',
-		{
-			data: {
-				name,
-				pwd
-			},
-			method: "POST",
-			success: function(data) {
-				const jsonData = JSON.parse(data);
-				if (jsonData.errorLevel > 0) {
-					textModal("Error", jsonData.message);
-					return;
-				}
-				signIn(name, pwd);
-			},
-			error: function() {
-				console.error("Could not create account.");
-			}
+	request('createAccount.php', {name, pwd}).then(res => {
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message);
+			return;
 		}
-	);
+		signIn(name, pwd);
+	}).catch(err => {
+		console.error(err);
+	});
 }
 
 function changePassword(
@@ -180,6 +168,7 @@ function changePassword(
 			textModal("Error", res.message);
 			return;
 		}
+		removeSavedAccount(getSavedAccountIndex(account.name), false);
 		signIn(account.name, newPwd);
 		textModal("Change Password", "Password Changed.");
 	}).catch(err => {
@@ -202,6 +191,7 @@ function changeUsername(
 			textModal("Error", res.message);
 			return;
 		}
+		removeSavedAccount(getSavedAccountIndex(account.name), false);
 		signIn(newName, account.pwd);
 		textModal("Change Username", jsonData.message);
 	}).catch(err => {
@@ -379,4 +369,12 @@ function removeAllSavedAccounts(confirm = true) {
 	} else {
 		doIt();
 	}
+}
+
+function getSavedAccountIndex(name) {
+	if (!localStorage.savedAccounts) return undefined;
+
+	const savedAccounts = JSON.parse(localStorage.savedAccounts);
+	const index = savedAccounts.findIndex(a => a.name === name);
+	return index;
 }
