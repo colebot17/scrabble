@@ -126,6 +126,7 @@ function parseMetaString(string) {
 		const pair = rule.split('=');
 		object[pair[0]] = pair[1];
 	}
+	return object;
 }
 
 function createMetaString(object) {
@@ -139,4 +140,5 @@ function createMetaString(object) {
 		string += "=";
 		string += values[i];
 	}
+	return string;
 }
