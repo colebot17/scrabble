@@ -338,6 +338,7 @@ function activeGameLI(game) {
                     </div>
                 ` : ``}
             </div>
+            <div>Placeholder</div>
             <span class="material-symbols-rounded smallIcon textColorLight">
                 chevron_right
             </span>
