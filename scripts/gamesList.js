@@ -59,7 +59,7 @@ function updateActiveGamesList(games, dispMode = "card") {
     // generate the content
     let content = ``;
     for (let i = 0; i < games.length; i++) {
-        content += dispMode === "list" ? activeGameLI(games[i]) : activeGameCard[games[i]];
+        content += dispMode === "list" ? activeGameLI(games[i]) : activeGameCard(games[i]);
     }
 
     // add the new game card
