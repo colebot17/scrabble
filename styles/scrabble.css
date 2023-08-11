@@ -99,9 +99,6 @@
 
 	overflow: auto;
 }
-[data-displaymode=list] .gamesList .listGame .listGamePlayerList {
-	display: none;
-}
 .listGamePlayerListPlayer, .gamePlayerListPlayer {
 	margin: 0;
 	display: flex;
@@ -111,13 +108,6 @@
 }
 .gamesList .listGame .listGameInfoSummary {
 	display: none;
-}
-[data-displaymode=list] .gamesList .listGame .listGameInfoSummary {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	gap: 5px;
 }
 .gamesList .newGameCard {
 	width: 220px;
