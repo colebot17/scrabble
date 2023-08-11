@@ -221,7 +221,7 @@ function activeGameCard(game) {
     }
 
     // player list
-    const playerListHTML = ``;
+    let playerListHTML = ``;
     for (let i = 0; i < game.players.length; i++) {
         const player = game.players[i];
 
@@ -280,7 +280,7 @@ function inactiveGameCard(game) {
     }
 
     // player list
-    const playerListHTML = ``;
+    let playerListHTML = ``;
     for (let i = 0; i < game.players.length; i++) {
         const player = game.players[i];
 
