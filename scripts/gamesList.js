@@ -72,7 +72,7 @@ function updateActiveGamesList(games, dispMode = "card") {
                 New Game
             </span>
             <span></span>
-        <button>
+        </button>
     `;
 
     // update the DOM element
