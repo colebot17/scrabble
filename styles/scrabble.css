@@ -120,10 +120,11 @@
 	align-items: center;
 	gap: 30px;
 }
-[data-displaymode=list] .gamesList .newGameCard {
+[data-displaymode=list] .gamesList .newGameCard, [data-displaymode=list] .gamesList .listGame {
 	width: calc(100% - 15px);
 	height: auto;
-
+}
+[data-displaymode=list] .gamesList .newGameCard {
 	flex-direction: row;
 }
 .gamesList .newGameCard:hover {
