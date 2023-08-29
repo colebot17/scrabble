@@ -329,7 +329,7 @@ function activeGameLI(game) {
     const content = /* html */ `
         <button class="listGame" id="listGame${game.id}" onclick="loadGame(${game.id}, false)">
             <div class="flex col fullHeight">
-                <span class="bold ellipsis" onclick="renameGame(${game.id}, 'list')">
+                <span class="bold fullWidth ellipsis" onclick="renameGame(${game.id}, 'list')">
                     ${game.name || `#${game.id}`}
                 </span>
                 ${game.name ? /* html */ `
