@@ -33,11 +33,6 @@ var game;
 
 var dragged;
 
-$(':root').css('--height', `${window.innerHeight}px`);
-window.addEventListener('resize', () => {
-	$(':root').css('--height', `${window.innerHeight}px`);
-});
-
 function loadGamesList(done) {
 	if (account.id) {
 		// spin the reload button until list is loaded
