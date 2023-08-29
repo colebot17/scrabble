@@ -37,6 +37,8 @@
 [data-displaymode=list] .gamesList .listGame {
 	grid-template-columns: 25% 1fr max-content;
 	grid-template-rows: none;
+
+	font-size: 1rem;
 }
 
 .listGameTitleBox {
