@@ -292,7 +292,7 @@ function updateSavedAccountList() {
 		const isCurrent = savedAccounts[i].name === account?.name;
 		list.innerHTML += /* html */ `
 			<div class="account" data-savedaccountid="${i}">
-				<span class="accountName">${savedAccounts[i].name}${isCurrent ? ` (You)` : ``}</span>
+				<span class="accountName">${savedAccounts[i].name}${isCurrent ? ` <span class="textColorLight">(You)</span>` : ``}</span>
 				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}')"${isCurrent ? ` disabled` : ``}>
 					<span class="material-symbols-rounded smallIcon">login</span>
 					${isCurrent ? `Signed In` : `Sign In`}
