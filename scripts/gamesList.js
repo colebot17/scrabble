@@ -271,29 +271,8 @@ function inactiveGameCard(game) {
     let turnIndex = parseInt(game.turn) % game.players.length;
     let turnUser = parseInt(game.players[turnIndex].id);
 
-    // find the winning point number
-    let winningPoints = 1;
-    for (let i = 0; i < game.players.length; i++) {
-        if (game.players[i].points > winningPoints) {
-            winningPoints = game.players[i].points;
-        }
-    }
-
     // player list
-    let playerListHTML = ``;
-    for (let i = 0; i < game.players.length; i++) {
-        const player = game.players[i];
-
-        playerListHTML += /* html */ `
-            <div class="listGamePlayerListPlayer">
-                ${player.points === winningPoints ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>` : ``}
-                <span>
-                    <b>${player.name}</b>
-                    : ${player.points}
-                </span>
-            </div>
-        `;
-    }
+	let playerListHTML = playerList(game.players);
 
     // content
     const content = /* html */ `
@@ -338,7 +317,7 @@ function activeGameLI(game) {
                     </div>
                 ` : ``}
             </div>
-            <div class="flex col fullHeight">Placeholder</div>
+            <div class="flex col fullHeight">${inlinePlayerList(game.players)}</div>
 			<div class="flex col fullHeight">
 				<span class="material-symbols-rounded textColorLight">
 					chevron_right
@@ -352,6 +331,45 @@ function activeGameLI(game) {
 
 function inactiveGameLI(game) {
     return activeGameLI(game);
+}
+
+function playerList(players) {
+	// find the winning point number
+	let winningPoints = 1; // start at 1 so everyone isn't winning when the game first starts
+	for (let i = 0; i < players.length; i++) {
+		if (players[i].points > winningPoints) {
+			winningPoints = players[i].points;
+		}
+	}
+
+	let html = ``;
+    for (let i = 0; i < players.length; i++) {
+        const player = players[i];
+
+        html += /* html */ `
+            <div class="listGamePlayerListPlayer">
+                ${player.points === winningPoints ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>` : ``}
+                <span>
+                    <b>${player.name}</b>
+                    : ${player.points}
+                </span>
+            </div>
+        `;
+    }
+	return html;
+}
+
+function inlinePlayerList(players) {
+	let html = ``;
+	for (let i = 0; i < players.length; i++) {
+		const player = players[i];
+
+		if (html) html += ', '; // always add comma if necessary
+
+		if (player.id !== account.id) { // hide self to save space
+			html += player.name;
+		}
+	}
 }
 
 
