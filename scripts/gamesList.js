@@ -208,40 +208,6 @@ function showNewlyInactiveGames(newlyInactiveGames) {
 
 
 function activeGameCard(game) {
-    // get the current turn info
-    let turnIndex = parseInt(game.turn) % game.players.length;
-    let turnUser = parseInt(game.players[turnIndex].id);
-
-    // find the winning point number
-    let winningPoints = 1;
-    for (let i = 0; i < game.players.length; i++) {
-        if (game.players[i].points > winningPoints) {
-            winningPoints = game.players[i].points;
-        }
-    }
-
-    // player list
-    let playerListHTML = ``;
-    for (let i = 0; i < game.players.length; i++) {
-        const player = game.players[i];
-
-        playerListHTML += /* html */ `
-            <div class="listGamePlayerListPlayer">
-                ${player.points === winningPoints ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>` : ``}
-                <span>
-                    <b>
-                        ${i === turnIndex ? '<u>' : ''}
-                        ${player.name}
-                        ${i === turnIndex ? '</u>' : ''}
-                    </b>
-                    : ${player.points}
-                </span>
-                ${player.endGameRequest ? `<span class="material-symbols-rounded winnerIcon" title="Voted to end the game">highlight_off</span>` : ``}
-            </div>
-        `;
-    }
-
-    // content
     const content = /* html */ `
         <div class="listGame" id="listGame${game.id}">
             <div class="listGameTitleBox">
@@ -255,7 +221,7 @@ function activeGameCard(game) {
                 ` : ``}
             </div>
             <div class="listGamePlayerList">
-                ${playerListHTML}
+                ${playerList(game)}
             </div>
             <button class="openGameButton${turnUser === account.id ? " highlight" : ""}" onclick="loadGame(${game.id}, true)" data-gameid="${game.id}">
                 ${turnUser === account.id ? "Play" : "View"}
@@ -267,12 +233,7 @@ function activeGameCard(game) {
 }
 
 function inactiveGameCard(game) {
-    // get the current turn info
-    let turnIndex = parseInt(game.turn) % game.players.length;
-    let turnUser = parseInt(game.players[turnIndex].id);
-
-    // player list
-	let playerListHTML = playerList(game.players);
+    let turnIndex = parseInt(game.turn) % players.length;
 
     // content
     const content = /* html */ `
@@ -293,7 +254,7 @@ function inactiveGameCard(game) {
                 ` : ``}
             </div>
             <div class="listGamePlayerList">
-                ${playerListHTML}
+                ${playerList(game)}
             </div>
             <button class="openGameButton" onclick="loadGame(${game.id}, true)" data-gameid="${game.id}">
                 View
@@ -333,26 +294,35 @@ function inactiveGameLI(game) {
     return activeGameLI(game);
 }
 
-function playerList(players) {
-	// find the winning point number
-	let winningPoints = 1; // start at 1 so everyone isn't winning when the game first starts
-	for (let i = 0; i < players.length; i++) {
-		if (players[i].points > winningPoints) {
-			winningPoints = players[i].points;
-		}
-	}
+function playerList(game) {
+    let turnIndex = parseInt(game.turn) % game.players.length;
+    let turnUser = parseInt(game.players[turnIndex].id);
 
-	let html = ``;
-    for (let i = 0; i < players.length; i++) {
-        const player = players[i];
+    // find the winning point number
+    let winningPoints = 1;
+    for (let i = 0; i < game.players.length; i++) {
+        if (game.players[i].points > winningPoints) {
+            winningPoints = game.players[i].points;
+        }
+    }
+
+    // player list
+    let html = ``;
+    for (let i = 0; i < game.players.length; i++) {
+        const player = game.players[i];
 
         html += /* html */ `
             <div class="listGamePlayerListPlayer">
                 ${player.points === winningPoints ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>` : ``}
                 <span>
-                    <b>${player.name}</b>
+                    <b>
+                        ${i === turnIndex && !game.inactive ? '<u>' : ''}
+                        ${player.name}
+                        ${i === turnIndex && !game.inactive ? '</u>' : ''}
+                    </b>
                     : ${player.points}
                 </span>
+                ${player.endGameRequest && !game.inactive ? `<span class="material-symbols-rounded winnerIcon" title="Voted to end the game">highlight_off</span>` : ``}
             </div>
         `;
     }
@@ -370,6 +340,7 @@ function inlinePlayerList(players) {
 			html += player.name;
 		}
 	}
+	return html;
 }
 
 
