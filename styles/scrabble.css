@@ -122,7 +122,7 @@
 }
 [data-displaymode=list] .gamesList .newGameCard, [data-displaymode=list] .gamesList .listGame {
 	width: calc(100% - 15px);
-	height: auto;
+	height: 70px;
 }
 [data-displaymode=list] .gamesList .newGameCard {
 	flex-direction: row;
