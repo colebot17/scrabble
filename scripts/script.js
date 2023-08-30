@@ -67,11 +67,6 @@ function loadGamesList(done) {
 				// load the new content
 				account.games = res.data;
 				updateGamesList();
-
-				// // done (for pull to refresh)
-				// if (done) {
-				// 	done();
-				// }
 			}
 		}).catch(err => {
 			throw new Error(err);
