@@ -750,10 +750,13 @@ body.scrabble {
 /* short landscape */
 @media (orientation: landscape) and (max-height: 700px) {
 	/* game tab */
+	#scrabbleGrid[data-tab=game] #gameControlsCell {
+		grid-column: 1;
+		grid-row: 1 / 3;
+	}
 	#scrabbleGrid[data-tab=game] #chatCell {
 		display: none;
 	}
-	
 	#chatExpandButton, #chatCloseButton {
 		display: none;
 	}
