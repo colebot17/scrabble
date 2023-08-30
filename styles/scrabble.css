@@ -595,6 +595,8 @@ body.scrabble {
 
 	padding: 10px;
 	align-items: center;
+
+	gap: 10px;
 }
 #scrabbleGrid .gridCell {
 	padding: 10px;
