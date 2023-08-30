@@ -289,7 +289,7 @@ function gameLI(game) {
             }
 
         }
-        additionalInfoString = "<span class='material-symbols-rounded smallIcon'>military_tech</span>" + nlList(winnerNames, "<b>", "</b>") + (winnerNames.length > 1 ? " tied!" : " won!");
+        additionalInfoString = "<span class='flex'><span class='material-symbols-rounded smallIcon'>military_tech</span><span>" + nlList(winnerNames, "<b>", "</b>") + (winnerNames.length > 1 ? " tied!" : " won!") + "</span></span>";
     }
 
     const content = /* html */ `
