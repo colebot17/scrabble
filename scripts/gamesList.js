@@ -274,7 +274,11 @@ function gameLI(game) {
         // for active games, show the current turn
         let turnIndex = parseInt(game.turn) % game.players.length;
         let turnPlayer = game.players[turnIndex];
-        additionalInfoString = "<b><u>" + turnPlayer.name + "</u></b>'s turn";
+
+        let turnName = "<b><u>" + turnPlayer.name + "</u></b>'s";
+        if (turnPlayer.id === account.id) turnName = "Your"
+
+        additionalInfoString = turnName + " turn";
     } else {
         // for inactive games, show the winner(s)
         const winnerNames = [];
