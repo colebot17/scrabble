@@ -97,9 +97,9 @@ function stopAnimatingMoves() {
 }
 
 function setCanvasSize() {
-	const canvasWrapper = $('#canvasWrapper');
-	const wrapperWidth = canvasWrapper.width();
-	const wrapperHeight = canvasWrapper.height();
+	const canvasWrapper = document.getElementById('canvasWrapper');
+	const wrapperWidth = canvasWrapper.getBoundingClientRect().width;
+	const wrapperHeight = canvasWrapper.getBoundingClientRect().height;
 
 	// the height of the canvas needs to be a lot less if the bank is empty or if vertical space is limited
 	let sizeDifference = 100;
