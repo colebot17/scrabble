@@ -102,9 +102,14 @@ function setCanvasSize() {
 	const wrapperHeight = canvasWrapper.height();
 
 	// the height of the canvas needs to be a lot less if the bank is empty or if vertical space is limited
+	let sizeDifference = 100;
 	const isBankEmpty = game.players.find((a)=>a.id == account.id).letterBank.length === 0;
 	const vertSpaceLimited = window.innerHeight < 700;
-	const sizeDifference = (isBankEmpty ? 40 : 100);
+	if (isBankEmpty) {
+		sizeDifference = 40;
+	} else if (vertSpaceLimited) {
+		sizeDifference = 75;
+	}
 
 	canvas.vertSpaceLimited = vertSpaceLimited;
 
