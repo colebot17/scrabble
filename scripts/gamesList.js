@@ -366,7 +366,7 @@ function setDisplayMode(mode) {
 
 function updateDisplayMode(mode = localStorage.gameListDisplayMode || "card") {
     // set the data attribute
-	document.getElementById('gamesCell').dataset.displaymode = dispMode;
+	document.getElementById('gamesCell').dataset.displaymode = mode;
 
     // update the buttons
 	const buttons = document.getElementsByClassName('displayModeButton');
