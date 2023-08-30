@@ -210,7 +210,7 @@ function activeGameCard(game) {
     let turnUser = parseInt(game.players[turnIndex].id);
 
     const content = /* html */ `
-        <div class="listGame" id="listGame${game.id}">
+        <div class="listGame${turnUser === account.id ? " currentPlayerTurn" : ""}" id="listGame${game.id}">
             <div class="listGameTitleBox">
                 <span class="listGameName" onclick="renameGame(${game.id}, 'list')">
                     ${game.name || `#${game.id}`}
