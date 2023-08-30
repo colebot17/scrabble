@@ -340,9 +340,8 @@ function inlinePlayerList(players) {
 	for (let i = 0; i < players.length; i++) {
 		const player = players[i];
 
-		if (html) html += ', '; // always add comma if necessary
-
 		if (player.id !== account.id) { // hide self to save space
+		    if (html) html += ', '; // always add comma if necessary
 			html += player.name;
 		}
 	}
