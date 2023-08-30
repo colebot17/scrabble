@@ -278,7 +278,11 @@ function activeGameLI(game) {
                     </div>
                 ` : ``}
             </div>
-            <div class="flex col fullHeight">${inlinePlayerList(game.players)}</div>
+            <div class="flex col fullHeight">
+				<span class="fullWidth ellipsis">
+					${inlinePlayerList(game.players)}
+				</span>
+			</div>
 			<div class="flex col fullHeight">
 				<span class="material-symbols-rounded textColorLight">
 					chevron_right
