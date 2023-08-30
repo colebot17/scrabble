@@ -111,7 +111,7 @@ function setCanvasSize() {
 	if (isBankEmpty) {
 		sizeDifference = 40;
 	} else if (vertSpaceLimited) {
-		sizeDifference = 60;
+		sizeDifference = 55;
 	}
 
 	canvas.vertSpaceLimited = vertSpaceLimited;
@@ -267,7 +267,7 @@ function drawLetterBank() {
 	// we are subtracting here because we will add this value to the x position to get the x position of the first tile
 	// it doesn't make sense but it works
 
-	const tileWidth = Math.min(remainingSpace - 10, ((canvasWidth - totalGapSpace) / numTiles), 55);
+	const tileWidth = Math.min(remainingSpace - 5, ((canvasWidth - totalGapSpace) / numTiles), 55);
 	const totalBankWidth = (tileWidth * numTiles) + totalGapSpace;
 	const startX = (canvasWidth - totalBankWidth) / 2;
 
