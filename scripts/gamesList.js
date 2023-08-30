@@ -2,7 +2,7 @@ function updateGamesList(dispMode = localStorage.gameListDisplayMode || "card") 
     if (!account.games) return;
 
 	// make sure the data attribute matches the current mode
-	document.getElementById('gamesCell').dataset.displaymode = dispMode;
+    updateDisplayMode(dispMode);
 
     // split the games list into active and inactive
     let activeGames = [];
@@ -208,7 +208,7 @@ function showNewlyInactiveGames(newlyInactiveGames) {
 function activeGameCard(game) {
     let turnIndex = parseInt(game.turn) % game.players.length;
     let turnUser = parseInt(game.players[turnIndex].id);
-    
+
     const content = /* html */ `
         <div class="listGame" id="listGame${game.id}">
             <div class="listGameTitleBox">
@@ -350,9 +350,25 @@ function inlinePlayerList(players) {
 }
 
 function setDisplayMode(mode) {
-	const gamesCell = document.getElementById('gamesCell');
+	// store in local storage
+	if (mode !== "card") { // card is the default and doesn't need to be stored
+		localStorage.gameListDisplayMode = mode;
+	} else {
+		localStorage.removeItem('gameListDisplayMode');
+	}
 
-	// update the buttons
+    // run the update function
+	updateDisplayMode(mode);
+
+	// update the games list using the new mode
+	updateGamesList(mode);
+}
+
+function updateDisplayMode(mode = localStorage.gameListDisplayMode || "card") {
+    // set the data attribute
+	document.getElementById('gamesCell').dataset.displaymode = dispMode;
+
+    // update the buttons
 	const buttons = document.getElementsByClassName('displayModeButton');
 	for (let i = 0; i < buttons.length; i++) {
 		if (buttons[i].id === (mode + "ViewButton")) {
@@ -361,14 +377,4 @@ function setDisplayMode(mode) {
 			buttons[i].setAttribute("aria-pressed", "false");
 		}
 	}
-
-	// store in local storage
-	if (mode !== "card") { // card is the default and doesn't need to be stored
-		localStorage.gameListDisplayMode = mode;
-	} else {
-		localStorage.removeItem('gameListDisplayMode');
-	}
-
-	// update the games list using the new mode
-	updateGamesList(mode);
 }
