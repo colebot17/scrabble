@@ -99,7 +99,7 @@ function stopAnimatingMoves() {
 function setCanvasSize() {
 	// hide the canvas first (to let the grid adjust properly)
 	canvas.c.style.display = "none";
-	
+
 	const canvasWrapper = document.getElementById('canvasWrapper');
 	const wrapperWidth = canvasWrapper.getBoundingClientRect().width;
 	const wrapperHeight = canvasWrapper.getBoundingClientRect().height;
@@ -111,7 +111,7 @@ function setCanvasSize() {
 	if (isBankEmpty) {
 		sizeDifference = 40;
 	} else if (vertSpaceLimited) {
-		sizeDifference = 60;
+		sizeDifference = 55;
 	}
 
 	canvas.vertSpaceLimited = vertSpaceLimited;
