@@ -625,6 +625,8 @@ body.scrabble {
 #scrabbleGrid #welcomeCell {
 	justify-content: center;
 	align-items: center;
+
+	height: auto;
 }
 #scrabbleGrid[data-signedin=loading] #welcomeTagline {
 	display: none;
