@@ -97,6 +97,9 @@ function stopAnimatingMoves() {
 }
 
 function setCanvasSize() {
+	// hide the canvas first (to let the grid adjust properly)
+	canvas.c.style.display = "none";
+	
 	const canvasWrapper = document.getElementById('canvasWrapper');
 	const wrapperWidth = canvasWrapper.getBoundingClientRect().width;
 	const wrapperHeight = canvasWrapper.getBoundingClientRect().height;
@@ -112,9 +115,6 @@ function setCanvasSize() {
 	}
 
 	canvas.vertSpaceLimited = vertSpaceLimited;
-
-	// hide the canvas first (to let the grid adjust properly)
-	canvas.c.style.display = "none";
 
 	// calculate which dimension will limit the size
 	var limitingDimension = Math.min(wrapperWidth + sizeDifference, wrapperHeight);
