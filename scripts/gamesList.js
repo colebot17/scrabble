@@ -337,14 +337,19 @@ function playerList(game) {
 
 function inlinePlayerList(players) {
 	let html = ``;
-	for (let i = 0; i < players.length; i++) {
-		const player = players[i];
 
-		if (player.id !== account.id) { // hide self to save space
-		    if (html) html += ', '; // always add comma if necessary
-			html += player.name;
-		}
+    // remove self
+    const fPlayers = players.filter(p => p.id !== account.id);
+	for (let i = 0; i < fPlayers.length; i++) {
+		const player = fPlayers[i];
+
+        // add grammar stuff
+        if (i !== 0) html += ', ';
+        if (i === fPlayers.length - 1) html += 'and ';
+        
+        html += player.name;
     }
+
 	return "with " + html;
 }
 
