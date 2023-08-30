@@ -269,7 +269,7 @@ function inactiveGameCard(game) {
 
 function gameLI(game) {
     let additionalInfoString = "";
-    let currentUserTurn = false;
+    let currentPlayerTurn = false;
 
     if (!game.inactive) {
         // for active games, show the current turn
@@ -279,7 +279,7 @@ function gameLI(game) {
         let turnName = "<b><u>" + turnPlayer.name + "</u></b>'s";
         if (turnPlayer.id === account.id) {
             turnName = "Your";
-            currentUserTurn = true;
+            currentPlayerTurn = true;
         }
 
         additionalInfoString = turnName + " turn";
@@ -301,7 +301,7 @@ function gameLI(game) {
     }
 
     const content = /* html */ `
-        <button class="listGame${currentUserTurn ? ` currentUserTurn` : ``}" id="listGame${game.id}" onclick="loadGame(${game.id}, false)">
+        <button class="listGame${currentPlayerTurn ? ` currentPlayerTurn` : ``}" id="listGame${game.id}" onclick="loadGame(${game.id}, false)">
             <div class="flex col fullHeight">
                 <span class="bold fullWidth ellipsis">
                     ${game.name || `#${game.id}`}
