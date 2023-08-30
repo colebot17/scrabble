@@ -614,7 +614,6 @@ body.scrabble {
 	justify-content: stretch;
 }
 #scrabbleGrid #gameControlsCell {
-	height: calc(100% - 30px);
 	justify-content: space-evenly;
 	gap: 10px;
 }
@@ -650,7 +649,7 @@ body.scrabble {
 	/* game tab */
 	#scrabbleGrid[data-tab=game] {
 		grid-template-columns: minmax(min-content, 25%) 1fr;
-		grid-template-rows: 50% 50%;
+		grid-template-rows: 50% 1fr;
 	}
 	#scrabbleGrid[data-tab=game] #chatCell {
 		display: flex;
@@ -777,7 +776,7 @@ body.scrabble {
 	/* game tab */
 	#scrabbleGrid[data-tab=game] {
 		grid-template-columns: 100%;
-		grid-template-rows: 100fr min-content min-content;
+		grid-template-rows: 1fr min-content min-content;
 	}
 	#scrabbleGrid[data-tab=game] #gameControlsCell {
 		display: flex;
