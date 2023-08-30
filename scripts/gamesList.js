@@ -345,7 +345,7 @@ function inlinePlayerList(players) {
 			html += player.name;
 		}
     }
-	return "with" + html;
+	return "with " + html;
 }
 
 function setDisplayMode(mode) {
