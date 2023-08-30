@@ -188,7 +188,7 @@ function setGameName(gameId, gameName) {
 		const nameField = document.querySelector('#gameControlsCell .gameName');
 		const idLine = document.querySelector('#gameControlsCell .gameIdLine');
 
-		nameField?.textContent = gameName || '#' + gameId;
+		nameField.textContent = gameName || '#' + gameId;
 		idLine?.remove();
 		if (gameName) {
 			const idEl = document.createElement('div');
