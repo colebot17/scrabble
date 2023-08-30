@@ -33,6 +33,8 @@
 	display: grid;
 	grid-template-rows: 25% 50% 25%;
 	grid-template-columns: none;
+
+	box-sizing: border-box;
 }
 [data-displaymode=list] .gamesList .listGame {
 	grid-template-columns: 25% minmax(0, 1fr) max-content;
