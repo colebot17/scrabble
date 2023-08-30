@@ -174,12 +174,35 @@ function renameGame(gameId, loc) {
 }
 
 function setGameName(gameId, gameName) {
+	// update in account games list
+	account.games.find(a => a.id === gameId).name = gameName;
+
+	// update the games list
+	updateGamesList();
+
+	// if the game is currently loaded
+	if (game?.id === gameId) {
+		game.name = gameName || ""; // set name in game obj
+
+		// update the title box
+		const nameField = document.querySelector('#gameControlsCell .gameName');
+		const idLine = document.querySelector('#gameControlsCell .gameIdLine');
+
+		nameField?.textContent = gameName || '#' + gameId;
+		idLine?.remove();
+		if (gameName) {
+			const idEl = document.createElement('div');
+			idEl.classList.add('gameIdLine');
+			idEl.innerHTML = '#' + gameId;
+			nameField.after(idEl);
+		}
+	}
+
 	// define elements to be updated
 	const titleBoxes = document.querySelectorAll('#listGame' + gameId + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
 	const nameFields = document.querySelectorAll('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
 	const idLines = document.querySelectorAll('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
 
-	account.games.find(a => a.id === gameId).name = gameName;
 	nameFields.forEach(nf => nf.textContent = gameName || '#' + gameId);
 	idLines.forEach(idLine => idLine.remove());
 	if (gameName) { // if the game has a name

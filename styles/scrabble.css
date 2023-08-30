@@ -747,6 +747,23 @@ body.scrabble {
 	}
 }
 
+/* short landscape */
+@media (orientation: landscape) and (max-height: 700px) {
+	/* game tab */
+	#scrabbleGrid[data-tab=game] #chatCell {
+		display: flex;
+		grid-column: 1;
+		grid-row: 2;
+	}
+	
+	#chatExpandButton, #chatCloseButton {
+		display: none;
+	}
+	#showChatButton, #chatBackButton {
+		display: unset;
+	}
+}
+
 /* mobile */
 @media (orientation: portrait) {
 	/* general */
@@ -771,7 +788,7 @@ body.scrabble {
 		flex-direction: column;
 		height: 100%;
 	}
-	#scrabbleGrid #chatCloseButton, #scrabbleGrid #chatExpandButton {
+	#chatCloseButton, #chatExpandButton {
 		display: none;
 	}
 
