@@ -108,7 +108,7 @@ function setCanvasSize() {
 	if (isBankEmpty) {
 		sizeDifference = 40;
 	} else if (vertSpaceLimited) {
-		sizeDifference = 65;
+		sizeDifference = 60;
 	}
 
 	canvas.vertSpaceLimited = vertSpaceLimited;
@@ -229,7 +229,7 @@ function drawLetterBank() {
 
 		remainingSpace -= titleSize + 20;
 	} else {
-		remainingSpace -= 10;
+		remainingSpace -= 5;
 	}
 
 	// STOP here if the bank is empty
