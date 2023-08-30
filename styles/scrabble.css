@@ -612,6 +612,8 @@ body.scrabble {
 #scrabbleGrid #chatCell {
 	flex-direction: column;
 	justify-content: stretch;
+
+	overflow: auto;
 }
 #scrabbleGrid #gameControlsCell {
 	justify-content: space-evenly;
