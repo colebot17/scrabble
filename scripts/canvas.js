@@ -184,7 +184,7 @@ function drawLetterBank() {
 	let remainingSpace = canvas.c.height - startY;
 
 	// draw title and shuffle button if space allows
-	let titleSize = 0;
+	let titleSize = -15; // this accounts for padding when the title isn't there
 	if (!canvas.vertSpaceLimited || canvas.bank.length === 0) {
 		const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
 		titleSize = (canvas.bank.length > 0 ? 25 : 15);
@@ -226,14 +226,12 @@ function drawLetterBank() {
 				}
 			}
 		}
-
-		remainingSpace -= titleSize + 20;
-	} else {
-		remainingSpace -= 5;
 	}
 
 	// STOP here if the bank is empty
 	if (canvas.bank.length === 0) return;
+
+	remainingSpace -= titleSize + 20;
 
 	// define some constants
 	const numTiles = bank.length;
