@@ -181,23 +181,6 @@ body.scrabble {
 	margin: 5px 0 10px 0;
 }
 
-/* grid */
-#scrabbleGrid {
-	width: calc(100vw - 10px);
-	height: calc(100vh - 10px);
-	height: calc(100dvh - 10px);
-	padding: 5px;
-	align-items: center;
-}
-#scrabbleGrid .gridCell {
-	padding: 10px;
-	margin: 5px;
-	background-color: var(--background-1);
-	border-radius: 10px;
-
-	width: calc(100% - 30px);
-}
-
 /* modals */
 .modal {
 	position: fixed;
@@ -604,9 +587,25 @@ body.scrabble {
 }
 
 /* defaults / all orientations */
+#scrabbleGrid {
+	width: 100vw;
+	height: 100vh;
+	height: 100dvh;
+	box-sizing: border-box;
+
+	padding: 10px;
+	align-items: center;
+}
 #scrabbleGrid .gridCell {
+	padding: 10px;
+	background-color: var(--background-1);
+	border-radius: 10px;
+
 	display: none;
-	width: calc(100% - 30px);
+
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
 }
 #scrabbleGrid #chatCell {
 	height: calc(100% - 30px);
@@ -642,9 +641,6 @@ body.scrabble {
 	}
 
 	/* all tabs */
-	#scrabbleGrid #gamesCell {
-		height: calc(100vh - 40px);
-	}
 	#scrabbleGrid #gameControlsCell {
 		flex-direction: column;
 		align-items: stretch;
@@ -667,7 +663,6 @@ body.scrabble {
 	}
 	#scrabbleGrid[data-tab=game] #canvasCell {
 		display: flex;
-		height: calc(100vh - 40px);
 		grid-column: 2;
 		grid-row: 1 / 3;
 	}
@@ -710,7 +705,6 @@ body.scrabble {
 	}
 	#scrabbleGrid[data-tab=home][data-signedin=true] #friendsCell, #scrabbleGrid[data-tab=friends][data-signedin=true] #friendsCell {
 		display: flex;
-		height: calc(100% - 30px);
 		grid-column: 1;
 		grid-row: 2;
 
