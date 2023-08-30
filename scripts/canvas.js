@@ -180,7 +180,7 @@ function drawLetterBank() {
 
 	// draw title and shuffle button if space allows
 	let titleSize = 0;
-	if (canvas.vertSpaceLimited || canvas.bank.length === 0) {
+	if (!canvas.vertSpaceLimited || canvas.bank.length === 0) {
 		const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
 		titleSize = (canvas.bank.length > 0 ? 25 : 15);
 		canvas.ctx.font = titleSize + "px Rubik";
