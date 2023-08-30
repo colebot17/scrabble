@@ -1,0 +1,151 @@
+/* general */
+#gamesCell {
+	width: calc(100% - 30px);
+	position: relative;
+}
+.gamesListBox {
+	height: calc(100% - 70.88px);
+}
+.gamesListWrapper {
+	overflow-y: auto;
+	height: 100%;
+}
+.gamesList {
+	margin-top: 10px;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: flex-start;
+	gap: 10px;
+}
+
+/* card view / defaults */
+.gamesList .listGame, .gamesList .newGameCard {
+	margin: auto;
+	padding: 10px;
+	border: none;
+	border-radius: 10px;
+	background-color: var(--background-2);
+
+	box-sizing: border-box;
+}
+.gamesList .listGame {
+	width: 200px;
+	height: 300px;
+	display: grid;
+	grid-template-rows: 25% 50% 25%;
+	grid-template-columns: none;
+}
+.gamesList .newGameCard {
+	width: 200px;
+	height: 300px;
+	cursor: pointer;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+}
+.gamesList .newGameCard:hover {
+	background-color: var(--background-3);
+}
+.gamesList .listGame.currentPlayerTurn {
+	border: 4px solid var(--highlight);
+}
+
+/* list view */
+[data-displaymode=list] .gamesList {
+	flex-direction: column;
+}
+[data-displaymode=list] .gamesList .listGame {
+	grid-template-columns: 25% minmax(0, 1fr) max-content;
+	grid-template-rows: none;
+
+	font-size: 1rem;
+}
+[data-displaymode=list] .gamesList .newGameCard, [data-displaymode=list] .gamesList .listGame {
+	width: calc(100% - 15px);
+	height: 70px;
+}
+[data-displaymode=list] .gamesList .newGameCard {
+	flex-direction: row;
+}
+
+/* contents */
+.listGameTitleBox {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+}
+.gameTitleLine {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	font-weight: bold;
+}
+.listGameName {
+	font-weight: bold;
+	border: 1px solid transparent;
+	transition: border-color 0.87s;
+	border-radius: 3px;
+	padding: 3px;
+	cursor: text;
+}
+.gamesList:not(#inactiveGamesList) .listGameName {
+	width: calc(100% - 16px);
+	margin: 0 5px;
+}
+.listGameName:hover {
+	border-color: var(--text-color-light);
+	transition: border-color 0.37s;
+}
+.listGameNameInput {
+	text-align: center;
+	font-weight: bold;
+	font-size: 16px;
+	border-radius: 3px;
+	padding: 3px;
+
+	width: calc(100% - 16px);
+	margin: 0 5px;
+}
+.gameIdLine {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	color: var(--text-color-light);
+	font-size: small;
+}
+
+.listGamePlayerList, .gamePlayerList {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	overflow: auto;
+}
+.listGamePlayerListPlayer, .gamePlayerListPlayer {
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	column-gap: 2px;
+}
+
+/* newly inactive games */
+.miniGameCard {
+	width: 150px;
+	background-color: var(--background-3);
+	border-radius: 10px;
+	padding: 20px;
+
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	justify-content: space-around;
+}

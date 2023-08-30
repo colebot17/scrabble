@@ -101,109 +101,6 @@ function updateInactiveGamesList(games, dispMode = "card") {
     el.innerHTML = content;
 }
 
-function showNewlyInactiveGames(newlyInactiveGames) {
-    const cardBox = document.createElement('div');
-    cardBox.className = "flex stretch gap20";
-
-    for (let i = 0; i < newlyInactiveGames.length; i++) {
-        const game = newlyInactiveGames[i];
-
-        game.newlyInactive = false;
-
-        const winners = [];
-        for (let j = 0; j < game.winnerIndicies.length; j++) {
-            winners.push(game.players[game.winnerIndicies[j]]);
-        }
-
-        const str = `<b>${game.name || "Game #" + game.id}</b> has ended. ${winnerString(winners)} won!`;
-        const card = document.createElement('div');
-            card.className = "miniGameCard";
-
-            const titleBox = document.createElement('div');
-                titleBox.className = "listGameTitleBox";
-
-                const titleLine = document.createElement('div');
-                    titleLine.className = "gameTitleLine";
-
-                    const icon = document.createElement('span');
-                        icon.className = "material-symbols-rounded smallIcon";
-                        icon.innerHTML = "inventory_2";
-                    titleLine.appendChild(icon);
-
-                    const name = document.createElement('span');
-                        name.className = "listGameName";
-                        name.innerHTML = game.name ? game.name : '#' + game.id;
-                    titleLine.appendChild(name);
-
-                titleBox.appendChild(titleLine);
-                
-                if (game.name) {
-                    const idLine = document.createElement('div');
-                        idLine.className = "gameIdLine";
-                        idLine.innerHTML = '#' + game.id;
-                    titleBox.appendChild(idLine);
-                }
-
-            card.appendChild(titleBox);
-
-            const playersList = document.createElement('div');
-                playersList.className = "listGamePlayerList";
-
-                let winningPoints = 1;
-                for (let j = 0; j < game.players.length; j++) {
-                    if (game.players[j].points > winningPoints) {
-                        winningPoints = game.players[j].points;
-                    }
-                }
-
-                for (let j = 0; j < game.players.length; j++) {
-                    const player = game.players[j];
-
-                    const playerEl = document.createElement('div');
-                        playerEl.className = "listGamePlayerListPlayer";
-
-                        if (player.points === winningPoints) {
-                            const icon = document.createElement('span');
-                                icon.className = "material-symbols-rounded smallIcon";
-                                icon.innerHTML = "military_tech";
-                            playerEl.appendChild(icon);
-                        }
-
-                        const text = document.createElement('span');
-                            text.innerHTML = `<b>${player.name}</b>: ${player.points}`;
-                        playerEl.appendChild(text);
-                    playersList.appendChild(playerEl);
-                }
-                
-            card.appendChild(playersList);
-
-        cardBox.appendChild(card);
-    }
-
-    const txt = document.createElement('div');
-        txt.className = "flex col gap10";
-    txt.appendChild(cardBox);
-
-    const plural = newlyInactiveGames.length > 1;
-    
-    const msg = document.createElement('span');
-        msg.innerHTML = (plural ? "These games are" : "This game is") + " over and " + (plural ? "have" : "has") + " been archived. You can still view " + (plural ? "them" : "it") + " by pressing the <span class='material-symbols-rounded smallIcon'>chevron_right</span> button above the active games list.";
-        msg.style.opacity = "0%";
-        msg.style.transition = "opacity 0.37s";
-        setTimeout(() => { // animate this in
-            msg.style.opacity = "";
-        }, 1500);
-    txt.appendChild(msg);
-
-    textModal(`Game${plural ? 's' : ''} Ended!`, txt);
-
-    // animate each one
-    const cards = cardBox.children;
-    for (let i = 0; i < cards.length; i++) {
-        endGameAnimation(cards[i]);
-    }
-}
-
 
 function activeGameCard(game) {
     let turnIndex = parseInt(game.turn) % game.players.length;
@@ -409,4 +306,107 @@ function updateDisplayMode(mode = localStorage.gameListDisplayMode || "card") {
 			buttons[i].setAttribute("aria-pressed", "false");
 		}
 	}
+}
+
+function showNewlyInactiveGames(newlyInactiveGames) {
+    const cardBox = document.createElement('div');
+    cardBox.className = "flex stretch gap20";
+
+    for (let i = 0; i < newlyInactiveGames.length; i++) {
+        const game = newlyInactiveGames[i];
+
+        game.newlyInactive = false;
+
+        const winners = [];
+        for (let j = 0; j < game.winnerIndicies.length; j++) {
+            winners.push(game.players[game.winnerIndicies[j]]);
+        }
+
+        const str = `<b>${game.name || "Game #" + game.id}</b> has ended. ${winnerString(winners)} won!`;
+        const card = document.createElement('div');
+            card.className = "miniGameCard";
+
+            const titleBox = document.createElement('div');
+                titleBox.className = "listGameTitleBox";
+
+                const titleLine = document.createElement('div');
+                    titleLine.className = "gameTitleLine";
+
+                    const icon = document.createElement('span');
+                        icon.className = "material-symbols-rounded smallIcon";
+                        icon.innerHTML = "inventory_2";
+                    titleLine.appendChild(icon);
+
+                    const name = document.createElement('span');
+                        name.className = "listGameName";
+                        name.innerHTML = game.name ? game.name : '#' + game.id;
+                    titleLine.appendChild(name);
+
+                titleBox.appendChild(titleLine);
+                
+                if (game.name) {
+                    const idLine = document.createElement('div');
+                        idLine.className = "gameIdLine";
+                        idLine.innerHTML = '#' + game.id;
+                    titleBox.appendChild(idLine);
+                }
+
+            card.appendChild(titleBox);
+
+            const playersList = document.createElement('div');
+                playersList.className = "listGamePlayerList";
+
+                let winningPoints = 1;
+                for (let j = 0; j < game.players.length; j++) {
+                    if (game.players[j].points > winningPoints) {
+                        winningPoints = game.players[j].points;
+                    }
+                }
+
+                for (let j = 0; j < game.players.length; j++) {
+                    const player = game.players[j];
+
+                    const playerEl = document.createElement('div');
+                        playerEl.className = "listGamePlayerListPlayer";
+
+                        if (player.points === winningPoints) {
+                            const icon = document.createElement('span');
+                                icon.className = "material-symbols-rounded smallIcon";
+                                icon.innerHTML = "military_tech";
+                            playerEl.appendChild(icon);
+                        }
+
+                        const text = document.createElement('span');
+                            text.innerHTML = `<b>${player.name}</b>: ${player.points}`;
+                        playerEl.appendChild(text);
+                    playersList.appendChild(playerEl);
+                }
+                
+            card.appendChild(playersList);
+
+        cardBox.appendChild(card);
+    }
+
+    const txt = document.createElement('div');
+        txt.className = "flex col gap10";
+    txt.appendChild(cardBox);
+
+    const plural = newlyInactiveGames.length > 1;
+    
+    const msg = document.createElement('span');
+        msg.innerHTML = (plural ? "These games are" : "This game is") + " over and " + (plural ? "have" : "has") + " been archived. You can still view " + (plural ? "them" : "it") + " by pressing the <span class='material-symbols-rounded smallIcon'>chevron_right</span> button above the active games list.";
+        msg.style.opacity = "0%";
+        msg.style.transition = "opacity 0.37s";
+        setTimeout(() => { // animate this in
+            msg.style.opacity = "";
+        }, 1500);
+    txt.appendChild(msg);
+
+    textModal(`Game${plural ? 's' : ''} Ended!`, txt);
+
+    // animate each one
+    const cards = cardBox.children;
+    for (let i = 0; i < cards.length; i++) {
+        endGameAnimation(cards[i]);
+    }
 }
