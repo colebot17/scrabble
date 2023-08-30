@@ -267,7 +267,31 @@ function inactiveGameCard(game) {
     return content;
 }
 
-function activeGameLI(game) {
+function gameLI(game) {
+    let additionalInfoString = "";
+
+    if (!game.inactive) {
+        // for active games, show the current turn
+        let turnIndex = parseInt(game.turn) % game.players.length;
+        let turnUser = parseInt(game.players[turnIndex].id);
+        additionalInfoString = turnUser.name;
+    } else {
+        // for inactive games, show the winner(s)
+        const winnerNames = [];
+        for (let i = 0; i < game.winnerIndicies.length; i++) {
+            const player = game.players[game.winnerIndicies[i]];
+
+            // this ensures that "You" appears at the front of the list
+            if (player.id === account.id) {
+                winnerNames.unshift("You");
+            } else {
+                winnerNames.push(player.name);
+            }
+
+        }
+        additionalInfoString = nlList(winnerNames, "<b>", "</b>");
+    }
+
     const content = /* html */ `
         <button class="listGame" id="listGame${game.id}" onclick="loadGame(${game.id}, false)">
             <div class="flex col fullHeight">
@@ -284,6 +308,9 @@ function activeGameLI(game) {
 				<span class="fullWidth ellipsis">
 					${inlinePlayerList(game.players)}
 				</span>
+                <span class="fullWidth ellipsis">
+                    ${additionalInfoString}
+                </span>
 			</div>
 			<div class="flex col fullHeight">
 				<span class="material-symbols-rounded textColorLight">
@@ -296,8 +323,12 @@ function activeGameLI(game) {
     return content;
 }
 
+function activeGameLI(game) {
+    return gameLI(game);
+}
+
 function inactiveGameLI(game) {
-    return activeGameLI(game);
+    return gameLI(game);
 }
 
 function playerList(game) {
