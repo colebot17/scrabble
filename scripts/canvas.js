@@ -263,11 +263,9 @@ function drawLetterBank() {
 	for (let i in bank) {
 		totalGapSpace += (minTileGap + (bank[i].extraGapAfter * extraTileGap));
 	}
-	if (canvas.extraGapBeforeBank) {
-		totalGapSpace -= extraTileGap * canvas.extraGapBeforeBank;
-		// we are subtracting here because we will add this value to the x position to get the x position of the first tile
-		// it doesn't make sense but it works
-	}
+	totalGapSpace -= (minTileGap + (extraTileGap * (canvas.extraGapBeforeBank || 0)));
+	// we are subtracting here because we will add this value to the x position to get the x position of the first tile
+	// it doesn't make sense but it works
 
 	const tileWidth = Math.min(remainingSpace - 10, ((canvasWidth - totalGapSpace) / numTiles), 55);
 	const totalBankWidth = (tileWidth * numTiles) + totalGapSpace;
