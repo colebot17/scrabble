@@ -111,7 +111,7 @@ function setCanvasSize() {
 	if (isBankEmpty) {
 		sizeDifference = 40;
 	} else if (vertSpaceLimited) {
-		sizeDifference = 55;
+		sizeDifference = 60;
 	}
 
 	canvas.vertSpaceLimited = vertSpaceLimited;
