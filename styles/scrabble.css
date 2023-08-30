@@ -767,8 +767,8 @@ body.scrabble {
 	}
 
 	#gameBanner {
-		position: absolute;
-		top: 9px;
+		margin: 0;
+		padding: 5px 10px;
 	}
 }
 
