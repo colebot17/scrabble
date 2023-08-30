@@ -765,6 +765,11 @@ body.scrabble {
 	#scrabbleGrid #gameControlsCell #showChatButton, #scrabbleGrid #chatCell #chatBackButton {
 		display: unset;
 	}
+
+	#gameBanner {
+		position: absolute;
+		top: 9px;
+	}
 }
 
 /* mobile */
