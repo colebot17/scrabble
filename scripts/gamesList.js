@@ -344,8 +344,8 @@ function inlinePlayerList(players) {
 		    if (html) html += ', '; // always add comma if necessary
 			html += player.name;
 		}
-	}
-	return html;
+    }
+	return "with" + html;
 }
 
 function setDisplayMode(mode) {
