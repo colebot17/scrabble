@@ -96,6 +96,8 @@ function stopAnimatingMoves() {
 	buttonIcon.innerHTML = "history";
 }
 
+var heheSize = 50;
+
 function setCanvasSize() {
 	// hide the canvas first (to let the grid adjust properly)
 	canvas.c.style.display = "none";
@@ -111,7 +113,7 @@ function setCanvasSize() {
 	if (isBankEmpty) {
 		sizeDifference = 40;
 	} else if (vertSpaceLimited) {
-		sizeDifference = 55;
+		sizeDifference = heheSize;
 	}
 
 	canvas.vertSpaceLimited = vertSpaceLimited;
