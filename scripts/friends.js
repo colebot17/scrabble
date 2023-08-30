@@ -23,11 +23,6 @@ function updateFriendsList(friends) {
                     </span>
                 </div>
                 <div class="friendControls">
-                    <button class="iconButton" title="Remove Friend" onclick="removeFriends([${friend.id}])">
-                        <span class="material-symbols-rounded">
-                            person_remove
-                        </span>
-                    </button>
                 </div>
             </div>
         `;
