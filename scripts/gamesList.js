@@ -206,6 +206,9 @@ function showNewlyInactiveGames(newlyInactiveGames) {
 
 
 function activeGameCard(game) {
+    let turnIndex = parseInt(game.turn) % game.players.length;
+    let turnUser = parseInt(game.players[turnIndex].id);
+    
     const content = /* html */ `
         <div class="listGame" id="listGame${game.id}">
             <div class="listGameTitleBox">
@@ -231,7 +234,8 @@ function activeGameCard(game) {
 }
 
 function inactiveGameCard(game) {
-    let turnIndex = parseInt(game.turn) % players.length;
+    let turnIndex = parseInt(game.turn) % game.players.length;
+    let turnUser = parseInt(game.players[turnIndex].id);
 
     // content
     const content = /* html */ `
