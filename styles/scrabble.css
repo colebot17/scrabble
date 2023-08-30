@@ -759,7 +759,7 @@ body.scrabble {
 	#chatExpandButton, #chatCloseButton {
 		display: none;
 	}
-	#showChatButton, #chatBackButton {
+	#scrabbleGrid #gameControlsCell #showChatButton, #scrabbleGrid #chatCell #chatBackButton {
 		display: unset;
 	}
 }
