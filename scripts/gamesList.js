@@ -289,7 +289,7 @@ function gameLI(game) {
             }
 
         }
-        additionalInfoString = nlList(winnerNames, "<b>", "</b>");
+        additionalInfoString = nlList(winnerNames, "<b>", "</b>") + " won";
     }
 
     const content = /* html */ `
