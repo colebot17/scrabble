@@ -137,3 +137,30 @@ function createMetaString(object) {
 	}
 	return string;
 }
+
+function nlList(array, beforeVal = "", afterVal = beforeVal) {
+	// this function takes an array of values and returns a natural-language list of its contents
+	// it also supports wrapping the each value in a custom value, e.g. "<b>" and "</b>"
+
+	if (array.length === 0) {
+		return "";
+	}
+	if (array.length === 1) {
+		return x(array[0]);
+	}
+	if (array.length === 2) {
+		return x(array[0]) + " and " + x(array[1]);
+	}
+	if (array.length >= 3) {
+		let str = x(array[0]);
+		for (let i = 1; i < array.length; i++) {
+			str += ", " + x(array[i]);
+		}
+		return str;
+	}
+
+	function x(val) {
+		// this subfunction reduces complexity and allows for easier future manipulation of values
+		return beforeVal + val + afterVal;
+	}
+}

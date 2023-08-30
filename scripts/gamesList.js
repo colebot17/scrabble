@@ -336,21 +336,10 @@ function playerList(game) {
 }
 
 function inlinePlayerList(players) {
-	let html = ``;
-
     // remove self
     const fPlayers = players.filter(p => p.id !== account.id);
-	for (let i = 0; i < fPlayers.length; i++) {
-		const player = fPlayers[i];
 
-        // add grammar stuff
-        if (i !== 0) html += ', ';
-        if (i === fPlayers.length - 1) html += 'and ';
-        
-        html += player.name;
-    }
-
-	return "with " + html;
+	return "with " + nlList(getPropArray(fPlayers, 'name'), "<b>", "</b>");
 }
 
 function setDisplayMode(mode) {
