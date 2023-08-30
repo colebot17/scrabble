@@ -610,7 +610,6 @@ body.scrabble {
 	box-sizing: border-box;
 }
 #scrabbleGrid #chatCell {
-	height: calc(100% - 30px);
 	flex-direction: column;
 	justify-content: stretch;
 }
@@ -762,9 +761,6 @@ body.scrabble {
 	}
 
 	/* all tabs */
-	#scrabbleGrid #gamesCell, #scrabbleGrid #canvasCell {
-		height: calc(100% - 30px);
-	}
 	#scrabbleGrid #gameControlsCell {
 		flex-direction: row;
 		align-items: center;
@@ -824,7 +820,6 @@ body.scrabble {
 	/* friends tab */
 	#scrabbleGrid[data-tab=friends][data-signedin=true] #friendsCell {
 		display: flex;
-		height: calc(100% - 30px);
 		grid-column: 1;
 		grid-row: 1;
 
