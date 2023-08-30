@@ -35,7 +35,7 @@
 	grid-template-columns: none;
 }
 [data-displaymode=list] .gamesList .listGame {
-	grid-template-columns: 25% 1fr max-content;
+	grid-template-columns: 25% minmax(0, 1fr) max-content;
 	grid-template-rows: none;
 
 	font-size: 1rem;
