@@ -296,7 +296,10 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 						dupEl.textContent = "Loading...";
 					}
 
-					if (!added) document.getElementById('scrabbleGrid').appendChild(dupEl);
+					if (!added) {
+						document.getElementById('scrabbleGrid').appendChild(dupEl);
+						added = true;
+					}
 
 					fNum++;
 				}, 370);
@@ -305,7 +308,10 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			animationCleanup = () => {
 				clearInterval(flash);
 
-				if (!added) document.getElementById('scrabbleGrid').appendChild(dupEl);
+				if (!added) {
+					document.getElementById('scrabbleGrid').appendChild(dupEl);
+					added = true;
+				}
 
 				setTimeout(() => {
 					dupEl.style.opacity = "0%";
