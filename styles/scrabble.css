@@ -824,9 +824,11 @@ body.scrabble {
 		grid-template-rows: 1fr min-content min-content;
 	}
 	#scrabbleGrid[data-tab=game] #gameControlsCell {
-		display: flex;
+		display: grid;
 		grid-column: 1;
 		grid-row: 3;
+		
+		grid-template-columns: 20% minmax(0, 1fr) 20%;
 	}
 	#scrabbleGrid[data-tab=game] #canvasCell {
 		display: flex;
