@@ -294,7 +294,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 				clearInterval(flash);
 				dupEl.style.background = "var(--background-3)";
 				dupEl.style.pointerEvents = "none";
-				dupEl.textContent = "";
+				dupEl.innerHTML = "";
 
 				setTimeout(() => {
 					dupEl.remove();
