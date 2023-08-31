@@ -495,10 +495,10 @@ body.scrabble {
 	margin: 10px;
 }
 .friendListFriend {
-	grid-template-columns: max-content 1fr max-content;
+	grid-template-columns: max-content minmax(0, 1fr) max-content;
 }
 .requestListFriend {
-	grid-template-columns: 1fr max-content;
+	grid-template-columns: minmax(0, 1fr) max-content;
 }
 .friendNameContainer {
 	align-items: flex-start;
@@ -656,8 +656,8 @@ body.scrabble {
 
 	/* game tab */
 	#scrabbleGrid[data-tab=game] {
-		grid-template-columns: minmax(min-content, 25%) 1fr;
-		grid-template-rows: 50% 1fr;
+		grid-template-columns: minmax(min-content, 25%) minmax(0, 1fr);
+		grid-template-rows: 50% minmax(0, 1fr);
 	}
 	#scrabbleGrid[data-tab=game] #chatCell {
 		display: flex;
@@ -703,8 +703,8 @@ body.scrabble {
 
 	/* signed in account tab */
 	#scrabbleGrid[data-tab=home][data-signedin=true], #scrabbleGrid[data-tab=friends][data-signedin=true] {
-		grid-template-columns: minmax(max-content, min(400px, 40vw)) 1fr;
-		grid-template-rows: minmax(min-content, max-content) 1fr;
+		grid-template-columns: minmax(max-content, min(400px, 40vw)) minmax(0, 1fr);
+		grid-template-rows: minmax(min-content, max-content) minmax(0, 1fr);
 	}
 	#scrabbleGrid[data-tab=home][data-signedin=true] #signInCell, #scrabbleGrid[data-tab=friends][data-signedin=true] #signInCell {
 		display: unset;
@@ -727,7 +727,7 @@ body.scrabble {
 
 	/* signed out account tab */
 	#scrabbleGrid[data-tab=home][data-signedin=false] {
-		grid-template-columns: 1fr max-content 1fr;
+		grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr);
 		grid-template-rows: max-content max-content;
 	}
 	#scrabbleGrid[data-tab=home][data-signedin=false] #welcomeCell {
