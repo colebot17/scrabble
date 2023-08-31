@@ -245,6 +245,8 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			const liElBounds = liEl.getBoundingClientRect();
 			const liElCSS = getComputedStyle(liEl);
 
+			const online = navigator.onLine;
+
 			// create the element
 			const dupEl = document.createElement('div');
 			dupEl.style.position = "fixed";
@@ -261,11 +263,25 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 
 			document.getElementById('scrabbleGrid').appendChild(dupEl);
 
+			if (!online) {
+				dupEl.color = "white";
+				dupEl.background = "red";
+
+				dupEl.textContent = "No Connection";
+
+				setTimeout(() => {
+					dupEl.style.opacity = "0%";
+					setTimeout(() => {
+						dupEl.remove();
+					}, 370);
+				}, 370);
+
+				return;
+			}
+
 			let flash, fNum = 0;
 
 			setTimeout(() => {
-				dupEl.style.opacity = "100%";
-
 				flash = setInterval(() => {
 					dupEl.style.background = fNum % 2 === 0 ? "var(--highlight)" : "var(--background-3)";
 
