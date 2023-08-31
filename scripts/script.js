@@ -264,8 +264,8 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			document.getElementById('scrabbleGrid').appendChild(dupEl);
 
 			if (!online) {
-				dupEl.color = "white";
-				dupEl.background = "red";
+				dupEl.style.color = "white";
+				dupEl.style.background = "red";
 
 				dupEl.textContent = "No Connection";
 
@@ -274,7 +274,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 					setTimeout(() => {
 						dupEl.remove();
 					}, 370);
-				}, 370);
+				}, 1000);
 
 				return;
 			}
