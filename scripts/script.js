@@ -220,129 +220,129 @@ function setGameName(gameId, gameName) {
 }
 
 function loadGame(id = prompt("Enter the id of the game you want to load:"), animation = false) {
-	if (id) {
-		let animationCleanup = () => {};
-		if (animation === 'expand') { // expanding animation of the play button
-			let expandEl = $('#listGame' + id + ' .openGameButton');
+	if (!id) return;
+	
+	let animationCleanup = () => {};
+	if (animation === 'expand') { // expanding animation of the play button
+		let expandEl = $('#listGame' + id + ' .openGameButton');
 
-			// position the element
-			const offset = expandEl.offset();
-			const top = offset.top;
-			const left = offset.left + (expandEl.width() / 2) - 30;
+		// position the element
+		const offset = expandEl.offset();
+		const top = offset.top;
+		const left = offset.left + (expandEl.width() / 2) - 30;
 
-			let clone = expandEl.clone().attr('onclick','').css({
-				'position': 'fixed',
-				'top': top + 'px',
-				'left': left + 'px',
-				'pointerEvents': 'none'
-			}).appendTo('#scrabbleGrid');
+		let clone = expandEl.clone().attr('onclick','').css({
+			'position': 'fixed',
+			'top': top + 'px',
+			'left': left + 'px',
+			'pointerEvents': 'none'
+		}).appendTo('#scrabbleGrid');
 
-			// run the expansion animation
-			clone.addClass('expandAnimation');
-			setTimeout(function() {clone.remove()}, 740);
-		} else if (animation === "flash") { // animation of list items
-			const liEl = document.getElementById('listGame' + id);
-			const liElBounds = liEl.getBoundingClientRect();
-			const liElCSS = getComputedStyle(liEl);
+		// run the expansion animation
+		clone.addClass('expandAnimation');
+		setTimeout(function() {clone.remove()}, 740);
+	} else if (animation === "flash") { // animation of list items
+		const liEl = document.getElementById('listGame' + id);
+		const liElBounds = liEl.getBoundingClientRect();
+		const liElCSS = getComputedStyle(liEl);
 
-			const online = navigator.onLine;
+		const online = navigator.onLine;
 
-			// create the element
-			const dupEl = document.createElement('div');
-			dupEl.style.position = "fixed";
-			dupEl.style.width = liElBounds.width + 'px';
-			dupEl.style.height = liElBounds.height + 'px';
-			dupEl.style.lineHeight = liElBounds.height + 'px';
-			dupEl.style.color = "var(--highlight-text)";
-			dupEl.style.top = liElBounds.top + 'px';
-			dupEl.style.left = liElBounds.left + 'px';
-			dupEl.style.opacity = "100%";
-			dupEl.style.borderRadius = liElCSS.getPropertyValue('border-radius');
-			dupEl.style.background = "var(--background-2)";
-			dupEl.style.transition = "0.37s scale, 0.37s top, 0.37s height, 0.37s opacity, 0.37s background-color";
+		// create the element
+		const dupEl = document.createElement('div');
+		dupEl.style.position = "fixed";
+		dupEl.style.width = liElBounds.width + 'px';
+		dupEl.style.height = liElBounds.height + 'px';
+		dupEl.style.lineHeight = liElBounds.height + 'px';
+		dupEl.style.color = "var(--highlight-text)";
+		dupEl.style.top = liElBounds.top + 'px';
+		dupEl.style.left = liElBounds.left + 'px';
+		dupEl.style.opacity = "100%";
+		dupEl.style.borderRadius = liElCSS.getPropertyValue('border-radius');
+		dupEl.style.background = "var(--background-2)";
+		dupEl.style.transition = "0.37s scale, 0.37s top, 0.37s height, 0.37s opacity, 0.37s background-color";
 
-			document.getElementById('scrabbleGrid').appendChild(dupEl);
+		document.getElementById('scrabbleGrid').appendChild(dupEl);
 
-			if (!online) {
-				dupEl.style.color = "white";
-				dupEl.style.background = "red";
+		if (!online) {
+			dupEl.style.color = "white";
+			dupEl.style.background = "red";
 
-				dupEl.textContent = "No Connection";
-
-				setTimeout(() => {
-					dupEl.style.opacity = "0%";
-					setTimeout(() => {
-						dupEl.remove();
-					}, 370);
-				}, 1000);
-
-				return;
-			}
-
-			let flash, fNum = 0;
+			dupEl.textContent = "No Connection";
 
 			setTimeout(() => {
-				flash = setInterval(() => {
-					dupEl.style.background = fNum % 2 === 0 ? "var(--highlight)" : "var(--background-3)";
-
-					if (fNum % 4 === 0) {
-						dupEl.textContent = "Loading";
-					} else if (fNum % 4 === 1) {
-						dupEl.textContent = "Loading.";
-					} else if (fNum % 4 === 2) {
-						dupEl.textContent = "Loading..";
-					} else if (fNum % 4 === 3) {
-						dupEl.textContent = "Loading...";
-					}
-
-					fNum++;
-				}, 370);
-			}, 10);
-
-			animationCleanup = () => {
-				clearInterval(flash);
-
 				dupEl.style.opacity = "0%";
-				dupEl.style.scale = "5";
-				dupEl.style.background = "var(--background-3)";
-				dupEl.style.pointerEvents = "none";
-				dupEl.innerHTML = "";
-
 				setTimeout(() => {
 					dupEl.remove();
 				}, 370);
+			}, 1000);
+
+			return;
+		}
+
+		let flash, fNum = 0;
+
+		setTimeout(() => {
+			flash = setInterval(() => {
+				dupEl.style.background = fNum % 2 === 0 ? "var(--highlight)" : "var(--background-3)";
+
+				if (fNum % 4 === 0) {
+					dupEl.textContent = "Loading";
+				} else if (fNum % 4 === 1) {
+					dupEl.textContent = "Loading.";
+				} else if (fNum % 4 === 2) {
+					dupEl.textContent = "Loading..";
+				} else if (fNum % 4 === 3) {
+					dupEl.textContent = "Loading...";
+				}
+
+				fNum++;
+			}, 370);
+		}, 10);
+
+		animationCleanup = () => {
+			clearInterval(flash);
+
+			dupEl.style.opacity = "0%";
+			dupEl.style.scale = "5";
+			dupEl.style.background = "var(--background-3)";
+			dupEl.style.pointerEvents = "none";
+			dupEl.innerHTML = "";
+
+			setTimeout(() => {
+				dupEl.remove();
+			}, 370);
+		}
+	}
+
+	return request("loadGame.php", {
+		user: account.id,
+		pwd: account.pwd,
+		game: id
+	}).then(res => {
+		// catch any errors
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message);
+			return;
+		}
+
+		game = res.data; // store the game in the game object
+
+		// determine and store the current player index
+		for (let i = 0; i < game.players.length; i++) {
+			if (game.players[i].id == account.id) {
+				game.currentPlayerIndex = i;
+				break;
 			}
 		}
 
-		return request("loadGame.php", {
-			user: account.id,
-			pwd: account.pwd,
-			game: id
-		}).then(res => {
-			// catch any errors
-			if (res.errorLevel > 0) {
-				textModal("Error", res.message);
-				return;
-			}
+		showTab('game');
+		gameInit();
 
-			game = res.data; // store the game in the game object
-
-			// determine and store the current player index
-			for (let i = 0; i < game.players.length; i++) {
-				if (game.players[i].id == account.id) {
-					game.currentPlayerIndex = i;
-					break;
-				}
-			}
-
-			showTab('game');
-			gameInit();
-
-			animationCleanup();
-		}).catch(err => {
-			throw new Error(err);
-		});
-	}
+		animationCleanup();
+	}).catch(err => {
+		throw new Error(err);
+	});
 }
 
 function reloadGame() {
