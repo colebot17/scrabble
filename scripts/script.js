@@ -257,7 +257,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			dupEl.style.top = liElBounds.top + 'px';
 			dupEl.style.left = liElBounds.left + 'px';
 			dupEl.style.opacity = "0%";
-			dupEl.style.borderRadius = liElCSS.getPropertyValue('borderRadius');
+			dupEl.style.borderRadius = liElCSS.getPropertyValue('border-radius');
 			dupEl.style.background = liElCSS.getPropertyValue('background');
 			dupEl.style.transition = "0.37s top, 0.37s height, 0.37s opacity";
 
