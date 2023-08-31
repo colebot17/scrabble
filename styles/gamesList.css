@@ -3,7 +3,9 @@
 	position: relative;
 }
 .gamesListBox {
-	height: calc(100% - 70.88px);
+	height: 100%;
+	overflow: clip;
+	overflow-clip-margin: 10px;
 }
 .gamesListWrapper {
 	overflow-y: auto;
