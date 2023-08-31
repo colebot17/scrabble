@@ -467,6 +467,8 @@ function gameInit() {
 		winningPoints = Math.max(winningPoints, game.players[i].points);
 	}
 
+	gameInfo += `<div class="gamePlayerList flex col">`;
+
 	// add each player to the player list
 	for (let i in game.players) {
 		let isWinner = game.players[i].points == winningPoints;
@@ -488,6 +490,8 @@ function gameInit() {
 			</div>
 		`;
 	}
+
+	gameInfo += `</div>`;
 
 	// set the content of the game info box
 	document.querySelector('#gameControlsCell .gameInfoBox').innerHTML = gameInfo;
