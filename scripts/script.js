@@ -247,7 +247,9 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			slideEl.style.position = "relative";
 			slideEl.style.right = "0";
 			slideEl.style.transition = "right 0.37s";
-			slideEl.style.right = "100%";
+			setTimeout(() => {
+				slideEl.style.right = "100%";
+			}, 10);
 
 			// define the cleanup for when the game is loaded
 			animationCleanup = () => {
