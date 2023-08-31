@@ -142,12 +142,11 @@
 	justify-content: start;
 }
 .listGamePlayerListPlayer, .gamePlayerListPlayer {
-	margin: 0;
+	margin: 1px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	column-gap: 2px;
-	overflow: hidden;
 }
 
 /* newly inactive games */
