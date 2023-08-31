@@ -1,7 +1,7 @@
 /* general */
 #gamesCell {
 	position: relative;
-	padding-bottom: 0;
+	padding-bottom: 0!important;
 }
 .gamesListBox {
 	height: 100%;
