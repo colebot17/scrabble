@@ -241,9 +241,43 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			clone.addClass('expandAnimation');
 			setTimeout(function() {clone.remove()}, 740);
 		} else if (animation === "slide") { // sliding animation of the list item
-			const slideEl = document.getElementById('listGame' + id);
+			const liEl = document.getElementById('listGame' + id);
+			const liElBounds = liEl.getBoundingClientRect();
+			const liElCSS = getComputedStyle(liEl);
+			
+			const contEl = document.getElementById(account.games.find(a => a.id === id).inactive ? 'inactiveGames' : 'activeGames');
+			const contElBounds = contEl.getBoundingClientRect();
 
-			// set up the element
+			// create the element
+			const dupEl = document.createElement('div');
+			dupEl.style.position = "fixed";
+			dupEl.style.pointerEvents = "none";
+			dupEl.style.width = liElBounds.width + 'px';
+			dupEl.style.height = liElBounds.height + 'px';
+			dupEl.style.top = liElBounds.top + 'px';
+			dupEl.style.left = liElBounds.left + 'px';
+			dupEl.style.opacity = "0%";
+			dupEl.style.borderRadius = liElCSS.getPropertyValue('borderRadius');
+			dupEl.style.background = liElCSS.getPropertyValue('background');
+			dupEl.style.transition = "0.37s top, 0.37s height, 0.37s opacity";
+
+			document.getElementById('scrabbleGrid').appendChild(dupEl);
+
+			setTimeout(() => {
+				dupEl.style.height = contElBounds.height;
+				dupEl.style.top = contElBounds.top;
+				dupEl.style.opacity = "100%";
+			}, 10);
+
+			animationCleanup = () => {
+				dupEl.style.opacity = "0%";
+
+				setTimeout(() => {
+					dupEl.remove();
+				}, 370);
+			}
+
+			/* // set up the element
 			slideEl.style.position = "relative";
 			slideEl.style.right = "0";
 			slideEl.style.transition = "right 0.37s";
@@ -276,7 +310,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 				cont.style.transition = "";
 				cont.style.transformOrigin = "";
 				cont.style.scale = ""
-			}
+			} */
 		}
 
 		return request("loadGame.php", {
