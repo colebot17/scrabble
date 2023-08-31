@@ -147,6 +147,7 @@
 	justify-content: center;
 	align-items: center;
 	column-gap: 2px;
+	overflow: hidden;
 }
 
 /* newly inactive games */
