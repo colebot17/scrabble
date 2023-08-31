@@ -259,14 +259,25 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 
 			document.getElementById('scrabbleGrid').appendChild(dupEl);
 
-			let flash;
+			let flash, fNum = 0;
 
 			setTimeout(() => {
 				dupEl.style.opacity = "100%";
 
 				flash = setInterval(() => {
-					const toggle = dupEl.style.background === "var(--highlight)";
-					dupEl.style.background = toggle ? "var(--background-3)" : "var(--highlight)";
+					dupEl.style.background = fNum % 2 === 0 ? "var(--highlight)" : "var(--background-3)";
+
+					if (fNum % 4 === 0) {
+						dupEl.textContent = "Loading";
+					} else if (fNum % 4 === 1) {
+						dupEl.textContent = "Loading.";
+					} else if (fNum % 4 === 2) {
+						dupEl.textContent = "Loading..";
+					} else if (fNum % 4 === 3) {
+						dupEl.textContent = "Loading...";
+					}
+
+					fNum++;
 				}, 370);
 			}, 10);
 
@@ -275,6 +286,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 				clearInterval(flash);
 				dupEl.style.background = "var(--background-3)";
 				dupEl.style.pointerEvents = "none";
+				dupEl.textContent = "";
 
 				setTimeout(() => {
 					dupEl.remove();
