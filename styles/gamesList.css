@@ -1,22 +1,24 @@
 /* general */
 #gamesCell {
 	position: relative;
+	padding-bottom: 0;
 }
 .gamesListBox {
 	height: 100%;
-	overflow: clip;
-	overflow-clip-margin: 10px;
+	display: flex;
+	flex-direction: column;
 }
 .gamesListWrapper {
-	overflow-y: auto;
-	height: 100%;
+	display: contents;
 }
 .gamesList {
 	margin-top: 10px;
 	display: flex;
-	flex-flow: row wrap;
+	flex-flow: row nowrap;
 	justify-content: flex-start;
 	gap: 10px;
+
+	overflow: auto;
 }
 
 /* card view / defaults */
