@@ -240,7 +240,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			// run the expansion animation
 			clone.addClass('expandAnimation');
 			setTimeout(function() {clone.remove()}, 740);
-		} else if (animation === "slide") { // sliding animation of the list item
+		} else if (animation === "flash") { // animation of list items
 			const liEl = document.getElementById('listGame' + id);
 			const liElBounds = liEl.getBoundingClientRect();
 			const liElCSS = getComputedStyle(liEl);
