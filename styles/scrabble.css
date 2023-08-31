@@ -74,6 +74,7 @@
 
 	overflow-y: auto;
 	overflow-x: hidden;
+	overflow-x: visible;
 }
 
 #gameControlsCell .gameInfoBox .gameTitleBox {
