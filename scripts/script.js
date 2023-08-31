@@ -250,6 +250,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			dupEl.style.position = "fixed";
 			dupEl.style.width = liElBounds.width + 'px';
 			dupEl.style.height = liElBounds.height + 'px';
+			dupEl.style.lineHeight = liElBounds.height + 'px';
 			dupEl.style.top = liElBounds.top + 'px';
 			dupEl.style.left = liElBounds.left + 'px';
 			dupEl.style.opacity = "0%";
