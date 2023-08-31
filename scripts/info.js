@@ -44,7 +44,7 @@ function getInfo() {
 
         const letterBagLine = /* html */ `
             <b>${lettersLeft}</b>
-            letters left in bag
+            letter${lettersLeft === 1 ? "" : "s"} left in bag
         `;
 
         // active info message
