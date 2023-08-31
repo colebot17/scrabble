@@ -131,10 +131,15 @@
 .listGamePlayerList, .gamePlayerList {
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-start;
 	align-items: center;
 
 	overflow: auto;
+}
+.listGamePlayerList {
+	justify-content: center;
+}
+.gamePlayerList {
+	justify-content: start;
 }
 .listGamePlayerListPlayer, .gamePlayerListPlayer {
 	margin: 0;
