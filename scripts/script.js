@@ -284,6 +284,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			}, 10);
 
 			animationCleanup = () => {
+				dupEl.style.opacity = "0%";
 				dupEl.style.height = "0";
 				clearInterval(flash);
 				dupEl.style.background = "var(--background-3)";
