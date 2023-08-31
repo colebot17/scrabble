@@ -40,10 +40,6 @@
 
     border: 4px solid transparent;
 }
-.gamesList .listGame:active {
-	scale: unset;
-	background-color: var(--background-3);
-}
 .gamesList .listGame.currentPlayerTurn {
 	border-color: var(--highlight);
 }
@@ -71,6 +67,10 @@
 	grid-template-rows: none;
 
 	font-size: 1rem;
+}
+[data-displaymode=list] .gamesList .listGame:active {
+	scale: unset;
+	background-color: var(--background-3);
 }
 [data-displaymode=list] .gamesList .newGameCard, [data-displaymode=list] .gamesList .listGame {
 	width: calc(100% - 15px);
