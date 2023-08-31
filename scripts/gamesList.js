@@ -107,7 +107,7 @@ function activeGameCard(game) {
     let turnUser = parseInt(game.players[turnIndex].id);
 
     const content = /* html */ `
-        <div class="listGame${turnUser === account.id ? " currentPlayerTurn" : ""}" id="listGame${game.id}">
+        <div class="listGame${turnUser === account.id ? " currentPlayerTurn" : ""}${game.chatUnread ? ` badge` : ``}" id="listGame${game.id}">
             <div class="listGameTitleBox">
                 <span class="listGameName" onclick="renameGame(${game.id}, 'list')">
                     ${game.name || `#${game.id}`}
@@ -136,7 +136,7 @@ function inactiveGameCard(game) {
 
     // content
     const content = /* html */ `
-        <div class="listGame" id="listGame${game.id}">
+        <div class="listGame${game.chatUnread ? ` badge` : ``}" id="listGame${game.id}">
             <div class="listGameTitleBox">
                 <div class="gameTitleLine">
                     <span class="material-symbols-rounded smallIcon" style="padding: 5px">
@@ -198,7 +198,7 @@ function gameLI(game) {
     }
 
     const content = /* html */ `
-        <button class="listGame${currentPlayerTurn ? ` currentPlayerTurn` : ``}" id="listGame${game.id}" onclick="loadGame(${game.id}, 'flash')">
+        <button class="listGame${currentPlayerTurn ? ` currentPlayerTurn` : ``}${game.chatUnread ? ` badge` : ``}" id="listGame${game.id}" onclick="loadGame(${game.id}, 'flash')">
             <div class="flex col fullHeight overflowClip">
                 <span class="bold fullWidth ellipsis">
                     ${game.name || `#${game.id}`}

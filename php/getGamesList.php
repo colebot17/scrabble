@@ -15,7 +15,7 @@ function getGamesList($conn, int $userId) {
     // add each game object to the full games list
     for ($i = 0; $i < count($games); $i++) {
         $gameId = $games[$i];
-        $sql = "SELECT name, turn, inactive, players, lastUpdate, endDate FROM games WHERE id='$gameId'";
+        $sql = "SELECT name, turn, inactive, players, chat, lastUpdate, endDate FROM games WHERE id='$gameId'";
         $query = mysqli_query($conn, $sql);
         if (!$query) return false;
         $row = mysqli_fetch_assoc($query);
@@ -33,6 +33,9 @@ function getGamesList($conn, int $userId) {
         // get the players apart of the game
         $players = json_decode($row['players'], true);
 
+        // get the chat
+        $chat = json_decode($row['chat'], true);
+
         // get the end date of the game (or null if it hasn't ended yet)
         $endDate = $row['endDate'];
         if ($endDate === '0000-00-00') $endDate = null;
@@ -43,6 +46,7 @@ function getGamesList($conn, int $userId) {
             "turn" => (int)$row['turn'],
             "inactive" => $inactive,
             "players" => Array(),
+            "chatUnread" => false,
             "lastUpdate" => $row['lastUpdate'],
             "endDate" => $endDate
         );
@@ -66,16 +70,25 @@ function getGamesList($conn, int $userId) {
 
             $game['players'][] = $playerObj;
 
-            // if the game has ended and hasn't been seen by the current player
-            if ($inactive && $playerId === (int)$userId && $player['gameEndUnseen']) {
-                // send this back with the game
-                $game['newlyInactive'] = true;
+            // if this is the current player
+            if ($playerId === (int)$userId) {
+                // if the game has ended and hasn't been seen
+                if ($inactive && $player['gameEndUnseen']) {
+                    // send this back with the game
+                    $game['newlyInactive'] = true;
 
-                // set the game end as seen and upload it
-                $players[$j]['gameEndUnseen'] = false;
-                $playersJson = json_encode($players);
-                $sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
-                $query = mysqli_query($conn, $sql);
+                    // set the game end as seen and upload it
+                    $players[$j]['gameEndUnseen'] = false;
+                    $playersJson = json_encode($players);
+                    $sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
+                    $query = mysqli_query($conn, $sql);
+                }
+
+                // if there are unread chat messages
+                if (count($chat) - 1 > (int)$player['chatRead']) {
+                    // send this back with the game
+                    $game['chatUnread'] = true;
+                }
             }
         }
 
