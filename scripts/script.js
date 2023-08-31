@@ -251,11 +251,31 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 				slideEl.style.right = "100%";
 			}, 10);
 
+			// zooming animation
+			
+			const liBounds = slideEl.getBoundingClientRect();
+			const cont = document.getElementById(account.games.find(a => a.id === id).inactive ? 'inactiveGames' : 'activeGames');
+			const contBounds = cont.getBoundingClientRect();
+
+			const zoomX = (liBounds.right - contBounds.left) - 10;
+			const zoomY = (liBounds.top - contBounds.top) + (liBounds.height / 2);
+
+			cont.style.transformOrigin = `${zoomX}px ${zoomY}px`;
+			cont.style.scale = "1";
+			cont.style.transition = "scale 0.37s";
+			setTimeout(() => {
+				cont.style.scale = "5";
+			}, 10);
+
 			// define the cleanup for when the game is loaded
 			animationCleanup = () => {
 				slideEl.style.transition = "";
 				slideEl.style.position = "";
 				slideEl.style.right = "";
+
+				cont.style.transition = "";
+				cont.style.transformOrigin = "";
+				cont.style.scale = ""
 			}
 		}
 
