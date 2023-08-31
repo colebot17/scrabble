@@ -72,10 +72,13 @@
 			</div>
 			<div class="gameInfoBox"></div>
 			<div class="gameControlButtons flex stretch">
-				<button class="highlight flexGrow2" id="makeMoveButton" onclick="makeMove()">Move</button>
-				<div class="flex col stretch flexGrow">
-					<button class="flexGrow" id="skipTurnButton" onclick="exchangeLetters()">Skip Turn</button>
-					<button class="flexGrow" id="endGameButton" onclick="endGame()"></button>
+				<button class="highlight flexGrow" id="makeMoveButton" onclick="makeMove()">Move</button>
+				<div class="flex col stretch">
+					<details class="contents">
+						<summary>More</summary>
+						<button class="flexGrow" id="skipTurnButton" onclick="exchangeLetters()">Skip Turn</button>
+						<button class="flexGrow" id="endGameButton" onclick="endGame()"></button>
+					</details>
 				</div>
 			</div>
 		</div>
