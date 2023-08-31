@@ -782,6 +782,10 @@ body.scrabble {
 	#signOutForm {
 		margin: -5px;
 	}
+
+	#addMoreToGameLink {
+		display: none;
+	}
 }
 
 /* mobile */
