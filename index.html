@@ -74,8 +74,10 @@
 			<div class="gameControlButtons flex stretch">
 				<button class="highlight flexGrow fontSize1" id="makeMoveButton" onclick="makeMove()">Move</button>
 				<div class="flex col stretch noGap">
-					<details class="contents">
-						<summary>More</summary>
+					<details class="moreGameControlsDet contents">
+						<summary class="iconButton">
+							<span class="material-symbols-rounded">chevron_right</span>
+						</summary>
 						<button class="flexGrow" id="skipTurnButton" onclick="exchangeLetters()">Skip Turn</button>
 						<button class="flexGrow" id="endGameButton" onclick="endGame()"></button>
 					</details>

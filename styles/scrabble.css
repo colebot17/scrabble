@@ -98,6 +98,10 @@
 	font-size: small;
 }
 
+.moreGameControlsDet > summary {
+	list-style-type: none;
+}
+
 html {
 	overflow-x: hidden;
 	overflow-y: hidden;
