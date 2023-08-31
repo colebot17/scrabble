@@ -71,6 +71,8 @@
 	gap: 10px;
 	justify-content: center;
 	align-items: center;
+
+	overflow: auto;
 }
 
 #gameControlsCell .gameInfoBox .gameTitleBox {
