@@ -248,7 +248,6 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			// create the element
 			const dupEl = document.createElement('div');
 			dupEl.style.position = "fixed";
-			dupEl.style.pointerEvents = "none";
 			dupEl.style.width = liElBounds.width + 'px';
 			dupEl.style.height = liElBounds.height + 'px';
 			dupEl.style.top = liElBounds.top + 'px';
@@ -275,46 +274,12 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 				dupEl.style.opacity = "0%";
 				clearInterval(flash);
 				dupEl.style.background = "var(--background-3)";
+				dupEl.style.pointerEvents = "none";
 
 				setTimeout(() => {
 					dupEl.remove();
 				}, 370);
 			}
-
-			/* // set up the element
-			slideEl.style.position = "relative";
-			slideEl.style.right = "0";
-			slideEl.style.transition = "right 0.37s";
-			setTimeout(() => {
-				slideEl.style.right = "100%";
-			}, 10);
-
-			// zooming animation
-			
-			const liBounds = slideEl.getBoundingClientRect();
-			const cont = document.getElementById(account.games.find(a => a.id === id).inactive ? 'inactiveGames' : 'activeGames');
-			const contBounds = cont.getBoundingClientRect();
-
-			const zoomX = (liBounds.right - contBounds.left) - 10;
-			const zoomY = (liBounds.top - contBounds.top) + (liBounds.height / 2);
-
-			cont.style.transformOrigin = `${zoomX}px ${zoomY}px`;
-			cont.style.scale = "1";
-			cont.style.transition = "scale 0.27s 0.1s";
-			setTimeout(() => {
-				cont.style.scale = "2";
-			}, 10);
-
-			// define the cleanup for when the game is loaded
-			animationCleanup = () => {
-				slideEl.style.transition = "";
-				slideEl.style.position = "";
-				slideEl.style.right = "";
-
-				cont.style.transition = "";
-				cont.style.transformOrigin = "";
-				cont.style.scale = ""
-			} */
 		}
 
 		return request("loadGame.php", {
