@@ -256,16 +256,25 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			dupEl.style.opacity = "0%";
 			dupEl.style.borderRadius = liElCSS.getPropertyValue('border-radius');
 			dupEl.style.background = "var(--background-3)";
-			dupEl.style.transition = "0.37s top, 0.37s height, 0.37s opacity";
+			dupEl.style.transition = "0.37s top, 0.37s height, 0.37s opacity, 0.37s background-color";
 
 			document.getElementById('scrabbleGrid').appendChild(dupEl);
 
+			let flash;
+
 			setTimeout(() => {
 				dupEl.style.opacity = "100%";
+
+				flash = setInterval(() => {
+					const t = dupEl.style.background === "var(--background-3)";
+					dupEl.style.background = t ? "var(--highlight)" : "var(--background-3";
+				}, 370);
 			}, 10);
 
 			animationCleanup = () => {
 				dupEl.style.opacity = "0%";
+				clearInterval(flash);
+				dupEl.style.background = "var(--background-3)";
 
 				setTimeout(() => {
 					dupEl.remove();
