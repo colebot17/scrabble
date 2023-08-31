@@ -261,7 +261,6 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			dupEl.style.background = "var(--background-2)";
 			dupEl.style.transition = "0.37s scale, 0.37s top, 0.37s height, 0.37s opacity, 0.37s background-color";
 
-			document.getElementById('scrabbleGrid').appendChild(dupEl);
 
 			if (!online) {
 				dupEl.style.color = "white";
@@ -275,11 +274,13 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 						dupEl.remove();
 					}, 370);
 				}, 1000);
+				
+				document.getElementById('scrabbleGrid').appendChild(dupEl);
 
 				return;
 			}
 
-			let flash, fNum = 0;
+			let flash, fNum = 0, added = false;
 
 			setTimeout(() => {
 				flash = setInterval(() => {
@@ -295,6 +296,8 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 						dupEl.textContent = "Loading...";
 					}
 
+					if (!added) document.getElementById('scrabbleGrid').appendChild(dupEl);
+
 					fNum++;
 				}, 370);
 			}, 10);
@@ -302,15 +305,19 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			animationCleanup = () => {
 				clearInterval(flash);
 
-				dupEl.style.opacity = "0%";
-				dupEl.style.scale = "5";
-				dupEl.style.background = "var(--background-3)";
-				dupEl.style.pointerEvents = "none";
-				dupEl.innerHTML = "";
+				if (!added) document.getElementById('scrabbleGrid').appendChild(dupEl);
 
 				setTimeout(() => {
-					dupEl.remove();
-				}, 370);
+					dupEl.style.opacity = "0%";
+					dupEl.style.scale = "5";
+					dupEl.style.background = "var(--background-3)";
+					dupEl.style.pointerEvents = "none";
+					dupEl.innerHTML = "";
+
+					setTimeout(() => {
+						dupEl.remove();
+					}, 370);
+				}, 10);
 			}
 		}
 
