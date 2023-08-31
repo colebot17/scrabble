@@ -250,7 +250,6 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			// create the element
 			const dupEl = document.createElement('div');
 			dupEl.style.position = "fixed";
-			dupEl.style.boxSizing = "border-box";
 			dupEl.style.width = liElBounds.width + 'px';
 			dupEl.style.height = liElBounds.height + 'px';
 			dupEl.style.lineHeight = liElBounds.height + 'px';
@@ -258,7 +257,6 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			dupEl.style.top = liElBounds.top + 'px';
 			dupEl.style.left = liElBounds.left + 'px';
 			dupEl.style.opacity = "100%";
-			dupEl.style.border = liElCSS.getPropertyValue('border');
 			dupEl.style.borderRadius = liElCSS.getPropertyValue('border-radius');
 			dupEl.style.background = "var(--background-2)";
 			dupEl.style.transition = "0.37s scale, 0.37s top, 0.37s height, 0.37s opacity, 0.37s background-color";
@@ -268,7 +266,6 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			if (!online) {
 				dupEl.style.color = "white";
 				dupEl.style.background = "red";
-				dupEl.style.border = "";
 
 				dupEl.textContent = "No Connection";
 
