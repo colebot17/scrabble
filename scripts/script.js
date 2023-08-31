@@ -257,7 +257,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			dupEl.style.opacity = "100%";
 			dupEl.style.borderRadius = liElCSS.getPropertyValue('border-radius');
 			dupEl.style.background = "var(--background-2)";
-			dupEl.style.transition = "0.037s top, 0.37s height, 0.37s opacity, 0.37s background-color";
+			dupEl.style.transition = "0.37s top, 0.37s height, 0.37s opacity, 0.37s background-color";
 
 			document.getElementById('scrabbleGrid').appendChild(dupEl);
 
