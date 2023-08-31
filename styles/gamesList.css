@@ -42,6 +42,7 @@
 }
 .gamesList .listGame:active {
 	scale: unset;
+	background-color: var(--background-3);
 }
 .gamesList .listGame.currentPlayerTurn {
 	border-color: var(--highlight);
