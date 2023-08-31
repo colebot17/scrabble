@@ -289,10 +289,10 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 				// dupEl.style.opacity = "0%";
 				// dupEl.style.height = "0";
 				clearInterval(flash);
-				
+
 				dupEl.style.opacity = "0%";
 				dupEl.style.scale = "5";
-				dupEl.style.top = oldTop + (oldHeight / 2) + 'px';
+				// dupEl.style.top = oldTop + (oldHeight / 2) + 'px';
 				dupEl.style.background = "var(--background-3)";
 				dupEl.style.pointerEvents = "none";
 				dupEl.innerHTML = "";
