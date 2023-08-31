@@ -262,9 +262,9 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 
 			cont.style.transformOrigin = `${zoomX}px ${zoomY}px`;
 			cont.style.scale = "1";
-			cont.style.transition = "scale 0.37s";
+			cont.style.transition = "scale 0.37s 0.2s";
 			setTimeout(() => {
-				cont.style.scale = "5";
+				cont.style.scale = "2";
 			}, 10);
 
 			// define the cleanup for when the game is loaded
