@@ -267,7 +267,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 
 				flash = setInterval(() => {
 					const t = dupEl.style.background === "var(--background-3)";
-					dupEl.style.background = t ? "var(--highlight)" : "var(--background-3";
+					dupEl.style.background = t ? "var(--highlight)" : "var(--background-3)";
 				}, 370);
 			}, 10);
 
