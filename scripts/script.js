@@ -219,9 +219,10 @@ function setGameName(gameId, gameName) {
 	}
 }
 
-function loadGame(id = prompt("Enter the id of the game you want to load:"), animate = false) {
+function loadGame(id = prompt("Enter the id of the game you want to load:"), animation = false) {
 	if (id) {
-		if (animate) { // expanding animation of the play button
+		let animationCleanup = () => {};
+		if (animation === 'expand') { // expanding animation of the play button
 			let expandEl = $('#listGame' + id + ' .openGameButton');
 
 			// position the element
@@ -239,6 +240,21 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			// run the expansion animation
 			clone.addClass('expandAnimation');
 			setTimeout(function() {clone.remove()}, 740);
+		} else if (animation === "slide") { // sliding animation of the list item
+			const slideEl = document.getElementById('listGame' + id);
+
+			// set up the element
+			slideEl.style.position = "relative";
+			slideEl.style.right = "0";
+			slideEl.style.transition = "right 0.37s";
+			slideEl.style.right = "100%";
+
+			// define the cleanup for when the game is loaded
+			animationCleanup = () => {
+				slideEl.style.transition = "";
+				slideEl.style.position = "";
+				slideEl.style.right = "";
+			}
 		}
 
 		return request("loadGame.php", {
@@ -264,6 +280,8 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 
 			showTab('game');
 			gameInit();
+
+			animationCleanup();
 		}).catch(err => {
 			throw new Error(err);
 		});

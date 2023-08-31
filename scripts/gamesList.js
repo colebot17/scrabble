@@ -121,7 +121,7 @@ function activeGameCard(game) {
             <div class="listGamePlayerList">
                 ${playerList(game)}
             </div>
-            <button class="openGameButton${turnUser === account.id ? " highlight" : ""}" onclick="loadGame(${game.id}, true)" data-gameid="${game.id}">
+            <button class="openGameButton${turnUser === account.id ? " highlight" : ""}" onclick="loadGame(${game.id}, 'expand')" data-gameid="${game.id}">
                 ${turnUser === account.id ? "Play" : "View"}
             </button>
         </div>
@@ -155,7 +155,7 @@ function inactiveGameCard(game) {
             <div class="listGamePlayerList">
                 ${playerList(game)}
             </div>
-            <button class="openGameButton" onclick="loadGame(${game.id}, true)" data-gameid="${game.id}">
+            <button class="openGameButton" onclick="loadGame(${game.id}, 'expand')" data-gameid="${game.id}">
                 View
             </button>
         </div>
@@ -198,7 +198,7 @@ function gameLI(game) {
     }
 
     const content = /* html */ `
-        <button class="listGame${currentPlayerTurn ? ` currentPlayerTurn` : ``}" id="listGame${game.id}" onclick="loadGame(${game.id}, false)">
+        <button class="listGame${currentPlayerTurn ? ` currentPlayerTurn` : ``}" id="listGame${game.id}" onclick="loadGame(${game.id}, 'slide')">
             <div class="flex col fullHeight overflowClip">
                 <span class="bold fullWidth ellipsis">
                     ${game.name || `#${game.id}`}
