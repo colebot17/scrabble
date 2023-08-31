@@ -42,6 +42,13 @@ function updateActiveGamesList(games, dispMode = "card") {
         return 0; // a must be equal to b
     });
 
+    // sort by whether there are unread chat messages
+    games.sort(function(a, b) {
+        if (a.chatUnread && !b.chatUnread) return -1;
+        if (!a.chatUnread && b.chatUnread) return 1;
+        return 0;
+    });
+
     // then sort by whether it is the current user's turn
     games.sort(function(a, b) {
         let aTurn = parseInt(a.players[parseInt(a.turn) % a.players.length].id) === account.id;
