@@ -199,7 +199,7 @@ function gameLI(game) {
 
     const content = /* html */ `
         <button class="listGame${currentPlayerTurn ? ` currentPlayerTurn` : ``}" id="listGame${game.id}" onclick="loadGame(${game.id}, false)">
-            <div class="flex col fullHeight">
+            <div class="flex col fullHeight overflowClip">
                 <span class="bold fullWidth ellipsis">
                     ${game.name || `#${game.id}`}
                 </span>
@@ -209,7 +209,7 @@ function gameLI(game) {
                     </div>
                 ` : ``}
             </div>
-            <div class="flex col fullHeight">
+            <div class="flex col fullHeight overflowClip">
 				<span class="fullWidth ellipsis">
 					${inlinePlayerList(game.players)}
 				</span>
