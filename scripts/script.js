@@ -244,9 +244,6 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			const liEl = document.getElementById('listGame' + id);
 			const liElBounds = liEl.getBoundingClientRect();
 			const liElCSS = getComputedStyle(liEl);
-			
-			const contEl = document.getElementById(account.games.find(a => a.id === id).inactive ? 'inactiveGames' : 'activeGames');
-			const contElBounds = contEl.getBoundingClientRect();
 
 			// create the element
 			const dupEl = document.createElement('div');
@@ -264,8 +261,6 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			document.getElementById('scrabbleGrid').appendChild(dupEl);
 
 			setTimeout(() => {
-				dupEl.style.height = contElBounds.height;
-				dupEl.style.top = contElBounds.top;
 				dupEl.style.opacity = "100%";
 			}, 10);
 
