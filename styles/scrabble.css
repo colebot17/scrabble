@@ -671,9 +671,12 @@ body.scrabble {
 		grid-row: 2;
 	}
 	#scrabbleGrid[data-tab=game] #gameControlsCell {
-		display: flex;
+		display: grid;
 		grid-column: 1;
 		grid-row: 1;
+
+		grid-template-rows: 1fr minmax(0, 50%) 1fr;
+		grid-template-columns: 100%;
 	}
 	#scrabbleGrid[data-tab=game] #canvasCell {
 		display: flex;
