@@ -583,13 +583,13 @@ function gameInit() {
 	endGameButton.style.cursor = (game.inactive ? 'not-allowed' : 'pointer');
 	endGameButton.title = (game.inactive ? 'The game is already over' : votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end');
 
-	setCanvasSize();
-	
 	setTimeout(startChangeCheck, 3000);
 
 	chatInit();
 
 	updateMoveHistory();
+
+	setCanvasSize();
 }
 
 function getPlayerLastTurn() {
