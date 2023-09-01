@@ -589,6 +589,8 @@ function gameInit() {
 
 	updateMoveHistory();
 
+	document.getElementsByClassName('moreGameControls')[0].removeAttribute('open');
+
 	setCanvasSize();
 }
 
