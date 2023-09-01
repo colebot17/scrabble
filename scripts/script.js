@@ -325,7 +325,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		el.style.transition = "opacity 0.37s";
 
 		if (!navigator.onLine) {
-			el.style.background = "red";
+			el.style.background = "#FF000033";
 			el.style.color = "white";
 			el.innerHTML = "No Connection";
 
