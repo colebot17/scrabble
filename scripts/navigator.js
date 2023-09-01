@@ -15,7 +15,7 @@ function updateHistoryState(gameId) {
 }
 
 window.addEventListener('popstate', e => {
-    if (typeof e.state.game === 'number') {
+    if (e.state) {
         loadGame(e.state.game, false, false);
     } else {
         showTab('home');
