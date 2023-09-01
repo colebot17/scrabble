@@ -9,3 +9,15 @@ function checkParams() {
         });
     }
 }
+
+function updateHistoryState(gameId) {
+    history.pushState({game: gameId}, "Game " + gameId, "?game=" + gameId);
+}
+
+window.addEventListener('popstate', e => {
+    if (e.state.game) {
+        loadGame(e.state.game);
+    } else {
+        showTab('home');
+    }
+});

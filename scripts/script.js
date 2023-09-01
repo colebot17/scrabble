@@ -338,6 +338,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 
 		showTab('game');
 		gameInit();
+		updateHistoryState(game.id);
 
 		animationCleanup();
 	}).catch(err => {

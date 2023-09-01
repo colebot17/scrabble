@@ -1,5 +1,6 @@
 function showTab(tab) {
-	document.getElementById('scrabbleGrid').dataset.tab = tab;
+	const sGrid = document.getElementById('scrabbleGrid');
+	sGrid.dataset.tab = tab;
 
 	// scroll to the top of the games list
 	$('#activeGames .gamesListWrapper')[0].scrollTop = 0;
@@ -12,7 +13,7 @@ function showTab(tab) {
 		readChat();
 	}
 
-	if (tab === 'chat' || tab === 'game') {
+	if (tab === 'chat' || (tab === 'game' && sGrid.dataset.hidechatbox !== "false")) {
 		chatScrollBottom();
 		chatBoxResize();
 	}
