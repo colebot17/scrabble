@@ -1,7 +1,9 @@
 class Setting {
     constructor(id, linkedEl, linkedElProperty, initSubscribers = []) {
         this.id = id;
-        this.value = linkedEl[linkedElProperty];
+        if (localStorage[id]) linkedEl[linkedElProperty] = localStorage[id];
+
+        this.value = localStorage[id] || linkedEl[linkedElProperty];
         this.linkedEl = linkedEl;
         this.linkedElProperty = linkedElProperty;
         this.subscribers = initSubscribers;
@@ -15,6 +17,7 @@ class Setting {
         for (let i = 0; i < this.subscribers.length; i++) {
             this.subscribers[i](value);
         }
+        localStorage[this.id] = value;
     }
 
     subscribe(callback) {
