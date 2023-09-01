@@ -325,7 +325,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 
 		el.style.lineHeight = '100vh';
 
-		el.innerHTML = " ";
+		el.innerHTML = ".";
 
 		let timeout = setTimeout(() => {
 			el.innerHTML = "Loading Game";
