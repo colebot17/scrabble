@@ -321,12 +321,11 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		el.style.top = '0';
 
 		el.style.background = 'var(--selection-color)';
-		el.style.color = 'var(--text-color)';
+		el.style.color = 'white';
 
 		el.style.lineHeight = '100vh';
 
-		el.className = "material-symbols-rounded largeIcon";
-		el.innerHTML = "more_horiz";
+		el.innerHTML = "Loading Game";
 
 		document.getElementById('scrabbleGrid').appendChild(el);
 
