@@ -219,7 +219,7 @@ function setGameName(gameId, gameName) {
 	}
 }
 
-function loadGame(id = prompt("Enter the id of the game you want to load:"), animation = false) {
+function loadGame(id = prompt("Enter the id of the game you want to load:"), animation = false, updateHistory = true) {
 	if (!id) return;
 	
 	let animationCleanup = () => {};
@@ -338,7 +338,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 
 		showTab('game');
 		gameInit();
-		updateHistoryState(game.id);
+		if (updateHistory) updateHistoryState(game.id);
 
 		animationCleanup();
 	}).catch(err => {
