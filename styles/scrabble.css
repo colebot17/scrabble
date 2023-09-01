@@ -101,6 +101,9 @@
 .moreGameControls > summary {
 	list-style-type: none;
 }
+.moreGameControls > summary::-webkit-details-marker {
+	display: none;
+}
 
 html {
 	overflow-x: hidden;
