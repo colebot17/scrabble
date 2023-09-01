@@ -313,6 +313,13 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 				dupEl.remove();
 			}, 370);
 		}
+	} else if (animation === 'loader') {
+		const sGrid = document.getElementById('scrabbleGrid');
+		sGrid.dataset.signedin = 'loading';
+
+		animationCleanup = () => {
+			sGrid.dataset.signedin = 'true';
+		}
 	}
 
 	return request("loadGame.php", {
