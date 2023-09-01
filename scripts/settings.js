@@ -1,9 +1,14 @@
 class Setting {
     constructor(id, linkedEl, linkedElProperty, initSubscribers = []) {
         this.id = id;
-        if (localStorage[id]) linkedEl[linkedElProperty] = localStorage[id];
+        if (localStorage.settings) {
+            const lsSettings = JSON.parse(localStorage.settings);
+            if (lsSettings[id]) linkedEl[linkedElProperty] = lsSettings[id];
+        } else {
+            localStorage.settings = '{}';
+        }
 
-        this.value = localStorage[id] || linkedEl[linkedElProperty];
+        this.value = linkedEl[linkedElProperty];
         this.linkedEl = linkedEl;
         this.linkedElProperty = linkedElProperty;
         this.subscribers = initSubscribers;
@@ -17,7 +22,9 @@ class Setting {
         for (let i = 0; i < this.subscribers.length; i++) {
             this.subscribers[i](value);
         }
-        localStorage[this.id] = value;
+        let lsSettings = JSON.parse(localStorage.settings);
+        lsSettings[this.id] = value;
+        localStorage.settings = JSON.stringify(lsSettings);
     }
 
     subscribe(callback) {
