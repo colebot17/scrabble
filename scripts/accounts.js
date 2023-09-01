@@ -111,10 +111,10 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 		updateRequestList(account.requests);
 		updateSentRequestList(account.sentRequests);
 
-		checkParams();
-
 		// show the signed in page
 		scrabbleGrid.dataset.signedin = "true";
+
+		checkParams();
 	}).catch(err => {
 		console.error("Sign-in could not be completed:", err);
 		setSignInMode('signIn');

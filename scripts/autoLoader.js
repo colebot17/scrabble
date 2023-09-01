@@ -1,6 +1,11 @@
 function checkParams() {
+    // this function assumes that the user is already correctly authenticated
     const params = new URLSearchParams(window.location.search);
     if (params.has('game')) {
-       loadGame(parseInt(params.get('game')));
+        const grid = document.getElementById('scrabbleGrid');
+        grid.dataset.signedin = "loading";
+        loadGame(parseInt(params.get('game'))).then(() => {
+            grid.dataset.signedin = "true";
+        });
     }
 }
