@@ -342,6 +342,8 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		pwd: account.pwd,
 		game: id
 	}).then(res => {
+		animationCleanup();
+
 		// catch any errors
 		if (res.errorLevel > 0) {
 			textModal("Error", res.message);
@@ -361,9 +363,8 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		showTab('game');
 		gameInit();
 		if (updateHistory) updateGameHistoryState(game.id);
-
-		animationCleanup();
 	}).catch(err => {
+		animationCleanup();
 		throw new Error(err);
 	});
 }
