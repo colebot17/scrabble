@@ -314,11 +314,22 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			}, 370);
 		}
 	} else if (animation === 'loader') {
-		const sGrid = document.getElementById('scrabbleGrid');
-		sGrid.dataset.signedin = 'loading';
+		const el = document.createElement('div');
+		el.style.position = 'fixed';
+		el.style.left = '0';
+		el.style.right = '0';
+		el.style.top = '0';
+
+		el.style.background = 'var(--selection-color)';
+		el.style.color = 'var(--text-color)';
+
+		el.style.lineHeight = '100vh';
+
+		el.className = "material-symbols-rounded largeIcon";
+		el.innerHTML = "more_horiz";
 
 		animationCleanup = () => {
-			sGrid.dataset.signedin = 'true';
+			el.remove();
 		}
 	}
 
