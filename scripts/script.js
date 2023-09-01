@@ -353,6 +353,13 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			clearTimeout(timeout);
 			el.remove();
 		}
+	} else if (animation === 'scrabbleLoader') {
+		const sGrid = document.getElementById('scrabbleGrid');
+		sGrid.dataset.signedin = 'loading';
+
+		animationCleanup = () => {
+			sGrid.dataset.signedin = 'true';
+		}
 	}
 
 	return request("loadGame.php", {

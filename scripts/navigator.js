@@ -2,7 +2,7 @@ function checkParams() {
     // this function assumes that the user is already correctly authenticated
     const params = new URLSearchParams(window.location.search);
     if (params.has('game')) {
-        loadGame(parseInt(params.get('game')), 'loader');
+        loadGame(parseInt(params.get('game')), 'scrabbleLoader');
     }
 }
 
