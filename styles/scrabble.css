@@ -675,7 +675,7 @@ body.scrabble {
 		grid-column: 1;
 		grid-row: 1;
 
-		grid-template-rows: 1fr minmax(0, 50%) 1fr;
+		grid-template-rows: minmax(0, 100px) minmax(0, 100%) minmax(0, 100px);
 		grid-template-columns: 100%;
 	}
 	#scrabbleGrid[data-tab=game] #canvasCell {
