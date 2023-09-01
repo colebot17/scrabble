@@ -320,10 +320,26 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		el.style.right = '0';
 		el.style.top = '0';
 
+		el.style.lineHeight = '100vh';
+
+		if (!navigator.onLine) {
+			el.backgroundColor = "red";
+			el.color = "white";
+			el.innerHTML = "No Connection";
+			el.style.transition = "opacity 0.37s";
+
+			setTimeout(() => {
+				el.style.opacity = "0%";
+				setTimeout(() => {
+					el.remove();
+				}, 370);
+			}, 1000);
+
+			return;
+		}
+
 		el.style.background = 'var(--selection-color)';
 		el.style.color = 'white';
-
-		el.style.lineHeight = '100vh';
 
 		el.innerHTML = ".";
 
