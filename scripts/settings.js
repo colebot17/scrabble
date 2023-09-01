@@ -15,7 +15,7 @@ class Setting {
 
         // call any initial subscribers
         for (let i = 0; i < this.subscribers.length; i++) {
-            this.subscribers[i](value);
+            this.subscribers[i](this.value);
         }
 
         // set up the linked element
