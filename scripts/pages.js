@@ -22,7 +22,7 @@ function showTab(tab, updateHistory = true) {
 		stopChecking = true; // this is a destruct flag for checkForChanges
 		removeHandlers();
 
-		if (updateHistory) history.pushState(false, 'Home', '/');
+		if (updateHistory) history.pushState(false, 'Home', '');
 	}
 
 	if (tab === 'friends' || tab === 'account') {
