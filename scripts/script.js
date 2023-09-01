@@ -364,7 +364,7 @@ function reloadGame() {
 		}, 10);
 
 		// set complete to true once the game has loaded
-		loadGame(game.id).then(() => complete = true);
+		loadGame(game.id, false, false).then(() => complete = true);
 	}
 }
 
