@@ -104,6 +104,9 @@
 .moreGameControls > summary::-webkit-details-marker {
 	display: none;
 }
+#makeMoveButton:has(~ div details[open]) {
+	display: none;
+}
 
 html {
 	overflow-x: hidden;
