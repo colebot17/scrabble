@@ -33,11 +33,6 @@ var game;
 
 var dragged;
 
-$(':root').css('--height', `${window.innerHeight}px`);
-window.addEventListener('resize', () => {
-	$(':root').css('--height', `${window.innerHeight}px`);
-});
-
 function loadGamesList(done) {
 	if (account.id) {
 		// spin the reload button until list is loaded
@@ -72,11 +67,6 @@ function loadGamesList(done) {
 				// load the new content
 				account.games = res.data;
 				updateGamesList();
-
-				// // done (for pull to refresh)
-				// if (done) {
-				// 	done();
-				// }
 			}
 		}).catch(err => {
 			throw new Error(err);
@@ -109,414 +99,6 @@ function winnerString(winners) {
 		}
 	}
 	return str;
-}
-
-function updateGamesList() {
-	if (!account.games) return;
-
-	if (localStorage.gameListDisplayMode) {
-		setDisplayMode(localStorage.gameListDisplayMode);
-	}
-
-	var noActiveGames = true;
-	var noInactiveGames = true;
-
-	const activeGamesList = document.getElementById('activeGamesList');
-	const inactiveGamesList = document.getElementById('inactiveGamesList');
-
-	// empty all games lists
-	Array.from(document.getElementsByClassName('gamesList')).forEach(v => {v.innerHTML = "";});
-
-	const activeGamesListMessage = document.getElementById('activeGamesListMessage');
-	const inactiveGamesListMessage = document.getElementById('inactiveGamesListMessage');
-
-	// convert games object into two arrays, one for active games, and another for inactive games
-	let activeGames = [];
-	let inactiveGames = [];
-
-	for (let i = 0; i < account.games.length; i++) {
-		let currentGame = account.games[i];
-		
-		// convert the dates to date objects
-		currentGame.lastUpdate = new Date(currentGame.lastUpdate);
-		if (currentGame.endDate) {
-			currentGame.endDate = new Date(currentGame.endDate);
-		}
-
-		// push to the appropriate array
-		if (currentGame.inactive) {
-			inactiveGames.push(currentGame);
-		} else {
-			activeGames.push(currentGame);
-		}
-	}
-
-	// sort the active games array by the last update timestamp 
-	activeGames.sort(function(a, b) {
-		if (a.lastUpdate > b.lastUpdate) { // a comes before b (in the display order)
-			return -1;
-		}
-		if (a.lastUpdate < b.lastUpdate) { // a comes after b
-			return 1;
-		}
-		// a must be equal to b
-		return 0;
-	});
-
-	// sort the active games array by whether it is the current user's turn
-	activeGames.sort(function(a, b) {
-		let aTurn = false;
-		let bTurn = false;
-		if (!a.inactive) {
-			aTurn = parseInt(a.players[parseInt(a.turn) % a.players.length].id) === account.id;
-		}
-		if (!b.inactive) {
-			bTurn = parseInt(b.players[parseInt(b.turn) % b.players.length].id) === account.id;
-		}
-		if (aTurn && !bTurn) {
-			return -1;
-		}
-		if (!aTurn && bTurn) {
-			return 1;
-		}
-		return 0;
-	});
-
-	// sort the inactive games array by the end date timestamp
-	inactiveGames.sort(function(a, b) {
-		if (a.endDate > b.endDate || (a.endDate && !b.endDate)) { // a comes before b (in the display order)
-			return -1;
-		}
-		if (a.endDate < b.endDate || (!a.endDate && b.endDate)) { // a comes after b
-			return 1;
-		}
-		// a must be equal to b
-		return 0;
-	});
-
-	// we will store all the newly inactive games here
-	let newlyInactiveGames = [];
-
-	// copy and combine the two arrays
-	let gamesArray = activeGames.concat(inactiveGames);
-
-	// for each game in the account
-	for (var i in gamesArray) {
-		// calculate the winning player(s)
-		let winners = [];
-		for (let j in gamesArray[i].players) {
-			if (gamesArray[i].players[j].points > 0) {
-				if (winners.length > 0) {
-					if (gamesArray[i].players[j].points > gamesArray[i].players[winners[0]].points) {
-						winners = [j];
-					} else if (gamesArray[i].players[j].points === gamesArray[i].players[winners[0]].points) {
-						winners.push(j);
-					}
-				} else {
-					winners = [j];
-				}
-			}
-		}
-
-		if (!gamesArray[i].inactive) { // if the game is active
-			noActiveGames = false;
-			let turnIndex = parseInt(gamesArray[i].turn) % gamesArray[i].players.length;
-			let turnUser = parseInt(gamesArray[i].players[turnIndex].id);
-			let playerListHTML = ``;
-			for (var j in gamesArray[i].players) { // add each player to the list of players in the card
-				let endGameVoted = gamesArray[i].players[j].endGameRequest;
-				playerListHTML += /* html */ `
-					<div class='listGamePlayerListPlayer'>
-						${(winners.includes(j) ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>` : ``)}
-						<b>
-							${(j == turnIndex ? `<u>` : ``)}
-							${gamesArray[i].players[j].name}
-							${(j == turnIndex ? `</u>` : ``)}
-						</b>
-						: 
-						${gamesArray[i].players[j].points}
-						${(endGameVoted ? `<span class='material-symbols-rounded winnerIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
-					</div>
-				`;
-			}
-			playerListHTML = playerListHTML.substring(0, playerListHTML.length - 2); // remove the extra comma at the end
-
-			let playerListSummaryHTML;
-			if (gamesArray[i].players.length === 2) {
-				let otherPlayer = 0;
-				if (gamesArray[i].players[0].id == account.id) otherPlayer = 1;
-				playerListSummaryHTML = /* html */ `You, <b>${gamesArray[i].players[otherPlayer].name}</b>`
-			} else {
-				playerListSummaryHTML = /* html */ `You, +${gamesArray[i].players.length - 1}`;
-			}
-
-			let turnSummaryHTML;
-			if (gamesArray[i].players[turnIndex].id == account.id) {
-				turnSummaryHTML = `Your turn`;
-			} else {
-				turnSummaryHTML = /* html */ `<b>${gamesArray[i].players[turnIndex].name}</b>'s turn`;
-			}
-
-			// add the game card to the list
-			activeGamesList.innerHTML += /* html */`
-				<div class="listGame" id="listGame${gamesArray[i].id}">
-					<div class="listGameTitleBox">
-						<span class="listGameName" onclick="renameGame(${gamesArray[i].id}, 'list')">
-							${gamesArray[i].name || `#${gamesArray[i].id}`}
-						</span>
-						${gamesArray[i].name ? /* html */ `
-							<div class="gameIdLine">
-								#${gamesArray[i].id}
-							</div>
-						` : ``}
-					</div>
-					<div class="listGamePlayerList">
-						${playerListHTML}
-					</div>
-					<div class="listGameInfoSummary">
-						<div class="playerListSummary">
-							${playerListSummaryHTML}
-						</div>
-						<div class="turnSummary">
-							${turnSummaryHTML}
-						</div>
-					</div>
-					<button class="openGameButton${(turnUser == account.id ? " highlight" : "")}" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
-						${(turnUser == account.id ? "Play" : "View")}
-					</button>
-				</div>
-			`;
-		} else { // if the game is inactive
-			// check if the game has just ended
-			if (gamesArray[i].newlyInactive) {
-				newlyInactiveGames.push(gamesArray[i]);
-			}
-
-			noInactiveGames = false;
-			let playerListHTML = ``;
-			for (var j in gamesArray[i].players) { // add each player to the list of players in the card
-				playerListHTML += /* html */ `
-					<div class="listGamePlayerListPlayer">
-						${(winners.includes(j) ? "<span class='material-symbols-rounded winnerIcon'>military_tech</span>" : "")}
-						<b>
-							${gamesArray[i].players[j].name}
-						</b>
-						: ${gamesArray[i].players[j].points}
-					</div>
-				`;
-			}
-			playerListHTML = playerListHTML.substring(0, playerListHTML.length - 2); // remove the extra comma at the end
-
-			let playerListSummaryHTML;
-			if (gamesArray[i].players.length === 2) {
-				let otherPlayer = 0;
-				if (gamesArray[i].players[0].id == account.id) otherPlayer = 1;
-				playerListSummaryHTML = /* html */ `You, <b>${gamesArray[i].players[otherPlayer].name}</b>`
-			} else {
-				playerListSummaryHTML = /* html */ `You, +${gamesArray[i].players.length - 1}`;
-			}
-
-			const wstr = winnerString(winners);
-			let winnerHTML = /* html */ `${wstr} won`;
-
-			// add the game card to the list
-			inactiveGamesList.innerHTML += /* html */ `
-				<div class="listGame" id="listGame${gamesArray[i].id}">
-					<div class="listGameTitleBox">
-						<div class="gameTitleLine">
-							<span class="material-symbols-rounded smallIcon" style='padding: 5px'>
-								inventory_2
-							</span>
-							<span class="listGameName" onclick="renameGame(${gamesArray[i].id}, 'list')">
-								${gamesArray[i].name || `#${gamesArray[i].id}`}
-							</span>
-						</div>
-						${gamesArray[i].name ? /* html */ `
-							<div class="gameIdLine">
-								#${gamesArray[i].id}
-							</div>
-						` : ``}
-					</div>
-					<div class="listGamePlayerList">
-						${playerListHTML}
-					</div>
-					<div class="listGameInfoSummary">
-						<div class="playerListSummary">
-							${playerListSummaryHTML}
-						</div>
-						<div class="turnSummary">
-							${winnerHTML}
-						</div>
-					</div>
-					<button class="openGameButton" onclick="loadGame(${gamesArray[i].id}, true)" data-gameid="${gamesArray[i].id}">
-						View
-					</button>
-				</div>
-			`;
-		}
-	}
-
-	// add the new game card to the end of the active games tab
-	activeGamesList.innerHTML += /* html */ `
-		<button class="newGameCard" onclick="newGame();">
-			<span class="material-symbols-rounded largeIcon">
-				add
-			</span>
-			<span class="large">
-				New Game
-			</span>
-			<span></span>
-		</button>
-	`;
-
-	// set the message for the active games list
-	if (!noActiveGames) {
-		activeGamesListMessage.innerHTML = "";
-	} else {
-		activeGamesListMessage.innerHTML = `You have no active games. Create a new one below.`;
-	}
-
-	// set the message for the inactive games list
-	if (!noInactiveGames) {
-		inactiveGamesListMessage.innerHTML = "";
-	} else {
-		inactiveGamesListMessage.innerHTML = `You have no inactive games. Once any game ends, it will be archived here.`;
-	}
-
-	// animate any newly inactive games
-	if (newlyInactiveGames.length) {
-		const cardBox = document.createElement('div');
-		cardBox.className = "flex stretch gap20";
-
-		for (let i = 0; i < newlyInactiveGames.length; i++) {
-			const game = newlyInactiveGames[i];
-
-			game.newlyInactive = false;
-
-			const winners = [];
-			for (let j = 0; j < game.winnerIndicies.length; j++) {
-				winners.push(game.players[game.winnerIndicies[j]]);
-			}
-
-			const str = `<b>${game.name || "Game #" + game.id}</b> has ended. ${winnerString(winners)} won!`;
-			const card = document.createElement('div');
-				card.className = "miniGameCard";
-
-				const titleBox = document.createElement('div');
-					titleBox.className = "listGameTitleBox";
-
-					const titleLine = document.createElement('div');
-						titleLine.className = "gameTitleLine";
-
-						const icon = document.createElement('span');
-							icon.className = "material-symbols-rounded smallIcon";
-							icon.innerHTML = "inventory_2";
-						titleLine.appendChild(icon);
-
-						const name = document.createElement('span');
-							name.className = "listGameName";
-							name.innerHTML = game.name ? game.name : '#' + game.id;
-						titleLine.appendChild(name);
-
-					titleBox.appendChild(titleLine);
-					
-					if (game.name) {
-						const idLine = document.createElement('div');
-							idLine.className = "gameIdLine";
-							idLine.innerHTML = '#' + game.id;
-						titleBox.appendChild(idLine);
-					}
-
-				card.appendChild(titleBox);
-
-				const playersList = document.createElement('div');
-					playersList.className = "listGamePlayerList";
-
-					let winningPoints = 1;
-					for (let j = 0; j < game.players.length; j++) {
-						if (game.players[j].points > winningPoints) {
-							winningPoints = game.players[j].points;
-						}
-					}
-
-					for (let j = 0; j < game.players.length; j++) {
-						const player = game.players[j];
-
-						const playerEl = document.createElement('div');
-							playerEl.className = "listGamePlayerListPlayer";
-
-							if (player.points === winningPoints) {
-								const icon = document.createElement('span');
-									icon.className = "material-symbols-rounded smallIcon";
-									icon.innerHTML = "military_tech";
-								playerEl.appendChild(icon);
-							}
-
-							const text = document.createElement('span');
-								text.innerHTML = `<b>${player.name}</b>: ${player.points}`;
-							playerEl.appendChild(text);
-						playersList.appendChild(playerEl);
-					}
-					
-				card.appendChild(playersList);
-
-			cardBox.appendChild(card);
-		}
-
-		const txt = document.createElement('div');
-			txt.className = "flex col gap10";
-		txt.appendChild(cardBox);
-
-		const plural = newlyInactiveGames.length > 1;
-		
-		const msg = document.createElement('span');
-			msg.innerHTML = (plural ? "These games are" : "This game is") + " over and " + (plural ? "have" : "has") + " been archived. You can still view " + (plural ? "them" : "it") + " by pressing the <span class='material-symbols-rounded smallIcon'>chevron_right</span> button above the active games list.";
-			msg.style.opacity = "0%";
-			msg.style.transition = "opacity 0.37s";
-			setTimeout(() => { // animate this in
-				msg.style.opacity = "";
-			}, 1500);
-		txt.appendChild(msg);
-
-		textModal(`Game${plural ? 's' : ''} Ended!`, txt);
-
-		// animate each one
-		const cards = cardBox.children;
-		for (let i = 0; i < cards.length; i++) {
-			endGameAnimation(cards[i]);
-		}
-	}
-	
-
-	// // initiate the pull to refresh
-	// PullToRefresh.init({
-	// 	mainElement: "#activeGames .gamesListWrapper .gamesList",
-	// 	onRefresh(done) {
-	// 		loadGamesList(done);
-	// 	}
-	// });
-}
-
-function setDisplayMode(mode) {
-	const gamesCell = document.getElementById('gamesCell');
-	const buttons = document.getElementsByClassName('displayModeButton');
-	
-	gamesCell.dataset.displaymode = mode;
-	
-	for (let i = 0; i < buttons.length; i++) {
-		if (buttons[i].id === (mode + "ViewButton")) {
-			buttons[i].setAttribute("aria-pressed", "true");
-		} else {
-			buttons[i].setAttribute("aria-pressed", "false");
-		}
-	}
-
-	// store in local storage
-	if (mode !== "card") {
-		localStorage.gameListDisplayMode = mode;
-	} else {
-		localStorage.removeItem('gameListDisplayMode');
-	}
 }
 
 function renameGame(gameId, loc) {
@@ -592,12 +174,35 @@ function renameGame(gameId, loc) {
 }
 
 function setGameName(gameId, gameName) {
+	// update in account games list
+	account.games.find(a => a.id === gameId).name = gameName;
+
+	// update the games list
+	updateGamesList();
+
+	// if the game is currently loaded
+	if (game?.id === gameId) {
+		game.name = gameName || ""; // set name in game obj
+
+		// update the title box
+		const nameField = document.querySelector('#gameControlsCell .gameName');
+		const idLine = document.querySelector('#gameControlsCell .gameIdLine');
+
+		nameField.textContent = gameName || '#' + gameId;
+		idLine?.remove();
+		if (gameName) {
+			const idEl = document.createElement('div');
+			idEl.classList.add('gameIdLine');
+			idEl.innerHTML = '#' + gameId;
+			nameField.after(idEl);
+		}
+	}
+
 	// define elements to be updated
 	const titleBoxes = document.querySelectorAll('#listGame' + gameId + ' .listGameTitleBox, #gameControlsCell .gameTitleBox');
 	const nameFields = document.querySelectorAll('#listGame' + gameId + ' .listGameName, #gameControlsCell .gameName');
 	const idLines = document.querySelectorAll('#listGame' + gameId + ' .gameIdLine, #gameControlsCell .gameIdLine');
 
-	account.games.find(a => a.id === gameId).name = gameName;
 	nameFields.forEach(nf => nf.textContent = gameName || '#' + gameId);
 	idLines.forEach(idLine => idLine.remove());
 	if (gameName) { // if the game has a name
@@ -614,55 +219,186 @@ function setGameName(gameId, gameName) {
 	}
 }
 
-function loadGame(id = prompt("Enter the id of the game you want to load:"), animate = false) {
-	if (id) {
-		if (animate) { // expanding animation of the play button
-			let expandEl = $('#listGame' + id + ' .openGameButton');
+function loadGame(id = prompt("Enter the id of the game you want to load:"), animation = false, updateHistory = true) {
+	if (!id) return;
+	
+	let animationCleanup = () => {};
+	if (animation === 'expand') { // expanding animation of the play button
+		let expandEl = $('#listGame' + id + ' .openGameButton');
 
-			// position the element
-			const offset = expandEl.offset();
-			const top = offset.top;
-			const left = offset.left + (expandEl.width() / 2) - 30;
+		// position the element
+		const offset = expandEl.offset();
+		const top = offset.top;
+		const left = offset.left + (expandEl.width() / 2) - 30;
 
-			let clone = expandEl.clone().attr('onclick','').css({
-				'position': 'fixed',
-				'top': top + 'px',
-				'left': left + 'px',
-				'pointerEvents': 'none'
-			}).appendTo('#scrabbleGrid');
+		let clone = expandEl.clone().attr('onclick','').css({
+			'position': 'fixed',
+			'top': top + 'px',
+			'left': left + 'px',
+			'pointerEvents': 'none'
+		}).appendTo('#scrabbleGrid');
 
-			// run the expansion animation
-			clone.addClass('expandAnimation');
-			setTimeout(function() {clone.remove()}, 740);
+		// run the expansion animation
+		clone.addClass('expandAnimation');
+		setTimeout(function() {clone.remove()}, 740);
+	} else if (animation === "flash") { // animation of list items
+		const liEl = document.getElementById('listGame' + id);
+		const liElBounds = liEl.getBoundingClientRect();
+		const liElCSS = getComputedStyle(liEl);
+
+		const online = navigator.onLine;
+
+		// create the element
+		const dupEl = document.createElement('div');
+		dupEl.style.position = "fixed";
+		dupEl.style.width = liElBounds.width + 'px';
+		dupEl.style.height = liElBounds.height + 'px';
+		dupEl.style.lineHeight = liElBounds.height + 'px';
+		dupEl.style.color = "var(--highlight-text)";
+		dupEl.style.top = liElBounds.top + 'px';
+		dupEl.style.left = liElBounds.left + 'px';
+		dupEl.style.opacity = "100%";
+		dupEl.style.borderRadius = liElCSS.getPropertyValue('border-radius');
+		dupEl.style.background = "var(--background-2)";
+		dupEl.style.transition = "0.37s scale, 0.37s top, 0.37s height, 0.37s opacity, 0.37s background-color";
+
+		document.getElementById('scrabbleGrid').appendChild(dupEl);
+
+		if (!online) {
+			dupEl.style.color = "white";
+			dupEl.style.background = "red";
+
+			dupEl.textContent = "No Connection";
+
+			setTimeout(() => {
+				dupEl.style.opacity = "0%";
+				setTimeout(() => {
+					dupEl.remove();
+				}, 370);
+			}, 1000);
+
+			return;
 		}
 
-		return request("loadGame.php", {
-			user: account.id,
-			pwd: account.pwd,
-			game: id
-		}).then(res => {
-			// catch any errors
-			if (res.errorLevel > 0) {
-				textModal("Error", res.message);
-				return;
-			}
+		let flash, fNum = 0;
 
-			game = res.data; // store the game in the game object
+		setTimeout(() => {
+			flash = setInterval(() => {
+				dupEl.style.background = fNum % 2 === 0 ? "var(--highlight)" : "var(--background-3)";
 
-			// determine and store the current player index
-			for (let i = 0; i < game.players.length; i++) {
-				if (game.players[i].id == account.id) {
-					game.currentPlayerIndex = i;
-					break;
+				if (fNum % 4 === 0) {
+					dupEl.textContent = "Loading";
+				} else if (fNum % 4 === 1) {
+					dupEl.textContent = "Loading.";
+				} else if (fNum % 4 === 2) {
+					dupEl.textContent = "Loading..";
+				} else if (fNum % 4 === 3) {
+					dupEl.textContent = "Loading...";
 				}
-			}
 
-			showTab('game');
-			gameInit();
-		}).catch(err => {
-			throw new Error(err);
-		});
+				fNum++;
+			}, 370);
+		}, 10);
+
+		animationCleanup = () => {
+			clearInterval(flash);
+
+			dupEl.style.opacity = "0%";
+			dupEl.style.scale = "5";
+			dupEl.style.background = "var(--background-3)";
+			dupEl.style.pointerEvents = "none";
+			dupEl.innerHTML = "";
+
+			setTimeout(() => {
+				dupEl.remove();
+			}, 370);
+		}
+	} else if (animation === 'loader') {
+		const el = document.createElement('div');
+		el.style.position = 'fixed';
+		el.style.left = '0';
+		el.style.right = '0';
+		el.style.top = '0';
+
+		el.style.lineHeight = '100vh';
+		
+		el.style.transition = "opacity 0.37s";
+
+		if (!navigator.onLine) {
+			el.style.background = "#FF000033";
+			el.style.color = "white";
+			el.innerHTML = "No Connection";
+
+			setTimeout(() => {
+				el.style.opacity = "0%";
+				setTimeout(() => {
+					el.remove();
+				}, 370);
+			}, 1000);
+
+			document.getElementById('scrabbleGrid').appendChild(el);
+
+			return;
+		}
+
+		el.style.background = 'var(--selection-color)';
+		el.style.color = 'white';
+
+		el.innerHTML = ".";
+
+		let timeout = setTimeout(() => {
+			el.innerHTML = "Loading Game";
+		}, 500);
+
+		document.getElementById('scrabbleGrid').appendChild(el);
+
+		animationCleanup = () => {
+			clearTimeout(timeout);
+
+			el.style.opacity = "0%";
+			setTimeout(() => {
+				el.remove();
+			}, 370);
+		}
+	} else if (animation === 'scrabbleLoader') {
+		const sGrid = document.getElementById('scrabbleGrid');
+		sGrid.dataset.signedin = 'loading';
+
+		animationCleanup = () => {
+			sGrid.dataset.signedin = 'true';
+		}
 	}
+
+	return request("loadGame.php", {
+		user: account.id,
+		pwd: account.pwd,
+		game: id
+	}).then(res => {
+		animationCleanup();
+
+		// catch any errors
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message);
+			return;
+		}
+
+		game = res.data; // store the game in the game object
+
+		// determine and store the current player index
+		for (let i = 0; i < game.players.length; i++) {
+			if (game.players[i].id == account.id) {
+				game.currentPlayerIndex = i;
+				break;
+			}
+		}
+
+		showTab('game');
+		gameInit();
+		if (updateHistory) updateGameHistoryState(game.id);
+	}).catch(err => {
+		animationCleanup();
+		throw new Error(err);
+	});
 }
 
 function reloadGame() {
@@ -683,7 +419,7 @@ function reloadGame() {
 		}, 10);
 
 		// set complete to true once the game has loaded
-		loadGame(game.id).then(() => complete = true);
+		loadGame(game.id, false, false).then(() => complete = true);
 	}
 }
 
@@ -862,6 +598,8 @@ function gameInit() {
 		winningPoints = Math.max(winningPoints, game.players[i].points);
 	}
 
+	gameInfo += `<div class="gamePlayerList flex col">`;
+
 	// add each player to the player list
 	for (let i in game.players) {
 		let isWinner = game.players[i].points == winningPoints;
@@ -884,6 +622,8 @@ function gameInit() {
 		`;
 	}
 
+	gameInfo += `</div>`;
+
 	// set the content of the game info box
 	document.querySelector('#gameControlsCell .gameInfoBox').innerHTML = gameInfo;
 
@@ -899,13 +639,15 @@ function gameInit() {
 	endGameButton.style.cursor = (game.inactive ? 'not-allowed' : 'pointer');
 	endGameButton.title = (game.inactive ? 'The game is already over' : votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end');
 
-	setCanvasSize();
-	
 	setTimeout(startChangeCheck, 3000);
 
 	chatInit();
 
 	updateMoveHistory();
+
+	document.getElementsByClassName('moreGameControls')[0].removeAttribute('open');
+
+	setCanvasSize();
 }
 
 function getPlayerLastTurn() {

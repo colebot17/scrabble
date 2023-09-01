@@ -3,7 +3,7 @@
 <head>
 	<!-- meta stuff -->
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10.0">
 	<link rel="manifest" href="/manifest.json">
 	<title>Scrabble - Colebot.com</title>
 
@@ -11,6 +11,8 @@
 	<link rel="stylesheet" type="text/css" href="https://www.colebot.com/style.css">
 	<link rel="stylesheet" type="text/css" href="styles/scrabble.css">
 	<link rel="stylesheet" type="text/css" href="styles/logo.css"> <!-- loading animation -->
+	<link rel="stylesheet" type="text/css" href="styles/gamesList.css"> <!-- games list -->
+	<!-- <link rel="stylesheet" type="text/css" href="styles/overlay.css"> --> <!-- tutorial overlay -->
 
 	<!-- import the font 'Rubik' -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,416 +35,457 @@
   gtag('config', 'G-MKX80G4261');
 </script>
 <body class="scrabble">
-	<center>
-		<div class="grid" id="scrabbleGrid" data-tab="home" data-signedin="none">
-			<div id="welcomeCell" class="gridCell">
-				<div class="scrabbleLogo"><div class="slLetter" id="slLetter1">S</div><div class="slLetter" id="slLetter2">C</div><div class="slLetter" id="slLetter3">R</div><div class="slLetter" id="slLetter4">A</div><div class="slLetter" id="slLetter5">B</div><div class="slLetter" id="slLetter6">B</div><div class="slLetter" id="slLetter7">L</div><div class="slLetter" id="slLetter8">E</div></div>
-				<h3 id="welcomeTagline">Play with your friends on your own schedule</h3>
-				<span class="material-symbols-rounded invisible" style="position: fixed;top:0;left:0;">home</span>
-			</div>
+	<div class="grid" id="scrabbleGrid" data-tab="home" data-signedin="none">
+		<div id="welcomeCell" class="gridCell">
+			<div class="scrabbleLogo"><div class="slLetter" id="slLetter1">S</div><div class="slLetter" id="slLetter2">C</div><div class="slLetter" id="slLetter3">R</div><div class="slLetter" id="slLetter4">A</div><div class="slLetter" id="slLetter5">B</div><div class="slLetter" id="slLetter6">B</div><div class="slLetter" id="slLetter7">L</div><div class="slLetter" id="slLetter8">E</div></div>
+			<h3 id="welcomeTagline">Play with your friends on your own schedule</h3>
+			<span class="material-symbols-rounded invisible" style="position:fixed;top:0;left:0;">home</span> <!-- This ensures that material symbols loads immediately rather than waiting until sign in completes -->
+		</div>
 
-			<div id="gameControlsCell" class="gridCell">
-				<div class="contentControls">
-					<button class="iconButton" id="backToGamesListButton" onclick="showTab('home')">
-						<span class="material-symbols-rounded">
-							chevron_left
-						</span>
-					</button>
-					<button class="iconButton" id="reloadGameButton" onclick="reloadGame()">
-						<span class="material-symbols-rounded">
-							refresh
-						</span>
-					</button>
-					<button class="iconButton" id="moveHistoryButton" onclick="if (canvas.movesAnimating) {stopAnimatingMoves()} else {setCanvasPage('history')}">
-						<span class="material-symbols-rounded">
-							history
-						</span>
-					</button>
-					<button class="iconButton hidden" id="fullscreenButton" onclick="toggleFullScreen()">
-						<span class="material-symbols-rounded" id="fullscreenIcon">
-							fullscreen
-						</span>
-					</button>
-					<button class="iconButton" id="showChatButton" onclick="showTab('chat')">
-						<span class="material-symbols-rounded">
-							chat
-						</span>
-					</button>
-				</div>
-				<div class="gameInfoBox"></div>
-				<div class="gameControlButtons flex stretch">
-					<button class="highlight flexGrow2" id="makeMoveButton" onclick="makeMove()">Move</button>
-					<div class="flex col stretch flexGrow">
-						<button class="flexGrow" id="skipTurnButton" onclick="exchangeLetters()">Skip Turn</button>
-						<button class="flexGrow" id="endGameButton" onclick="endGame()"></button>
-					</div>
-				</div>
+		<div id="gameControlsCell" class="gridCell">
+			<div class="contentControls">
+				<button class="iconButton" id="backToGamesListButton" onclick="showTab('home')">
+					<span class="material-symbols-rounded">
+						home
+					</span>
+				</button>
+				<button class="iconButton" id="reloadGameButton" onclick="reloadGame()">
+					<span class="material-symbols-rounded">
+						refresh
+					</span>
+				</button>
+				<button class="iconButton" id="moveHistoryButton" onclick="if (canvas.movesAnimating) {stopAnimatingMoves()} else {setCanvasPage('history')}">
+					<span class="material-symbols-rounded">
+						history
+					</span>
+				</button>
+				<button class="iconButton hidden" id="fullscreenButton" onclick="toggleFullScreen()">
+					<span class="material-symbols-rounded" id="fullscreenIcon">
+						fullscreen
+					</span>
+				</button>
+				<button class="iconButton" id="showChatButton" onclick="showTab('chat')">
+					<span class="material-symbols-rounded">
+						chat
+					</span>
+				</button>
 			</div>
-
-			<div id="chatCell" class="gridCell">
-				<div class="chatTitleLine">
-					<button id="chatBackButton" class="iconButton backButton" onclick="showTab('game')">
-						<span class="material-symbols-rounded">
-							chevron_left
-						</span>
-					</button>
-					<h3 class="chatTitle">
-						Game Chat
-					</h3>
-					<button id="chatExpandButton" class="iconButton" onclick="showTab('chat')">
-						<span class="material-symbols-rounded smallIcon">
-							open_in_full
-						</span>
-					</button>
-					<button id="chatCloseButton" class="iconButton" onclick="showTab('game')">
-						<span class="material-symbols-rounded smallIcon">
-							close_fullscreen
-						</span>
-					</button>
-				</div>
-				<div class="chatContent">
-					Could not load chat
-				</div>
-				<div class="chatControls">
-					<textarea
-						name="chatInput"
-						id="chatInput"
-						class="chatInput"
-						placeholder="Send a message..."
-						onkeypress="if (event.key === 'Enter' && !event.shiftKey) {event.preventDefault();sendChatMessage()}"
-					></textarea>
-					<button class="chatSendButton iconButton" onclick="sendChatMessage()">
-						<span class="material-symbols-rounded">send</span>
-					</button>
+			<div class="gameInfoBox"></div>
+			<div class="gameControlButtons flex stretch">
+				<button class="highlight flexGrow fontSize1" id="makeMoveButton" onclick="makeMove()">Move</button>
+				<div class="flex mobileCol stretch">
+					<details class="moreGameControls contents">
+						<summary class="flex">
+							<span class="iconButton">
+								<span class="material-symbols-rounded">more_horiz</span>
+							</span>
+						</summary>
+						<div class="flex col stretch noGap flexGrow">
+							<button class="flexGrow" id="skipTurnButton" onclick="exchangeLetters()">Skip Turn</button>
+							<button class="flexGrow" id="endGameButton" onclick="endGame()"></button>
+						</div>
+					</details>
 				</div>
 			</div>
+		</div>
 
-			<div id="canvasCell" class="gridCell flex col">
-				<div class="canvasPage contents" id="canvasCanvasPage">
-					<div id="gameBanner" class="hidden"></div>
-					<div id="canvasWrapper">
-						<canvas id="scrabbleCanvas">
-							This project requires the canvas element, which is not supported on your browser.
-						</canvas>
-					</div>
-				</div>
-				<div class="canvasPage flex col flexStart fullHeight hidden" id="historyCanvasPage">
-					<div class="flex titleLine">
-						<button class="iconButton" onclick="setCanvasPage('canvas')">
-							<span class="material-symbols-rounded">chevron_left</span>
-						</button>
-						<h3>Move History</h3>
-						<button id="playMoveAnimationButton" class="iconButton" onclick="setCanvasPage('canvas');animateMoves();" title="Play Animation">
-							<span class="material-symbols-rounded">play_arrow</span>
-						</button>
-					</div>
-					<div id="historyContents" class="flex wrap noMargin stretch fullWidth scrollable"></div>
+		<div id="chatCell" class="gridCell">
+			<div class="chatTitleLine">
+				<button id="chatBackButton" class="iconButton backButton" onclick="showTab('game')">
+					<span class="material-symbols-rounded">
+						chevron_left
+					</span>
+				</button>
+				<h3 class="chatTitle">
+					Game Chat
+				</h3>
+				<button id="chatExpandButton" class="iconButton" onclick="showTab('chat')">
+					<span class="material-symbols-rounded smallIcon">
+						open_in_full
+					</span>
+				</button>
+				<button id="chatCloseButton" class="iconButton" onclick="showTab('game')">
+					<span class="material-symbols-rounded smallIcon">
+						close_fullscreen
+					</span>
+				</button>
+			</div>
+			<div class="chatContent">
+				Could not load chat
+			</div>
+			<div class="chatControls">
+				<textarea
+					name="chatInput"
+					id="chatInput"
+					class="chatInput"
+					placeholder="Send a message..."
+					onkeypress="if (event.key === 'Enter' && !event.shiftKey) {event.preventDefault();sendChatMessage()}"
+				></textarea>
+				<button class="chatSendButton iconButton" onclick="sendChatMessage()">
+					<span class="material-symbols-rounded">send</span>
+				</button>
+			</div>
+		</div>
+
+		<div id="canvasCell" class="gridCell flex col">
+			<div class="canvasPage contents" id="canvasCanvasPage">
+				<div id="gameBanner" class="hidden"></div>
+				<div id="canvasWrapper">
+					<canvas id="scrabbleCanvas">
+						This project requires the canvas element, which is not supported on your browser.
+					</canvas>
 				</div>
 			</div>
-
-			<div id="gamesCell" class="gridCell" data-displaymode="card">
-				<div class="gamesListBox" id="activeGames">
-					<div class="flex gap10">
-						<button class="iconButton" id="gamesListRefreshButton" onclick="loadGamesList()">
-							<span class="material-symbols-rounded">refresh</span>
-						</button>
-						<h1 class="inline">Active Games</h1>
-						<button class="iconButton" id="viewInactiveGamesButton" onclick="setGamesList('inactive')">
-							<span class="material-symbols-rounded">chevron_right</span>
-						</button>
-					</div>
-					<span id="activeGamesListMessage">Please create an account or sign in.</span>
-					<div class="gamesListWrapper">
-						<div class="gamesList" id="activeGamesList"></div>
-					</div>
+			<div class="canvasPage flex col flexStart fullHeight hidden" id="historyCanvasPage">
+				<div class="flex titleLine">
+					<button class="iconButton" onclick="setCanvasPage('canvas')">
+						<span class="material-symbols-rounded">chevron_left</span>
+					</button>
+					<h3>Move History</h3>
+					<button id="playMoveAnimationButton" class="iconButton" onclick="setCanvasPage('canvas');animateMoves();" title="Play Animation">
+						<span class="material-symbols-rounded">play_arrow</span>
+					</button>
 				</div>
-				<div class="gamesListBox hidden" id="inactiveGames">
-					<div class="flex gap10">
-						<button class="iconButton" id="activeGamesButton" onclick="setGamesList('active')">
-							<span class="material-symbols-rounded">chevron_left</span>
-						</button>
-						<h1 class="inline">Inactive Games</h1>
-					</div>
-					<span id="inactiveGamesListMessage">Please create an account or sign in.</span>
-					<div class="gamesListWrapper">
-						<div class="gamesList" id="inactiveGamesList"></div>
-					</div>
+				<div id="historyContents" class="flex wrap noMargin stretch fullWidth scrollable"></div>
+			</div>
+		</div>
+
+		<div id="gamesCell" class="gridCell" data-displaymode="card">
+			<div class="gamesListBox" id="activeGames">
+				<div class="flex gap10">
+					<button class="iconButton" id="gamesListRefreshButton" onclick="loadGamesList()">
+						<span class="material-symbols-rounded">refresh</span>
+					</button>
+					<h1 class="inline">Active Games</h1>
+					<button class="iconButton" id="viewInactiveGamesButton" onclick="setGamesList('inactive')">
+						<span class="material-symbols-rounded">chevron_right</span>
+					</button>
+				</div>
+				<span id="activeGamesListMessage">Please create an account or sign in.</span>
+				<div class="gamesListWrapper">
+					<div class="gamesList" id="activeGamesList"></div>
 				</div>
 			</div>
+			<div class="gamesListBox hidden" id="inactiveGames">
+				<div class="flex gap10">
+					<button class="iconButton" id="activeGamesButton" onclick="setGamesList('active')">
+						<span class="material-symbols-rounded">chevron_left</span>
+					</button>
+					<h1 class="inline">Inactive Games</h1>
+				</div>
+				<span id="inactiveGamesListMessage">Please create an account or sign in.</span>
+				<div class="gamesListWrapper">
+					<div class="gamesList" id="inactiveGamesList"></div>
+				</div>
+			</div>
+		</div>
 
-			<div id="signInCell" class="gridCell">
-				<form class="hidden accountForm" id="signInForm" data-action="signIn" onsubmit="return false;">
-					<div class="flex accountFormTitle">
-						<button id="signInBackButton" class="iconButton" onclick="setSignInMode('accountSwitcher')">
-							<span class="material-symbols-rounded smallIcon">chevron_left</span>
-						</button>
-						<h3>Sign In</h3>
-					</div>
-					<label for="signInUsername">Username:</label>
-					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="signInUsername"><br>
+		<div id="signInCell" class="gridCell">
+			<form class="hidden accountForm" id="signInForm" data-action="signIn" onsubmit="return false;">
+				<div class="flex accountFormTitle">
+					<button id="signInBackButton" class="iconButton" onclick="setSignInMode('accountSwitcher')">
+						<span class="material-symbols-rounded smallIcon">chevron_left</span>
+					</button>
+					<h3>Sign In</h3>
+				</div>
+				<label for="signInUsername">Username:</label>
+				<input class="accountFormInput" autocomplete="username" type="text" name="username" id="signInUsername"><br>
 
-					<label for="signInPwd">Password:</label>
-					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="signInPwd"><br>
+				<label for="signInPwd">Password:</label>
+				<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="signInPwd"><br>
 
-					<button id="signInSubmitButton" type="submit" onclick="signIn()">Sign In</button>
-					<!-- <br> -->
-					<a id="createAccountModeButton" onclick="setSignInMode('createAccount')" class="hoverLine small">Create Account</a>
-					<!-- –
-					<a onclick="setSignInMode('resetPassword')" class="hoverLine small">Forgot Password?</a> -->
-				</form>
-				
-				<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="return false;">
-					<h3 class="accountFormTitle">Create Account</h3>
-					<label for="createAccountUsername">Username:</label>
-					<input class="accountFormInput" autocomplete="username" type="text" name="username" id="createAccountUsername"><br>
+				<button id="signInSubmitButton" type="submit" onclick="signIn()">Sign In</button>
+				<!-- <br> -->
+				<a id="createAccountModeButton" onclick="setSignInMode('createAccount')" class="hoverLine small">Create Account</a>
+				<!-- –
+				<a onclick="setSignInMode('resetPassword')" class="hoverLine small">Forgot Password?</a> -->
+			</form>
+			
+			<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="return false;">
+				<h3 class="accountFormTitle">Create Account</h3>
+				<label for="createAccountUsername">Username:</label>
+				<input class="accountFormInput" autocomplete="username" type="text" name="username" id="createAccountUsername"><br>
 
-					<label for="createAccountPwd">Password:</label>
-					<input class="accountFormInput" autocomplete="new-password" type="password" name="pwd" id="createAccountPwd"><br>
+				<label for="createAccountPwd">Password:</label>
+				<input class="accountFormInput" autocomplete="new-password" type="password" name="pwd" id="createAccountPwd"><br>
 
-					<label for="createAccountConfirmPwd">Confirm Password:</label>
-					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="createAccountConfirmPwd"><br>
+				<label for="createAccountConfirmPwd">Confirm Password:</label>
+				<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="createAccountConfirmPwd"><br>
 
-					<button type="submit" onclick="createAccount()">Create Account</button>
-					<a onclick="setSignInMode('signIn')" class="hoverLine small">Sign In</a>
-				</form>
+				<button type="submit" onclick="createAccount()">Create Account</button>
+				<a onclick="setSignInMode('signIn')" class="hoverLine small">Sign In</a>
+			</form>
 
-				<form class="hidden accountForm" id="changePasswordForm" data-action="changePassword" onsubmit="return false;">
-					<div class="flex accountFormTitle">
-						<button class="iconButton" onclick="setSignInMode('settings')">
-							<span class="material-symbols-rounded smallIcon">chevron_left</span>
-						</button>
-						<h3>Change Password</h3>
-					</div>
-
-					<label for="changePasswordPwd">Current Password:</label>
-					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="changePasswordPwd"><br>
-
-					<label for="changePasswordNewPwd">New Password:</label>
-					<input class="accountFormInput" autocomplete="new-password" type="password" name="newPwd" id="changePasswordNewPwd"><br>
-
-					<label for="changePasswordConfirmNewPwd">Confirm New Password:</label>
-					<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmNewPwd" id="changePasswordConfirmNewPwd"><br>
-
-					<button type="submit" onclick="changePassword()">Change Password</button>
-					<!-- <br>
-						
-					<span class="finePrint">Email <a class="underline hoverDarken" href="mailto:colebot17@gmail.com?subject=Reset%20my%20Password">colebot17@gmail.com</a> if you don't know your current password.</span> -->
-				</form>
-
-				<form class="hidden accountForm" id="changeUsernameForm" data-action="changeUsername" onsubmit="return false;">
-					<div class="flex accountFormTitle">
-						<button class="iconButton" onclick="setSignInMode('settings')">
-							<span class="material-symbols-rounded smallIcon">chevron_left</span>
-						</button>
-						<h3>Change Username</h3>
-					</div>
-
-					<label for="changeUsernameNewName">New Username:</label>
-					<input class="accountFormInput" autocomplete="username" type="text" name="newName" id="changeUsernameNewName"><br>
-
-					<label for="changeUsernamePwd">Password:</label>
-					<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="changeUsernamePwd"><br>
-
-					<button type="submit" onclick="changeUsername()">Change Username</button>
-				</form>
-
-				<div class="hidden accountForm" id="accountSwitcherForm">
-					<div class="flex accountFormTitle">
-						<button class="iconButton" onclick="setSignInMode('settings')">
-							<span class="material-symbols-rounded smallIcon">chevron_left</span>
-						</button>
-						<h3>Switch Accounts</h3>
-					</div>
-
-					<div class="accountList" id="accountSwitcherList">
-						Available accounts will appear here.
-					</div>
-					<br>
-					<a class="finePrint hoverDarken hoverLine" onclick="removeAllSavedAccounts()">Remove all saved accounts</a>
+			<form class="hidden accountForm" id="changePasswordForm" data-action="changePassword" onsubmit="return false;">
+				<div class="flex accountFormTitle">
+					<button class="iconButton" onclick="setSignInMode('settings')">
+						<span class="material-symbols-rounded smallIcon">chevron_left</span>
+					</button>
+					<h3>Change Password</h3>
 				</div>
 
-				<div class="hidden accountForm" id="settingsForm">
-					<div class="flex accountFormTitle">
-						<button class="iconButton" onclick="setSignInMode('signOut')">
-							<span class="material-symbols-rounded smallIcon">chevron_left</span>
+				<label for="changePasswordPwd">Current Password:</label>
+				<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="changePasswordPwd"><br>
+
+				<label for="changePasswordNewPwd">New Password:</label>
+				<input class="accountFormInput" autocomplete="new-password" type="password" name="newPwd" id="changePasswordNewPwd"><br>
+
+				<label for="changePasswordConfirmNewPwd">Confirm New Password:</label>
+				<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmNewPwd" id="changePasswordConfirmNewPwd"><br>
+
+				<button type="submit" onclick="changePassword()">Change Password</button>
+				<!-- <br>
+					
+				<span class="finePrint">Email <a class="underline hoverDarken" href="mailto:colebot17@gmail.com?subject=Reset%20my%20Password">colebot17@gmail.com</a> if you don't know your current password.</span> -->
+			</form>
+
+			<form class="hidden accountForm" id="changeUsernameForm" data-action="changeUsername" onsubmit="return false;">
+				<div class="flex accountFormTitle">
+					<button class="iconButton" onclick="setSignInMode('settings')">
+						<span class="material-symbols-rounded smallIcon">chevron_left</span>
+					</button>
+					<h3>Change Username</h3>
+				</div>
+
+				<label for="changeUsernameNewName">New Username:</label>
+				<input class="accountFormInput" autocomplete="username" type="text" name="newName" id="changeUsernameNewName"><br>
+
+				<label for="changeUsernamePwd">Password:</label>
+				<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="changeUsernamePwd"><br>
+
+				<button type="submit" onclick="changeUsername()">Change Username</button>
+			</form>
+
+			<div class="hidden accountForm" id="accountSwitcherForm">
+				<div class="flex accountFormTitle">
+					<button class="iconButton" onclick="setSignInMode('settings')">
+						<span class="material-symbols-rounded smallIcon">chevron_left</span>
+					</button>
+					<h3>Switch Accounts</h3>
+				</div>
+
+				<div class="accountList" id="accountSwitcherList">
+					Available accounts will appear here.
+				</div>
+				<br>
+				<a class="finePrint hoverDarken hoverLine" onclick="removeAllSavedAccounts()">Remove all saved accounts</a>
+			</div>
+
+			<div class="hidden accountForm" id="settingsForm">
+				<div class="flex accountFormTitle">
+					<button class="iconButton" onclick="setSignInMode('signOut')">
+						<span class="material-symbols-rounded smallIcon">chevron_left</span>
+					</button>
+					<h3>Settings</h3>
+				</div>
+				<div id="settings">
+					<div class="settingsSection">
+						<a onclick="setSignInMode('changeUsername')" class="hoverLine small" tabindex="0">Change Username</a>
+						<a onclick="setSignInMode('changePassword')" class="hoverLine small" tabindex="0">Change Password</a>
+						<a onclick="setSignInMode('accountSwitcher')" class="hoverLine small" tabindex="0">Switch Accounts</a>
+						<button class="flex" onclick="setSignInMode('signOutConfirm')">
+							<span class="material-symbols-rounded smallIcon">logout</span>
+							Sign Out
 						</button>
-						<h3>Settings</h3>
 					</div>
-					<div id="settings">
-						<div class="settingsSection">
-							<a onclick="setSignInMode('changeUsername')" class="hoverLine small" tabindex="0">Change Username</a>
-							<a onclick="setSignInMode('changePassword')" class="hoverLine small" tabindex="0">Change Password</a>
-							<a onclick="setSignInMode('accountSwitcher')" class="hoverLine small" tabindex="0">Switch Accounts</a>
-							<button class="flex" onclick="setSignInMode('signOutConfirm')">
-								<span class="material-symbols-rounded smallIcon">logout</span>
-								Sign Out
+					<div class="settingsSection">
+						<div id="displayModeButtonContainer">
+							<button class="iconButton displayModeButton" id="cardViewButton" title="Card View (Default)" aria-pressed="true" onclick="setDisplayMode('card')">
+								<span class="material-symbols-rounded">grid_view</span>
+							</button>
+							<button class="iconButton displayModeButton" id="listViewButton" title="List View" onclick="setDisplayMode('list')">
+								<span class="material-symbols-rounded">view_list</span>
 							</button>
 						</div>
-						<div class="settingsSection">
-							<div id="displayModeButtonContainer">
-								<button class="iconButton displayModeButton" id="cardViewButton" title="Card View (Default)" aria-pressed="true" onclick="setDisplayMode('card')">
-									<span class="material-symbols-rounded">grid_view</span>
-								</button>
-								<button class="iconButton displayModeButton" id="listViewButton" title="List View" onclick="setDisplayMode('list')">
-									<span class="material-symbols-rounded">view_list</span>
-								</button>
-							</div>
-							<span class="finePrint" title="Affects current browser only">Game List View</span>
-						</div>
+						<span class="finePrint" title="Affects current browser only">Game List View</span>
 					</div>
-				</div>
-
-				<div class="hidden accountForm flex col stretch" id="signOutConfirmForm">
-					<h3 class="accountFormTitle">Really Sign Out?</h3>
-					<div class="flex stretch noMargin">
-						<button class="flexGrow" onclick="setSignInMode('settings')">Cancel</button>
-						<button class="flexGrow highlight" onclick="signOut(false)">Sign Out</button>
+					<div class="settingsSection">
+						<label class="toggleSwitch">
+							<input type="checkbox" id="hideChatBoxToggle">
+							<span></span>
+						</label>
+						<span class="finePrint" title="Affects current browser only">Hide In-Game Chat</span>
 					</div>
-				</div>
-
-				<div class="hidden accountForm flex gap10" id="signOutForm">
-					<button class="iconButton hidden" id="shareButton" onclick="share()" title="Share">
-						<span class="material-symbols-rounded">share</span>
-					</button>
-					<button class="iconButton desktopHidden" id="friendsButton" onclick="showTab('friends')" title="Friends">
-						<span class="material-symbols-rounded">group</span>
-					</button>
-					<span id="accountNameLabel"></span>
-					<button class="iconButton" id="settingsButton" onclick="setSignInMode('settings')" title="Settings">
-						<span class="material-symbols-rounded">settings</span>
-					</button>
 				</div>
 			</div>
 
-			<div id="friendsCell" class="gridCell flex col" data-page="friends">
-				<div class="friendsPage contents" id="friendsPage-friends">
-					<div class="flex">
-						<button id="friendsBackButton" class="iconButton desktopHidden" onclick="showTab('home')">
-							<span class="material-symbols-rounded">chevron_left</span>
-						</button>
-						<h3>Friends</h3>
-						<button id="removeSelectedFriendsButton" class="iconButton" title="Remove Selected" onclick="removeFriends()" disabled>
-							<span class="material-symbols-rounded">group_remove</span>
-						</button>
-						<button id="goToAddFriendsButton" class="iconButton" title="Add Friends" onclick="setFriendsPage('addFriends')">
-							<span class="material-symbols-rounded">group_add</span>
-						</button>
-					</div>
-
-					<div class="friendList" id="requestList">
-					</div>
-
-					<div class="friendList" id="friendList">
-					</div>
-
-					<div class="friendList" id="sentRequestList">
-					</div>
-
-					<button class="highlight" id="newGameWithSelectedButton" onclick="createGame([account.id, ...getCheckedFriends()])">
-						New Game with Selected
-					</button>
-					<a class="small hoverLine" id="addMoreToGameLink" onclick="addMoreToGame()">Add Others</a>
+			<div class="hidden accountForm flex col stretch" id="signOutConfirmForm">
+				<h3 class="accountFormTitle">Really Sign Out?</h3>
+				<div class="flex stretch noMargin">
+					<button class="flexGrow" onclick="setSignInMode('settings')">Cancel</button>
+					<button class="flexGrow highlight" onclick="signOut(false)">Sign Out</button>
 				</div>
+			</div>
 
-				<div class="friendsPage contents" id="friendsPage-addFriends">
-					<div class="flex">
-						<button id="addFriendsBackButton" class="iconButton" onclick="setFriendsPage('friends')">
-							<span class="material-symbols-rounded">chevron_left</span>
-						</button>
-						<h3>Add Friend</h3>
-					</div>
+			<div class="hidden accountForm flex col stretch" id="changeUsernameConfirmForm">
+				<h3 class="accountFormTitle">Really Change Your Username?</h3>
+				<div>This action will change how others see you across the site.</div>
+				<div class="flex stretch noMargin">
+					<button class="flexGrow" onclick="setSignInMode('settings')">Cancel</button>
+					<button class="flexGrow highlight" onclick="changeUsername(true)">Change</button>
+				</div>
+			</div>
 
-					<input type="text" class="largeTextInput" placeholder="Username" id="addFriendField" onkeyup="requestFieldKeyHandler(event)">
+			<div class="hidden accountForm flex col stretch" id="changePasswordConfirmForm">
+				<h3 class="accountFormTitle">Really Change Your Password?</h3>
+				<div>You will be signed out of all devices, and you will lose the ability to sign in using your old password.</div>
+				<div class="flex stretch noMargin">
+					<button class="flexGrow" onclick="setSignInMode('settings')">Cancel</button>
+					<button class="flexGrow highlight" onclick="changePassword(true)">Change</button>
+				</div>
+			</div>
 
-					<div class="finePrint hidden" id="isSelfNotice">
-						You can't add yourself as a friend.
-					</div>
-					<div class="finePrint hidden" id="existingFriendNotice">
-						You're already friends with this person.
-					</div>
-					<div class="finePrint hidden" id="existingRequestNotice">
-						This person has already sent you a request.
-					</div>
-					<div class="finePrint hidden" id="existingSentRequestNotice">
-						You've already sent this person a request.
-					</div>
-					<button id="addFriendButton" onclick="sendFriendRequest()">
-						Send Request
+			<div class="hidden accountForm flex gap10" id="signOutForm">
+				<button class="iconButton hidden" id="shareButton" onclick="share()" title="Share">
+					<span class="material-symbols-rounded">share</span>
+				</button>
+				<button class="iconButton desktopHidden" id="friendsButton" onclick="showTab('friends')" title="Friends">
+					<span class="material-symbols-rounded">group</span>
+				</button>
+				<span id="accountNameLabel"></span>
+				<button class="iconButton" id="settingsButton" onclick="setSignInMode('settings')" title="Settings">
+					<span class="material-symbols-rounded">settings</span>
+				</button>
+			</div>
+		</div>
+
+		<div id="friendsCell" class="gridCell flex col" data-page="friends">
+			<div class="friendsPage contents" id="friendsPage-friends">
+				<div class="flex">
+					<button id="friendsBackButton" class="iconButton desktopHidden" onclick="showTab('home')">
+						<span class="material-symbols-rounded">chevron_left</span>
+					</button>
+					<h3>Friends</h3>
+					<button id="removeSelectedFriendsButton" class="iconButton" title="Remove Selected" onclick="removeFriends()" disabled>
+						<span class="material-symbols-rounded">group_remove</span>
+					</button>
+					<button id="goToAddFriendsButton" class="iconButton" title="Add Friends" onclick="setFriendsPage('addFriends')">
+						<span class="material-symbols-rounded">group_add</span>
 					</button>
 				</div>
+
+				<h4 class="friendsSubHeading hidden" id="incomingRequestsHeading">Incoming Requests</h4>
+				<div class="friendList" id="requestList">
+				</div>
+
+				<h4 class="friendsSubHeading hidden" id="mutualFriendsHeading">Friends</h4>
+				<div class="friendList" id="friendList">
+				</div>
+
+				<h4 class="friendsSubHeading hidden" id="outgoingRequestsHeading">Outgoing Requests</h4>
+				<div class="friendList" id="sentRequestList">
+				</div>
+
+				<button class="highlight" id="newGameWithSelectedButton" onclick="createGame([account.id, ...getCheckedFriends()])">
+					New Game with Selected
+				</button>
+				<a class="small hoverLine" id="addMoreToGameLink" onclick="addMoreToGame()">Add Others</a>
+			</div>
+
+			<div class="friendsPage contents" id="friendsPage-addFriends">
+				<div class="flex">
+					<button id="addFriendsBackButton" class="iconButton" onclick="setFriendsPage('friends')">
+						<span class="material-symbols-rounded">chevron_left</span>
+					</button>
+					<h3>Add Friend</h3>
+				</div>
+
+				<input type="text" class="largeTextInput" placeholder="Username" id="addFriendField" onkeyup="requestFieldKeyHandler(event)">
+
+				<div class="finePrint hidden" id="isSelfNotice">
+					You can't add yourself as a friend.
+				</div>
+				<div class="finePrint hidden" id="existingFriendNotice">
+					You're already friends with this person.
+				</div>
+				<div class="finePrint hidden" id="existingRequestNotice">
+					This person has already sent you a request.
+				</div>
+				<div class="finePrint hidden" id="existingSentRequestNotice">
+					You've already sent this person a request.
+				</div>
+				<button id="addFriendButton" onclick="sendFriendRequest()">
+					Send Request
+				</button>
 			</div>
 		</div>
-		<div class="modal hidden" id="createGameModal">
-			<button class="iconButton modalCloseButton" onclick="$('#createGameModal').modalClose()">
-				<span class="material-symbols-rounded">close</span>
-			</button>
-			<h2>Create Game</h2>
-			<div class="grid gridCol optionsHolder scrollable">
-				<div class="addPlayerPanel contents" id="addPlayerPanel" data-page="friends">
-					<div class="addPlayerPanelPage" id="addPlayerPanel-friends">
-						<div class="flex col stretch scrollable">
-							<h3>Add Friends</h3>
-							<div class="friendList" id="createGameFriendList"></div>
-							<a class="finePrint hoverLine hoverDarken" id="addOthersButton" onclick="setAddPlayerPanelPage('others')">Add Others</a>
-						</div>
+	</div>
+	<div class="modal hidden" id="createGameModal">
+		<button class="iconButton modalCloseButton" onclick="$('#createGameModal').modalClose()">
+			<span class="material-symbols-rounded">close</span>
+		</button>
+		<h2>Create Game</h2>
+		<div class="grid gridCol optionsHolder scrollable">
+			<div class="addPlayerPanel contents" id="addPlayerPanel" data-page="friends">
+				<div class="addPlayerPanelPage" id="addPlayerPanel-friends">
+					<div class="flex col stretch scrollable">
+						<h3>Add Friends</h3>
+						<div class="friendList" id="createGameFriendList"></div>
+						<a class="finePrint hoverLine hoverDarken" id="addOthersButton" onclick="setAddPlayerPanelPage('others')">Add Others</a>
 					</div>
-					<div class="addPlayerPanelPage" id="addPlayerPanel-others">
-						<div class="flex col stretch scrollable">
-							<h3>Add Others</h3>
-							<input type="text" class="largeTextInput textCenter" id="createGamePlayerInput" placeholder="Username">
-							<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add Player</button>
-							<a class="finePrint hoverLine hoverDarken" id="addFriendsButton" onclick="setAddPlayerPanelPage('friends')">Add Friends</a>
-						</div>
+				</div>
+				<div class="addPlayerPanelPage" id="addPlayerPanel-others">
+					<div class="flex col stretch scrollable">
+						<h3>Add Others</h3>
+						<input type="text" class="largeTextInput textCenter" id="createGamePlayerInput" placeholder="Username">
+						<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add Player</button>
+						<a class="finePrint hoverLine hoverDarken" id="addFriendsButton" onclick="setAddPlayerPanelPage('friends')">Add Friends</a>
 					</div>
 				</div>
-				<div class="flex col stretch existingPlayerPanel scrollable">
-					<h3>Players</h3>
-					<div class="friendList" id="createGamePlayerList"></div>
-					<button class="highlight" id="createGameModalButton" onclick="createGame()">Create Game</button>
-				</div>
+			</div>
+			<div class="flex col stretch existingPlayerPanel scrollable">
+				<h3>Players</h3>
+				<div class="friendList" id="createGamePlayerList"></div>
+				<button class="highlight" id="createGameModalButton" onclick="createGame()">Create Game</button>
 			</div>
 		</div>
-		<div class="modal hidden" id="letterExchangeModal">
-			<h2>Choose letters to exchange</h2>
-			<div class="letterBank" id="letterExchangeBank"></div>
-			<div class="letterExchangeButtons">
-				<button id="letterExchangeCancel" onclick="$('#letterExchangeModal').modalClose()">Cancel</button>
-				<button class="highlight" id="letterExchangeButton" onclick="skipTurn()">Skip Turn</button>
+	</div>
+	<div class="modal hidden" id="letterExchangeModal">
+		<h2>Choose letters to exchange</h2>
+		<div class="letterBank" id="letterExchangeBank"></div>
+		<div class="letterExchangeButtons">
+			<button id="letterExchangeCancel" onclick="$('#letterExchangeModal').modalClose()">Cancel</button>
+			<button class="highlight" id="letterExchangeButton" onclick="skipTurn()">Skip Turn</button>
+		</div>
+	</div>
+	<div class="modal hidden" id="textModal">
+		<h3 id="textModalTitle"></h3>
+		<div id="textModalText"></div>
+		<div id="textModalControls">
+			<input id="textModalInput" name="textModalInput" type="text" class="hidden"></input>
+			<div id="textModalButtonHolder">
+				<button class="textModalButton hidden" id="textModalCancelButton" onclick="$('#textModal').modalClose()">Cancel</button>
+				<button class="textModalButton highlight" id="textModalOkButton">OK</button>
 			</div>
 		</div>
-		<div class="modal hidden" id="textModal">
-			<h3 id="textModalTitle"></h3>
-			<div id="textModalText"></div>
-			<div id="textModalControls">
-				<input id="textModalInput" name="textModalInput" type="text" class="hidden"></input>
-				<div id="textModalButtonHolder">
-					<button class="textModalButton hidden" id="textModalCancelButton" onclick="$('#textModal').modalClose()">Cancel</button>
-					<button class="textModalButton highlight" id="textModalOkButton">OK</button>
-				</div>
-			</div>
+	</div>
+	<div class="modal hidden" id="chooseLetterModal">
+		<h3>Pick any letter</h3>
+		<input type="text" name="letterPicker" onkeydown="return /[a-zA-Z]/i.test(event.key)" maxlength="1" id="letterPicker" autocomplete="off">
+		<div class="placeholder"></div>
+	</div>
+	<div class="popup hidden" id="wordLookupPopup">
+		<button class="iconButton modalCloseButton" onclick="$('#wordLookupPopup').popupClose()">
+			<span class="material-symbols-rounded">close</span>
+		</button>
+		<div class="wordLookupResults">
 		</div>
-		<div class="modal hidden" id="chooseLetterModal">
-			<h3>Pick any letter</h3>
-			<input type="text" name="letterPicker" onkeydown="return /[a-zA-Z]/i.test(event.key)" maxlength="1" id="letterPicker" autocomplete="off">
-			<div class="placeholder"></div>
-		</div>
-		<div class="popup hidden" id="wordLookupPopup">
-			<button class="iconButton modalCloseButton" onclick="$('#wordLookupPopup').popupClose()">
-				<span class="material-symbols-rounded">close</span>
-			</button>
-			<div class="wordLookupResults">
-			</div>
-		</div>
-	</center>
+	</div>
+	<div class="overlay hidden" id="tutorialOverlay">
+		<div id="overlayMask" class="overlayMask"></div>
+		<div id="overlayContent" class="overlayContent"></div>
+	</div>
 	<script type="text/javascript" defer>
 		windowLocation = window.location.href.slice(0, window.location.href.lastIndexOf("/"));
 	</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- import jQuery -->
 	<script type="text/javascript" src="scripts/util.js" defer></script>
+	<script type="text/javascript" src="scripts/settings.js" defer></script>
 	<script type="text/javascript" src="scripts/pages.js" defer></script>
 	<script type="text/javascript" src="scripts/canvas.js" defer></script>
 	<script type="text/javascript" src="scripts/events.js" defer></script>
 	<script type="text/javascript" src="scripts/modals.js" defer></script>
+	<script type="text/javascript" src="scripts/navigator.js" defer></script>
 	<script type="text/javascript" src="scripts/accounts.js" defer></script>
 	<script type="text/javascript" src="scripts/lookup.js" defer></script>
 	<script type="text/javascript" src="scripts/history.js" defer></script>
@@ -453,7 +496,9 @@
 	<script type="text/javascript" src="scripts/info.js" defer></script>
 	<script type="text/javascript" src="scripts/checkForChanges.js" defer></script>
 	<script type="text/javascript" src="scripts/createGame.js" defer></script>
+	<!-- <script type="text/javascript" src="scripts/tutorial.js" defer></script> -->
 	<script type="text/javascript" src="scripts/share.js" defer></script>
+	<script type="text/javascript" src="scripts/gamesList.js" defer></script>
 	<!-- <script type="text/javascript" src="libraries/pullToRefresh.min.js" defer></script> -->
 	<!-- <script type="text/javascript" src="libraries/confetti.js" defer></script> -->
 	<!-- <script type="text/javascript" src="libraries/confetti2.min.js" defer></script> -->

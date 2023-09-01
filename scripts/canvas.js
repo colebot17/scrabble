@@ -97,21 +97,27 @@ function stopAnimatingMoves() {
 }
 
 function setCanvasSize() {
-	const canvasWrapper = $('#canvasWrapper');
-
-	// the height of the canvas needs to be a lot less if the bank is empty
-	const isBankEmpty = game.players.find((a)=>a.id == account.id).letterBank.length === 0;
-	const sizeDifference = (isBankEmpty ? 40 : 100);
-
 	// hide the canvas first (to let the grid adjust properly)
 	canvas.c.style.display = "none";
-	
-	// get the dimensions that we have to work with
-	const canvasWrapperWidth = canvasWrapper.width();
-	const canvasWrapperHeight = canvasWrapper.height();
+
+	const canvasWrapper = document.getElementById('canvasWrapper');
+	const wrapperWidth = canvasWrapper.getBoundingClientRect().width;
+	const wrapperHeight = canvasWrapper.getBoundingClientRect().height;
+
+	// the height of the canvas needs to be a lot less if the bank is empty or if vertical space is limited
+	let sizeDifference = 100;
+	const isBankEmpty = game.players.find((a)=>a.id == account.id).letterBank.length === 0;
+	const vertSpaceLimited = window.innerHeight <= 700;
+	if (isBankEmpty) {
+		sizeDifference = 40;
+	} else if (vertSpaceLimited) {
+		sizeDifference = 40;
+	}
+
+	canvas.vertSpaceLimited = vertSpaceLimited;
 
 	// calculate which dimension will limit the size
-	var limitingDimension = Math.min(canvasWrapperWidth + sizeDifference, canvasWrapperHeight);
+	var limitingDimension = Math.min(wrapperWidth + sizeDifference, wrapperHeight);
 
 	// size the canvas accordingly
 	canvas.c.width = limitingDimension - sizeDifference;
@@ -177,50 +183,53 @@ function drawLetterBank() {
 	const startY = canvasWidth;
 	let remainingSpace = canvas.c.height - startY;
 
-	// draw title ("Letter Bank")
-	const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
-	const titleSize = (canvas.bank.length > 0 ? 25 : 15);
-	canvas.ctx.font = titleSize + "px Rubik";
-	canvas.ctx.fillStyle = textColor;
-	canvas.ctx.textAlign = "center";
-	canvas.ctx.fillText((canvas.bank.length > 0 ? "Letter Bank" : "Your letter bank is empty."), canvasWidth / 2, startY + titleSize + 10);
-
-	// STOP here if the bank is empty
-	if (canvas.bank.length === 0) return;
-
-	// if the game is active
-	if (!game.inactive) {
-		// draw the bank shuffle button
-		const shuffleButtonX = (canvasWidth / 2) + 90;
-		const shuffleButtonY = startY + titleSize + 14;
-
-		// draw background if hovering/clicking and cooldown is not active
-		if (canvas.bankShuffleButton.hover || canvas.bankShuffleButton.clicking) {
-			canvas.ctx.fillStyle = ((!canvas.bankShuffleButton.cooldown && canvas.bankShuffleButton.clicking) ? "#0000004C" : "#00000033");
-			canvas.ctx.beginPath();
-			canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
-			canvas.ctx.fill();
-		}
-		
-		// draw the icon
-		canvas.ctx.font = titleSize + "px Material Symbols Rounded";
+	// draw title and shuffle button if space allows
+	let titleSize = -15; // this accounts for padding when the title isn't there
+	if (!canvas.vertSpaceLimited || canvas.bank.length === 0) {
+		const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
+		titleSize = (canvas.bank.length > 0 ? 25 : 15);
+		canvas.ctx.font = titleSize + "px Rubik";
 		canvas.ctx.fillStyle = textColor;
 		canvas.ctx.textAlign = "center";
+		canvas.ctx.fillText((canvas.bank.length > 0 ? "Letter Bank" : "Your letter bank is empty."), canvasWidth / 2, startY + titleSize + 10);
 
-		canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
-		
-		// store the coordinates so we know when we click on it
-		canvas.bankShuffleButton.position = {
-			start: {
-				x: shuffleButtonX - (titleSize / 2) - 5,
-				y: shuffleButtonY - titleSize - 5
-			},
-			end: {
-				x: shuffleButtonX + (titleSize / 2) + 5,
-				y: shuffleButtonY + 5
+		// if the game is active
+		if (!game.inactive) {
+			// draw the bank shuffle button
+			const shuffleButtonX = (canvasWidth / 2) + 90;
+			const shuffleButtonY = startY + titleSize + 14;
+
+			// draw background if hovering/clicking and cooldown is not active
+			if (canvas.bankShuffleButton.hover || canvas.bankShuffleButton.clicking) {
+				canvas.ctx.fillStyle = ((!canvas.bankShuffleButton.cooldown && canvas.bankShuffleButton.clicking) ? "#0000004C" : "#00000033");
+				canvas.ctx.beginPath();
+				canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
+				canvas.ctx.fill();
+			}
+			
+			// draw the icon
+			canvas.ctx.font = titleSize + "px Material Symbols Rounded";
+			canvas.ctx.fillStyle = textColor;
+			canvas.ctx.textAlign = "center";
+
+			canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
+			
+			// store the coordinates so we know when we click on it
+			canvas.bankShuffleButton.position = {
+				start: {
+					x: shuffleButtonX - (titleSize / 2) - 5,
+					y: shuffleButtonY - titleSize - 5
+				},
+				end: {
+					x: shuffleButtonX + (titleSize / 2) + 5,
+					y: shuffleButtonY + 5
+				}
 			}
 		}
 	}
+
+	// STOP here if the bank is empty
+	if (canvas.bank.length === 0) return;
 
 	remainingSpace -= titleSize + 20;
 
@@ -254,13 +263,11 @@ function drawLetterBank() {
 	for (let i in bank) {
 		totalGapSpace += (minTileGap + (bank[i].extraGapAfter * extraTileGap));
 	}
-	if (canvas.extraGapBeforeBank) {
-		totalGapSpace -= extraTileGap * canvas.extraGapBeforeBank;
-		// we are subtracting here because we will add this value to the x position to get the x position of the first tile
-		// it doesn't make sense but it works
-	}
+	totalGapSpace -= (minTileGap + (extraTileGap * (canvas.extraGapBeforeBank || 0)));
+	// we are subtracting here because we will add this value to the x position to get the x position of the first tile
+	// it doesn't make sense but it works
 
-	const tileWidth = Math.min(remainingSpace - 10, ((canvasWidth - totalGapSpace) / numTiles), 55);
+	const tileWidth = Math.min(remainingSpace - 5, ((canvasWidth - totalGapSpace) / numTiles), 55);
 	const totalBankWidth = (tileWidth * numTiles) + totalGapSpace;
 	const startX = (canvasWidth - totalBankWidth) / 2;
 

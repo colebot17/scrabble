@@ -2,13 +2,11 @@ $(function() {
 	// auto sign in
 	if (sessionStorage.name && sessionStorage.pwd) {
 		signIn(sessionStorage.name, sessionStorage.pwd);
-		$('#scrabbleGrid').attr('data-signedin', "loading");
 	} else if (localStorage.name && localStorage.pwd) {
 		signIn(localStorage.name, localStorage.pwd);
-		$('#scrabbleGrid').attr('data-signedin', "loading");
 	} else {
 		setSignInMode('signIn');
-		$('#scrabbleGrid').attr('data-signedin', "false");
+		document.getElementById('scrabbleGrid').dataset.signedin = "false";
 	}
 
 	// check share ability
@@ -115,6 +113,8 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 
 		// show the signed in page
 		scrabbleGrid.dataset.signedin = "true";
+
+		checkParams();
 	}).catch(err => {
 		console.error("Sign-in could not be completed:", err);
 		setSignInMode('signIn');
@@ -137,30 +137,19 @@ function createAccount(name = $('#createAccountUsername').val(), pwd = $('#creat
 		return;
 	}
 
-	$.ajax(
-		location + '/php/createAccount.php',
-		{
-			data: {
-				name,
-				pwd
-			},
-			method: "POST",
-			success: function(data) {
-				const jsonData = JSON.parse(data);
-				if (jsonData.errorLevel > 0) {
-					textModal("Error", jsonData.message);
-					return;
-				}
-				signIn(name, pwd);
-			},
-			error: function() {
-				console.error("Could not create account.");
-			}
+	request('createAccount.php', {name, pwd}).then(res => {
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message);
+			return;
 		}
-	);
+		signIn(name, pwd);
+	}).catch(err => {
+		console.error(err);
+	});
 }
 
 function changePassword(
+	confirmed = false,
 	pwd = document.getElementById('changePasswordPwd').value,
 	newPwd = document.getElementById('changePasswordNewPwd').value,
 	newPwdConfirm = document.getElementById('changePasswordConfirmNewPwd').value
@@ -170,66 +159,44 @@ function changePassword(
 		return;
 	}
 
-	textModal('Change Password', 'Are you sure you want to change your password? You will be signed out of all devices, and you will lose the ability to sign in using your old password.', {
-		cancelable: true,
-		complete: () => {
-			$.ajax(
-				location + '/php/changePassword.php',
-				{
-					data: {
-						user: account.id,
-						pwd,
-						newPwd
-					},
-					method: "POST",
-					success: function(data) {
-						const jsonData = JSON.parse(data);
-						if (jsonData.errorLevel > 0) {
-							textModal("Error", jsonData.message);
-							return;
-						}
-						signIn(account.name, newPwd);
-						textModal("Change Password", "Password changed.");
-					},
-					error: function() {
-						textModal("Unknown Error", "Could not change password.")
-						console.error("Could not change password.");
-					}
-				}
-			);
+	if (!confirmed) {
+		setSignInMode('changePasswordConfirm');
+		return;
+	}
+	request('changePassword.php', {user: account.id, pwd, newPwd}).then(res => {
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message);
+			return;
 		}
+		removeSavedAccount(getSavedAccountIndex(account.name), false);
+		signIn(account.name, newPwd);
+		textModal("Change Password", "Password Changed.");
+	}).catch(err => {
+		console.error(err);
 	});
 }
 
 function changeUsername(
+	confirmed = false,
 	pwd = document.getElementById('changeUsernamePwd').value,
 	newName = document.getElementById('changeUsernameNewName').value
 ) {
-	textModal('Change Username', 'Are you sure you want to change your username? This action will change how others see you across the site.', {
-		cancelable: true,
-		complete: () => {
-			$.ajax(
-				location + '/php/changeUsername.php',
-				{
-					data: {
-						user: account.id,
-						pwd,
-						newName
-					},
-					method: "POST",
-					success: function(data) {
-						const jsonData = JSON.parse(data);
-						if (jsonData.errorLevel > 0) {
-							textModal("Error", jsonData.message);
-							return;
-						}
-						signIn(newName, account.pwd);
-						textModal('Change Username', jsonData.message);
-					}
-				}
-			)
+	if (!confirmed) {
+		setSignInMode('changeUsernameConfirm');
+		return;
+	}
+
+	request('changeUsername.php', {user: account.id, pwd, newName}).then(res => {
+		if (res.errorLevel > 0) {
+			textModal("Error", res.message);
+			return;
 		}
-	})
+		removeSavedAccount(getSavedAccountIndex(account.name), false);
+		signIn(newName, account.pwd);
+		textModal("Change Username", res.message);
+	}).catch(err => {
+		console.error(err);
+	});
 }
 
 function signOut(confirm = true, saveAccount = false) {
@@ -325,7 +292,7 @@ function updateSavedAccountList() {
 		const isCurrent = savedAccounts[i].name === account?.name;
 		list.innerHTML += /* html */ `
 			<div class="account" data-savedaccountid="${i}">
-				<span class="accountName">${savedAccounts[i].name}${isCurrent ? ` (You)` : ``}</span>
+				<span class="accountName">${savedAccounts[i].name}${isCurrent ? ` <span class="textColorLight">(You)</span>` : ``}</span>
 				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}')"${isCurrent ? ` disabled` : ``}>
 					<span class="material-symbols-rounded smallIcon">login</span>
 					${isCurrent ? `Signed In` : `Sign In`}
@@ -402,4 +369,12 @@ function removeAllSavedAccounts(confirm = true) {
 	} else {
 		doIt();
 	}
+}
+
+function getSavedAccountIndex(name) {
+	if (!localStorage.savedAccounts) return undefined;
+
+	const savedAccounts = JSON.parse(localStorage.savedAccounts);
+	const index = savedAccounts.findIndex(a => a.name === name);
+	return index;
 }

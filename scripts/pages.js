@@ -1,5 +1,6 @@
-function showTab(tab) {
-	document.getElementById('scrabbleGrid').dataset.tab = tab;
+function showTab(tab, updateHistory = true) {
+	const sGrid = document.getElementById('scrabbleGrid');
+	sGrid.dataset.tab = tab;
 
 	// scroll to the top of the games list
 	$('#activeGames .gamesListWrapper')[0].scrollTop = 0;
@@ -12,14 +13,16 @@ function showTab(tab) {
 		readChat();
 	}
 
-	if (tab === 'chat' || tab === 'game') {
+	if (tab === 'chat' || (tab === 'game' && sGrid.dataset.hidechatbox !== "false")) {
 		chatScrollBottom();
 		chatBoxResize();
 	}
 
 	if (tab === 'home') {
-		stopChecking = true;
+		stopChecking = true; // this is a destruct flag for checkForChanges
 		removeHandlers();
+
+		if (updateHistory) history.pushState({}, 'Home', '//' + location.host + location.pathname);
 	}
 
 	if (tab === 'friends' || tab === 'account') {
@@ -73,6 +76,17 @@ function setGamesList(list) {
 		console.error(`Failed to set games list: List ${list} not recognized.`);
 	}
 	$('#createGameModal').modalClose();
+}
+
+function setFriendsPage(page) {
+    document.getElementById('friendsCell').dataset.page = page;
+
+    if (page === 'addFriends') {
+        const field = document.getElementById('addFriendField');
+        field.value = "";
+        field.focus();
+        updateSendRequestPage();
+    }
 }
 
 function setAddPlayerPanelPage(page) {

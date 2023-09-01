@@ -38,7 +38,7 @@ function range() {
 }
 
 function request(filename, dataObj) {
-	const url = location + '/php/' + filename;
+	const url = '//' + location.host + location.pathname + '/php/' + filename;
 	const data = new URLSearchParams(dataObj).toString();
 
 	return new Promise((resolve, reject) => {
@@ -98,4 +98,69 @@ function makeHex(r, g, b, a) {
 	str += g.toString(16);
 	str += b.toString(16);
 	return str;
+}
+
+function updateMetaTag(name, option, value) {
+	const meta = document.querySelector('meta[name=' + name + ']');
+	const rules = parseMetaString(meta.content);
+
+	if (value === undefined) {
+		delete rules[option];
+	} else {
+		rules[option] = value;
+	}
+
+	meta.content = createMetaString(rules);
+}
+
+function parseMetaString(string) {
+	const rules = string.split(",");
+	const object = {};
+	for (let i = 0; i < rules.length; i++) {
+		const rule = rules[i].trim();
+		const pair = rule.split('=');
+		object[pair[0]] = pair[1];
+	}
+	return object;
+}
+
+function createMetaString(object) {
+	const keys = Object.keys(object);
+	const values = Object.values(object);
+	let string = "";
+	for (let i = 0; i < Math.min(keys.length, values.length); i++) {
+		if (i !== 0) string += ", ";
+ 
+		string += keys[i];
+		string += "=";
+		string += values[i];
+	}
+	return string;
+}
+
+function nlList(array, beforeVal = "", afterVal = beforeVal) {
+	// this function takes an array of values and returns a natural-language list of its contents
+	// it also supports wrapping the each value in a custom value, e.g. "<b>" and "</b>"
+
+	if (array.length === 0) {
+		return "";
+	}
+	if (array.length === 1) {
+		return x(array[0]);
+	}
+	if (array.length === 2) {
+		return x(array[0]) + " and " + x(array[1]);
+	}
+	if (array.length >= 3) {
+		let str = x(array[0]);
+		for (let i = 1; i < array.length; i++) {
+			str += ", " + x(array[i]);
+		}
+		return str;
+	}
+
+	function x(val) {
+		// this subfunction reduces complexity and allows for easier future manipulation of values
+		return beforeVal + val + afterVal;
+	}
 }

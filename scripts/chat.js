@@ -294,6 +294,9 @@ function readChat() {
 			
 			// remove the notification badge
 			document.getElementById('showChatButton').classList.remove('badge');
+
+			// reload the games list
+			loadGamesList();
 		}, 1000);
 	}).catch(() => {
 		textModal("Error", "There was an error marking the chat as read. Check your connection and try again.");
