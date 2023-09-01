@@ -7,14 +7,10 @@ class Setting {
         this.subscribers = initSubscribers;
 
         // set up the linked element
-        this.linkedEl.addEventListener('input', this.linker);
+        this.linkedEl.addEventListener('input', () => {this.#setValue(this.linkedEl[this.linkedElProperty])});
     }
 
-    linker() {
-        this.setValue(this.linkedEl[this.linkedElProperty]);
-    }
-
-    setValue(value) {
+    #setValue(value) {
         this.value = value;
         for (let i = 0; i < this.subscribers.length; i++) {
             this.subscribers[i](value);
