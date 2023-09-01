@@ -13,6 +13,11 @@ class Setting {
         this.linkedElProperty = linkedElProperty;
         this.subscribers = initSubscribers;
 
+        // call any initial subscribers
+        for (let i = 0; i < this.subscribers.length; i++) {
+            this.subscribers[i](value);
+        }
+
         // set up the linked element
         this.linkedEl.addEventListener('input', () => {this.#setValue(this.linkedEl[this.linkedElProperty])});
     }
@@ -39,5 +44,16 @@ class Setting {
 }
 
 var settings = {
-    "hideChatBox": new Setting('hideChatBox', document.getElementById('hideChatBoxToggle'), 'checked')
+    "hideChatBox": new Setting(
+        'hideChatBox',
+        document.getElementById('hideChatBoxToggle'),
+        'checked',
+        [
+            v => {
+                // update the property on the scrabble grid
+                const grid = document.getElementById('scrabbleGrid');
+                grid.dataset.hidechatbox = v;
+            }
+        ]
+    )
 };

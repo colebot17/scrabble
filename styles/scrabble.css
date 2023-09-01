@@ -469,6 +469,21 @@ body.scrabble {
 	cursor: pointer;
 }
 
+/* hide chat setting */
+#scrabbleGrid[data-tab=game][data-hidechatbox=true] #gameControlsCell {
+	grid-column: 1;
+	grid-row: 1 / 3;
+}
+#scrabbleGrid[data-tab=game][data-hidechatbox=true] #chatCell {
+	display: none;
+}
+#scrabbleGrid[data-hidechatbox=true] #chatExpandButton, #chatCloseButton {
+	display: none;
+}
+#scrabbleGrid[data-hidechatbox=true] #gameControlsCell #showChatButton, #scrabbleGrid[data-hidechatbox=true] #chatCell #chatBackButton {
+	display: unset;
+}
+
 /* friends */
 .friendsPage {
 	display: none;
