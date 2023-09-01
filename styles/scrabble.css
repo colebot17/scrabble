@@ -107,6 +107,9 @@
 #makeMoveButton:has(~ div details[open]) {
 	display: none;
 }
+#makeMoveButton ~ div:has(details[open]) {
+	width: 100%;
+}
 
 html {
 	overflow-x: hidden;
