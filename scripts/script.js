@@ -328,6 +328,8 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		el.className = "material-symbols-rounded largeIcon";
 		el.innerHTML = "more_horiz";
 
+		document.getElementById('scrabbleGrid').appendChild(el);
+
 		animationCleanup = () => {
 			el.remove();
 		}
