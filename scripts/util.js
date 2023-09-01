@@ -38,7 +38,7 @@ function range() {
 }
 
 function request(filename, dataObj) {
-	const url = location + '/php/' + filename;
+	const url = '//' + location.host + location.pathname + '/php/' + filename;
 	const data = new URLSearchParams(dataObj).toString();
 
 	return new Promise((resolve, reject) => {
