@@ -2,13 +2,11 @@ $(function() {
 	// auto sign in
 	if (sessionStorage.name && sessionStorage.pwd) {
 		signIn(sessionStorage.name, sessionStorage.pwd);
-		$('#scrabbleGrid').attr('data-signedin', "loading");
 	} else if (localStorage.name && localStorage.pwd) {
 		signIn(localStorage.name, localStorage.pwd);
-		$('#scrabbleGrid').attr('data-signedin', "loading");
 	} else {
 		setSignInMode('signIn');
-		$('#scrabbleGrid').attr('data-signedin', "false");
+		document.getElementById('scrabbleGrid').dataset.signedin = "false";
 	}
 
 	// check share ability
@@ -112,6 +110,8 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 		updateFriendsList(account.friends);
 		updateRequestList(account.requests);
 		updateSentRequestList(account.sentRequests);
+
+		checkParams();
 
 		// show the signed in page
 		scrabbleGrid.dataset.signedin = "true";
