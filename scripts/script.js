@@ -325,11 +325,14 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 
 		el.style.lineHeight = '100vh';
 
-		el.innerHTML = "Loading Game";
+		let timeout = setTimeout(() => {
+			el.innerHTML = "Loading Game";
+		}, 500);
 
 		document.getElementById('scrabbleGrid').appendChild(el);
 
 		animationCleanup = () => {
+			clearTimeout(timeout);
 			el.remove();
 		}
 	}
