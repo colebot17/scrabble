@@ -10,14 +10,14 @@ function checkParams() {
     }
 }
 
-function updateHistoryState(gameId) {
+function updateGameHistoryState(gameId) {
     history.pushState({game: gameId}, "Game " + gameId, "?game=" + gameId);
 }
 
 window.addEventListener('popstate', e => {
-    if (e.state) {
+    if (e.state && e.state.game) {
         loadGame(e.state.game, false, false);
     } else {
-        showTab('home');
+        showTab('home', false);
     }
 });

@@ -1,4 +1,4 @@
-function showTab(tab) {
+function showTab(tab, updateHistory = true) {
 	const sGrid = document.getElementById('scrabbleGrid');
 	sGrid.dataset.tab = tab;
 
@@ -19,8 +19,10 @@ function showTab(tab) {
 	}
 
 	if (tab === 'home') {
-		stopChecking = true;
+		stopChecking = true; // this is a destruct flag for checkForChanges
 		removeHandlers();
+
+		if (updateHistory) history.pushState(false, 'Home', '/');
 	}
 
 	if (tab === 'friends' || tab === 'account') {
