@@ -1,4 +1,15 @@
 class Setting {
+    constructor(id, linkedEl, linkedElProperty, initSubscribers = []) {
+        this.id = id;
+        this.value = linkedEl[linkedElProperty];
+        this.linkedEl = linkedEl;
+        this.linkedElProperty = linkedElProperty;
+        this.subscribers = initSubscribers;
+
+        // set up the linked element
+        this.linkedEl.addEventListener('input', this.#linker);
+    }
+
     #linker() {
         this.#setValue(this.linkedEl[this.linkedElProperty]);
     }
@@ -18,17 +29,6 @@ class Setting {
         const index = this.subscribers.indexOf(callback);
         if (typeof index !== 'number') return null;
         return this.subscribers.splice(index, 1);
-    }
-
-    constructor(id, linkedEl, linkedElProperty, initSubscribers = []) {
-        this.id = id;
-        this.value = linkedEl[linkedElProperty];
-        this.linkedEl = linkedEl;
-        this.linkedElProperty = linkedElProperty;
-        this.subscribers = initSubscribers;
-
-        // set up the linked element
-        this.linkedEl.addEventListener('input', this.#linker);
     }
 }
 
