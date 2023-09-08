@@ -784,7 +784,7 @@ function checkPoints() {
 			gameBanner("No Connection", "red", "white");
 
 			window.ononline = () => {
-				reloadGame();
+				gameBanner();
 				window.ononline = null;
 			};
 		} else {
