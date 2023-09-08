@@ -229,6 +229,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		if (!navigator.onLine) {
 			expandEl.style.color = "white";
 			expandEl.style.backgroundColor = "red";
+			expandEl.style.borderColor = "transparent";
 
 			const ogHTML = expandEl.innerHTML;
 			expandEl.innerHTML = "No Connection";
@@ -238,6 +239,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 					expandEl.style.color = "";
 					expandEl.style.transition = "background-color 0.37s";
 					expandEl.style.backgroundColor = "";
+					expandEl.style.borderColor = "";
 					expandEl.innerHTML = ogHTML;
 
 					setTimeout(() => {
