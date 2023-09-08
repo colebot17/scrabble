@@ -684,7 +684,7 @@ function gameBanner(content, color, textColor = "", temp = false) {
 			wrapper.style.transition = "top 0.37s";
 
 			setTimeout(() => {
-				wrapper.style.top = "0";
+				wrapper.style.top = "10px";
 				
 				setTimeout(() => {
 					wrapper.style.top = "-" + bottom + "px";
