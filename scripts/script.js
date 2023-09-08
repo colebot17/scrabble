@@ -693,6 +693,8 @@ function gameBanner(content, color, textColor = "", temp = false) {
 						banner.style.position = "";
 						banner.style.transition = "";
 						banner.style.top = "";
+
+						gameBanner();
 					}, 370);
 				}, 1500);
 			}, 10);
