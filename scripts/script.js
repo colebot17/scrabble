@@ -588,14 +588,16 @@ function gameInit() {
 	let gameBannerParams;
 	if (!userTurn) {
 		setOOTD(true);
-		gameBannerParams = [(game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved."), "var(--text-highlight)"];
-		gameBanner(...gameBannerParams);
+		gameBannerParams = [
+			(game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved."),
+			"var(--text-highlight)"
+		];
 	} else {
 		setOOTD(false);
 		gameBannerParams = [];
 		gameBanner(false);
 	}
-	gameBanner(gameBannerParams);
+	gameBanner(...gameBannerParams);
 	canvas.gameBannerParams = gameBannerParams;
 
 	// show the game info
