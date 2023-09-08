@@ -784,7 +784,7 @@ function checkPoints() {
 			gameBanner("No Connection", "red", "white");
 
 			window.ononline = () => {
-				gameBanner("Connection Restored", "green");
+				gameBanner("Connection Restored", "#00ff00");
 
 				const banner = document.getElementById('gameBanner');
 				banner.style.transition = "opacity 1s";
