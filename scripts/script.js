@@ -681,12 +681,13 @@ function gameBanner(content, color, textColor = "", temp = false) {
 			wrapper.style.position = "absolute";
 			const bottom = wrapper.getBoundingClientRect().bottom;
 			wrapper.style.top = "-" + bottom + "px";
-			wrapper.style.transition = "top 0.37s ease-in";
+			wrapper.style.transition = "top 1s cubic-bezier(0.33333, 0, 0.66667, 0.33333)";
 
 			setTimeout(() => {
 				wrapper.style.top = "10px";
 				
 				setTimeout(() => {
+					wrapper.style.transition = "top 1s cubic-bezier(0.33333, 0.66667, 0.66667, 1)";
 					wrapper.style.top = "-" + bottom + "px";
 
 					setTimeout(() => {
@@ -695,7 +696,7 @@ function gameBanner(content, color, textColor = "", temp = false) {
 						wrapper.style.top = "";
 
 						gameBanner();
-					}, 370);
+					}, 1000);
 				}, 1500);
 			}, 10);
 		}
