@@ -754,30 +754,41 @@ function checkPoints() {
 		user: account.id,
 		pwd: account.pwd
 	}).then(res => {
-		if (res.errorLevel === 0) {
-			// find the first non-cross word
-			let mainWordId = 0;
-			for (let i = 0; i < res.data.newWords.length; i++) {
-				if (!res.data.newWords[i].cross) {
-					mainWordId = i;
-					break;
-				}
-			}
-
-			// draw the points box
-			canvas.pointsPreview = {
-				points: res.data.newPoints,
-				start: res.data.newWords[mainWordId].pos.start,
-				end: res.data.newWords[mainWordId].pos.end
-			}
-		} else {
-			// just clear the points box
+		if (res.errorLevel > 0) {
+			// clear the points box
 			canvas.pointsPreview = false;
+
+			// show the error message in a banner
+			gameBanner(res.message, "red", "white");
+		}
+
+		// find the first non-cross word
+		let mainWordId = 0;
+		for (let i = 0; i < res.data.newWords.length; i++) {
+			if (!res.data.newWords[i].cross) {
+				mainWordId = i;
+				break;
+			}
+		}
+
+		// draw the points box
+		canvas.pointsPreview = {
+			points: res.data.newPoints,
+			start: res.data.newWords[mainWordId].pos.start,
+			end: res.data.newWords[mainWordId].pos.end
 		}
 	}).catch(err => {
 		console.error(err);
-	})
+
+		if (!navigator.onLine) {
+			gameBanner("No Connection", "red", "white");
+		} else {
+			gameBanner("An unknown error occurred.", "red", "white");
+		}
+	});
 }
+
+
 
 function getUnlockedTiles() {
 	// returns a simplified list of any unlocked tiles on the board
