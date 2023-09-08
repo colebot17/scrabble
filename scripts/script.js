@@ -224,23 +224,44 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 	
 	let animationCleanup = () => {};
 	if (animation === 'expand') { // expanding animation of the play button
-		let expandEl = $('#listGame' + id + ' .openGameButton');
+		let expandEl = document.querySelector('#listGame' + id + ' .openGameButton');
 
-		// position the element
-		const offset = expandEl.offset();
-		const top = offset.top;
-		const left = offset.left + (expandEl.width() / 2) - 30;
+		if (!navigator.onLine) {
+			expandEl.style.color = "white";
+			expandEl.style.background = "red";
 
-		let clone = expandEl.clone().attr('onclick','').css({
-			'position': 'fixed',
-			'top': top + 'px',
-			'left': left + 'px',
-			'pointerEvents': 'none'
-		}).appendTo('#scrabbleGrid');
+			const ogHTML = expandEl.innerHTML;
+			expandEl.innerHTML = "No Connection";
+
+			setTimeout(() => {
+				expandEl.style.opacity = "0%";
+				setTimeout(() => {
+					expandEl.style.color = "";
+					expandEl.style.background = "";
+					expandEl.innerHTML = ogHTML;
+				}, 370);
+			}, 1000);
+
+			return;
+		}
+
+		// make position calculations
+		const bounds = expandEl.getBoundingClientRect();
+		const top = bounds.top;
+		const left = bounds.left + (bounds.width / 2) - 30;
+
+		// copy the element
+		let dupEl = document.createElement(expandEl.tagName);
+		dupEl.className = expandEl.className;
+		dupEl.style.position = "fixed";
+		dupEl.style.top = top + "px";
+		dupEl.style.left = left + "px";
+		dupEl.style.pointerEvents = "none";
+		document.getElementById('scrabbleGrid').appendChild(dupEl);
 
 		// run the expansion animation
-		clone.addClass('expandAnimation');
-		setTimeout(function() {clone.remove()}, 740);
+		dupEl.classList.add('expandAnimation');
+		setTimeout(function() {dupEl.remove()}, 740);
 	} else if (animation === "flash") { // animation of list items
 		const liEl = document.getElementById('listGame' + id);
 		const liElBounds = liEl.getBoundingClientRect();
