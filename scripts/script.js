@@ -782,6 +782,11 @@ function checkPoints() {
 
 		if (!navigator.onLine) {
 			gameBanner("No Connection", "red", "white");
+
+			window.ononline = () => {
+				reloadGame();
+				window.ononline = null;
+			};
 		} else {
 			gameBanner("An unknown error occurred.", "red", "white");
 		}
