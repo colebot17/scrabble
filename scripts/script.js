@@ -782,7 +782,7 @@ function checkPoints() {
 			canvas.pointsPreview = false;
 
 			// show the error message in a banner
-			gameBanner(res.message, "orange", "black");
+			gameBanner(res.message, "orange", "black", true);
 
 			return;
 		}
@@ -810,7 +810,7 @@ function checkPoints() {
 
 			window.ononline = () => {
 				gameBanner("Connection Restored", "#00ff00", "black", true);
-				
+
 				window.ononline = null;
 			};
 		} else {
