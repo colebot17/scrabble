@@ -787,9 +787,10 @@ function checkPoints() {
 				gameBanner("Connection Restored", "#00ff00");
 
 				const banner = document.getElementById('gameBanner');
-				banner.style.transition = "opacity 1s";
+				banner.style.transition = "opacity 1s, scale 1s";
 				setTimeout(() => {
 					banner.style.opacity = "0%";
+					banner.style.scale = "0.1";
 					setTimeout(() => {
 						gameBanner();
 						banner.style.transition = "";
