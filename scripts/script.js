@@ -234,7 +234,6 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			expandEl.innerHTML = "No Connection";
 
 			setTimeout(() => {
-				expandEl.style.opacity = "0%";
 				setTimeout(() => {
 					expandEl.style.color = "";
 					expandEl.style.backgroundColor = "";
