@@ -228,7 +228,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 
 		if (!navigator.onLine) {
 			expandEl.style.color = "white";
-			expandEl.style.background = "red";
+			expandEl.style.backgroundColor = "red";
 
 			const ogHTML = expandEl.innerHTML;
 			expandEl.innerHTML = "No Connection";
@@ -237,7 +237,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 				expandEl.style.opacity = "0%";
 				setTimeout(() => {
 					expandEl.style.color = "";
-					expandEl.style.background = "";
+					expandEl.style.backgroundColor = "";
 					expandEl.innerHTML = ogHTML;
 				}, 370);
 			}, 1000);
