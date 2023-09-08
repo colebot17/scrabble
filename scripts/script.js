@@ -784,7 +784,8 @@ function checkPoints() {
 			gameBanner("No Connection", "red", "white");
 
 			window.ononline = () => {
-				gameBanner();
+				gameBanner("Connection Restored", "green");
+				setTimeout(() => {gameBanner()}, 1000);
 				window.ononline = null;
 			};
 		} else {
