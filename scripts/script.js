@@ -681,7 +681,7 @@ function gameBanner(content, color, textColor = "", temp = false) {
 			wrapper.style.position = "absolute";
 			const bottom = wrapper.getBoundingClientRect().bottom;
 			wrapper.style.top = "-" + bottom + "px";
-			wrapper.style.transition = "top 0.37s";
+			wrapper.style.transition = "top 0.37s ease-in";
 
 			setTimeout(() => {
 				wrapper.style.top = "10px";
