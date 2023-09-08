@@ -785,7 +785,17 @@ function checkPoints() {
 
 			window.ononline = () => {
 				gameBanner("Connection Restored", "green");
-				setTimeout(() => {gameBanner()}, 1000);
+
+				const banner = document.getElementById('gameBanner');
+				banner.style.transition = "opacity 1s";
+				setTimeout(() => {
+					banner.style.opacity = "0%";
+					setTimeout(() => {
+						gameBanner();
+						banner.style.transition = "";
+						banner.style.opacity = "100%";
+					}, 1000);
+				}, 1000);
 				window.ononline = null;
 			};
 		} else {
