@@ -675,7 +675,7 @@ function gameBanner(content, color, textColor = "", temp = false) {
 		banner.style.backgroundColor = color;
 		banner.style.color = textColor;
 
-		banner.classList.remove('hidden');
+		wrapper.classList.remove('hidden');
 
 		if (temp) {
 			wrapper.style.position = "absolute";
@@ -703,7 +703,7 @@ function gameBanner(content, color, textColor = "", temp = false) {
 		banner.innerHTML = '';
 		banner.style.backgroundColor = '';
 		banner.style.color = '';
-		banner.classList.add('hidden');
+		wrapper.classList.add('hidden');
 	}
 	setCanvasSize();
 }
