@@ -259,6 +259,9 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		// copy the element
 		let dupEl = document.createElement(expandEl.tagName);
 		dupEl.className = expandEl.className;
+		dupEl.innerHTML = expandEl.innerHTML;
+
+		// set up the animation
 		dupEl.style.position = "fixed";
 		dupEl.style.top = top + "px";
 		dupEl.style.left = left + "px";
