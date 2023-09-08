@@ -667,13 +667,36 @@ function setOOTD(disabled) {
 	});
 }
 
-function gameBanner(content, color, textColor = "") {
+function gameBanner(content, color, textColor = "", temp = false) {
+	const wrapper = document.getElementById('gameBannerWrapper');
 	const banner = document.getElementById('gameBanner');
 	if (content) {
 		banner.innerHTML = content;
 		banner.style.backgroundColor = color;
 		banner.style.color = textColor;
+
 		banner.classList.remove('hidden');
+
+		if (temp) {
+			banner.style.position = "absolute";
+			const bottom = banner.getBoundingClientRect().bottom;
+			banner.style.top = "-" + bottom + "px";
+			banner.style.transition = "top 0.37s";
+
+			setTimeout(() => {
+				banner.style.top = "0";
+				
+				setTimeout(() => {
+					banner.style.top = "-" + bottom + "px";
+
+					setTimeout(() => {
+						banner.style.position = "";
+						banner.style.transition = "";
+						banner.style.top = "";
+					}, 370);
+				}, 1500);
+			}, 10);
+		}
 	} else {
 		banner.innerHTML = '';
 		banner.style.backgroundColor = '';
@@ -786,18 +809,8 @@ function checkPoints() {
 			gameBanner("No Connection", "red", "white");
 
 			window.ononline = () => {
-				gameBanner("Connection Restored", "#00ff00");
-
-				const banner = document.getElementById('gameBanner');
-				banner.style.transition = "opacity 1s, height 1s";
-				setTimeout(() => {
-					banner.style.opacity = "0%";
-					setTimeout(() => {
-						gameBanner();
-						banner.style.transition = "";
-						banner.style.opacity = "";
-					}, 1000);
-				}, 1000);
+				gameBanner("Connection Restored", "#00ff00", "black", true);
+				
 				window.ononline = null;
 			};
 		} else {
