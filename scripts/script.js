@@ -760,6 +760,8 @@ function checkPoints() {
 
 			// show the error message in a banner
 			gameBanner(res.message, "red", "white");
+
+			return;
 		}
 
 		// find the first non-cross word
