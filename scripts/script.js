@@ -681,7 +681,7 @@ function gameBanner(content, color, textColor = "", temp = false) {
 			wrapper.style.position = "absolute";
 			const bottom = banner.getBoundingClientRect().bottom;
 			wrapper.style.top = "-" + bottom + "px";
-			wrapper.style.transition = "top 1s";
+			wrapper.style.transition = "top 0.37s";
 
 			setTimeout(() => {
 				wrapper.style.top = "10px";
@@ -695,7 +695,7 @@ function gameBanner(content, color, textColor = "", temp = false) {
 						wrapper.style.top = "";
 
 						gameBanner();
-					}, 1000);
+					}, 370);
 				}, 1500);
 			}, 10);
 		}
