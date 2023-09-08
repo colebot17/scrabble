@@ -759,7 +759,7 @@ function checkPoints() {
 			canvas.pointsPreview = false;
 
 			// show the error message in a banner
-			gameBanner(res.message, "orange", "white");
+			gameBanner(res.message, "orange", "black");
 
 			return;
 		}
