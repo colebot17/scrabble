@@ -679,7 +679,7 @@ function gameBanner(content, color, textColor = "", temp = false) {
 
 		if (temp) {
 			wrapper.style.position = "absolute";
-			const bottom = wrapper.getBoundingClientRect().bottom;
+			const bottom = banner.getBoundingClientRect().bottom;
 			wrapper.style.top = "-" + bottom + "px";
 			wrapper.style.transition = "top 1s cubic-bezier(0.33333, 0, 0.66667, 0.33333)";
 
