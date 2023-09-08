@@ -146,6 +146,9 @@ body.scrabble {
 	background: var(--text-highlight);
 	border-radius: 7px;
 }
+#gameBanner.tempBanner {
+	box-shadow: 0 0 7px var(--text-color-light);
+}
 @font-face { /* Scrabble Font - Eurostile */
 	font-family: Eurostile;
 	src: url(https://scrabble.colebot.com/fonts/eurostile.TTF);

@@ -683,6 +683,8 @@ function gameBanner(content, color, textColor = "", temp = false) {
 			wrapper.style.top = "-" + bottom + "px";
 			wrapper.style.transition = "top 0.2s cubic-bezier(0.33333, 0, 0.66667, 0.33333)";
 
+			banner.classList.add('tempBanner');
+
 			setTimeout(() => {
 				wrapper.style.top = "10px";
 				
@@ -694,6 +696,8 @@ function gameBanner(content, color, textColor = "", temp = false) {
 						wrapper.style.position = "";
 						wrapper.style.transition = "";
 						wrapper.style.top = "";
+
+						banner.classList.remove('tempBanner');
 
 						gameBanner();
 					}, 200);
