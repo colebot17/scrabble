@@ -585,13 +585,18 @@ function gameInit() {
 	// determine whether it is the current user's turn
 	const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
+	let gameBannerParams;
 	if (!userTurn) {
 		setOOTD(true);
-		gameBanner((game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved."), "var(--text-highlight)");
+		gameBannerParams = [(game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved."), "var(--text-highlight)"];
+		gameBanner(...gameBannerParams);
 	} else {
 		setOOTD(false);
+		gameBannerParams = [];
 		gameBanner(false);
 	}
+	gameBanner(gameBannerParams);
+	canvas.gameBannerParams = gameBannerParams;
 
 	// show the game info
 	
@@ -697,7 +702,7 @@ function setOOTD(disabled) {
 	});
 }
 
-function gameBanner(content, color, textColor = "", temp = false) {
+async function gameBanner(content, color, textColor = "", temp = false) {
 	const wrapper = document.getElementById('gameBannerWrapper');
 	const banner = document.getElementById('gameBanner');
 	if (content) {
@@ -730,6 +735,8 @@ function gameBanner(content, color, textColor = "", temp = false) {
 						banner.classList.remove('tempBanner');
 
 						gameBanner();
+
+						return;
 					}, 200);
 				}, 1500);
 			}, 10);
@@ -741,6 +748,7 @@ function gameBanner(content, color, textColor = "", temp = false) {
 		wrapper.classList.add('hidden');
 	}
 	setCanvasSize();
+	if (!temp) return;
 }
 
 function makeMove() {
@@ -843,7 +851,9 @@ function checkPoints() {
 			gameBanner("No Connection", "red", "white");
 
 			window.ononline = () => {
-				gameBanner("Connection Restored", "#00ff00", "black", true);
+				gameBanner("Connection Restored", "#00ff00", "black", true).then(() => {
+					gameBanner(...canvas.gameBannerParams);
+				});
 
 				window.ononline = null;
 			};
