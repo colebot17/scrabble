@@ -681,13 +681,13 @@ function gameBanner(content, color, textColor = "", temp = false) {
 			wrapper.style.position = "absolute";
 			const bottom = banner.getBoundingClientRect().bottom;
 			wrapper.style.top = "-" + bottom + "px";
-			wrapper.style.transition = "top 1s cubic-bezier(0.33333, 0, 0.66667, 0.33333)";
+			wrapper.style.transition = "top 1s";
 
 			setTimeout(() => {
 				wrapper.style.top = "10px";
 				
 				setTimeout(() => {
-					wrapper.style.transition = "top 1s cubic-bezier(0.33333, 0.66667, 0.66667, 1)";
+					wrapper.style.transition = "top 1s";
 					wrapper.style.top = "-" + bottom + "px";
 
 					setTimeout(() => {
