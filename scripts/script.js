@@ -679,20 +679,20 @@ function gameBanner(content, color, textColor = "", temp = false) {
 
 		if (temp) {
 			banner.style.position = "absolute";
-			const bottom = banner.getBoundingClientRect().bottom;
-			banner.style.top = "-" + bottom + "px";
-			banner.style.transition = "top 0.37s";
+			const bottom = wrapper.getBoundingClientRect().bottom;
+			wrapper.style.top = "-" + bottom + "px";
+			wrapper.style.transition = "top 0.37s";
 
 			setTimeout(() => {
-				banner.style.top = "0";
+				wrapper.style.top = "0";
 				
 				setTimeout(() => {
-					banner.style.top = "-" + bottom + "px";
+					wrapper.style.top = "-" + bottom + "px";
 
 					setTimeout(() => {
-						banner.style.position = "";
-						banner.style.transition = "";
-						banner.style.top = "";
+						wrapper.style.position = "";
+						wrapper.style.transition = "";
+						wrapper.style.top = "";
 
 						gameBanner();
 					}, 370);
