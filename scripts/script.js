@@ -790,12 +790,10 @@ function checkPoints() {
 				banner.style.transition = "opacity 1s, height 1s";
 				setTimeout(() => {
 					banner.style.opacity = "0%";
-					banner.style.height = "0";
 					setTimeout(() => {
 						gameBanner();
 						banner.style.transition = "";
 						banner.style.opacity = "";
-						banner.style.height = "";
 					}, 1000);
 				}, 1000);
 				window.ononline = null;
