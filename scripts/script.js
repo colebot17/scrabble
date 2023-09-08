@@ -678,8 +678,8 @@ function gameBanner(content, color, textColor = "", temp = false) {
 		wrapper.classList.remove('hidden');
 
 		if (temp) {
-			wrapper.style.position = "absolute";
 			const bottom = banner.getBoundingClientRect().bottom;
+			wrapper.style.position = "absolute";
 			wrapper.style.top = "-" + bottom + "px";
 			wrapper.style.transition = "top 0.37s";
 
