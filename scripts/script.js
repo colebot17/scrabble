@@ -29,7 +29,7 @@ const scoreMultipliers = [
 
 const windowTitle = "Scrabble - Colebot.com";
 
-var game;
+var game = {};
 
 var dragged;
 
@@ -230,6 +230,8 @@ function setGameName(gameId, gameName) {
 
 function loadGame(id = prompt("Enter the id of the game you want to load:"), animation = false, updateHistory = true) {
 	if (!id) return;
+
+	if (game.loading) return;
 	
 	let animationCleanup = () => {};
 	if (animation === 'expand') { // expanding animation of the play button
@@ -440,6 +442,8 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			sGrid.dataset.signedin = 'true';
 		}
 	}
+
+	game.loading = true;
 
 	return request("loadGame.php", {
 		user: account.id,
