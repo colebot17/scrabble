@@ -56,13 +56,13 @@ async function loadGamesList() {
 		pwd: account.pwd
 	});
 
+	// stop the reload button spinning
+	complete = true;
+
 	if (res.errorLevel > 0) { // error
 		textModal("Error", res.message);
 		return;
 	}
-
-	// stop the reload button spinning
-	complete = true;
 
 	// display the new content
 	account.games = res.data;
