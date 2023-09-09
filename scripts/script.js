@@ -231,7 +231,7 @@ function setGameName(gameId, gameName) {
 function loadGame(id = prompt("Enter the id of the game you want to load:"), animation = false, updateHistory = true) {
 	if (!id) return;
 
-	if (game.loading) return;
+	if (game.loadingId) return;
 	
 	let animationCleanup = () => {};
 	if (animation === 'expand') { // expanding animation of the play button
@@ -443,7 +443,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		}
 	}
 
-	game.loading = true;
+	game.loadingId = id;
 
 	return request("loadGame.php", {
 		user: account.id,
@@ -451,6 +451,8 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		game: id
 	}).then(res => {
 		animationCleanup();
+
+		game.loadingId = undefined;
 
 		// catch any errors
 		if (res.errorLevel > 0) {
@@ -473,6 +475,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		if (updateHistory) updateGameHistoryState(game.id);
 	}).catch(err => {
 		animationCleanup();
+		game.loadingId = undefined;
 		throw new Error(err);
 	});
 }
