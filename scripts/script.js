@@ -713,6 +713,8 @@ async function gameBanner(content, color, textColor = "", temp = false) {
 
 		wrapper.classList.remove('hidden');
 
+		setCanvasSize();
+
 		if (temp) {
 			const bottom = wrapper.getBoundingClientRect().bottom;
 			wrapper.style.position = "absolute";
@@ -739,14 +741,17 @@ async function gameBanner(content, color, textColor = "", temp = false) {
 			banner.classList.remove('tempBanner');
 
 			await gameBanner();
+
+			setCanvasSize();
 		}
 	} else {
 		banner.innerHTML = '';
 		banner.style.backgroundColor = '';
 		banner.style.color = '';
 		wrapper.classList.add('hidden');
+
+		setCanvasSize();
 	}
-	setCanvasSize();
 }
 
 function makeMove() {
