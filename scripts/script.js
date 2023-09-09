@@ -33,45 +33,53 @@ var game;
 
 var dragged;
 
-function loadGamesList(done) {
-	if (account.id) {
-		// spin the reload button until list is loaded
-		const button = document.getElementById('gamesListRefreshButton');
-		button.classList.remove('spin');
-		let int;
-		let complete = false;
-		setTimeout(() => {
-			button.classList.add('spin');
-			int = setInterval(() => {
-				if (complete) {
-					button.classList.remove('spin');
-					clearInterval(int);
-				}
-			}, 370);
-		}, 10);
+async function loadGamesList() {
+	if (!account.id) return;
 
-		request('loadPlayerGames.php', {
-			user: account.id,
-			pwd: account.pwd
-		}).then(res => {
-			if (res.errorLevel > 0) { // error
-				textModal("Error", res.message);
-			} else { // success
-				// stop the reload button spinning
-				complete = true;
-
-				// blink the games list
-				var $gamesList = $('#activeGamesList');
-				$gamesList.hide().fadeIn(370);
-
-				// load the new content
-				account.games = res.data;
-				updateGamesList();
+	// spin the reload button until list is loaded
+	const button = document.getElementById('gamesListRefreshButton');
+	button.classList.remove('spin');
+	let int;
+	let complete = false;
+	setTimeout(() => {
+		button.classList.add('spin');
+		int = setInterval(() => {
+			if (complete) {
+				button.classList.remove('spin');
+				clearInterval(int);
 			}
-		}).catch(err => {
-			throw new Error(err);
-		});
+		}, 370);
+	}, 10);
+
+	await request('loadPlayerGames.php', {
+		user: account.id,
+		pwd: account.pwd
+	});
+
+	if (res.errorLevel > 0) { // error
+		textModal("Error", res.message);
+		return;
 	}
+
+	// stop the reload button spinning
+	complete = true;
+
+	// display the new content
+	account.games = res.data;
+	updateGamesList();
+
+	// blink the games list
+	const gamesList = document.getElementById('activeGamesList');
+	gamesList.style.opacity = "0%";
+	gamesList.style.transition = "opacity 0.37s";
+
+	await sleep(10);
+
+	gamesList.style.opacity = "100%";
+
+	await sleep(370);
+
+	gamesList.style.transition = "";
 }
 
 function winnerString(winners) {
