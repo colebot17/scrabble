@@ -235,6 +235,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 	if (animation === 'expand') { // expanding animation of the play button
 		let expandEl = document.querySelector('#listGame' + id + ' .openGameButton');
 
+		// offline message
 		if (!navigator.onLine) {
 			expandEl.style.color = "white";
 			expandEl.style.backgroundColor = "red";
@@ -282,7 +283,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		setTimeout(function() {dupEl.remove()}, 740);
 
 		// show loading status if it is taking too long
-		expandEl.style.transition = "background-color 0.37s, border-color 0.37s";
+		expandEl.style.transition = "background-color 0.37s, color 0.37s, border-color 0.37s";
 		let i = 0;
 		const ogHTML = expandEl.innerHTML;
 		const interval = setInterval(() => {
