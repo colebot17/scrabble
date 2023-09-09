@@ -71,10 +71,10 @@ async function loadGamesList() {
 	// blink the games list
 	const gamesList = document.getElementById('activeGamesList');
 	gamesList.style.opacity = "0";
-	gamesList.style.transition = "opacity 0.37s";
 
 	await sleep(10);
 
+	gamesList.style.transition = "opacity 0.37s";
 	gamesList.style.opacity = "1";
 
 	await sleep(370);
