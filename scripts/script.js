@@ -300,6 +300,8 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 			} else if (i % 4 === 3) {
 				expandEl.innerHTML = "Loading...";
 			}
+
+			i++;
 		}, 370);
 
 		animationCleanup = () => {
