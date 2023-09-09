@@ -51,7 +51,7 @@ async function loadGamesList() {
 		}, 370);
 	}, 10);
 
-	await request('loadPlayerGames.php', {
+	const res = await request('loadPlayerGames.php', {
 		user: account.id,
 		pwd: account.pwd
 	});
