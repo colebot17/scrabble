@@ -707,8 +707,6 @@ async function gameBanner(content, color, textColor = "", temp = false) {
 	const wrapper = document.getElementById('gameBannerWrapper');
 	const banner = document.getElementById('gameBanner');
 	if (content) {
-		setCanvasSize();
-
 		banner.innerHTML = content;
 		banner.style.backgroundColor = color;
 		banner.style.color = textColor;
@@ -722,6 +720,8 @@ async function gameBanner(content, color, textColor = "", temp = false) {
 			wrapper.style.transition = "top 0.2s cubic-bezier(0.33333, 0, 0.66667, 0.33333)";
 
 			banner.classList.add('tempBanner');
+
+			setCanvasSize();
 
 			await sleep(10);
 
@@ -742,6 +742,8 @@ async function gameBanner(content, color, textColor = "", temp = false) {
 
 			await gameBanner();
 
+			setCanvasSize();
+		} else {
 			setCanvasSize();
 		}
 	} else {
