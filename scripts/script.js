@@ -707,13 +707,13 @@ async function gameBanner(content, color, textColor = "", temp = false) {
 	const wrapper = document.getElementById('gameBannerWrapper');
 	const banner = document.getElementById('gameBanner');
 	if (content) {
+		setCanvasSize();
+
 		banner.innerHTML = content;
 		banner.style.backgroundColor = color;
 		banner.style.color = textColor;
 
 		wrapper.classList.remove('hidden');
-
-		setCanvasSize();
 
 		if (temp) {
 			const bottom = wrapper.getBoundingClientRect().bottom;
