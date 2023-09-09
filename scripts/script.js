@@ -595,7 +595,6 @@ function gameInit() {
 	} else {
 		setOOTD(false);
 		gameBannerParams = [];
-		gameBanner(false);
 	}
 	gameBanner(...gameBannerParams);
 	canvas.gameBannerParams = gameBannerParams;
@@ -722,26 +721,24 @@ async function gameBanner(content, color, textColor = "", temp = false) {
 
 			banner.classList.add('tempBanner');
 
-			setTimeout(() => {
-				wrapper.style.top = "10px";
-				
-				setTimeout(() => {
-					wrapper.style.transition = "top 0.2s cubic-bezier(0.33333, 0.66667, 0.66667, 1)";
-					wrapper.style.top = "-" + bottom + "px";
+			await sleep(10);
 
-					setTimeout(() => {
-						wrapper.style.position = "";
-						wrapper.style.transition = "";
-						wrapper.style.top = "";
+			wrapper.style.top = "10px";
 
-						banner.classList.remove('tempBanner');
+			await sleep(1500);
 
-						gameBanner();
+			wrapper.style.transition = "top 0.2s cubic-bezier(0.33333, 0.66667, 0.66667, 1)";
+			wrapper.style.top = "-" + bottom + "px";
 
-						return;
-					}, 200);
-				}, 1500);
-			}, 10);
+			await sleep(200);
+
+			wrapper.style.position = "";
+			wrapper.style.transition = "";
+			wrapper.style.top = "";
+
+			banner.classList.remove('tempBanner');
+
+			await gameBanner();
 		}
 	} else {
 		banner.innerHTML = '';
@@ -750,7 +747,6 @@ async function gameBanner(content, color, textColor = "", temp = false) {
 		wrapper.classList.add('hidden');
 	}
 	setCanvasSize();
-	if (!temp) return;
 }
 
 function makeMove() {
