@@ -280,6 +280,36 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		// run the expansion animation
 		dupEl.classList.add('expandAnimation');
 		setTimeout(function() {dupEl.remove()}, 740);
+
+		// show loading status if it is taking too long
+		expandEl.style.transition = "background-color 0.37s, border-color 0.37s";
+		let i = 0;
+		const ogHTML = expandEl.innerHTML;
+		const interval = setInterval(() => {
+			expandEl.style.backgroundColor = (i % 2 === 0 ? 'var(--highlight)' : 'var(--background-3)');
+			expandEl.style.color = (i % 2 === 0 ? 'var(--highlight-text)' : 'var(--text-color)');
+			expandEl.style.borderColor = "transparent";
+
+			if (i % 4 === 0) {
+				expandEl.innerHTML = "Loading";
+			} else if (i % 4 === 1) {
+				expandEl.innerHTML = "Loading.";
+			} else if (i % 4 === 2) {
+				expandEl.innerHTML = "Loading..";
+			} else if (i % 4 === 3) {
+				expandEl.innerHTML = "Loading...";
+			}
+		}, 370);
+
+		animationCleanup = () => {
+			clearInterval(interval);
+			expandEl.style.transition = "";
+			expandEl.style.backgroundColor = "";
+			expandEl.style.borderColor = "";
+			expandEl.style.color = "";
+
+			expandEl.innerHTML = ogHTML;
+		};
 	} else if (animation === "flash") { // animation of list items
 		const liEl = document.getElementById('listGame' + id);
 		const liElBounds = liEl.getBoundingClientRect();
