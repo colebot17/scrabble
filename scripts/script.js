@@ -41,15 +41,16 @@ async function loadGamesList() {
 	button.classList.remove('spin');
 	let int;
 	let complete = false;
-	setTimeout(() => {
-		button.classList.add('spin');
-		int = setInterval(() => {
-			if (complete) {
-				button.classList.remove('spin');
-				clearInterval(int);
-			}
-		}, 370);
-	}, 10);
+
+	await sleep(10);
+	
+	button.classList.add('spin');
+	int = setInterval(() => {
+		if (complete) {
+			button.classList.remove('spin');
+			clearInterval(int);
+		}
+	}, 370);
 
 	const res = await request('loadPlayerGames.php', {
 		user: account.id,
