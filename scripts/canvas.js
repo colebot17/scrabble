@@ -96,7 +96,7 @@ function stopAnimatingMoves() {
 	buttonIcon.innerHTML = "history";
 }
 
-function setCanvasSize() {
+async function setCanvasSize() {
 	// hide the canvas first (to let the grid adjust properly)
 	canvas.c.style.display = "none";
 
