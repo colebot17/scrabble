@@ -164,3 +164,7 @@ function nlList(array, beforeVal = "", afterVal = beforeVal) {
 		return beforeVal + val + afterVal;
 	}
 }
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}

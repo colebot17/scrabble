@@ -29,49 +29,58 @@ const scoreMultipliers = [
 
 const windowTitle = "Scrabble - Colebot.com";
 
-var game;
+var game = {};
 
 var dragged;
 
-function loadGamesList(done) {
-	if (account.id) {
-		// spin the reload button until list is loaded
-		const button = document.getElementById('gamesListRefreshButton');
-		button.classList.remove('spin');
-		let int;
-		let complete = false;
-		setTimeout(() => {
-			button.classList.add('spin');
-			int = setInterval(() => {
-				if (complete) {
-					button.classList.remove('spin');
-					clearInterval(int);
-				}
-			}, 370);
-		}, 10);
+async function loadGamesList() {
+	if (!account.id) return;
 
-		request('loadPlayerGames.php', {
-			user: account.id,
-			pwd: account.pwd
-		}).then(res => {
-			if (res.errorLevel > 0) { // error
-				textModal("Error", res.message);
-			} else { // success
-				// stop the reload button spinning
-				complete = true;
+	// spin the reload button until list is loaded
+	const button = document.getElementById('gamesListRefreshButton');
+	button.classList.remove('spin');
+	let int;
+	let complete = false;
 
-				// blink the games list
-				var $gamesList = $('#activeGamesList');
-				$gamesList.hide().fadeIn(370);
+	await sleep(10);
+	
+	button.classList.add('spin');
+	int = setInterval(() => {
+		if (complete) {
+			button.classList.remove('spin');
+			clearInterval(int);
+		}
+	}, 370);
 
-				// load the new content
-				account.games = res.data;
-				updateGamesList();
-			}
-		}).catch(err => {
-			throw new Error(err);
-		});
+	const res = await request('loadPlayerGames.php', {
+		user: account.id,
+		pwd: account.pwd
+	});
+
+	// stop the reload button spinning
+	complete = true;
+
+	if (res.errorLevel > 0) { // error
+		textModal("Error", res.message);
+		return;
 	}
+
+	// display the new content
+	account.games = res.data;
+	updateGamesList();
+
+	// blink the games list
+	const gamesList = document.getElementById('activeGamesList');
+	gamesList.style.opacity = "0";
+
+	await sleep(10);
+
+	gamesList.style.transition = "opacity 0.37s";
+	gamesList.style.opacity = "1";
+
+	await sleep(370);
+
+	gamesList.style.transition = "";
 }
 
 function winnerString(winners) {
@@ -221,26 +230,91 @@ function setGameName(gameId, gameName) {
 
 function loadGame(id = prompt("Enter the id of the game you want to load:"), animation = false, updateHistory = true) {
 	if (!id) return;
+
+	if (game.loadingId) return;
 	
 	let animationCleanup = () => {};
 	if (animation === 'expand') { // expanding animation of the play button
-		let expandEl = $('#listGame' + id + ' .openGameButton');
+		let expandEl = document.querySelector('#listGame' + id + ' .openGameButton');
 
-		// position the element
-		const offset = expandEl.offset();
-		const top = offset.top;
-		const left = offset.left + (expandEl.width() / 2) - 30;
+		// offline message
+		if (!navigator.onLine) {
+			expandEl.style.color = "white";
+			expandEl.style.backgroundColor = "red";
+			expandEl.style.borderColor = "transparent";
 
-		let clone = expandEl.clone().attr('onclick','').css({
-			'position': 'fixed',
-			'top': top + 'px',
-			'left': left + 'px',
-			'pointerEvents': 'none'
-		}).appendTo('#scrabbleGrid');
+			const ogHTML = expandEl.innerHTML;
+			expandEl.innerHTML = "No Connection";
+
+			setTimeout(() => {
+				setTimeout(() => {
+					expandEl.style.color = "";
+					expandEl.style.transition = "background-color 0.37s, border-color 0.37s";
+					expandEl.style.backgroundColor = "";
+					expandEl.style.borderColor = "";
+					expandEl.innerHTML = ogHTML;
+
+					setTimeout(() => {
+						expandEl.style.transition = "";
+					}, 370);
+				}, 370);
+			}, 1000);
+
+			return;
+		}
+
+		// make position calculations
+		const bounds = expandEl.getBoundingClientRect();
+		const top = bounds.top;
+		const left = bounds.left + (bounds.width / 2) - 30;
+
+		// copy the element
+		let dupEl = document.createElement(expandEl.tagName);
+		dupEl.className = expandEl.className;
+		dupEl.innerHTML = expandEl.innerHTML;
+
+		// set up the animation
+		dupEl.style.position = "fixed";
+		dupEl.style.top = top + "px";
+		dupEl.style.left = left + "px";
+		dupEl.style.pointerEvents = "none";
+		document.getElementById('scrabbleGrid').appendChild(dupEl);
 
 		// run the expansion animation
-		clone.addClass('expandAnimation');
-		setTimeout(function() {clone.remove()}, 740);
+		dupEl.classList.add('expandAnimation');
+		setTimeout(function() {dupEl.remove()}, 740);
+
+		// show loading status if it is taking too long
+		expandEl.style.transition = "background-color 0.37s, color 0.37s, border-color 0.37s";
+		let i = 0;
+		const ogHTML = expandEl.innerHTML;
+		const interval = setInterval(() => {
+			expandEl.style.backgroundColor = (i % 2 === 0 ? 'var(--highlight)' : 'var(--background-3)');
+			expandEl.style.color = (i % 2 === 0 ? 'var(--highlight-text)' : 'var(--text-color)');
+			expandEl.style.borderColor = "transparent";
+
+			if (i % 4 === 0) {
+				expandEl.innerHTML = "Loading";
+			} else if (i % 4 === 1) {
+				expandEl.innerHTML = "Loading.";
+			} else if (i % 4 === 2) {
+				expandEl.innerHTML = "Loading..";
+			} else if (i % 4 === 3) {
+				expandEl.innerHTML = "Loading...";
+			}
+
+			i++;
+		}, 370);
+
+		animationCleanup = () => {
+			clearInterval(interval);
+			expandEl.style.transition = "";
+			expandEl.style.backgroundColor = "";
+			expandEl.style.borderColor = "";
+			expandEl.style.color = "";
+
+			expandEl.innerHTML = ogHTML;
+		};
 	} else if (animation === "flash") { // animation of list items
 		const liEl = document.getElementById('listGame' + id);
 		const liElBounds = liEl.getBoundingClientRect();
@@ -369,12 +443,16 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		}
 	}
 
+	game.loadingId = id;
+
 	return request("loadGame.php", {
 		user: account.id,
 		pwd: account.pwd,
 		game: id
 	}).then(res => {
 		animationCleanup();
+
+		game.loadingId = undefined;
 
 		// catch any errors
 		if (res.errorLevel > 0) {
@@ -397,6 +475,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		if (updateHistory) updateGameHistoryState(game.id);
 	}).catch(err => {
 		animationCleanup();
+		game.loadingId = undefined;
 		throw new Error(err);
 	});
 }
@@ -555,13 +634,19 @@ function gameInit() {
 	// determine whether it is the current user's turn
 	const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
+	let gameBannerParams;
 	if (!userTurn) {
 		setOOTD(true);
-		gameBanner((game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved."), "var(--text-highlight)");
+		gameBannerParams = [
+			(game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved."),
+			"var(--text-highlight)"
+		];
 	} else {
 		setOOTD(false);
-		gameBanner(false);
+		gameBannerParams = [];
 	}
+	gameBanner(...gameBannerParams);
+	canvas.gameBannerParams = gameBannerParams;
 
 	// show the game info
 	
@@ -667,20 +752,57 @@ function setOOTD(disabled) {
 	});
 }
 
-function gameBanner(content, color, textColor = "") {
+async function gameBanner(content, color, textColor = "", temp = false) {
+	const wrapper = document.getElementById('gameBannerWrapper');
 	const banner = document.getElementById('gameBanner');
 	if (content) {
 		banner.innerHTML = content;
 		banner.style.backgroundColor = color;
 		banner.style.color = textColor;
-		banner.classList.remove('hidden');
+
+		wrapper.classList.remove('hidden');
+
+		if (temp) {
+			const bottom = wrapper.getBoundingClientRect().bottom;
+			wrapper.style.position = "absolute";
+			wrapper.style.top = "-" + bottom + "px";
+			wrapper.style.transition = "top 0.2s cubic-bezier(0.33333, 0, 0.66667, 0.33333)";
+
+			banner.classList.add('tempBanner');
+
+			setCanvasSize();
+
+			await sleep(10);
+
+			wrapper.style.top = "10px";
+
+			await sleep(1500);
+
+			wrapper.style.transition = "top 0.2s cubic-bezier(0.33333, 0.66667, 0.66667, 1)";
+			wrapper.style.top = "-" + bottom + "px";
+
+			await sleep(200);
+
+			wrapper.style.position = "";
+			wrapper.style.transition = "";
+			wrapper.style.top = "";
+
+			banner.classList.remove('tempBanner');
+
+			await gameBanner();
+
+			setCanvasSize();
+		} else {
+			setCanvasSize();
+		}
 	} else {
 		banner.innerHTML = '';
 		banner.style.backgroundColor = '';
 		banner.style.color = '';
-		banner.classList.add('hidden');
+		wrapper.classList.add('hidden');
+
+		setCanvasSize();
 	}
-	setCanvasSize();
 }
 
 function makeMove() {
@@ -754,30 +876,48 @@ function checkPoints() {
 		user: account.id,
 		pwd: account.pwd
 	}).then(res => {
-		if (res.errorLevel === 0) {
-			// find the first non-cross word
-			let mainWordId = 0;
-			for (let i = 0; i < res.data.newWords.length; i++) {
-				if (!res.data.newWords[i].cross) {
-					mainWordId = i;
-					break;
-				}
-			}
-
-			// draw the points box
-			canvas.pointsPreview = {
-				points: res.data.newPoints,
-				start: res.data.newWords[mainWordId].pos.start,
-				end: res.data.newWords[mainWordId].pos.end
-			}
-		} else {
-			// just clear the points box
+		if (res.errorLevel > 0) {
+			// clear the points box
 			canvas.pointsPreview = false;
+			
+			return;
+		}
+
+		// find the first non-cross word
+		let mainWordId = 0;
+		for (let i = 0; i < res.data.newWords.length; i++) {
+			if (!res.data.newWords[i].cross) {
+				mainWordId = i;
+				break;
+			}
+		}
+
+		// draw the points box
+		canvas.pointsPreview = {
+			points: res.data.newPoints,
+			start: res.data.newWords[mainWordId].pos.start,
+			end: res.data.newWords[mainWordId].pos.end
 		}
 	}).catch(err => {
 		console.error(err);
-	})
+
+		if (!navigator.onLine) {
+			gameBanner("No Connection", "red", "white");
+
+			window.ononline = () => {
+				gameBanner("Connection Restored", "#00ff00", "black", true).then(() => {
+					gameBanner(...canvas.gameBannerParams);
+				});
+
+				window.ononline = null;
+			};
+		} else {
+			gameBanner("An unknown error occurred.", "red", "white");
+		}
+	});
 }
+
+
 
 function getUnlockedTiles() {
 	// returns a simplified list of any unlocked tiles on the board
