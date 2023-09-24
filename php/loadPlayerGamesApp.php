@@ -27,6 +27,7 @@ if (!$row) {
 }
 
 // check for the correct password
+require "verifyPassword.php";
 if (!password_verify($userPwd, $row['pwd'])) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
