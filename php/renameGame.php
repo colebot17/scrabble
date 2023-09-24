@@ -59,11 +59,11 @@ $updateData = Array(
 	"newName" => $name
 );
 
-require "../php/addUpdate.php";
+require "addUpdate.php";
 addUpdate($conn, $gameId, "chatMessageSend", $updateData);
 
 // add system message to chat
-require "../php/chat/addSystemChatMessage.php";
+require "chat/addSystemChatMessage.php";
 $data = Array(
 	"playerId" => $user,
 	"newName" => $name
