@@ -101,10 +101,15 @@ if ($gameRemoved) {
 	$query = mysqli_query($conn, $sql);
 }
 
+// get the friends
+include "friends/getFriends.php";
+$friends = getFriends($conn, $user);
+
 // return the encoded games object
 $res = Array(
 	"errorLevel" => 0,
 	"data" => $fullGamesList,
+	"friends" => $friends,
 	"userId" => (int)$user
 );
 echo json_encode($res);
