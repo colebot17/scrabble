@@ -102,7 +102,12 @@ if ($gameRemoved) {
 }
 
 // return the encoded games object
-echo '{"errorLevel":0,"data":' . json_encode($fullGamesList) . '}';
+$res = Array(
+	"errorLevel" => 0,
+	"data" => json_encode($fullGamesList),
+	"userId" => $user
+);
+echo json_encode($res);
 
 // close the connection
 $conn->close();
