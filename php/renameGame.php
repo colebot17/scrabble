@@ -59,16 +59,20 @@ $updateData = Array(
 	"newName" => $name
 );
 
-require "addUpdate.php";
-addUpdate($conn, $gameId, "chatMessageSend", $updateData);
+if (file_exists("addUpdate.php")) {
+	require "addUpdate.php";
+	addUpdate($conn, $gameId, "chatMessageSend", $updateData);
+}
 
-// add system message to chat
-require "chat/addSystemChatMessage.php";
-$data = Array(
-	"playerId" => $user,
-	"newName" => $name
-);
-addSystemChatMessage($conn, $gameId, "gameRename", $data);
+if (file_exists("chat/addSystemMessage.php")) {
+	// add system message to chat
+	require "chat/addSystemChatMessage.php";
+	$data = Array(
+		"playerId" => $user,
+		"newName" => $name
+	);
+	addSystemChatMessage($conn, $gameId, "gameRename", $data);
+}
 
 mysqli_close($conn);
 
