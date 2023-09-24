@@ -105,7 +105,7 @@ if ($gameRemoved) {
 $res = Array(
 	"errorLevel" => 0,
 	"data" => json_encode($fullGamesList),
-	"userId" => $user
+	"userId" => (int)$user
 );
 echo json_encode($res);
 
