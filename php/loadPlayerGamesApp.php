@@ -7,7 +7,7 @@ $password = "96819822";
 $dbname = "scrabble";
 
 // get data from GET/POST
-$user = $_POST['user'];
+$name = $_POST['name'];
 $userPwd = $_POST['pwd'];
 
 // create and check connection
@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 }
 
 // get the data we need
-$sql = "SELECT pwd, games FROM accounts WHERE id='$user'";
+$sql = "SELECT id, pwd, games FROM accounts WHERE name='$name'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 
@@ -30,6 +30,8 @@ if (!$row) {
 if (!password_verify($userPwd, $row['pwd'])) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
+
+$user = $row['id'];
 
 // parse the games
 $games = json_decode($row['games'], true);
