@@ -24,5 +24,11 @@
     "display": "fullscreen",
     "scope": "/",
     "theme_color": "#F2F5FF",
-    "shortcuts": []
+    "shortcuts": [],
+    "protocol_handlers": [
+        {
+            "protocol": "scrabble",
+            "url": "/?game=%s"
+        }
+    ]
 }
