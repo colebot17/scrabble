@@ -27,7 +27,7 @@
     "shortcuts": [],
     "protocol_handlers": [
         {
-            "protocol": "scrabble",
+            "protocol": "web+scrabble",
             "url": "/?game=%s"
         }
     ]
