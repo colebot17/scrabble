@@ -3,7 +3,7 @@ var canvas = {};
 const boardColorKey = ["#f2f5ff", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2b", "#faaab5"];
 const boardMultiplierStrings = ["", "L2", "L3", "W2", "W3", ""];
 const squareNum = 15;
-const squareGap = 1;
+const squareGap = 0;
 var squareWidth;
 
 function canvasInit() {
@@ -423,11 +423,11 @@ function updateTile(tile) {
 
 	// draw the tile
 	canvas.ctx.fillStyle = (tile.locked ? "#a47449" : "#a47449cc"); // tile brown
-	const radii = (tile.x !== undefined && tile.y !== undefined) ? {
-		tl: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x - 1] ? 0 : borderRadius,
-		tr: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x + 1] ? 0 : borderRadius,
-		bl: game.board[tile.y + 1]?.[tile.x] || game.board[tile.y][tile.x - 1] ? 0 : borderRadius,
-		br: game.board[tile.y + 1]?.[tile.x] || game.board[tile.y][tile.x + 1] ? 0 : borderRadius
+	const radii = (tile.x !== undefined && tile.y !== undefined) ? { // make sure the tile isn't being dragged
+		tl: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x - 1] ? 0 : borderRadius, //
+		tr: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x + 1] ? 0 : borderRadius, // round corners unless that
+		bl: game.board[tile.y + 1]?.[tile.x] || game.board[tile.y][tile.x - 1] ? 0 : borderRadius, // side is touching another
+		br: game.board[tile.y + 1]?.[tile.x] || game.board[tile.y][tile.x + 1] ? 0 : borderRadius  // tile
 	} : borderRadius;
 	roundRect(canvas.ctx, pixelX, pixelY, tileWidth, tileWidth, radii);
 
