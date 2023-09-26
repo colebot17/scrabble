@@ -144,12 +144,14 @@ function drawBoard() {
 			let xPos = (x * squareWidth) + (x * squareGap);
 			let yPos = (y * squareWidth) + (y * squareGap);
 
+			const cornerRadius = 5 * (squareWidth * 0.03);
+
 			// round the corners of the board
 			let radii = {
-				tl: (y === 0 && x === 0 ? 10 : 0),
-				tr: (y === 0 && x === 14 ? 10 : 0),
-				bl: (y === 14 && x === 0 ? 10 : 0),
-				br: (y === 14 && x === 14 ? 10 : 0)
+				tl: (y === 0 && x === 0 ? cornerRadius : 0),
+				tr: (y === 0 && x === 14 ? cornerRadius : 0),
+				bl: (y === 14 && x === 0 ? cornerRadius : 0),
+				br: (y === 14 && x === 14 ? cornerRadius : 0)
 			}
 
 			// draw the square
