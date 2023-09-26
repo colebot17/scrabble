@@ -421,12 +421,12 @@ function updateTile(tile) {
 
 	// draw the tile
 	canvas.ctx.fillStyle = (tile.locked ? "#a47449" : "#a47449cc"); // tile brown
-	const radii = {
+	const radii = (tile.x && tile.y) ? {
 		tl: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x - 1] ? 0 : borderRadius,
 		tr: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x + 1] ? 0 : borderRadius,
 		bl: game.board[tile.y + 1]?.[tile.x] || game.board[tile.y][tile.x - 1] ? 0 : borderRadius,
 		br: game.board[tile.y + 1]?.[tile.x] || game.board[tile.y][tile.x + 1] ? 0 : borderRadius
-	}
+	} : borderRadius;
 	roundRect(canvas.ctx, pixelX, pixelY, tileWidth, tileWidth, radii);
 
 	// draw the letter on the tile
