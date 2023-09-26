@@ -421,7 +421,7 @@ function updateTile(tile) {
 
 	// draw the tile
 	canvas.ctx.fillStyle = (tile.locked ? "#a47449" : "#a47449cc"); // tile brown
-	const radii = (tile.x && tile.y) ? {
+	const radii = (tile.x !== undefined && tile.y !== undefined) ? {
 		tl: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x - 1] ? 0 : borderRadius,
 		tr: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x + 1] ? 0 : borderRadius,
 		bl: game.board[tile.y + 1]?.[tile.x] || game.board[tile.y][tile.x - 1] ? 0 : borderRadius,
