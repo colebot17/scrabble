@@ -501,7 +501,9 @@ function drawRegions(regions) {
 		const width = x2 - x1;
 		const height = y2 - y1;
 
-		roundRect(canvas.ctx, x1, y1, width, height, 5, false);
+		const cornerRadius = 5 * (squareWidth * 0.03);
+
+		roundRect(canvas.ctx, x1, y1, width, height, cornerRadius, false);
 
 		const radius = 15;
 
