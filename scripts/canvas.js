@@ -154,16 +154,16 @@ function drawBoard() {
 			let xPos = (x * squareWidth) + (x * SQUARE_GAP);
 			let yPos = (y * squareWidth) + (y * SQUARE_GAP);
 
-			// round the corners of the board
-			let radii = {
-				tl: (y === 0 && x === 0 ? cornerRadius : 0),
-				tr: (y === 0 && x === 14 ? cornerRadius : 0),
-				bl: (y === 14 && x === 0 ? cornerRadius : 0),
-				br: (y === 14 && x === 14 ? cornerRadius : 0)
-			}
+			// // round the corners of the board
+			// let radii = {
+			// 	tl: (y === 0 && x === 0 ? cornerRadius : 0),
+			// 	tr: (y === 0 && x === 14 ? cornerRadius : 0),
+			// 	bl: (y === 14 && x === 0 ? cornerRadius : 0),
+			// 	br: (y === 14 && x === 14 ? cornerRadius : 0)
+			// }
 
 			// draw the square
-			roundRect(canvas.ctx, xPos, yPos, squareWidth, squareWidth, radii);
+			roundRect(canvas.ctx, xPos, yPos, squareWidth, squareWidth, cornerRadius);
 			//squareWidth >= 35 &&
 			// if size permits, show the board multiplier strings
 			if (BOARD_MULTIPLIER_STRINGS[boardModifiers[y][x]]) {
