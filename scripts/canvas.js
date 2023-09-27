@@ -142,7 +142,8 @@ function drawBoard() {
 	const cornerRadius = 5 * (squareWidth * 0.03);
 
 	// draw the background
-
+	canvas.ctx.fillStyle = BOARD_BACKGROUND_COLOR;
+	roundRect(canvas.ctx, 0, 0, canvas.c.width, canvas.c.width, cornerRadius);
 
 	for (var y = 0; y < SQUARE_NUM; y++) { // for each tile
 		for (var x = 0; x < SQUARE_NUM; x++) {
