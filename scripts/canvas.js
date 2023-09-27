@@ -156,7 +156,7 @@ function drawBoard() {
 			let yPos = (y * squareWidth) + (y * SQUARE_GAP) + (SQUARE_INSET / 2);
 
 			// draw the square
-			roundRect(canvas.ctx, xPos, yPos, squareWidth - SQUARE_INSET, squareWidth - SQUARE_INSET, cornerRadius);
+			roundRect(canvas.ctx, xPos, yPos, squareWidth - SQUARE_INSET, squareWidth - SQUARE_INSET, cornerRadius - (SQUARE_INSET / 2));
 
 			// if size permits, show the board multiplier strings
 			if (BOARD_MULTIPLIER_STRINGS[boardModifiers[y][x]]) {
