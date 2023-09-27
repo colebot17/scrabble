@@ -5,7 +5,7 @@ const BOARD_COLOR_KEY = ["transparent", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2
 const BOARD_MULTIPLIER_STRINGS = ["", "L2", "L3", "W2", "W3", ""];
 const SQUARE_NUM = 15;
 const SQUARE_GAP = -0.5;
-const SQUARE_INSET = 4;
+const SQUARE_INSET = 0.15;
 var squareWidth;
 
 function canvasInit() {
@@ -152,11 +152,11 @@ function drawBoard() {
 			if (squareColor === "transparent") continue; // skip regular/transparent tiles since they are the same as the background
 
 			canvas.ctx.fillStyle = squareColor;
-			let xPos = (x * squareWidth) + (x * SQUARE_GAP) + (SQUARE_INSET / 2);
-			let yPos = (y * squareWidth) + (y * SQUARE_GAP) + (SQUARE_INSET / 2);
+			let xPos = (x * squareWidth) + (x * SQUARE_GAP) + ((SQUARE_INSET * squareWidth) / 2);
+			let yPos = (y * squareWidth) + (y * SQUARE_GAP) + ((SQUARE_INSET * squareWidth) / 2);
 
 			// draw the square
-			roundRect(canvas.ctx, xPos, yPos, squareWidth - SQUARE_INSET, squareWidth - SQUARE_INSET, cornerRadius - (SQUARE_INSET / 2));
+			roundRect(canvas.ctx, xPos, yPos, squareWidth - (SQUARE_INSET * squareWidth), squareWidth - (SQUARE_INSET * squareWidth), cornerRadius - ((SQUARE_INSET * squareWidth) / 2));
 
 			// if size permits, show the board multiplier strings
 			if (BOARD_MULTIPLIER_STRINGS[boardModifiers[y][x]]) {
