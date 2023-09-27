@@ -5,7 +5,7 @@ const BOARD_COLOR_KEY = ["transparent", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2
 const BOARD_MULTIPLIER_STRINGS = ["", "L2", "L3", "W2", "W3", ""];
 const SQUARE_NUM = 15;
 const SQUARE_GAP = -1;
-const SQUARE_INSET = 2;
+const SQUARE_INSET = 4;
 var squareWidth;
 
 function canvasInit() {
@@ -157,7 +157,7 @@ function drawBoard() {
 
 			// draw the square
 			roundRect(canvas.ctx, xPos, yPos, squareWidth - SQUARE_INSET, squareWidth - SQUARE_INSET, cornerRadius);
-			
+
 			// if size permits, show the board multiplier strings
 			if (BOARD_MULTIPLIER_STRINGS[boardModifiers[y][x]]) {
 				canvas.ctx.font = fontSize + "px Rubik";
