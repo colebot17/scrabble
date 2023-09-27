@@ -2,7 +2,7 @@ var canvas = {};
 
 const BOARD_BACKGROUND_COLOR = "#f2f5ff";
 const BOARD_COLOR_KEY = ["transparent", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2b", "#faaab5"];
-const BOARD_MULTIPLIER_STRINGS = ["", "L2", "L3", "W2", "W3", ""];
+const BOARD_MULTIPLIER_STRINGS = ["#00000012", "L2", "L3", "W2", "W3", ""];
 const SQUARE_NUM = 15;
 const SQUARE_GAP = -0.5;
 const SQUARE_INSET = 0.15;
@@ -155,8 +155,19 @@ function drawBoard() {
 			let xPos = (x * squareWidth) + (x * SQUARE_GAP) + ((SQUARE_INSET * squareWidth) / 2);
 			let yPos = (y * squareWidth) + (y * SQUARE_GAP) + ((SQUARE_INSET * squareWidth) / 2);
 
+			const insetRadius = cornerRadius - ((SQUARE_INSET * squareWidth) / 2);
+
 			// draw the square
-			roundRect(canvas.ctx, xPos, yPos, squareWidth - (SQUARE_INSET * squareWidth), squareWidth - (SQUARE_INSET * squareWidth), cornerRadius - ((SQUARE_INSET * squareWidth) / 2));
+			if (boardModifiers[y][x] === 0) {
+				canvas.ctx.strokeStyle = squareColor;
+				const borderThickness = 5;
+				canvas.ctx.lineWidth = borderThickness;
+				const w = squareWidth - (SQUARE_INSET * squareWidth) - borderThickness;
+				roundRect(canvas.ctx, xPos + (borderThickness / 2), yPos + (borderThickness / 2), w, w, insetRadius, false);
+			} else {
+				const w = squareWidth - (SQUARE_INSET * squareWidth);
+				roundRect(canvas.ctx, xPos, yPos, w, w, insetRadius);
+			}
 
 			// if size permits, show the board multiplier strings
 			if (BOARD_MULTIPLIER_STRINGS[boardModifiers[y][x]]) {
