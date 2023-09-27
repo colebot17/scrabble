@@ -3,7 +3,7 @@ var canvas = {};
 const boardColorKey = ["#f2f5ff", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2b", "#faaab5"];
 const boardMultiplierStrings = ["", "L2", "L3", "W2", "W3", ""];
 const squareNum = 15;
-const squareGap = 0;
+const squareGap = -1;
 var squareWidth;
 
 function canvasInit() {
