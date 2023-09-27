@@ -1,8 +1,8 @@
 var canvas = {};
 
 const BOARD_BACKGROUND_COLOR = "#f2f5ff";
-const BOARD_COLOR_KEY = ["transparent", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2b", "#faaab5"];
-const BOARD_MULTIPLIER_STRINGS = ["#00000012", "L2", "L3", "W2", "W3", ""];
+const BOARD_COLOR_KEY = ["#00000012", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2b", "#faaab5"];
+const BOARD_MULTIPLIER_STRINGS = ["", "L2", "L3", "W2", "W3", ""];
 const SQUARE_NUM = 15;
 const SQUARE_GAP = -0.5;
 const SQUARE_INSET = 0.15;
