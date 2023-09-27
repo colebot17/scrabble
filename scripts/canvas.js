@@ -5,6 +5,7 @@ const BOARD_COLOR_KEY = ["transparent", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2
 const BOARD_MULTIPLIER_STRINGS = ["", "L2", "L3", "W2", "W3", ""];
 const SQUARE_NUM = 15;
 const SQUARE_GAP = -1;
+const SQUARE_INSET = 2;
 var squareWidth;
 
 function canvasInit() {
@@ -151,20 +152,12 @@ function drawBoard() {
 			if (squareColor === "transparent") continue; // skip regular/transparent tiles since they are the same as the background
 
 			canvas.ctx.fillStyle = squareColor;
-			let xPos = (x * squareWidth) + (x * SQUARE_GAP);
-			let yPos = (y * squareWidth) + (y * SQUARE_GAP);
-
-			// // round the corners of the board
-			// let radii = {
-			// 	tl: (y === 0 && x === 0 ? cornerRadius : 0),
-			// 	tr: (y === 0 && x === 14 ? cornerRadius : 0),
-			// 	bl: (y === 14 && x === 0 ? cornerRadius : 0),
-			// 	br: (y === 14 && x === 14 ? cornerRadius : 0)
-			// }
+			let xPos = (x * squareWidth) + (x * SQUARE_GAP) + (SQUARE_INSET / 2);
+			let yPos = (y * squareWidth) + (y * SQUARE_GAP) + (SQUARE_INSET / 2);
 
 			// draw the square
-			roundRect(canvas.ctx, xPos, yPos, squareWidth, squareWidth, cornerRadius);
-			//squareWidth >= 35 &&
+			roundRect(canvas.ctx, xPos, yPos, squareWidth - SQUARE_INSET, squareWidth - SQUARE_INSET, cornerRadius);
+			
 			// if size permits, show the board multiplier strings
 			if (BOARD_MULTIPLIER_STRINGS[boardModifiers[y][x]]) {
 				canvas.ctx.font = fontSize + "px Rubik";
