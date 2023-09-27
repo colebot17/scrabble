@@ -134,8 +134,8 @@ function handleCanvasMouseDown(e) {
     }
 
     // check the board
-    let boardX = Math.floor(x / (squareWidth + squareGap));
-    let boardY = Math.floor(y / (squareWidth + squareGap));
+    let boardX = Math.floor(x / (squareWidth + SQUARE_GAP));
+    let boardY = Math.floor(y / (squareWidth + SQUARE_GAP));
     
     let tile = game.board?.[boardY]?.[boardX];
     let locked = tile?.locked;
@@ -148,8 +148,8 @@ function handleCanvasMouseDown(e) {
             blank: tile.blank,
             letter: tile.letter,
             mouseOffset: {
-                x: (boardX - (x / (squareWidth + squareGap))) * (squareWidth + squareGap),
-                y: (boardY - (y / (squareWidth + squareGap))) * (squareWidth + squareGap)
+                x: (boardX - (x / (squareWidth + SQUARE_GAP))) * (squareWidth + SQUARE_GAP),
+                y: (boardY - (y / (squareWidth + SQUARE_GAP))) * (squareWidth + SQUARE_GAP)
             },
             pixelX: x,
             pixelY: y,
@@ -240,8 +240,8 @@ function handleCanvasMouseMove(e) {
     }
     
     // check the board
-    let boardX = Math.floor(x / (squareWidth + squareGap));
-    let boardY = Math.floor(y / (squareWidth + squareGap));
+    let boardX = Math.floor(x / (squareWidth + SQUARE_GAP));
+    let boardY = Math.floor(y / (squareWidth + SQUARE_GAP));
     
     let tile = game.board?.[boardY]?.[boardX];
     let locked = tile?.locked;
@@ -333,8 +333,8 @@ function handleDocumentMouseUp(e) {
         clientY = e.clientY;
     }
 
-    const boardX = Math.floor(x / (squareWidth + squareGap));
-    const boardY = Math.floor(y / (squareWidth + squareGap));
+    const boardX = Math.floor(x / (squareWidth + SQUARE_GAP));
+    const boardY = Math.floor(y / (squareWidth + SQUARE_GAP));
 
     // if the game is active
     if (!game.inactive) {
