@@ -808,7 +808,7 @@ body.scrabble {
 		display: none;
 	}
 	#chatExpandButton, #chatCloseButton {
-		display: none;
+		display: none!important;
 	}
 	#scrabbleGrid #gameControlsCell #showChatButton, #scrabbleGrid #chatCell #chatBackButton {
 		display: unset;
