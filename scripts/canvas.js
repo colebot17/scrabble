@@ -2,6 +2,7 @@ var canvas = {};
 
 const BOARD_BACKGROUND_COLOR = "#f2f5ff";
 const BOARD_COLOR_KEY = ["#00000006", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2b", "#faaab5"];
+const BOARD_SQUARE_TYPES = ["outline", "fill", "fill", "fill", "fill", "fill"];
 const BOARD_MULTIPLIER_STRINGS = ["", "L2", "L3", "W2", "W3", ""];
 const SQUARE_NUM = 15;
 const SQUARE_GAP = -0.5;
@@ -158,9 +159,9 @@ function drawBoard() {
 			const insetRadius = cornerRadius - ((SQUARE_INSET * squareWidth) / 2);
 
 			// draw the square
-			if (boardModifiers[y][x] === 0) {
+			if (BOARD_SQUARE_TYPES[boardModifiers[y][x]] === "outline") {
 				canvas.ctx.strokeStyle = squareColor;
-				const borderThickness = 5;
+				const borderThickness = squareWidth * 0.1;
 				canvas.ctx.lineWidth = borderThickness;
 				const w = squareWidth - (SQUARE_INSET * squareWidth) - borderThickness;
 				roundRect(canvas.ctx, xPos + (borderThickness / 2), yPos + (borderThickness / 2), w, w, insetRadius, false);
