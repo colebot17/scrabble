@@ -175,7 +175,7 @@ function drawBoard() {
 			// show the board multiplier strings
 			if (squareContents) {
 				canvas.ctx.font = fontSize + "px Rubik";
-				canvas.ctx.fillStyle = squareType === outline ? squareColor : "#f2f5ff";
+				canvas.ctx.fillStyle = squareType === "outline" ? squareColor : "#f2f5ff";
 				canvas.ctx.textAlign = "center";
 				canvas.ctx.fillText(SQUARE_CONTENTS[boardModifiers[y][x]], (x * squareWidth) + (x * SQUARE_GAP) + (squareWidth / 2), (y * squareWidth) + (y * SQUARE_GAP) + (squareWidth / 2) + (fontSize / 2.5));
 			}
