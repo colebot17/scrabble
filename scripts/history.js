@@ -110,3 +110,38 @@ function highlightHistoryEntry(turn) {
         }, 2000);
     }, 200);
 }
+
+function moveHistoryButtonPress() {
+    const btn = document.getElementById('moveHistoryButton');
+    const btnMode = btn.dataset.btnmode;
+
+    // modes: history (default), stop, crossword (game)
+
+    if (btnMode === "history" || !btnMode) {
+        setCanvasPage('history');
+    } else if (btnMode === "stop") {
+        stopAnimatingMoves();
+    } else if (btnMode === "crossword") {
+        setCanvasPage('canvas');
+    }
+}
+
+function setHistoryButtonMode(mode) {
+    const btn = document.getElementById('moveHistoryButton');
+    const icon = document.querySelector('#moveHistoryButton span');
+
+    if (mode[0] === "%") {
+        if (mode === "%auto") {
+            const ccp = document.getElementById('canvasCanvasPage');
+            mode = ccp.classList.contains('hidden') ? 'crossword' : 'history';
+        }
+    }
+
+    btn.dataset.btnmode = mode;
+    icon.innerHTML = mode;
+}
+
+function listeners() {
+    document.getElementById('moveHistoryButton').addEventListener('click', moveHistoryButtonPress);
+}
+listeners();

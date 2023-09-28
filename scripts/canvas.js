@@ -75,18 +75,18 @@ function animateMoves(startingAt = 0) {
 		}
 	}
 
-	const buttonIcon = document.querySelector('#moveHistoryButton span');
-	buttonIcon.innerHTML = "stop";
+	setHistoryButtonMode('stop');
+
 	canvas.movesAnimating = setTimeout(stopAnimatingMoves, duration * (game.turn - startingAt));
 }
 
 function stopAnimatingMoves() {
 	if (!canvas.movesAnimating) {
 		return;
-	} else {
-		clearTimeout(canvas.movesAnimating);
-		canvas.movesAnimating = undefined;
 	}
+
+	clearTimeout(canvas.movesAnimating);
+	canvas.movesAnimating = undefined;
 
 	for (let y in game.board) {
 		for (let x in game.board[y]) {
@@ -96,6 +96,7 @@ function stopAnimatingMoves() {
 		}
 	}
 
+	setHistoryButtonMode('%auto');
 	const buttonIcon = document.querySelector('#moveHistoryButton span');
 	buttonIcon.innerHTML = "history";
 }
