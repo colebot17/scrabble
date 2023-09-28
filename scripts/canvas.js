@@ -1,7 +1,7 @@
 var canvas = {};
 
 const BOARD_BACKGROUND_COLOR = "#f2f5ff";
-const BOARD_COLOR_KEY = ["#00000010", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2b", "#faaab5"];
+const BOARD_COLOR_KEY = ["#00000009", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2b", "#faaab5"];
 const BOARD_SQUARE_TYPES = ["outline", "fill", "fill", "fill", "fill", "fill"];
 const SQUARE_CONTENTS = ["", "L2", "L3", "W2", "W3", ""];
 const SQUARE_NUM = 15;
