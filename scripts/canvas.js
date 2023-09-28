@@ -150,6 +150,8 @@ function drawBoard() {
 	for (var y = 0; y < SQUARE_NUM; y++) { // for each tile
 		for (var x = 0; x < SQUARE_NUM; x++) {
 			const squareColor = BOARD_COLOR_KEY[boardModifiers[y][x]];
+			const squareType = BOARD_SQUARE_TYPES[boardModifiers[y][x]];
+			const squareContents = SQUARE_CONTENTS[boardModifiers[y][x]];
 			if (squareColor === "transparent") continue; // skip regular/transparent tiles since they are the same as the background
 
 			canvas.ctx.fillStyle = squareColor;
@@ -159,7 +161,7 @@ function drawBoard() {
 			const insetRadius = cornerRadius - ((SQUARE_INSET * squareWidth) / 2);
 
 			// draw the square
-			if (BOARD_SQUARE_TYPES[boardModifiers[y][x]] === "outline") {
+			if (squareType === "outline") {
 				canvas.ctx.strokeStyle = squareColor;
 				const borderThickness = squareWidth * 0.1;
 				canvas.ctx.lineWidth = borderThickness;
@@ -171,9 +173,9 @@ function drawBoard() {
 			}
 
 			// show the board multiplier strings
-			if (SQUARE_CONTENTS[boardModifiers[y][x]]) {
+			if (squareContents) {
 				canvas.ctx.font = fontSize + "px Rubik";
-				canvas.ctx.fillStyle = "#f2f5ff";
+				canvas.ctx.fillStyle = squareType === outline ? squareColor : "#f2f5ff";
 				canvas.ctx.textAlign = "center";
 				canvas.ctx.fillText(SQUARE_CONTENTS[boardModifiers[y][x]], (x * squareWidth) + (x * SQUARE_GAP) + (squareWidth / 2), (y * squareWidth) + (y * SQUARE_GAP) + (squareWidth / 2) + (fontSize / 2.5));
 			}
