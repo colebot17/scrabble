@@ -134,7 +134,7 @@ function setHistoryButtonMode(mode) {
         if (mode === "%auto") {
             const ccp = document.getElementById('canvasCanvasPage');
             mode = ccp.classList.contains('hidden') ? 'crossword' : 'history';
-            if (canvas.animatingMoves) {
+            if (canvas.movesAnimating) {
                 mode = "stop";
             }
         }

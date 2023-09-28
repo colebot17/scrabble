@@ -115,12 +115,12 @@ function setCanvasPage(page = 'canvas') {
 
 		document.getElementById('historyContents').scrollTo(0, 0);
 
-		setHistoryButtonMode('crossword');
+		setHistoryButtonMode('%auto');
     } else if (page === 'canvas') {
         removeFromEscStack('canvasPage_canvas');
 
 		if (canvas.initialized) setCanvasSize();
 
-		setHistoryButtonMode('history');
+		setHistoryButtonMode('%auto');
     }
 }

@@ -75,9 +75,9 @@ function animateMoves(startingAt = 0) {
 		}
 	}
 
-	setHistoryButtonMode('stop');
-
 	canvas.movesAnimating = setTimeout(stopAnimatingMoves, duration * (game.turn - startingAt));
+
+	setHistoryButtonMode('%auto');
 }
 
 function stopAnimatingMoves() {
