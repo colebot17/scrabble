@@ -97,8 +97,6 @@ function stopAnimatingMoves() {
 	}
 
 	setHistoryButtonMode('%auto');
-	const buttonIcon = document.querySelector('#moveHistoryButton span');
-	buttonIcon.innerHTML = "history";
 }
 
 function setCanvasSize() {
