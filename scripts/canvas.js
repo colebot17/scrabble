@@ -3,7 +3,7 @@ var canvas = {};
 const BOARD_BACKGROUND_COLOR = "#f2f5ff";
 const BOARD_COLOR_KEY = ["#00000006", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2b", "#faaab5"];
 const BOARD_SQUARE_TYPES = ["outline", "outline", "outline", "outline", "outline", "outline"];
-const BOARD_MULTIPLIER_STRINGS = ["", "L2", "L3", "W2", "W3", ""];
+const SQUARE_CONTENTS = ["", "L2", "L3", "W2", "W3", ""];
 const SQUARE_NUM = 15;
 const SQUARE_GAP = -0.5;
 const SQUARE_INSET = 0.15;
@@ -164,18 +164,18 @@ function drawBoard() {
 				const borderThickness = squareWidth * 0.1;
 				canvas.ctx.lineWidth = borderThickness;
 				const w = squareWidth - (SQUARE_INSET * squareWidth) - borderThickness;
-				roundRect(canvas.ctx, xPos + (borderThickness / 2), yPos + (borderThickness / 2), w, w, insetRadius, false);
+				roundRect(canvas.ctx, xPos + (borderThickness / 2), yPos + (borderThickness / 2), w, w, insetRadius - (borderThickness / 2), false);
 			} else {
 				const w = squareWidth - (SQUARE_INSET * squareWidth);
 				roundRect(canvas.ctx, xPos, yPos, w, w, insetRadius);
 			}
 
-			// if size permits, show the board multiplier strings
-			if (BOARD_MULTIPLIER_STRINGS[boardModifiers[y][x]]) {
+			// show the board multiplier strings
+			if (SQUARE_CONTENTS[boardModifiers[y][x]]) {
 				canvas.ctx.font = fontSize + "px Rubik";
 				canvas.ctx.fillStyle = "#f2f5ff";
 				canvas.ctx.textAlign = "center";
-				canvas.ctx.fillText(BOARD_MULTIPLIER_STRINGS[boardModifiers[y][x]], (x * squareWidth) + (x * SQUARE_GAP) + (squareWidth / 2), (y * squareWidth) + (y * SQUARE_GAP) + (squareWidth / 2) + (fontSize / 2.5));
+				canvas.ctx.fillText(SQUARE_CONTENTS[boardModifiers[y][x]], (x * squareWidth) + (x * SQUARE_GAP) + (squareWidth / 2), (y * squareWidth) + (y * SQUARE_GAP) + (squareWidth / 2) + (fontSize / 2.5));
 			}
 		}
 	}
