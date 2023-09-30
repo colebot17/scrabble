@@ -528,7 +528,7 @@ body.scrabble {
 	text-align: start;
 }
 .friendListItem:not(:last-child) {
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid var(--text-color-light);
 }
 #addFriendField {
 	width: calc(100% - 40px);
