@@ -741,6 +741,9 @@ body.scrabble {
 	#scrabbleGrid[data-tab=chat] #chatExpandButton {
 		display: none;
 	}
+	#scrabbleGrid[data-tab=chat] #chatCloseButton {
+		display: unset;
+	}
 
 	/* signed in account tab */
 	#scrabbleGrid[data-tab=home][data-signedin=true], #scrabbleGrid[data-tab=friends][data-signedin=true] {
@@ -805,7 +808,7 @@ body.scrabble {
 		display: none;
 	}
 	#chatExpandButton, #chatCloseButton {
-		display: none;
+		display: none!important;
 	}
 	#scrabbleGrid #gameControlsCell #showChatButton, #scrabbleGrid #chatCell #chatBackButton {
 		display: unset;

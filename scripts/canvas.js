@@ -1,9 +1,13 @@
 var canvas = {};
 
-const boardColorKey = ["#f2f5ff", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2b", "#faaab5"];
-const boardMultiplierStrings = ["", "L2", "L3", "W2", "W3", ""];
-const squareNum = 15;
-const squareGap = 1;
+const BOARD_BACKGROUND_COLOR = "#f2f5ff";
+const BOARD_COLOR_KEY = ["#00000009", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2b", "#faaab5"];
+const BOARD_SQUARE_TYPES = ["outline", "fill", "fill", "fill", "fill", "fill"];
+const OUTLINE_THICKNESS = 0.1;
+const SQUARE_CONTENTS = ["", "L2", "L3", "W2", "W3", ""];
+const SQUARE_NUM = 15;
+const SQUARE_GAP = -0.5;
+const SQUARE_INSET = 0.15;
 var squareWidth;
 
 function canvasInit() {
@@ -71,18 +75,18 @@ function animateMoves(startingAt = 0) {
 		}
 	}
 
-	const buttonIcon = document.querySelector('#moveHistoryButton span');
-	buttonIcon.innerHTML = "stop";
 	canvas.movesAnimating = setTimeout(stopAnimatingMoves, duration * (game.turn - startingAt));
+
+	setHistoryButtonMode('%auto');
 }
 
 function stopAnimatingMoves() {
 	if (!canvas.movesAnimating) {
 		return;
-	} else {
-		clearTimeout(canvas.movesAnimating);
-		canvas.movesAnimating = undefined;
 	}
+
+	clearTimeout(canvas.movesAnimating);
+	canvas.movesAnimating = undefined;
 
 	for (let y in game.board) {
 		for (let x in game.board[y]) {
@@ -92,8 +96,7 @@ function stopAnimatingMoves() {
 		}
 	}
 
-	const buttonIcon = document.querySelector('#moveHistoryButton span');
-	buttonIcon.innerHTML = "history";
+	setHistoryButtonMode('%auto');
 }
 
 function setCanvasSize() {
@@ -135,32 +138,46 @@ function clearCanvas() {
 }
 
 function drawBoard() {
-	// get some sizes
-	squareWidth = (canvas.c.width - (squareGap * (squareNum - 1))) / squareNum;
-	let fontSize = squareWidth * 0.5;
-	for (var y = 0; y < squareNum; y++) { // for each tile
-		for (var x = 0; x < squareNum; x++) {
-			canvas.ctx.fillStyle = boardColorKey[boardModifiers[y][x]];
-			let xPos = (x * squareWidth) + (x * squareGap);
-			let yPos = (y * squareWidth) + (y * squareGap);
+	// calculate some values
+	squareWidth = (canvas.c.width - (SQUARE_GAP * (SQUARE_NUM - 1))) / SQUARE_NUM;
+	const fontSize = squareWidth * 0.5;
+	const cornerRadius = 5 * (squareWidth * 0.03);
 
-			// round the corners of the board
-			let radii = {
-				tl: (y === 0 && x === 0 ? 10 : 0),
-				tr: (y === 0 && x === 14 ? 10 : 0),
-				bl: (y === 14 && x === 0 ? 10 : 0),
-				br: (y === 14 && x === 14 ? 10 : 0)
-			}
+	// draw the background
+	canvas.ctx.fillStyle = BOARD_BACKGROUND_COLOR;
+	roundRect(canvas.ctx, 0, 0, canvas.c.width, canvas.c.width, cornerRadius);
+
+	for (var y = 0; y < SQUARE_NUM; y++) { // for each tile
+		for (var x = 0; x < SQUARE_NUM; x++) {
+			const squareColor = BOARD_COLOR_KEY[boardModifiers[y][x]];
+			const squareType = BOARD_SQUARE_TYPES[boardModifiers[y][x]];
+			const squareContents = SQUARE_CONTENTS[boardModifiers[y][x]];
+			if (squareColor === "transparent") continue; // skip regular/transparent tiles since they are the same as the background
+
+			canvas.ctx.fillStyle = squareColor;
+			let xPos = (x * squareWidth) + (x * SQUARE_GAP) + ((SQUARE_INSET * squareWidth) / 2);
+			let yPos = (y * squareWidth) + (y * SQUARE_GAP) + ((SQUARE_INSET * squareWidth) / 2);
+
+			const insetRadius = cornerRadius - ((SQUARE_INSET * squareWidth) / 2);
 
 			// draw the square
-			roundRect(canvas.ctx, xPos, yPos, squareWidth, squareWidth, radii);
-			//squareWidth >= 35 &&
-			// if size permits, show the board multiplier strings
-			if ( boardMultiplierStrings[boardModifiers[y][x]]) {
+			if (squareType === "outline") {
+				canvas.ctx.strokeStyle = squareColor;
+				const borderThickness = squareWidth * OUTLINE_THICKNESS;
+				canvas.ctx.lineWidth = borderThickness;
+				const w = squareWidth - (SQUARE_INSET * squareWidth) - borderThickness;
+				roundRect(canvas.ctx, xPos + (borderThickness / 2), yPos + (borderThickness / 2), w, w, insetRadius - (borderThickness / 2), false);
+			} else {
+				const w = squareWidth - (SQUARE_INSET * squareWidth);
+				roundRect(canvas.ctx, xPos, yPos, w, w, insetRadius);
+			}
+
+			// show the board multiplier strings
+			if (squareContents) {
 				canvas.ctx.font = fontSize + "px Rubik";
-				canvas.ctx.fillStyle = "#f2f5ff";
+				canvas.ctx.fillStyle = squareType === "outline" ? squareColor : "#f2f5ff";
 				canvas.ctx.textAlign = "center";
-				canvas.ctx.fillText(boardMultiplierStrings[boardModifiers[y][x]], (x * squareWidth) + (x * squareGap) + (squareWidth / 2), (y * squareWidth) + (y * squareGap) + (squareWidth / 2) + (fontSize / 2.5));
+				canvas.ctx.fillText(SQUARE_CONTENTS[boardModifiers[y][x]], (x * squareWidth) + (x * SQUARE_GAP) + (squareWidth / 2), (y * squareWidth) + (y * SQUARE_GAP) + (squareWidth / 2) + (fontSize / 2.5));
 			}
 		}
 	}
@@ -416,12 +433,18 @@ function updateTile(tile) {
 	var tileWidth = squareWidth * tileSize;
 	var fontSize = tileWidth * 0.83;
 
-	var pixelX = (tile.pixelX + (tile.mouseOffset?.x || -(squareWidth / 2)) || (tile.x * squareWidth) + (tile.x * squareGap)) + ((squareWidth - tileWidth) / 2);
-	var pixelY = (tile.pixelY + (tile.mouseOffset?.y || -(squareWidth / 2)) || (tile.y * squareWidth) + (tile.y * squareGap)) + ((squareWidth - tileWidth) / 2);
+	var pixelX = (tile.pixelX + (tile.mouseOffset?.x || -(squareWidth / 2)) || (tile.x * squareWidth) + (tile.x * SQUARE_GAP)) + ((squareWidth - tileWidth) / 2);
+	var pixelY = (tile.pixelY + (tile.mouseOffset?.y || -(squareWidth / 2)) || (tile.y * squareWidth) + (tile.y * SQUARE_GAP)) + ((squareWidth - tileWidth) / 2);
 
 	// draw the tile
 	canvas.ctx.fillStyle = (tile.locked ? "#a47449" : "#a47449cc"); // tile brown
-	roundRect(canvas.ctx, pixelX, pixelY, tileWidth, tileWidth, borderRadius);
+	const radii = (tile.x !== undefined && tile.y !== undefined) ? { // make sure the tile isn't being dragged
+		tl: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x - 1] ? 0 : borderRadius, //
+		tr: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x + 1] ? 0 : borderRadius, // round corners unless that
+		bl: game.board[tile.y + 1]?.[tile.x] || game.board[tile.y][tile.x - 1] ? 0 : borderRadius, // side is touching another
+		br: game.board[tile.y + 1]?.[tile.x] || game.board[tile.y][tile.x + 1] ? 0 : borderRadius  // tile
+	} : borderRadius;
+	roundRect(canvas.ctx, pixelX, pixelY, tileWidth, tileWidth, radii);
 
 	// draw the letter on the tile
 	if (tile.blank) {
@@ -477,10 +500,10 @@ function drawRegions(regions) {
 		canvas.ctx.font = fontSize + "px Rubik";
 
 		// draw a rectangle around the affected letters
-		let x1 = regions[i].start[0] * (squareWidth + squareGap);
-		let y1 = regions[i].start[1] * (squareWidth + squareGap);
-		let x2 = (regions[i].end[0] * (squareWidth + squareGap)) + squareWidth;
-		let y2 = (regions[i].end[1] * (squareWidth + squareGap)) + squareWidth;
+		let x1 = regions[i].start[0] * (squareWidth + SQUARE_GAP);
+		let y1 = regions[i].start[1] * (squareWidth + SQUARE_GAP);
+		let x2 = (regions[i].end[0] * (squareWidth + SQUARE_GAP)) + squareWidth;
+		let y2 = (regions[i].end[1] * (squareWidth + SQUARE_GAP)) + squareWidth;
 
 		// calculate position for the bubble
 		let circX = x2;
@@ -492,7 +515,9 @@ function drawRegions(regions) {
 		const width = x2 - x1;
 		const height = y2 - y1;
 
-		roundRect(canvas.ctx, x1, y1, width, height, 5, false);
+		const cornerRadius = 5 * (squareWidth * 0.03);
+
+		roundRect(canvas.ctx, x1, y1, width, height, cornerRadius, false);
 
 		const radius = 15;
 

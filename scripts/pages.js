@@ -107,15 +107,20 @@ function setCanvasPage(page = 'canvas') {
     // show the specified page
     document.getElementById(page + 'CanvasPage').classList.remove('hidden');
 
-    // set the escape stack if necessary
+    // do miscellaneous tasks
     if (page === 'history') {
         addToEscStack(() => {
             setCanvasPage('canvas');
         }, 'canvasPage_canvas');
+
 		document.getElementById('historyContents').scrollTo(0, 0);
+
+		setHistoryButtonMode('%auto');
     } else if (page === 'canvas') {
         removeFromEscStack('canvasPage_canvas');
 
 		if (canvas.initialized) setCanvasSize();
+
+		setHistoryButtonMode('%auto');
     }
 }
