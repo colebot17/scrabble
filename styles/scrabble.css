@@ -499,7 +499,7 @@ body.scrabble {
 
 .friendList {
 	margin: 5px;
-	border: 1px solid black;
+	border: 1px solid var(--text-color-light);
 	border-radius: 10px;
 
 	overflow: auto;
