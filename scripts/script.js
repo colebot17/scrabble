@@ -879,17 +879,27 @@ function checkPoints() {
 		if (res.errorLevel > 0) {
 			// clear the points box
 			canvas.pointsPreview = false;
-			
+
+			if (res.errorLevel > 1) {
+				gameBanner(res.message, "red", "white");
+			}
+
 			return;
 		}
 
 		// find the first non-cross word
-		let mainWordId = 0;
+		let mainWordId;
 		for (let i = 0; i < res.data.newWords.length; i++) {
 			if (!res.data.newWords[i].cross) {
 				mainWordId = i;
 				break;
 			}
+		}
+
+		if (mainWordId === undefined) {
+			canvas.pointsPreview = false;
+
+			return;
 		}
 
 		// draw the points box
