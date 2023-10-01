@@ -895,6 +895,8 @@ function checkPoints() {
 		if (mainWordId === undefined) {
 			canvas.pointsPreview = false;
 
+			console.log("It happened");
+
 			return;
 		}
 
