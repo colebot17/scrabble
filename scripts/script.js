@@ -880,6 +880,11 @@ function checkPoints() {
 			// clear the points box
 			canvas.pointsPreview = false;
 			console.log("an error happened:", res);
+
+			if (res.errorLevel > 1) {
+				gameBanner(res.message, "red", "white");
+			}
+
 			return;
 		}
 
