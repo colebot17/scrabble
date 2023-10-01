@@ -879,7 +879,6 @@ function checkPoints() {
 		if (res.errorLevel > 0) {
 			// clear the points box
 			canvas.pointsPreview = false;
-			console.log("an error happened:", res);
 
 			if (res.errorLevel > 1) {
 				gameBanner(res.message, "red", "white");
@@ -897,12 +896,8 @@ function checkPoints() {
 			}
 		}
 
-		console.log(mainWordId);
-
 		if (mainWordId === undefined) {
 			canvas.pointsPreview = false;
-
-			console.log("It happened");
 
 			return;
 		}
