@@ -879,7 +879,7 @@ function checkPoints() {
 		if (res.errorLevel > 0) {
 			// clear the points box
 			canvas.pointsPreview = false;
-			
+			console.log("an error happened:", res);
 			return;
 		}
 
