@@ -42,7 +42,7 @@ function parseWords($gameId, $tiles, $user) {
         }
     
         // make sure player owns all letters being placed
-        if ($players[$currentPlayerIndex]["letterBank"][$tiles["bankIndex"]] !== $tiles[$i]['letter']) {
+        if ($players[$currentPlayerIndex]["letterBank"][$tiles[$tiles[$i]["bankIndex"]]] !== $tiles[$i]['letter']) {
             return '{"errorLevel":2,"message":"You must own all letters being used."}';
         }
     
