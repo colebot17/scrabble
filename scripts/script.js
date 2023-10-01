@@ -884,12 +884,18 @@ function checkPoints() {
 		}
 
 		// find the first non-cross word
-		let mainWordId = 0;
+		let mainWordId;
 		for (let i = 0; i < res.data.newWords.length; i++) {
 			if (!res.data.newWords[i].cross) {
 				mainWordId = i;
 				break;
 			}
+		}
+
+		if (!mainWordId) {
+			canvas.pointsPreview = false;
+
+			return;
 		}
 
 		// draw the points box

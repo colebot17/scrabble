@@ -42,18 +42,18 @@ function parseWords($gameId, $tiles, $user) {
         }
     
         // make sure player owns all letters being placed
-        if ($players[$currentPlayerIndex]["letterBank"][$tiles["bankIndex"]] !== $letter) {
+        if ($players[$currentPlayerIndex]["letterBank"][$tiles["bankIndex"]] !== $tiles[$i]['letter']) {
             return '{"errorLevel":2,"message":"You must own all letters being used."}';
         }
     
         // generate a tile with only the information we need
         $tile = Array(
-            "bankIndex" => $tiles[$i]['bankIndex'],
+            "bankIndex" => (int)$tiles[$i]['bankIndex'],
             "blank" => $tiles[$i]['blank'],
             "letter" => $tiles[$i]['letter'],
             "turn" => (int)$totalTurn,
-            "x" => $tiles[$i]['x'],
-            "y" => $tiles[$i]['y']
+            "x" => (int)$tiles[$i]['x'],
+            "y" => (int)$tiles[$i]['y']
         );
     
         // add tile to board
