@@ -892,7 +892,7 @@ function checkPoints() {
 			}
 		}
 
-		if (!mainWordId) {
+		if (mainWordId === undefined) {
 			canvas.pointsPreview = false;
 
 			return;
