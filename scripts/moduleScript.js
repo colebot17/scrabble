@@ -1,3 +1,3 @@
-import { gameBanner } from "/gameBanner.js";
+import { gameBanner } from "./scripts/gameBanner.js";
 
 gameBanner = gameBanner;
