@@ -446,7 +446,7 @@ body.scrabble {
 .chatControls {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
 	max-height: 67%!important;
 }
 #chatInput {
