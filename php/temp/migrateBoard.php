@@ -22,8 +22,10 @@ $board = json_decode($row['board'], true);
 
 for ($y = 0; $y < count($board); $y++) {
     for ($x = 0; $x < count($board); $x++) {
-        $board[$y][$x]["x"] = $x;
-        $board[$y][$x]["y"] = $y;
+        if ($board[$y][$x]) {
+            $board[$y][$x]["x"] = $x;
+            $board[$y][$x]["y"] = $y;
+        }
     }
 }
 
