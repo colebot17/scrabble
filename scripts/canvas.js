@@ -144,9 +144,9 @@ function drawBoard() {
 	const cornerRadius = 5 * (squareWidth * 0.03);
 
 	// draw the background
-	const boardBackgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-2');
-	canvas.ctx.fillStyle = boardBackgroundColor === '#f2f5ff' ? BOARD_BACKGROUND_COLOR : boardBackgroundColor;
-	roundRect(canvas.ctx, 0, 0, canvas.c.width, canvas.c.width, cornerRadius);
+	// const boardBackgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-2');
+	// canvas.ctx.fillStyle = boardBackgroundColor === '#f2f5ff' ? BOARD_BACKGROUND_COLOR : boardBackgroundColor;
+	// roundRect(canvas.ctx, 0, 0, canvas.c.width, canvas.c.width, cornerRadius);
 
 	for (var y = 0; y < SQUARE_NUM; y++) { // for each tile
 		for (var x = 0; x < SQUARE_NUM; x++) {
