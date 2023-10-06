@@ -639,7 +639,7 @@ function gameInit() {
 		setOOTD(true);
 		gameBannerParams = [
 			(game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved."),
-			"var(--text-highlight)"
+			getComputedStyle(document.documentElement).getPropertyValue('--text-highlight')
 		];
 	} else {
 		setOOTD(false);
@@ -828,7 +828,7 @@ function checkPoints() {
 			canvas.pointsPreview = false;
 
 			if (res.errorLevel > 1) {
-				gameBanner(res.message, "red");
+				gameBanner(res.message, "#ff0000");
 			}
 
 			return;
@@ -859,7 +859,7 @@ function checkPoints() {
 		console.error(err);
 
 		if (!navigator.onLine) {
-			gameBanner("No Connection", "red");
+			gameBanner("No Connection", "#ff0000");
 
 			window.ononline = () => {
 				gameBanner("Connection Restored", "#00ff00", true).then(() => {
@@ -869,7 +869,7 @@ function checkPoints() {
 				window.ononline = null;
 			};
 		} else {
-			gameBanner("An unknown error occurred.", "red");
+			gameBanner("An unknown error occurred.", "#ff0000");
 		}
 	});
 }
