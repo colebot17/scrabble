@@ -30,10 +30,12 @@ while ($row = mysqli_fetch_assoc($query)) {
 
     $boardJson = json_encode($board);
 
-    $sql2 = "UPDATE games SET board='$boardJson' WHERE id='$game'";
+    $id = $row['id'];
+
+    $sql2 = "UPDATE games SET board='$boardJson' WHERE id='$id'";
     $query2 = mysqli_query($conn, $sql2);
 
-    echo "Updated " . $row['id'] . "!<br>";
+    echo "Updated " . $id . "!<br>";
 
 }
 
