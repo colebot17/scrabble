@@ -828,7 +828,7 @@ function checkPoints() {
 			canvas.pointsPreview = false;
 
 			if (res.errorLevel > 1) {
-				gameBanner(res.message, "red", "white");
+				gameBanner(res.message, "red");
 			}
 
 			return;
@@ -859,17 +859,17 @@ function checkPoints() {
 		console.error(err);
 
 		if (!navigator.onLine) {
-			gameBanner("No Connection", "red", "white");
+			gameBanner("No Connection", "red");
 
 			window.ononline = () => {
-				gameBanner("Connection Restored", "#00ff00", "black", true).then(() => {
+				gameBanner("Connection Restored", "#00ff00", true).then(() => {
 					gameBanner(...canvas.gameBannerParams);
 				});
 
 				window.ononline = null;
 			};
 		} else {
-			gameBanner("An unknown error occurred.", "red", "white");
+			gameBanner("An unknown error occurred.", "red");
 		}
 	});
 }

@@ -1,10 +1,12 @@
-export async function gameBanner(content, color, textColor = "", temp = false) {
+import { autoContrast } from "//www.colebot.com/colors.js";
+
+export async function gameBanner(content, color, temp = false) {
 	const wrapper = document.getElementById('gameBannerWrapper');
 	const banner = document.getElementById('gameBanner');
 	if (content) {
 		banner.innerHTML = content;
 		banner.style.backgroundColor = color;
-		banner.style.color = textColor;
+		banner.style.color = autoContrast(color) ? "#000000" : "#FFFFFFDD";
 
 		wrapper.classList.remove('hidden');
 
