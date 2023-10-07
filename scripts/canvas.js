@@ -151,7 +151,7 @@ function drawBoard() {
 
 	for (var y = 0; y < SQUARE_NUM; y++) { // for each tile
 		for (var x = 0; x < SQUARE_NUM; x++) {
-			const squareColor = BOARD_COLOR_KEY[boardModifiers[y][x]];
+			const squareColor = hasAltTheme ? averageColor(BOARD_COLOR_KEY[boardModifiers[y][x]], themedBoardBackgroundColor) : BOARD_COLOR_KEY[boardModifiers[y][x]];
 			const squareType = BOARD_SQUARE_TYPES[boardModifiers[y][x]];
 			const squareContents = SQUARE_CONTENTS[boardModifiers[y][x]];
 			if (squareColor === "transparent") continue; // skip regular/transparent tiles since they are the same as the background
