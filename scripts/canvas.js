@@ -144,14 +144,12 @@ function drawBoard() {
 	const cornerRadius = 5 * (squareWidth * 0.03);
 
 	// draw the background
-	const hasAltTheme = document.documentElement.dataset.theme  && document.documentElement.dataset.theme !== "default";
-	const themedBoardBackgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-2');
-	canvas.ctx.fillStyle = hasAltTheme ? themedBoardBackgroundColor : BOARD_BACKGROUND_COLOR;
+	canvas.ctx.fillStyle = BOARD_BACKGROUND_COLOR;
 	roundRect(canvas.ctx, 0, 0, canvas.c.width, canvas.c.width, cornerRadius);
 
 	for (var y = 0; y < SQUARE_NUM; y++) { // for each tile
 		for (var x = 0; x < SQUARE_NUM; x++) {
-			const squareColor = hasAltTheme ? multiplyColor(themedBoardBackgroundColor, BOARD_COLOR_KEY[boardModifiers[y][x]]) : BOARD_COLOR_KEY[boardModifiers[y][x]];
+			const squareColor = BOARD_COLOR_KEY[boardModifiers[y][x]];
 			const squareType = BOARD_SQUARE_TYPES[boardModifiers[y][x]];
 			const squareContents = SQUARE_CONTENTS[boardModifiers[y][x]];
 			if (squareColor === "transparent") continue; // skip regular/transparent tiles since they are the same as the background
