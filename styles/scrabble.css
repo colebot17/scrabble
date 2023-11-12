@@ -446,7 +446,7 @@ body.scrabble {
 .chatControls {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
 	max-height: 67%!important;
 }
 #chatInput {
@@ -499,7 +499,7 @@ body.scrabble {
 
 .friendList {
 	margin: 5px;
-	border: 1px solid black;
+	border: 1px solid var(--text-color);
 	border-radius: 10px;
 
 	overflow: auto;
@@ -528,7 +528,7 @@ body.scrabble {
 	text-align: start;
 }
 .friendListItem:not(:last-child) {
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid var(--text-color-light);
 }
 #addFriendField {
 	width: calc(100% - 40px);
