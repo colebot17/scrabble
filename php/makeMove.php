@@ -80,7 +80,7 @@ for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to 
 	// generate a tile with only the information we need
 	$tile = Array(
 		"bankIndex" => $tiles[$i]['bankIndex'],
-		"blank"     => $tiles[$i]['blank'] === "true",
+		"blank"     => $tiles[$i]['blank'],
 		"letter"    => $tiles[$i]['letter'],
 		"locked"    => true,
 		"turn"      => (int)$totalTurn,
