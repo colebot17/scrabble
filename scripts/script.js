@@ -849,7 +849,7 @@ function checkPoints() {
 		}
 
 		// make sure word is actually on the board
-		const word = !res.data.newWords[mainWordId];
+		const word = res.data.newWords[mainWordId];
 		
 		if (word.axis === "x") {
 			for (let x = word.pos.start[0]; x <= word.pos.end[0]; x++) {
