@@ -852,7 +852,7 @@ function checkPoints() {
 		const word = !res.data.newWords[mainWordId];
 		
 		if (word.axis === "x") {
-			for (let x = word.pos.start[0]; x < word.pos.end[0]; x++) {
+			for (let x = word.pos.start[0]; x <= word.pos.end[0]; x++) {
 				if (!game.board[word.pos.start[1]][x]) {
 					canvas.pointsPreview = false;
 					return;
@@ -860,7 +860,7 @@ function checkPoints() {
 			}
 		}
 		if (word.axis === "y") {
-			for (let y = word.pos.start[1]; y < word.pos.end[1]; y++) {
+			for (let y = word.pos.start[1]; y <= word.pos.end[1]; y++) {
 				if (!game.board[y][word.pos.start[0]]) {
 					canvas.pointsPreview = false;
 					return;
