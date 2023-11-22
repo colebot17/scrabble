@@ -845,8 +845,27 @@ function checkPoints() {
 
 		if (mainWordId === undefined) {
 			canvas.pointsPreview = false;
-
 			return;
+		}
+
+		// make sure word is actually on the board
+		const word = res.data.newWords[mainWordId];
+		
+		if (word.axis === "x") {
+			for (let x = word.pos.start[0]; x <= word.pos.end[0]; x++) {
+				if (!game.board[word.pos.start[1]][x]) {
+					canvas.pointsPreview = false;
+					return;
+				}
+			}
+		}
+		if (word.axis === "y") {
+			for (let y = word.pos.start[1]; y <= word.pos.end[1]; y++) {
+				if (!game.board[y][word.pos.start[0]]) {
+					canvas.pointsPreview = false;
+					return;
+				}
+			}
 		}
 
 		// draw the points box
@@ -855,6 +874,7 @@ function checkPoints() {
 			start: res.data.newWords[mainWordId].pos.start,
 			end: res.data.newWords[mainWordId].pos.end
 		}
+
 	}).catch(err => {
 		console.error(err);
 
