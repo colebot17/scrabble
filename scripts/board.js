@@ -19,4 +19,11 @@ function clearBoard() {
 
     // remove points preview
     canvas.pointsPreview = false;
+
+    boardUpdate();
+}
+
+function boardUpdate() {
+    // this function is called whenever the tiles present on the board are changed in any way
+    console.log("boardUpdate");
 }

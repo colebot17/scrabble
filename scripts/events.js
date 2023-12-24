@@ -143,6 +143,8 @@ function handleCanvasMouseDown(e) {
         // hide the points preview
         canvas.pointsPreview = false;
 
+        boardUpdate();
+
         // don't count as double tap
         canvas.doubleTap = false;
 
@@ -294,7 +296,7 @@ function handleCanvasMouseMove(e) {
     }
 
     // set the css
-    document.getElementById('scrabbleCanvas').style.cursor = cursor;
+    canvas.c.style.cursor = cursor;
 }
 
 function handleDocumentMouseUp(e) {

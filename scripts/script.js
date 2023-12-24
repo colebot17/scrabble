@@ -1141,6 +1141,8 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 	letter = letter[0].toUpperCase();
 
 	game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
+
+	boardUpdate();
 }
 
 function removeLetter(x, y) {
