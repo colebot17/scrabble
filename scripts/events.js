@@ -31,26 +31,7 @@ function removeHandlers() {
 const dropZoneAnimationTime = 50;
 
 function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
-    // remove all unlocked tiles from the board
-    for (let y in game.board) {
-        for (let x in game.board) {
-            if (game.board?.[y]?.[x] && !game.board[y][x].locked) {
-                game.board[y][x] = null;
-            }
-        }
-    }
-
-    // un-hide all letters in bank
-    for (let i in canvas.bank) {
-        canvas.bank[i].hidden = false;
-        canvas.bank[i].gapAnimation = undefined;
-        canvas.bank[i].extraGapAfter = 0;
-    }
-    canvas.gapBeforeBankAnimation = undefined;
-    canvas.extraGapBeforeBank = 0;
-
-    // remove points preview
-    canvas.pointsPreview = false;
+    clearBoard();
 }
 
 // handle drag start on canvas
@@ -104,6 +85,7 @@ function handleCanvasMouseDown(e) {
 
             const xMatch = x > canvasLetter.position.x && x < canvasLetter.position.x + canvas.bankTileWidth;
             const yMatch = y > canvasLetter.position.y && y < canvasLetter.position.y + canvas.bankTileWidth;
+            
             if (xMatch && yMatch) { // if this is the one that the user has clicked on
                 // update the dragged piece
                 dragged = {
@@ -419,7 +401,7 @@ function handleDocumentMouseUp(e) {
 
         canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
         canvas.bank[dragged.bankIndex].gapAnimation = undefined; // remove extra gap after
-        canvas.bank[dragged.bankIndex].extraGapAfter = 0;       //
+        canvas.bank[dragged.bankIndex].extraGapAfter = 0;        //
     }
 
     // show the points preview
