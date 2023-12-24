@@ -733,6 +733,8 @@ function gameInit() {
 	document.getElementsByClassName('moreGameControls')[0].removeAttribute('open');
 
 	setCanvasSize();
+
+	setMoveButtonEnablement();
 }
 
 function getPlayerLastTurn() {
