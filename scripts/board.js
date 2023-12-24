@@ -35,7 +35,7 @@ function setMoveButtonEnablement() {
     // the move button will be disabled no matter what when it is not the current user's turn
 
     // make sure there are actually some unlocked tiles on the board
-    const boardHasUnlockedTiles = false;
+    let boardHasUnlockedTiles = false;
     for (let y = 0; y < game.board.length; y++) {
         for (let x = 0; x < game.board[y].length; x++) {
             if (!game.board[y][x]?.locked) {
