@@ -47,10 +47,11 @@ function setMoveButtonEnablement() {
     }
 
     const moveButton = document.getElementById('makeMoveButton');
-    moveButton.disabled = !boardHasUnlockedTiles;
     if (boardHasUnlockedTiles) {
-        moveButton.title = "You must place tiles on the board to make a move.";
-    } else {
+        moveButton.disabled = false;
         moveButton.title = "";
+    } else {
+        moveButton.disabled = true;
+        moveButton.title = "You must place tiles on the board to make a move.";
     }
 }
