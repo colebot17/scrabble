@@ -38,7 +38,7 @@ function setMoveButtonEnablement() {
     const boardHasUnlockedTiles = false;
     for (let y = 0; y < game.board.length; y++) {
         for (let x = 0; x < game.board[y].length; x++) {
-            if (!game.board[y][x].locked) {
+            if (!game.board[y][x]?.locked) {
                 boardHasUnlockedTiles = true;
                 break;
             }
