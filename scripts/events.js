@@ -108,7 +108,7 @@ function handleCanvasMouseDown(e) {
         // don't count for double tap
         canvas.doubleTap = false;
 
-        setCanvasCursor();
+        setCanvasCursor(x, y);
 
         return; // don't bother checking anything else
     }
@@ -141,7 +141,7 @@ function handleCanvasMouseDown(e) {
 
             boardUpdate();
 
-            setCanvasCursor();
+            setCanvasCursor(x, y);
 
             canvas.doubleTap = false;
         } else if (tile && locked) {
