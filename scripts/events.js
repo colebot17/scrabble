@@ -197,7 +197,7 @@ function handleCanvasMouseMove(e) {
     const overListCategories = getPropArray(overList, "category");
 
     if (dragged && overListCategories.includes("bankDropZone")) {
-        let dropZone = overList[overListCategories.indexOf("bankDropZone")];
+        let dropZone = overList[overListCategories.indexOf("bankDropZone")].zoneIndex;
         setExpandedDropZone(dropZone);
     } else if (dragged) {
         setExpandedDropZone(undefined);
