@@ -108,6 +108,8 @@ function handleCanvasMouseDown(e) {
         // don't count for double tap
         canvas.doubleTap = false;
 
+        setCanvasCursor();
+
         return; // don't bother checking anything else
     }
 
@@ -138,6 +140,8 @@ function handleCanvasMouseDown(e) {
             canvas.pointsPreview = false; // remove the points preview
 
             boardUpdate();
+
+            setCanvasCursor();
 
             canvas.doubleTap = false;
         } else if (tile && locked) {
