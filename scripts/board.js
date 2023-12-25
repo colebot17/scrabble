@@ -121,6 +121,7 @@ function setCanvasCursor(x, y) {
 
     if (!overObj) {
         canvas.c.style.cursor = 'default';
+        canvas.bankShuffleButton.hover = false;
         return overList;
     }
 
