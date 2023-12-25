@@ -238,7 +238,7 @@ function handleDocumentMouseUp(e) {
         const overObj = overList[overListCategories.indexOf("board")];
 
         if (canvas.lookingUp && overObj.tile?.locked) {
-            lookup(boardX, boardY, clientX, clientY);
+            lookup(overObj.x, overObj.y, clientX, clientY);
             canvas.lookingUp = false;
             return;
         };
@@ -250,14 +250,20 @@ function handleDocumentMouseUp(e) {
     // determine whether the tile has moved since touchdown (otherwise it has just been clicked)
     const stayedStill = dragged?.posHistory?.length === 1;
 
-    const onBoard = (x >= 0 && x <= canvas.c.width) && (y >= 0 && y <= canvas.c.width);
-    const onExistingTile = game.board?.[boardY]?.[boardX];
+    const onBoard = overListCategories.includes("board");
+
+    let overObj;
+    if (onBoard) {
+        overObj = overList[overListCategories.indexOf("board")];
+    }
+
+    const onExistingTile = onBoard && overObj?.tile;
 
     let sendPointsRequest = true;
 
     // only if the letter was moved to a free space on the board
     if (onBoard && !onExistingTile && !stayedStill && !game.inactive) {
-        addLetter(boardX, boardY, dragged.bankIndex, dragged.letter); // add the letter to the appropriate spot on the board
+        addLetter(overObj.x, overObj.y, dragged.bankIndex, dragged.letter); // add the letter to the appropriate spot on the board
     } else { // if the letter was dropped anywhere else or stayed still
 
         if (overListCategories.includes("bankDropZone")) {
