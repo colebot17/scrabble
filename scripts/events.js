@@ -137,7 +137,7 @@ function handleCanvasMouseDown(e) {
                 mouseOffset: {
                     x: overObj.x * (squareWidth + SQUARE_GAP) - x,
                     y: overObj.y * (squareWidth + SQUARE_GAP) - y
-                }
+                },
                 pixelX: x,
                 pixelY: y,
                 posHistory: [{x, y}]
