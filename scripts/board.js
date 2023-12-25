@@ -142,6 +142,9 @@ function setCanvasCursor(x, y) {
 
         if (overObj.category === "shuffleButton") {
             cursor = 'pointer';
+            canvas.bankShuffleButton.hover = true;
+        } else {
+            canvas.bankShuffleButton.hover = false;
         }
 
         if (overObj.category === "bankLetter") {
