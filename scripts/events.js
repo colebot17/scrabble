@@ -126,14 +126,6 @@ function handleCanvasMouseDown(e) {
                 bankIndex: tile.bankIndex,
                 blank: tile.blank,
                 letter: tile.letter,
-                // mouseOffest: {
-                //     x: (overObj.x - (x / (squareWidth + SQUARE_GAP))) * (squareWidth + SQUARE_GAP),
-                //     y: (overObj.y - (y / (squareWidth + SQUARE_GAP))) * (squareWidth + SQUARE_GAP)
-                // },
-                // mouseOffset: {
-                //     x: (boardX - (x / (squareWidth + SQUARE_GAP))) * (squareWidth + SQUARE_GAP),
-                //     y: (boardY - (y / (squareWidth + SQUARE_GAP))) * (squareWidth + SQUARE_GAP)
-                // },
                 mouseOffset: {
                     x: overObj.x * (squareWidth + SQUARE_GAP) - x,
                     y: overObj.y * (squareWidth + SQUARE_GAP) - y
