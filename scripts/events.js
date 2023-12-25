@@ -189,7 +189,7 @@ function handleCanvasMouseMove(e) {
     }
 
     // set the mouse cursor type and the expanded drop zones
-    const overList = setCanvasCursor(x, y);
+    const overList = e.type === 'touchmove' ? whatMouseIsOver(x, y) : setCanvasCursor(x, y);
     const overListCategories = getPropArray(overList, "category");
 
     if (dragged && overListCategories.includes("bankDropZone")) {

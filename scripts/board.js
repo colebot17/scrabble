@@ -119,6 +119,11 @@ function setCanvasCursor(x, y) {
     const overList = whatMouseIsOver(x, y);
     const overObj = overList[0];
 
+    if (!overObj) {
+        canvas.c.style.cursor = 'default';
+        return overList;
+    }
+
     // if the mouse isn't over anything, it should have a regular cursor
     let cursor = 'default';
 
