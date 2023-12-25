@@ -168,3 +168,11 @@ function nlList(array, beforeVal = "", afterVal = beforeVal) {
 function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+Number.prototype.isBetween = function(a, b, inclusive = false) {
+	if (inclusive) {
+		return (this >= a && this <= b) || (this <= a && this >= b);
+	} else {
+		return (this > a && this < b) || (this < a && this > b);
+	}
+}
