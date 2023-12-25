@@ -39,7 +39,7 @@ function handleCanvasMouseDown(e) {
     e.preventDefault();
 
 	// determine whether it is the current user's turn
-	const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
+	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
     // cancel if a popup is open
     if (visiblePopups.length > 0) {
