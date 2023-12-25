@@ -91,7 +91,7 @@ function whatMouseIsOver(x, y) {
     }
 
     // check the bank letters
-    for (let i = 0; i < canvas.bankOrder; i++) {
+    for (let i = 0; i < canvas.bankOrder.length; i++) {
         const canvasLetter = canvas.bank[canvas.bankOrder[i]];
 
         if (canvasLetter.hidden) continue;
@@ -104,7 +104,7 @@ function whatMouseIsOver(x, y) {
     }
 
     // check the bank drop zones
-    for (let i = 0; i < canvas.dropZones; i++) {
+    for (let i = 0; i < canvas.dropZones.length; i++) {
         const zone = canvas.dropZones[i];
         const inZone = x.isBetween(zone.start.x, zone.end.x) && y.isBetween(zone.start.y, zone.end.y);
         if (inZone) {
