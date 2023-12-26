@@ -733,6 +733,8 @@ function gameInit() {
 	document.getElementsByClassName('moreGameControls')[0].removeAttribute('open');
 
 	setCanvasSize();
+
+	setMoveButtonEnablement();
 }
 
 function getPlayerLastTurn() {
@@ -946,7 +948,7 @@ function moveBankLetter(from, to) {
 	// "from" and "to" are both ORDER indicies
 
 	// "from" represents the tile we are moving
-	// "to" represents the index before which we are moving
+	// "to" represents the index before which we are moving (aka the new index of the tile)
 
 	from = parseInt(from);
 	to = parseInt(to);
@@ -958,7 +960,7 @@ function moveBankLetter(from, to) {
 
 	// don't move the letter if from is the same as to
 	if (from === to) {
-		canvas.bank[from].hidden = false;
+		canvas.bank[canvas.bankOrder[from]].hidden = false;
 		return;
 	}
 
@@ -1141,6 +1143,8 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 	letter = letter[0].toUpperCase();
 
 	game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
+
+	boardUpdate();
 }
 
 function removeLetter(x, y) {
