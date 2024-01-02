@@ -1050,14 +1050,14 @@ function exchangeLetters() {
 			} else {
 				el.setAttribute('aria-pressed', !isSelected);
 				letterExchangeButton.textContent = `
-					${exchangeLetters.length > 0
+					${allSelected.length > 0
 						? `
 						Exchange ${
-							exchangeLetters.length >= bank.length
+							allSelected.length >= bank.length
 							? `All`
-							: exchangeLetters.length
+							: allSelected.length
 						} Letter${
-							exchangeLetters.length === 1
+							allSelected.length === 1
 							? ``
 							: `s`
 						} and `
