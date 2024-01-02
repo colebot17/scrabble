@@ -309,7 +309,8 @@ body.scrabble {
 
 /* email address warning */
 #emailAddressWarning {
-	color: var(--tile-brown);
+	color: var(--text-color-light);
+	margin-bottom: 0.75rem;
 }
 
 /* letter picker */
