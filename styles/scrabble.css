@@ -311,6 +311,7 @@ body.scrabble {
 #emailAddressWarning {
 	color: var(--text-color-light);
 	margin-bottom: 0.75rem;
+	text-wrap: balance;
 }
 
 /* letter picker */
