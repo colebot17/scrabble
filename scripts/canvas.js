@@ -212,6 +212,34 @@ function drawLetterBank() {
 
 		// if the game is active
 		if (!game.inactive) {
+			// draw the letter bag count
+			const lbcSize = titleSize * (2 / 3);
+			const lbcY = startY + lbcSize + 3;
+
+			canvas.ctx.font = lbcSize + "px Rubik";
+			const numberWidth = canvas.ctx.measureText(game.lettersLeft).width;
+
+			canvas.ctx.font = lbcSize + "px scrabble";
+			const iconWidth = canvas.ctx.measureText("\ue900").width;
+
+			const totalWidth = numberWidth + 5 + iconWidth;
+			
+			const lbcX = (canvasWidth / 2) - 90 + (lbcSize / 2);
+			const iconStartX = lbcX - totalWidth;
+			const numberStartX = lbcX - numberWidth;
+
+			canvas.ctx.font = lbcSize + "px scrabble";
+			canvas.ctx.fillStyle = textColor;
+			canvas.ctx.textAlign = "left";
+			canvas.ctx.textBaseline = "top";
+
+			canvas.ctx.fillText("\ue900", iconStartX, lbcY);
+
+			canvas.ctx.font = lbcSize + "px Rubik";
+			canvas.ctx.fillText(game.lettersLeft, numberStartX, lbcY);
+
+
+
 			// draw the bank shuffle button
 			const shuffleButtonX = (canvasWidth / 2) + 90;
 			const shuffleButtonY = startY + titleSize + 14;
@@ -228,6 +256,7 @@ function drawLetterBank() {
 			canvas.ctx.font = titleSize + "px Material Symbols Rounded";
 			canvas.ctx.fillStyle = textColor;
 			canvas.ctx.textAlign = "center";
+			canvas.ctx.textBaseline = "alphabetic";
 
 			canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
 			
@@ -570,9 +599,13 @@ function updateDisplay() {
 		return;
 	}
 
+	// draw the background for the board
 	drawBoard();
 	
-	drawLetterBank(game.letterBank);
+	// draw the title, shuffle button, and letter bank
+	drawLetterBank();
+
+	// draw each tile on the board
 	for (var y in game.board) {
 		for (var x in game.board[y]) {
 			if (game.board?.[y]?.[x]) {
