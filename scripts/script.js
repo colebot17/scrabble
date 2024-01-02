@@ -786,7 +786,7 @@ function makeMove() {
 
 			// once the game has been loaded, show a banner and highlight new letters
 			lgPromise.then(() => {
-				const bannerMessage = 'Your move has been made for ' + newPoints + ' point' + (newPoints === 1 ? '' : 's') + '. Tell ' + game.players[game.turn % game.players.length].name + ' that it\'s their turn!';
+				const bannerMessage = 'Your move has been made for ' + newPoints + ' point' + (newPoints === 1 ? '' : 's') + '. Tell <b>' + game.players[game.turn % game.players.length].name + '</b> that it\'s their turn!';
 				gameBanner(bannerMessage, getComputedStyle(document.documentElement).getPropertyValue('--highlight'));
 
 				for (let i = 0; i < res.data.newLetterIndices.length; i++) {
