@@ -724,6 +724,10 @@ function gameInit() {
 	endGameButton.style.cursor = (game.inactive ? 'not-allowed' : 'pointer');
 	endGameButton.title = (game.inactive ? 'The game is already over' : votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end');
 
+	// show the correct text for the skip turn / exchange letters button
+	const skipTurnButton = document.getElementById('skipTurnButton');
+	skipTurnButton.textContent = game.lettersLeft <= 0 ? 'Skip Turn' : 'Exchange Letters';
+
 	setTimeout(startChangeCheck, 3000);
 
 	chatInit();
