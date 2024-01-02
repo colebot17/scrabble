@@ -176,3 +176,18 @@ Number.prototype.isBetween = function(a, b, inclusive = false) {
 		return (this > a && this < b) || (this < a && this > b);
 	}
 }
+
+// Fisher-Yates Shuffle (https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array)
+function shuffleArr(a) {
+	let b=a.length,c;while(b!=0){c=Math.floor(Math.random()*b);b--;[a[b],a[c]]=[a[c],a[b]];}return a;
+}
+
+function temporaryTitle(title, callback) {
+    document.title = title;
+    document.addEventListener('visibilitychange', e => {
+        if (document.hidden === false) {
+            document.title = windowTitle;
+            callback();
+        };
+    });
+}
