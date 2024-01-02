@@ -212,6 +212,22 @@ function drawLetterBank() {
 
 		// if the game is active
 		if (!game.inactive) {
+			// draw the letter bag count
+			const lbcX = (canvasWidth / 2) - 90;
+			const lbcY = startY + titleSize + 14;
+			canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--selection-color');
+			canvas.ctx.beginPath();
+			canvas.ctx.arc(lbcX, lbcY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
+			canvas.ctx.fill();
+
+			canvas.ctx.font = titleSize + "px Material Symbols Rounded";
+			canvas.ctx.fillStyle = textColor;
+			canvas.ctx.textAlign = "center";
+
+			canvas.ctx.fillText("shopping_bag", lbcX, lbcY);
+
+
+
 			// draw the bank shuffle button
 			const shuffleButtonX = (canvasWidth / 2) + 90;
 			const shuffleButtonY = startY + titleSize + 14;
@@ -570,9 +586,13 @@ function updateDisplay() {
 		return;
 	}
 
+	// draw the background for the board
 	drawBoard();
 	
-	drawLetterBank(game.letterBank);
+	// draw the title, shuffle button, and letter bank
+	drawLetterBank();
+
+	// draw each tile on the board
 	for (var y in game.board) {
 		for (var x in game.board[y]) {
 			if (game.board?.[y]?.[x]) {
