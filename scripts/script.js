@@ -1049,31 +1049,24 @@ function exchangeLetters() {
 				);
 			} else {
 				el.setAttribute('aria-pressed', !isSelected);
+				letterExchangeButton.textContent = `
+					${exchangeLetters.length > 0
+						? `
+						Exchange ${
+							exchangeLetters.length >= bank.length
+							? `All`
+							: exchangeLetters.length
+						} Letter${
+							exchangeLetters.length === 1
+							? ``
+							: `s`
+						} and `
+						: ``
+					}Skip Turn
+				`;
 			}
 		});
 	}
-
-	
-	$(letterBank).children('.letter').on('click', function() {
-		const $this = $(this);
-		$this.attr('aria-pressed', $this.attr('aria-pressed') === 'true' ? 'false' : 'true');
-		let exchangeLetters = letterBank.querySelectorAll('[aria-pressed=true]');
-		letterExchangeButton.textContent = `
-			${exchangeLetters.length > 0
-				? `
-				Exchange ${
-					exchangeLetters.length >= bank.length
-					? `All`
-					: exchangeLetters.length
-				} Letter${
-					exchangeLetters.length === 1
-					? ``
-					: `s`
-				} and `
-				: ``
-			}Skip Turn
-		`;
-	});
 
 	$('#letterExchangeModal').modalOpen();
 }
