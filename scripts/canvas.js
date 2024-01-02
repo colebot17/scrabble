@@ -222,7 +222,7 @@ function drawLetterBank() {
 			canvas.ctx.font = lbcSize + "px Material Symbols Rounded";
 			const iconWidth = canvas.ctx.measureText("shopping_bag").width;
 
-			const totalWidth = numberWidth + 5 + iconWidth;
+			const totalWidth = numberWidth + 2 + iconWidth;
 			
 			const lbcX = (canvasWidth / 2) - 90 + (lbcSize / 2);
 			const iconStartX = lbcX - totalWidth;
