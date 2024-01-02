@@ -1018,7 +1018,13 @@ function exchangeLetters() {
 	// show the letter bank in the letter exchange modal
 	const letterBank = document.getElementById('letterExchangeBank');
 	letterBank.innerHTML = '';
-	const letterExchangeButton = document.getElementById('letterExchangeButton')
+
+	if (game.lettersLeft <= 0) {
+		skipTurn();
+		return;
+	}
+
+	const letterExchangeButton = document.getElementById('letterExchangeButton');
 	letterExchangeButton.innerText = 'Skip Turn';
 	let bank = game.players[parseInt(game.turn) % game.players.length].letterBank;
 	for (let i in canvas.bankOrder) {
@@ -1063,7 +1069,8 @@ function skipTurn() {
 
 	textModal(
 		`Skip Turn${letterExchanges.length > 0 ? ` and Exchange Letter${letterExchanges.length === 1 ? `` : `s`}` : ``}`,
-		`Are you sure you want to ${letterExchanges.length > 0 ? `exchange ${letterExchanges.length >= 7 ? `all ` : ``}${letterExchanges.length} letter${letterExchanges.length === 1 ? `` : `s`} and ` : ``}forfeit your turn?`,
+		`Are you sure you want to ${letterExchanges.length > 0 ? `exchange ${letterExchanges.length >= 7 ? `all ` : ``}${letterExchanges.length} letter${letterExchanges.length === 1 ? `` : `s`} and ` : ``}forfeit your turn?`
+		+ (game.lettersLeft <= 0 ? "<br><br>You cannot exchange any letters since there are no letters left in the bag." : ""),
 		{
 			cancelable: true,
 			complete: () => {
