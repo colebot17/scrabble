@@ -1,3 +1,9 @@
+:root {
+	--tile-brown: #a47449;
+	--tile-brown-transparent: #a47449cc;
+	--tile-text: #f2f5ff;
+}
+
 .winnerIcon {
 	font-size: 16px!important;
 }
@@ -173,8 +179,8 @@ body.scrabble {
     width: 55px;
     height: 55px;
     font-family: 'Eurostile';
-    background-color: #a47449cc; /* tile brown but transparent */
-    color: #f2f5ff; /* tile text color */
+    background-color: var(--tile-brown-transparent); /* tile brown but transparent */
+    color: var(--tile-text); /* tile text color */
 	border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -186,7 +192,7 @@ body.scrabble {
 	align-items: center;
 }
 .letter[aria-pressed=true] {
-	background-color: #a47449; /* tile brown */
+	background-color: var(--tile-brown); /* tile brown */
 	scale: 1.05;
 }
 .letterLetter {
@@ -301,6 +307,13 @@ body.scrabble {
 	flex-grow: 1;
 }
 
+/* email address warning */
+#emailAddressWarning {
+	color: var(--text-color-light);
+	margin-bottom: 0.75rem;
+	text-wrap: balance;
+}
+
 /* letter picker */
 #chooseLetterModal {
 	display: flex;
@@ -321,8 +334,8 @@ body.scrabble {
     text-align: center;
     text-transform: uppercase;
 
-    background-color: #a47449; /* tile brown */
-    color: #f2f5ff; /* tile text color */
+    background-color: var(--tile-brown);
+    color: var(--tile-text); /* tile text color */
 
     border: none;
     outline: none;

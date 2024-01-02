@@ -207,7 +207,13 @@
 			<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="return false;">
 				<h3 class="accountFormTitle">Create Account</h3>
 				<label for="createAccountUsername">Username:</label>
-				<input class="accountFormInput" autocomplete="username" type="text" name="username" id="createAccountUsername"><br>
+				<input class="accountFormInput" autocomplete="username" type="text" name="username" id="createAccountUsername" oninput="emailAddressCheck()"><br>
+
+				<div id="emailAddressWarning" class="hidden">
+					<span>
+						It looks like you entered an email address. This site doesn't collect your email address, so you can pick any username you'd like.
+					</span>
+				</div>
 
 				<label for="createAccountPwd">Password:</label>
 				<input class="accountFormInput" autocomplete="new-password" type="password" name="pwd" id="createAccountPwd"><br>

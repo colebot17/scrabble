@@ -123,6 +123,17 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 	});
 }
 
+function emailAddressCheck() {
+	const usernameField = document.getElementById('createAccountUsername');
+	const username = usernameField.value;
+	const isEmail = /.+\@.+\..+/gi.test(username);
+	if (isEmail) {
+		document.getElementById('emailAddressWarning').classList.remove('hidden');
+	} else {
+		document.getElementById('emailAddressWarning').classList.add('hidden');
+	}
+}
+
 function createAccount(name = $('#createAccountUsername').val(), pwd = $('#createAccountPwd').val(), confirmPwd = $('#createAccountConfirmPwd').val()) {
 	if (name.length < 3) {
 		alert("Name must be at least three characters long.");
