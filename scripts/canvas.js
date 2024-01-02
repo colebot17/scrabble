@@ -222,7 +222,7 @@ function drawLetterBank() {
 			canvas.ctx.font = lbcSize + "px scrabble";
 			const iconWidth = canvas.ctx.measureText("\ue900").width;
 
-			const totalWidth = numberWidth + 2 + iconWidth;
+			const totalWidth = numberWidth + 5 + iconWidth;
 			
 			const lbcX = (canvasWidth / 2) - 90 + (lbcSize / 2);
 			const iconStartX = lbcX - totalWidth;
