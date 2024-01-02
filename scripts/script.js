@@ -724,6 +724,10 @@ function gameInit() {
 	endGameButton.style.cursor = (game.inactive ? 'not-allowed' : 'pointer');
 	endGameButton.title = (game.inactive ? 'The game is already over' : votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end');
 
+	// show the correct text for the skip turn / exchange letters button
+	const skipTurnButton = document.getElementById('skipTurnButton');
+	skipTurnButton.textContent = game.lettersLeft <= 0 ? 'Skip Turn' : 'Exchange Letters';
+
 	setTimeout(startChangeCheck, 3000);
 
 	chatInit();
@@ -996,110 +1000,6 @@ function shuffleBank() {
 	}, animationTime);
 }
 
-function exchangeLetters() {
-	// do some preliminary checks
-	if (!account.id) {
-		textModal("Error", "You must be signed in to skip your turn.");
-		return;
-	}
-	if (!game) {
-		textModal("Error", "You must be in a game to skip your turn.");
-		return;
-	}
-	if (game.inactive) {
-		textModal("Error", "You cannot skip your turn in an inactive game.");
-		return;
-	}
-	if (game.players[parseInt(game.turn) % game.players.length].id != account.id) {
-		textModal("Error", "You cannot skip your turn when it is not your turn.");
-		return;
-	}
-
-	// show the letter bank in the letter exchange modal
-	const letterBank = document.getElementById('letterExchangeBank');
-	letterBank.innerHTML = '';
-	const letterExchangeButton = document.getElementById('letterExchangeButton')
-	letterExchangeButton.innerText = 'Skip Turn';
-	let bank = game.players[parseInt(game.turn) % game.players.length].letterBank;
-	for (let i in canvas.bankOrder) {
-		letterBank.innerHTML += /* html */ `
-			<button class='letter' data-bankindex='${canvas.bankOrder[i]}' aria-pressed='false'>
-				<span class='letterLetter'>${bank[canvas.bankOrder[i]] ? bank[canvas.bankOrder[i]] : ``}</span>
-				<span class='letterPoints'>${bank[canvas.bankOrder[i]] ? letterScores[bank[canvas.bankOrder[i]]] : ``}</span>
-			</button>
-		`;
-	}
-
-	
-	$(letterBank).children('.letter').on('click', function() {
-		const $this = $(this);
-		$this.attr('aria-pressed', $this.attr('aria-pressed') === 'true' ? 'false' : 'true');
-		let exchangeLetters = letterBank.querySelectorAll('[aria-pressed=true]');
-		letterExchangeButton.textContent = `
-			${exchangeLetters.length > 0
-				? `
-				Exchange ${
-					exchangeLetters.length >= bank.length
-					? `All`
-					: exchangeLetters.length
-				} Letter${
-					exchangeLetters.length === 1
-					? ``
-					: `s`
-				} and `
-				: ``
-			}Skip Turn
-		`;
-	});
-
-	$('#letterExchangeModal').modalOpen();
-}
-
-function skipTurn() {
-	let letterExchangeIndicies = [];
-	let letterExchanges = $('#letterExchangeBank').children('[aria-pressed=true]').each(function() {
-		letterExchangeIndicies.push($(this).attr('data-bankindex'));
-	});
-
-	textModal(
-		`Skip Turn${letterExchanges.length > 0 ? ` and Exchange Letter${letterExchanges.length === 1 ? `` : `s`}` : ``}`,
-		`Are you sure you want to ${letterExchanges.length > 0 ? `exchange ${letterExchanges.length >= 7 ? `all ` : ``}${letterExchanges.length} letter${letterExchanges.length === 1 ? `` : `s`} and ` : ``}forfeit your turn?`,
-		{
-			cancelable: true,
-			complete: () => {
-				$.ajax(
-					location + '/php/skipTurn.php',
-					{
-						data: {
-							user: account.id,
-							pwd: account.pwd,
-							game: game.id,
-							redrawLetters: JSON.stringify(letterExchangeIndicies)
-						},
-						method: "POST",
-						success: function(data) {
-							// var tab = window.open('about:blank', '_blank');
-							// tab.document.write(data);
-							let jsonData = JSON.parse(data);
-							if (jsonData.errorLevel <= 0) {
-								textModal((jsonData.status === 1 ? "Game Over!" : "Turn Skipped"), jsonData.message);
-								$('#letterExchangeModal').modalClose();
-								loadGame(game.id);
-								loadGamesList();
-							} else {
-								textModal("Error", jsonData.message);
-							}
-						},
-						error: function() {
-							console.error("Could not skip turn.");
-						}
-					}
-				);
-			}
-		}
-	);
-}
-
 function pickLetter(bankIndex, complete = function(letter) {}) {
 	let $letterPicker = $('#letterPicker');
 	$('#chooseLetterModal').modalOpen();
@@ -1153,30 +1053,17 @@ function removeLetter(x, y) {
 	game.board[y][x] = null;
 }
 
-function Tile(x, y, letter, bankIndex, blank, locked, pixelX, pixelY) {
-	this.x = x;
-	this.y = y;
-	this.letter = letter;
-	this.bankIndex = bankIndex;
-	this.blank = blank;
-	this.locked = locked;
-	if (pixelX || pixelY) {
-		this.pixelX = pixelX;
-		this.pixelY = pixelY;
+class Tile {
+	constructor(x, y, letter, bankIndex, blank, locked, pixelX, pixelY) {
+		this.x = x;
+		this.y = y;
+		this.letter = letter;
+		this.bankIndex = bankIndex;
+		this.blank = blank;
+		this.locked = locked;
+		if (pixelX || pixelY) {
+			this.pixelX = pixelX;
+			this.pixelY = pixelY;
+		}
 	}
-}
-
-// Fisher-Yates Shuffle (https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array)
-function shuffleArr(a) {
-	let b=a.length,c;while(b!=0){c=Math.floor(Math.random()*b);b--;[a[b],a[c]]=[a[c],a[b]];}return a;
-}
-
-function temporaryTitle(title, callback) {
-    document.title = title;
-    document.addEventListener('visibilitychange', e => {
-        if (document.hidden === false) {
-            document.title = windowTitle;
-            callback();
-        };
-    });
 }
