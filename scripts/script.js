@@ -1049,15 +1049,16 @@ function exchangeLetters() {
 				);
 			} else {
 				el.setAttribute('aria-pressed', !isSelected);
+				const newAllSelected = letterBank.querySelectorAll('[aria-pressed=true]');
 				letterExchangeButton.textContent = `
-					${allSelected.length > 0
+					${newAllSelected.length > 0
 						? `
 						Exchange ${
-							allSelected.length >= bank.length
+							newAllSelected.length >= bank.length
 							? `All`
-							: allSelected.length
+							: newAllSelected.length
 						} Letter${
-							allSelected.length === 1
+							newAllSelected.length === 1
 							? ``
 							: `s`
 						} and `
