@@ -213,13 +213,6 @@ function drawLetterBank() {
 		// if the game is active
 		if (!game.inactive) {
 			// draw the letter bag count
-			const lbcX = (canvasWidth / 2) - 90;
-			const lbcY = startY + titleSize + 14;
-			canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--selection-color');
-			canvas.ctx.beginPath();
-			canvas.ctx.arc(lbcX, lbcY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
-			canvas.ctx.fill();
-
 			canvas.ctx.font = titleSize + "px Material Symbols Rounded";
 			canvas.ctx.fillStyle = textColor;
 			canvas.ctx.textAlign = "center";
