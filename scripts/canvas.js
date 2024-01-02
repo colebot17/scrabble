@@ -214,7 +214,7 @@ function drawLetterBank() {
 		if (!game.inactive) {
 			// draw the letter bag count
 			const lbcSize = titleSize * (2 / 3);
-			const lbcY = startY + lbcSize + 14;
+			const lbcY = startY + lbcSize + 7;
 
 			canvas.ctx.font = lbcSize + "px Rubik";
 			const numberWidth = canvas.ctx.measureText(game.lettersLeft).width;
@@ -231,6 +231,7 @@ function drawLetterBank() {
 			canvas.ctx.font = lbcSize + "px Material Symbols Rounded";
 			canvas.ctx.fillStyle = textColor;
 			canvas.ctx.textAlign = "left";
+			canvas.ctx.textBaseline = "middle";
 
 			canvas.ctx.fillText("shopping_bag", iconStartX, lbcY);
 
@@ -255,6 +256,7 @@ function drawLetterBank() {
 			canvas.ctx.font = titleSize + "px Material Symbols Rounded";
 			canvas.ctx.fillStyle = textColor;
 			canvas.ctx.textAlign = "center";
+			canvas.ctx.textBaseline = "alphabetic";
 
 			canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
 			
