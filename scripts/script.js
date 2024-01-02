@@ -1036,6 +1036,23 @@ function exchangeLetters() {
 		`;
 	}
 
+	const letters = letterBank.children;
+	for (let el of letters) {
+		el.addEventListener('click', () => {
+			const isSelected = el.getAttribute('aria-pressed');
+			const allSelected = letterBank.querySelectorAll('[aria-pressed=true]');
+			if (!isSelected && allSelected.length >= game.lettersLeft) {
+				const plural = game.lettersLeft !== 1;
+				textModal(
+					'Max Letters Reached',
+					`There ${plural ? "are" : "is"} only ${game.lettersLeft} letter${plural ? "s" : ""} left in the bag. Deselect another letter before selecting this one.`
+				);
+			} else {
+				el.setAttribute('aria-pressed', !isSelected);
+			}
+		});
+	}
+
 	
 	$(letterBank).children('.letter').on('click', function() {
 		const $this = $(this);
