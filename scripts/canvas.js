@@ -224,7 +224,7 @@ function drawLetterBank() {
 
 			const totalWidth = numberWidth + 5 + iconWidth;
 			
-			const lbcX = (canvasWidth / 2) - 90 + ((titleSize / 2) + 5);
+			const lbcX = (canvasWidth / 2) - 90;
 			const iconStartX = lbcX - totalWidth;
 			const numberStartX = lbcX - numberWidth;
 
