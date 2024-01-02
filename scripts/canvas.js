@@ -214,7 +214,7 @@ function drawLetterBank() {
 		if (!game.inactive) {
 			// draw the letter bag count
 			const lbcSize = titleSize * (2 / 3);
-			const lbcY = startY + lbcSize + 18;
+			const lbcY = startY + lbcSize + 20;
 
 			canvas.ctx.font = lbcSize + "px Rubik";
 			const numberWidth = canvas.ctx.measureText(game.lettersLeft).width;
