@@ -1067,34 +1067,24 @@ function skipTurn() {
 		{
 			cancelable: true,
 			complete: () => {
-				$.ajax(
-					location + '/php/skipTurn.php',
-					{
-						data: {
-							user: account.id,
-							pwd: account.pwd,
-							game: game.id,
-							redrawLetters: JSON.stringify(letterExchangeIndicies)
-						},
-						method: "POST",
-						success: function(data) {
-							// var tab = window.open('about:blank', '_blank');
-							// tab.document.write(data);
-							let jsonData = JSON.parse(data);
-							if (jsonData.errorLevel <= 0) {
-								textModal((jsonData.status === 1 ? "Game Over!" : "Turn Skipped"), jsonData.message);
-								$('#letterExchangeModal').modalClose();
-								loadGame(game.id);
-								loadGamesList();
-							} else {
-								textModal("Error", jsonData.message);
-							}
-						},
-						error: function() {
-							console.error("Could not skip turn.");
-						}
+				request('skipTurn.php', {
+					user: account.id,
+					pwd: account.pwd,
+					game: game.id,
+					redrawLetters: JSON.stringify(letterExchangeIndicies)
+				}).then(res => {
+					if (res.errorLevel > 0) {
+						textModal("Error", res.message);
+						return;
 					}
-				);
+
+					textModal((res.status === 1 ? "Game Over!" : "Turn Skipped"), res.message);
+					$('#letterExchangeModal').modalClose();
+					loadGame(game.id);
+					loadGamesList();
+				}).catch(err =>{
+					throw new Error(err);
+				})
 			}
 		}
 	);
