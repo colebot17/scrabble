@@ -239,8 +239,8 @@ function drawLetterBank() {
 			canvas.ctx.fillText(game.lettersLeft, numberStartX, lbcY);
 
 			canvas.ctx.strokeStyle = "red";
-			canvas.ctx.strokeRect(iconStartX, lbcY, iconStartX + iconWidth, lbcY - lbcSise);
-			canvas.ctx.strokeRect(numberStartX, lbcY, numberStartX + iconWidth, lbcY - lbcSise);
+			canvas.ctx.strokeRect(iconStartX, lbcY, iconStartX + iconWidth, lbcY - lbcSize);
+			canvas.ctx.strokeRect(numberStartX, lbcY, numberStartX + iconWidth, lbcY - lbcSize);
 
 
 
