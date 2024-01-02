@@ -166,7 +166,7 @@ if (!$inactive && count($longBag) > 0) {
 		array_splice($longBag, $rand, 1);
 		$letterBag[$newLetter]--;
 		array_push($players[$currentPlayerIndex]['letterBank'], $newLetter);
-		array_push($newLettersList, count($players[$currentPlayerIndex]) - 1);
+		$newLettersList[] = count($players[$currentPlayerIndex]['letterBank']) - 1;
 		$bankIndex++;
 	}
 }
