@@ -126,7 +126,7 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 function emailAddressCheck() {
 	const usernameField = document.getElementById('createAccountUsername');
 	const username = usernameField.value;
-	const isEmail = /.+\@.+\..+/gi.test(username.trim());
+	const isEmail = /.+\@.+\..+/gi.test(username);
 	if (isEmail) {
 		document.getElementById('emailAddressWarning').classList.remove('hidden');
 	} else {
