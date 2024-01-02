@@ -473,6 +473,10 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		showTab('game');
 		gameInit();
 		if (updateHistory) updateGameHistoryState(game.id);
+
+		if (animation === "moveMade") {
+			gameBanner('Your move has been made. Tell ' + game.players[game.turn % game.players.length].name + ' that it\'s their turn!', getComputedStyle(document.documentElement).getPropertyValue('--highlight'));
+		}
 	}).catch(err => {
 		animationCleanup();
 		game.loadingId = undefined;
@@ -769,8 +773,9 @@ function makeMove() {
 		pwd: account.pwd
 	}).then(res => {
 		if (res.errorLevel === 0) {
-			loadGame(game.id);
+			loadGame(game.id, "moveMade");
 			loadGamesList();
+
 			if (res.status === 1) {
 				textModal("Game Over!", res.message);
 			}
@@ -779,7 +784,6 @@ function makeMove() {
 			for (let i = 0; i < res.data.newWords.length; i++) {
 				newPoints += res.data.newWords[i].points;
 			}
-
 			showPointsOverlay(account.id, newPoints);
 		} else {
 			textModal("Error", res.message);
