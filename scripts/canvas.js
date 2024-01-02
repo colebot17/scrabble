@@ -370,8 +370,8 @@ function drawLetterBank() {
 
 		// draw outline if highlighted
 		if (canvasLetter.highlight) {
-			canvas.ctx.fillStyle = 'var(--text-highlight)';
-			roundRect(canvas.ctx, x - 3, y - 3, tileWidth + 6, tileWidth + 6);
+			canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight');
+			roundRect(canvas.ctx, x - 3, y - 3, tileWidth + 6, tileWidth + 6, 8);
 		}
 
 		// draw tile
