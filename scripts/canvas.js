@@ -219,8 +219,8 @@ function drawLetterBank() {
 			canvas.ctx.font = lbcSize + "px Rubik";
 			const numberWidth = canvas.ctx.measureText(game.lettersLeft).width;
 
-			canvas.ctx.font = lbcSize + "px Material Symbols Rounded";
-			const iconWidth = canvas.ctx.measureText("shopping_bag").width;
+			canvas.ctx.font = lbcSize + "px scrabble";
+			const iconWidth = canvas.ctx.measureText("\ue900").width;
 
 			const totalWidth = numberWidth + 2 + iconWidth;
 			
@@ -228,12 +228,12 @@ function drawLetterBank() {
 			const iconStartX = lbcX - totalWidth;
 			const numberStartX = lbcX - numberWidth;
 
-			canvas.ctx.font = lbcSize + "px Material Symbols Rounded";
+			canvas.ctx.font = lbcSize + "px scrabble";
 			canvas.ctx.fillStyle = textColor;
 			canvas.ctx.textAlign = "left";
 			canvas.ctx.textBaseline = "bottom";
 
-			canvas.ctx.fillText("shopping_bag", iconStartX, lbcY);
+			canvas.ctx.fillText("\ue900", iconStartX, lbcY);
 
 			canvas.ctx.font = lbcSize + "px Rubik";
 			canvas.ctx.fillText(game.lettersLeft, numberStartX, lbcY);
