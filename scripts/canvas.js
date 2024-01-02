@@ -238,10 +238,6 @@ function drawLetterBank() {
 			canvas.ctx.font = lbcSize + "px Rubik";
 			canvas.ctx.fillText(game.lettersLeft, numberStartX, lbcY);
 
-			canvas.ctx.strokeStyle = "red";
-			canvas.ctx.strokeRect(iconStartX, lbcY - lbcSize, iconWidth, lbcSize);
-			canvas.ctx.strokeRect(numberStartX, lbcY - lbcSize, numberWidth, lbcSize);
-
 
 
 			// draw the bank shuffle button
