@@ -231,7 +231,7 @@ function drawLetterBank() {
 			canvas.ctx.font = lbcSize + "px scrabble";
 			canvas.ctx.fillStyle = textColor;
 			canvas.ctx.textAlign = "left";
-			canvas.ctx.textBaseline = "bottom";
+			canvas.ctx.textBaseline = "alphabetic";
 
 			canvas.ctx.fillText("\ue900", iconStartX, lbcY);
 
