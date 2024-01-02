@@ -472,11 +472,8 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 
 		showTab('game');
 		gameInit();
-		if (updateHistory) updateGameHistoryState(game.id);
 
-		if (animation === "moveMade") {
-			gameBanner('Your move has been made. Tell ' + game.players[game.turn % game.players.length].name + ' that it\'s their turn!', getComputedStyle(document.documentElement).getPropertyValue('--highlight'));
-		}
+		if (updateHistory) updateGameHistoryState(game.id);
 	}).catch(err => {
 		animationCleanup();
 		game.loadingId = undefined;
@@ -773,18 +770,30 @@ function makeMove() {
 		pwd: account.pwd
 	}).then(res => {
 		if (res.errorLevel === 0) {
-			loadGame(game.id, "moveMade");
+			const lgPromise = loadGame(game.id, "moveMade");
 			loadGamesList();
 
 			if (res.status === 1) {
 				textModal("Game Over!", res.message);
 			}
 
+			// calculate and display the new points
 			let newPoints = 0;
 			for (let i = 0; i < res.data.newWords.length; i++) {
 				newPoints += res.data.newWords[i].points;
 			}
 			showPointsOverlay(account.id, newPoints);
+
+			// once the game has been loaded, show a banner and highlight new letters
+			lgPromise.then(() => {
+				const bannerMessage = 'Your move has been made for ' + newPoints + 'point' + (newPoints === 1 ? '' : 's') + '. Tell ' + game.players[game.turn % game.players.length].name + ' that it\'s their turn!';
+				gameBanner(bannerMessage, getComputedStyle(document.documentElement).getPropertyValue('--highlight'));
+
+				for (let i = 0; i < res.data.newLetterIndices.length; i++) {
+					const canvasLetter = canvas.bank.find(a => a.bankIndex === res.data.newLetterIndices[i]);
+					canvasLetter.highlight = true;
+				}
+			});
 		} else {
 			textModal("Error", res.message);
 		}

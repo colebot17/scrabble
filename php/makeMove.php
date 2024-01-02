@@ -154,6 +154,8 @@ for ($i=0; $i < count($words); $i++) {
 }
 $players[$currentPlayerIndex]['points'] = $players[$currentPlayerIndex]['points'] + $pointsSum;
 
+$newLettersList = Array();
+
 // if the game is not ending and there is at least one letter in the bag
 if (!$inactive && count($longBag) > 0) {
 	// fill the player's letter bank until it is full or the bag is empty
@@ -164,6 +166,7 @@ if (!$inactive && count($longBag) > 0) {
 		array_splice($longBag, $rand, 1);
 		$letterBag[$newLetter]--;
 		array_push($players[$currentPlayerIndex]['letterBank'], $newLetter);
+		array_push($newLettersList, count($players[$currentPlayerIndex]) - 1);
 		$bankIndex++;
 	}
 }
@@ -251,7 +254,8 @@ $response = Array(
 	"status" => ($inactive ? 1 : 0),
 	"message" => "Your move has been recorded" . ($inactive ? " and the game has ended. Good job!" : "."),
 	"data" => Array(
-		"newWords" => $newWordsList
+		"newWords" => $newWordsList,
+		"newLetterIndices" => $newLettersList
 	)
 );
 echo json_encode($response);
