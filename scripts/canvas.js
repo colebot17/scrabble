@@ -368,6 +368,12 @@ function drawLetterBank() {
 		// after calculating, increase the current gap space
 		currentGapSpace += (minTileGap + (canvasLetter.extraGapAfter * extraTileGap));
 
+		// draw outline if highlighted
+		if (canvasLetter.highlight) {
+			canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight');
+			roundRect(canvas.ctx, x - 3, y - 3, tileWidth + 6, tileWidth + 6, 8);
+		}
+
 		// draw tile
 		canvas.ctx.fillStyle = "#a47449"; // tile brown
 		roundRect(canvas.ctx, x, y, tileWidth, tileWidth);
