@@ -301,5 +301,8 @@ function handleDocumentMouseUp(e) {
 }
 
 function handleDocumentKeyPress(e) {
-    console.log(e.key);
+    // get the mouse position
+
+
+    console.log(e);
 }
