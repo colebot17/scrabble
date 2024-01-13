@@ -11,6 +11,8 @@ function addHandlers() {
     
     document.addEventListener('mouseup', handleDocumentMouseUp);
     document.addEventListener('touchend', handleDocumentMouseUp);
+
+    document.addEventListener('keypress', handleDocumentKeyPress);
 }
 function removeHandlers() {
     const canvas = document.getElementById('scrabbleCanvas');
@@ -25,6 +27,8 @@ function removeHandlers() {
     
     document.removeEventListener('mouseup', handleDocumentMouseUp);
     document.removeEventListener('touchend', handleDocumentMouseUp);
+
+    document.removeEventListener('keypress', handleDocumentKeyPress);
 }
 
 // define constants
@@ -294,4 +298,8 @@ function handleDocumentMouseUp(e) {
     if (sendPointsRequest) checkPoints();
     
     dragged = undefined; // remove the dragged tile
+}
+
+function handleDocumentKeyPress(e) {
+    console.log(e.key);
 }
