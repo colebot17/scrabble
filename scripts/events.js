@@ -200,6 +200,8 @@ function handleCanvasMouseMove(e) {
     const overList = e.type === 'touchmove' ? whatMouseIsOver(x, y) : setCanvasCursor(x, y);
     const overListCategories = getPropArray(overList, "category");
 
+    canvas.overList = overList; // store this for use in places that may not have access to the mouse cursor
+
     if (dragged && overListCategories.includes("bankDropZone")) {
         let dropZone = overList[overListCategories.indexOf("bankDropZone")].zoneIndex;
         setExpandedDropZone(dropZone);
@@ -303,6 +305,7 @@ function handleDocumentMouseUp(e) {
 function handleDocumentKeyPress(e) {
     // get the mouse position
 
+    if (!canvas.overList) return;
 
-    console.log(e);
+    console.log(canvas.overList);
 }
