@@ -380,6 +380,9 @@ function handleDocumentKeyPress(e) {
 
     const tile = game.board[overItem.y + yAmount][overItem.x + xAmount];
 
+    // abort if we are about to modify a locked tile
+    if (tile && tile.locked) return;
+
     // show the letter that used to be there back in the bank
     if (tile) {
         canvas.bank.find(a => a.bankIndex === tile.bankIndex).hidden = false;
