@@ -351,7 +351,7 @@ function handleDocumentKeyPress(e) {
         }
     }
 
-    const tile = game.board[overItem.tile.y + yAmount][overItem.tile.x + xAmount];
+    const tile = game.board[overItem.y + yAmount][overItem.x + xAmount];
 
     // show the letter that used to be there back in the bank
     if (tile) {
