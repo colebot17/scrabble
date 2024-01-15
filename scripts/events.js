@@ -303,6 +303,8 @@ function handleDocumentMouseUp(e) {
 }
 
 function handleDocumentKeyPress(e) {
+    if (document.activeElement) return; // cancel if anything else is trying to accept text
+
     if (!canvas.overList) return;
 
     const overItem = canvas.overList.find(a => a.category === 'board');
