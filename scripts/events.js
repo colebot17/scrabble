@@ -315,8 +315,6 @@ function handleDocumentKeyPress(e) {
     const bankItem = canvas.bank.find(a => a.letter.toUpperCase() === letter && a.hidden === false);
     if (!bankItem) return;
 
-    console.log(letter, overItem.x, overItem.y);
-
     // show the letter that used to be there back in the bank
     if (overItem.tile) {
         canvas.bank.find(a => a.bankIndex === overItem.tile.bankIndex).hidden = false;
