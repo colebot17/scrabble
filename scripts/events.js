@@ -401,5 +401,6 @@ function handleDocumentKeyPress(e) {
         overItem.tile = newTile;
     }
 
+    canvas.pointsPreview = false;
     checkPoints();
 }
