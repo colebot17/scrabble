@@ -327,6 +327,7 @@ function handleDocumentKeyPress(e) {
     if (overItem.tile) {
         const tx = overItem.tile.x;
         const ty = overItem.tile.y;
+        const l = overItem.tile.locked;
 
         const blockedBelow = game.board[ty + 1]?.[tx]?.locked;
         const blockedRight = game.board[ty]?.[tx + 1]?.locked;
@@ -334,14 +335,19 @@ function handleDocumentKeyPress(e) {
         const emptyAbove = !game.board[ty - 1][tx];
         const emptyLeft = !game.board[ty][tx - 1];
 
-        if (!emptyLeft && !blockedRight) {
+        const horizontal = !emptyLeft && !blockedRight;
+        const vertical = !emptyAbove && !blockedBelow;
+
+        const dir = "x";
+
+        if ((!locked && horizontal) || (locked && vertical)) {
             // scan to the right
             let next = game.board[ty][tx + xAmount];
             while (tx + xAmount < 14 && (next)) {
                 xAmount += 1;
                 next = game.board[ty][tx + xAmount];
             }
-        } else if (!emptyAbove && !blockedBelow) {
+        } else if ((!locked && vertical) || (locked && horizontal)) {
             // scan downwards
             let next = game.board[ty + yAmount]?.[tx];
             while (ty + yAmount < 14 && (next)) {
