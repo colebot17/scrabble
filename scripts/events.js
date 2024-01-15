@@ -12,7 +12,7 @@ function addHandlers() {
     document.addEventListener('mouseup', handleDocumentMouseUp);
     document.addEventListener('touchend', handleDocumentMouseUp);
 
-    document.addEventListener('keypress', handleDocumentKeyPress);
+    document.getElementById('scrabbleGrid').addEventListener('keypress', handleGridKeyPress);
 }
 function removeHandlers() {
     const canvas = document.getElementById('scrabbleCanvas');
@@ -28,7 +28,7 @@ function removeHandlers() {
     document.removeEventListener('mouseup', handleDocumentMouseUp);
     document.removeEventListener('touchend', handleDocumentMouseUp);
 
-    document.removeEventListener('keypress', handleDocumentKeyPress);
+    document.getElementById('scrabbleGrid').removeEventListener('keypress', handleGridKeyPress);
 }
 
 // define constants
@@ -302,7 +302,7 @@ function handleDocumentMouseUp(e) {
     dragged = undefined; // remove the dragged tile
 }
 
-function handleDocumentKeyPress(e) {
+function handleGridKeyPress(e) {
     if (!canvas.overList) return;
 
     const overItem = canvas.overList.find(a => a.category === 'board');
