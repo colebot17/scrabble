@@ -342,12 +342,12 @@ function handleDocumentKeyPress(e) {
             // use the one with the fewest blocked tiles in the path
             
             let hBlocks = 0;
-            while (game.board[ty][tx + hBlocks]?.locked) {
+            while (game.board[ty][tx + hBlocks + 1]?.locked) {
                 hBlocks += 1;
             }
 
             let vBlocks = 0;
-            while (game.board[ty + vBlocks]?.[tx]?.locked) {
+            while (game.board[ty + vBlocks + 1]?.[tx]?.locked) {
                 vBlocks += 1;
             }
 
