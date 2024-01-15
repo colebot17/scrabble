@@ -338,14 +338,14 @@ function handleDocumentKeyPress(e) {
         if (!emptyLeft && !blockedRight) {
             // scan to the right
             let next = game.board[ty][tx + xAmount];
-            while (next && !next.locked) {
+            while (!next || !next.locked) {
                 xAmount += 1;
                 next = game.board[ty][tx + xAmount];
             }
         } else if (!emptyAbove && !blockedBelow) {
             // scan downwards
             let next = game.board[ty + yAmount][tx];
-            while (next && !next.locked) {
+            while (!next || !next.locked) {
                 yAmount += 1;
                 next = game.board[ty + yAmount][tx];
             }
