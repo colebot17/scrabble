@@ -327,7 +327,7 @@ function handleDocumentKeyPress(e) {
     if (overItem.tile) {
         const tx = overItem.tile.x;
         const ty = overItem.tile.y;
-        const l = overItem.tile.locked;
+        const locked = overItem.tile.locked;
 
         const blockedBelow = game.board[ty + 1]?.[tx]?.locked;
         const blockedRight = game.board[ty]?.[tx + 1]?.locked;
