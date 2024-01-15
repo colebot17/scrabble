@@ -329,29 +329,25 @@ function handleDocumentKeyPress(e) {
         const tx = overItem.tile.x;
         const ty = overItem.tile.y;
 
-        const openBelow = !game.board[ty + 1][tx];
-        const openRight = !game.board[ty][tx + 1];
+        const blockedBelow = game.board[ty + 1]?.[tx]?.locked;
+        const blockedRight = game.board[ty]?.[tx + 1]?.locked;
 
         const emptyAbove = !game.board[ty - 1][tx];
         const emptyLeft = !game.board[ty][tx - 1];
 
-        if (!emptyLeft && emptyRight) {
+        if (!emptyLeft && !blockedRight) {
             // scan to the right
-            while (game.board[ty][tx + xAmount]) {
+            let next = game.board[ty][tx + xAmount];
+            while (next && !next.locked) {
                 xAmount += 1;
-                if (xAmount >= 15) { // check for the edge
-                    xAmount = 0;
-                    break;
-                }
+                next = game.board[ty][tx + xAmount];
             }
-        } else if (!emptyAbove && openBelow) {
+        } else if (!emptyAbove && !blockedBelow) {
             // scan downwards
-            while (game.board[ty + yAmount][tx]) {
+            let next = game.board[ty + yAmount][tx];
+            while (next && !next.locked) {
                 yAmount += 1;
-                if (yAmount >= 15) { // check for the edge
-                    yAmount = 0;
-                    break;
-                }
+                next = game.board[ty + yAmount][tx];
             }
         }
     }
