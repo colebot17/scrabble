@@ -335,10 +335,13 @@ function handleDocumentKeyPress(e) {
         const blockedAbove = game.board[ty - 1]?.[tx]?.locked;
         const blockedLeft = game.board[ty]?.[tx - 1]?.locked;
 
-        let horizontal = blockedLeft || blockedRight;
-        let vertical = blockedAbove || blockedBelow;
+        const horizontal = blockedLeft || blockedRight;
+        const vertical = blockedAbove || blockedBelow;
 
-        if (horizontal && vertical) {
+        let useH = (!locked && horizontal) || (locked && vertical);
+        let useV = (!locked && vertical) || (locked && horizontal);
+
+        if (useH && useV) {
             // use the one with the fewest blocked tiles in the path
             
             let hBlocks = 0;
@@ -352,20 +355,20 @@ function handleDocumentKeyPress(e) {
             }
 
             if (vBlocks >= hBlocks) {
-                vertical = false;
+                useV = false;
             } else {
-                horizontal = false;
+                useH = false;
             }
         }
 
-        if ((!locked && horizontal) || (locked && vertical)) {
+        if (useH) {
             // scan to the right
             let next = game.board[ty][tx + xAmount];
             while (tx + xAmount < 14 && (next)) {
                 xAmount += 1;
                 next = game.board[ty][tx + xAmount];
             }
-        } else if ((!locked && vertical) || (locked && horizontal)) {
+        } else if (useV) {
             // scan downwards
             let next = game.board[ty + yAmount]?.[tx];
             while (ty + yAmount < 14 && (next)) {
