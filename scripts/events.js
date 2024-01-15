@@ -315,6 +315,48 @@ function handleDocumentKeyPress(e) {
     const bankItem = canvas.bank.find(a => a.letter.toUpperCase() === letter && a.hidden === false);
     if (!bankItem) return;
 
+
+    // at this point we know that we can add the letter to the board
+    // it is now all about where we want to place it
+    // if the space is empty, place it there
+    // otherwise, try to place it forwards
+
+    let axis = "x";
+    let xAmount = 0;
+    let yAmount = 0;
+
+    if (overItem.tile) {
+        const tx = overItem.tile.x;
+        const ty = overItem.tile.y;
+
+        const openBelow = !game.board[ty + 1][tx];
+        const openRight = !game.board[ty][tx + 1];
+
+        const emptyAbove = !game.board[ty - 1][tx];
+        const emptyLeft = !game.board[ty][tx - 1];
+
+        if (!emptyLeft && emptyRight) {
+            // scan to the right
+            while (game.board[ty][tx + xAmount]) {
+                xAmount += 1;
+                if (xAmount >= 15) { // check for the edge
+                    xAmount = 0;
+                    break;
+                }
+            }
+        } else if (!emptyAbove && openBelow) {
+            // scan downwards
+            while (game.board[ty + yAmount][tx]) {
+                yAmount += 1;
+                if (yAmount >= 15) { // check for the edge
+                    yAmount = 0;
+                    break;
+                }
+            }
+        }
+    }
+
+
     // show the letter that used to be there back in the bank
     if (overItem.tile) {
         canvas.bank.find(a => a.bankIndex === overItem.tile.bankIndex).hidden = false;
@@ -324,7 +366,7 @@ function handleDocumentKeyPress(e) {
     canvas.bank.find(a => a.bankIndex === bankItem.bankIndex).hidden = true;
 
     // add the letter to the board
-    overItem.tile = addLetter(overItem.x, overItem.y, bankItem.bankIndex, letter);
+    overItem.tile = addLetter(overItem.x + xAmount, overItem.y + yAmount, bankItem.bankIndex, letter);
 
-    checkPoints();
+    //checkPoints();
 }
