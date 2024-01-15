@@ -351,10 +351,10 @@ function handleDocumentKeyPress(e) {
                 vBlocks += 1;
             }
 
-            if (vBlocks > hBlocks) {
-                horizontal = false;
-            } else {
+            if (vBlocks >= hBlocks) {
                 vertical = false;
+            } else {
+                horizontal = false;
             }
         }
 
