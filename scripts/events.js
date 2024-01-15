@@ -343,10 +343,10 @@ function handleDocumentKeyPress(e) {
             }
         } else if (!emptyAbove && !blockedBelow) {
             // scan downwards
-            let next = game.board[ty + yAmount][tx];
+            let next = game.board[ty + yAmount]?.[tx];
             while (!next || !next.locked) {
                 yAmount += 1;
-                next = game.board[ty + yAmount][tx];
+                next = game.board[ty + yAmount]?.[tx];
             }
         }
     }
