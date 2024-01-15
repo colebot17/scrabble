@@ -318,7 +318,9 @@ function handleDocumentKeyPress(e) {
     console.log(letter, overItem.x, overItem.y);
 
     // show the letter that used to be there back in the bank
-    canvas.bank.find(a => a.bankIndex === overItem.tile.bankIndex).hidden = false;
+    if (overItem.tile) {
+        canvas.bank.find(a => a.bankIndex === overItem.tile.bankIndex).hidden = false;
+    }
 
     // hide the letter from the canvas bank
     canvas.bank.find(a => a.bankIndex === bankIndex).hidden = true;
