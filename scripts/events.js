@@ -316,4 +316,11 @@ function handleDocumentKeyPress(e) {
     if (bankIndex < 0) return;
 
     console.log(letter, overItem.x, overItem.y);
+
+
+    // hide the letter from the canvas bank
+    canvas.bank.find(a => a.bankIndex === bankIndex).hidden = true;
+
+    // add the letter to the board
+    addLetter(overItem.x, overItem.y, bankIndex, letter);
 }
