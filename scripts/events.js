@@ -312,7 +312,7 @@ function handleDocumentKeyPress(e) {
     const letter = e.key.toUpperCase();
     if (!["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"].includes(letter)) return;
 
-    const bankIndex = game.players[game.currentPlayerIndex].letterBank.indexOf(letter);
+    const bankIndex = canvas.bank.find(a => a.letter.toUpperCase() === letter && a.hidden === false).bankIndex;
     if (bankIndex < 0) return;
 
     console.log(letter, overItem.x, overItem.y);
