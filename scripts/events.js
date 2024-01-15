@@ -306,13 +306,16 @@ function handleDocumentKeyPress(e) {
     if (!canvas.overList) return;
 
     const overItem = canvas.overList.find(a => a.category === 'board');
+    console.log(overItem);
     if (!overItem) return;
     if (overItem.tile && overItem.tile.locked) return;
 
     const letter = e.key.toUpperCase();
+    console.log(letter);
     if (!["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"].contains(letter)) return;
 
     const bankIndex = game.players[currentPlayerIndex].letterBank.getIndexOf(letter);
+    console.log(bankIndex);
     if (bankIndex < 0) return;
 
     console.log(letter, overItem.x, overItem.y);
