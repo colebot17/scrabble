@@ -303,7 +303,7 @@ function handleDocumentMouseUp(e) {
 }
 
 function handleDocumentKeyPress(e) {
-    if (document.activeElement) return; // cancel if anything else is trying to accept text
+    if (document.activeElement !== document.body) return; // cancel if anything else is trying to accept text
 
     if (!canvas.overList) return;
 
@@ -401,5 +401,5 @@ function handleDocumentKeyPress(e) {
         overItem.tile = newTile;
     }
 
-    //checkPoints();
+    checkPoints();
 }
