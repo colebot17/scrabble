@@ -335,8 +335,28 @@ function handleDocumentKeyPress(e) {
         const blockedAbove = game.board[ty - 1]?.[tx]?.locked;
         const blockedLeft = game.board[ty]?.[tx - 1]?.locked;
 
-        const horizontal = blockedLeft || blockedRight;
-        const vertical = blockedAbove || blockedBelow;
+        let horizontal = blockedLeft || blockedRight;
+        let vertical = blockedAbove || blockedBelow;
+
+        if (horizontal && vertical) {
+            // use the one with the fewest blocked tiles in the path
+            
+            let hBlocks = 0;
+            while (game.board[ty][tx + hBlocks]?.locked) {
+                hBlocks += 1;
+            }
+
+            let vBlocks = 0;
+            while (game.board[ty + vBlocks]?.[tx]?.locked) {
+                vBlocks += 1;
+            }
+
+            if (vBlocks > hBlocks) {
+                horizontal = false;
+            } else {
+                vertical = false;
+            }
+        }
 
         if ((!locked && horizontal) || (locked && vertical)) {
             // scan to the right
