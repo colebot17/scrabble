@@ -303,9 +303,17 @@ function handleDocumentMouseUp(e) {
 }
 
 function handleDocumentKeyPress(e) {
-    // get the mouse position
-
     if (!canvas.overList) return;
 
-    console.log(canvas.overList);
+    const overItem = canvas.overList.find(a => a.category === 'board');
+    if (!overItem) return;
+    if (overItem.tile && overItem.tile.locked) return;
+
+    const letter = e.key.toUpperCase();
+    if (!["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"].contains(letter)) return;
+
+    const bankIndex = game.players[currentPlayerIndex].letterBank.getIndexOf(letter);
+    if (bankIndex < 0) return;
+
+    console.log(letter, overItem.x, overItem.y);
 }
