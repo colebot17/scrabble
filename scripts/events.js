@@ -312,8 +312,8 @@ function handleDocumentKeyPress(e) {
     const letter = e.key.toUpperCase();
     if (!["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"].includes(letter)) return;
 
-    const bankIndex = canvas.bank.find(a => a.letter.toUpperCase() === letter && a.hidden === false)?.bankIndex;
-    if (bankIndex < 0) return;
+    const bankItem = canvas.bank.find(a => a.letter.toUpperCase() === letter && a.hidden === false);
+    if (!bankItem) return;
 
     console.log(letter, overItem.x, overItem.y);
 
@@ -323,8 +323,8 @@ function handleDocumentKeyPress(e) {
     }
 
     // hide the letter from the canvas bank
-    canvas.bank.find(a => a.bankIndex === bankIndex).hidden = true;
+    canvas.bank.find(a => a.bankIndex === bankItem.bankIndex).hidden = true;
 
     // add the letter to the board
-    addLetter(overItem.x, overItem.y, bankIndex, letter);
+    addLetter(overItem.x, overItem.y, bankItem.bankIndex, letter);
 }
