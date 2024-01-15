@@ -321,7 +321,6 @@ function handleDocumentKeyPress(e) {
     // if the space is empty, place it there
     // otherwise, try to place it forwards
 
-    let axis = "x";
     let xAmount = 0;
     let yAmount = 0;
 
@@ -352,17 +351,23 @@ function handleDocumentKeyPress(e) {
         }
     }
 
+    const tile = game.board[overItem.tile.y + yAmount][overItem.tile.x + xAmount];
 
     // show the letter that used to be there back in the bank
-    if (overItem.tile) {
-        canvas.bank.find(a => a.bankIndex === overItem.tile.bankIndex).hidden = false;
+    if (tile) {
+        canvas.bank.find(a => a.bankIndex === tile.bankIndex).hidden = false;
     }
 
     // hide the letter from the canvas bank
     canvas.bank.find(a => a.bankIndex === bankItem.bankIndex).hidden = true;
 
     // add the letter to the board
-    overItem.tile = addLetter(overItem.x + xAmount, overItem.y + yAmount, bankItem.bankIndex, letter);
+    const newTile = addLetter(overItem.x + xAmount, overItem.y + yAmount, bankItem.bankIndex, letter);
+
+    // store the tile in the overItem if we are still at zero offset
+    if (xAmount === 0 && yAmount === 0) {
+        overItem.tile = newTile;
+    }
 
     //checkPoints();
 }
