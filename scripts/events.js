@@ -363,6 +363,26 @@ function handleDocumentKeyPress(e) {
             }
         }
 
+        if (!useH && !useV) {
+            // use the one closest to the next blocked tile
+
+            let hSpaces = 0;
+            while (!game.board[ty][tx + hSpaces + 1]) {
+                hSpaces += 1;
+            }
+
+            let vSpaces = 0;
+            while (game.board[ty + vSpaces + 1] && !game.board[ty + vSpaces + 1][tx]) {
+                vSpaces += 1;
+            }
+
+            if (vSpaces >= hSpaces) {
+                useH = true;
+            } else {
+                useV = true;
+            }
+        }
+
         if (useH) {
             // scan to the right
             let next = game.board[ty][tx + xAmount];
