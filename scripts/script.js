@@ -1058,6 +1058,8 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 	game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
 
 	boardUpdate();
+
+	return game.board[y][x];
 }
 
 function removeLetter(x, y) {

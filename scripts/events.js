@@ -324,7 +324,7 @@ function handleDocumentKeyPress(e) {
     canvas.bank.find(a => a.bankIndex === bankItem.bankIndex).hidden = true;
 
     // add the letter to the board
-    addLetter(overItem.x, overItem.y, bankItem.bankIndex, letter);
+    overItem.tile = addLetter(overItem.x, overItem.y, bankItem.bankIndex, letter);
 
     checkPoints();
 }
