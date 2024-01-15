@@ -314,7 +314,7 @@ function handleDocumentKeyPress(e) {
     console.log(letter);
     if (!["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"].includes(letter)) return;
 
-    const bankIndex = game.players[currentPlayerIndex].letterBank.getIndexOf(letter);
+    const bankIndex = game.players[game.currentPlayerIndex].letterBank.getIndexOf(letter);
     console.log(bankIndex);
     if (bankIndex < 0) return;
 
