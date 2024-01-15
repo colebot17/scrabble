@@ -11,6 +11,8 @@ function addHandlers() {
     
     document.addEventListener('mouseup', handleDocumentMouseUp);
     document.addEventListener('touchend', handleDocumentMouseUp);
+
+    document.addEventListener('keypress', handleDocumentKeyPress);
 }
 function removeHandlers() {
     const canvas = document.getElementById('scrabbleCanvas');
@@ -25,6 +27,8 @@ function removeHandlers() {
     
     document.removeEventListener('mouseup', handleDocumentMouseUp);
     document.removeEventListener('touchend', handleDocumentMouseUp);
+
+    document.removeEventListener('keypress', handleDocumentKeyPress);
 }
 
 // define constants
@@ -196,6 +200,8 @@ function handleCanvasMouseMove(e) {
     const overList = e.type === 'touchmove' ? whatMouseIsOver(x, y) : setCanvasCursor(x, y);
     const overListCategories = getPropArray(overList, "category");
 
+    canvas.overList = overList; // store this for use in places that may not have access to the mouse cursor
+
     if (dragged && overListCategories.includes("bankDropZone")) {
         let dropZone = overList[overListCategories.indexOf("bankDropZone")].zoneIndex;
         setExpandedDropZone(dropZone);
@@ -294,4 +300,104 @@ function handleDocumentMouseUp(e) {
     if (sendPointsRequest) checkPoints();
     
     dragged = undefined; // remove the dragged tile
+}
+
+function handleDocumentKeyPress(e) {
+    if (!canvas.overList) return;
+
+    const overItem = canvas.overList.find(a => a.category === 'board');
+    if (!overItem) return;
+    //if (overItem.tile && overItem.tile.locked) return;
+
+    const letter = e.key.toUpperCase();
+    if (!["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"].includes(letter)) return;
+
+    const bankItem = canvas.bank.find(a => a.letter.toUpperCase() === letter && a.hidden === false);
+    if (!bankItem) return;
+
+
+    // at this point we know that we can add the letter to the board
+    // it is now all about where we want to place it
+    // if the space is empty, place it there
+    // otherwise, try to place it forwards
+
+    let xAmount = 0;
+    let yAmount = 0;
+
+    if (overItem.tile) {
+        const tx = overItem.tile.x;
+        const ty = overItem.tile.y;
+        const locked = overItem.tile.locked;
+
+        const blockedBelow = game.board[ty + 1]?.[tx]?.locked;
+        const blockedRight = game.board[ty]?.[tx + 1]?.locked;
+
+        const blockedAbove = game.board[ty - 1]?.[tx]?.locked;
+        const blockedLeft = game.board[ty]?.[tx - 1]?.locked;
+
+        const horizontal = blockedLeft || blockedRight;
+        const vertical = blockedAbove || blockedBelow;
+
+        let useH = (!locked && horizontal) || (locked && vertical);
+        let useV = (!locked && vertical) || (locked && horizontal);
+
+        if (useH && useV) {
+            // use the one with the fewest blocked tiles in the path
+            
+            let hBlocks = 0;
+            while (game.board[ty][tx + hBlocks + 1]?.locked) {
+                hBlocks += 1;
+            }
+
+            let vBlocks = 0;
+            while (game.board[ty + vBlocks + 1]?.[tx]?.locked) {
+                vBlocks += 1;
+            }
+
+            if (vBlocks >= hBlocks) {
+                useV = false;
+            } else {
+                useH = false;
+            }
+        }
+
+        if (useH) {
+            // scan to the right
+            let next = game.board[ty][tx + xAmount];
+            while (tx + xAmount < 14 && (next)) {
+                xAmount += 1;
+                next = game.board[ty][tx + xAmount];
+            }
+        } else if (useV) {
+            // scan downwards
+            let next = game.board[ty + yAmount]?.[tx];
+            while (ty + yAmount < 14 && (next)) {
+                yAmount += 1;
+                next = game.board[ty + yAmount]?.[tx];
+            }
+        }
+    }
+
+    const tile = game.board[overItem.y + yAmount][overItem.x + xAmount];
+
+    // abort if we are about to modify a locked tile
+    if (tile && tile.locked) return;
+
+    // show the letter that used to be there back in the bank
+    if (tile) {
+        canvas.bank.find(a => a.bankIndex === tile.bankIndex).hidden = false;
+    }
+
+    // hide the letter from the canvas bank
+    canvas.bank.find(a => a.bankIndex === bankItem.bankIndex).hidden = true;
+
+    // add the letter to the board
+    const newTile = addLetter(overItem.x + xAmount, overItem.y + yAmount, bankItem.bankIndex, letter);
+
+    // store the tile in the overItem if we are still at zero offset
+    if (xAmount === 0 && yAmount === 0) {
+        overItem.tile = newTile;
+    }
+
+    //checkPoints();
 }
