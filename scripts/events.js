@@ -332,13 +332,11 @@ function handleDocumentKeyPress(e) {
         const blockedBelow = game.board[ty + 1]?.[tx]?.locked;
         const blockedRight = game.board[ty]?.[tx + 1]?.locked;
 
-        const emptyAbove = !game.board[ty - 1][tx];
-        const emptyLeft = !game.board[ty][tx - 1];
+        const blockedAbove = game.board[ty - 1]?.[tx]?.locked;
+        const blockedLeft = game.board[ty]?.[tx - 1]?.locked;
 
-        const horizontal = !emptyLeft && !blockedRight;
-        const vertical = !emptyAbove && !blockedBelow;
-
-        const dir = "x";
+        const horizontal = blockedLeft || blockedRight;
+        const vertical = blockedAbove || blockedBelow;
 
         if ((!locked && horizontal) || (locked && vertical)) {
             // scan to the right
