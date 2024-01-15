@@ -307,7 +307,7 @@ function handleDocumentKeyPress(e) {
 
     const overItem = canvas.overList.find(a => a.category === 'board');
     if (!overItem) return;
-    if (overItem.tile && overItem.tile.locked) return;
+    //if (overItem.tile && overItem.tile.locked) return;
 
     const letter = e.key.toUpperCase();
     if (!["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"].includes(letter)) return;
