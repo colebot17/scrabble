@@ -325,4 +325,6 @@ function handleDocumentKeyPress(e) {
 
     // add the letter to the board
     addLetter(overItem.x, overItem.y, bankItem.bankIndex, letter);
+
+    checkPoints();
 }
