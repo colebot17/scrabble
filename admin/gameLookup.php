@@ -39,7 +39,8 @@
 
     echo '<p>';
 
-    if ($row['inactive']) {
+    $inactive = $row['inactive'];
+    if ($inactive) {
         echo '<span style="color:red">Inactive</span><br>';
     } else {
         echo 'Active<br>';
@@ -49,7 +50,7 @@
     echo 'Turn: ' . $turn . '<br>';
 
     echo 'Start Date: ' . ($row['creationDate'] !== '0000-00-00' ? $row['creationDate'] : '<span style="color:gray">[Unknown]</span>') . '<br>';
-    if ($row['inactive']) echo 'End Date: ' . ($row['endDate'] !== '0000-00-00' ? $row['endDate'] : '<span style="color:gray">[Unknown]</span>') . '<br>';
+    if ($inactive) echo 'End Date: ' . ($row['endDate'] !== '0000-00-00' ? $row['endDate'] : '<span style="color:gray">[Unknown]</span>') . '<br>';
 
     echo '<a style="color:red" href="deleteGame.php?game=' . $gameId . '">Delete Game</a>';
 
@@ -71,9 +72,11 @@
         $name = $row['name'];
 
         echo '<li>';
+        if (!$inactive && $turn % count($players) === $i) echo '<u>';
         if (array_key_exists('endGameRequest', $players[$i]) && $players[$i]['endGameRequest']) echo '<span style="color:red">[EndGameRequest]</span> ';
         echo $name . ' <span style="color:gray">#' . $id . '</span>';
         echo ' <a href="playerLookup.php?playerName=' . $name . '">Info</a>';
+        if (!$inactive && $turn % count($players) === $i) echo '</u>';
 
         echo '<ul>';
         echo '<li>Points: ' . $players[$i]['points'] . '</li>';
