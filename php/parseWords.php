@@ -20,7 +20,6 @@ function parseWords($gameId, $tiles, $user) {
     // decode game information
     $lang = $row['lang'];
     $board = json_decode($row['board'], true);
-    var_dump($board);
     $totalTurn = $row['turn'];
     $inactive = $row['inactive'];
     $endDate = $row['endDate'];
@@ -121,7 +120,7 @@ function parseWords($gameId, $tiles, $user) {
     for ($y=0; $y < 15; $y++) { 
         array_push($boardCopy, Array());
         for ($x=0; $x < 15; $x++) {
-            if ($board[$y][$x]["connected"]) {
+            if (array_key_exists('connected', $board[$y][$x]) && $board[$y][$x]["connected"]) {
                 $val = "connected";
             } else if ($board[$y][$x]) {
                 $val = "tile";
