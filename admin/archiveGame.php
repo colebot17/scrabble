@@ -67,6 +67,8 @@
 
             echo ', and its players will be notified when they log on.';
         }
+
+        echo '<br><a href="gameLookup.php?gameId=' . $gameId . '">Details</a>';
     }
 
     ?>

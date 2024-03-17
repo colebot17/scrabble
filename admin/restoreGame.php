@@ -38,7 +38,7 @@
         if (!$query) {
             exit('<br><br><span style="color:red">There was an error restoring the game</span>');
         } else {
-            echo '<br><br><span>Game ' . $gameId . ' has been restored</span>';
+            echo '<br><br><span>Game ' . $gameId . ' has been restored<br><a href="gameLookup.php?gameId=' . $gameId . '">Details</a></span>';
         }
 
         $sql = "SELECT players FROM games WHERE id='$gameId'";
