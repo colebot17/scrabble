@@ -27,7 +27,7 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT name, id, games, creationDate FROM accounts WHERE name='$playerName'";
+    $sql = "SELECT name, id, games, creationDate, friends, requests, sentRequests FROM accounts WHERE name='$playerName'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
 
@@ -38,6 +38,7 @@
 
     $currentPlayerId = $row['id'];
     $currentPlayerName = $row['name'];
+    $games = json_decode($row['games'], true);
 
     echo '<h2>' . $row['name'] . ' <span style="color:gray">#' . $row['id'] . '</span></h2>';
 
@@ -51,8 +52,30 @@
 
     echo '</p>';
 
+    $nameCache = Array($currentPlayerId => $currentPlayerName);
 
-    $games = json_decode($row['games'], true);
+    $friends = json_decode($row['friends'], true);
+    $requests = json_decode($row['requests'], true);
+    $sentRequests = json_decode($row['sentRequests'], true);
+
+    require "templates.php";
+
+    echo '<h4>Friends</h4><ul><li>' . (count($friends) === 0 ? '<span style="color:gray">[No Current Friends]</span>' : 'Current Friends:') . '<ul>';
+    for ($i = 0; $i < count($friends); $i++) {
+        echo '<li>' . playerLine($friends[$i], $nameCache, $conn) . '</li>';
+    }
+
+    echo '</ul></li><li>' . (count($requests) === 0 ? '<span style="color:gray">[No Incoming Friend Requests]</span>' : 'Incoming Requests:') . '<ul>';
+    for ($i = 0; $i < count($requests); $i++) {
+        echo '<li>' . playerLine($requests[$i], $nameCache, $conn) . '</li>';
+    }
+    
+    echo '</ul></li><li>' . (count($sentRequests) === 0 ? '<span style="color:gray">[No Outgoing Friend Requests]</span>' : 'Outgoing Requests:') . '<ul>';
+    for ($i = 0; $i < count($sentRequests); $i++) {
+        echo '<li>' . playerLine($sentRequests[$i], $nameCache, $conn) . '</li>';
+    }
+
+    echo '</ul></li></ul>';
 
     echo '<h4>Games</h4><ul>';
     for ($i = 0; $i < count($games); $i++) {
@@ -75,29 +98,13 @@
         $players = json_decode($row['players'], true);
         echo '<ul>';
 
-        $nameCache = Array($currentPlayerId => $currentPlayerName);
-
         for ($j = 0; $j < count($players); $j++) {
             $id = $players[$j]["id"];
-
-            $name = "";
-            if (array_key_exists($id, $nameCache)) {
-                $name = $nameCache[$id];
-            } else {
-                $sql = "SELECT name FROM accounts WHERE id=$id";
-                $query = mysqli_query($conn, $sql);
-                $row = mysqli_fetch_assoc($query);
-                if (!$row) continue;
-
-                $name = $row['name'];
-                $nameCache[$id] = $name;
-            }
 
             echo '<li>';
             if (array_key_exists('endGameRequest', $players[$j]) && $players[$j]['endGameRequest']) echo '<span style="color:red">[EndGameRequest]</span> ';
             if ($id == $currentPlayerId) echo '<span style="color: gray">';
-            echo $name;
-            echo ' <span style="color:gray">#' . $players[$j]["id"] . '</span>';
+            echo playerLine($id, $nameCache, $conn);
             if ($id == $currentPlayerId) echo '</span>';
             echo '</li>';
         }

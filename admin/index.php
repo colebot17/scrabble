@@ -20,6 +20,8 @@
         <input type="text" name="gameId" placeholder="Id..." required>
         <button>Get Info</button>
     </form>
+    <h3>User List</h3>
+    <a href="userList.php">View All Users</a>
     <h3>Invalidate Credentials</h3>
     <form action="validate.php" method="POST">
         <input type="hidden" name="invalidate" value="true">

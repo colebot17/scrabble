@@ -63,6 +63,10 @@
 
     $players = json_decode($row['players'], true);
 
+    require "templates.php";
+
+    $nameCache = Array();
+
     echo '<ul>';
     for ($i = 0; $i < count($players); $i++) {
         $id = $players[$i]['id'];
@@ -77,8 +81,7 @@
         echo '<li>';
         if (!$inactive && $turn % count($players) === $i) echo '<u>';
         if (array_key_exists('endGameRequest', $players[$i]) && $players[$i]['endGameRequest']) echo '<span style="color:red">[EndGameRequest]</span> ';
-        echo $name . ' <span style="color:gray">#' . $id . '</span>';
-        echo ' <a href="playerLookup.php?playerName=' . $name . '">Info</a>';
+        echo playerLine($id, $nameCache, $conn);
         if (!$inactive && $turn % count($players) === $i) echo '</u>';
 
         echo '<ul>';
