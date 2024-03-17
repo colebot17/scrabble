@@ -31,7 +31,7 @@
     $row = mysqli_fetch_assoc($query);
 
     if (!$row) {
-        echo '<h2 style="color:red">Error: The specified game could not be found</h2>';
+        echo '<h2 style="color:red">Error: There is no game with an id of ' . $gameId . '</h2>';
         exit();
     }
 
@@ -50,6 +50,8 @@
 
     echo 'Start Date: ' . ($row['creationDate'] !== '0000-00-00' ? $row['creationDate'] : '<span style="color:gray">[Unknown]</span>') . '<br>';
     if ($row['inactive']) echo 'End Date: ' . ($row['endDate'] !== '0000-00-00' ? $row['endDate'] : '<span style="color:gray">[Unknown]</span>') . '<br>';
+
+    echo '<a style="color:red" href="deleteGame.php?game=' . $gameId . '">Delete Game</a>';
 
     echo '</p>';
 

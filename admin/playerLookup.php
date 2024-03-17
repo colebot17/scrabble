@@ -31,7 +31,7 @@
     $row = mysqli_fetch_assoc($query);
 
     if (!$row) {
-        echo '<h2 style="color:red">Error: The specified user could not be found</h2>';
+        echo '<h2 style="color:red">Error: There is no user named \'' . $playerName . '\'</h2>';
         exit();
     }
 
