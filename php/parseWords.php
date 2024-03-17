@@ -177,15 +177,15 @@ function parseWords($gameId, $tiles, $user) {
     for ($y=0; $y < 15; $y++) { 
         for ($x=0; $x < 15; $x++) { 
             if ($board[$y][$x]) {
-                if ($board[$y][$x]['locked'] === 'true') {
+                if ($board[$y][$x] && array_key_exists('locked', $board[$y][$x]) && $board[$y][$x]['locked'] === 'true') {
                     $board[$y][$x]['locked'] = true;
-                } else if ($board[$y][$x]['locked'] === 'false') {
+                } else if ($board[$y][$x] && array_key_exists('locked', $board[$y][$x]) && $board[$y][$x]['locked'] === 'false') {
                     $board[$y][$x]['locked'] = false;
                 }
 
-                if ($board[$y][$x]['blank'] === 'true') {
+                if ($board[$y][$x] && array_key_exists('blank', $board[$y][$x]) && $board[$y][$x]['blank'] === 'true') {
                     $board[$y][$x]['blank'] = true;
-                } else if ($board[$y][$x]['blank'] === 'false') {
+                } else if ($board[$y][$x] && array_key_exists('blank', $board[$y][$x]) && $board[$y][$x]['blank'] === 'false') {
                     $board[$y][$x]['blank'] = false;
                 }
             }
