@@ -19,7 +19,7 @@
         <input type="text" name="gameId" placeholder="Id..." required>
         <button>Get Info</button>
     </form>
-    <h3>Invalidate Session</h3>
+    <h3>Invalidate Credentials</h3>
     <form action="validate.php" method="POST">
         <input type="hidden" name="invalidate" value="true">
         <button>Invalidate</button>
