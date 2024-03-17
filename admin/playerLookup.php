@@ -40,7 +40,15 @@
 
     echo '<h2>' . $row['name'] . ' <span style="color:gray">#' . $row['id'] . '</span></h2>';
 
-    echo '<p>Account Creation Date: ' . ($row['creationDate'] !== "0000-00-00" ? $row['creationDate'] : '<span style="color:gray">[Unknown]</span>') . '</p>';
+
+    echo '<p>';
+
+    echo 'Account Creation Date: ' . ($row['creationDate'] !== "0000-00-00" ? $row['creationDate'] : '<span style="color:gray">[Unknown]</span>');
+    echo '<br>';
+    echo '<a style="color:red" href="changeUserPassword.php?user=' . $currentPlayerName . '">Change Password</a>';
+
+    echo '</p>';
+
 
     $games = json_decode($row['games'], true);
 
