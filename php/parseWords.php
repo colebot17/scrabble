@@ -20,6 +20,7 @@ function parseWords($gameId, $tiles, $user) {
     // decode game information
     $lang = $row['lang'];
     $board = json_decode($row['board'], true);
+    var_dump($board);
     $totalTurn = $row['turn'];
     $inactive = $row['inactive'];
     $endDate = $row['endDate'];
