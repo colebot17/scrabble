@@ -77,12 +77,18 @@
 
     echo '</ul></li></ul>';
 
+    $gamesListNeedsCleaning = false;
+
     echo '<h4>Games</h4><ul>';
     for ($i = 0; $i < count($games); $i++) {
         $sql = "SELECT name, inactive, players FROM games WHERE id='$games[$i]'";
         $query = mysqli_query($conn, $sql);
         $row = mysqli_fetch_assoc($query);
-        if (!$row) continue;
+        if (!$row) {
+            echo '<li>#' . $games[$i] . ' <span style="color:red">[Not Found]</span></li>';
+            $gamesListNeedsCleaning = true;
+            continue;
+        }
 
         echo '<li>';
 
@@ -115,6 +121,10 @@
     }
     if (count($games) === 0) echo '<span style="color:gray">[No Games]</span>';
     echo '</ul>';
+    
+    if ($gamesListNeedsCleaning) {
+        echo '<a href="cleanGamesList.php?playerId=' . $currentPlayerId . '">Clean Games List</a>';
+    }
 
     ?>
 </body>
