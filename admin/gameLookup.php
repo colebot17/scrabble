@@ -52,6 +52,7 @@
     echo 'Start Date: ' . ($row['creationDate'] !== '0000-00-00' ? $row['creationDate'] : '<span style="color:gray">[Unknown]</span>') . '<br>';
     if ($inactive) echo 'End Date: ' . ($row['endDate'] !== '0000-00-00' ? $row['endDate'] : '<span style="color:gray">[Unknown]</span>') . '<br>';
 
+    if (!$inactive) echo '<a href="archiveGame.php?game=' . $gameId . '">Archive Game</a><br>';
     echo '<a style="color:red" href="deleteGame.php?game=' . $gameId . '">Delete Game</a>';
 
     echo '</p>';
