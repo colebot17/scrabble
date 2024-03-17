@@ -51,7 +51,7 @@
             $sql = "SELECT players FROM games WHERE id='$gameId'";
             $query = mysqli_query($conn, $sql);
             $row = mysqli_fetch_assoc($query);
-            if (!$row) exit(', but the users could not be notified.');
+            if (!$row) exit(', but its players could not be notified.');
 
             $players = json_decode($row['players'], true);
 
@@ -63,9 +63,9 @@
 
             $sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
             $query = mysqli_query($conn, $sql);
-            if (!$query) exit(', but the users could not be notified.');
+            if (!$query) exit(', but its players could not be notified.');
 
-            echo ', and the users will be notified when they log on.';
+            echo ', and its players will be notified when they log on.';
         }
     }
 
