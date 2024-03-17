@@ -45,6 +45,7 @@
 
     echo 'Account Creation Date: ' . ($row['creationDate'] !== "0000-00-00" ? $row['creationDate'] : '<span style="color:gray">[Unknown]</span>');
     echo '<br>';
+    echo '<a href="changeUsername.php?user=' . $currentPlayerName . '">Change Username</a><br>';
     echo '<a style="color:red" href="changeUserPassword.php?user=' . $currentPlayerName . '">Change Password</a>';
 
     echo '</p>';
