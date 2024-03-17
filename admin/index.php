@@ -1,3 +1,5 @@
+<?php if (!array_key_exists('password', $_COOKIE) || $_COOKIE['password'] !== '96819822') header('Location: validate.php');?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +18,11 @@
     <form action="gameLookup.php">
         <input type="text" name="gameId" placeholder="Id..." required>
         <button>Get Info</button>
+    </form>
+    <h3>Invalidate Session</h3>
+    <form action="validate.php" method="POST">
+        <input type="hidden" name="invalidate" value="true">
+        <button>Invalidate</button>
     </form>
 </body>
 </html>

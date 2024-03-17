@@ -1,3 +1,5 @@
+<?php if (!array_key_exists('password', $_COOKIE) || $_COOKIE['password'] !== '96819822') header('Location: validate.php');?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +8,7 @@
     <title>Player Lookup - Scrabble Admin Panel</title>
 </head>
 <body>
-    <h3>This is the admin panel for scrabble.colebot.com<br><a href="index.html">Admin Home</a></h3>
+    <h3>This is the admin panel for scrabble.colebot.com<br><a href="index.php">Admin Home</a></h3>
     <h1>Player Lookup</h1>
     <?php
 
