@@ -27,7 +27,7 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT name, players, turn, inactive, creationDate, endDate FROM games WHERE id='$gameId'";
+    $sql = "SELECT name, players, turn, letterBag, inactive, creationDate, endDate FROM games WHERE id='$gameId'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
 
@@ -53,6 +53,12 @@
     echo 'Start Date: ' . ($row['creationDate'] !== '0000-00-00' ? $row['creationDate'] : '<span style="color:gray">[Unknown]</span>') . '<br>';
     if ($inactive) echo 'End Date: ' . ($row['endDate'] !== '0000-00-00' ? $row['endDate'] : '<span style="color:gray">[Unknown]</span>') . '<br>';
 
+    echo 'Letter Bag: ';
+    $letterBag = json_decode($row['letterBag'], true);
+    $letterBag['_'] = $letterBag[''];
+    unset($letterBag['']);
+    for ($i = 0; $i < count($letterBag); $i++) echo ($i === 0 ? '' : ', ') . '<b>' . array_keys($letterBag)[$i] . '</b>-' . array_values($letterBag)[$i];
+    echo '<br><a href="editLetterBag.php?gameId=' . $gameId . '">Edit Letter Bag</a><br><br>';
     if (!$inactive) echo '<a href="archiveGame.php?game=' . $gameId . '">Archive Game</a><br>';
     if ($inactive) echo '<a href="restoreGame.php?game=' . $gameId . '">Restore Game</a><br>';
     echo '<a style="color:red" href="deleteGame.php?game=' . $gameId . '">Delete Game</a>';
