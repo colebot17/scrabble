@@ -263,8 +263,8 @@ function parseWords($gameId, $tiles, $user) {
                         }
                     }
                     
-                    // compile the x cross axis word and points into the array if it is long enough
-                    if (strlen($xCrossAxisWord) > 1) {
+                    // compile the x cross axis word and points into the array unless it's only one letter
+                    if (!in_array($xCrossAxisWord, $boardInfo["alphabet"])) {
                         array_push($words, Array(
                             "word" => $xCrossAxisWord,
                             "points" => $xCrossAxisWordPoints * $xCrossAxisWordMultiplier,
@@ -372,8 +372,8 @@ function parseWords($gameId, $tiles, $user) {
                         }
                     }
                     
-                    // compile the y cross axis word and points into the array if it is long enough
-                    if (strlen($yCrossAxisWord) > 1) {
+                    // compile the y cross axis word and points into the array unless it's only one letter
+                    if (!in_array($yCrossAxisWord, $boardInfo["alphabet"])) {
                         array_push($words, Array(
                             "word" => $yCrossAxisWord,
                             "points" => $yCrossAxisWordPoints * $yCrossAxisWordMultiplier,
