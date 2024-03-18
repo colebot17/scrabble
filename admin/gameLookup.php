@@ -27,7 +27,7 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT name, players, turn, letterBag, inactive, creationDate, endDate FROM games WHERE id='$gameId'";
+    $sql = "SELECT name, lang, players, turn, letterBag, inactive, creationDate, endDate FROM games WHERE id='$gameId'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
 
@@ -46,6 +46,9 @@
     } else {
         echo 'Active<br>';
     }
+
+    $lang = $row['lang'];
+    echo 'Language: ' . $lang . '<br>';
 
     $turn = $row['turn'];
     echo 'Turn: ' . $turn . '<br>';
