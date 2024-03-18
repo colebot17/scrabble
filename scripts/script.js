@@ -1086,7 +1086,7 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 		return;
 	}
 	
-	letter = letter[0].toUpperCase();
+	letter = letter.toUpperCase();
 
 	game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
 
