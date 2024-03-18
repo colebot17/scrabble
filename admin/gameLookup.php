@@ -27,7 +27,7 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT name, players, turn, letterBag, inactive, creationDate, endDate FROM games WHERE id='$gameId'";
+    $sql = "SELECT name, lang, players, turn, letterBag, inactive, creationDate, endDate FROM games WHERE id='$gameId'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
 
@@ -47,12 +47,21 @@
         echo 'Active<br>';
     }
 
+    $lang = $row['lang'];
+    echo 'Language: ' . $lang . '<br>';
+
     $turn = $row['turn'];
     echo 'Turn: ' . $turn . '<br>';
 
     echo 'Start Date: ' . ($row['creationDate'] !== '0000-00-00' ? $row['creationDate'] : '<span style="color:gray">[Unknown]</span>') . '<br>';
     if ($inactive) echo 'End Date: ' . ($row['endDate'] !== '0000-00-00' ? $row['endDate'] : '<span style="color:gray">[Unknown]</span>') . '<br>';
 
+    echo 'Letter Bag: ';
+    $letterBag = json_decode($row['letterBag'], true);
+    $letterBag['_'] = $letterBag[''];
+    unset($letterBag['']);
+    for ($i = 0; $i < count($letterBag); $i++) echo ($i === 0 ? '' : ', ') . '<b>' . array_keys($letterBag)[$i] . '</b>-' . array_values($letterBag)[$i];
+    echo '<br><a href="editLetterBag.php?gameId=' . $gameId . '">Edit Letter Bag</a><br><br>';
     echo 'Letter Bag: ';
     $letterBag = json_decode($row['letterBag'], true);
     $letterBag['_'] = $letterBag[''];
