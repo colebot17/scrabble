@@ -414,7 +414,7 @@ function parseWords($gameId, $tiles, $user) {
     // check word validity
     for ($i=0; $i < count($words); $i++) { 
         if (!in_array(strtolower($words[$i]["word"]), $dictionary["words"])) {
-            return '{"errorLevel":1,"message":"All words must be valid."}';
+            return '{"errorLevel":1,"message":"All words must be valid.","data":' . json_encode($words) . '}';
         }
     }
 
