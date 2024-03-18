@@ -26,7 +26,8 @@ const boardInfo = {
 			{"letter": 1, "word": 2},
 			{"letter": 1, "word": 3},
 			{"letter": 1, "word": 2}
-		]
+		],
+		"dictionaryAddress": "https://www.merriam-webster.com/dictionary/"
 	},
 	"spanish": {
 		"modifiers": [
@@ -56,7 +57,8 @@ const boardInfo = {
 			{"letter": 1, "word": 2},
 			{"letter": 1, "word": 3},
 			{"letter": 1, "word": 2}
-		]
+		],
+		"dictionaryAddress": "https://www.collinsdictionary.com/us/dictionary/spanish-english/"
 	}
 }
 
