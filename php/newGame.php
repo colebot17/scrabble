@@ -78,7 +78,7 @@ $boardJson = json_encode($board);
 $datestamp = date("Y-m-d");
 
 // add the game
-$sql = "INSERT INTO games(letterBag, players, turn, inactive, board, words, creationDate, chat, updates) VALUES ('$letterBagJson', '$playersJson', 0, 0, '$boardJson', '[]', '$datestamp', '[]', '[]');";
+$sql = "INSERT INTO games(lang, letterBag, players, turn, inactive, board, words, creationDate, chat, updates) VALUES ('$lang', '$letterBagJson', '$playersJson', 0, 0, '$boardJson', '[]', '$datestamp', '[]', '[]');";
 $query = mysqli_query($conn, $sql);
 
 // get the id of the game
