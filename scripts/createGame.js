@@ -166,7 +166,7 @@ function setHighlightedCreateGameButton(alt = false) {
 	}
 }
 
-function createGame(players = getPropArray(JSON.parse(document.getElementById('createGameModal').dataset.players), 'id')) {
+function createGame(players = getPropArray(JSON.parse(document.getElementById('createGameModal').dataset.players), 'id'), lang = document.querySelector('input[name=lang]:checked').value) {
 	if (!account.id) {
 		textModal("Error", "You must be signed in to create a new game.");
 		return;
@@ -175,6 +175,8 @@ function createGame(players = getPropArray(JSON.parse(document.getElementById('c
 		textModal("Error", "Games require at least two players.");
 		return;
 	}
+
+	if (!lang) lang = 'english';
 
 	// confirm before starting if a game with the same players exists already
 	let confirm = false;
@@ -196,20 +198,21 @@ function createGame(players = getPropArray(JSON.parse(document.getElementById('c
 			{
 				cancelable: true,
 				complete: () => {
-					startGame(players);
+					startGame(players, lang);
 				}
 			}
 		);
 	} else {
-		startGame(players);
+		startGame(players, lang);
 	}
 }
 
-function startGame(players) {
+function startGame(players, lang) {
 	request('newGame.php', {
 		user: account.id,
 		pwd: account.pwd,
-		players: JSON.stringify(players)
+		players: JSON.stringify(players),
+		lang: lang
 	}).then(res => {
 		if (res.errorLevel > 0) {
 			textModal("Error", res.message);

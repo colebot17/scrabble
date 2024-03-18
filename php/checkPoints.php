@@ -30,12 +30,11 @@ if (!$tiles) {
 }
 
 // get game information
-$sql = "SELECT board, turn, inactive, endDate, letterBag, players FROM games WHERE id='$gameId'";
+$sql = "SELECT turn, inactive, endDate, letterBag, players FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 
 // decode game information
-$board = json_decode($row['board'], true);
 $totalTurn = $row['turn'];
 $inactive = $row['inactive'];
 $endDate = $row['endDate'];
@@ -50,37 +49,6 @@ for ($i=0; $i < count($players); $i++) {
 	array_push($playerList, $players[$i]['id']);
 }
 $currentPlayerIndex = array_search($user, $playerList);
-
-
-// add the tiles to the board
-for ($i = 0; $i < count($tiles); $i++) { // for each tile the user is trying to place
-	// make sure tiles are only being placed on empty spaces
-	if ($board[$tiles[$i]["y"]][$tiles[$i]["x"]]) {
-		exit('{"errorLevel":2,"message":"You cannot place a tile over another tile."}');
-	}
-
-	// make sure player owns all letters being placed
-	if ($players[$currentPlayerIndex]["letterBank"][$tiles["bankIndex"]] !== $letter) {
-		exit('{"errorLevel":2,"message":"You must own all letters being used."}');
-	}
-
-	// generate a tile with only the information we need
-	$tile = Array(
-		"bankIndex" => $tiles[$i]['bankIndex'],
-		"blank" => $tiles[$i]['blank'],
-		"letter" => $tiles[$i]['letter'],
-		"turn" => (int)$totalTurn,
-		"x" => $tiles[$i]['x'],
-		"y" => $tiles[$i]['y']
-	);
-
-	// add tile to board
-	$board[$tile['y']][$tile['x']] = $tile;
-
-	// remove the letter from the user's bank and bank order
-	unset($players[$currentPlayerIndex]['letterBank'][$tiles[$i]['bankIndex']]);
-	unset($players[$currentPlayerIndex]['bankOrder'][array_search($tiles[$i]['bankIndex'], $players[$currentPlayerIndex]['bankOrder'])]);
-}
 
 // get the word list
 require "parseWords.php";

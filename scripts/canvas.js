@@ -147,6 +147,8 @@ function drawBoard() {
 	canvas.ctx.fillStyle = BOARD_BACKGROUND_COLOR;
 	roundRect(canvas.ctx, 0, 0, canvas.c.width, canvas.c.width, cornerRadius);
 
+	const boardModifiers = boardInfo[game.lang].modifiers;
+
 	for (var y = 0; y < SQUARE_NUM; y++) { // for each tile
 		for (var x = 0; x < SQUARE_NUM; x++) {
 			const squareColor = BOARD_COLOR_KEY[boardModifiers[y][x]];
@@ -416,7 +418,7 @@ function drawLetterBank() {
 			canvas.ctx.fillText(canvasLetter.letter, textX, textY);
 
 			// draw points
-			let points = letterScores[canvasLetter.letter.toUpperCase()];
+			let points = boardInfo[game.lang].letterScores[canvasLetter.letter.toUpperCase()];
 
 			canvas.ctx.font = smallTextSize + "px Eurostile";
 			canvas.ctx.textAlign = "right";
@@ -498,7 +500,7 @@ function updateTile(tile) {
 		canvas.ctx.fillStyle = "#f2f5ff"; // tile text color
 		canvas.ctx.font = (fontSize / 3) + "px Eurostile";
 		canvas.ctx.textAlign = "right";
-		canvas.ctx.fillText(letterScores[tile.letter], (pixelX + (tileWidth * 0.9)), (pixelY + (tileWidth * 0.9)));
+		canvas.ctx.fillText(boardInfo[game.lang].letterScores[tile.letter], (pixelX + (tileWidth * 0.9)), (pixelY + (tileWidth * 0.9)));
 	}
 }
 

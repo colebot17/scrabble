@@ -13,11 +13,12 @@ function parseWords($gameId, $tiles, $user) {
     }
 
     // get game information
-    $sql = "SELECT board, turn, inactive, endDate, letterBag, players FROM games WHERE id='$gameId'";
+    $sql = "SELECT lang, board, turn, inactive, endDate, letterBag, players FROM games WHERE id='$gameId'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
 
     // decode game information
+    $lang = $row['lang'];
     $board = json_decode($row['board'], true);
     $totalTurn = $row['turn'];
     $inactive = $row['inactive'];
@@ -119,7 +120,7 @@ function parseWords($gameId, $tiles, $user) {
     for ($y=0; $y < 15; $y++) { 
         array_push($boardCopy, Array());
         for ($x=0; $x < 15; $x++) {
-            if ($board[$y][$x]["connected"]) {
+            if ($board[$y][$x] && array_key_exists('connected', $board[$y][$x]) && $board[$y][$x]["connected"]) {
                 $val = "connected";
             } else if ($board[$y][$x]) {
                 $val = "tile";
@@ -161,9 +162,9 @@ function parseWords($gameId, $tiles, $user) {
         }
     }
 
-    // go ahead and get the two json files we will need: board.json and dictionary.json
-    $boardInfo = json_decode(file_get_contents('../resources/board.json'), true);
-    $dictionary = json_decode(file_get_contents('../resources/dictionary.json'), true);
+    // go ahead and get the two json files we will need: board.json and dictionary_[lang].json
+    $boardInfo = json_decode(file_get_contents('../resources/board.json'), true)[$lang];
+    $dictionary = json_decode(file_get_contents('../resources/dictionary_' . $lang . '.json'), true);
 
     // the complicated part...
 
@@ -176,15 +177,15 @@ function parseWords($gameId, $tiles, $user) {
     for ($y=0; $y < 15; $y++) { 
         for ($x=0; $x < 15; $x++) { 
             if ($board[$y][$x]) {
-                if ($board[$y][$x]['locked'] === 'true') {
+                if ($board[$y][$x] && array_key_exists('locked', $board[$y][$x]) && $board[$y][$x]['locked'] === 'true') {
                     $board[$y][$x]['locked'] = true;
-                } else if ($board[$y][$x]['locked'] === 'false') {
+                } else if ($board[$y][$x] && array_key_exists('locked', $board[$y][$x]) && $board[$y][$x]['locked'] === 'false') {
                     $board[$y][$x]['locked'] = false;
                 }
 
-                if ($board[$y][$x]['blank'] === 'true') {
+                if ($board[$y][$x] && array_key_exists('blank', $board[$y][$x]) && $board[$y][$x]['blank'] === 'true') {
                     $board[$y][$x]['blank'] = true;
-                } else if ($board[$y][$x]['blank'] === 'false') {
+                } else if ($board[$y][$x] && array_key_exists('blank', $board[$y][$x]) && $board[$y][$x]['blank'] === 'false') {
                     $board[$y][$x]['blank'] = false;
                 }
             }

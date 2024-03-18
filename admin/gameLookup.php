@@ -62,6 +62,12 @@
     unset($letterBag['']);
     for ($i = 0; $i < count($letterBag); $i++) echo ($i === 0 ? '' : ', ') . '<b>' . array_keys($letterBag)[$i] . '</b>-' . array_values($letterBag)[$i];
     echo '<br><a href="editLetterBag.php?gameId=' . $gameId . '">Edit Letter Bag</a><br><br>';
+    echo 'Letter Bag: ';
+    $letterBag = json_decode($row['letterBag'], true);
+    $letterBag['_'] = $letterBag[''];
+    unset($letterBag['']);
+    for ($i = 0; $i < count($letterBag); $i++) echo ($i === 0 ? '' : ', ') . '<b>' . array_keys($letterBag)[$i] . '</b>-' . array_values($letterBag)[$i];
+    echo '<br><a href="editLetterBag.php?gameId=' . $gameId . '">Edit Letter Bag</a><br><br>';
     if (!$inactive) echo '<a href="archiveGame.php?game=' . $gameId . '">Archive Game</a><br>';
     if ($inactive) echo '<a href="restoreGame.php?game=' . $gameId . '">Restore Game</a><br>';
     echo '<a style="color:red" href="deleteGame.php?game=' . $gameId . '">Delete Game</a>';
