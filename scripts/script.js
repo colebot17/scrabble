@@ -1067,7 +1067,7 @@ function pickLetter(bankIndex, complete = function(letter) {}) {
 				document.scrollTop = 0;
 				let letter = letterPicker.value.toUpperCase();
 				let find;
-				if (find = Object.keys(boardInfo[game.lang].letterReplacements).find(key => boardInfo[game.lang].letterReplacements[key] === value)) letter = find;
+				if (find = Object.keys(boardInfo[game.lang].letterReplacements).find(key => boardInfo[game.lang].letterReplacements[key] === letter)) letter = find;
 				complete(letter);
 				$('#chooseLetterModal').modalClose();
 			}
