@@ -12,6 +12,7 @@ function initDefaultLanguageSelectors() {
             if (res.errorLevel) {
                 textModal('Error', res.message);
             } else {
+                account.defaultLang = selectedLang;
                 textModal('Language Updated', 'Your default language has been updated to ' + selectedLang.toTitleCase() + '.');
             }
         });
