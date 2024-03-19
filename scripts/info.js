@@ -2,7 +2,7 @@ function getInfo() {
     // common info calculations
     const name = game.name;
     const id = game.id;
-    const lang = game.lang;
+    const lang = game.lang.toTitleCase();
     const creationDate = game.creationDate;
     const creationDateValid = creationDate !== '0000-00-00';
     const startPlayer = game.players[0].name;
