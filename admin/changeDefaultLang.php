@@ -61,6 +61,7 @@
         for ($i = 0; $i < count($langOptions); $i++) {
             echo '<option value="' . $langOptions[$i] . '"' . ($langOptions[$i] === $currentDefaultLang ? ' selected' : '') . '>' . $langOptions[$i] . '</option>';
         }
+        echo '</select>';
 
         echo '<br>';
         echo '<button>Change Default Language</button>';
