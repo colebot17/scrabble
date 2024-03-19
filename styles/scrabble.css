@@ -91,8 +91,10 @@
 #gameControlsCell .gameInfoBox .gameLanguageBox {
 	background-color: var(--background-2);
 }
-.listGame .gameLanguageBox {
+#gamesCell .listGame .gameLanguageBox {
 	background-color: var(--background-3);
+}
+#gamesCell[data-displaymode=card] .listGame .gameLanguageBox {
 	margin-bottom: 5px;
 }
 
