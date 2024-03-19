@@ -48,7 +48,7 @@
     }
 
     $lang = $row['lang'];
-    echo 'Language: ' . $lang . '<br>';
+    echo 'Language: ' . ucfirst($lang) . '<br>';
 
     $turn = $row['turn'];
     echo 'Turn: ' . $turn . '<br>';

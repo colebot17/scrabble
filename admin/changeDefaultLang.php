@@ -59,7 +59,7 @@
 
         echo '<select name="newDefaultLang">';
         for ($i = 0; $i < count($langOptions); $i++) {
-            echo '<option value="' . $langOptions[$i] . '"' . ($langOptions[$i] === $currentDefaultLang ? ' selected' : '') . '>' . $langOptions[$i] . '</option>';
+            echo '<option value="' . $langOptions[$i] . '"' . ($langOptions[$i] === $currentDefaultLang ? ' selected' : '') . '>' . ucfirst($langOptions[$i]) . '</option>';
         }
         echo '</select>';
 
