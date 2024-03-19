@@ -271,6 +271,11 @@ body.scrabble {
 
 	height: max-content;
 }
+#createGameModal .languageSelector {
+	border-top: 1px solid var(--selection-color);
+	padding-top: 10px;
+	margin: 10px;
+}
 
 /* letter exchange modal */
 #letterExchangeModal {
