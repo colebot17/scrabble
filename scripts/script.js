@@ -1055,27 +1055,16 @@ function pickLetter(bankIndex, complete = function(letter) {}) {
 	letterPicker.focus();
 	letterPicker.value = '';
 	$letterPicker.off().on('keyup', function(e) {
-		if (game.lang === 'english') {
-			if (letterPicker.value) {
-				if (/[A-Za-z]/.test(letterPicker.value)) {
-					$letterPicker.off();
-					letterPicker.blur();
-					document.scrollTop = 0;
-					complete(letterPicker.value[0].toUpperCase());
-					$('#chooseLetterModal').modalClose();
-				} else {
-					letterPicker.value = '';
-				}
-			}
-		} else {
-			if (e.key === 'Enter') {
+		// check for letter in alphabet
+		if (letterPicker.value) {
+			if (!boardInfo[game.lang].alphabet.includes(letterPicker.value.toUpperCase())) {
+				letterPicker.value = '';
+			} else if (game.lang === 'english' || e.key === 'Enter') {
 				$letterPicker.off();
 				letterPicker.blur();
 				document.scrollTop = 0;
 				complete(letterPicker.value.toUpperCase());
 				$('#chooseLetterModal').modalClose();
-			} else if (e.key === 'Escape') {
-				letterPicker.value = '';
 			}
 		}
 	}).on('blur', function() {
