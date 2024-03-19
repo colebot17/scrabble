@@ -687,9 +687,16 @@ function gameInit() {
 	canvas.gameBannerParams = gameBannerParams;
 
 	// show the game info
+
+	// start with the language, if not english
+	let gameInfo = game.lang !== 'english' ? /* html */ `
+		<div class="bold">
+			${game.lang.toTitleCase()}
+		</div>
+	` : ``;
 	
 	// start with the game name
-	let gameInfo = /* html */ `
+	gameInfo += /* html */ `
 		<div class="gameTitleBox">
 			<div class="gameTitleLine">
 				<button class="iconButton" onclick="getInfo()">
