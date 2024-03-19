@@ -711,15 +711,15 @@ function gameInit() {
 					#${game.id}
 				</div>
 			` : ``}
-		</div>
 	`;
 	
 	// then with the language, if not english
 	gameInfo += game.lang !== 'english' ? /* html */ `
-		<div class="gameLanguageBox bold">
-			${game.lang.toTitleCase()}
+			<div class="gameLanguageBox bold">
+				${game.lang.toTitleCase()}
+			</div>
 		</div>
-	` : ``;
+	` : `</div>`;
 
 	// calculate the winning player
 	let turnIndex = parseInt(game.turn) % game.players.length;
