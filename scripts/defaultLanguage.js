@@ -13,6 +13,7 @@ function initDefaultLanguageSelectors() {
                 textModal('Error', res.message);
             } else {
                 account.defaultLang = selectedLang;
+                updateGamesList();
                 textModal('Language Updated', 'Your default language has been updated to ' + selectedLang.toTitleCase() + '.');
             }
         });
