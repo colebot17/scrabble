@@ -45,7 +45,7 @@
 
     echo '<p>';
 
-    echo 'Default Language: ' . $row['defaultLang'] . '<br>';
+    echo 'Default Language: ' . $row['defaultLang'] . ' <a href="changeDefaultLang.php?user=' . $row['name'] . '">Change</a><br>';
     echo 'Account Creation Date: ' . ($row['creationDate'] !== "0000-00-00" ? $row['creationDate'] : '<span style="color:gray">[Unknown]</span>');
     echo '<br>';
     echo '<a href="changeUsername.php?user=' . $currentPlayerName . '">Change Username</a><br>';
