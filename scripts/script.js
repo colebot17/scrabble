@@ -691,7 +691,7 @@ function gameInit() {
 	// show the game info
 
 	// start with the language, if not english
-	let gameInfo = game.lang !== 'english' ? /* html */ `
+	let gameInfo = game.lang !== account.defaultLang ? /* html */ `
 		<div class="gameLanguageBox bold">
 			${game.lang.toTitleCase()}
 		</div>
