@@ -46,6 +46,7 @@
     
         echo '<input type="text" name="username"' . (array_key_exists('user', $_GET) ? ' value="' . $_GET['user'] . '"' : '') . ' placeholder="Username">';
 
+        $currentDefaultLang = 'english';
         if ($_GET['user']) {
             $gottenName = $_GET['user'];
             $sql = "SELECT defaultLang FROM accounts WHERE name='$gottenName'";
@@ -63,7 +64,7 @@
 
         echo '<br>';
         echo '<button>Change Default Language</button>';
-        
+
     echo '</form>';
     
     ?>
