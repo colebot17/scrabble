@@ -88,6 +88,12 @@
 	border-radius: 10px;
 	background-color: var(--background-2);
 }
+#gameControlsCell .gameInfoBox .gameLanguageBox {
+	background-color: var(--background-2);
+}
+.listGame .gameLanguageBox {
+	background-color: var(--background-3);
+}
 
 #gameControlsCell .gameInfoBox .gameTitleBox {
 	display: flex;
