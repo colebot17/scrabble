@@ -32,7 +32,7 @@ function getInfo() {
 
     const languageLine = /* html */ `
         Language: 
-        ${lang}
+        <b>${lang}</b>
     `;
 
     let message;
