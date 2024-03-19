@@ -4,15 +4,16 @@ function initDefaultLanguageSelectors() {
     for (let el of selectors) {
         el.addEventListener('change', async () => {
             const selectedLang = document.querySelector('.defaultLanguageOption:checked').value;
-            request('setDefaultLang.php', {
+            const res = await request('setDefaultLang.php', {
                 user: account.id,
                 pwd: account.pwd,
                 newDefaultLang: selectedLang
-            }).then(() => {
-                if (res.errorLevel) {
-                    textModal('Error', res.message);
-                }
             });
+            if (res.errorLevel) {
+                textModal('Error', res.message);
+            } else {
+                textModal('Language Updated', 'Your default language has been updated to ' + selectedLang.toTitleCase() + '.');
+            }
         });
     }
 }
