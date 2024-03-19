@@ -1050,18 +1050,32 @@ function shuffleBank() {
 
 function pickLetter(bankIndex, complete = function(letter) {}) {
 	let $letterPicker = $('#letterPicker');
+	const letterPicker = document.getElementById('letterPicker');
 	$('#chooseLetterModal').modalOpen();
-	$letterPicker[0].focus();
-	$letterPicker.val('').off().on('keyup', function() {
-		if ($letterPicker.val()) {
-			if (/[A-Za-z]/.test($letterPicker.val())) {
+	letterPicker.focus();
+	letterPicker.value = '';
+	$letterPicker.off().on('keyup', function(e) {
+		if (game.lang === 'english') {
+			if (letterPicker.value) {
+				if (/[A-Za-z]/.test(letterPicker.value)) {
+					$letterPicker.off();
+					letterPicker.blur();
+					document.scrollTop = 0;
+					complete(letterPicker.value[0].toUpperCase());
+					$('#chooseLetterModal').modalClose();
+				} else {
+					letterPicker.value = '';
+				}
+			}
+		} else {
+			if (e.key === 'Enter') {
 				$letterPicker.off();
-				$letterPicker[0].blur();
+				letterPicker.blur();
 				document.scrollTop = 0;
-				complete($letterPicker.val().toUpperCase());
+				complete(letterPicker.value.toUpperCase());
 				$('#chooseLetterModal').modalClose();
-			} else {
-				$letterPicker.val('');
+			} else if (e.key === 'Escape') {
+				letterPicker.value = '';
 			}
 		}
 	}).on('blur', function() {
