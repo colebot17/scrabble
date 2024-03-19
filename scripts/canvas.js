@@ -415,7 +415,8 @@ function drawLetterBank() {
 			canvas.ctx.fillStyle = "#f2f5ff" // tile text color
 			canvas.ctx.font = textSize + "px Eurostile";
 			canvas.ctx.textAlign = "center";
-			canvas.ctx.fillText(canvasLetter.letter, textX, textY);
+			const letter = boardInfo[game.lang].letterReplacements[canvasLetter.letter] || canvasLetter.letter;
+			canvas.ctx.fillText(letter, textX, textY);
 
 			// draw points
 			let points = boardInfo[game.lang].letterScores[canvasLetter.letter.toUpperCase()];
