@@ -32,9 +32,9 @@
         $sql = "UPDATE accounts SET defaultLang='$newDefaultLang' WHERE name='$un'";
         $query = mysqli_query($conn, $sql);
         if (!$query) {
-            echo '<br><br><span style="color:red">There was an error changing the default language</span>';
+            echo '<span style="color:red">There was an error changing the default language</span>';
         } else {
-            echo '<br><br><span>Default Language Changed to ' . $newDefaultLang . '</span>';
+            echo '<span>Default Language Changed to ' . $newDefaultLang . '</span>';
         }
 
         echo '<br><a href="playerLookup.php?playerName=' . $un . '">Info</a>';
