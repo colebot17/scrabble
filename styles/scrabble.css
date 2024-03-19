@@ -274,7 +274,7 @@ body.scrabble {
 #createGameModal .languageSelector {
 	border-top: 1px solid var(--selection-color);
 	padding-top: 10px;
-	margin: 10px;
+	margin: 10px 0;
 }
 
 /* letter exchange modal */
