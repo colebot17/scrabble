@@ -37,5 +37,3 @@ echo json_encode($res);
 
 // close the connection
 mysqli_close($conn);
-
-?>

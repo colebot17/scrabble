@@ -83,7 +83,7 @@
 	overflow-x: visible;
 }
 
-#gameControlsCell .gameInfoBox .gameLanguageBox {
+.gameLanguageBox {
 	padding: 5px;
 	border-radius: 10px;
 	background-color: var(--background-2);

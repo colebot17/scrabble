@@ -695,7 +695,7 @@ function gameInit() {
 		</div>
 	` : ``;
 	
-	// then with the game name
+	// start with the game name
 	gameInfo += /* html */ `
 		<div class="gameTitleBox">
 			<div class="gameTitleLine">

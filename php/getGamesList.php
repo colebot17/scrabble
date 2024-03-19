@@ -15,7 +15,7 @@ function getGamesList($conn, int $userId) {
     // add each game object to the full games list
     for ($i = 0; $i < count($games); $i++) {
         $gameId = $games[$i];
-        $sql = "SELECT name, turn, inactive, players, chat, lastUpdate, endDate FROM games WHERE id='$gameId'";
+        $sql = "SELECT name, lang, turn, inactive, players, chat, lastUpdate, endDate FROM games WHERE id='$gameId'";
         $query = mysqli_query($conn, $sql);
         if (!$query) return false;
         $row = mysqli_fetch_assoc($query);
@@ -43,6 +43,7 @@ function getGamesList($conn, int $userId) {
         $game = Array(
             "id" => (int)$games[$i],
             "name" => $row['name'],
+            "lang" => $row['lang'],
             "turn" => (int)$row['turn'],
             "inactive" => $inactive,
             "players" => Array(),
@@ -124,5 +125,3 @@ function getGamesList($conn, int $userId) {
 
     return $fullGamesList;
 }
-
-?>
