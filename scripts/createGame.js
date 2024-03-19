@@ -125,6 +125,9 @@ function newGame(initialPlayers = []) {
 		// add the player list to the dataset of the modal element
 		document.getElementById('createGameModal').dataset.players = JSON.stringify(newGamePlayerList);
 
+		// set the language to the default
+		document.getElementById((account.defaultLang || 'english') + 'LangOption').checked = true;
+
 		// assign the enter key on the player input field to add the player
 		const input = document.getElementById('createGamePlayerInput');
 		input.removeEventListener('keyup', addPlayerKeyupHandler);
@@ -176,7 +179,7 @@ function createGame(players = getPropArray(JSON.parse(document.getElementById('c
 		return;
 	}
 
-	if (!lang) lang = 'english';
+	if (!lang) lang = account.defaultLang || 'english';
 
 	// confirm before starting if a game with the same players exists already
 	let confirm = false;

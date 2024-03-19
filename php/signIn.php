@@ -33,6 +33,7 @@ $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $obj['id'] = $row['id'];
 $obj['name'] = $row['name'];
+$obj['defaultLang'] = $row['defaultLang'];
 
 // get the games list
 require "getGamesList.php";
