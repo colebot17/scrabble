@@ -3,7 +3,7 @@ function initDefaultLanguageSelectors() {
     
     for (let el of selectors) {
         el.addEventListener('change', async () => {
-            const selectedLang = document.querySelector('.defaultLanguageSelector:checked').value;
+            const selectedLang = document.querySelector('.defaultLanguageOption:checked').value;
             request('setDefaultLang.php', {
                 user: account.id,
                 pwd: account.pwd,
