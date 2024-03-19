@@ -493,7 +493,8 @@ function updateTile(tile) {
 	canvas.ctx.font = fontSize + "px Eurostile";
 	canvas.ctx.textAlign = "center";
 	canvas.ctx.textBaseline = "middle";
-	canvas.ctx.fillText(tile.letter || "", pixelX + (tileWidth / 2), pixelY + (tileWidth / 2));
+	const letter = tile.letter ? (boardInfo[game.lang].letterReplacements[tile.letter] || tile.letter) : "";
+	canvas.ctx.fillText(letter, pixelX + (tileWidth / 2), pixelY + (tileWidth / 2));
 	canvas.ctx.textBaseline = "alphabetic";
 
 	// draw the points on the tile if size allows
