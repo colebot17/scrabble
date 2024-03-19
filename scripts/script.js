@@ -687,9 +687,16 @@ function gameInit() {
 	canvas.gameBannerParams = gameBannerParams;
 
 	// show the game info
+
+	// start with the language, if not english
+	let gameInfo = game.lang !== 'english' ? /* html */ `
+		<div class="gameLanguageBox bold">
+			${game.lang.toTitleCase()}
+		</div>
+	` : ``;
 	
-	// start with the game name
-	let gameInfo = /* html */ `
+	// then with the game name
+	gameInfo += /* html */ `
 		<div class="gameTitleBox">
 			<div class="gameTitleLine">
 				<button class="iconButton" onclick="getInfo()">
@@ -711,15 +718,8 @@ function gameInit() {
 					#${game.id}
 				</div>
 			` : ``}
-	`;
-	
-	// then with the language, if not english
-	gameInfo += game.lang !== 'english' ? /* html */ `
-			<div class="gameLanguageBox bold">
-				${game.lang.toTitleCase()}
-			</div>
 		</div>
-	` : `</div>`;
+	`;
 
 	// calculate the winning player
 	let turnIndex = parseInt(game.turn) % game.players.length;
