@@ -226,7 +226,7 @@ function gameLI(game) {
                     ${additionalInfoString}
                 </span>
 			</div>
-			<div class="flex stretch fullHeight">
+			<div class="flex fullHeight">
                 ${game.lang !== 'english' ? /* html */ `<div class="gameLanguageBox">${boardInfo[game.lang].languageAbbreviation.toTitleCase()}</div>` : ''}
 				<span class="material-symbols-rounded textColorLight">
 					chevron_right
