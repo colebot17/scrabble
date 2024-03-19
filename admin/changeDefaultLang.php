@@ -34,7 +34,7 @@
         if (!$query) {
             echo '<span style="color:red">There was an error changing the default language</span>';
         } else {
-            echo '<span>Default Language Changed to ' . $newDefaultLang . '</span>';
+            echo '<span>Default Language changed to ' . $newDefaultLang . '</span>';
         }
 
         echo '<br><a href="playerLookup.php?playerName=' . $un . '">Info</a>';
