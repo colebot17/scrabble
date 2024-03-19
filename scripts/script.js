@@ -1,31 +1,70 @@
-const boardModifiers = [
-	[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4],
-	[0, 3, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 3, 0],
-	[0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
-	[1, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 1],
-	[0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
-	[0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
-	[0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
-	[4, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 4],
-	[0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
-	[0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
-	[0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
-	[1, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 1],
-	[0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
-	[0, 3, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 3, 0],
-	[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4]
-];
-
-const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-const letterScores = {"A": 1, "B": 3, "C": 3, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1, "J": 8, "K": 5, "L": 1, "M": 3, "N": 1, "O": 1, "P": 3, "Q": 10, "R": 1, "S": 1, "T": 1, "U": 1, "V": 4, "W": 4, "X": 8, "Y": 4, "Z": 10};
-const scoreMultipliers = [
-	{letter: 1, word: 1},
-	{letter: 2, word: 1},
-	{letter: 3, word: 1},
-	{letter: 1, word: 2},
-	{letter: 1, word: 3},
-	{letter: 1, word: 1},
-];
+const boardInfo = {
+	"english": {
+		"modifiers": [
+			[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4],
+			[0, 3, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 3, 0],
+			[0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
+			[1, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 1],
+			[0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
+			[0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
+			[0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
+			[4, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 4],
+			[0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
+			[0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
+			[0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
+			[1, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 1],
+			[0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
+			[0, 3, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 3, 0],
+			[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4]
+		],
+		"alphabet": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
+		"letterScores": {"A": 1, "B": 3, "C": 3, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1, "J": 8, "K": 5, "L": 1, "M": 3, "N": 1, "O": 1, "P": 3, "Q": 10, "R": 1, "S": 1, "T": 1, "U": 1, "V": 4, "W": 4, "X": 8, "Y": 4, "Z": 10},
+		"letterReplacements": {},
+		"scoreMultipliers": [
+			{"letter": 1, "word": 1},
+			{"letter": 2, "word": 1},
+			{"letter": 3, "word": 1},
+			{"letter": 1, "word": 2},
+			{"letter": 1, "word": 3},
+			{"letter": 1, "word": 2}
+		],
+		"dictionaryAddress": "https://www.merriam-webster.com/dictionary/",
+		"languageAbbreviation": "en"
+	},
+	"spanish": {
+		"modifiers": [
+			[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4],
+			[0, 3, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 3, 0],
+			[0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
+			[1, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 1],
+			[0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
+			[0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
+			[0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
+			[4, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 4],
+			[0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
+			[0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
+			[0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
+			[1, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 1],
+			[0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
+			[0, 3, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 3, 0],
+			[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4]
+		],
+		"alphabet": ["A", "B", "C", "CH", "D", "E", "F", "G", "H", "I", "J", "L", "LL", "M", "N", "Ñ", "N~", "O", "P", "Q", "R", "RR", "S", "T", "U", "V", "X", "Y", "Z"],
+		"letterScores": {"A": 1, "B": 3, "C": 3, "CH": 5, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1, "J": 8, "L": 1, "LL": 8, "M": 3, "N": 1, "N~": 8, "O": 1, "P": 3, "Q": 5, "R": 1, "RR": 8, "S": 1, "T": 1, "U": 1, "V": 4, "X": 8, "Y": 4, "Z": 10},
+		"letterDistribution": {"A": 12, "B": 2, "C": 4, "CH": 1, "D": 5, "E": 12, "F": 1, "G": 2, "H": 2, "I": 6, "J": 1, "L": 4, "LL": 1, "M": 2, "N": 5, "N~": 1, "O": 9, "P": 2, "Q": 1, "R": 5, "RR": 1, "S": 6, "T": 4, "U": 5, "V": 1, "X": 1, "Y": 1, "Z": 1},
+		"letterReplacements": {"N~": "Ñ"},
+		"scoreMultipliers": [
+			{"letter": 1, "word": 1},
+			{"letter": 2, "word": 1},
+			{"letter": 3, "word": 1},
+			{"letter": 1, "word": 2},
+			{"letter": 1, "word": 3},
+			{"letter": 1, "word": 2}
+		],
+		"dictionaryAddress": "https://www.collinsdictionary.com/us/dictionary/spanish-english/",
+		"languageAbbreviation": "es"
+	}
+}
 
 const windowTitle = "Scrabble - Colebot.com";
 
@@ -650,9 +689,16 @@ function gameInit() {
 	canvas.gameBannerParams = gameBannerParams;
 
 	// show the game info
+
+	// start with the language, if not english
+	let gameInfo = game.lang !== 'english' ? /* html */ `
+		<div class="gameLanguageBox bold">
+			${game.lang.toTitleCase()}
+		</div>
+	` : ``;
 	
 	// start with the game name
-	let gameInfo = /* html */ `
+	gameInfo += /* html */ `
 		<div class="gameTitleBox">
 			<div class="gameTitleLine">
 				<button class="iconButton" onclick="getInfo()">
@@ -1015,18 +1061,24 @@ function shuffleBank() {
 
 function pickLetter(bankIndex, complete = function(letter) {}) {
 	let $letterPicker = $('#letterPicker');
+	const letterPicker = document.getElementById('letterPicker');
 	$('#chooseLetterModal').modalOpen();
-	$letterPicker[0].focus();
-	$letterPicker.val('').off().on('keyup', function() {
-		if ($letterPicker.val()) {
-			if (/[A-Za-z]/.test($letterPicker.val())) {
+	letterPicker.focus();
+	letterPicker.value = '';
+	$letterPicker.off().on('keyup', function(e) {
+		// check for letter in alphabet
+		if (letterPicker.value) {
+			if (!boardInfo[game.lang].alphabet.includes(letterPicker.value.toUpperCase())) {
+				letterPicker.value = '';
+			} else if (game.lang === 'english' || e.key === 'Enter') {
 				$letterPicker.off();
-				$letterPicker[0].blur();
+				letterPicker.blur();
 				document.scrollTop = 0;
-				complete($letterPicker.val().toUpperCase());
+				let letter = letterPicker.value.toUpperCase();
+				let find;
+				if (find = Object.keys(boardInfo[game.lang].letterReplacements).find(key => boardInfo[game.lang].letterReplacements[key] === letter)) letter = find;
+				complete(letter);
 				$('#chooseLetterModal').modalClose();
-			} else {
-				$letterPicker.val('');
 			}
 		}
 	}).on('blur', function() {
@@ -1053,7 +1105,7 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 		return;
 	}
 	
-	letter = letter[0].toUpperCase();
+	letter = letter.toUpperCase();
 
 	game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
 

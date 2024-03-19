@@ -2,6 +2,7 @@ function getInfo() {
     // common info calculations
     const name = game.name;
     const id = game.id;
+    const lang = game.lang.toTitleCase();
     const creationDate = game.creationDate;
     const creationDateValid = creationDate !== '0000-00-00';
     const startPlayer = game.players[0].name;
@@ -29,6 +30,11 @@ function getInfo() {
         <b>${startPlayer}</b>
     `;
 
+    const languageLine = /* html */ `
+        Language: 
+        <b>${lang}</b>
+    `;
+
     let message;
     if (!game.inactive) {
         // active info calculations
@@ -52,6 +58,7 @@ function getInfo() {
             <div class="flex col" style="gap: 10px">
                 <div>${nameLine}</div>
                 <div>${creationLine}</div>
+                <div>${languageLine}</div>
                 <div>${turnLine}</div>
                 <div>${letterBagLine}</div>
             </div>
@@ -125,6 +132,7 @@ function getInfo() {
             <div class="flex col" style="gap: 10px">
                 <div>${nameLine}</div>
                 <div>${creationLine}</div>
+                <div>${languageLine}</div>
                 <div>${winnerLine}</div>
                 <div>${endLine}</div>
             </div>

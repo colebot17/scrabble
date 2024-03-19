@@ -32,11 +32,12 @@ if (!in_array($gameId, json_decode($row['games'], true))) {
 	exit('{"errorLevel":2,"message":"You don\'t have permission to load this game!"}');
 }
 	
-$sql = "SELECT name, letterBag, players, turn, inactive, board, words, creationDate, endDate, chat, updates FROM games WHERE id='$gameId'";
+$sql = "SELECT name, lang, letterBag, players, turn, inactive, board, words, creationDate, endDate, chat, updates FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 
 $name = $row['name'];
+$lang = $row['lang'];
 $letterBag = json_decode($row['letterBag'], true);
 $turn = (int)$row['turn'];
 $inactive = ((int)$row['inactive'] === 1 ? true : false);
@@ -108,6 +109,7 @@ for ($i = 0; $i < count($chat); $i++) {
 $obj = Array(
 	"id"           => (int)$gameId,
 	"name"         => $name,
+	"lang"         => $lang,
 	"lettersLeft"  => (int)$lettersLeft,
 	"players"      => $players,
 	"turn"         => (int)$turn,

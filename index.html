@@ -316,6 +316,11 @@
 						</label>
 						<span class="finePrint" title="Affects current browser only">Hide In-Game Chat</span>
 					</div>
+					<div class="settingsSection">
+						<label><input type="radio" id="englishDefaultLanguageOption" class="defaultLanguageOption" name="defaultLanguage" value="english">English</label>
+						<label><input type="radio" id="spanishDefaultLanguageOption" class="defaultLanguageOption" name="defaultLanguage" value="spanish">Spanish</label>
+						<span class="finePrint">Default Language</span>
+					</div>
 					<!-- <div class="settingsSection">
 						<button class="iconButton chooseThemeButton">
 							<span class="material-symbols-rounded">
@@ -436,14 +441,14 @@
 		<div class="grid gridCol optionsHolder scrollable">
 			<div class="addPlayerPanel contents" id="addPlayerPanel" data-page="friends">
 				<div class="addPlayerPanelPage" id="addPlayerPanel-friends">
-					<div class="flex col stretch scrollable">
+					<div class="flex col stretch scrollable darkerScrollbar">
 						<h3>Add Friends</h3>
-						<div class="friendList" id="createGameFriendList"></div>
+						<div class="friendList darkerScrollbar" id="createGameFriendList"></div>
 						<a class="finePrint hoverLine hoverDarken" id="addOthersButton" onclick="setAddPlayerPanelPage('others')">Add Others</a>
 					</div>
 				</div>
 				<div class="addPlayerPanelPage" id="addPlayerPanel-others">
-					<div class="flex col stretch scrollable">
+					<div class="flex col stretch scrollable darkerScrollbar">
 						<h3>Add Others</h3>
 						<input type="text" class="largeTextInput textCenter" id="createGamePlayerInput" placeholder="Username">
 						<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add Player</button>
@@ -451,11 +456,16 @@
 					</div>
 				</div>
 			</div>
-			<div class="flex col stretch existingPlayerPanel scrollable">
+			<div class="flex col stretch existingPlayerPanel scrollable darkerScrollbar">
 				<h3>Players</h3>
-				<div class="friendList" id="createGamePlayerList"></div>
+				<div class="friendList darkerScrollbar" id="createGamePlayerList"></div>
 				<button class="highlight" id="createGameModalButton" onclick="createGame()">Create Game</button>
 			</div>
+		</div>
+		<div class="languageSelector">
+			<label>Language:</label>
+			<label><input type="radio" name="lang" id="englishLangOption" value="english" checked>English</label>
+			<label><input type="radio" name="lang" id="spanishLangOption" value="spanish">Spanish</label>
 		</div>
 	</div>
 	<div class="modal hidden" id="letterExchangeModal">
@@ -479,7 +489,7 @@
 	</div>
 	<div class="modal hidden" id="chooseLetterModal">
 		<h3>Pick any letter</h3>
-		<input type="text" name="letterPicker" onkeydown="return /[a-zA-Z]/i.test(event.key)" maxlength="1" id="letterPicker" autocomplete="off">
+		<input type="text" name="letterPicker" id="letterPicker" autocomplete="off">
 		<div class="placeholder"></div>
 	</div>
 	<div class="popup hidden" id="wordLookupPopup">
@@ -499,6 +509,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- import jQuery -->
 	<script type="text/javascript" src="scripts/util.js" defer></script>
 	<script type="text/javascript" src="scripts/settings.js" defer></script>
+	<script type="text/javascript" src="scripts/defaultLanguage.js" defer></script>
 	<script type="text/javascript" src="scripts/pages.js" defer></script>
 	<script type="text/javascript" src="scripts/canvas.js" defer></script>
 	<script type="text/javascript" src="scripts/board.js" defer></script>

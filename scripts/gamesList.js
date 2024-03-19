@@ -126,6 +126,7 @@ function activeGameCard(game) {
                 ` : ``}
             </div>
             <div class="listGamePlayerList">
+                ${game.lang !== 'english' ? /* html */ `<div class="gameLanguageBox">${game.lang.toTitleCase()}</div>` : ''}
                 ${playerList(game)}
             </div>
             <button class="openGameButton${turnUser === account.id ? " highlight" : ""}" onclick="loadGame(${game.id}, 'expand')" data-gameid="${game.id}">
@@ -160,6 +161,7 @@ function inactiveGameCard(game) {
                 ` : ``}
             </div>
             <div class="listGamePlayerList">
+                ${game.lang !== 'english' ? /* html */ `<div class="gameLanguageBox">${game.lang.toTitleCase()}</div>` : ''}
                 ${playerList(game)}
             </div>
             <button class="openGameButton" onclick="loadGame(${game.id}, 'expand')" data-gameid="${game.id}">
@@ -224,7 +226,8 @@ function gameLI(game) {
                     ${additionalInfoString}
                 </span>
 			</div>
-			<div class="flex col fullHeight">
+			<div class="flex fullHeight">
+                ${game.lang !== 'english' ? /* html */ `<div class="gameLanguageBox">${boardInfo[game.lang].languageAbbreviation.toTitleCase()}</div>` : ''}
 				<span class="material-symbols-rounded textColorLight">
 					chevron_right
 				</span>

@@ -147,6 +147,8 @@ function drawBoard() {
 	canvas.ctx.fillStyle = BOARD_BACKGROUND_COLOR;
 	roundRect(canvas.ctx, 0, 0, canvas.c.width, canvas.c.width, cornerRadius);
 
+	const boardModifiers = boardInfo[game.lang].modifiers;
+
 	for (var y = 0; y < SQUARE_NUM; y++) { // for each tile
 		for (var x = 0; x < SQUARE_NUM; x++) {
 			const squareColor = BOARD_COLOR_KEY[boardModifiers[y][x]];
@@ -413,10 +415,11 @@ function drawLetterBank() {
 			canvas.ctx.fillStyle = "#f2f5ff" // tile text color
 			canvas.ctx.font = textSize + "px Eurostile";
 			canvas.ctx.textAlign = "center";
-			canvas.ctx.fillText(canvasLetter.letter, textX, textY);
+			const letter = boardInfo[game.lang].letterReplacements[canvasLetter.letter] || canvasLetter.letter;
+			canvas.ctx.fillText(letter, textX, textY);
 
 			// draw points
-			let points = letterScores[canvasLetter.letter.toUpperCase()];
+			let points = boardInfo[game.lang].letterScores[canvasLetter.letter.toUpperCase()];
 
 			canvas.ctx.font = smallTextSize + "px Eurostile";
 			canvas.ctx.textAlign = "right";
@@ -490,7 +493,8 @@ function updateTile(tile) {
 	canvas.ctx.font = fontSize + "px Eurostile";
 	canvas.ctx.textAlign = "center";
 	canvas.ctx.textBaseline = "middle";
-	canvas.ctx.fillText(tile.letter || "", pixelX + (tileWidth / 2), pixelY + (tileWidth / 2));
+	const letter = tile.letter ? (boardInfo[game.lang].letterReplacements[tile.letter] || tile.letter) : "";
+	canvas.ctx.fillText(letter, pixelX + (tileWidth / 2), pixelY + (tileWidth / 2));
 	canvas.ctx.textBaseline = "alphabetic";
 
 	// draw the points on the tile if size allows
@@ -498,7 +502,7 @@ function updateTile(tile) {
 		canvas.ctx.fillStyle = "#f2f5ff"; // tile text color
 		canvas.ctx.font = (fontSize / 3) + "px Eurostile";
 		canvas.ctx.textAlign = "right";
-		canvas.ctx.fillText(letterScores[tile.letter], (pixelX + (tileWidth * 0.9)), (pixelY + (tileWidth * 0.9)));
+		canvas.ctx.fillText(boardInfo[game.lang].letterScores[tile.letter], (pixelX + (tileWidth * 0.9)), (pixelY + (tileWidth * 0.9)));
 	}
 }
 

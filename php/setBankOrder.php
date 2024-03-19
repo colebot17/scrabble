@@ -84,5 +84,3 @@ if ($query) {
 
 // close the connection
 $conn->close();
-
-?>

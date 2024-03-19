@@ -84,6 +84,7 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 		account.name = res.data.name;
 		account.pwd = pwd;
 		account.id = parseInt(res.data.id);
+		account.defaultLang = res.data.defaultLang;
 		account.games = res.data.games;
 		account.friends = res.data.friends;
 		account.requests = res.data.requests;
@@ -110,6 +111,9 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 		updateFriendsList(account.friends);
 		updateRequestList(account.requests);
 		updateSentRequestList(account.sentRequests);
+
+		document.getElementById(account.defaultLang + 'DefaultLanguageOption').checked = true;
+		initDefaultLanguageSelectors();
 
 		// show the signed in page
 		scrabbleGrid.dataset.signedin = "true";

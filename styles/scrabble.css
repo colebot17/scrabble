@@ -83,6 +83,21 @@
 	overflow-x: visible;
 }
 
+.gameLanguageBox {
+	padding: 5px;
+	border-radius: 10px;
+	background-color: var(--background-2);
+}
+#gameControlsCell .gameInfoBox .gameLanguageBox {
+	background-color: var(--background-2);
+}
+#gamesCell .listGame .gameLanguageBox {
+	background-color: var(--background-3);
+}
+#gamesCell[data-displaymode=card] .listGame .gameLanguageBox {
+	margin-bottom: 5px;
+}
+
 #gameControlsCell .gameInfoBox .gameTitleBox {
 	display: flex;
 	flex-direction: column;
@@ -255,6 +270,11 @@ body.scrabble {
 	grid-template-columns: 50% 50%;
 
 	height: max-content;
+}
+#createGameModal .languageSelector {
+	border-top: 1px solid var(--selection-color);
+	padding-top: 15px;
+	margin: 10px 0;
 }
 
 /* letter exchange modal */

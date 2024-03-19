@@ -27,7 +27,7 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT name, id, games, creationDate, friends, requests, sentRequests FROM accounts WHERE name='$playerName'";
+    $sql = "SELECT name, id, defaultLang, games, creationDate, friends, requests, sentRequests FROM accounts WHERE name='$playerName'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
 
@@ -45,6 +45,7 @@
 
     echo '<p>';
 
+    echo 'Default Language: ' . ucfirst($row['defaultLang']) . ' <a href="changeDefaultLang.php?user=' . $row['name'] . '">Change</a><br>';
     echo 'Account Creation Date: ' . ($row['creationDate'] !== "0000-00-00" ? $row['creationDate'] : '<span style="color:gray">[Unknown]</span>');
     echo '<br>';
     echo '<a href="changeUsername.php?user=' . $currentPlayerName . '">Change Username</a><br>';
