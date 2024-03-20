@@ -8,5 +8,3 @@ function verifyPassword($conn, int $userId, string $pwd) {
     $row = mysqli_fetch_assoc($query);
     return password_verify($pwd, $row['pwd']);
 }
-
-?>

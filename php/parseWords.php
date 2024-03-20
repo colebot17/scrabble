@@ -162,7 +162,7 @@ function parseWords($gameId, $tiles, $user) {
         }
     }
 
-    // go ahead and get the two json files we will need: board.json and dictionary_[lang].json
+    // go ahead and get the json files we will need
     $boardInfo = json_decode(file_get_contents('../resources/board.json'), true);
     $langInfo = json_decode(file_get_contents('../resources/languages.json'), true)[$lang];
     $dictionary = json_decode(file_get_contents('../resources/dictionary_' . $lang . '.json'), true);

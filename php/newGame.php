@@ -25,7 +25,7 @@ if (!verifyPassword($conn, $user, $pwd)) {
 }
 
 // generate a game
-$letterBag = json_decode(file_get_contents('../resources/board.json'), true)[$lang]["letterDistribution"];
+$letterBag = json_decode(file_get_contents('../resources/languages.json'), true)[$lang]["letterDistribution"];
 
 // generate the player list for the game
 $numPlayers = count($playerList);
