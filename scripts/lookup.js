@@ -97,7 +97,7 @@ function lookup(boardX, boardY, clientX, clientY) {
                             More Info
                         </a>
                     ` : ``}
-                    <a class="wordLookupLink flex blue fakeHoverLine" href="${boardInfo[game.lang].dictionaryAddress + w.toLowerCase()}" target="_blank">
+                    <a class="wordLookupLink flex blue fakeHoverLine" href="${langInfo[game.lang].dictionaryAddress + w.toLowerCase()}" target="_blank">
                         <span class="material-symbols-rounded smallIcon">search</span>
                         Look up
                     </a>
