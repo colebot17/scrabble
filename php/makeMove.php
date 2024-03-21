@@ -196,6 +196,7 @@ $players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlaye
 
 if (!$inactive) {
 	$totalTurn++; // increment the turn
+	$turn = $totalTurn % count($players);
 }
 
 // reset the subsequent skip counter for the player
@@ -259,6 +260,11 @@ $response = Array(
 	)
 );
 echo json_encode($response);
+
+if ($players[$turn]['id'] === 0) {
+	require('scrabbleBot.php');
+	aiMove($conn, $gameId);
+}
 
 //////////
 // add to updates list
