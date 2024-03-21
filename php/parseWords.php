@@ -162,8 +162,9 @@ function parseWords($gameId, $tiles, $user) {
         }
     }
 
-    // go ahead and get the two json files we will need: board.json and dictionary_[lang].json
-    $boardInfo = json_decode(file_get_contents('../resources/board.json'), true)[$lang];
+    // go ahead and get the json files we will need
+    $boardInfo = json_decode(file_get_contents('../resources/board.json'), true);
+    $langInfo = json_decode(file_get_contents('../resources/languages.json'), true)[$lang];
     $dictionary = json_decode(file_get_contents('../resources/dictionary_' . $lang . '.json'), true);
 
     // the complicated part...
@@ -217,7 +218,7 @@ function parseWords($gameId, $tiles, $user) {
 
                 // add points times letter multiplier if not locked
                 if (!$board[$y][$sweepX]["blank"]) { // unless is is a blank tile
-                    $xAxisWordPoints = $xAxisWordPoints + $boardInfo["letterScores"][strtoupper($board[$y][$sweepX]["letter"])] * (!$board[$y][$sweepX]["locked"] ? $boardInfo["scoreMultipliers"][$boardInfo["modifiers"][$y][$sweepX]]["letter"] : 1);
+                    $xAxisWordPoints = $xAxisWordPoints + $langInfo["letterScores"][strtoupper($board[$y][$sweepX]["letter"])] * (!$board[$y][$sweepX]["locked"] ? $boardInfo["scoreMultipliers"][$boardInfo["modifiers"][$y][$sweepX]]["letter"] : 1);
                 }
 
                 // multiply multiplier by word multiplier if not locked
@@ -244,7 +245,7 @@ function parseWords($gameId, $tiles, $user) {
 
                             // add points times letter multiplier if not locked
                             if (!$board[$sweepY][$sweepX]["blank"]) { // unless it is a blank tile
-                                $xCrossAxisWordPoints = $xCrossAxisWordPoints + $boardInfo["letterScores"][strtoupper($board[$sweepY][$sweepX]["letter"])] * (!$board[$sweepY][$sweepX]["locked"] ? $boardInfo["scoreMultipliers"][$boardInfo["modifiers"][$sweepY][$sweepX]]["letter"] : 1);
+                                $xCrossAxisWordPoints = $xCrossAxisWordPoints + $langInfo["letterScores"][strtoupper($board[$sweepY][$sweepX]["letter"])] * (!$board[$sweepY][$sweepX]["locked"] ? $boardInfo["scoreMultipliers"][$boardInfo["modifiers"][$sweepY][$sweepX]]["letter"] : 1);
                             }
 
                             // multiply multiplier by word multiplier if not locked
@@ -264,7 +265,7 @@ function parseWords($gameId, $tiles, $user) {
                     }
                     
                     // compile the x cross axis word and points into the array unless it's only one letter
-                    if (!in_array($xCrossAxisWord, $boardInfo["alphabet"])) {
+                    if (!in_array($xCrossAxisWord, $langInfo["alphabet"])) {
                         array_push($words, Array(
                             "word" => $xCrossAxisWord,
                             "points" => $xCrossAxisWordPoints * $xCrossAxisWordMultiplier,
@@ -326,7 +327,7 @@ function parseWords($gameId, $tiles, $user) {
 
                 // add points times letter multiplier if not locked
                 if (!$board[$sweepY][$x]["blank"]) { // unless it is a blank tile
-                    $yAxisWordPoints = $yAxisWordPoints + $boardInfo["letterScores"][strtoupper($board[$sweepY][$x]["letter"])] * (!$board[$sweepY][$x]["locked"] ? $boardInfo["scoreMultipliers"][$boardInfo["modifiers"][$sweepY][$x]]["letter"] : 1);
+                    $yAxisWordPoints = $yAxisWordPoints + $langInfo["letterScores"][strtoupper($board[$sweepY][$x]["letter"])] * (!$board[$sweepY][$x]["locked"] ? $boardInfo["scoreMultipliers"][$boardInfo["modifiers"][$sweepY][$x]]["letter"] : 1);
                 }
                 // multiply multiplier by word multiplier if not locked
                 $yAxisWordMultiplier *= (!$board[$sweepY][$x]["locked"] ? $boardInfo["scoreMultipliers"][$boardInfo["modifiers"][$sweepY][$x]]["word"] : 1);
@@ -353,7 +354,7 @@ function parseWords($gameId, $tiles, $user) {
 
                             // add points times letter multiplier if not locked
                             if (!$board[$sweepY][$sweepX]["blank"]) { // unless it is a blank tile	
-                                $yCrossAxisWordPoints = $yCrossAxisWordPoints + $boardInfo["letterScores"][strtoupper($board[$sweepY][$sweepX]["letter"])] * (!$board[$sweepY][$sweepX]["locked"] ? $boardInfo["scoreMultipliers"][$boardInfo["modifiers"][$sweepY][$sweepX]]["letter"] : 1);
+                                $yCrossAxisWordPoints = $yCrossAxisWordPoints + $langInfo["letterScores"][strtoupper($board[$sweepY][$sweepX]["letter"])] * (!$board[$sweepY][$sweepX]["locked"] ? $boardInfo["scoreMultipliers"][$boardInfo["modifiers"][$sweepY][$sweepX]]["letter"] : 1);
                             }
 
                             // multiply multiplier by word multiplier if not locked
@@ -373,7 +374,7 @@ function parseWords($gameId, $tiles, $user) {
                     }
                     
                     // compile the y cross axis word and points into the array unless it's only one letter
-                    if (!in_array($yCrossAxisWord, $boardInfo["alphabet"])) {
+                    if (!in_array($yCrossAxisWord, $langInfo["alphabet"])) {
                         array_push($words, Array(
                             "word" => $yCrossAxisWord,
                             "points" => $yCrossAxisWordPoints * $yCrossAxisWordMultiplier,

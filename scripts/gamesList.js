@@ -10,6 +10,9 @@ function updateGamesList(dispMode = localStorage.gameListDisplayMode || "card") 
     for (let i = 0; i < account.games.length; i++) {
         const game = account.games[i];
 
+        // check if the language is supported
+        if (!langInfo[game.lang]) continue;
+
         // convert date strings to date objects
         game.lastUpdate = new Date(game.lastUpdate);
         if (game.endDate) game.endDate = new Date(game.endDate);
@@ -227,7 +230,7 @@ function gameLI(game) {
                 </span>
 			</div>
 			<div class="flex fullHeight">
-                ${game.lang !== account.defaultLang ? /* html */ `<div class="gameLanguageBox">${boardInfo[game.lang].languageAbbreviation.toTitleCase()}</div>` : ''}
+                ${game.lang !== account.defaultLang ? /* html */ `<div class="gameLanguageBox">${langInfo[game.lang].languageAbbreviation.toTitleCase()}</div>` : ''}
 				<span class="material-symbols-rounded textColorLight">
 					chevron_right
 				</span>

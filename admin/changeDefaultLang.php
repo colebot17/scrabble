@@ -55,7 +55,7 @@
             $currentDefaultLang = $row['defaultLang'];
         }
 
-        $langOptions = Array("english", "spanish");
+        $langOptions = Array("english", "spanish", "french");
 
         echo '<select name="newDefaultLang">';
         for ($i = 0; $i < count($langOptions); $i++) {

@@ -1,70 +1,60 @@
 const boardInfo = {
+	modifiers: [
+		[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4],
+		[0, 3, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 3, 0],
+		[0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
+		[1, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 1],
+		[0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
+		[0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
+		[0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
+		[4, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 4],
+		[0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
+		[0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
+		[0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
+		[1, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 1],
+		[0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
+		[0, 3, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 3, 0],
+		[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4]
+	],
+	"scoreMultipliers": [
+		{"letter": 1, "word": 1},
+		{"letter": 2, "word": 1},
+		{"letter": 3, "word": 1},
+		{"letter": 1, "word": 2},
+		{"letter": 1, "word": 3},
+		{"letter": 1, "word": 2}
+	]
+};
+
+const langInfo = {
 	"english": {
-		"modifiers": [
-			[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4],
-			[0, 3, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 3, 0],
-			[0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
-			[1, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 1],
-			[0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
-			[0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
-			[0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
-			[4, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 4],
-			[0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
-			[0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
-			[0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
-			[1, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 1],
-			[0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
-			[0, 3, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 3, 0],
-			[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4]
-		],
 		"alphabet": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
 		"letterScores": {"A": 1, "B": 3, "C": 3, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1, "J": 8, "K": 5, "L": 1, "M": 3, "N": 1, "O": 1, "P": 3, "Q": 10, "R": 1, "S": 1, "T": 1, "U": 1, "V": 4, "W": 4, "X": 8, "Y": 4, "Z": 10},
+		"letterDistribution": {"A": 9, "B": 2, "C": 2, "D": 4, "E": 12, "F": 2, "G": 3, "H": 2, "I": 9, "J": 1, "K": 1, "L": 4, "M": 2, "N": 6, "O": 8, "P": 2, "Q": 1, "R": 6, "S": 4, "T": 6, "U": 4, "V": 2, "W": 2, "X": 1, "Y": 2, "Z": 1, "": 2},
 		"letterReplacements": {},
-		"scoreMultipliers": [
-			{"letter": 1, "word": 1},
-			{"letter": 2, "word": 1},
-			{"letter": 3, "word": 1},
-			{"letter": 1, "word": 2},
-			{"letter": 1, "word": 3},
-			{"letter": 1, "word": 2}
-		],
 		"dictionaryAddress": "https://www.merriam-webster.com/dictionary/",
-		"languageAbbreviation": "en"
+		"languageAbbreviation": "en",
+		"containsDoubleLetters": false
 	},
 	"spanish": {
-		"modifiers": [
-			[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4],
-			[0, 3, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 3, 0],
-			[0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
-			[1, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 1],
-			[0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
-			[0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
-			[0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
-			[4, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 4],
-			[0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
-			[0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
-			[0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
-			[1, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 1],
-			[0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
-			[0, 3, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 3, 0],
-			[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4]
-		],
 		"alphabet": ["A", "B", "C", "CH", "D", "E", "F", "G", "H", "I", "J", "L", "LL", "M", "N", "Ñ", "N~", "O", "P", "Q", "R", "RR", "S", "T", "U", "V", "X", "Y", "Z"],
 		"letterScores": {"A": 1, "B": 3, "C": 3, "CH": 5, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1, "J": 8, "L": 1, "LL": 8, "M": 3, "N": 1, "N~": 8, "O": 1, "P": 3, "Q": 5, "R": 1, "RR": 8, "S": 1, "T": 1, "U": 1, "V": 4, "X": 8, "Y": 4, "Z": 10},
 		"letterDistribution": {"A": 12, "B": 2, "C": 4, "CH": 1, "D": 5, "E": 12, "F": 1, "G": 2, "H": 2, "I": 6, "J": 1, "L": 4, "LL": 1, "M": 2, "N": 5, "N~": 1, "O": 9, "P": 2, "Q": 1, "R": 5, "RR": 1, "S": 6, "T": 4, "U": 5, "V": 1, "X": 1, "Y": 1, "Z": 1},
 		"letterReplacements": {"N~": "Ñ"},
-		"scoreMultipliers": [
-			{"letter": 1, "word": 1},
-			{"letter": 2, "word": 1},
-			{"letter": 3, "word": 1},
-			{"letter": 1, "word": 2},
-			{"letter": 1, "word": 3},
-			{"letter": 1, "word": 2}
-		],
 		"dictionaryAddress": "https://www.collinsdictionary.com/us/dictionary/spanish-english/",
-		"languageAbbreviation": "es"
-	}
-}
+		"languageAbbreviation": "es",
+		"containsDoubleLetters": true
+	},
+	"french": {
+        "alphabet": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
+		"letterScores": {"A": 1, "B": 3, "C": 3, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1, "J": 8, "K": 10, "L": 1, "M": 2, "N": 1, "O": 1, "P": 3, "Q": 8, "R": 1, "S": 1, "T": 1, "U": 1, "V": 4, "W": 10, "X": 10, "Y": 10, "Z": 10},
+		"letterDistribution": {"A": 9, "B": 2, "C": 2, "D": 3, "E": 15, "F": 2, "G": 2, "H": 2, "I": 8, "J": 1, "K": 1, "L": 5, "M": 3, "N": 6, "O": 6, "P": 2, "Q": 1, "R": 6, "S": 6, "T": 6, "U": 6, "V": 2, "W": 1, "X": 1, "Y": 1, "Z": 1, "": 2},
+		"letterReplacements": {},
+		"dictionaryAddress": "https://www.collinsdictionary.com/dictionary/french-english/",
+		"languageAbbreviation": "fr",
+		"containsDoubleLetters": false
+    }
+};
 
 const windowTitle = "Scrabble - Colebot.com";
 
@@ -1068,15 +1058,15 @@ function pickLetter(bankIndex, complete = function(letter) {}) {
 	$letterPicker.off().on('keyup', function(e) {
 		// check for letter in alphabet
 		if (letterPicker.value) {
-			if (!boardInfo[game.lang].alphabet.includes(letterPicker.value.toUpperCase())) {
+			if (!langInfo[game.lang].alphabet.includes(letterPicker.value.toUpperCase())) {
 				letterPicker.value = '';
-			} else if (game.lang === 'english' || e.key === 'Enter') {
+			} else if (!langInfo[game.lang].containsDoubleLetters || e.key === 'Enter') {
 				$letterPicker.off();
 				letterPicker.blur();
 				document.scrollTop = 0;
 				let letter = letterPicker.value.toUpperCase();
 				let find;
-				if (find = Object.keys(boardInfo[game.lang].letterReplacements).find(key => boardInfo[game.lang].letterReplacements[key] === letter)) letter = find;
+				if (find = Object.keys(langInfo[game.lang].letterReplacements).find(key => langInfo[game.lang].letterReplacements[key] === letter)) letter = find;
 				complete(letter);
 				$('#chooseLetterModal').modalClose();
 			}

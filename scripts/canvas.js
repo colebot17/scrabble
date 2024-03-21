@@ -147,7 +147,7 @@ function drawBoard() {
 	canvas.ctx.fillStyle = BOARD_BACKGROUND_COLOR;
 	roundRect(canvas.ctx, 0, 0, canvas.c.width, canvas.c.width, cornerRadius);
 
-	const boardModifiers = boardInfo[game.lang].modifiers;
+	const boardModifiers = boardInfo.modifiers;
 
 	for (var y = 0; y < SQUARE_NUM; y++) { // for each tile
 		for (var x = 0; x < SQUARE_NUM; x++) {
@@ -415,11 +415,11 @@ function drawLetterBank() {
 			canvas.ctx.fillStyle = "#f2f5ff" // tile text color
 			canvas.ctx.font = textSize + "px Eurostile";
 			canvas.ctx.textAlign = "center";
-			const letter = boardInfo[game.lang].letterReplacements[canvasLetter.letter] || canvasLetter.letter;
+			const letter = langInfo[game.lang].letterReplacements[canvasLetter.letter] || canvasLetter.letter;
 			canvas.ctx.fillText(letter, textX, textY);
 
 			// draw points
-			let points = boardInfo[game.lang].letterScores[canvasLetter.letter.toUpperCase()];
+			let points = langInfo[game.lang].letterScores[canvasLetter.letter.toUpperCase()];
 
 			canvas.ctx.font = smallTextSize + "px Eurostile";
 			canvas.ctx.textAlign = "right";
@@ -493,7 +493,7 @@ function updateTile(tile) {
 	canvas.ctx.font = fontSize + "px Eurostile";
 	canvas.ctx.textAlign = "center";
 	canvas.ctx.textBaseline = "middle";
-	const letter = tile.letter ? (boardInfo[game.lang].letterReplacements[tile.letter] || tile.letter) : "";
+	const letter = tile.letter ? (langInfo[game.lang].letterReplacements[tile.letter] || tile.letter) : "";
 	canvas.ctx.fillText(letter, pixelX + (tileWidth / 2), pixelY + (tileWidth / 2));
 	canvas.ctx.textBaseline = "alphabetic";
 
@@ -502,7 +502,7 @@ function updateTile(tile) {
 		canvas.ctx.fillStyle = "#f2f5ff"; // tile text color
 		canvas.ctx.font = (fontSize / 3) + "px Eurostile";
 		canvas.ctx.textAlign = "right";
-		canvas.ctx.fillText(boardInfo[game.lang].letterScores[tile.letter], (pixelX + (tileWidth * 0.9)), (pixelY + (tileWidth * 0.9)));
+		canvas.ctx.fillText(langInfo[game.lang].letterScores[tile.letter], (pixelX + (tileWidth * 0.9)), (pixelY + (tileWidth * 0.9)));
 	}
 }
 
