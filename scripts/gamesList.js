@@ -10,6 +10,9 @@ function updateGamesList(dispMode = localStorage.gameListDisplayMode || "card") 
     for (let i = 0; i < account.games.length; i++) {
         const game = account.games[i];
 
+        // check if the language is supported
+        if (!game.lang in langInfo) continue;
+
         // convert date strings to date objects
         game.lastUpdate = new Date(game.lastUpdate);
         if (game.endDate) game.endDate = new Date(game.endDate);
