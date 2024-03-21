@@ -33,7 +33,8 @@ const langInfo = {
 		"letterDistribution": {"A": 9, "B": 2, "C": 2, "D": 4, "E": 12, "F": 2, "G": 3, "H": 2, "I": 9, "J": 1, "K": 1, "L": 4, "M": 2, "N": 6, "O": 8, "P": 2, "Q": 1, "R": 6, "S": 4, "T": 6, "U": 4, "V": 2, "W": 2, "X": 1, "Y": 2, "Z": 1, "": 2},
 		"letterReplacements": {},
 		"dictionaryAddress": "https://www.merriam-webster.com/dictionary/",
-		"languageAbbreviation": "en"
+		"languageAbbreviation": "en",
+		"containsDoubleLetters": false
 	},
 	"spanish": {
 		"alphabet": ["A", "B", "C", "CH", "D", "E", "F", "G", "H", "I", "J", "L", "LL", "M", "N", "Ñ", "N~", "O", "P", "Q", "R", "RR", "S", "T", "U", "V", "X", "Y", "Z"],
@@ -41,7 +42,8 @@ const langInfo = {
 		"letterDistribution": {"A": 12, "B": 2, "C": 4, "CH": 1, "D": 5, "E": 12, "F": 1, "G": 2, "H": 2, "I": 6, "J": 1, "L": 4, "LL": 1, "M": 2, "N": 5, "N~": 1, "O": 9, "P": 2, "Q": 1, "R": 5, "RR": 1, "S": 6, "T": 4, "U": 5, "V": 1, "X": 1, "Y": 1, "Z": 1},
 		"letterReplacements": {"N~": "Ñ"},
 		"dictionaryAddress": "https://www.collinsdictionary.com/us/dictionary/spanish-english/",
-		"languageAbbreviation": "es"
+		"languageAbbreviation": "es",
+		"containsDoubleLetters": true
 	},
 	"french": {
         "alphabet": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
@@ -49,7 +51,8 @@ const langInfo = {
 		"letterDistribution": {"A": 9, "B": 2, "C": 2, "D": 3, "E": 15, "F": 2, "G": 2, "H": 2, "I": 8, "J": 1, "K": 1, "L": 5, "M": 3, "N": 6, "O": 6, "P": 2, "Q": 1, "R": 6, "S": 6, "T": 6, "U": 6, "V": 2, "W": 1, "X": 1, "Y": 1, "Z": 1, "": 2},
 		"letterReplacements": {},
 		"dictionaryAddress": "https://www.collinsdictionary.com/dictionary/french-english/",
-		"languageAbbreviation": "fr"
+		"languageAbbreviation": "fr",
+		"containsDoubleLetters": false
     }
 };
 
@@ -1057,7 +1060,7 @@ function pickLetter(bankIndex, complete = function(letter) {}) {
 		if (letterPicker.value) {
 			if (!langInfo[game.lang].alphabet.includes(letterPicker.value.toUpperCase())) {
 				letterPicker.value = '';
-			} else if (game.lang === 'english' || e.key === 'Enter') {
+			} else if (!langInfo[game.lang].containsDoubleLetters || e.key === 'Enter') {
 				$letterPicker.off();
 				letterPicker.blur();
 				document.scrollTop = 0;
