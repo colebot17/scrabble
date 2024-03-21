@@ -20,8 +20,10 @@ function aiMove($conn, $gameId) {
     $dictionary = json_decode(file_get_contents('../resources/dictionary_' . $lang . '.json'), true)["words"];
 
     $newDictionary = Array();
+
+    $numWords = 0;
     
-    for ($i = 0; $i < count($dictionary); $i++) {
+    for ($i = 0; $i < count($dictionary) && $numWords < 3; $i++) {
 
         $bankCopy = Array();
         for ($j = 0; $j = count($letterBank); $j++) {
@@ -42,6 +44,7 @@ function aiMove($conn, $gameId) {
 
         if ($otherLetters <= 1) {
             $newDictionary[] = $word;
+            $numWords++;
         }
 
     }
