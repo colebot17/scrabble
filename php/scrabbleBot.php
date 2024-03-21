@@ -21,16 +21,21 @@ function aiMove($conn, $gameId) {
 
     $newDictionary = Array();
 
-    $numWords = 0;
+    $tryCount = 3;
+    if (array_key_exists('trys', $_GET)) {
+        $tryCount = $_GET['trys'];
+    }
     
-    for ($i = 0; $i < count($dictionary) && $numWords < 3; $i++) {
+    for ($i = 0; $i < $tryCount; $i++) {
 
         $bankCopy = Array();
         for ($j = 0; $j = count($letterBank); $j++) {
             $bankCopy[] = $letterBank[$j];
         }
 
-        $word = $dictionary[$i];
+        $word = $dictionary[rand(0, count($dictionary))];
+
+        echo 'Trying word: ' . $word . '<br>';
 
         $otherLetters = 0;
 
@@ -44,7 +49,9 @@ function aiMove($conn, $gameId) {
 
         if ($otherLetters <= 1) {
             $newDictionary[] = $word;
-            $numWords++;
+            echo 'Succeeded!<br><br>';
+        } else {
+            echo 'Failed. :(<br><br>';
         }
 
     }
