@@ -30,7 +30,6 @@
     $sql = "SELECT name, id, defaultLang, games, creationDate, friends, requests, sentRequests FROM accounts WHERE name='$playerName'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
-
     if (!$row) {
         echo '<h2 style="color:red">Error: There is no user named \'' . $playerName . '\'</h2>';
         exit();
@@ -38,6 +37,13 @@
 
     $currentPlayerId = $row['id'];
     $currentPlayerName = $row['name'];
+    
+    $noGames = $row['games'] === '[]';
+    $noFriends = $row['friends'] === '[]';
+    $noRequests = $row['requests'] === '[]';
+    $noSentRequests = $row['sentRequests'] === '[]';
+    $empty = $noGames && $noFriends && $noRequests && $noSentRequests;
+
     $games = json_decode($row['games'], true);
 
     echo '<h2>' . $row['name'] . ' <span style="color:gray">#' . $row['id'] . '</span></h2>';
@@ -125,6 +131,9 @@
     
     if ($gamesListNeedsCleaning) {
         echo '<a href="cleanGamesList.php?playerId=' . $currentPlayerId . '">Clean Games List</a>';
+    }
+    if ($empty) {
+        echo '<a href="deleteAccount.php?user=' . $currentPlayerName . '" style="color:red">Delete Account</a>';
     }
 
     ?>

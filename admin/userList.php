@@ -25,7 +25,7 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT id, name FROM accounts ORDER BY id ASC";
+    $sql = "SELECT id, name, games, friends, requests, sentRequests FROM accounts ORDER BY id ASC";
     $query = mysqli_query($conn, $sql);
 
     echo '<ul>';
@@ -35,8 +35,14 @@
     while ($row = mysqli_fetch_assoc($query)) {
         $nameCache = Array($row['id'] => $row['name']);
 
+        $noGames = $row['games'] === '[]';
+        $noFriends = $row['friends'] === '[]';
+        $noRequests = $row['requests'] === '[]';
+        $noSentRequests = $row['sentRequests'] === '[]';
+
         echo '<li>';
         echo playerLine($row['id'], $nameCache, $conn);
+        if ($noGames && $noFriends && $noRequests && $noSentRequests) echo ' <span style="color:red">[Empty]</span>';
         echo '</li>';
     }
     
