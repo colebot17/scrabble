@@ -27,10 +27,9 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT name, lang, players, turn, letterBag, inactive, creationDate, endDate FROM games WHERE id='$gameId'";
+    $sql = "SELECT name, lang, players, turn, letterBag, inactive, creationDate, endDate, chat FROM games WHERE id='$gameId'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
-
     if (!$row) {
         echo '<h2 style="color:red">Error: There is no game with an id of ' . $gameId . '</h2>';
         exit();
@@ -67,6 +66,8 @@
     echo '<a style="color:red" href="deleteGame.php?game=' . $gameId . '">Delete Game</a>';
 
     echo '</p>';
+
+    $chat = json_decode($row['chat'], true);
 
     echo '<h4>Players</h4>';
 
@@ -115,6 +116,26 @@
 
 
         echo '</li>';
+    }
+    echo '</ul><br><br>';
+
+    echo '<h4>Chat</h4><ul>';
+    for ($i = 0; $i < count($chat); $i++) {
+        if ($chat[$i]["type"] === "user") {
+            echo '<li>';
+            echo '<b>' . $nameCache[(int)$chat[$i]["sender"]] . '</b>: ' . $chat[$i]["message"];
+            if (array_key_exists('deleted', $chat[$i]) && $chat[$i]["deleted"]) {
+                echo ' <span style="color:red">[Deleted]</span>';
+            }
+            echo '</li>';
+        } else {
+            echo '<li style="color: gray">';
+            echo $chat[$i]["type"] . ' / ' . $chat[$i]["action"] . ' / ' . json_encode($chat[$i]["data"]);
+            echo '</li>';
+        }
+    }
+    if (count($chat) === 0) {
+        echo '<li style="color:gray">[No Chat Messages]</li>';
     }
     echo '</ul>';
 
