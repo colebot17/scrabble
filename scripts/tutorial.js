@@ -116,10 +116,22 @@ function showOverlay(element, text, next = hideOverlay) {
 
     let smallestPercent = Infinity;
     let smallestPercentName;
-    if (percentAbove < smallestPercent) smallestPercentName = "above";
-    if (percentLeft < smallestPercent) smallestPercentName = "left";
-    if (percentBelow < smallestPercent) smallestPercentName = "below";
-    if (percentRight < smallestPercent) smallestPercentName = "right";
+    if (percentAbove < smallestPercent) {
+        smallestPercent = percentAbove;
+        smallestPercentName = "above";
+    };
+    if (percentLeft < smallestPercent) {
+        smallestPercent = percentLeft;
+        smallestPercentName = "left";
+    };
+    if (percentBelow < smallestPercent) {
+        smallestPercent = percentBelow;
+        smallestPercentName = "below";
+    };
+    if (percentRight < smallestPercent) {
+        smallestPercent = percentRight;
+        smallestPercentName = "right";
+    };
 
 
     let contentX, contentY;
