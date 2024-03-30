@@ -301,8 +301,8 @@ function drawLetterBank() {
 				canvas.ctx.fillStyle = textColor;
 				canvas.ctx.font = lbcSize + "px Rubik";
 				canvas.ctx.textAlign = "left";
-				canvas.ctx.textBaseline = "middle";
-				canvas.ctx.fillText("New", textX, y);
+				canvas.ctx.textBaseline = "alphabetic";
+				canvas.ctx.fillText("New", textX, y + (lbcSize / 2));
 
 				canvas.ctx.restore();
 			}
