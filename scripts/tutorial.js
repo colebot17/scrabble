@@ -18,6 +18,11 @@ const scrabbleTutorial = [
     new TutorialStep('#createGamePlayerInput', "Add your friends by entering their usernames here")
 ];
 
+const firstGameTutorial = [
+    new TutorialStep('#scrabbleCanvas', "Welcome to your first game! This is the canvas. Drag letters from the letter bank at the bottom onto the board at the top. The letters you place must be connected to the center of the board."),
+    new TutorialStep('#makeMoveButton', "When you are finished, click here to make your move.")
+];
+
 function startTutorial(tutorial = scrabbleTutorial, startingAt = 0) {
     const step = tutorial[startingAt];
     const nextStep = tutorial[startingAt + 1];
