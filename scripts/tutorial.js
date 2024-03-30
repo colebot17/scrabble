@@ -106,8 +106,8 @@ function showOverlay(element, text, next = hideOverlay) {
 
     const spaceAbove = maskY;
     const spaceLeft = maskX;
-    const spaceBelow = window.innerHeight - maskHeight;
-    const spaceRight = window.innerWidth - maskWidth;
+    const spaceBelow = window.innerHeight - (maskY + maskHeight);
+    const spaceRight = window.innerWidth - (maskX + maskWidth);
 
     const percentAbove = contentBounds.height / spaceAbove;
     const percentLeft = contentBounds.width / spaceLeft;
@@ -119,19 +119,19 @@ function showOverlay(element, text, next = hideOverlay) {
     if (percentAbove < smallestPercent) {
         smallestPercent = percentAbove;
         smallestPercentName = "above";
-    };
+    }
     if (percentLeft < smallestPercent) {
         smallestPercent = percentLeft;
         smallestPercentName = "left";
-    };
+    }
     if (percentBelow < smallestPercent) {
         smallestPercent = percentBelow;
         smallestPercentName = "below";
-    };
+    }
     if (percentRight < smallestPercent) {
         smallestPercent = percentRight;
         smallestPercentName = "right";
-    };
+    }
 
 
     let contentX, contentY;
