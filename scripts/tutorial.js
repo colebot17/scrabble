@@ -22,7 +22,8 @@ const firstGameTutorial = [
     new TutorialStep('#scrabbleCanvas', "Welcome to your first game! This is the canvas. Drag letters from the letter bank at the bottom onto the board at the top. The letters you place must be connected to the center of the board."),
     new TutorialStep('#makeMoveButton', "When you are finished, click here to make your move."),
     new TutorialStep('.moreGameControls summary span', "View additional options for your turn by clicking here."),
-    new TutorialStep('.gamePlayerList', "View player and point info in this section. The player with the underline has the next move.")
+    new TutorialStep('.gamePlayerList', "View player and point info in this section. The player with the underline has the next move."),
+    new TutorialStep('#backToGamesListButton', "To return to view all your games, use the home button here.")
 ];
 
 function startTutorial(tutorial = scrabbleTutorial, startingAt = 0) {
