@@ -288,7 +288,7 @@ function drawLetterBank() {
 				canvas.ctx.save();
 
 				const y = shuffleButtonY - 5;
-				const circleX = canvas.bankShuffleButton.position.end[0] + 10;
+				const circleX = canvas.bankShuffleButton.position.end.x + 10;
 				const textX = circleX + 5;
 
 				// draw the yellow circle
