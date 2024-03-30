@@ -212,6 +212,15 @@ function drawLetterBank() {
 		canvas.ctx.textAlign = "center";
 		canvas.ctx.fillText((canvas.bank.length > 0 ? "Letter Bank" : "Your letter bank is empty."), canvasWidth / 2, startY + titleSize + 10);
 
+		// determine if any letter will be highlighted
+		let anyHighlighed = false;
+		for (let i = 0; i < canvas.bank.length; i++) {
+			if (canvas.bank[i]?.highlight) {
+				anyHighlighed = true;
+				return;
+			}
+		}
+
 		// if the game is active
 		if (!game.inactive) {
 			// draw the letter bag count
@@ -272,6 +281,27 @@ function drawLetterBank() {
 					x: shuffleButtonX + (titleSize / 2) + 5,
 					y: shuffleButtonY + 5
 				}
+			}
+
+
+			// draw the new letters key if needed
+			if (anyHighlighed) {
+				const y = shuffleButtonY - 5;
+				const circleX = canvas.bankShuffleButton.position.end + 10;
+				const textX = circleX + 5;
+
+				// draw the yellow circle
+				canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight');
+				canvas.ctx.beginPath();
+				canvas.ctx.arc(circleX, y, 2, 0, Math.PI * 2);
+				canvas.ctx.fill();
+				
+				// draw the text
+				canvas.ctx.fillStyle = textColor;
+				canvas.ctx.font = lbcSize + "px Rubik";
+				canvas.ctx.textAlign = "center";
+				canvas.ctx.textBaseline = "middle";
+				canvas.ctx.fillText("New", textX, y);
 			}
 		}
 	}
