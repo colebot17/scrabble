@@ -72,21 +72,14 @@ function showOverlay(element, text, next = hideOverlay) {
         maskedElements[i].classList.remove('maskedElement');
     }
 
-    const content = document.getElementById('overlayContent');
-    const mask = document.getElementById('overlayMask');
-
     element.scrollIntoView();
     element.classList.add('maskedElement');
+    const bounds = element.getBoundingClientRect();
+
+    // position the yellow mask
+    const mask = document.getElementById('overlayMask');
 
     const maskPadding = 5;
-
-    const bounds = element.getBoundingClientRect();
-    const x = bounds.left - maskPadding;
-    const y = bounds.bottom + 10;
-
-    content.style.left = x + 'px';
-    content.style.top = y + 'px';
-    content.innerHTML = text;
 
     const maskX = bounds.left - maskPadding;
     const maskY = bounds.top - maskPadding;
@@ -104,6 +97,50 @@ function showOverlay(element, text, next = hideOverlay) {
     const elBorderRadius = parseInt(elCompStyle.getPropertyValue('border-radius').slice(0, -2));
     const maskBorderRadius = elBorderRadius + maskPadding;
     mask.style.borderRadius = maskBorderRadius + 'px';
+
+    // position the text content
+    const content = document.getElementById('overlayContent');
+
+    content.innerHTML = text;
+    const contentBounds = content.getBoundingClientRect();
+
+    const spaceAbove = maskY;
+    const spaceLeft = maskX;
+    const spaceBelow = window.innerHeight - maskHeight;
+    const spaceRight = window.innerWidth - maskWidth;
+
+    const percentAbove = contentBounds.height / spaceAbove;
+    const percentLeft = contentBounds.width / spaceLeft;
+    const percentBelow = contentBounds.height / spaceBelow;
+    const percentRight = contentBounds.width / spaceRight;
+
+    let smallestPercent = Infinity;
+    let smallestPercentName;
+    if (percentAbove < smallestPercent) smallestPercentName = "above";
+    if (percentLeft < smallestPercent) smallestPercentName = "left";
+    if (percentBelow < smallestPercent) smallestPercentName = "below";
+    if (percentRight < smallestPercent) smallestPercentName = "right";
+
+
+    let contentX, contentY;
+
+    if (smallestPercentName === "above") {
+        contentX = bounds.left - maskPadding;
+        contentY = bounds.top - (10 + contentBounds.height);
+    } else if (smallestPercentName === "left") {
+        contentX = bounds.left - (10 + contentBounds.width);
+        contentY = bounds.top - maskPadding;
+    } else if (smallestPercentName === "below") {
+        contentX = bounds.left - maskPadding;
+        contentY = bounds.bottom + 10;
+    } else if (smallestPercentName === "right") {
+        contentX = bounds.right + 10;
+        contentY = bounds.top - maskPadding;
+    }
+
+    content.style.left = contentX + 'px';
+    content.style.top = contentY + 'px';
+    content.innerHTML = text;
 
 
     overlay.addEventListener('click', next, {once: true});
