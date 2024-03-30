@@ -286,6 +286,8 @@ function drawLetterBank() {
 
 			// draw the new letters key if needed
 			if (anyHighlighed) {
+				ctx.save();
+
 				const y = shuffleButtonY - 5;
 				const circleX = canvas.bankShuffleButton.position.end + 10;
 				const textX = circleX + 5;
@@ -302,6 +304,8 @@ function drawLetterBank() {
 				canvas.ctx.textAlign = "center";
 				canvas.ctx.textBaseline = "middle";
 				canvas.ctx.fillText("New", textX, y);
+
+				ctx.restore();
 			}
 		}
 	}
