@@ -287,20 +287,20 @@ function drawLetterBank() {
 			if (anyHighlighed) {
 				canvas.ctx.save();
 
-				const y = shuffleButtonY - 5;
+				const y = shuffleButtonY - (titleSize / 2);
 				const circleX = canvas.bankShuffleButton.position.end.x + 10;
-				const textX = circleX + 5;
+				const textX = circleX + ;
 
 				// draw the yellow circle
 				canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight');
 				canvas.ctx.beginPath();
-				canvas.ctx.arc(circleX, y, 2, 0, Math.PI * 2);
+				canvas.ctx.arc(circleX, y, 5, 0, Math.PI * 2);
 				canvas.ctx.fill();
 				
 				// draw the text
 				canvas.ctx.fillStyle = textColor;
 				canvas.ctx.font = lbcSize + "px Rubik";
-				canvas.ctx.textAlign = "center";
+				canvas.ctx.textAlign = "left";
 				canvas.ctx.textBaseline = "middle";
 				canvas.ctx.fillText("New", textX, y);
 
