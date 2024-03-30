@@ -443,7 +443,7 @@ function friendUpdateHandler(res) {
 function grayOutFriends(ids) {
     for (let i = 0; i < ids.length; i++) {
         const id = ids[i];
-        const el = document.querySelector('.friendListItem [data-playerid=' + id + ']');
+        const el = document.querySelector('.friendListItem [data-playerid="' + id + '"]');
         if (!el) continue;
 
         el.style.opacity = 0.4;
