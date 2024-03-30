@@ -1,4 +1,4 @@
-class Flow {
+export class Flow {
     constructor(steps) {
         if (steps.length < 1) return false;
 
@@ -23,7 +23,7 @@ class Flow {
     }
 }
 
-class FlowStep {
+export class FlowStep {
     constructor(action) {
         this.action = action;
     }

@@ -1,6 +1,6 @@
 // This script file is a module.
 
-import { Flow } from "./flow.js";
+import { Flow, FlowStep } from "./flow.js";
 
 const signInFlow = new Flow([
     new FlowStep(() => setSIFP('default')),
