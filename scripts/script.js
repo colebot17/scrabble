@@ -776,6 +776,11 @@ function gameInit() {
 	setCanvasSize();
 
 	setMoveButtonEnablement();
+
+	if (!account.tutorials?.firstGame) {
+		startTutorial(firstGameTutorial);
+		setTutorial('firstGame', true);
+	}
 }
 
 function getPlayerLastTurn() {

@@ -127,3 +127,14 @@ function hideOverlay() {
         maskedElements[i].classList.remove('maskedElement');
     }
 }
+
+function setTutorial(tutorialName, value) {
+    account.tutorials[tutorialName] = value;
+    
+    request('setTutorial.php', {
+        user: account.id,
+        pwd: account.pwd,
+        tutorialName: tutorialName,
+        tutorialValue: value
+    });
+}
