@@ -217,7 +217,7 @@ function drawLetterBank() {
 		for (let i = 0; i < canvas.bank.length; i++) {
 			if (canvas.bank[i]?.highlight) {
 				anyHighlighed = true;
-				return;
+				break;
 			}
 		}
 
