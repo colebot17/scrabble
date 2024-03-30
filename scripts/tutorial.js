@@ -38,7 +38,25 @@ function startTutorial(tutorial = scrabbleTutorial, startingAt = 0) {
 }
 
 function showOverlay(element, text, next = hideOverlay) {
-    const overlay = document.getElementById('tutorialOverlay');
+    let overlay = document.getElementById('tutorialOverlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = "tutorialOverlay";
+        overlay.className = "overlay hidden";
+
+        const mask = document.createElement('div');
+        mask.id = "overlayMask";
+        mask.className = "overlayMask";
+        overlay.appendChild(mask);
+        
+        const content = document.createElement('div');
+        content.id = "overlayContent";
+        content.className = "overlayContent";
+        overlay.appendChild(content);
+
+        document.appendChild(overlay);
+    }
+
     overlay.classList.remove('hidden');
 
     const maskedElements = document.getElementsByClassName('maskedElement');
