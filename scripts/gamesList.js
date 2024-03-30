@@ -62,7 +62,7 @@ function updateActiveGamesList(games, dispMode = "card") {
     });
 
     // show empty list message if needed
-    document.getElementById('activeGamesListMessage').innerHTML = games.length ? "" : "You have no active games. Create a new one below.";
+    document.getElementById('activeGamesListMessage').innerHTML = games.length ? "" : "Welcome to Scrabble! Click the big plus button to create your first game.";
 
     // generate the content
     let content = ``;
