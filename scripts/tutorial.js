@@ -78,15 +78,15 @@ function showOverlay(element, text, next = hideOverlay) {
     element.scrollIntoView();
     element.classList.add('maskedElement');
 
+    const maskPadding = 5;
+
     const bounds = element.getBoundingClientRect();
-    const x = bounds.left;
+    const x = bounds.left - maskPadding;
     const y = bounds.bottom + 10;
 
     content.style.left = x + 'px';
     content.style.top = y + 'px';
     content.innerHTML = text;
-
-    const maskPadding = 5;
 
     const maskX = bounds.left - maskPadding;
     const maskY = bounds.top - maskPadding;
