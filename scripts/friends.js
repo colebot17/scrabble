@@ -369,6 +369,8 @@ function removeFriends(ids = getCheckedFriends()) {
         {
             cancelable: true,
             complete: () => {
+                grayOutFriends(ids);
+
                 request('friends/removeFriends.php', {
                     userId: account.id,
                     pwd: account.pwd,
@@ -394,6 +396,9 @@ function acceptAllRequests() {
 
 function rejectRequests(ids) {
     if (ids.length === 0) return;
+
+    grayOutFriends(ids);
+
     request('friends/rejectRequests.php', {
         userId: account.id,
         pwd: account.pwd,
@@ -407,6 +412,9 @@ function rejectAllRequests() {
 
 function cancelSentRequests(ids) {
     if (ids.length === 0) return;
+
+    grayOutFriends(ids);
+
     request('friends/cancelSentRequests.php', {
         userId: account.id,
         pwd: account.pwd,
@@ -430,6 +438,17 @@ function friendUpdateHandler(res) {
     updateFriendsList(account.friends);
     updateRequestList(account.requests);
     updateSentRequestList(account.sentRequests);
+}
+
+function grayOutFriends(ids) {
+    for (let i = 0; i < ids.length; i++) {
+        const id = ids[i];
+        const el = document.querySelector('.friendListItem [data-playerid=' + id + ']');
+        if (!el) continue;
+
+        el.style.opacity = 0.4;
+        el.style.pointerEvents = "none";
+    }
 }
 
 function addMoreToGame() {
