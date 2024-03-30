@@ -927,7 +927,7 @@ body.scrabble {
 		grid-template-columns: 100%;
 		grid-template-rows: minmax(0, auto) max-content;
 	}
-	#scrabbleGrid[data-tab=home][data-signedin=true] #signInCell {
+	#scrabbleGrid[data-tab=home][data-signedin=true] #settingsCell {
 		display: unset;
 		grid-column: 1;
 		grid-row: 2;
