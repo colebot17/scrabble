@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="styles/gamesList.css"> <!-- games list -->
 	<link rel="stylesheet" type="text/css" href="styles/customFont.css"> <!-- games list -->
 	<link rel="stylesheet" type="text/css" href="styles/overlay.css"> <!-- tutorial overlay -->
+	<link rel="stylesheet" type="text/css" href="styles/signInFlow.css"> <!-- tutorial overlay -->
 	<!-- <script type="module" src="//www.colebot.com/themes.js" defer></script> --> <!-- themes -->
 
 	<!-- import the font 'Rubik' -->
@@ -184,13 +185,13 @@
 			</div>
 		</div>
 
-		<div id="signInCell" class="gridCell">
+		<div id="settingsCell" class="gridCell">
 			<form class="hidden accountForm" id="signInForm" data-action="signIn" onsubmit="return false;">
 				<div class="flex accountFormTitle">
-					<button id="signInBackButton" class="iconButton" onclick="setSignInMode('accountSwitcher')">
+					<button id="signInBackButton" class="iconButton" onclick="setSettingsMode('accountSwitcher')">
 						<span class="material-symbols-rounded smallIcon">chevron_left</span>
 					</button>
-					<h3>Sign In</h3>
+					<h3>Add Account</h3>
 				</div>
 				<label for="signInUsername">Username:</label>
 				<input class="accountFormInput" autocomplete="username" type="text" name="username" id="signInUsername"><br>
@@ -199,36 +200,11 @@
 				<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="signInPwd"><br>
 
 				<button id="signInSubmitButton" type="submit" onclick="signIn()">Sign In</button>
-				<!-- <br> -->
-				<a id="createAccountModeButton" onclick="setSignInMode('createAccount')" class="hoverLine small">Create Account</a>
-				<!-- –
-				<a onclick="setSignInMode('resetPassword')" class="hoverLine small">Forgot Password?</a> -->
-			</form>
-			
-			<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="return false;">
-				<h3 class="accountFormTitle">Create Account</h3>
-				<label for="createAccountUsername">Username:</label>
-				<input class="accountFormInput" autocomplete="username" type="text" name="username" id="createAccountUsername" oninput="emailAddressCheck()"><br>
-
-				<div id="emailAddressWarning" class="hidden">
-					<span>
-						It looks like you entered an email address. This site doesn't collect your email address, so you can pick any username you'd like.
-					</span>
-				</div>
-
-				<label for="createAccountPwd">Password:</label>
-				<input class="accountFormInput" autocomplete="new-password" type="password" name="pwd" id="createAccountPwd"><br>
-
-				<label for="createAccountConfirmPwd">Confirm Password:</label>
-				<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="createAccountConfirmPwd"><br>
-
-				<button type="submit" onclick="createAccount()">Create Account</button>
-				<a onclick="setSignInMode('signIn')" class="hoverLine small">Sign In</a>
 			</form>
 
 			<form class="hidden accountForm" id="changePasswordForm" data-action="changePassword" onsubmit="return false;">
 				<div class="flex accountFormTitle">
-					<button class="iconButton" onclick="setSignInMode('settings')">
+					<button class="iconButton" onclick="setSettingsMode('settings')">
 						<span class="material-symbols-rounded smallIcon">chevron_left</span>
 					</button>
 					<h3>Change Password</h3>
@@ -251,7 +227,7 @@
 
 			<form class="hidden accountForm" id="changeUsernameForm" data-action="changeUsername" onsubmit="return false;">
 				<div class="flex accountFormTitle">
-					<button class="iconButton" onclick="setSignInMode('settings')">
+					<button class="iconButton" onclick="setSettingsMode('settings')">
 						<span class="material-symbols-rounded smallIcon">chevron_left</span>
 					</button>
 					<h3>Change Username</h3>
@@ -268,7 +244,7 @@
 
 			<div class="hidden accountForm" id="accountSwitcherForm">
 				<div class="flex accountFormTitle">
-					<button class="iconButton" onclick="setSignInMode('settings')">
+					<button class="iconButton" onclick="setSettingsMode('settings')">
 						<span class="material-symbols-rounded smallIcon">chevron_left</span>
 					</button>
 					<h3>Switch Accounts</h3>
@@ -283,17 +259,17 @@
 
 			<div class="hidden accountForm" id="settingsForm">
 				<div class="flex accountFormTitle">
-					<button class="iconButton" onclick="setSignInMode('signOut')">
+					<button class="iconButton" onclick="setSettingsMode('signOut')">
 						<span class="material-symbols-rounded smallIcon">chevron_left</span>
 					</button>
 					<h3>Settings</h3>
 				</div>
 				<div id="settings">
 					<div class="settingsSection">
-						<a onclick="setSignInMode('changeUsername')" class="hoverLine small" tabindex="0">Change Username</a>
-						<a onclick="setSignInMode('changePassword')" class="hoverLine small" tabindex="0">Change Password</a>
-						<a onclick="setSignInMode('accountSwitcher')" class="hoverLine small" tabindex="0">Switch Accounts</a>
-						<button class="flex" onclick="setSignInMode('signOutConfirm')">
+						<a onclick="setSettingsMode('changeUsername')" class="hoverLine small" tabindex="0">Change Username</a>
+						<a onclick="setSettingsMode('changePassword')" class="hoverLine small" tabindex="0">Change Password</a>
+						<a onclick="setSettingsMode('accountSwitcher')" class="hoverLine small" tabindex="0">Switch Accounts</a>
+						<button class="flex" onclick="setSettingsMode('signOutConfirm')">
 							<span class="material-symbols-rounded smallIcon">logout</span>
 							Sign Out
 						</button>
@@ -336,7 +312,7 @@
 			<div class="hidden accountForm flex col stretch" id="signOutConfirmForm">
 				<h3 class="accountFormTitle">Really Sign Out?</h3>
 				<div class="flex stretch noMargin">
-					<button class="flexGrow" onclick="setSignInMode('settings')">Cancel</button>
+					<button class="flexGrow" onclick="setSettingsMode('settings')">Cancel</button>
 					<button class="flexGrow highlight" onclick="signOut(false)">Sign Out</button>
 				</div>
 			</div>
@@ -345,7 +321,7 @@
 				<h3 class="accountFormTitle">Really Change Your Username?</h3>
 				<div>This action will change how others see you across the site.</div>
 				<div class="flex stretch noMargin">
-					<button class="flexGrow" onclick="setSignInMode('settings')">Cancel</button>
+					<button class="flexGrow" onclick="setSettingsMode('settings')">Cancel</button>
 					<button class="flexGrow highlight" onclick="changeUsername(true)">Change</button>
 				</div>
 			</div>
@@ -354,7 +330,7 @@
 				<h3 class="accountFormTitle">Really Change Your Password?</h3>
 				<div>You will be signed out of all devices, and you will lose the ability to sign in using your old password.</div>
 				<div class="flex stretch noMargin">
-					<button class="flexGrow" onclick="setSignInMode('settings')">Cancel</button>
+					<button class="flexGrow" onclick="setSettingsMode('settings')">Cancel</button>
 					<button class="flexGrow highlight" onclick="changePassword(true)">Change</button>
 				</div>
 			</div>
@@ -367,10 +343,76 @@
 					<span class="material-symbols-rounded">group</span>
 				</button>
 				<span id="accountNameLabel"></span>
-				<button class="iconButton" id="settingsButton" onclick="setSignInMode('settings')" title="Settings">
+				<button class="iconButton" id="settingsButton" onclick="setSettingsMode('settings')" title="Settings">
 					<span class="material-symbols-rounded">settings</span>
 				</button>
 			</div>
+		</div>
+
+		<div id="signInCell" class="gridCell">
+			<div class="hidden signInFlowPage" id="defaultSIFP">
+				<button id="startFlowTemp">Start Flow</button>
+			</div>
+			<div class="hidden signInFlowPage" id="signInSIFP">
+				<button id="nextFlowTemp">Next Flow</button>
+			</div>
+			<div class="hidden signInFlowPage" id="chooseUsernameSIFP">
+				<button id="showDataTemp">Show Data</button>
+			</div>
+			<div class="hidden signInFlowPage" id="choosePasswordSIFP">
+
+			</div>
+			<div class="hidden signInFlowPage" id="confirmPasswordSIFP">
+
+			</div>
+			<div class="hidden signInFlowPage" id="chooseLanguageSIFP">
+				<div class="flex accountFormTitle">
+					<h2>Choose Default Language</h2>
+				</div>
+				<span>New games you create will use this language by default.</span>
+				<div class="flex wrap">
+					<div class="chooseDefaultLanguageOption" id="englishCDLO" data-language="english">English</div>
+					<div class="chooseDefaultLanguageOption" id="spanishCDLO" data-language="spanish">Spanish</div>
+					<div class="chooseDefaultLanguageOption" id="frenchCDLO" data-language="french">French</div>
+				</div>
+			</div>
+
+
+
+			<form class="hidden accountForm" id="signInForm" data-action="signIn" onsubmit="return false;">
+				<div class="flex accountFormTitle">
+					<h3>Sign In</h3>
+				</div>
+				<label for="signInUsername">Username:</label>
+				<input class="accountFormInput" autocomplete="username" type="text" name="username" id="signInUsername"><br>
+
+				<label for="signInPwd">Password:</label>
+				<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="signInPwd"><br>
+
+				<button id="signInSubmitButton" type="submit" onclick="signIn()">Sign In</button>
+				<a id="createAccountModeButton" onclick="setSignInMode('createAccount')" class="hoverLine small">Create Account</a>
+			</form>
+			
+			<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="return false;">
+				<h3 class="accountFormTitle">Create Account</h3>
+				<label for="createAccountUsername">Username:</label>
+				<input class="accountFormInput" autocomplete="username" type="text" name="username" id="createAccountUsername" oninput="emailAddressCheck()"><br>
+
+				<div id="emailAddressWarning" class="hidden">
+					<span>
+						It looks like you entered an email address. This site doesn't collect your email address, so you can pick any username you'd like.
+					</span>
+				</div>
+
+				<label for="createAccountPwd">Password:</label>
+				<input class="accountFormInput" autocomplete="new-password" type="password" name="pwd" id="createAccountPwd"><br>
+
+				<label for="createAccountConfirmPwd">Confirm Password:</label>
+				<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="createAccountConfirmPwd"><br>
+
+				<button type="submit" onclick="createAccount()">Create Account</button>
+				<a onclick="setSignInMode('signIn')" class="hoverLine small">Sign In</a>
+			</form>
 		</div>
 
 		<div id="friendsCell" class="gridCell flex col" data-page="friends">
@@ -538,5 +580,8 @@
 	<script type="text/javascript" src="libraries/confetti3.js" defer></script>
 	<script type="module" src="scripts/moduleScript.js" defer></script>
 	<script type="text/javascript" src="scripts/script.js" defer></script>
+
+	<!-- modules -->
+	<script type="module" src="scripts/signInFlow.js" defer></script>
 </body>
 </html>

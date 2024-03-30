@@ -30,7 +30,7 @@ function showTab(tab, updateHistory = true) {
 	}
 }
 
-function setSignInMode(mode) {
+function setSettingsMode(mode) {
 	const backButtonKey = {
 		settings: "signOut",
 		changePassword: "settings",
@@ -39,29 +39,37 @@ function setSignInMode(mode) {
 		signIn: "accountSwitcher"
 	};
 
-	let $signInCell = $('#signInCell');
+	let $settingsCell = $('#settingsCell');
 	if (!mode) { // go back if no argument is supplied
-		let currentMode = $signInCell.attr('data-mode');
+		let currentMode = $settingsCell.attr('data-mode');
 		mode = backButtonKey[currentMode];
 	}
 
-	$signInCell.off();
-	$('#signInCell .accountForm').addClass('hidden');
-	const action = $('#signInCell #' + mode + 'Form').removeClass('hidden').attr('data-action');
-	$signInCell.on('keydown', (e) => {
+	$settingsCell.off();
+	$('#settingsCell .accountForm').addClass('hidden');
+	const action = $('#settingsCell #' + mode + 'Form').removeClass('hidden').attr('data-action');
+	$settingsCell.on('keydown', (e) => {
 		if (e.key === 'Enter') {
 			e.preventDefault();
 			if (action) window[action]();
 		}
 	});
 	
-	removeFromEscStack('signInMode_' + mode);
+	removeFromEscStack('settingsMode_' + mode);
 
 	if (backButtonKey[mode]) {
 		addToEscStack(() => {
-			setSignInMode(backButtonKey[mode]);
-		}, 'signInMode_' + backButtonKey[mode]);
+			setSettingsMode(backButtonKey[mode]);
+		}, 'settingsMode_' + backButtonKey[mode]);
 	}
+}
+
+function setSIFP(page) {
+	const allPages = document.getElementsByClassName('signInFlowPage');
+	for (let el of allPages) el.classList.add('hidden');
+
+	const selPage = document.getElementById(page + 'SIFP');
+	selPage.classList.remove('hidden');
 }
 
 function setGamesList(list) {

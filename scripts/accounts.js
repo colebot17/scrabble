@@ -5,7 +5,7 @@ $(function() {
 	} else if (localStorage.name && localStorage.pwd) {
 		signIn(localStorage.name, localStorage.pwd);
 	} else {
-		setSignInMode('signIn');
+		setSettingsMode('signIn');
 		document.getElementById('scrabbleGrid').dataset.signedin = "false";
 	}
 
@@ -63,7 +63,7 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 			textModal("Error", res.message, {
 				complete: function() {
 					// set up the form
-					setSignInMode('signIn');
+					setSettingsMode('signIn');
 					
 					usernameField.select();
 					pwdField.value = "";
@@ -102,7 +102,7 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 		label.innerHTML = "<b>" + label.textContent + "</b>";
 
 		formEl.reset();
-		setSignInMode('signOut');
+		setSettingsMode('signOut');
 
 		saveAccount(res.data.name, pwd);
 		updateSavedAccountList();
@@ -122,7 +122,7 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 		checkParams();
 	}).catch(err => {
 		console.error("Sign-in could not be completed:", err);
-		setSignInMode('signIn');
+		setSettingsMode('signIn');
 		
 		scrabbleGrid.dataset.signedin = "false";
 	});
@@ -176,7 +176,7 @@ function changePassword(
 	}
 
 	if (!confirmed) {
-		setSignInMode('changePasswordConfirm');
+		setSettingsMode('changePasswordConfirm');
 		return;
 	}
 	request('changePassword.php', {user: account.id, pwd, newPwd}).then(res => {
@@ -198,7 +198,7 @@ function changeUsername(
 	newName = document.getElementById('changeUsernameNewName').value
 ) {
 	if (!confirmed) {
-		setSignInMode('changeUsernameConfirm');
+		setSettingsMode('changeUsernameConfirm');
 		return;
 	}
 
@@ -240,7 +240,7 @@ function signOut(confirm = true, saveAccount = false) {
 		removeHandlers();
 
 		// switch the sign in mode
-		setSignInMode('signIn');
+		setSettingsMode('signIn');
 
 		// wait a bit then change the app state
 		setTimeout(() => {
@@ -330,7 +330,7 @@ function updateSavedAccountList() {
 
 function addAccount() {
 	// set up the sign in form
-	setSignInMode('signIn');
+	setSettingsMode('signIn');
 	document.getElementById('signInBackButton').classList.remove('hidden');
 	document.getElementById('createAccountModeButton').classList.add('hidden');
 	document.getElementById('signInForm').reset();
