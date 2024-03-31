@@ -28,12 +28,13 @@ if (!password_verify($pwd, $row['pwd'])) {
 $obj = Array();
 
 // get the id and name
-$sql = "SELECT id, name, defaultLang FROM accounts WHERE name='$name'";
+$sql = "SELECT id, name, defaultLang, tutorials FROM accounts WHERE name='$name'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $obj['id'] = $row['id'];
 $obj['name'] = $row['name'];
 $obj['defaultLang'] = $row['defaultLang'];
+$obj['tutorials'] = json_decode($row['tutorials'], true);
 
 // get the games list
 require "getGamesList.php";

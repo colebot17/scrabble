@@ -18,6 +18,14 @@ const scrabbleTutorial = [
     new TutorialStep('#createGamePlayerInput', "Add your friends by entering their usernames here")
 ];
 
+const firstGameTutorial = [
+    new TutorialStep('#scrabbleCanvas', "Welcome to your first game! This is the canvas. Drag letters from the letter bank at the bottom onto the board at the top. The letters you place must be connected to the center of the board."),
+    new TutorialStep('#makeMoveButton', "When you are finished, click here to make your move."),
+    new TutorialStep('.moreGameControls summary span', "View additional options for your turn by clicking here."),
+    new TutorialStep('.gamePlayerList', "View player and point info in this section. The player with the underline has the next move."),
+    new TutorialStep('#backToGamesListButton', "To return to view all your games, use the home button here.")
+];
+
 function startTutorial(tutorial = scrabbleTutorial, startingAt = 0) {
     const step = tutorial[startingAt];
     const nextStep = tutorial[startingAt + 1];
@@ -38,7 +46,25 @@ function startTutorial(tutorial = scrabbleTutorial, startingAt = 0) {
 }
 
 function showOverlay(element, text, next = hideOverlay) {
-    const overlay = document.getElementById('tutorialOverlay');
+    let overlay = document.getElementById('tutorialOverlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = "tutorialOverlay";
+        overlay.className = "overlay hidden";
+
+        const mask = document.createElement('div');
+        mask.id = "tutorialOverlayMask";
+        mask.className = "tutorialOverlayMask";
+        overlay.appendChild(mask);
+        
+        const content = document.createElement('div');
+        content.id = "tutorialOverlayContent";
+        content.className = "tutorialOverlayContent";
+        overlay.appendChild(content);
+
+        document.appendChild(overlay);
+    }
+
     overlay.classList.remove('hidden');
 
     const maskedElements = document.getElementsByClassName('maskedElement');
@@ -46,19 +72,12 @@ function showOverlay(element, text, next = hideOverlay) {
         maskedElements[i].classList.remove('maskedElement');
     }
 
-    const content = document.getElementById('overlayContent');
-    const mask = document.getElementById('overlayMask');
-
     element.scrollIntoView();
     element.classList.add('maskedElement');
-
     const bounds = element.getBoundingClientRect();
-    const x = bounds.left;
-    const y = bounds.bottom + 10;
 
-    content.style.left = x + 'px';
-    content.style.top = y + 'px';
-    content.innerHTML = text;
+    // position the yellow mask
+    const mask = document.getElementById('tutorialOverlayMask');
 
     const maskPadding = 5;
 
@@ -79,6 +98,65 @@ function showOverlay(element, text, next = hideOverlay) {
     const maskBorderRadius = elBorderRadius + maskPadding;
     mask.style.borderRadius = maskBorderRadius + 'px';
 
+    // position the text content
+    const content = document.getElementById('tutorialOverlayContent');
+
+    content.innerHTML = text;
+    content.style.maxWidth = "";
+    content.style.width = (window.innerWidth - bounds.left) + 'px';
+    const contentBounds = content.getBoundingClientRect();
+
+    const spaceAbove = maskY;
+    const spaceLeft = maskX;
+    const spaceBelow = window.innerHeight - (maskY + maskHeight);
+    const spaceRight = window.innerWidth - (maskX + maskWidth);
+
+    const percentAbove = contentBounds.height / spaceAbove;
+    const percentLeft = contentBounds.width / spaceLeft;
+    const percentBelow = contentBounds.height / spaceBelow;
+    const percentRight = contentBounds.width / spaceRight;
+
+    let smallestPercent = Infinity;
+    let smallestPercentName;
+    if (percentAbove < smallestPercent) {
+        smallestPercent = percentAbove;
+        smallestPercentName = "above";
+    }
+    if (percentLeft < smallestPercent) {
+        smallestPercent = percentLeft;
+        smallestPercentName = "left";
+    }
+    if (percentBelow < smallestPercent) {
+        smallestPercent = percentBelow;
+        smallestPercentName = "below";
+    }
+    if (percentRight < smallestPercent) {
+        smallestPercent = percentRight;
+        smallestPercentName = "right";
+    }
+
+
+    let contentX, contentY;
+
+    if (smallestPercentName === "above") {
+        contentX = bounds.left - maskPadding;
+        contentY = bounds.top - (10 + contentBounds.height);
+    } else if (smallestPercentName === "left") {
+        contentX = bounds.left - (10 + contentBounds.width);
+        contentY = bounds.top - maskPadding;
+    } else if (smallestPercentName === "below") {
+        contentX = bounds.left - maskPadding;
+        contentY = bounds.bottom + 10;
+    } else if (smallestPercentName === "right") {
+        contentX = bounds.right + 10;
+        contentY = bounds.top - maskPadding;
+    }
+
+    content.style.left = contentX + 'px';
+    content.style.top = contentY + 'px';
+    content.style.maxWidth = content.style.width;
+    content.style.width = "";
+
 
     overlay.addEventListener('click', next, {once: true});
 }
@@ -86,13 +164,13 @@ function showOverlay(element, text, next = hideOverlay) {
 function hideOverlay() {
     document.getElementById('tutorialOverlay').classList.add('hidden');
 
-    const mask = document.getElementById('overlayMask');
+    const mask = document.getElementById('tutorialOverlayMask');
     mask.style.top = "";
     mask.style.left = "";
     mask.style.width = "";
     mask.style.height = "";
 
-    const content = document.getElementById('overlayContent');
+    const content = document.getElementById('tutorialOverlayContent');
     content.style.top = "";
     content.style.left = "";
 
@@ -100,4 +178,15 @@ function hideOverlay() {
     for (let i = 0; i < maskedElements.length; i++) {
         maskedElements[i].classList.remove('maskedElement');
     }
+}
+
+function setTutorial(tutorialName, value) {
+    account.tutorials[tutorialName] = value;
+    
+    request('setTutorial.php', {
+        user: account.id,
+        pwd: account.pwd,
+        tutorialName: tutorialName,
+        tutorialValue: value
+    });
 }

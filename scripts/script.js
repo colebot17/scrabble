@@ -527,8 +527,15 @@ function reloadGame() {
 			}, 370);
 		}, 10);
 
+		// store the chat draft in case the user has inputed some text
+		const chatDraft = document.getElementById('chatInput').value;
+
 		// set complete to true once the game has loaded
-		loadGame(game.id, false, false).then(() => complete = true);
+		loadGame(game.id, false, false).then(() => {
+			complete = true;
+			document.getElementById('chatInput').value = chatDraft;
+			chatBoxResize();
+		});
 	}
 }
 
@@ -722,6 +729,8 @@ function gameInit() {
 
 	gameInfo += `<div class="gamePlayerList flex col">`;
 
+	const showBankCounts = game.lettersLeft === 0;
+
 	// add each player to the player list
 	for (let i in game.players) {
 		let isWinner = game.players[i].points == winningPoints;
@@ -740,6 +749,7 @@ function gameInit() {
 					${game.players[i].points}
 				</span>
 				${(endGameVoted && !game.inactive ? `<span class='material-symbols-rounded winnerIcon endGameVoteIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
+				${showBankCounts ? /* html */ `<span class="playerBankCount" title="Letters in ${game.players[i].name}'s bank">${game.players[i].bankCount}</span>` : ``}
 			</div>
 		`;
 	}
@@ -776,6 +786,11 @@ function gameInit() {
 	setCanvasSize();
 
 	setMoveButtonEnablement();
+
+	if (!account.tutorials?.firstGame) {
+		startTutorial(firstGameTutorial);
+		setTutorial('firstGame', true);
+	}
 }
 
 function getPlayerLastTurn() {
@@ -806,8 +821,12 @@ function makeMove() {
 		pwd: account.pwd
 	}).then(res => {
 		if (res.errorLevel === 0) {
+			// store the chat draft
+			const chatDraft = document.getElementById('chatInput').value;
+
+			// load the game and store its progress in a promise so we can do some stuff once it's done
 			const lgPromise = loadGame(game.id, "moveMade");
-			loadGamesList();
+			loadGamesList(); // also load the games list on the outside for when the user will be able to see it
 
 			if (res.status === 1) {
 				textModal("Game Over!", res.message);
@@ -829,6 +848,10 @@ function makeMove() {
 					const canvasLetter = canvas.bank.find(a => a.bankIndex === res.data.newLetterIndices[i]);
 					canvasLetter.highlight = true;
 				}
+
+				// restore the chat draft
+				document.getElementById('chatInput').value = chatDraft;
+				chatBoxResize();
 			});
 		} else {
 			textModal("Error", res.message);

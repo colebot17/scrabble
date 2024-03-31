@@ -50,5 +50,3 @@ require "updateChatRead.php";
 updateChatRead($conn, $gameId, $user);
 
 mysqli_close($conn);
-
-?>

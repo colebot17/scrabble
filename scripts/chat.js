@@ -75,6 +75,12 @@ function userMessage(c, i) {
 	const deleted = message.deleted;
 	const isCurrentUser = message.sender == account.id;
 
+	const m = message.message ? decodeURIComponent(message.message) : null;
+	const mNoWS = m?.replace(/\s/g, '');
+
+	const onlyEmojiRegex = /^\p{Extended_Pictographic}+$/u
+	const showLarge = !deleted && (mNoWS.length / 2) <= 5 && onlyEmojiRegex.test(mNoWS);
+
 	return /* html */ `
 		<div class="chatMessage" data-messageid="${i}">
 			<div class="chatMessageLine1">
@@ -92,10 +98,10 @@ function userMessage(c, i) {
 					${dateString}
 				</div>
 			</div>
-			<div class="chatMessageText">
+			<div class="chatMessageText${showLarge ? ` largeChatMessage` : ``}">
 				${deleted
 					? /* html */ `<i class="finePrint">This message has been deleted.</i>`
-					: message.message
+					: decodeURIComponent(message.message)
 				}
 			</div>
 		</div>
@@ -208,7 +214,7 @@ function chatScrollBottom() {
 
 function sendChatMessage(message = document.getElementById('chatInput').value) {
     // trim the message
-    message = message.trim();
+    message = encodeURIComponent(message.trim());
 
     // make sure there is actually a message
     if (!message) return;

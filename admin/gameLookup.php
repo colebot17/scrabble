@@ -123,7 +123,7 @@
     for ($i = 0; $i < count($chat); $i++) {
         if ($chat[$i]["type"] === "user") {
             echo '<li>';
-            echo '<b>' . $nameCache[(int)$chat[$i]["sender"]] . '</b>: ' . $chat[$i]["message"];
+            echo '<b>' . $nameCache[(int)$chat[$i]["sender"]] . '</b>: ' . decodeURIComponent($chat[$i]["message"]);
             if (array_key_exists('deleted', $chat[$i]) && $chat[$i]["deleted"]) {
                 echo ' <span style="color:red">[Deleted]</span>';
             }
@@ -138,6 +138,11 @@
         echo '<li style="color:gray">[No Chat Messages]</li>';
     }
     echo '</ul>';
+
+    function decodeURIComponent($str) {
+        $str = preg_replace("/%u([0-9a-f]{3,4})/i","&#x\\1;", urldecode($str));
+        return html_entity_decode($str, 0, 'UTF-8');
+    }
 
     ?>
 </body>

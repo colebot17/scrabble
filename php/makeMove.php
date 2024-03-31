@@ -156,19 +156,16 @@ $players[$currentPlayerIndex]['points'] = $players[$currentPlayerIndex]['points'
 
 $newLettersList = Array();
 
-// if the game is not ending and there is at least one letter in the bag
-if (!$inactive && count($longBag) > 0) {
-	// fill the player's letter bank until it is full or the bag is empty
-	$bankIndex = count($players[$currentPlayerIndex]['letterBank']);
-	while (count($players[$currentPlayerIndex]['letterBank']) < 7 && count($longBag) > 0) {
-		$rand = random_int(0, count($longBag) - 1);
-		$newLetter = $longBag[$rand];
-		array_splice($longBag, $rand, 1);
-		$letterBag[$newLetter]--;
-		array_push($players[$currentPlayerIndex]['letterBank'], $newLetter);
-		$newLettersList[] = count($players[$currentPlayerIndex]['letterBank']) - 1;
-		$bankIndex++;
-	}
+// fill the player's letter bank until it is full or the bag is empty
+$bankIndex = count($players[$currentPlayerIndex]['letterBank']);
+while (count($players[$currentPlayerIndex]['letterBank']) < 7 && count($longBag) > 0) {
+	$rand = random_int(0, count($longBag) - 1);
+	$newLetter = $longBag[$rand];
+	array_splice($longBag, $rand, 1);
+	$letterBag[$newLetter]--;
+	array_push($players[$currentPlayerIndex]['letterBank'], $newLetter);
+	$newLettersList[] = count($players[$currentPlayerIndex]['letterBank']) - 1;
+	$bankIndex++;
 }
 
 // make sure there aren't ghost tiles in the bank order
@@ -193,10 +190,6 @@ $players[$currentPlayerIndex]['bankOrder'] = array_values(array_unique($players[
 
 // disassociate the bank order
 $players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
-
-if (!$inactive) {
-	$totalTurn++; // increment the turn
-}
 
 // reset the subsequent skip counter for the player
 unset($players[$currentPlayerIndex]['subsequentSkips']);
@@ -239,6 +232,8 @@ $allWords = array_merge($wordsList, $newWordsList);
 
 // encode as JSON
 $wordsJson = json_encode($allWords);
+
+if (!$inactive) $totalTurn++; // increment the turn
 
 // upload the new game data
 $letterBagJson = json_encode($letterBag);
@@ -309,5 +304,3 @@ if ($inactive) {
 
 // close the connection
 $conn->close();
-
-?>

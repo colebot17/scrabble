@@ -471,6 +471,9 @@ body.scrabble {
 	justify-content: center;
 	flex-direction: column;
 }
+.largeChatMessage {
+	font-size: 3rem;
+}
 .chatInput {
 	resize: none;
 	max-height: 100%!important;
