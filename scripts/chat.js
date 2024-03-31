@@ -77,7 +77,7 @@ function userMessage(c, i) {
 
 	const m = message.message ? decodeURIComponent(message.message) : null;
 
-	const onlyEmojiRegex = /^\p{Extended_Pictographic}+$/u;
+	const onlyEmojiRegex = /^\s*\p{Extended_Pictographic}+\s*$/u;
 	const showLarge = !deleted && (m.length / 2) <= 5 && onlyEmojiRegex.test(m);
 
 	return /* html */ `
