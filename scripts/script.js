@@ -742,7 +742,7 @@ function gameInit() {
 					${game.players[i].points}
 				</span>
 				${(endGameVoted && !game.inactive ? `<span class='material-symbols-rounded winnerIcon endGameVoteIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
-				${showBankCounts ? /+ html */ `<span class="playerBankCount" title="Letters in ${players[i].name}'s bank">${game.players[i].bankCount}</span>` : ``}
+				${showBankCounts ? /* html */ `<span class="playerBankCount" title="Letters in ${players[i].name}'s bank">${game.players[i].bankCount}</span>` : ``}
 			</div>
 		`;
 	}
