@@ -95,7 +95,7 @@ function userMessage(c, i) {
 			<div class="chatMessageText">
 				${deleted
 					? /* html */ `<i class="finePrint">This message has been deleted.</i>`
-					: message.message
+					: decodeURIComponent(message.message)
 				}
 			</div>
 		</div>

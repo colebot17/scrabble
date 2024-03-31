@@ -123,7 +123,7 @@
     for ($i = 0; $i < count($chat); $i++) {
         if ($chat[$i]["type"] === "user") {
             echo '<li>';
-            echo '<b>' . $nameCache[(int)$chat[$i]["sender"]] . '</b>: ' . $chat[$i]["message"];
+            echo '<b>' . $nameCache[(int)$chat[$i]["sender"]] . '</b>: ' . urldecode($chat[$i]["message"]);
             if (array_key_exists('deleted', $chat[$i]) && $chat[$i]["deleted"]) {
                 echo ' <span style="color:red">[Deleted]</span>';
             }
