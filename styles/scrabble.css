@@ -275,6 +275,10 @@ body.scrabble {
 	border-top: 1px solid var(--selection-color);
 	padding-top: 15px;
 	margin: 10px 0;
+
+	display: flex;
+	justify-content: center;
+	gap: 10px;
 }
 
 /* letter exchange modal */
