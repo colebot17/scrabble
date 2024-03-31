@@ -78,7 +78,7 @@ function userMessage(c, i) {
 	const m = message.message ? decodeURIComponent(message.message) : null;
 
 	const onlyEmojiRegex = /^\p{Extended_Pictographic}+$/u;
-	const showLarge = !deleted && m.length <= 5 && onlyEmojiRegex.test(m);
+	const showLarge = !deleted && (m.length / 2) <= 5 && onlyEmojiRegex.test(m);
 
 	return /* html */ `
 		<div class="chatMessage" data-messageid="${i}">
