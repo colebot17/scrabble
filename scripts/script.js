@@ -534,6 +534,7 @@ function reloadGame() {
 		loadGame(game.id, false, false).then(() => {
 			complete = true;
 			document.getElementById('chatInput').value = chatDraft;
+			chatBoxResize();
 		});
 	}
 }
@@ -850,6 +851,7 @@ function makeMove() {
 
 				// restore the chat draft
 				document.getElementById('chatInput').value = chatDraft;
+				chatBoxResize();
 			});
 		} else {
 			textModal("Error", res.message);
