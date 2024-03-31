@@ -102,7 +102,7 @@ function showOverlay(element, text, next = hideOverlay) {
     const content = document.getElementById('overlayContent');
 
     content.innerHTML = text;
-    content.style.width = (window.innerWidth - (bounds.right + 10)) + 'px';
+    content.style.width = (window.innerWidth - (bounds.left - 10)) + 'px';
     const contentBounds = content.getBoundingClientRect();
 
     const spaceAbove = maskY;
