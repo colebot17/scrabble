@@ -77,6 +77,9 @@ for ($i = 0; $i < count($players); $i++) {
 
 	// make sure the player id is an int
 	$players[$i]['id'] = (int)$players[$i]['id'];
+
+	// add the bank count
+	$players[$i]['bankCount'] = count($players[$i]['letterBank']);
 	
 	// remove the letter bank from all players other than the current user - no cheating!
 	if ($players[$i]['id'] != $user) {

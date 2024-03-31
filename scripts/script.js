@@ -722,6 +722,8 @@ function gameInit() {
 
 	gameInfo += `<div class="gamePlayerList flex col">`;
 
+	const showBankCounts = game.lettersLeft === 0;
+
 	// add each player to the player list
 	for (let i in game.players) {
 		let isWinner = game.players[i].points == winningPoints;
@@ -740,6 +742,7 @@ function gameInit() {
 					${game.players[i].points}
 				</span>
 				${(endGameVoted && !game.inactive ? `<span class='material-symbols-rounded winnerIcon endGameVoteIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
+				${showBankCounts ? /+ html */ `<span class="playerBankCount" title="Letters in ${players[i].name}'s bank">${game.players[i].bankCount}</span>` : ``}
 			</div>
 		`;
 	}
