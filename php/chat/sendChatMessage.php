@@ -25,6 +25,7 @@ if (!verifyPassword($conn, $user, $pwd)) {
 }
 
 // trim the message
+$message = urldecode($message);
 $message = trim($message);
 $message = htmlentities($message);
 $message = str_replace(PHP_EOL, "<br>", $message);
@@ -50,5 +51,3 @@ require "updateChatRead.php";
 updateChatRead($conn, $gameId, $user);
 
 mysqli_close($conn);
-
-?>

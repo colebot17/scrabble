@@ -208,7 +208,7 @@ function chatScrollBottom() {
 
 function sendChatMessage(message = document.getElementById('chatInput').value) {
     // trim the message
-    message = message.trim();
+    message = encodeURIComponent(message.trim());
 
     // make sure there is actually a message
     if (!message) return;
