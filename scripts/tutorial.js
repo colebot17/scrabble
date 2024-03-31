@@ -102,6 +102,7 @@ function showOverlay(element, text, next = hideOverlay) {
     const content = document.getElementById('tutorialOverlayContent');
 
     content.innerHTML = text;
+    content.style.maxWidth = "";
     content.style.width = (window.innerWidth - bounds.left) + 'px';
     const contentBounds = content.getBoundingClientRect();
 
