@@ -53,13 +53,13 @@ function showOverlay(element, text, next = hideOverlay) {
         overlay.className = "overlay hidden";
 
         const mask = document.createElement('div');
-        mask.id = "overlayMask";
-        mask.className = "overlayMask";
+        mask.id = "tutorialOverlayMask";
+        mask.className = "tutorialOverlayMask";
         overlay.appendChild(mask);
         
         const content = document.createElement('div');
-        content.id = "overlayContent";
-        content.className = "overlayContent";
+        content.id = "tutorialOverlayContent";
+        content.className = "tutorialOverlayContent";
         overlay.appendChild(content);
 
         document.appendChild(overlay);
@@ -77,7 +77,7 @@ function showOverlay(element, text, next = hideOverlay) {
     const bounds = element.getBoundingClientRect();
 
     // position the yellow mask
-    const mask = document.getElementById('overlayMask');
+    const mask = document.getElementById('tutorialOverlayMask');
 
     const maskPadding = 5;
 
@@ -99,7 +99,7 @@ function showOverlay(element, text, next = hideOverlay) {
     mask.style.borderRadius = maskBorderRadius + 'px';
 
     // position the text content
-    const content = document.getElementById('overlayContent');
+    const content = document.getElementById('tutorialOverlayContent');
 
     content.innerHTML = text;
     content.style.width = (window.innerWidth - bounds.left) + 'px';
@@ -163,13 +163,13 @@ function showOverlay(element, text, next = hideOverlay) {
 function hideOverlay() {
     document.getElementById('tutorialOverlay').classList.add('hidden');
 
-    const mask = document.getElementById('overlayMask');
+    const mask = document.getElementById('tutorialOverlayMask');
     mask.style.top = "";
     mask.style.left = "";
     mask.style.width = "";
     mask.style.height = "";
 
-    const content = document.getElementById('overlayContent');
+    const content = document.getElementById('tutorialOverlayContent');
     content.style.top = "";
     content.style.left = "";
 
