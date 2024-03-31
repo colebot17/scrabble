@@ -62,7 +62,15 @@ function updateActiveGamesList(games, dispMode = "card") {
     });
 
     // show empty list message if needed
-    document.getElementById('activeGamesListMessage').innerHTML = games.length ? "" : "Welcome to Scrabble! Click the big plus button to create your first game.";
+    const msgEl = document.getElementById('activeGamesListMessage');
+    if (!games.length) {
+        msgEl.innerHTML = games.length ? "" : "Welcome to Scrabble! Click the card below to create your first game.";
+        msgEl.style.fontSize = "1.25rem";
+    } else {
+        msgEl.innerHTML = "";
+        msgEl.style.fontSize = "";
+    }
+    
 
     // generate the content
     let content = ``;
