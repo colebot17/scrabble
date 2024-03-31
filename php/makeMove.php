@@ -191,10 +191,6 @@ $players[$currentPlayerIndex]['bankOrder'] = array_values(array_unique($players[
 // disassociate the bank order
 $players[$currentPlayerIndex]['bankOrder'] = array_values($players[$currentPlayerIndex]['bankOrder']);
 
-if (!$inactive) {
-	$totalTurn++; // increment the turn
-}
-
 // reset the subsequent skip counter for the player
 unset($players[$currentPlayerIndex]['subsequentSkips']);
 
@@ -212,7 +208,7 @@ for ($i = 0; $i < count($words); $i++) {
 			"placeholder" => true,
 			"type" => "allLetterBonus",
 			"player" => (int)$user,
-			"turn" => (int)$totalTurn + ($inactive ? 1 : 0),
+			"turn" => (int)$totalTurn,
 			"points" => $words[$i]["points"]
 		);
 		array_push($newWordsList, $newWord);
@@ -221,7 +217,7 @@ for ($i = 0; $i < count($words); $i++) {
 	$newWord = Array(
 		"word" => $words[$i]["word"],
 		"player" => (int)$user,
-		"turn" => (int)$totalTurn - 1 + ($inactive ? 1 : 0),
+		"turn" => (int)$totalTurn,
 		"points" => $words[$i]["points"],
 		"axis" => $words[$i]["axis"],
 		"cross" => $words[$i]["cross"],
@@ -236,6 +232,8 @@ $allWords = array_merge($wordsList, $newWordsList);
 
 // encode as JSON
 $wordsJson = json_encode($allWords);
+
+if (!$inactive) $totalTurn++; // increment the turn
 
 // upload the new game data
 $letterBagJson = json_encode($letterBag);
