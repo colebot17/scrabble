@@ -75,6 +75,11 @@ function userMessage(c, i) {
 	const deleted = message.deleted;
 	const isCurrentUser = message.sender == account.id;
 
+	const m = message.message ? decodeURIComponent(message.message) : null;
+
+	const onlyEmojiRegex = /^\p{Extended_Pictographic}+$/u;
+	const showLarge = !deleted && m.length <= 5 && onlyEmojiRegex.test(m);
+
 	return /* html */ `
 		<div class="chatMessage" data-messageid="${i}">
 			<div class="chatMessageLine1">
@@ -92,7 +97,7 @@ function userMessage(c, i) {
 					${dateString}
 				</div>
 			</div>
-			<div class="chatMessageText">
+			<div class="chatMessageText${showLarge ? ` largeChatMessage` : ``}">
 				${deleted
 					? /* html */ `<i class="finePrint">This message has been deleted.</i>`
 					: decodeURIComponent(message.message)
