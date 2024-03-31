@@ -153,6 +153,8 @@ function showOverlay(element, text, next = hideOverlay) {
 
     content.style.left = contentX + 'px';
     content.style.top = contentY + 'px';
+    content.style.maxWidth = content.style.width;
+    content.style.width = "";
 
 
     overlay.addEventListener('click', next, {once: true});
