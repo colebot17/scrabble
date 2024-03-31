@@ -152,6 +152,7 @@ function showOverlay(element, text, next = hideOverlay) {
 
     content.style.left = contentX + 'px';
     content.style.top = contentY + 'px';
+    content.style.maxWidth = bounds.width + 'px';
     content.innerHTML = text;
 
 
