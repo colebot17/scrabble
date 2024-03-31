@@ -102,6 +102,7 @@ function showOverlay(element, text, next = hideOverlay) {
     const content = document.getElementById('overlayContent');
 
     content.innerHTML = text;
+    content.style.width = bounds.width + 'px';
     const contentBounds = content.getBoundingClientRect();
 
     const spaceAbove = maskY;
@@ -152,8 +153,6 @@ function showOverlay(element, text, next = hideOverlay) {
 
     content.style.left = contentX + 'px';
     content.style.top = contentY + 'px';
-    content.style.maxWidth = bounds.width + 'px';
-    content.innerHTML = text;
 
 
     overlay.addEventListener('click', next, {once: true});
