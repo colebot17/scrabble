@@ -527,8 +527,14 @@ function reloadGame() {
 			}, 370);
 		}, 10);
 
+		// store the chat draft in case the user has inputed some text
+		const chatDraft = document.getElementById('chatInput').value;
+
 		// set complete to true once the game has loaded
-		loadGame(game.id, false, false).then(() => complete = true);
+		loadGame(game.id, false, false).then(() => {
+			complete = true;
+			document.getElementById('chatInput').value = chatDraft;
+		});
 	}
 }
 
@@ -814,8 +820,12 @@ function makeMove() {
 		pwd: account.pwd
 	}).then(res => {
 		if (res.errorLevel === 0) {
+			// store the chat draft
+			const chatDraft = document.getElementById('chatInput').value;
+
+			// load the game and store its progress in a promise so we can do some stuff once it's done
 			const lgPromise = loadGame(game.id, "moveMade");
-			loadGamesList();
+			loadGamesList(); // also load the games list on the outside for when the user will be able to see it
 
 			if (res.status === 1) {
 				textModal("Game Over!", res.message);
@@ -837,6 +847,9 @@ function makeMove() {
 					const canvasLetter = canvas.bank.find(a => a.bankIndex === res.data.newLetterIndices[i]);
 					canvasLetter.highlight = true;
 				}
+
+				// restore the chat draft
+				document.getElementById('chatInput').value = chatDraft;
 			});
 		} else {
 			textModal("Error", res.message);
