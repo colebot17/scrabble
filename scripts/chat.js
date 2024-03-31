@@ -76,7 +76,7 @@ function userMessage(c, i) {
 	const isCurrentUser = message.sender == account.id;
 
 	const m = message.message ? decodeURIComponent(message.message) : null;
-	const mNoWS = m.replace(/\s/g, '');
+	const mNoWS = m?.replace(/\s/g, '');
 
 	const onlyEmojiRegex = /^\p{Extended_Pictographic}+$/u
 	const showLarge = !deleted && (mNoWS.length / 2) <= 5 && onlyEmojiRegex.test(mNoWS);
