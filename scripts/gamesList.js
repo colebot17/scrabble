@@ -307,16 +307,6 @@ function setDisplayMode(mode) {
 }
 
 function updateDisplayMode(mode = localStorage.gameListDisplayMode || "card") {
-    const MIN_CARD_WIDTH = 410
-
-    // get the widths of the two lists
-    const activeListWidth = document.getElementById('activeGamesList').getBoundingClientRect().width;
-    const inactiveListWidth = document.getElementById('inactiveGamesList').getBoundingClientRect().width;
-
-    if ((activeListWidth !== 0 && activeListWidth < MIN_CARD_WIDTH) || (inactiveListWidth !== 0 && inactiveListWidth < MIN_CARD_WIDTH)) {
-        mode = "list";
-    }
-
     // set the data attribute
 	document.getElementById('gamesCell').dataset.displaymode = mode;
 
