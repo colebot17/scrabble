@@ -156,19 +156,16 @@ $players[$currentPlayerIndex]['points'] = $players[$currentPlayerIndex]['points'
 
 $newLettersList = Array();
 
-// if the game is not ending and there is at least one letter in the bag
-if (!$inactive && count($longBag) > 0) {
-	// fill the player's letter bank until it is full or the bag is empty
-	$bankIndex = count($players[$currentPlayerIndex]['letterBank']);
-	while (count($players[$currentPlayerIndex]['letterBank']) < 7 && count($longBag) > 0) {
-		$rand = random_int(0, count($longBag) - 1);
-		$newLetter = $longBag[$rand];
-		array_splice($longBag, $rand, 1);
-		$letterBag[$newLetter]--;
-		array_push($players[$currentPlayerIndex]['letterBank'], $newLetter);
-		$newLettersList[] = count($players[$currentPlayerIndex]['letterBank']) - 1;
-		$bankIndex++;
-	}
+// fill the player's letter bank until it is full or the bag is empty
+$bankIndex = count($players[$currentPlayerIndex]['letterBank']);
+while (count($players[$currentPlayerIndex]['letterBank']) < 7 && count($longBag) > 0) {
+	$rand = random_int(0, count($longBag) - 1);
+	$newLetter = $longBag[$rand];
+	array_splice($longBag, $rand, 1);
+	$letterBag[$newLetter]--;
+	array_push($players[$currentPlayerIndex]['letterBank'], $newLetter);
+	$newLettersList[] = count($players[$currentPlayerIndex]['letterBank']) - 1;
+	$bankIndex++;
 }
 
 // make sure there aren't ghost tiles in the bank order
@@ -215,7 +212,7 @@ for ($i = 0; $i < count($words); $i++) {
 			"placeholder" => true,
 			"type" => "allLetterBonus",
 			"player" => (int)$user,
-			"turn" => (int)$totalTurn,
+			"turn" => (int)$totalTurn + ($inactive ? 1 : 0),
 			"points" => $words[$i]["points"]
 		);
 		array_push($newWordsList, $newWord);
@@ -224,7 +221,7 @@ for ($i = 0; $i < count($words); $i++) {
 	$newWord = Array(
 		"word" => $words[$i]["word"],
 		"player" => (int)$user,
-		"turn" => (int)$totalTurn,
+		"turn" => (int)$totalTurn + ($inactive ? 1 : 0),
 		"points" => $words[$i]["points"],
 		"axis" => $words[$i]["axis"],
 		"cross" => $words[$i]["cross"],
@@ -309,5 +306,3 @@ if ($inactive) {
 
 // close the connection
 $conn->close();
-
-?>
