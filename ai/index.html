@@ -7,11 +7,15 @@
 </head>
 <body>
     <style>
+        body {
+            background-color: #F2F5FF;
+        }
         .hidden {
             display: none;
         }
         img {
-            width: min(750px, 100%);
+            width: min(500px, 100%);
+            border-radius: 1%;
         }
     </style>
 
@@ -51,10 +55,13 @@
         <button onclick="af(4)">Let AI Opponent Make Move</button>
     </p>
 
-    <p class="showOnTimer hidden" data-group="2" data-time="0">Running Model...</p>
-    <p class="showOnTimer hidden" data-group="2" data-time="1209">Done! (1209ms)<br>Loading Visualization...</p>
+    <p class="showOnTimer hidden" data-group="4" data-time="0">Running Model...</p>
+    <p class="showOnTimer hidden" data-group="4" data-time="1209">Done! (1209ms)<br>Loading Visualization...</p>
 
-    <img class="showOnTimer hidden" data-group="2" data-time="1700" src="asset2.png">
+    <img class="showOnTimer hidden" data-group="4" data-time="1700" src="asset2.png">
+    <p class="showOnTimer hidden" data-group="4" data-time="1209">
+        Your AI opponent has made the move <b>FOOLS</b> for 11 points. Happy April Fools Day!!!!
+    </p>
 
     <script>
         function af(group = 1) {
