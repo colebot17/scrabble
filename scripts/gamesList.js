@@ -214,7 +214,7 @@ function gameLI(game) {
             }
 
         }
-        additionalInfoString = "<span class='flex'><span class='material-symbols-rounded smallIcon'>military_tech</span><span>" + nlList(winnerNames, "<b>", "</b>") + (winnerNames.length > 1 ? " tied!" : " won!") + "</span></span>";
+        additionalInfoString = "<span class='flex'><span class='material-symbols-rounded smallIcon'>trophy</span><span>" + nlList(winnerNames, "<b>", "</b>") + (winnerNames.length > 1 ? " tied!" : " won!") + "</span></span>";
     }
 
     const content = /* html */ `
@@ -276,7 +276,7 @@ function playerList(game) {
 
         html += /* html */ `
             <div class="listGamePlayerListPlayer">
-                ${player.points === winningPoints ? `<span class='material-symbols-rounded winnerIcon'>military_tech</span>` : ``}
+                ${player.points === winningPoints ? `<span class='material-symbols-rounded winnerIcon'>trophy</span>` : ``}
                 <span>
                     <b>
                         ${i === turnIndex && !game.inactive ? '<u>' : ''}
@@ -393,7 +393,7 @@ function showNewlyInactiveGames(newlyInactiveGames) {
                         if (player.points === winningPoints) {
                             const icon = document.createElement('span');
                                 icon.className = "material-symbols-rounded smallIcon";
-                                icon.innerHTML = "military_tech";
+                                icon.innerHTML = "trophy";
                             playerEl.appendChild(icon);
                         }
 
