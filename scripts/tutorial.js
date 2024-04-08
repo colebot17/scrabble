@@ -28,6 +28,7 @@ const firstGameTutorial = [
 
 const settingsTutorial = [
     new TutorialStep('#signInCell', "Welcome to Settings! Click anywhere to learn more."),
+    new TutorialStep('#accountSettingsSection', "Here are some useful actions for your account."),
     new TutorialStep('#displayModeSettingSection', "If you have a small screen, try changing your view to fit more onscreen."),
     new TutorialStep('#chatSettingSection', "For distraction-free gameplay, you can hide the chat box on wide screens."),
     new TutorialStep('#languageSettingSection', "You can choose your default language here. You can still change a game's language individually when you create it.")
