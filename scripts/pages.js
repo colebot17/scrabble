@@ -62,6 +62,13 @@ function setSignInMode(mode) {
 			setSignInMode(backButtonKey[mode]);
 		}, 'signInMode_' + backButtonKey[mode]);
 	}
+
+	if (mode === 'settings') {
+		if (!account.tutorials?.settings) {
+			startTutorial(settingsTutorial);
+			setTutorial('settings', true);
+		}
+	}
 }
 
 function setGamesList(list) {

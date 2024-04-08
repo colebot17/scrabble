@@ -289,7 +289,7 @@
 					<h3>Settings</h3>
 				</div>
 				<div id="settings">
-					<div class="settingsSection">
+					<div id="accountSettingsSection" class="settingsSection">
 						<a onclick="setSignInMode('changeUsername')" class="hoverLine small" tabindex="0">Change Username</a>
 						<a onclick="setSignInMode('changePassword')" class="hoverLine small" tabindex="0">Change Password</a>
 						<a onclick="setSignInMode('accountSwitcher')" class="hoverLine small" tabindex="0">Switch Accounts</a>
@@ -298,7 +298,7 @@
 							Sign Out
 						</button>
 					</div>
-					<div class="settingsSection">
+					<div id="displayModeSettingSection" class="settingsSection">
 						<div id="displayModeButtonContainer">
 							<button class="iconButton displayModeButton" id="cardViewButton" title="Card View (Default)" aria-pressed="true" onclick="setDisplayMode('card')">
 								<span class="material-symbols-rounded">grid_view</span>
@@ -309,14 +309,14 @@
 						</div>
 						<span class="finePrint" title="Affects current browser only">Game List View</span>
 					</div>
-					<div class="settingsSection">
+					<div id="chatSettingSection" class="settingsSection">
 						<label class="toggleSwitch">
 							<input type="checkbox" id="hideChatBoxToggle">
 							<span></span>
 						</label>
 						<span class="finePrint" title="Affects current browser only">Hide In-Game Chat</span>
 					</div>
-					<div class="settingsSection">
+					<div id="languageSettingSection" class="settingsSection">
 						<label><input type="radio" id="englishDefaultLanguageOption" class="defaultLanguageOption" name="defaultLanguage" value="english">English</label>
 						<label><input type="radio" id="spanishDefaultLanguageOption" class="defaultLanguageOption" name="defaultLanguage" value="spanish">Spanish</label>
 						<label><input type="radio" id="frenchDefaultLanguageOption" class="defaultLanguageOption" name="defaultLanguage" value="french">French</label>

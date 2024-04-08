@@ -26,6 +26,14 @@ const firstGameTutorial = [
     new TutorialStep('#backToGamesListButton', "To return to view all your games, use the home button here.")
 ];
 
+const settingsTutorial = [
+    new TutorialStep('#signInCell', "Welcome to Settings! Click to learn more."),
+    new TutorialStep('#accountSettingsSection', "Here are some useful actions for your account."),
+    new TutorialStep('#displayModeSettingSection', "If you have a small screen, try changing your view to fit more onscreen."),
+    new TutorialStep('#chatSettingSection', "For distraction-free gameplay, you can choose to always hide the chat box, even on wide screens."),
+    new TutorialStep('#languageSettingSection', "You can choose your default language here. You can still change a game's language individually when you create it.")
+]
+
 function startTutorial(tutorial = scrabbleTutorial, startingAt = 0) {
     const step = tutorial[startingAt];
     const nextStep = tutorial[startingAt + 1];
@@ -162,22 +170,44 @@ function showOverlay(element, text, next = hideOverlay) {
 }
 
 function hideOverlay() {
-    document.getElementById('tutorialOverlay').classList.add('hidden');
 
+    const overlay = document.getElementById('tutorialOverlay');
     const mask = document.getElementById('tutorialOverlayMask');
-    mask.style.top = "";
-    mask.style.left = "";
-    mask.style.width = "";
-    mask.style.height = "";
-
     const content = document.getElementById('tutorialOverlayContent');
-    content.style.top = "";
-    content.style.left = "";
 
-    const maskedElements = document.getElementsByClassName('maskedElement');
-    for (let i = 0; i < maskedElements.length; i++) {
-        maskedElements[i].classList.remove('maskedElement');
-    }
+    overlay.style.opacity = "0";
+
+    const top = parseInt(mask.style.top.slice(0, -2));
+    const left = parseInt(mask.style.left.slice(0, -2));
+    const width = parseInt(mask.style.width.slice(0, -2));
+    const height = parseInt(mask.style.height.slice(0, -2));
+
+    mask.style.top = (top + (height / 2)) + 'px';
+    mask.style.left = (left + (width / 2)) + 'px';
+
+    mask.style.width = "0";
+    mask.style.height = "0";
+    
+
+    setTimeout(() => {
+        overlay.classList.add('hidden');
+
+        content.innerHTML = "";
+        overlay.style.opacity = "";
+
+        content.style.top = "";
+        content.style.left = "";
+
+        mask.style.top = "";
+        mask.style.left = "";
+        mask.style.width = "";
+        mask.style.height = "";
+
+        const maskedElements = document.getElementsByClassName('maskedElement');
+        for (let i = 0; i < maskedElements.length; i++) {
+            maskedElements[i].classList.remove('maskedElement');
+        }
+    }, 200);
 }
 
 function setTutorial(tutorialName, value) {
