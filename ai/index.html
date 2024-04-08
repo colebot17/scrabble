@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Scrabble Bot</title>
+</head>
+<body>
+    <style>
+        .hidden {
+            display: none;
+        }
+        img {
+            width: min(500px, 100%);
+            border-radius: 1%;
+        }
+    </style>
+
+    <h1>AI Scrabble Bot</h1>
+    <p>Temporary Interface</p>
+    <br><br>
+
+    <p>Automatically signed in to account: <b>scrabblerookie</b></p>
+    <button onclick="af(1)">Create AI Game</button>
+
+    <p class="showOnTimer hidden" data-group="1" data-time="0">Gathering Resources...</p>
+    <p class="showOnTimer hidden" data-group="1" data-time="500">Loading Models...</p>
+    <p class="showOnTimer hidden" data-group="1" data-time="2311">
+        Done! (2311ms)
+        <br>
+        Your game has been created with id <b>#631</b>
+        <br>
+        <button onclick="af(2)">Suggest First Move</button>
+    </p>
+
+    <p class="showOnTimer hidden" data-group="2" data-time="0">Running Model...</p>
+    <p class="showOnTimer hidden" data-group="2" data-time="1508">Done! (1508ms)<br>Loading Visualization...</p>
+
+    <img class="showOnTimer hidden" data-group="2" data-time="2000" src="asset1.png">
+    <p class="showOnTimer hidden" data-group="2" data-time="1508">
+        Your suggested move is <b>APRIL</b> for 14 points. Would you like to accept this move?
+        <br>
+        <button onclick="af(3)">Yes</button>
+        <button onclick="af(3)">Yes</button>
+    </p>
+
+
+    <p class="showOnTimer hidden" data-group="3" data-time="0">Making Move...</p>
+    <p class="showOnTimer hidden" data-group="3" data-time="300">
+        Move Made. You can let your AI opponent make its move now if you'd like.
+        <br>
+        <button onclick="af(4)">Let AI Opponent Make Move</button>
+    </p>
+
+    <p class="showOnTimer hidden" data-group="4" data-time="0">Running Model...</p>
+    <p class="showOnTimer hidden" data-group="4" data-time="1209">Done! (1209ms)<br>Loading Visualization...</p>
+
+    <img class="showOnTimer hidden" data-group="4" data-time="1700" src="asset2.png">
+    <p class="showOnTimer hidden" data-group="4" data-time="1209">
+        Your AI opponent has made the move <b>FOOLS</b> for 11 points. Happy April Fools Day!!!!
+    </p>
+
+    <script>
+        function af(group = 1) {
+            const els = document.querySelectorAll('.showOnTimer[data-group="' + group + '"]');
+            for (let el of els) {
+                setTimeout(() => {
+                    el.classList.remove('hidden');
+                    window.scrollTo(0, document.body.scrollHeight);
+                }, parseInt(el.dataset.time));
+            }
+        }
+    </script>
+</body>
+</html>
