@@ -184,8 +184,8 @@ function hideOverlay() {
     const width = parseInt(mask.style.width.slice(0, -2));
     const height = parseInt(mask.style.height.slice(0, -2));
 
-    mask.style.top = (height / 2) + 'px';
-    mask.style.left = (width / 2) + 'px';
+    mask.style.top = (top + (height / 2)) + 'px';
+    mask.style.left = (left + (width / 2)) + 'px';
 
     mask.style.width = "0";
     mask.style.height = "0";
