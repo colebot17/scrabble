@@ -10,6 +10,8 @@
     z-index: 2;
 
     background-color: var(--text-color-light);
+
+    transition: opacity 0.2s;
 }
 
 .tutorialOverlayContent {
