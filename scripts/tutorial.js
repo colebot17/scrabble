@@ -170,22 +170,40 @@ function showOverlay(element, text, next = hideOverlay) {
 }
 
 function hideOverlay() {
-    document.getElementById('tutorialOverlay').classList.add('hidden');
 
+    const overlay = document.getElementById('tutorialOverlay');
     const mask = document.getElementById('tutorialOverlayMask');
-    mask.style.top = "";
-    mask.style.left = "";
-    mask.style.width = "";
-    mask.style.height = "";
-
     const content = document.getElementById('tutorialOverlayContent');
+
+    content.innerHTML = "";
     content.style.top = "";
     content.style.left = "";
 
-    const maskedElements = document.getElementsByClassName('maskedElement');
-    for (let i = 0; i < maskedElements.length; i++) {
-        maskedElements[i].classList.remove('maskedElement');
-    }
+    const top = parseInt(mask.style.top.slice(0, -2));
+    const left = parseInt(mask.style.left.slice(0, -2));
+    const width = parseInt(mask.style.width.slice(0, -2));
+    const height = parseInt(mask.style.height.slice(0, -2));
+
+    mask.style.top = (height / 2) + 'px';
+    mask.style.left = (width / 2) + 'px';
+
+    mask.style.width = "0";
+    mask.style.height = "0";
+    
+
+    setTimeout(() => {
+        overlay.classList.add('hidden');
+
+        mask.style.top = "";
+        mask.style.left = "";
+        mask.style.width = "";
+        mask.style.height = "";
+
+        const maskedElements = document.getElementsByClassName('maskedElement');
+        for (let i = 0; i < maskedElements.length; i++) {
+            maskedElements[i].classList.remove('maskedElement');
+        }
+    }, 200);
 }
 
 function setTutorial(tutorialName, value) {
