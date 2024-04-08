@@ -176,8 +176,6 @@ function hideOverlay() {
     const content = document.getElementById('tutorialOverlayContent');
 
     content.innerHTML = "";
-    content.style.top = "";
-    content.style.left = "";
 
     const top = parseInt(mask.style.top.slice(0, -2));
     const left = parseInt(mask.style.left.slice(0, -2));
@@ -193,6 +191,9 @@ function hideOverlay() {
 
     setTimeout(() => {
         overlay.classList.add('hidden');
+
+        content.style.top = "";
+        content.style.left = "";
 
         mask.style.top = "";
         mask.style.left = "";
