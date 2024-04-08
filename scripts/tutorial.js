@@ -177,8 +177,6 @@ function hideOverlay() {
 
     overlay.style.opacity = "0";
 
-    content.innerHTML = "";
-
     const top = parseInt(mask.style.top.slice(0, -2));
     const left = parseInt(mask.style.left.slice(0, -2));
     const width = parseInt(mask.style.width.slice(0, -2));
@@ -194,6 +192,7 @@ function hideOverlay() {
     setTimeout(() => {
         overlay.classList.add('hidden');
 
+        content.innerHTML = "";
         overlay.style.opacity = "";
 
         content.style.top = "";
