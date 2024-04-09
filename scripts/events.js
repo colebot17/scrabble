@@ -182,15 +182,14 @@ function handleCanvasMouseMove(e) {
         y = e.offsetY;
     }
 
-    // update position of dragged tile
-    if (dragged?.pixelX && dragged?.pixelY) {
+    if (dragged) {
+        // update position of dragged tile
         dragged.pixelX = x;
         dragged.pixelY = y;
-    }
 
-    // add new position to position history if changed
-    if (dragged?.posHistory) {
-        const lastPos = dragged.posHistory[dragged.posHistory.length - 1];
+        // add new position to position history if changed
+        if (!dragged.posHistory) dragged.posHistory = [];
+        const lastPos = dragged.posHistory.at(-1);
         if (lastPos.x !== x || lastPos.y !== y) {
             dragged.posHistory.push({x, y});
         }
