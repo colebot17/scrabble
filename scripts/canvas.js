@@ -504,8 +504,38 @@ function updateTile(tile) {
 	var tileWidth = squareWidth * tileSize;
 	var fontSize = tileWidth * 0.83;
 
-	var pixelX = (tile.pixelX + (tile.mouseOffset?.x || -(squareWidth / 2)) || (tile.x * squareWidth) + (tile.x * SQUARE_GAP)) + ((squareWidth - tileWidth) / 2);
-	var pixelY = (tile.pixelY + (tile.mouseOffset?.y || -(squareWidth / 2)) || (tile.y * squareWidth) + (tile.y * SQUARE_GAP)) + ((squareWidth - tileWidth) / 2);
+	// get the exact pixel positions
+	let pixelX, pixelY;
+
+	// get the exact x pixel position
+	if (typeof tile.pixelX === "number") {
+		// if the tile is being manually positioned (it is probably being dragged)
+		let xOffset = -squareWidth / 2;
+		if (typeof tile?.mouseOffset?.x === "number") xOffset = tile.mouseOffset.x;
+
+		pixelX = tile.pixelX + xOffset;
+	} else {
+		// if the tile is positioned on the grid
+		const squarePos = (tile.x * squareWidth) + (tile.x * SQUARE_GAP);
+		const shrunkenTileOffset = (squareWidth - tileWidth) / 2;
+
+		pixelX = squarePos + shrunkenTileOffset;
+	}
+
+	// get the exact y pixel position
+	if (typeof tile.pixelY === "number") {
+		// if the tile is being manually positioned (it is probably being dragged)
+		let yOffset = -squareWidth / 2;
+		if (typeof tile?.mouseOffset?.y === "number") yOffset = tile.mouseOffset.y;
+
+		pixelY = tile.pixelY + yOffset;
+	} else {
+		// if the tile is positioned on the grid
+		const squarePos = (tile.y * squareWidth) + (tile.y * SQUARE_GAP);
+		const shrunkenTileOffset = (squareWidth - tileWidth) / 2;
+
+		pixelY = squarePos + shrunkenTileOffset;
+	}
 
 	// draw the tile
 	canvas.ctx.fillStyle = (tile.locked ? "#a47449" : "#a47449cc"); // tile brown
