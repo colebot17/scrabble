@@ -190,7 +190,7 @@ function handleCanvasMouseMove(e) {
         // add new position to position history if changed
         if (!dragged.posHistory) dragged.posHistory = [];
         const lastPos = dragged.posHistory.at(-1);
-        if (lastPos.x !== x || lastPos.y !== y) {
+        if (!lastPos || lastPos.x !== x || lastPos.y !== y) {
             dragged.posHistory.push({x, y});
         }
     }
