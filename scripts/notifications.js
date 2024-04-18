@@ -24,7 +24,7 @@ function displayNotificationMethods() {
 
     for (let i = 0; i < account.notificationMethods.length; i++) {
         const method = account.notificationMethods[i];
-        if (method.type !== email) continue;
+        if (method.type !== "email") continue;
 
         const content = /* html */ `
             <div class="friendListItem emailNotificationMethod">
