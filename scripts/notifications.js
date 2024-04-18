@@ -26,18 +26,32 @@ function displayNotificationMethods() {
     }
 }
 
-function removeNotificationMethod(index) {
-    // remove the notification method
-    account.notificationMethods.splice(index, 1);
+async function removeNotificationMethod(index) {
+    const res = await request('notifications/removeMethod.php', {
+        user: account.id,
+        pwd: account.pwd,
+        index: index
+    });
 
+    if (res.errorLevel) {
+        textModal("Error", res.message);
+        return;
+    }
+
+    account.notificationMethods.splice(index, 1);
     displayNotificationMethods();
 }
 
 async function addEmailNotificationMethod() {
-    const email = document.getElementById('addNotificationEmailBox').value;
+    const email = document.getElementById('addNotificationEmailBox').value.trim();
+
     if (!email) return;
     if (!/.+\@.+\..+/gi.test(email)) {
         textModal("Error", "Not a valid email address");
+        return;
+    }
+    if (account.notificationMethods.find(a => a.type === "email" && a.enabled === true && a.address === email)) {
+        textModal("Error", "You're already getting notifications at this address.");
         return;
     }
 
@@ -55,12 +69,12 @@ async function addEmailNotificationMethod() {
     if (res.errorLevel) {
         textModal("Error", res.message);
         return;
-    } else {
-        account.notificationMethods.push({
-            type: "email",
-            enabled: true,
-            address: email
-        });
-        displayNotificationMethods();
     }
+
+    account.notificationMethods.push({
+        type: "email",
+        enabled: true,
+        address: email
+    });
+    displayNotificationMethods();
 }
