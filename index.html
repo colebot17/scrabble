@@ -12,8 +12,9 @@
 	<link rel="stylesheet" type="text/css" href="styles/scrabble.css">
 	<link rel="stylesheet" type="text/css" href="styles/logo.css"> <!-- loading animation -->
 	<link rel="stylesheet" type="text/css" href="styles/gamesList.css"> <!-- games list -->
-	<link rel="stylesheet" type="text/css" href="styles/customFont.css"> <!-- games list -->
+	<link rel="stylesheet" type="text/css" href="styles/customFont.css"> <!-- custom font for letter bag -->
 	<link rel="stylesheet" type="text/css" href="styles/tutorialOverlay.css"> <!-- tutorial overlay -->
+	<link rel="stylesheet" type="text/css" href="styles/notificationManager.css"> <!-- notification manager -->
 	<!-- <script type="module" src="//www.colebot.com/themes.js" defer></script> --> <!-- themes -->
 
 	<!-- import the font 'Rubik' -->
@@ -479,7 +480,18 @@
 			<span class="material-symbols-rounded">close</span>
 		</button>
 		<h2>Manage Notifications</h2>
-		<span>Notifications will be managed here</span>
+		<span>Notifications will be sent by email to all email addresses below.</span>
+
+		<div id="friendList">
+			<div class="friendListItem notificationMethod emailNotificationMethod">
+				<div>
+					coleruth25@mccallie.org
+				</div>
+				<div>
+					<button class="iconButton"><span class="material-symbols-rounded">remove</span></button>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="modal hidden" id="letterExchangeModal">
 		<h2>Choose letters to exchange</h2>
