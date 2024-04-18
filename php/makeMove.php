@@ -255,6 +255,22 @@ $response = Array(
 );
 echo json_encode($response);
 
+
+// notify the next player
+require "notifications/notify.php";
+
+$sql = "SELECT name FROM accounts WHERE id='$user'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$un = $row['name'];
+
+notifyByEmail(
+	$conn,
+	$players[$totalTurn % count($players)]["id"],
+	"It's your turn on Scrabble!",
+	"<b>$un</b> just played their turn for $pointsSum point" . ($pointsSum === 0 ? "" : "s") . "!<br>Visit <a href='https://scrabble.colebot.com'>scrabble.colebot.com</a> to keep the game going!"
+);
+
 //////////
 // add to updates list
 //////////
