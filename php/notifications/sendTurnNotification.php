@@ -7,6 +7,9 @@ function sendTurnNotification($conn, $user, $game) {
     $sql = "SELECT notificationMethods FROM accounts WHERE id='$user'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
+    if (!$row) {
+        return Array("errorLevel" => 2, "message" => "User not found");
+    }
 
     $methods = json_decode($row['notificationMethods'], true);
 
