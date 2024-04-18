@@ -3,21 +3,6 @@ function manageNotifications() {
     displayNotificationMethods();
 }
 
-async function addEmail(email) {
-    // validate email
-
-    const res = await request('notifications/addEmail.php', {
-        user: account.id,
-        pwd: account.pwd,
-        email: email
-    });
-
-    if (res.errorLevel) {
-        textModal("Error", res.message);
-        return;
-    }
-}
-
 function displayNotificationMethods() {
     const container = document.getElementById('notificationMethodsList');
     container.innerHTML = "";
@@ -46,4 +31,36 @@ function removeNotificationMethod(index) {
     account.notificationMethods.splice(index, 1);
 
     displayNotificationMethods();
+}
+
+async function addEmailNotificationMethod() {
+    const email = document.getElementById('addNotificationEmailBox').value;
+    if (!email) return;
+    if (!/.+\@.+\..+/gi.test(email)) {
+        textModal("Error", "Not a valid email address");
+        return;
+    }
+
+    document.getElementById('addEmailNotificationMethodButton').disabled = true;
+
+    const res = await request('notifications/addEmail.php', {
+        user: account.id,
+        pwd: account.pwd,
+        email: email
+    });
+
+    document.getElementById('addEmailNotificationMethodButton').disabled = false;
+    document.getElementById('addNotificationEmailBox').value = "";
+
+    if (res.errorLevel) {
+        textModal("Error", res.message);
+        return;
+    } else {
+        account.notificationMethods.push({
+            type: "email",
+            enabled: true,
+            address: email
+        });
+        displayNotificationMethods();
+    }
 }

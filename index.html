@@ -475,24 +475,21 @@
 			<label><input type="radio" name="lang" id="frenchLangOption" value="french">French</label>
 		</div>
 	</div>
-	<div class="modal hidden" id="notificationManagerModal">
+	<div class="modal grid hidden" id="notificationManagerModal">
 		<button class="iconButton modalCloseButton" onclick="$('#notificationManagerModal').modalClose()">
 			<span class="material-symbols-rounded">close</span>
 		</button>
 		<h2>Notifications</h2>
 		<span>Turn notifications will be sent to all email addresses below.</span>
-		<br>
-		<br>
 		<div id="notificationMethodsList" class="friendList">
 			<!-- <div class="friendListItem emailNotificationMethod">
 				<div class="flex flexStart">colebot@colebot.com</div>
 				<button class="iconButton"><span class="material-symbols-rounded">remove</span></button>
 			</div> -->
 		</div>
-		<br>
 		<div class="flex stretch noGap">
 			<input type="text" class="largeTextInput flexGrow" id="addNotificationEmailBox" placeholder="Email">
-			<button class="highlight">Add</button>
+			<button class="highlight" onclick="addEmailNotificationMethod()" id="addEmailNotificationMethodButton">Add</button>
 		</div>
 	</div>
 	<div class="modal hidden" id="letterExchangeModal">
