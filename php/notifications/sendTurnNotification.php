@@ -8,6 +8,7 @@ function sendTurnNotification($conn, $user, $game) {
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
     if (!$row) {
+        echo "User not found";
         return Array("errorLevel" => 2, "message" => "User not found");
     }
 
