@@ -81,25 +81,17 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 
 			return;
 		}
-		account.name = res.data.name;
+		account = res.data;
 		account.pwd = pwd;
-		account.id = parseInt(res.data.id);
-		account.defaultLang = res.data.defaultLang;
-		account.tutorials = res.data.tutorials;
-		account.games = res.data.games;
-		account.friends = res.data.friends;
-		account.requests = res.data.requests;
-		account.sentRequests = res.data.sentRequests;
 
-		localStorage.name = res.data.name;
+		localStorage.name = account.name;
 		localStorage.pwd = pwd;
-		sessionStorage.name = res.data.name;
+		sessionStorage.name = account.name;
 		sessionStorage.pwd = pwd;
 
-		const label = document.getElementById('accountNameLabel');
-
-		label.textContent = res.data.name;
-		label.innerHTML = "<b>" + label.textContent + "</b>";
+		const accountNameLabel = document.getElementById('accountNameLabel');
+		accountNameLabel.textContent = account.name;
+		accountNameLabel.innerHTML = "<b>" + accountNameLabel.textContent + "</b>";
 
 		formEl.reset();
 		setSignInMode('signOut');
