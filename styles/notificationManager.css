@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: max-content max-content 1fr max-content;
+    gap: 10px;
 }
 
 .emailNotificationMethod {

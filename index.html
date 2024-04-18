@@ -479,8 +479,10 @@
 		<button class="iconButton modalCloseButton" onclick="$('#notificationManagerModal').modalClose()">
 			<span class="material-symbols-rounded">close</span>
 		</button>
-		<h2>Notifications</h2>
-		<span>Turn notifications will be sent to all email addresses below.</span>
+		<div class="titleLine flex col">
+			<h2>Notifications</h2>
+			<span>Turn notifications will be sent to all email addresses below.</span>
+		</div>
 		<div id="notificationMethodsList" class="friendList">
 			<!-- <div class="friendListItem emailNotificationMethod">
 				<div class="flex flexStart">colebot@colebot.com</div>
@@ -488,8 +490,8 @@
 			</div> -->
 		</div>
 		<div class="flex stretch noGap">
-			<input type="text" class="largeTextInput flexGrow" id="addNotificationEmailBox" placeholder="Email">
-			<button class="highlight" onclick="addEmailNotificationMethod()" id="addEmailNotificationMethodButton">Add</button>
+			<input type="text" class="largeTextInput flexGrow3" id="addNotificationEmailBox" placeholder="Email">
+			<button class="highlight flexGrow" onclick="addEmailNotificationMethod()" id="addEmailNotificationMethodButton">Add</button>
 		</div>
 	</div>
 	<div class="modal hidden" id="letterExchangeModal">
