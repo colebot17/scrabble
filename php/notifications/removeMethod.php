@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 }
 
 // check password
-require "verifyPassword.php";
+require "../verifyPassword.php";
 if (!verifyPassword($conn, $user, $pwd)) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }

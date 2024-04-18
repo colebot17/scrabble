@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 }
 
 // check password
-require "verifyPassword.php";
+require "../verifyPassword.php";
 if (!verifyPassword($conn, $user, $pwd)) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
@@ -53,3 +53,10 @@ $query = mysqli_query($conn, $sql);
 
 // close the connection
 $conn->close();
+
+// return the success response
+$res = Array(
+    "errorLevel" => 0,
+    "message" => "Email added."
+);
+echo json_encode($res);

@@ -60,7 +60,7 @@ async function addEmailNotificationMethod() {
     const res = await request('notifications/addEmail.php', {
         user: account.id,
         pwd: account.pwd,
-        email: email
+        address: email
     });
 
     document.getElementById('addEmailNotificationMethodButton').disabled = false;
