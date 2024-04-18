@@ -1,8 +1,14 @@
 function checkParams() {
-    // this function assumes that the user is already correctly authenticated
     const params = new URLSearchParams(window.location.search);
     if (params.has('game')) {
-        loadGame(parseInt(params.get('game')), 'scrabbleLoader');
+        const gameId = parseInt(params.get('game'));
+
+        // find the game in the user's game list
+        if (!account?.games?.find(a => a.id === gameId)) {
+            textModal("Game not found", "You are trying to load a game that you don't have access to. Sign in to the correct account to access game <b>#" + gameId + "</b>");
+        }
+        
+        loadGame(gameId, 'scrabbleLoader');
     }
 }
 
