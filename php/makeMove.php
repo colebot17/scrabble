@@ -268,7 +268,7 @@ notifyByEmail(
 	$conn,
 	$players[$totalTurn % count($players)]["id"],
 	"It's your turn on Scrabble!",
-	"<b>$un</b> just played their turn for $pointsSum point" . ($pointsSum === 0 ? "" : "s") . "!<br>Visit <a href='https://scrabble.colebot.com'>scrabble.colebot.com</a> to keep the game going!"
+	"<b>$un</b> just played their turn for $pointsSum point" . ($pointsSum === 0 ? "" : "s") . "!<br>Visit <a href='https://scrabble.colebot.com?game=$gameId'>scrabble.colebot.com</a> to keep the game going!"
 );
 
 //////////
