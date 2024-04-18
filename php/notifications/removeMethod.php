@@ -39,3 +39,10 @@ $query = mysqli_query($conn, $sql);
 
 // close the connection
 $conn->close();
+
+// return the success response
+$res = Array(
+    "errorLevel" => 0,
+    "message" => "Notification method removed."
+);
+echo json_encode($res);
