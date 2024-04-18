@@ -1,3 +1,5 @@
+document.getElementById('addNotificationEmailBox').addEventListener('keyup', e => {if (e.key === "Enter") addEmailNotificationMethod()});
+
 function manageNotifications() {
     $('#notificationManagerModal').modalOpen();
     displayNotificationMethods();
