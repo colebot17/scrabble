@@ -1,25 +1,9 @@
 <?php
 
-require "sendEmail.php";
+require "notify.php";
 
 function sendTurnNotification($conn, $user, $game) {
-
-    $sql = "SELECT notificationMethods FROM accounts WHERE id='$user'";
-    $query = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_assoc($query);
-    if (!$row) {
-        return Array("errorLevel" => 2, "message" => "User not found");
-    }
-
-    $methods = json_decode($row['notificationMethods'], true);
-
-    for ($i = 0; $i < count($methods); $i++) {
-        if ($methods[$i]["type"] === "email") {
-            sendEmail($methods[$i]["address"], "Test Email", "This will eventually become the turn notification email.");
-        }
-    }
-
-    //sendEmail($to, $subject, $body);
+    notifyByEmail($conn, $user, "It's your turn!", "Come make your Scrabble move on Colebot.com!");
 }
 
 // define connection
