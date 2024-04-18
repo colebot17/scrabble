@@ -23,9 +23,9 @@ function sendEmail($to, $subject, $body, $html = true) {
         $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
     
         //Recipients
-        $mail->setFrom('scrabble@colebot.com', 'Scrabble.colebot.com');
+        $mail->setFrom('scrabble@colebot.com', 'Scrabble - Colebot.com');
         $mail->addAddress($to); //Add the recipient
-        //$mail->addReplyTo('colebot@colebot.com', 'Colebot');
+        $mail->addReplyTo('colebot@colebot.com', 'Colebot');
         //$mail->addCC('cc@example.com');
         //$mail->addBCC('bcc@example.com');
     
