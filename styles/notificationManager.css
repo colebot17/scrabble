@@ -11,6 +11,6 @@
     grid-template-columns: 1fr max-content;
 }
 
-.notificationMethodsList {
-    max-height: max-content;
+.notificationMethodsListContainer {
+    height: 100%;
 }
