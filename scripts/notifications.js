@@ -37,7 +37,7 @@ function displayNotificationMethods() {
     }
 
     if (account.notificationMethods.length === 0) {
-        container.innerHTML = "Add an email address below to receive notifications.";
+        container.innerHTML = "<span class='friendListItem'>Add an email address below to receive notifications.</span>";
     }
 }
 
