@@ -14,7 +14,7 @@ function notifyByEmail($conn, $user, $subject, $body) {
     $methods = json_decode($row['notificationMethods'], true);
 
     for ($i = 0; $i < count($methods); $i++) {
-        if ($methods[$i]["type"] === "email") {
+        if ($methods[$i]["type"] === "email" && $methods[$i]["enabled"] === true) {
             sendEmail($methods[$i]["address"], $subject, $body);
         }
     }
