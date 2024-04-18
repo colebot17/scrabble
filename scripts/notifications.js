@@ -1,5 +1,5 @@
 function manageNotifications() {
-    $('notificationManagerModal').modalOpen();
+    $('#notificationManagerModal').modalOpen();
 }
 
 async function addEmail(email) {
