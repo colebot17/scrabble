@@ -6,8 +6,9 @@ function checkParams() {
         // find the game in the user's game list
         if (!account?.games?.find(a => a.id === gameId)) {
             textModal("Game not found", "You are trying to load a game that you don't have access to. Sign in to the correct account to access game <b>#" + gameId + "</b>");
+            return;
         }
-        
+
         loadGame(gameId, 'scrabbleLoader');
     }
 }
