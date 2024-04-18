@@ -1,3 +1,9 @@
+#notificationManagerModal {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: max-content max-content 1fr max-content;
+}
+
 .emailNotificationMethod {
     display: grid;
     grid-template-rows: 100%;
