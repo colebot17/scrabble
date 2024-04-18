@@ -35,6 +35,10 @@ function displayNotificationMethods() {
 
         container.innerHTML += content;
     }
+
+    if (account.notificationMethods.length === 0) {
+        container.innerHTML = "Add an email address below to receive notifications.";
+    }
 }
 
 function removeNotificationMethod(index) {
