@@ -1,6 +1,12 @@
 <?php
 
 function turnEmail($prevPlayerName, $gameName, $gameId, $playerNames) {
+    $gameCardTitleLine = `
+        <div><span>
+                <b>` . ($gameName !== "" ? $gameName : '#' . strval($gameId)) . `</b>
+            </span>` . ($gameName ? `<br><span class="finePrint">#123</span>` : ``) . `
+        </div>
+    `;
     $code = `
         <link href="https://fonts.googleapis.com/css2?family=Rubik" rel="stylesheet">
         <style>
@@ -46,10 +52,9 @@ function turnEmail($prevPlayerName, $gameName, $gameId, $playerNames) {
                 margin-top: 5px;
             }
         </style>
-        <h1><b>` . $prevPlayerName . `</b> made their move</h1>
+        <h1><b>$prevPlayerName</b> made their move</h1>
         <div class="gameCard">
-            <div>
-                <span><b>` . ($gameName !== "" ? $gameName : '#' . strval($gameId)) . `</b></span>` . ($gameName ? `<br><span class="finePrint">#123</span>` : ``) . `</div>
+            $gameCardTitleLine
             <br>
             <div>`;
 
