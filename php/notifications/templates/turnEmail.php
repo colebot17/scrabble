@@ -1,13 +1,13 @@
 <?php
 
 function turnEmail($prevPlayerName, $gameName, $gameId, $playerNames) {
-    $gameCardTitleLine = `
+    $gameCardTitleLine = '
         <div><span>
-                <b>` . ($gameName !== "" ? $gameName : '#' . strval($gameId)) . `</b>
-            </span>` . ($gameName ? `<br><span class="finePrint">#123</span>` : '') . `
+                <b>' . ($gameName !== "" ? $gameName : '#' . strval($gameId)) . '</b>
+            </span>' . ($gameName ? '<br><span class="finePrint">#123</span>' : '') . '
         </div>
-    `;
-    $code = `
+    ';
+    $code = '
         <link href="https://fonts.googleapis.com/css2?family=Rubik" rel="stylesheet">
         <style>
             :root {
@@ -56,19 +56,19 @@ function turnEmail($prevPlayerName, $gameName, $gameId, $playerNames) {
         <div class="gameCard">
             $gameCardTitleLine
             <br>
-            <div>`;
+            <div>';
 
             for ($i = 0; $i < count($playerNames); $i++) {
-                if ($i !== 0) $code .= `<br>`;
-                $code .= `<span>` . $playerNames[$i] . `</span>`;
+                if ($i !== 0) $code .= '<br>';
+                $code .= '<span>' . $playerNames[$i] . '</span>';
             }
 
-        $code .= `
+        $code .= '
             </div>
             <br>
-            <a class="playButton" href="https://scrabble.colebot.com?game=` . strval($gameId) . `">Play</a>
+            <a class="playButton" href="https://scrabble.colebot.com?game=' . strval($gameId) . '">Play</a>
         </div>
-    `;
+    ';
 
     return $code;
 }
