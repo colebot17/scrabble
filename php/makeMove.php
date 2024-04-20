@@ -30,7 +30,7 @@ if (!$tiles) {
 }
 
 // get game information
-$sql = "SELECT board, turn, inactive, endDate, letterBag, players FROM games WHERE id='$gameId'";
+$sql = "SELECT board, turn, inactive, endDate, letterBag, players, name FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 
@@ -41,6 +41,8 @@ $inactive = $row['inactive'];
 $endDate = $row['endDate'];
 $players = json_decode($row['players'], true);
 $letterBag = json_decode($row['letterBag'], true);
+
+$gameName = $row['name']; // used by the email system near the bottom of this file
 
 $turn = $totalTurn % count($players);
 
@@ -258,18 +260,19 @@ echo json_encode($response);
 
 // notify the next player
 require "notifications/notify.php";
+require "notifications/templates/turnEmail.php";
 
 $sql = "SELECT name FROM accounts WHERE id='$user'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $un = $row['name'];
 
-notifyByEmail(
-	$conn,
-	$players[$totalTurn % count($players)]["id"],
-	"It's your turn on Scrabble!",
-	"<b>$un</b> just played their turn for $pointsSum point" . ($pointsSum === 0 ? "" : "s") . "!<br>Visit <a href='https://scrabble.colebot.com?game=$gameId'>scrabble.colebot.com</a> to keep the game going!"
-);
+$playerList = Array();
+for ($i = 0; $i < count($players); $i++) {
+	$playerList[] = $players["name"];
+}
+
+notifyByEmail($conn, $players[$totalTurn % count($players)]["id"], "It's your turn on Scrabble!", turnEmail($un, $gameName, $gameId, $playerList));
 
 //////////
 // add to updates list
