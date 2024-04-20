@@ -17,7 +17,7 @@ function turnEmail($prevPlayerName, $gameName, $gameId, $playerNames) {
                 --text-color: black;
                 --text-color-light: #00000066;
 
-                font-family: 'Rubik', Helvetica, sans-serif;
+                font-family: "Rubik", Helvetica, sans-serif;
                 background-color: var(--background-0);
             }
             .gameCard {
