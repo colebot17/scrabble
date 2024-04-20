@@ -1,7 +1,19 @@
-document.getElementById('addNotificationEmailBox').addEventListener('keyup', e => {if (e.key === "Enter") addEmailNotificationMethod()});
+const EMAIL_REGEX = /.+\@.+\..+/gi;
+
+const emailBox = document.getElementById('addNotificationEmailBox');
+const addButton = document.getElementById('addEmailNotificationMethodButton');
+emailBox.addEventListener('keyup', e => {
+    if (e.key === "Enter") {
+        addEmailNotificationMethod();
+    } else {
+        addButton.disabled = !EMAIL_REGEX.test(emailBox.value);
+    }
+});
 
 function manageNotifications() {
     $('#notificationManagerModal').modalOpen();
+    emailBox.value = "";
+    addButton.disabled = true;
     displayNotificationMethods();
 }
 
@@ -48,7 +60,7 @@ async function addEmailNotificationMethod() {
     const email = document.getElementById('addNotificationEmailBox').value.trim();
 
     if (!email) return;
-    if (!/.+\@.+\..+/gi.test(email)) {
+    if (!EMAIL_REGEX.test(email)) {
         textModal("Error", "Not a valid email address");
         return;
     }
@@ -65,7 +77,7 @@ async function addEmailNotificationMethod() {
         address: email
     });
 
-    document.getElementById('addEmailNotificationMethodButton').disabled = false;
+    document.getElementById('addEmailNotificationMethodButton').disabled = true;
     document.getElementById('addNotificationEmailBox').value = "";
 
     if (res.errorLevel) {
