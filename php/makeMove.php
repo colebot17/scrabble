@@ -262,14 +262,14 @@ echo json_encode($response);
 require "notifications/notify.php";
 require "notifications/templates/turnEmail.php";
 
-$sql = "SELECT name FROM accounts WHERE id='$user'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-$un = $row['name'];
-
 $playerList = Array();
 for ($i = 0; $i < count($players); $i++) {
-	$playerList[] = $players[$i]["name"];
+	$pid = $players[$i]['id'];
+	$sql = "SELECT name FROM accounts WHERE id='$pid'";
+	$query = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($query);
+	$playerList[] = $row['name'];
+	if ($pid === $user) $un = $row['name'];
 }
 
 $body = turnEmail($un, $gameName, $gameId, $playerList);
