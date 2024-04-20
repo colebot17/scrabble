@@ -111,7 +111,7 @@ $result = parseWords($gameId, $tiles, $user);
 $decodedResult = json_decode($result, true);
 
 // make sure there wasn't an error
-if ($decodedResult['errorLevel']) {
+if (array_key_exists('errorLevel', $decodedResult) && $decodedResult['errorLevel']) {
 	exit($result);
 }
 
@@ -205,7 +205,7 @@ $wordsList = json_decode($row["words"], true);
 // add words to the list
 $newWordsList = Array();
 for ($i = 0; $i < count($words); $i++) { 
-	if ($words[$i]["placeholder"]) {
+	if (array_key_exists('placeholder', $words[$i]) && $words[$i]['placeholder']) {
 		$newWord = Array(
 			"placeholder" => true,
 			"type" => "allLetterBonus",
