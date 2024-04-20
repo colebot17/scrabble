@@ -4,7 +4,7 @@ function turnEmail($prevPlayerName, $gameName, $gameId, $playerNames) {
     $gameCardTitleLine = '
         <div><span>
                 <b>' . ($gameName !== "" ? $gameName : '#' . strval($gameId)) . '</b>
-            </span>' . ($gameName ? '<br><span class="finePrint">#123</span>' : '') . '
+            </span>' . ($gameName ? '<br><span class="finePrint">#' . strval($gameId) . '</span>' : '') . '
         </div>
     ';
     $code = '
