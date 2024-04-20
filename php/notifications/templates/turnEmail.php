@@ -52,9 +52,9 @@ function turnEmail($prevPlayerName, $gameName, $gameId, $playerNames) {
                 margin-top: 5px;
             }
         </style>
-        <h1><b>$prevPlayerName</b> made their move</h1>
+        <h1><b>' . $prevPlayerName . '</b> made their move</h1>
         <div class="gameCard">
-            $gameCardTitleLine
+            ' . $gameCardTitleLine . '
             <br>
             <div>';
 
