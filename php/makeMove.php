@@ -269,7 +269,7 @@ $un = $row['name'];
 
 $playerList = Array();
 for ($i = 0; $i < count($players); $i++) {
-	$playerList[] = $players["name"];
+	$playerList[] = $players[$i]["name"];
 }
 
 $body = turnEmail($un, $gameName, $gameId, $playerList);

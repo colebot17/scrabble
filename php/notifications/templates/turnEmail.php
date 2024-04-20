@@ -49,7 +49,7 @@ function turnEmail($prevPlayerName, $gameName, $gameId, $playerNames) {
         <h1><b>` . $prevPlayerName . `</b> made their move</h1>
         <div class="gameCard">
             <div>
-                <span><b>` . ($gameName || '#' + $gameId) . `</b></span>
+                <span><b>` . ($gameName || '#' . strval($gameId)) . `</b></span>
                 ` . ($gameName ? `
                     <br>
                     <span class="finePrint">#123</span>
@@ -66,7 +66,7 @@ function turnEmail($prevPlayerName, $gameName, $gameId, $playerNames) {
         $code .= `
             </div>
             <br>
-            <a class="playButton" href="https://scrabble.colebot.com?game=` . $gameId . `">Play</a>
+            <a class="playButton" href="https://scrabble.colebot.com?game=` . strval($gameId) . `">Play</a>
         </div>
     `;
 
