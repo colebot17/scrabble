@@ -63,11 +63,10 @@
     $sql = "UPDATE accounts SET notificationMethods='$methodsJson' WHERE id='$user'";
     $query = mysqli_query($conn, $sql);
 
-
-    require "../php/notifications/sendEmail.php";
-    require "../php/notifications/templates/confirmationEmail.php";
-
     if ($confirm) {
+        require "../php/notifications/sendEmail.php";
+        require "../php/notifications/templates/confirmationEmail.php";
+
         $confirmationBody = confirmationEmail($un, $address, $user);
         sendEmail($address, "Email address added", $confirmationBody);
     }
