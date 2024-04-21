@@ -27,7 +27,7 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT name, id, defaultLang, games, creationDate, friends, requests, sentRequests FROM accounts WHERE name='$playerName'";
+    $sql = "SELECT name, id, defaultLang, games, creationDate, friends, requests, sentRequests, notificationMethods FROM accounts WHERE name='$playerName'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
     if (!$row) {
@@ -46,16 +46,21 @@
 
     $games = json_decode($row['games'], true);
 
+    $notificationMethods = json_decode($row['notificationMethods'], true);
+
     echo '<h2>' . $row['name'] . ' <span style="color:gray">#' . $row['id'] . '</span></h2>';
 
 
     echo '<p>';
 
-    echo 'Default Language: ' . ucfirst($row['defaultLang']) . ' <a href="changeDefaultLang.php?user=' . $row['name'] . '">Change</a><br>';
+    echo 'Default Language: ' . ucfirst($row['defaultLang']) . ' - <a href="changeDefaultLang.php?user=' . $row['name'] . '">Change</a><br>';
     echo 'Account Creation Date: ' . ($row['creationDate'] !== "0000-00-00" ? $row['creationDate'] : '<span style="color:gray">[Unknown]</span>');
     echo '<br>';
-    echo '<a href="changeUsername.php?user=' . $currentPlayerName . '">Change Username</a><br>';
+    echo '<a href="changeUsername.php?user=' . $currentPlayerName . '">Change Username</a>';
+    echo '<br>';
     echo '<a style="color:red" href="changeUserPassword.php?user=' . $currentPlayerName . '">Change Password</a>';
+    echo '<br><br>';
+    echo '<span>' . count($notificationMethods) . ' Notification Methods - <a href="manageNotifications?user=' . $currentPlayerId . '">Manage</a></span>';
 
     echo '</p>';
 
