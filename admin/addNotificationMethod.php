@@ -27,7 +27,7 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT notificationMethods FROM accounts WHERE id='$user'";
+    $sql = "SELECT un, notificationMethods FROM accounts WHERE id='$user'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
     if (!$row) {
@@ -41,8 +41,11 @@
         exit();
     }
     $address = $_POST["address"];
+    $confirm = $_POST["confirm"];
+    if ($confirm === "true") {$confirm = true;} else if ($confirm === "false") {$confirm = false;} else {$confirm = true;};
 
     $methods = json_decode($row['notificationMethods'], true);
+    $un = $row['name'];
 
     $newMethod = Array(
         "type" => $type,
@@ -54,6 +57,14 @@
     $methodsJson = json_encode($methods);
     $sql = "UPDATE accounts SET notificationMethods='$methodsJson' WHERE id='$user'";
     $query = mysqli_query($conn, $sql);
+
+    if ($confirm) {
+        require "../php/notifications/sendEmail.php";
+        require "../php/notifications/templates/confirmationEmail.php";
+
+        $confirmationBody = confirmationEmail($un, $address, $user);
+        sendEmail($address, "Email address added", $confirmationBody);
+    }
 
     header('Location: manageNotifications.php?user=' . $user);
 

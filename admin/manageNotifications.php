@@ -72,6 +72,10 @@
     <?php echo '<form method="POST" action="addNotificationMethod.php?user=' . $user .'">'; ?>
         <input type="email" name="address" placeholder="Email...">
         <input type="hidden" name="type" value="email">
+        <select name="confirm">
+            <option value="true">Send Confirmation</option>
+            <option value="false">Don't Send Confirmation</option>
+        </select>
         <button>Add</button>
     </form>
 </body>
