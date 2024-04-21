@@ -244,7 +244,7 @@ body.scrabble {
 	grid-auto-flow: row;
 	grid-template-rows: max-content 1fr max-content;
 }
-#createGameModal h2 {
+#createGameModal h2, #notificationManagerModal h2 {
 	margin: 0 0 10px 0;
 	height: max-content;
 }

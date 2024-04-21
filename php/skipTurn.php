@@ -173,6 +173,28 @@ if ($endGame) {
 	echo '{"errorLevel":0,"status":0,"message":"You have skipped your turn' . (count($redrawLetters) > 0 ? ' and exchanged ' . count($redrawLetters) . ' letter' . (count($redrawLetters) === 1 ? '' : 's') : '') . '."}';
 }
 
+// notify the next player
+require "notifications/notify.php";
+
+$sql = "SELECT name FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$gameName = $row['name'];
+
+$playerNames = Array();
+for ($i = 0; $i < count($players); $i++) {
+	$pid = $players[$i]['id'];
+	$sql = "SELECT name FROM accounts WHERE id='$pid'";
+	$query = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($query);
+	$playerNames[] = $row['name'];
+	if ($pid === $user) $un = $row['name'];
+}
+
+require "notifications/templates/turnEmail.php";
+$emailBody = turnEmail($un, $gameName, $gameId, $playerNames);
+notifyByEmail($conn, $players[$totalTurn % count($players)]["id"], "It's your turn on Scrabble!", $emailBody);
+
 //////////
 // add to updates list
 //////////
@@ -212,5 +234,3 @@ if ($endGame) {
 
 // close the connection
 $conn->close();
-
-?>

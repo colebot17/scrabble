@@ -14,6 +14,10 @@ const modals = {
 	chooseLetterModal: {
 		width: 150,
 		height: 110
+	},
+	notificationManagerModal: {
+		width: 500,
+		height: 500
 	}
 };
 

@@ -27,14 +27,15 @@ if (!password_verify($pwd, $row['pwd'])) {
 // define empty object to return
 $obj = Array();
 
-// get the id and name
-$sql = "SELECT id, name, defaultLang, tutorials FROM accounts WHERE name='$name'";
+// get the id, name, etc.
+$sql = "SELECT id, name, defaultLang, tutorials, notificationMethods FROM accounts WHERE name='$name'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
-$obj['id'] = $row['id'];
+$obj['id'] = (int)$row['id'];
 $obj['name'] = $row['name'];
 $obj['defaultLang'] = $row['defaultLang'];
 $obj['tutorials'] = json_decode($row['tutorials'], true);
+$obj['notificationMethods'] = json_decode($row['notificationMethods'], true);
 
 // get the games list
 require "getGamesList.php";
@@ -63,5 +64,3 @@ echo json_encode($res);
 
 // close the connection
 mysqli_close($conn);
-
-?>

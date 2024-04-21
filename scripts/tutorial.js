@@ -30,6 +30,7 @@ const settingsTutorial = [
     new TutorialStep('#signInCell', "Welcome to Settings! Click to learn more."),
     new TutorialStep('#accountSettingsSection', "Here are some useful actions for your account."),
     new TutorialStep('#displayModeSettingSection', "If you have a small screen, try changing your view to fit more onscreen."),
+    new TutorialStep('#manageNotificationsSection', "To receive email notifications whenever it's your turn in a game, add your email address here."),
     new TutorialStep('#chatSettingSection', "For distraction-free gameplay, you can choose to always hide the chat box, even on wide screens."),
     new TutorialStep('#languageSettingSection', "You can choose your default language here. You can still change a game's language individually when you create it.")
 ]

@@ -1,0 +1,12 @@
+#notificationManagerModal {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: max-content 1fr max-content;
+    gap: 10px;
+}
+
+.emailNotificationMethod {
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 1fr max-content;
+}

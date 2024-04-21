@@ -30,7 +30,7 @@ if (!$tiles) {
 }
 
 // get game information
-$sql = "SELECT board, turn, inactive, endDate, letterBag, players FROM games WHERE id='$gameId'";
+$sql = "SELECT board, turn, inactive, endDate, letterBag, players, name FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 
@@ -41,6 +41,8 @@ $inactive = $row['inactive'];
 $endDate = $row['endDate'];
 $players = json_decode($row['players'], true);
 $letterBag = json_decode($row['letterBag'], true);
+
+$gameName = $row['name']; // used by the email system near the bottom of this file
 
 $turn = $totalTurn % count($players);
 
@@ -109,7 +111,7 @@ $result = parseWords($gameId, $tiles, $user);
 $decodedResult = json_decode($result, true);
 
 // make sure there wasn't an error
-if ($decodedResult['errorLevel']) {
+if (array_key_exists('errorLevel', $decodedResult) && $decodedResult['errorLevel']) {
 	exit($result);
 }
 
@@ -203,7 +205,7 @@ $wordsList = json_decode($row["words"], true);
 // add words to the list
 $newWordsList = Array();
 for ($i = 0; $i < count($words); $i++) { 
-	if ($words[$i]["placeholder"]) {
+	if (array_key_exists('placeholder', $words[$i]) && $words[$i]['placeholder']) {
 		$newWord = Array(
 			"placeholder" => true,
 			"type" => "allLetterBonus",
@@ -254,6 +256,24 @@ $response = Array(
 	)
 );
 echo json_encode($response);
+
+
+// notify the next player
+require "notifications/notify.php";
+require "notifications/templates/turnEmail.php";
+
+$playerList = Array();
+for ($i = 0; $i < count($players); $i++) {
+	$pid = $players[$i]['id'];
+	$sql = "SELECT name FROM accounts WHERE id='$pid'";
+	$query = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($query);
+	$playerList[] = $row['name'];
+	if ($pid === $user) $un = $row['name'];
+}
+
+$emailBody = turnEmail($un, $gameName, $gameId, $playerList);
+notifyByEmail($conn, $players[$totalTurn % count($players)]["id"], "It's your turn on Scrabble!", $emailBody);
 
 //////////
 // add to updates list

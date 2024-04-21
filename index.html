@@ -12,8 +12,9 @@
 	<link rel="stylesheet" type="text/css" href="styles/scrabble.css">
 	<link rel="stylesheet" type="text/css" href="styles/logo.css"> <!-- loading animation -->
 	<link rel="stylesheet" type="text/css" href="styles/gamesList.css"> <!-- games list -->
-	<link rel="stylesheet" type="text/css" href="styles/customFont.css"> <!-- games list -->
+	<link rel="stylesheet" type="text/css" href="styles/customFont.css"> <!-- custom font for letter bag -->
 	<link rel="stylesheet" type="text/css" href="styles/tutorialOverlay.css"> <!-- tutorial overlay -->
+	<link rel="stylesheet" type="text/css" href="styles/notificationManager.css"> <!-- notification manager -->
 	<!-- <script type="module" src="//www.colebot.com/themes.js" defer></script> --> <!-- themes -->
 
 	<!-- import the font 'Rubik' -->
@@ -309,6 +310,10 @@
 						</div>
 						<span class="finePrint" title="Affects current browser only">Game List View</span>
 					</div>
+					<div id="manageNotificationsSection" class="settingsSection">
+						<button class="iconButton" onclick="manageNotifications()"><span class="material-symbols-rounded">notifications</span></button>
+						<span class="finePrint">Notifications</span>
+					</div>
 					<div id="chatSettingSection" class="settingsSection">
 						<label class="toggleSwitch">
 							<input type="checkbox" id="hideChatBoxToggle">
@@ -470,6 +475,27 @@
 			<label><input type="radio" name="lang" id="frenchLangOption" value="french">French</label>
 		</div>
 	</div>
+	<div class="modal hidden" id="notificationManagerModal">
+		<button class="iconButton modalCloseButton" onclick="$('#notificationManagerModal').modalClose()">
+			<span class="material-symbols-rounded">close</span>
+		</button>
+		<div class="titleLine flex col">
+			<h2>Notifications</h2>
+			<span>Turn notifications will be sent to all email addresses below.</span>
+		</div>
+		<div class="scrollable">
+			<div id="notificationMethodsList" class="friendList darkerScrollbar">
+				<!-- <div class="friendListItem emailNotificationMethod">
+					<div class="flex flexStart">colebot@colebot.com</div>
+					<button class="iconButton"><span class="material-symbols-rounded">remove</span></button>
+				</div> -->
+			</div>
+		</div>
+		<div class="flex stretch noGap">
+			<input type="email" class="largeTextInput flexGrow3" id="addNotificationEmailBox" placeholder="Email">
+			<button class="highlight flexGrow" onclick="addEmailNotificationMethod()" id="addEmailNotificationMethodButton" disabled>Add</button>
+		</div>
+	</div>
 	<div class="modal hidden" id="letterExchangeModal">
 		<h2>Choose letters to exchange</h2>
 		<div class="letterBank" id="letterExchangeBank"></div>
@@ -532,6 +558,7 @@
 	<script type="text/javascript" src="scripts/share.js" defer></script>
 	<script type="text/javascript" src="scripts/gamesList.js" defer></script>
 	<script type="text/javascript" src="scripts/letterExchange.js" defer></script>
+	<script type="text/javascript" src="scripts/notifications.js" defer></script>
 	<!-- <script type="text/javascript" src="libraries/pullToRefresh.min.js" defer></script> -->
 	<!-- <script type="text/javascript" src="libraries/confetti.js" defer></script> -->
 	<!-- <script type="text/javascript" src="libraries/confetti2.min.js" defer></script> -->
