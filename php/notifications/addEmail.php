@@ -51,8 +51,32 @@ $methodsJson = json_encode($methods);
 $sql = "UPDATE accounts SET notificationMethods='$methodsJson' WHERE id='$user'";
 $query = mysqli_query($conn, $sql);
 
+// get the user's name
+$sql = "SELECT name FROM accounts WHERE id='$user'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$un = $row['name'];
+
 // close the connection
 $conn->close();
+
+// send the confirmation email
+require "sendEmail.php";
+
+$body = '
+    <h1>Email address added successfully</h1>
+    <p>
+        This email address has been added as a notification method for <b>' . $un . '</b>\'s
+        account on <a href="https://scrabble.colebot.com">scrabble.colebot.com</a>.
+        <br><br>
+        If this email went to your spam box, add <u>scrabble@colebot.com</u> to your address book to ensure
+        proper email delivery. Otherwise, you\'re all set!
+        <br><br>
+        If you did not request this, you can
+        <a href="https://scrabble.colebot.com/php/notifications/unsubscribe.php?email=' . $address . '&user=' . $user . '">unsubscribe</a>.
+    </p>
+';
+sendEmail($address, "Email address added", $body);
 
 // return the success response
 $res = Array(
