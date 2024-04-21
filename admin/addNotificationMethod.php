@@ -6,11 +6,11 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Notification Email - Scrabble Admin Panel</title>
+    <title>Add Notification Method - Scrabble Admin Panel</title>
 </head>
 <body>
     <h3>This is the admin panel for scrabble.colebot.com<br><a href="index.php">Admin Home</a></h3>
-    <h1>Add Notification Email</h1>
+    <h1>Add Notification Method</h1>
     <?php
 
     $user = (int)$_GET['user'];
@@ -27,7 +27,7 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT un, notificationMethods FROM accounts WHERE id='$user'";
+    $sql = "SELECT name, notificationMethods FROM accounts WHERE id='$user'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
     if (!$row) {
