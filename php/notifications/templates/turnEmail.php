@@ -15,7 +15,7 @@ function turnEmail($prevPlayerName, $gameName, $gameId, $playerNames) {
                 background-color: var(--background-0);
             }
         </style>
-        <h1><b>' . $prevPlayerName . '</b> made their move</h1>
+        <h1><b>' . $prevPlayerName . '</b> made their move on Scrabble!</h1>
         <div class="gameCard" style="min-width:150px;background-color:#6BBAEC;border-radius:10px;padding:10px;text-align:center;display:inline-block;border:3px solid #FF57BB;">
             ' . $gameCardTitleLine . '
             <br>
