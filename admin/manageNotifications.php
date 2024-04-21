@@ -55,6 +55,10 @@
         }
     }
 
+    if (count($methods) === 0) {
+        echo '<li style="color:gray">[No Notification Methods]</li>';
+    }
+
     echo '</ul>';
 
 
