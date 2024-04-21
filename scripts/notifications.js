@@ -91,4 +91,6 @@ async function addEmailNotificationMethod() {
         address: email
     });
     displayNotificationMethods();
+
+    textModal("Done!", "Check your email for a confirmation. If it doesn't arrive within 5 minutes, check your spam folder.");
 }
