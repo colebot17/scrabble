@@ -69,7 +69,7 @@
     ?>
 
     <h4>Add Email Notification Method</h4>
-    <?php echo '<form method="POST" action="addNotificationEmail.php?user=' . $user .'">'; ?>
+    <?php echo '<form method="POST" action="addNotificationMethod.php?user=' . $user .'">'; ?>
         <input type="email" name="address" placeholder="Email...">
         <input type="hidden" name="type" value="email">
         <button>Add</button>
