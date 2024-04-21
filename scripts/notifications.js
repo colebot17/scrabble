@@ -27,7 +27,10 @@ function displayNotificationMethods() {
 
         const content = /* html */ `
             <div class="friendListItem emailNotificationMethod">
-                <div class="flex flexStart">${method.address}</div>
+                <div class="flex col alignFlexStart">
+                    <span>${method.address}</span>
+                    ${method.enabled ? `` : /* html */ `<span class="finePrint" style="color:red">Disabled by admin</span>`}
+                </div>
                 <button class="iconButton" onclick="removeNotificationMethod(${i})"><span class="material-symbols-rounded">remove</span></button>
             </div>
         `;
