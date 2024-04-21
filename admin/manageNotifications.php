@@ -45,7 +45,7 @@
     for ($i = 0; $i < count($methods); $i++) {
         $type = $methods[$i]['type'];
         if ($type === "email") {
-            echo '<li>Email: ' . $methods[$i]['address'] . ($methods[$i]["enabled"] ? '' : ' <span style="color:red">[Disabled]</span>') . '</li>';
+            echo '<li><span style="color:gray">Email:</span> ' . $methods[$i]['address'] . ($methods[$i]["enabled"] ? '' : ' <span style="color:red">[Disabled]</span>') . '</li>';
         } else {
             echo '<li style="color:gray">' . json_encode($methods[$i]) . '</li>';
         }
