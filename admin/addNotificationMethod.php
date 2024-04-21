@@ -42,7 +42,7 @@
     }
     $address = $_POST["address"];
     $confirm = $_POST["confirm"];
-    if ($confirm === "true") {$confirm = true;} else if ($confirm === "false") {$confirm = false;} else {$confirm = true;};
+    if ($confirm === "true") {$confirm = true;} else if ($confirm === "false") {$confirm = false;} else {$confirm = true;}
 
     $methods = json_decode($row['notificationMethods'], true);
     $un = $row['name'];
