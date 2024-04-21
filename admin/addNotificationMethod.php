@@ -34,6 +34,8 @@
         echo '<h2 style="color:red">Error: There is no user with id #' . $user . '.</h2>';
         exit();
     }
+    $methods = json_decode($row['notificationMethods'], true);
+    $un = $row['name'];
 
     $type = $_POST["type"];
     if ($type !== "email") {
@@ -42,10 +44,13 @@
     }
     $address = $_POST["address"];
     $confirm = $_POST["confirm"];
-    if ($confirm === "true") {$confirm = true;} else if ($confirm === "false") {$confirm = false;} else {$confirm = true;}
-
-    $methods = json_decode($row['notificationMethods'], true);
-    $un = $row['name'];
+    if ($confirm === "true") {
+        $confirm = true;
+    } else if ($confirm === "false") {
+        $confirm = false;
+    } else {
+        $confirm = !!$confirm;
+    }
 
     $newMethod = Array(
         "type" => $type,
@@ -58,10 +63,11 @@
     $sql = "UPDATE accounts SET notificationMethods='$methodsJson' WHERE id='$user'";
     $query = mysqli_query($conn, $sql);
 
-    if ($confirm) {
-        require "../php/notifications/sendEmail.php";
-        require "../php/notifications/templates/confirmationEmail.php";
 
+    require "../php/notifications/sendEmail.php";
+    require "../php/notifications/templates/confirmationEmail.php";
+
+    if ($confirm) {
         $confirmationBody = confirmationEmail($un, $address, $user);
         sendEmail($address, "Email address added", $confirmationBody);
     }
