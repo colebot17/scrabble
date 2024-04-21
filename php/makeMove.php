@@ -272,7 +272,7 @@ for ($i = 0; $i < count($players); $i++) {
 	if ($pid === $user) $un = $row['name'];
 }
 
-$emailBody = "You read the subject line.";//turnEmail($un, $gameName, $gameId, $playerList);
+$emailBody = turnEmail($un, $gameName, $gameId, $playerList);
 notifyByEmail($conn, $players[$totalTurn % count($players)]["id"], "It's your turn on Scrabble!", $emailBody);
 
 //////////
