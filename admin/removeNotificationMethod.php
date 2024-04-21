@@ -6,14 +6,15 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Player Notifications - Scrabble Admin Panel</title>
+    <title>Remove Notification Method - Scrabble Admin Panel</title>
 </head>
 <body>
     <h3>This is the admin panel for scrabble.colebot.com<br><a href="index.php">Admin Home</a></h3>
-    <h1>Player Notifications</h1>
+    <h1>Remove Notification Method</h1>
     <?php
 
     $user = (int)$_GET['user'];
+    $index = (int)$_GET['index'];
 
     // define connection
     $servername = "173.201.180.187";
@@ -38,25 +39,21 @@
     $un = $row['name'];
     $methods = json_decode($row['notificationMethods'], true);
 
-    echo '<h2><a href="playerLookup.php?playerName=' . $un . '">' . $un . '</a>\'s Notifications</h2>';
-
-    echo '<ul>';
-
-    for ($i = 0; $i < count($methods); $i++) {
-        $type = $methods[$i]['type'];
-        if ($type === "email") {
-            echo '<li>';
-            echo '<span style="color:gray">Email:</span> ' . $methods[$i]['address'];
-            if (!$methods[$i]["enabled"]) echo ' <span style="color:red">[Disabled]</span>';
-            echo ' - <a href="removeNotificationMethod.php?user=' . $user . '&index=' . $i . '" style="color:red">Remove</a>';
-            echo '</li>';
-        } else {
-            echo '<li style="color:gray">' . json_encode($methods[$i]) . '</li>';
-        }
+    if (!array_key_exists($index, $methods)) {
+        echo '<h2 style="color:red">Invalid Index</h2>';
+        exit();
     }
 
-    echo '</ul>';
+    unset($methods[$index]);
 
+    $methods = array_values($methods);
+
+    $methodsJson = json_encode($methods);
+
+    $sql = "UPDATE accounts SET notificationMethods='$methodsJson' WHERE id='$user'";
+    $query = mysqli_query($conn, $sql);
+
+    header('Location: manageNotifications.php?user=' . $user);
 
     ?>
 </body>
