@@ -38,7 +38,7 @@
     $un = $row['name'];
     $methods = json_decode($row['notificationMethods'], true);
 
-    echo '<h2>' . $un . '\'s Notifications</h2>';
+    echo '<h2><a href="playerLookup.php?playerName=' . $un . '">' . $un . '</a>\'s Notifications</h2>';
 
     echo '<ul>';
 
