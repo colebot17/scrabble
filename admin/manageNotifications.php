@@ -6,11 +6,11 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Player Notifications - Scrabble Admin Panel</title>
+    <title>Player Notification Methods - Scrabble Admin Panel</title>
 </head>
 <body>
     <h3>This is the admin panel for scrabble.colebot.com<br><a href="index.php">Admin Home</a></h3>
-    <h1>Player Notifications</h1>
+    <h1>Player Notification Methods</h1>
     <?php
 
     $user = (int)$_GET['user'];
@@ -38,7 +38,7 @@
     $un = $row['name'];
     $methods = json_decode($row['notificationMethods'], true);
 
-    echo '<h2><a href="playerLookup.php?playerName=' . $un . '">' . $un . '</a>\'s Notifications</h2>';
+    echo '<h2><a href="playerLookup.php?playerName=' . $un . '">' . $un . '</a>\'s Notification Methods</h2>';
 
     echo '<ul>';
 
