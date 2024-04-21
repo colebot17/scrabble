@@ -60,7 +60,7 @@
     echo '<br>';
     echo '<a style="color:red" href="changeUserPassword.php?user=' . $currentPlayerName . '">Change Password</a>';
     echo '<br><br>';
-    echo '<span>' . count($notificationMethods) . ' Notification Methods - <a href="manageNotifications?user=' . $currentPlayerId . '">Manage</a></span>';
+    echo '<span>' . count($notificationMethods) . ' Notification Methods - <a href="manageNotifications.php?user=' . $currentPlayerId . '">Manage</a></span>';
 
     echo '</p>';
 
