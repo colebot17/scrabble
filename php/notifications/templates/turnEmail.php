@@ -21,8 +21,7 @@ function turnEmail($prevPlayerName, $gameName, $gameId, $playerNames) {
                 background-color: var(--background-0);
             }
             .gameCard {
-                width: 150;
-                height: 300;
+                min-width: 150px;
                 background-color: var(--background-1);
                 border-radius: 10px;
                 padding: 10px;
