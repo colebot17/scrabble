@@ -6,15 +6,14 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remove Notification Method - Scrabble Admin Panel</title>
+    <title>Add Notification Email - Scrabble Admin Panel</title>
 </head>
 <body>
     <h3>This is the admin panel for scrabble.colebot.com<br><a href="index.php">Admin Home</a></h3>
-    <h1>Remove Notification Method</h1>
+    <h1>Add Notification Email</h1>
     <?php
 
     $user = (int)$_GET['user'];
-    $index = (int)$_GET['index'];
 
     // define connection
     $servername = "173.201.180.187";
@@ -36,16 +35,21 @@
         exit();
     }
 
-    $methods = json_decode($row['notificationMethods'], true);
-
-    if (!array_key_exists($index, $methods)) {
-        echo '<h2 style="color:red">Invalid Index</h2>';
+    $type = $_POST["type"];
+    if ($type !== "email") {
+        echo '<h2 style="color:red">Unrecognized Method Type \'' . $type . '\'</h2>';
         exit();
     }
+    $address = $_POST["address"];
 
-    unset($methods[$index]);
+    $methods = json_decode($row['notificationMethods'], true);
 
-    $methods = array_values($methods);
+    $newMethod = Array(
+        "type" => $type,
+        "address" => $address,
+        "enabled" => true
+    );
+    $methods[] = $newMethod;
 
     $methodsJson = json_encode($methods);
     $sql = "UPDATE accounts SET notificationMethods='$methodsJson' WHERE id='$user'";

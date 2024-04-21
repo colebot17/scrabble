@@ -47,8 +47,13 @@
         if ($type === "email") {
             echo '<li>';
             echo '<span style="color:gray">Email:</span> ' . $methods[$i]['address'];
-            if (!$methods[$i]["enabled"]) echo ' <span style="color:red">[Disabled]</span>';
-            echo ' - <a href="removeNotificationMethod.php?user=' . $user . '&index=' . $i . '" style="color:red">Remove</a>';
+            if (!$methods[$i]["enabled"]) {
+                echo ' <span style="color:red">[Disabled]</span>';
+                echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Enable</a>';
+                echo ' - <a href="removeNotificationMethod.php?user=' . $user . '&index=' . $i . '" style="color:red">Remove</a>';
+            } else {
+                echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Disable</a>';
+            }
             echo '</li>';
         } else {
             echo '<li style="color:gray">' . json_encode($methods[$i]) . '</li>';
@@ -61,7 +66,13 @@
 
     echo '</ul>';
 
-
     ?>
+
+    <h4>Add Email Notification Method</h4>
+    <?php echo '<form method="POST" action="addNotificationEmail.php?user=' . $user .'">'; ?>
+        <input type="email" name="address" placeholder="Email...">
+        <input type="hidden" name="type" value="email">
+        <button>Add</button>
+    </form>
 </body>
 </html>

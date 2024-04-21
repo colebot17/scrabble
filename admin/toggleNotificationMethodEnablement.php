@@ -43,9 +43,7 @@
         exit();
     }
 
-    unset($methods[$index]);
-
-    $methods = array_values($methods);
+    $methods[$index]["enabled"] = !$methods[$index]["enabled"];
 
     $methodsJson = json_encode($methods);
     $sql = "UPDATE accounts SET notificationMethods='$methodsJson' WHERE id='$user'";
