@@ -1,6 +1,7 @@
 <?php
 
 function turnEmail($prevPlayerName, $gameName, $gameId, $playerNames) {
+    $playLink = 'https://scrabble.colebot.com?game=' . $gameId;
     $gameCardTitleLine = '
         <div><span>
                 <b>' . ($gameName !== "" ? $gameName : '#' . strval($gameId)) . '</b>
@@ -29,8 +30,11 @@ function turnEmail($prevPlayerName, $gameName, $gameId, $playerNames) {
         $code .= '
             </div>
             <br>
-            <a class="playButton" href="https://scrabble.colebot.com?game=' . strval($gameId) . '" style="height:auto;width:100%;background-color:#FF57BB;color:black;text-decoration:none;padding:5px;border-radius:5px;display:inline-block;box-sizing:border-box;">Play</a>
+            <a class="playButton" href="' . $playLink . '" style="height:auto;width:100%;background-color:#FF57BB;color:black;text-decoration:none;padding:5px;border-radius:5px;display:inline-block;box-sizing:border-box;">Play</a>
         </div>
+        <h2>It\'s your turn now, so go make your move!</h2>
+        <p>Alternatively, copy and paste this link into your browser:<br>' . $playLink . '</p>
+        <p>You are receiving this email because you signed up for notifications on <a href="https://scrabble.colebot.com">scrabble.colebot.com</a>.</p>
     ';
 
     return $code;
