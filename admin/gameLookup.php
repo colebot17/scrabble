@@ -39,6 +39,9 @@
 
     echo '<p>';
 
+    echo '<a href="renameGame.php?gameId=' . $gameId . '">Rename Game</a>';
+    echo '<br><br>';
+
     $inactive = $row['inactive'];
     if ($inactive) {
         echo '<span style="color:red">Inactive</span><br>';
