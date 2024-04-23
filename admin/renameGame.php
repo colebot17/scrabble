@@ -68,7 +68,7 @@
     }
 
     echo '<form method="POST">';
-        echo '<input type="text" placeholder="New Name" value="' . $currentName . '">';
+        echo '<input name="newName" type="text" placeholder="New Name" value="' . $currentName . '">';
         echo '<button>Change Name</button>';
     echo '</form>';
 
