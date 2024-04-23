@@ -29,7 +29,7 @@ function sendEmail($to, $subject, $body, $html = true) {
             $mail->Password   = 'Colebot@96819822';                     //SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
             $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-            $mail->addCustomHeader('X-Entity-Ref-ID', null);            //Ensure separate conversations in gmail
+            $mail->addCustomHeader('X-Entity-Ref-ID', random_bytes(64));//Ensure separate conversations in gmail
         
             //Recipients
             $mail->setFrom('scrabble@colebot.com', 'Scrabble - Colebot.com');
