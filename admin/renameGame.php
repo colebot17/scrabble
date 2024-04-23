@@ -62,9 +62,9 @@
     $currentName = $row['name'];
 
     if ($currentName) {
-        echo '<h2>Editing name for game <b>' . $currentName . ' <span style="color:gray">#' . $gameId . '</span></b></h2>';
+        echo '<h2 style="font-weight:normal">Editing name for game <b>' . $currentName . ' <span style="color:gray">#' . $gameId . '</span></b></h2>';
     } else {
-        echo '<h2>Editing name for game <b><span style="color:gray">#' . $gameId . '</span></b></h2>';
+        echo '<h2 style="font-weight:normal">Editing name for game <b><span style="color:gray">#' . $gameId . '</span></b></h2>';
     }
 
     echo '<form method="POST">';
