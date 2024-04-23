@@ -1,4 +1,4 @@
-const EMAIL_REGEX = /.+\@.+\..+/gi;
+const EMAIL_REGEX = /.+\@.+\..+/i;
 
 const emailBox = document.getElementById('addNotificationEmailBox');
 const addButton = document.getElementById('addEmailNotificationMethodButton');
