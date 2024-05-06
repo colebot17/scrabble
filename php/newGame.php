@@ -108,13 +108,14 @@ $res = Array(
 );
 echo json_encode($res);
 
+
 // send email notifications
 require "notifications/notify.php";
 require "notifications/templates/newGameEmail.php";
 
 $playerNames = Array();
-for ($i = 0; $i < count($playerList); $i++) {
-	$pid = $playerList[$i];
+for ($i = 0; $i < count($players); $i++) {
+	$pid = $players[$i]["id"];
 	$sql = "SELECT name FROM accounts WHERE id='$pid'";
 	$query = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($query);
