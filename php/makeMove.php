@@ -272,8 +272,8 @@ for ($i = 0; $i < count($players); $i++) {
 	if ($pid === $user) $un = $row['name'];
 }
 
-$emailBody = turnEmail($un, $gameName, $gameId, $playerList);
-notifyByEmail($conn, $players[$totalTurn % count($players)]["id"], "It's your turn on Scrabble!", $emailBody);
+[$emailSubject, $emailBody] = turnEmail($un, $gameName, $gameId, $playerList);
+notifyByEmail($conn, $players[$totalTurn % count($players)]["id"], $emailSubject, $emailBody);
 
 //////////
 // add to updates list
