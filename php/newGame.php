@@ -108,7 +108,26 @@ $res = Array(
 );
 echo json_encode($res);
 
+// send email notifications
+require "notifications/notify.php";
+require "notifications/templates/newGameEmail.php";
+
+$playerNames = Array();
+for ($i = 0; $i < count($playerList); $i++) {
+	$pid = $playerList[$i];
+	$sql = "SELECT name FROM accounts WHERE id='$pid'";
+	$query = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($query);
+	$playerNames[] = $row['name'];
+}
+
+[$emailSubject, $emailBody] = newGameEmail("", $gameId, $playerNames);
+
+for ($i = 0; $i < count($playerList); $i++) {
+	if ($playerList[$i] === $user) continue;
+
+	notifyByEmail($conn, $playerList[$i], $emailSubject, $emailBody);
+}
+
 // close the connection
 $conn->close();
-
-?>
