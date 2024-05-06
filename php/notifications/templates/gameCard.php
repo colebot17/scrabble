@@ -10,8 +10,8 @@ function gameCard($gameName, $gameId, $playerNames, $highlight = true) {
 
     $playerList = '<div>';
     for ($i = 0; $i < count($playerNames); $i++) {
-        if ($i !== 0) $code .= '<br>';
-        $code .= '<span>' . $playerNames[$i] . '</span>';
+        if ($i !== 0) $playerList .= '<br>';
+        $playerList .= '<span>' . $playerNames[$i] . '</span>';
     }
     $playerList .= '</div>';
 
