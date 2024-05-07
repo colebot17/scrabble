@@ -622,16 +622,16 @@ function drawRegions(regions) {
 		if (regions[i].pulse) {
 			const gradient = canvas.ctx.createLinearGradient(x1, y1, x2, y2);
 
-			const frame = regions[i].pulse.getFrame() % 1;
+			const frame = regions[i].pulse.getFrame();
 
 			gradient.addColorStop(0, "transparent");
 
-			const lowerSide = Math.min(Math.max(frame - GRADIENT_PADDING, 0), 1);
+			const lowerSide = (frame - GRADIENT_PADDING) % 1;
 			gradient.addColorStop(lowerSide, "transparent");
 
 			gradient.addColorStop(frame, calculatedColor);
 
-			const upperSide = Math.min(Math.max(frame + GRADIENT_PADDING, 0), 1);
+			const upperSide = (frame + GRADIENT_PADDING) % 1;
 			gradient.addColorStop(upperSide, "transparent");
 
 			gradient.addColorStop(1, "transparent");
