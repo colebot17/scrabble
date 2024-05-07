@@ -8,6 +8,7 @@ const SQUARE_CONTENTS = ["", "L2", "L3", "W2", "W3", ""];
 const SQUARE_NUM = 15;
 const SQUARE_GAP = -0.5;
 const SQUARE_INSET = 0.15;
+const GRADIENT_PADDING = 0.2;
 var squareWidth;
 
 function canvasInit() {
@@ -620,9 +621,21 @@ function drawRegions(regions) {
 
 		if (regions[i].pulse) {
 			const gradient = canvas.ctx.createLinearGradient(x1, y1, x2, y2);
+
+			const frame = regions[i].pulse.getFrame();
+
 			gradient.addColorStop(0, "transparent");
-			gradient.addColorStop(regions[i].pulse.getFrame(), calculatedColor);
+
+			const lowerSide = Math.min(Math.max(frame - GRADIENT_PADDING, 0), 1);
+			gradient.addColorStop(lowerSide, "transparent");
+
+			gradient.addColorStop(frame, calculatedColor);
+
+			const upperSide = Math.min(Math.max(frame + GRADIENT_PADDING, 0), 1);
+			gradient.addColorStop(upperSide, "transparent");
+
 			gradient.addColorStop(1, "transparent");
+
 			canvas.ctx.strokeStyle = gradient;
 		} else {
 			canvas.ctx.strokeStyle = calculatedColor;
