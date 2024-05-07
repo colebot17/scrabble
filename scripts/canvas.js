@@ -621,7 +621,8 @@ function drawRegions(regions) {
 		if (regions[i].pulse) {
 			const gradient = canvas.ctx.createLinearGradient(x1, y1, x2, y2);
 			gradient.addColorStop(0, "transparent");
-			gradient.addColorStop(1, calculatedColor);
+			gradient.addColorStop(regions[i].pulse.getFrame(), calculatedColor);
+			gradient.addColorStop(1, "transparent");
 			canvas.ctx.strokeStyle = gradient;
 		} else {
 			canvas.ctx.strokeStyle = calculatedColor;
