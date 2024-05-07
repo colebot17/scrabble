@@ -626,12 +626,12 @@ function drawRegions(regions) {
 
 			gradient.addColorStop(0, "transparent");
 
-			const lowerSide = (frame - GRADIENT_PADDING) % 1;
+			const lowerSide = Math.abs(frame - GRADIENT_PADDING) % 1;
 			gradient.addColorStop(lowerSide, "transparent");
 
 			gradient.addColorStop(frame, calculatedColor);
 
-			const upperSide = (frame + GRADIENT_PADDING) % 1;
+			const upperSide = Math.abs(frame + GRADIENT_PADDING) % 1;
 			gradient.addColorStop(upperSide, "transparent");
 
 			gradient.addColorStop(1, "transparent");
