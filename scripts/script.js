@@ -935,6 +935,9 @@ function checkPoints() {
 			// clear the points box
 			canvas.pointsPreview = false;
 
+			// show the border animation
+			tempHighlight({start: [0, 0], end: [14, 14]}, "#ff0000");
+
 			if (res.errorLevel > 1) {
 				gameBanner(res.message, "#ff0000");
 			}
@@ -955,9 +958,6 @@ function checkPoints() {
 		if (mainWordId === undefined) {
 			// make sure no region is shown
 			canvas.pointsPreview = false;
-
-			// show the border animation
-			tempHighlight({start: [0, 0], end: [14, 14]}, "#ff0000");
 
 			return;
 		}
