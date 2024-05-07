@@ -8,6 +8,7 @@ const SQUARE_CONTENTS = ["", "L2", "L3", "W2", "W3", ""];
 const SQUARE_NUM = 15;
 const SQUARE_GAP = -0.5;
 const SQUARE_INSET = 0.15;
+const GRADIENT_PADDING = 0.2;
 var squareWidth;
 
 function canvasInit() {
@@ -570,14 +571,35 @@ function updateTile(tile) {
 }
 
 function drawRegions(regions) {
+	// a region might look something like this:
+	/*
+		{
+			"start": [0, 1], **
+			"end": [2, 3], **
+			"points": 4,
+			"color": "#56789A",
+			"textColor": "#BCDEF0",
+			"opacity": Animation {...},
+			"opacity": 0.1,
+			"pulse": Animation {...}
+		}
+
+		** = Required
+	*/
+
 	// draw each region
 	for (let i = 0; i < regions.length; i++) {
+		// calculate the positions
+		let x1 = regions[i].start[0] * (squareWidth + SQUARE_GAP);
+		let y1 = regions[i].start[1] * (squareWidth + SQUARE_GAP);
+		let x2 = (regions[i].end[0] * (squareWidth + SQUARE_GAP)) + squareWidth;
+		let y2 = (regions[i].end[1] * (squareWidth + SQUARE_GAP)) + squareWidth;
 
 		// determine whether it is the current user's turn
 		const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
 		// set up the style
-		let color = regions[i].color || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
+		let rawColor = regions[i].color || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
 
 		let opacity;
 		if (typeof regions[i].opacity !== 'number' && !regions[i].opacity) {
@@ -594,18 +616,58 @@ function drawRegions(regions) {
 			opacity = regions[i].opacity;
 		}
 
-		const [r, g, b] = getRGBA(color);
-		canvas.ctx.strokeStyle = opacity ? "rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")" : color;
+		const [r, g, b] = getRGBA(rawColor);
+		const calculatedColor = opacity ? "rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")" : rawColor;
+
+		if (regions[i].pulse) {
+			const ogXDiff = x2 - x1;
+			const ogYDiff = y2 - y1;
+			const gradStart = [x1 - ogXDiff, y1 - ogYDiff];
+			const gradEnd = [x2 + ogXDiff, y2 + ogYDiff];
+
+			const gradient = canvas.ctx.createLinearGradient(gradStart[0], gradStart[1], gradEnd[0], gradEnd[1]);
+
+			const frame = regions[i].pulse.getFrame();
+
+			const gradFrame0 = (frame) / 3;
+			const lowerBound0 = gradFrame0 - (GRADIENT_PADDING / 3);
+			const upperBound0 = gradFrame0 + (GRADIENT_PADDING / 3);
+			const gradFrame1 = (frame + 1) / 3;
+			const lowerBound1 = gradFrame1 - (GRADIENT_PADDING / 3);
+			const upperBound1 = gradFrame1 + (GRADIENT_PADDING / 3);
+			const gradFrame2 = (frame + 2) / 3;
+			const lowerBound2 = gradFrame2 - (GRADIENT_PADDING / 3);
+			const upperBound2 = gradFrame2 + (GRADIENT_PADDING / 3);
+
+			gradient.addColorStop(0, "transparent");
+
+			if (lowerBound0 > 0) gradient.addColorStop(lowerBound0, "transparent");
+			gradient.addColorStop(gradFrame0, calculatedColor);
+			gradient.addColorStop(upperBound0, "transparent");
+
+			gradient.addColorStop(lowerBound1, "transparent");
+			gradient.addColorStop(gradFrame1, calculatedColor);
+			gradient.addColorStop(upperBound1, "transparent");
+
+			gradient.addColorStop(lowerBound2, "transparent");
+			gradient.addColorStop(gradFrame2, calculatedColor);
+			if (upperBound2 < 1) gradient.addColorStop(upperBound2, "transparent");
+
+			gradient.addColorStop(1, "transparent");
+
+			canvas.ctx.strokeStyle = gradient;
+		} else {
+			canvas.ctx.strokeStyle = calculatedColor;
+		}
+		
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
 		canvas.ctx.lineWidth = (squareWidth * 0.1) + 1;
+
 		const fontSize = 16;
 		canvas.ctx.font = fontSize + "px Rubik";
 
 		// draw a rectangle around the affected letters
-		let x1 = regions[i].start[0] * (squareWidth + SQUARE_GAP);
-		let y1 = regions[i].start[1] * (squareWidth + SQUARE_GAP);
-		let x2 = (regions[i].end[0] * (squareWidth + SQUARE_GAP)) + squareWidth;
-		let y2 = (regions[i].end[1] * (squareWidth + SQUARE_GAP)) + squareWidth;
+		// positions are calculated above
 
 		// calculate position for the bubble
 		let circX = x2;

@@ -895,6 +895,23 @@ function checkPoints() {
 		return;
 	}
 
+	// set the loading animation (region pulse)
+	//
+	// PROBLEM!!!
+	// we don't actually know where the word is right now,
+	// so we don't know where to show the loading box
+	// 
+	// the solution to this would be to do word checks locally.
+	// this would require the download of the whole dictionary,
+	// which would take a while, but could be done in the background.
+	// the bigger benefit to doing this is that we wouldn't have to
+	// worry about how often we check the word (within reason).
+	//
+	// it would also require rewriting the whole word parser in js.
+	// this will take some time as it is not a small task. However,
+	// there is a chance that it can be made more lightweight since
+	// there's probably some stuff it doesn't need to keep track of.
+
 	request('checkPoints.php', {
 		game: game.id,
 		tiles: JSON.stringify(newTiles),
