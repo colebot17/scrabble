@@ -957,14 +957,7 @@ function checkPoints() {
 			canvas.pointsPreview = false;
 
 			// show the border animation
-			const region = {
-				start: [0, 0],
-				end: [14, 14],
-				color: "red",
-				opacity: new Animation(1000, 0, 1, 0)
-			};
-			region.removeCondition = () => region.opacity.isComplete();
-			addRegion(region);
+			tempHighlight({start: [0, 0], end: [14, 14]}, "#ff0000");
 
 			return;
 		}
