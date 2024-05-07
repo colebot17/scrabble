@@ -1040,16 +1040,16 @@ function checkConnectedness() {
 		boardCopy[y][x] = "connected";
 
 		// add all adjacent tiles to the queue as well
-		if (boardCopy[y][x + 1] === "tile") {
+		if (boardCopy?.[y]?.[x + 1] === "tile") {
 			queue.push([x + 1, y]);
 		}
-		if (boardCopy[y][x - 1] === "tile") {
+		if (boardCopy?.[y]?.[x - 1] === "tile") {
 			queue.push([x - 1, y]);
 		}
-		if (boardCopy[y + 1][x] === "tile") {
+		if (boardCopy?.[y + 1]?.[x] === "tile") {
 			queue.push([x, y + 1]);
 		}
-		if (boardCopy[y - 1][x] === "tile") {
+		if (boardCopy?.[y - 1]?.[x] === "tile") {
 			queue.push([x, y - 1]);
 		}
 	}
