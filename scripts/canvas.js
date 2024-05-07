@@ -710,13 +710,15 @@ function drawRegions(regions) {
 	}
 }
 
-function tempHighlight(region, color = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight')) {
+function tempHighlight(
+	region,
+	color = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight'),
+	duration = 1000,
+	delay = 2000
+) {
 	region.color = color;
 	region.textColor = autoContrast(color) ? "#000000" : "#FFFFFF";
-	region.opacity = new Animation(1000, 2000, 1, 0);
-	//                             |        |  |  |
-	//                             duration |  |  end
-	//                                  delay  start
+	region.opacity = new Animation(duration, delay, 1, 0);
 	region.removeCondition = () => region.opacity.isComplete();
 
 	addRegion(region);
