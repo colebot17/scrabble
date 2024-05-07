@@ -570,14 +570,35 @@ function updateTile(tile) {
 }
 
 function drawRegions(regions) {
+	// a region might look something like this:
+	/*
+		{
+			"start": [0, 1], **
+			"end": [2, 3], **
+			"points": 4,
+			"color": "#56789A",
+			"textColor": "#BCDEF0",
+			"opacity": Animation {...},
+			"opacity": 0.1,
+			"pulse": Animation {...}
+		}
+
+		** = Required
+	*/
+
 	// draw each region
 	for (let i = 0; i < regions.length; i++) {
+		// calculate the positions
+		let x1 = regions[i].start[0] * (squareWidth + SQUARE_GAP);
+		let y1 = regions[i].start[1] * (squareWidth + SQUARE_GAP);
+		let x2 = (regions[i].end[0] * (squareWidth + SQUARE_GAP)) + squareWidth;
+		let y2 = (regions[i].end[1] * (squareWidth + SQUARE_GAP)) + squareWidth;
 
 		// determine whether it is the current user's turn
 		const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
 		// set up the style
-		let color = regions[i].color || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
+		let rawColor = regions[i].color || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight' : '--semi-highlight');
 
 		let opacity;
 		if (typeof regions[i].opacity !== 'number' && !regions[i].opacity) {
@@ -594,18 +615,26 @@ function drawRegions(regions) {
 			opacity = regions[i].opacity;
 		}
 
-		const [r, g, b] = getRGBA(color);
-		canvas.ctx.strokeStyle = opacity ? "rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")" : color;
+		const [r, g, b] = getRGBA(rawColor);
+		const calculatedColor = opacity ? "rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")" : rawColor;
+
+		if (regions[i].pulse) {
+			const gradient = canvas.ctx.createLinearGradient(x1, y1, x2, y2);
+			gradient.addColorStop(0, "transparent");
+			gradient.addColorStop(1, calculatedColor);
+			canvas.ctx.strokeStyle = gradient;
+		} else {
+			canvas.ctx.strokeStyle = calculatedColor;
+		}
+		
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
 		canvas.ctx.lineWidth = (squareWidth * 0.1) + 1;
+
 		const fontSize = 16;
 		canvas.ctx.font = fontSize + "px Rubik";
 
 		// draw a rectangle around the affected letters
-		let x1 = regions[i].start[0] * (squareWidth + SQUARE_GAP);
-		let y1 = regions[i].start[1] * (squareWidth + SQUARE_GAP);
-		let x2 = (regions[i].end[0] * (squareWidth + SQUARE_GAP)) + squareWidth;
-		let y2 = (regions[i].end[1] * (squareWidth + SQUARE_GAP)) + squareWidth;
+		// positions are calculated above
 
 		// calculate position for the bubble
 		let circX = x2;
