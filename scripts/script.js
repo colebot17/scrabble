@@ -886,13 +886,14 @@ function showPointsOverlay(userId, newPoints) {
 }
 
 function checkPoints() {
+	canvas.pointsPreview = false;
+
 	// first, get a list of all unlocked tiles
 	var newTiles = getUnlockedTiles();
 
 	// don't bother if there are no unlocked tiles
 	// or if the tiles aren't connected to the center
 	if (newTiles.length < 1 || !checkConnectedness()) {
-		canvas.pointsPreview = false;
 		return;
 	}
 
@@ -933,9 +934,6 @@ function checkPoints() {
 		pwd: account.pwd
 	}).then(res => {
 		if (res.errorLevel > 0) {
-			// clear the points box
-			canvas.pointsPreview = false;
-
 			// show the border animation
 			tempHighlight({start: [0, 0], end: [14, 14]}, "#ff0000", 250, 250);
 
@@ -955,11 +953,8 @@ function checkPoints() {
 			}
 		}
 
-		// if no word was made
+		// if no word was made (this shouldn't ever happen because it should get caught above)
 		if (mainWordId === undefined) {
-			// make sure no region is shown
-			canvas.pointsPreview = false;
-
 			return;
 		}
 
@@ -969,7 +964,6 @@ function checkPoints() {
 		if (word.axis === "x") {
 			for (let x = word.pos.start[0]; x <= word.pos.end[0]; x++) {
 				if (!game.board[word.pos.start[1]][x]) {
-					canvas.pointsPreview = false;
 					return;
 				}
 			}
@@ -977,7 +971,6 @@ function checkPoints() {
 		if (word.axis === "y") {
 			for (let y = word.pos.start[1]; y <= word.pos.end[1]; y++) {
 				if (!game.board[y][word.pos.start[0]]) {
-					canvas.pointsPreview = false;
 					return;
 				}
 			}
