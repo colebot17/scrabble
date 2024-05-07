@@ -951,8 +951,21 @@ function checkPoints() {
 			}
 		}
 
+		// if no word was made
 		if (mainWordId === undefined) {
+			// make sure no region is shown
 			canvas.pointsPreview = false;
+
+			// show the border animation
+			const region = {
+				start: [0, 0],
+				end: [14, 14],
+				color: "red",
+				opacity: new Animation(1000, 0, 1, 0)
+			};
+			region.removeCondition = () => region.opacity.isComplete();
+			addRegion(region);
+
 			return;
 		}
 
