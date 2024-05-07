@@ -620,19 +620,38 @@ function drawRegions(regions) {
 		const calculatedColor = opacity ? "rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")" : rawColor;
 
 		if (regions[i].pulse) {
-			const gradient = canvas.ctx.createLinearGradient(x1, y1, x2, y2);
+			const ogXDiff = x2 - x1;
+			const ogYDiff = y2 - y1;
+			const gradStart = [x1 - ogXDiff, y1 - ogYDiff];
+			const gradEnd = [x2 + ogXDiff, y2 + ogYDiff];
+
+			const gradient = canvas.ctx.createLinearGradient(gradStart[0], gradStart[1], gradEnd[0], gradEnd[1]);
 
 			const frame = regions[i].pulse.getFrame();
 
+			const gradFrame0 = (frame) / 3;
+			const lowerBound0 = gradFrame0 - (GRADIENT_PADDING / 3);
+			const upperBound0 = gradFrame0 + (GRADIENT_PADDING / 3);
+			const gradFrame1 = (frame + 1) / 3;
+			const lowerBound1 = gradFrame1 - (GRADIENT_PADDING / 3);
+			const upperBound1 = gradFrame1 + (GRADIENT_PADDING / 3);
+			const gradFrame2 = (frame + 2) / 3;
+			const lowerBound2 = gradFrame2 - (GRADIENT_PADDING / 3);
+			const upperBound2 = gradFrame2 + (GRADIENT_PADDING / 3);
+
 			gradient.addColorStop(0, "transparent");
 
-			const lowerSide = Math.abs(frame - GRADIENT_PADDING) % 1;
-			gradient.addColorStop(lowerSide, "transparent");
+			if (lowerBound0 > 0) gradient.addColorStop(lowerBound0, "transparent");
+			gradient.addColorStop(gradFrame0, calculatedColor);
+			gradient.addColorStop(upperBound1, "transparent");
 
-			gradient.addColorStop(frame, calculatedColor);
+			gradient.addColorStop(lowerBound1, "transparent");
+			gradient.addColorStop(gradFrame1, calculatedColor);
+			gradient.addColorStop(upperBound1, "transparent");
 
-			const upperSide = Math.abs(frame + GRADIENT_PADDING) % 1;
-			gradient.addColorStop(upperSide, "transparent");
+			gradient.addColorStop(lowerBound2, "transparent");
+			gradient.addColorStop(gradFrame2, calculatedColor);
+			if (upperBound2 < 1) gradient.addColorStop(upperBound2, "transparent");
 
 			gradient.addColorStop(1, "transparent");
 
