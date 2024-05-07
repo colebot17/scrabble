@@ -581,7 +581,8 @@ function drawRegions(regions) {
 			"textColor": "#BCDEF0",
 			"opacity": Animation {...},
 			"opacity": 0.1,
-			"pulse": Animation {...}
+			"pulse": Animation {...},
+			"removeCondition": () => a > b
 		}
 
 		** = Required
@@ -606,14 +607,15 @@ function drawRegions(regions) {
 			opacity = false;
 		} else if (typeof regions[i].opacity === 'object') {
 			opacity = regions[i].opacity.getFrame();
-			if (regions[i].opacity.isComplete()) {
-				// remove the region if the opacity animation is complete
-				regions.splice(i, 1);
-				i--;
-				continue;
-			}
 		} else {
 			opacity = regions[i].opacity;
+		}
+		
+		if (regions[i]?.removeCondition()) {
+			// remove the region if the remove condition is met
+			regions.splice(i, 1);
+			i--;
+			continue;
 		}
 
 		const [r, g, b] = getRGBA(rawColor);
@@ -666,8 +668,8 @@ function drawRegions(regions) {
 		const fontSize = 16;
 		canvas.ctx.font = fontSize + "px Rubik";
 
-		// draw a rectangle around the affected letters
-		// positions are calculated above
+		// draw the rectangle
+		// corner positions are calculated above
 
 		// calculate position for the bubble
 		let circX = x2;
@@ -712,7 +714,15 @@ function tempHighlight(region, color = getComputedStyle(document.documentElement
 	region.color = color;
 	region.textColor = autoContrast(color) ? "#000000" : "#FFFFFF";
 	region.opacity = new Animation(1000, 2000, 1, 0);
+	//                             |        |  |  |
+	//                             duration |  |  end
+	//                                  delay  start
+	region.removeCondition = () => region.opacity.isComplete();
 
+	addRegion(region);
+}
+
+function addRegion(region) {
 	if (!canvas.regions) canvas.regions = [];
 	canvas.regions.push(region);
 }

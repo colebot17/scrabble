@@ -912,6 +912,19 @@ function checkPoints() {
 	// there is a chance that it can be made more lightweight since
 	// there's probably some stuff it doesn't need to keep track of.
 
+	// SOLUTION!!!
+	// we can just apply the effect to a region that consumes the entire
+	// board, which creates a really cool more general loading animation.
+
+	let removeLoadingAnimation = false;
+
+	addRegion({
+		start: [0, 0],
+		end: [14, 14],
+		pulse: new Animation(750, 0, 0, 1, "loop"),
+		removeCondition: () => removeLoadingAnimation
+	});
+
 	request('checkPoints.php', {
 		game: game.id,
 		tiles: JSON.stringify(newTiles),
@@ -986,6 +999,9 @@ function checkPoints() {
 		} else {
 			gameBanner("An unknown error occurred.", "#ff0000");
 		}
+	}).finally(() => {
+		// remove the loading animation
+		removeLoadingAnimation = true;
 	});
 }
 
