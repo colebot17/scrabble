@@ -890,7 +890,8 @@ function checkPoints() {
 	var newTiles = getUnlockedTiles();
 
 	// don't bother if there are no unlocked tiles
-	if (newTiles.length < 1) {
+	// or if the tiles aren't connected to the center
+	if (newTiles.length < 1 || !checkConnectedness()) {
 		canvas.pointsPreview = false;
 		return;
 	}
@@ -1011,7 +1012,58 @@ function checkPoints() {
 	});
 }
 
+function checkConnectedness() {
+	// returns true if all tiles on the board are connected to the center
+	// returns false if not
+	//
+	// using a four-way flood fill algorithm with a queue
 
+	// make a copy of the board that is simpler
+	let boardCopy = [];
+	for (let y = 0; y < game.board.length; y++) {
+		let rowCopy = [];
+		for (let x = 0; x < game.board[y].length; x++) {
+			rowCopy.push(!!game.board[y][x] ? "tile" : "empty");
+		}
+		boardCopy.push(rowCopy);
+	}
+
+	// create a queue
+	let queue = [];
+	queue.push([7, 7]); // start with the center tile
+
+	// go through the queue
+	while (queue.length > 0) {
+		let [x, y] = queue.shift();
+
+		// this item is in the queue, so it must be connected
+		boardCopy[y][x] = "connected";
+
+		// add all adjacent tiles to the queue as well
+		if (boardCopy[y][x + 1] === "tile") {
+			queue.push([x + 1, y]);
+		}
+		if (boardCopy[y][x - 1] === "tile") {
+			queue.push([x - 1, y]);
+		}
+		if (boardCopy[y + 1][x] === "tile") {
+			queue.push([x, y + 1]);
+		}
+		if (boardCopy[y - 1][x] === "tile") {
+			queue.push([x, y - 1]);
+		}
+	}
+
+	// now go through the copy and see if we missed any "tile"s
+	for (let y = 0; y < boardCopy.length; y++) {
+		for (let x = 0; x < boardCopy[y].length; x++) {
+			if (boardCopy[y][x] === "tile") {
+				return false;
+			}
+		}
+	}
+	return true;
+}
 
 function getUnlockedTiles() {
 	// returns a simplified list of any unlocked tiles on the board
