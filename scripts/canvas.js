@@ -611,7 +611,7 @@ function drawRegions(regions) {
 			opacity = regions[i].opacity;
 		}
 		
-		if (regions[i]?.removeCondition()) {
+		if (regions[i].removeCondition && regions[i].removeCondition()) {
 			// remove the region if the remove condition is met
 			regions.splice(i, 1);
 			i--;
