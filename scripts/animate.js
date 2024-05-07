@@ -1,5 +1,5 @@
 class Animation {
-	constructor(duration, delay = 0, start = 0, end = 1) {
+	constructor(duration, delay = 0, start = 0, end = 1, boundsMode = "restrict") {
 		this.timelineStart = document.timeline.currentTime + delay;
 		this.duration = duration;
 		this.start = start;
@@ -14,7 +14,16 @@ class Animation {
 
 			let frame = (r * t) + start;
 
-			// limit between start and end
+			if (boundsMode === "loop") {
+				frame = ((r * t) % r) + start;
+			}
+			// allowed values for boundsMode:
+			// ["restrict", "loop"]
+			// default: "restrict"
+
+			// values will be restricted anyways at the end
+			// this should not matter when using loop because it is applied earlier
+		
 			let smaller = Math.min(start, end);
 			let larger = Math.max(start, end);
 
