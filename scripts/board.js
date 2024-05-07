@@ -36,20 +36,26 @@ function setMoveButtonEnablement() {
     if (!userTurn) return;
     // the move button will be disabled no matter what when it is not the current user's turn
     // the enablement of the move button when it isn't the user's turn is controlled by setOOTD() in script.js
+    
+    let enableButton = false;
 
     // make sure there are actually some unlocked tiles on the board
-    let boardHasUnlockedTiles = false;
     for (let y = 0; y < game.board.length; y++) {
         for (let x = 0; x < game.board[y].length; x++) {
             if (game.board[y][x] && !game.board[y][x].locked) {
-                boardHasUnlockedTiles = true;
+                enableButton = true;
                 break;
             }
         }
     }
 
+    // make sure all tiles are connected to center
+    if (!checkConnectedness()) {
+        enableButton = false;
+    }
+
     const moveButton = document.getElementById('makeMoveButton');
-    if (boardHasUnlockedTiles) {
+    if (enableButton) {
         moveButton.disabled = false;
         moveButton.title = "";
     } else {
