@@ -622,7 +622,7 @@ function drawRegions(regions) {
 		if (regions[i].pulse) {
 			const gradient = canvas.ctx.createLinearGradient(x1, y1, x2, y2);
 
-			const frame = regions[i].pulse.getFrame();
+			const frame = regions[i].pulse.getFrame() % 1;
 
 			gradient.addColorStop(0, "transparent");
 
