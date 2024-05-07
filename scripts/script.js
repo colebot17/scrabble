@@ -890,7 +890,8 @@ function checkPoints() {
 	var newTiles = getUnlockedTiles();
 
 	// don't bother if there are no unlocked tiles
-	if (newTiles.length < 1) {
+	// or if the tiles aren't connected to the center
+	if (newTiles.length < 1 || !checkConnectedness()) {
 		canvas.pointsPreview = false;
 		return;
 	}
@@ -912,6 +913,19 @@ function checkPoints() {
 	// there is a chance that it can be made more lightweight since
 	// there's probably some stuff it doesn't need to keep track of.
 
+	// SOLUTION!!!
+	// we can just apply the effect to a region that consumes the entire
+	// board, which creates a really cool more general loading animation.
+
+	let removeLoadingAnimation = false;
+
+	addRegion({
+		start: [0, 0],
+		end: [14, 14],
+		pulse: new Animation(750, 0, 0, 1, "loop"),
+		removeCondition: () => removeLoadingAnimation
+	});
+
 	request('checkPoints.php', {
 		game: game.id,
 		tiles: JSON.stringify(newTiles),
@@ -921,6 +935,9 @@ function checkPoints() {
 		if (res.errorLevel > 0) {
 			// clear the points box
 			canvas.pointsPreview = false;
+
+			// show the border animation
+			tempHighlight({start: [0, 0], end: [14, 14]}, "#ff0000", 250, 250);
 
 			if (res.errorLevel > 1) {
 				gameBanner(res.message, "#ff0000");
@@ -938,8 +955,11 @@ function checkPoints() {
 			}
 		}
 
+		// if no word was made
 		if (mainWordId === undefined) {
+			// make sure no region is shown
 			canvas.pointsPreview = false;
+
 			return;
 		}
 
@@ -986,10 +1006,64 @@ function checkPoints() {
 		} else {
 			gameBanner("An unknown error occurred.", "#ff0000");
 		}
+	}).finally(() => {
+		// remove the loading animation
+		removeLoadingAnimation = true;
 	});
 }
 
+function checkConnectedness() {
+	// returns true if all tiles on the board are connected to the center
+	// returns false if not
+	//
+	// using a four-way flood fill algorithm with a queue
 
+	// make a copy of the board that is simpler
+	let boardCopy = [];
+	for (let y = 0; y < game.board.length; y++) {
+		let rowCopy = [];
+		for (let x = 0; x < game.board[y].length; x++) {
+			rowCopy.push(!!game.board[y][x] ? "tile" : "empty");
+		}
+		boardCopy.push(rowCopy);
+	}
+
+	// create a queue
+	let queue = [];
+	queue.push([7, 7]); // start with the center tile
+
+	// go through the queue
+	while (queue.length > 0) {
+		let [x, y] = queue.shift();
+
+		// this item is in the queue, so it must be connected
+		boardCopy[y][x] = "connected";
+
+		// add all adjacent tiles to the queue as well
+		if (boardCopy?.[y]?.[x + 1] === "tile") {
+			queue.push([x + 1, y]);
+		}
+		if (boardCopy?.[y]?.[x - 1] === "tile") {
+			queue.push([x - 1, y]);
+		}
+		if (boardCopy?.[y + 1]?.[x] === "tile") {
+			queue.push([x, y + 1]);
+		}
+		if (boardCopy?.[y - 1]?.[x] === "tile") {
+			queue.push([x, y - 1]);
+		}
+	}
+
+	// now go through the copy and see if we missed any "tile"s
+	for (let y = 0; y < boardCopy.length; y++) {
+		for (let x = 0; x < boardCopy[y].length; x++) {
+			if (boardCopy[y][x] === "tile") {
+				return false;
+			}
+		}
+	}
+	return true;
+}
 
 function getUnlockedTiles() {
 	// returns a simplified list of any unlocked tiles on the board
