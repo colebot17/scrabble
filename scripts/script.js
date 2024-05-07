@@ -936,7 +936,7 @@ function checkPoints() {
 			canvas.pointsPreview = false;
 
 			// show the border animation
-			tempHighlight({start: [0, 0], end: [14, 14]}, "#ff0000", 250, 500);
+			tempHighlight({start: [0, 0], end: [14, 14]}, "#ff0000", 250, 250);
 
 			if (res.errorLevel > 1) {
 				gameBanner(res.message, "#ff0000");
