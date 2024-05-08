@@ -896,7 +896,8 @@ function flyingSaucer(boardX, boardY, value, destination) {
 	saucer.style.top = boardBounds.top + startPos[1] + 'px';
 	saucer.style.left = boardBounds.left + endPos[0] + 'px';
 
-	const d = "3s";
+	const duration = 3000;
+	const d = (duration / 1000) + 's';
 	const e = "ease-in"
 	saucer.style.transition = `top ${d} ${e}, left ${d} ${e}`;
 
@@ -907,6 +908,10 @@ function flyingSaucer(boardX, boardY, value, destination) {
 	setTimeout(() => {
 		saucer.style.top = destBounds.top + 'px';
 		saucer.style.left = destBounds.left + 'px';
+
+		setTimeout(() => {
+			saucer.style.transition = "";
+		}, duration);
 	}, 10);
 }
 
