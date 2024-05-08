@@ -603,6 +603,15 @@ body.scrabble {
 	border: 1px solid var(--text-highlight);
 }
 
+/* flying saucer */
+#flyingSaucer {
+	width: 1.3rem;
+	height: 1.3rem;
+
+	background-color: var(--highlight);
+	border-radius: 10000px;
+}
+
 /* animations */
 .spin {
 	animation-name: spin;

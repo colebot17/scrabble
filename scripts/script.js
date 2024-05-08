@@ -839,15 +839,21 @@ function makeMove() {
 			}
 			showPointsOverlay(account.id, newPoints);
 
-			// once the game has been loaded, show a banner and highlight new letters
+			// once the game has been loaded,
 			lgPromise.then(() => {
+				// show a confirmation banner
 				const bannerMessage = 'Your move has been made for ' + newPoints + ' point' + (newPoints === 1 ? '' : 's') + '. Tell <b>' + game.players[game.turn % game.players.length].name + '</b> that it\'s their turn!';
 				gameBanner(bannerMessage, getComputedStyle(document.documentElement).getPropertyValue('--highlight'));
 
+				// highlight new letters in the player's bank
 				for (let i = 0; i < res.data.newLetterIndices.length; i++) {
 					const canvasLetter = canvas.bank.find(a => a.bankIndex === res.data.newLetterIndices[i]);
 					canvasLetter.highlight = true;
 				}
+
+				// perform the flying saucer animation
+				let mainWord = res.data.newWords.find(a => !a.cross);
+				flyingSaucer(...mainWord.end, newPoints);
 
 				// restore the chat draft
 				document.getElementById('chatInput').value = chatDraft;
@@ -859,6 +865,38 @@ function makeMove() {
 	}).catch(err => {
 		throw new Error(err);
 	});
+}
+
+function flyingSaucer(boardX, boardY, value) {
+	// get the saucer element
+	let saucer = document.getElementById('flyingSaucer');
+	if (!saucer) {
+		saucer = document.createElement("span");
+		saucer.id = "flyingSaucer";
+		saucer.classList.add('hidden');
+		document.body.appendChild(saucer);
+	}
+	saucer.innerHTML = value;
+
+	// calculate the position of the last letter of the main word
+
+	const startPos = [
+		boardX * (squareWidth + SQUARE_GAP),
+		boardY * (squareWidth + SQUARE_GAP)
+	];
+	const endPos = [
+		startPos[0] + squareWidth,
+		startPos[1] + squareWidth
+	];
+
+	const boardBounds = canvas.c.getBoundingClientRect();
+	
+	// do the animation
+	// temporarily, we will just have it appear forever
+	saucer.style.top = boardBounds.top + startPos[1] + 'px';
+	saucer.style.left = boardBounds.left + endPos[0] + 'px';
+
+	saucer.classList.remove('hidden');
 }
 
 function showPointsOverlay(userId, newPoints) {
@@ -958,7 +996,7 @@ function checkPoints() {
 			return;
 		}
 
-		// make sure word is actually on the board
+		// make sure word is still on the board
 		const word = res.data.newWords[mainWordId];
 		
 		if (word.axis === "x") {
