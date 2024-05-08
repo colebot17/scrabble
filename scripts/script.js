@@ -853,7 +853,8 @@ function makeMove() {
 
 				// perform the flying saucer animation
 				let mainWord = res.data.newWords.find(a => !a.cross);
-				flyingSaucer(...mainWord.pos.end, newPoints);
+				const destination = document.querySelector('.gamePlayerListPlayer[data-playerId="' + account.id + '"] .points');
+				flyingSaucer(...mainWord.pos.end, newPoints, destination);
 
 				// restore the chat draft
 				document.getElementById('chatInput').value = chatDraft;
@@ -867,7 +868,7 @@ function makeMove() {
 	});
 }
 
-function flyingSaucer(boardX, boardY, value) {
+function flyingSaucer(boardX, boardY, value, destination) {
 	// get the saucer element
 	let saucer = document.getElementById('flyingSaucer');
 	if (!saucer) {
@@ -878,8 +879,7 @@ function flyingSaucer(boardX, boardY, value) {
 	}
 	saucer.innerHTML = value;
 
-	// calculate the position of the last letter of the main word
-
+	// calculate the position values
 	const startPos = [
 		boardX * (squareWidth + SQUARE_GAP),
 		boardY * (squareWidth + SQUARE_GAP)
@@ -892,11 +892,21 @@ function flyingSaucer(boardX, boardY, value) {
 	const boardBounds = canvas.c.getBoundingClientRect();
 	
 	// do the animation
-	// temporarily, we will just have it appear forever
+	// set the position
 	saucer.style.top = boardBounds.top + startPos[1] + 'px';
 	saucer.style.left = boardBounds.left + endPos[0] + 'px';
 
+	const d = "3s";
+	saucer.style.transition = `top ${d}, left ${d}`;
+
+	destBounds = destination.getBoundingClientRect();
+
 	saucer.classList.remove('hidden');
+
+	setTimeout(() => {
+		saucer.style.top = destBounds.top;
+		saucer.style.left = destBounds.left;
+	}, 10);
 }
 
 function showPointsOverlay(userId, newPoints) {
