@@ -632,28 +632,37 @@ function drawRegions(regions) {
 			const frame = regions[i].pulse.getFrame();
 
 			const gradFrame0 = (frame) / 3;
-			const lowerBound0 = gradFrame0 - (GRADIENT_PADDING / 3);
-			const upperBound0 = gradFrame0 + (GRADIENT_PADDING / 3);
+			const middleLower0 = gradFrame0 - (GRADIENT_PADDING / 6);
+			const middleUpper0 = gradFrame0 + (GRADIENT_PADDING / 6);
+			const lower0 = gradFrame0 - (GRADIENT_PADDING / 3);
+			const upper0 = gradFrame0 + (GRADIENT_PADDING / 3);
 			const gradFrame1 = (frame + 1) / 3;
-			const lowerBound1 = gradFrame1 - (GRADIENT_PADDING / 3);
-			const upperBound1 = gradFrame1 + (GRADIENT_PADDING / 3);
+			const middleLower1 = gradFrame1 - (GRADIENT_PADDING / 6);
+			const middleUpper1 = gradFrame1 + (GRADIENT_PADDING / 6);
+			const lower1 = gradFrame1 - (GRADIENT_PADDING / 3);
+			const upper1 = gradFrame1 + (GRADIENT_PADDING / 3);
 			const gradFrame2 = (frame + 2) / 3;
-			const lowerBound2 = gradFrame2 - (GRADIENT_PADDING / 3);
-			const upperBound2 = gradFrame2 + (GRADIENT_PADDING / 3);
+			const middleLower2 = gradFrame2 - (GRADIENT_PADDING / 6);
+			const middleUpper2 = gradFrame2 + (GRADIENT_PADDING / 6);
+			const lower2 = gradFrame2 - (GRADIENT_PADDING / 3);
+			const upper2 = gradFrame2 + (GRADIENT_PADDING / 3);
 
 			gradient.addColorStop(0, "transparent");
 
-			if (lowerBound0 > 0) gradient.addColorStop(lowerBound0, "transparent");
-			gradient.addColorStop(gradFrame0, calculatedColor);
-			gradient.addColorStop(upperBound0, "transparent");
+			if (lower0 > 0) gradient.addColorStop(lower0, "transparent");
+			if (middleLower0 > 0) gradient.addColorStop(lower0, calculatedColor);
+			gradient.addColorStop(middleUpper0, calculatedColor);
+			gradient.addColorStop(upper0, "transparent");
 
-			gradient.addColorStop(lowerBound1, "transparent");
-			gradient.addColorStop(gradFrame1, calculatedColor);
-			gradient.addColorStop(upperBound1, "transparent");
+			gradient.addColorStop(lower1, "transparent");
+			gradient.addColorStop(middleLower1, calculatedColor);
+			gradient.addColorStop(middleUpper1, calculatedColor);
+			gradient.addColorStop(upper1, "transparent");
 
-			gradient.addColorStop(lowerBound2, "transparent");
-			gradient.addColorStop(gradFrame2, calculatedColor);
-			if (upperBound2 < 1) gradient.addColorStop(upperBound2, "transparent");
+			gradient.addColorStop(lower2, "transparent");
+			gradient.addColorStop(middleLower2, calculatedColor);
+			if (middleUpper2 < 1) gradient.addColorStop(middleUpper2, calculatedColor);
+			if (upper2 < 1) gradient.addColorStop(upper2, "transparent");
 
 			gradient.addColorStop(1, "transparent");
 
