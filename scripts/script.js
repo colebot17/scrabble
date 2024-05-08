@@ -853,7 +853,7 @@ function makeMove() {
 
 				// perform the flying saucer animation
 				let mainWord = res.data.newWords.find(a => !a.cross);
-				flyingSaucer(...mainWord.end, newPoints);
+				flyingSaucer(...mainWord.pos.end, newPoints);
 
 				// restore the chat draft
 				document.getElementById('chatInput').value = chatDraft;
