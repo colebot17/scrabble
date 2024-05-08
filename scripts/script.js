@@ -904,8 +904,8 @@ function flyingSaucer(boardX, boardY, value, destination) {
 	saucer.classList.remove('hidden');
 
 	setTimeout(() => {
-		saucer.style.top = destBounds.top;
-		saucer.style.left = destBounds.left;
+		saucer.style.top = destBounds.top + 'px';
+		saucer.style.left = destBounds.left + 'px';
 	}, 10);
 }
 
