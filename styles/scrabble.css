@@ -615,6 +615,8 @@ body.scrabble {
 
 	background-color: var(--highlight);
 	border-radius: 10000px;
+
+	box-shadow: 0 0 25px var(--text-color);
 }
 
 /* animations */
