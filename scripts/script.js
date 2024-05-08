@@ -897,7 +897,8 @@ function flyingSaucer(boardX, boardY, value, destination) {
 	saucer.style.left = boardBounds.left + endPos[0] + 'px';
 
 	const d = "3s";
-	saucer.style.transition = `top ${d}, left ${d}`;
+	const e = "ease-in"
+	saucer.style.transition = `top ${d} ${e}, left ${d} ${e}`;
 
 	destBounds = destination.getBoundingClientRect();
 
