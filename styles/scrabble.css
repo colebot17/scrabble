@@ -608,6 +608,11 @@ body.scrabble {
 	width: 1.3rem;
 	height: 1.3rem;
 
+	position: fixed;
+
+	text-align: center;
+	text-align: -webkit-center;
+
 	background-color: var(--highlight);
 	border-radius: 10000px;
 }
