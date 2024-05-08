@@ -650,7 +650,7 @@ function drawRegions(regions) {
 			gradient.addColorStop(0, "transparent");
 
 			if (lower0 > 0) gradient.addColorStop(lower0, "transparent");
-			if (middleLower0 > 0) gradient.addColorStop(lower0, calculatedColor);
+			if (middleLower0 > 0) gradient.addColorStop(middleLower0, calculatedColor);
 			gradient.addColorStop(middleUpper0, calculatedColor);
 			gradient.addColorStop(upper0, "transparent");
 
