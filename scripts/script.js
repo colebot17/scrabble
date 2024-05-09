@@ -854,7 +854,7 @@ function makeMove() {
 				// perform the flying saucer animation
 				let mainWord = res.data.newWords.find(a => !a.cross);
 				const destination = document.querySelector('.gamePlayerListPlayer[data-playerId="' + account.id + '"] .points');
-				flyingSaucer(...mainWord.pos.end, newPoints, destination);
+				flyingSaucer(mainWord.pos.end, newPoints, destination);
 
 				// restore the chat draft
 				document.getElementById('chatInput').value = chatDraft;
@@ -868,7 +868,7 @@ function makeMove() {
 	});
 }
 
-function flyingSaucer(boardX, boardY, value, destination) {
+function flyingSaucer(from, value, destination) {
 	// get the saucer element
 	let saucer = document.getElementById('flyingSaucer');
 	if (!saucer) {
@@ -881,8 +881,8 @@ function flyingSaucer(boardX, boardY, value, destination) {
 
 	// calculate the position values
 	const startPos = [
-		boardX * (squareWidth + SQUARE_GAP),
-		boardY * (squareWidth + SQUARE_GAP)
+		from[0] * (squareWidth + SQUARE_GAP),
+		from[1] * (squareWidth + SQUARE_GAP)
 	];
 	const endPos = [
 		startPos[0] + squareWidth,
