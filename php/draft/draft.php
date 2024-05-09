@@ -7,7 +7,7 @@ function setDraft($conn, $user, $gameId, $draft) {
     $players = json_decode($row['players'], true);
 
     for ($i = 0; $i < count($players); $i++) {
-        if ($players[$i]["id"] === $user) {
+        if ((int)$players[$i]["id"] === (int)$user) {
             if ($draft === null) {
                 unset($players[$i]["draft"]);
             } else {
