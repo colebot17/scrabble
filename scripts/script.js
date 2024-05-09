@@ -675,7 +675,7 @@ function gameInit() {
 	if (!userTurn) {
 		setOOTD(true);
 		gameBannerParams = [
-			(game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved."),
+			(game.inactive ? "This game has ended and is now archived." : "It isn't your turn, but you can still draft your move."),
 			getComputedStyle(document.documentElement).getPropertyValue('--text-highlight')
 		];
 	} else {
