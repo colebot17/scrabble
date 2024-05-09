@@ -892,7 +892,7 @@ function flyingSaucer(from, value, destination) {
 	const boardBounds = canvas.c.getBoundingClientRect();
 	
 	// do the animation
-	// set the position
+	// set the starting position
 	saucer.style.top = boardBounds.top + startPos[1] + 'px';
 	saucer.style.left = boardBounds.left + endPos[0] + 'px';
 
