@@ -854,7 +854,7 @@ function makeMove() {
 				// (after a short timeout to let ui settle before important measurments take place)
 				let mainWord = res.data.newWords.find(a => !a.cross);
 				const destination = document.querySelector('.gamePlayerListPlayer[data-playerId="' + account.id + '"] .points');
-				setTimeout(() => flyingSaucer(mainWord.pos.end, newPoints, destination).then(() => {
+				setTimeout(() => flyingSaucer(mainWord.axis === "x" ? mainWord.pos.end : mainWord.pos.start, newPoints, destination).then(() => {
 					showPointsOverlay(account.id, newPoints);
 				}), 10);
 
