@@ -19,3 +19,4 @@ to draft moves:
     a. when the user double-clicks
     b. when they otherwise remove all letters from the board
     c. when they make a move
+    d. when the draft is not valid (i. e. another player makes a conflicting move)

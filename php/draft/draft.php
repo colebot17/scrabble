@@ -69,7 +69,8 @@ function getDraft($conn, $user, $gameId) {
 
         // ensure that the letter (if provided) matches the bank index
         if (array_key_exists('letter', $draftLetter)) {
-            if ($players[$pIndex]["letterBank"][$draftLetter["bankIndex"]] !== $draftLetter["letter"]) {
+            $bankLetter = $players[$pIndex]["letterBank"][$draftLetter["bankIndex"]];
+            if ($bankLetter !== $draftLetter["letter"] && $bankLetter !== "") {
                 setDraft($conn, $user, $gameId, null);
                 return;
             }
