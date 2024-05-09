@@ -258,6 +258,11 @@ $response = Array(
 echo json_encode($response);
 
 
+// remove the player's draft
+require "draft/draft.php";
+setDraft($conn, $user, $gameId, null);
+
+
 // notify the next player
 require "notifications/notify.php";
 require "notifications/templates/turnEmail.php";
