@@ -10,7 +10,7 @@ function setDraft($conn, $user, $gameId, $draft) {
     $players = json_decode($row['players'], true);
 
     for ($i = 0; $i < count($players); $i++) {
-        if ((int)$players[$i]["id"] === $user) {
+        if ((int)$players[$i]["id"] === (int)$user) {
             if ($draft === null) {
                 unset($players[$i]["draft"]);
             } else {
@@ -38,10 +38,10 @@ function getDraft($conn, $user, $gameId) {
     $pIndex = false;
     $draft = false;
     for ($i = 0; $i < count($players); $i++) {
-        if ((int)$players[$i]["id"] === $user) {
+        if ((int)$players[$i]["id"] === (int)$user) {
             $pIndex = $i;
             if (array_key_exists('draft', $players[$i])) {
-                $draft = $players[$i]["id"]["draft"];
+                $draft = $players[$i]["draft"];
             }
         }
     }
