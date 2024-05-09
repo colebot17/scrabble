@@ -30,6 +30,8 @@ function getDraft($conn, $user, $gameId) {
     $players = json_decode($row['players'], true);
     $board = json_decode($row['board'], true);
 
+    $pIndex = false;
+    $draft = false;
     for ($i = 0; $i < count($players); $i++) {
         if ($players[$i]["id"] === $user) {
             if (array_key_exists('draft', $players[$i])) {
