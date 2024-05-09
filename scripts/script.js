@@ -832,22 +832,31 @@ function makeMove() {
 				textModal("Game Over!", res.message);
 			}
 
-			// calculate and display the new points
+			// calculate the number of new points
 			let newPoints = 0;
 			for (let i = 0; i < res.data.newWords.length; i++) {
 				newPoints += res.data.newWords[i].points;
 			}
-			showPointsOverlay(account.id, newPoints);
 
-			// once the game has been loaded, show a banner and highlight new letters
+			// once the game has been loaded,
 			lgPromise.then(() => {
+				// show a confirmation banner
 				const bannerMessage = 'Your move has been made for ' + newPoints + ' point' + (newPoints === 1 ? '' : 's') + '. Tell <b>' + game.players[game.turn % game.players.length].name + '</b> that it\'s their turn!';
 				gameBanner(bannerMessage, getComputedStyle(document.documentElement).getPropertyValue('--highlight'));
 
+				// highlight new letters in the player's bank
 				for (let i = 0; i < res.data.newLetterIndices.length; i++) {
 					const canvasLetter = canvas.bank.find(a => a.bankIndex === res.data.newLetterIndices[i]);
 					canvasLetter.highlight = true;
 				}
+
+				// perform the flying saucer animation
+				// (after a short timeout to let ui settle before important measurments take place)
+				let mainWord = res.data.newWords.find(a => !a.cross);
+				const destination = document.querySelector('.gamePlayerListPlayer[data-playerId="' + account.id + '"] .points');
+				setTimeout(() => flyingSaucer(mainWord.axis === "x" ? mainWord.pos.end : mainWord.pos.start, newPoints, destination).then(() => {
+					showPointsOverlay(account.id, newPoints);
+				}), 10);
 
 				// restore the chat draft
 				document.getElementById('chatInput').value = chatDraft;
@@ -858,6 +867,72 @@ function makeMove() {
 		}
 	}).catch(err => {
 		throw new Error(err);
+	});
+}
+
+function flyingSaucer(from, value, destination) {
+	return new Promise((resolve) => {
+		// get the saucer element
+		let saucer = document.getElementById('flyingSaucer');
+		if (!saucer) {
+			saucer = document.createElement("span");
+			saucer.id = "flyingSaucer";
+			saucer.classList.add('hidden');
+			document.body.appendChild(saucer);
+		}
+		saucer.innerHTML = value;
+
+		// calculate the position values
+		const startPos = [
+			from[0] * (squareWidth + SQUARE_GAP),
+			from[1] * (squareWidth + SQUARE_GAP)
+		];
+		const endPos = [
+			startPos[0] + squareWidth,
+			startPos[1] + squareWidth
+		];
+
+		const boardBounds = canvas.c.getBoundingClientRect();
+
+		// do the animation
+		saucer.classList.remove('hidden');
+		const sBounds = saucer.getBoundingClientRect();
+
+		// set the starting position
+		saucer.style.top = (boardBounds.top + startPos[1] - (sBounds.height / 2)) + 'px';
+		saucer.style.left = (boardBounds.left + endPos[0] - (sBounds.width / 2)) + 'px';
+		saucer.style.scale = 1;
+
+		const duration = 750;
+		const shrinkDuration = 100;
+
+		setTimeout(() => {
+			const d = (duration / 1000) + 's';
+			const sd = (shrinkDuration / 1000) + 's';
+			const ex = "cubic-bezier(.56,.08,.81,.6)";
+			const ey = "cubic-bezier(.37,-0.47,.81,.6)";
+			saucer.style.transition = `top ${d} ${ey}, left ${d} ${ex}, scale ${sd}`;
+			
+			const destBounds = destination.getBoundingClientRect();
+
+			const destX = destBounds.left + (destBounds.width / 2);
+			const destY = destBounds.top + (destBounds.height / 2);
+
+			saucer.style.top = (destY - (sBounds.height / 2)) + 'px';
+			saucer.style.left = (destX - (sBounds.width / 2)) + 'px';
+
+			setTimeout(() => {
+				saucer.style.scale = 0.25;
+			}, duration - shrinkDuration);
+
+			setTimeout(() => {
+				saucer.classList.add('hidden');
+				saucer.style.transition = "";
+				saucer.style.scale = 1;
+
+				resolve();
+			}, duration);
+		}, 10);
 	});
 }
 
@@ -958,7 +1033,7 @@ function checkPoints() {
 			return;
 		}
 
-		// make sure word is actually on the board
+		// make sure word is still on the board
 		const word = res.data.newWords[mainWordId];
 		
 		if (word.axis === "x") {
