@@ -1213,7 +1213,7 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 	game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
 
     // hide the letter from the canvas bank
-    canvas.bank.find(a => a.bankIndex === bankItem.bankIndex).hidden = true;
+    canvas.bank[bankIndex].hidden = true;
 
 	boardUpdate();
 
