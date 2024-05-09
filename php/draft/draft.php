@@ -20,7 +20,6 @@ function setDraft($conn, $user, $gameId, $draft) {
     $playersJson = json_encode($players);
     $sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
     $query = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_assoc($query);
 }
 
 function getDraft($conn, $user, $gameId) {
