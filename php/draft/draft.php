@@ -43,10 +43,11 @@ function getDraft($conn, $user, $gameId) {
             if (array_key_exists('draft', $players[$i])) {
                 $draft = $players[$i]["draft"];
             }
+            break;
         }
     }
-    if (!$pIndex) exit('{"errorLevel":2,"message":"User not found (searching for draft)"}');
-    if (!$draft) return;
+    if ($pIndex === false) exit('{"errorLevel":2,"message":"User not found (searching for draft)"}');
+    if ($draft === false) return;
 
     // check the validity of the draft
     for ($i = 0; $i < count($draft); $i++) {
