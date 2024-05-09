@@ -892,12 +892,13 @@ function flyingSaucer(from, value, destination) {
 	const boardBounds = canvas.c.getBoundingClientRect();
 	
 	// do the animation
-	// set the starting position
-	saucer.style.top = boardBounds.top + startPos[1] + 'px';
-	saucer.style.left = boardBounds.left + endPos[0] + 'px';
-	saucer.style.scale = 1;
-
 	saucer.classList.remove('hidden');
+	const sBounds = saucer.getBoundingClientRect();
+
+	// set the starting position
+	saucer.style.top = (boardBounds.top + startPos[1] - (sBounds.height / 2)) + 'px';
+	saucer.style.left = (boardBounds.left + endPos[0] - (sBounds.width / 2)) + 'px';
+	saucer.style.scale = 1;
 
 	const duration = 750;
 	const shrinkDuration = 100;
@@ -912,8 +913,6 @@ function flyingSaucer(from, value, destination) {
 
 		const destX = destBounds.left + (destBounds.width / 2);
 		const destY = destBounds.top + (destBounds.height / 2);
-
-		const sBounds = saucer.getBoundingClientRect();
 	
 		saucer.style.top = (destY - (sBounds.height / 2)) + 'px';
 		saucer.style.left = (destX - (sBounds.width / 2)) + 'px';
