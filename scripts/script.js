@@ -897,8 +897,8 @@ function flyingSaucer(from, value, destination) {
 	saucer.style.left = boardBounds.left + endPos[0] + 'px';
 
 	saucer.classList.remove('hidden');
-	
-	const duration = 3000;
+
+	const duration = 1000;
 
 	setTimeout(() => {
 		const d = (duration / 1000) + 's';
