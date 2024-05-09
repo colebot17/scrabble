@@ -900,7 +900,7 @@ function flyingSaucer(from, value, destination, duration = 1000) {
 
 	setTimeout(() => {
 		const d = (duration / 1000) + 's';
-		const e = "cubic-bezier(.56,.08,.91,.59)";
+		const e = "cubic-bezier(.56,.08,.81,.6)";
 		destBounds = destination.getBoundingClientRect();
 
 		saucer.style.transition = `top ${d} ${e}, left ${d} ${e}`;
