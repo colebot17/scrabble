@@ -851,11 +851,12 @@ function makeMove() {
 				}
 
 				// perform the flying saucer animation
+				// (after a short timeout to let ui settle before important measurments take place)
 				let mainWord = res.data.newWords.find(a => !a.cross);
 				const destination = document.querySelector('.gamePlayerListPlayer[data-playerId="' + account.id + '"] .points');
-				flyingSaucer(mainWord.pos.end, newPoints, destination).then(() => {
+				setTimeout(() => flyingSaucer(mainWord.pos.end, newPoints, destination).then(() => {
 					showPointsOverlay(account.id, newPoints);
-				});
+				}), 10);
 
 				// restore the chat draft
 				document.getElementById('chatInput').value = chatDraft;
