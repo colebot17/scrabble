@@ -899,13 +899,13 @@ function flyingSaucer(from, value, destination) {
 	const duration = 3000;
 	const d = (duration / 1000) + 's';
 	const e = "ease-in"
-	saucer.style.transition = `top ${d} ${e}, left ${d} ${e}`;
-
 	destBounds = destination.getBoundingClientRect();
 
 	saucer.classList.remove('hidden');
 
 	setTimeout(() => {
+		saucer.style.transition = `top ${d} ${e}, left ${d} ${e}`;
+	
 		saucer.style.top = destBounds.top + 'px';
 		saucer.style.left = destBounds.left + 'px';
 
