@@ -919,7 +919,7 @@ function flyingSaucer(from, value, destination) {
 		saucer.style.left = (destX - (sBounds.width / 2)) + 'px';
 
 		setTimeout(() => {
-			saucer.style.scale = 0;
+			saucer.style.scale = 0.25;
 		}, duration - shrinkDuration);
 
 		setTimeout(() => {
