@@ -832,12 +832,11 @@ function makeMove() {
 				textModal("Game Over!", res.message);
 			}
 
-			// calculate and display the new points
+			// calculate the number of new points
 			let newPoints = 0;
 			for (let i = 0; i < res.data.newWords.length; i++) {
 				newPoints += res.data.newWords[i].points;
 			}
-			showPointsOverlay(account.id, newPoints);
 
 			// once the game has been loaded,
 			lgPromise.then(() => {
@@ -854,7 +853,9 @@ function makeMove() {
 				// perform the flying saucer animation
 				let mainWord = res.data.newWords.find(a => !a.cross);
 				const destination = document.querySelector('.gamePlayerListPlayer[data-playerId="' + account.id + '"] .points');
-				flyingSaucer(mainWord.pos.end, newPoints, destination);
+				flyingSaucer(mainWord.pos.end, newPoints, destination).then(() => {
+					showPointsOverlay(account.id, newPoints);
+				});
 
 				// restore the chat draft
 				document.getElementById('chatInput').value = chatDraft;
@@ -869,64 +870,68 @@ function makeMove() {
 }
 
 function flyingSaucer(from, value, destination) {
-	// get the saucer element
-	let saucer = document.getElementById('flyingSaucer');
-	if (!saucer) {
-		saucer = document.createElement("span");
-		saucer.id = "flyingSaucer";
-		saucer.classList.add('hidden');
-		document.body.appendChild(saucer);
-	}
-	saucer.innerHTML = value;
-
-	// calculate the position values
-	const startPos = [
-		from[0] * (squareWidth + SQUARE_GAP),
-		from[1] * (squareWidth + SQUARE_GAP)
-	];
-	const endPos = [
-		startPos[0] + squareWidth,
-		startPos[1] + squareWidth
-	];
-
-	const boardBounds = canvas.c.getBoundingClientRect();
-	
-	// do the animation
-	saucer.classList.remove('hidden');
-	const sBounds = saucer.getBoundingClientRect();
-
-	// set the starting position
-	saucer.style.top = (boardBounds.top + startPos[1] - (sBounds.height / 2)) + 'px';
-	saucer.style.left = (boardBounds.left + endPos[0] - (sBounds.width / 2)) + 'px';
-	saucer.style.scale = 1;
-
-	const duration = 750;
-	const shrinkDuration = 100;
-
-	setTimeout(() => {
-		const d = (duration / 1000) + 's';
-		const sd = (shrinkDuration / 1000) + 's';
-		const e = "cubic-bezier(.56,.08,.81,.6)";
-		saucer.style.transition = `top ${d} ${e}, left ${d} ${e}, scale ${sd}`;
-		
-		const destBounds = destination.getBoundingClientRect();
-
-		const destX = destBounds.left + (destBounds.width / 2);
-		const destY = destBounds.top + (destBounds.height / 2);
-	
-		saucer.style.top = (destY - (sBounds.height / 2)) + 'px';
-		saucer.style.left = (destX - (sBounds.width / 2)) + 'px';
-
-		setTimeout(() => {
-			saucer.style.scale = 0.25;
-		}, duration - shrinkDuration);
-
-		setTimeout(() => {
+	return new Promise((resolve) => {
+		// get the saucer element
+		let saucer = document.getElementById('flyingSaucer');
+		if (!saucer) {
+			saucer = document.createElement("span");
+			saucer.id = "flyingSaucer";
 			saucer.classList.add('hidden');
-			saucer.style.transition = "";
-			saucer.style.scale = 1;
-		}, duration);
-	}, 10);
+			document.body.appendChild(saucer);
+		}
+		saucer.innerHTML = value;
+
+		// calculate the position values
+		const startPos = [
+			from[0] * (squareWidth + SQUARE_GAP),
+			from[1] * (squareWidth + SQUARE_GAP)
+		];
+		const endPos = [
+			startPos[0] + squareWidth,
+			startPos[1] + squareWidth
+		];
+
+		const boardBounds = canvas.c.getBoundingClientRect();
+
+		// do the animation
+		saucer.classList.remove('hidden');
+		const sBounds = saucer.getBoundingClientRect();
+
+		// set the starting position
+		saucer.style.top = (boardBounds.top + startPos[1] - (sBounds.height / 2)) + 'px';
+		saucer.style.left = (boardBounds.left + endPos[0] - (sBounds.width / 2)) + 'px';
+		saucer.style.scale = 1;
+
+		const duration = 750;
+		const shrinkDuration = 100;
+
+		setTimeout(() => {
+			const d = (duration / 1000) + 's';
+			const sd = (shrinkDuration / 1000) + 's';
+			const e = "cubic-bezier(.56,.08,.81,.6)";
+			saucer.style.transition = `top ${d} ${e}, left ${d} ${e}, scale ${sd}`;
+			
+			const destBounds = destination.getBoundingClientRect();
+
+			const destX = destBounds.left + (destBounds.width / 2);
+			const destY = destBounds.top + (destBounds.height / 2);
+
+			saucer.style.top = (destY - (sBounds.height / 2)) + 'px';
+			saucer.style.left = (destX - (sBounds.width / 2)) + 'px';
+
+			setTimeout(() => {
+				saucer.style.scale = 0.25;
+			}, duration - shrinkDuration);
+
+			setTimeout(() => {
+				saucer.classList.add('hidden');
+				saucer.style.transition = "";
+				saucer.style.scale = 1;
+
+				resolve();
+			}, duration);
+		}, 10);
+	});
 }
 
 function showPointsOverlay(userId, newPoints) {
