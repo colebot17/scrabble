@@ -605,13 +605,18 @@ body.scrabble {
 
 /* flying saucer */
 #flyingSaucer {
-	width: 1.7rem;
-	height: 1.7rem;
+	width: 2rem;
+	height: 2rem;
+	font-size: 1.5rem;
 
 	position: fixed;
 
 	text-align: center;
 	text-align: -webkit-center;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
 
 	background-color: var(--highlight);
 	border-radius: 10000px;
