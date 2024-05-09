@@ -125,6 +125,11 @@ $obj = Array(
 	"updateNumber" => $updateNumber
 );
 
+// get the draft
+require "draft/draft.php";
+$draft = getDraft($conn, $user, $gameId);
+if ($draft) $obj["draft"] = $draft;
+
 $res = Array(
 	"errorLevel" => 0,
 	"data" => $obj,
