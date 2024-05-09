@@ -868,7 +868,7 @@ function makeMove() {
 	});
 }
 
-function flyingSaucer(from, value, destination, duration = 1000) {
+function flyingSaucer(from, value, destination) {
 	// get the saucer element
 	let saucer = document.getElementById('flyingSaucer');
 	if (!saucer) {
@@ -895,15 +895,20 @@ function flyingSaucer(from, value, destination, duration = 1000) {
 	// set the starting position
 	saucer.style.top = boardBounds.top + startPos[1] + 'px';
 	saucer.style.left = boardBounds.left + endPos[0] + 'px';
+	saucer.style.scale = 1;
 
 	saucer.classList.remove('hidden');
 
+	const duration = 750;
+	const shrinkDuration = 200;
+
 	setTimeout(() => {
 		const d = (duration / 1000) + 's';
+		const sd = (shrinkDuration / 1000) + 's';
 		const e = "cubic-bezier(.56,.08,.81,.6)";
-		destBounds = destination.getBoundingClientRect();
-
-		saucer.style.transition = `top ${d} ${e}, left ${d} ${e}`;
+		saucer.style.transition = `top ${d} ${e}, left ${d} ${e}, scale ${sd}`;
+		
+		const destBounds = destination.getBoundingClientRect();
 
 		const destX = destBounds.left + (destBounds.width / 2);
 		const destY = destBounds.top + (destBounds.height / 2);
@@ -914,7 +919,13 @@ function flyingSaucer(from, value, destination, duration = 1000) {
 		saucer.style.left = (destX - (sBounds.width / 2)) + 'px';
 
 		setTimeout(() => {
+			saucer.style.scale = 0;
+		}, duration - shrinkDuration);
+
+		setTimeout(() => {
+			saucer.classList.add('hidden');
 			saucer.style.transition = "";
+			saucer.style.scale = 1;
 		}, duration);
 	}, 10);
 }
