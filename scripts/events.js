@@ -273,8 +273,9 @@ function handleDocumentMouseUp(e) {
     // only if the letter was moved to a free space on the board
     if (onBoard && !onExistingTile && !stayedStill && !game.inactive) {
         addLetter(overObj.x, overObj.y, dragged.bankIndex, dragged.letter); // add the letter to the appropriate spot on the board
-    } else { // if the letter was dropped anywhere else or stayed still
+    } else { // if the letter was dropped anywhere else or stayed still, remove it
 
+        // reorder the letter in the bank order
         if (overListCategories.includes("bankDropZone")) {
             const overObj = overList[overListCategories.indexOf("bankDropZone")];
 
@@ -291,6 +292,11 @@ function handleDocumentMouseUp(e) {
         }
 
         canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
+
+        // remove the draft if the board is empty
+        if (getUnlockedTiles().length === 0) {
+            removeDraft();
+        }
         
         clearDropZoneGaps();
     }
@@ -408,9 +414,6 @@ function handleDocumentKeyPress(e) {
     if (tile) {
         canvas.bank.find(a => a.bankIndex === tile.bankIndex).hidden = false;
     }
-
-    // hide the letter from the canvas bank
-    canvas.bank.find(a => a.bankIndex === bankItem.bankIndex).hidden = true;
 
     // add the letter to the board
     const newTile = addLetter(overItem.x + xAmount, overItem.y + yAmount, bankItem.bankIndex, letter);

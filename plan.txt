@@ -1,0 +1,26 @@
+to draft moves:
+
+1. save draft
+    a. save in player data in game
+        i. don't send to other players
+    b. it might look something like this: [{"letter": "B", "bankIndex": 2, "pos": [7, 7]}, {"letter": "A", "bankIndex": 5, "pos": [7, 8]}]
+        i. "letter" is stored only for redundancy. No function requires it,
+           but if it is present and does not match the bank index, the validity
+           check will fail.
+    c. only store it if all letters are connected
+        i. don't worry if words are invalid
+2. load draft
+    a. send it with the game data
+    b. if another player makes a conflicting move, the draft will be removed
+    c. draft will be "server rendered"
+        i. validity will be checked on the server before sending the draft to the client
+        ii. this will allow an easier front-end implementation, as well as a way to clear the draft if it is not valid
+3. delete draft
+    a. when the user double-clicks
+    b. when they otherwise remove all letters from the board
+    c. when they make a move
+    d. when the draft is not valid (i. e. another player makes a conflicting move)
+
+
+current bugs:
+1. tiles aren't removed from letter bank when loaded from draft

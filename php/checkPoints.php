@@ -50,13 +50,28 @@ for ($i=0; $i < count($players); $i++) {
 }
 $currentPlayerIndex = array_search($user, $playerList);
 
+// store the tiles as a draft
+require "draft/draft.php";
+$draft = Array();
+for ($i = 0; $i < count($tiles); $i++) {
+	$draft[] = Array(
+		"bankIndex" => $tiles[$i]["bankIndex"],
+		"letter" => $tiles[$i]["letter"],
+		"pos" => Array(
+			$tiles[$i]["x"],
+			$tiles[$i]["y"]
+		)
+	);
+}
+setDraft($conn, $user, $gameId, $draft);
+
 // get the word list
 require "parseWords.php";
 $result = parseWords($gameId, $tiles, $user);
 $decodedResult = json_decode($result, true);
 
 // send back an error if there was one
-if ($decodedResult['errorLevel']) {
+if ($decodedResult && array_key_exists('errorLevel', $decodedResult)) {
     exit($result);
 }
 

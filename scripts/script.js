@@ -675,7 +675,7 @@ function gameInit() {
 	if (!userTurn) {
 		setOOTD(true);
 		gameBannerParams = [
-			(game.inactive ? "This game has ended and is now archived." : "It isn't your turn. Any letters you place will not be saved."),
+			(game.inactive ? "This game has ended and is now archived." : "It isn't your turn, but you can still draft your next move."),
 			getComputedStyle(document.documentElement).getPropertyValue('--text-highlight')
 		];
 	} else {
@@ -786,6 +786,8 @@ function gameInit() {
 	setCanvasSize();
 
 	setMoveButtonEnablement();
+
+	loadDraft();
 
 	if (!account.tutorials?.firstGame) {
 		startTutorial(firstGameTutorial);
@@ -1080,79 +1082,6 @@ function checkPoints() {
 	});
 }
 
-function checkConnectedness() {
-	// returns true if all tiles on the board are connected to the center
-	// returns false if not
-	//
-	// using a four-way flood fill algorithm with a queue
-
-	// make a copy of the board that is simpler
-	let boardCopy = [];
-	for (let y = 0; y < game.board.length; y++) {
-		let rowCopy = [];
-		for (let x = 0; x < game.board[y].length; x++) {
-			rowCopy.push(!!game.board[y][x] ? "tile" : "empty");
-		}
-		boardCopy.push(rowCopy);
-	}
-
-	// create a queue
-	let queue = [];
-	queue.push([7, 7]); // start with the center tile
-
-	// go through the queue
-	while (queue.length > 0) {
-		let [x, y] = queue.shift();
-
-		// this item is in the queue, so it must be connected
-		boardCopy[y][x] = "connected";
-
-		// add all adjacent tiles to the queue as well
-		if (boardCopy?.[y]?.[x + 1] === "tile") {
-			queue.push([x + 1, y]);
-		}
-		if (boardCopy?.[y]?.[x - 1] === "tile") {
-			queue.push([x - 1, y]);
-		}
-		if (boardCopy?.[y + 1]?.[x] === "tile") {
-			queue.push([x, y + 1]);
-		}
-		if (boardCopy?.[y - 1]?.[x] === "tile") {
-			queue.push([x, y - 1]);
-		}
-	}
-
-	// now go through the copy and see if we missed any "tile"s
-	for (let y = 0; y < boardCopy.length; y++) {
-		for (let x = 0; x < boardCopy[y].length; x++) {
-			if (boardCopy[y][x] === "tile") {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
-function getUnlockedTiles() {
-	// returns a simplified list of any unlocked tiles on the board
-	var newTiles = [];
-	for (let y in game.board) {
-		for (let x in game.board) {
-			if (game.board[y][x] && !game.board[y][x].locked) {
-				let tile = game.board[y][x];
-				newTiles.push({
-					bankIndex: tile.bankIndex,
-					blank: tile.blank,
-					letter: tile.letter,
-					x: tile.x,
-					y: tile.y
-				});
-			}
-		}
-	}
-	return newTiles;
-}
-
 function setBankOrder() {
 	if (game.inactive) return;
 
@@ -1272,6 +1201,7 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 	if (blank && !assignedLetter) {
 		pickLetter(bankIndex, function(letter) {
 			game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
+			boardUpdate();
 			checkPoints();
 		});
 		return;
@@ -1279,7 +1209,11 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 	
 	letter = letter.toUpperCase();
 
+	// create a new tile in the specified position
 	game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
+
+    // hide the letter from the canvas bank
+    canvas.bank[bankIndex].hidden = true;
 
 	boardUpdate();
 
