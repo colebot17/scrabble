@@ -1,13 +1,16 @@
 <?php
 
 function setDraft($conn, $user, $gameId, $draft) {
+    $user = (int)$user;
+    $gameId = (int)$gameId;
+
     $sql = "SELECT players FROM games WHERE id='$gameId'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
     $players = json_decode($row['players'], true);
 
     for ($i = 0; $i < count($players); $i++) {
-        if ((int)$players[$i]["id"] === (int)$user) {
+        if ((int)$players[$i]["id"] === $user) {
             if ($draft === null) {
                 unset($players[$i]["draft"]);
             } else {
@@ -23,6 +26,9 @@ function setDraft($conn, $user, $gameId, $draft) {
 }
 
 function getDraft($conn, $user, $gameId) {
+    $user = (int)$user;
+    $gameId = (int)$gameId;
+
     $sql = "SELECT players, board FROM games WHERE id='$gameId'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
@@ -32,7 +38,7 @@ function getDraft($conn, $user, $gameId) {
     $pIndex = false;
     $draft = false;
     for ($i = 0; $i < count($players); $i++) {
-        if ((int)$players[$i]["id"] === (int)$user) {
+        if ((int)$players[$i]["id"] === $user) {
             $pIndex = $i;
             if (array_key_exists('draft', $players[$i])) {
                 $draft = $players[$i]["id"]["draft"];
