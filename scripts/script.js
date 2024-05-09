@@ -1201,6 +1201,7 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 	if (blank && !assignedLetter) {
 		pickLetter(bankIndex, function(letter) {
 			game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
+			boardUpdate();
 			checkPoints();
 		});
 		return;
@@ -1208,7 +1209,11 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 	
 	letter = letter.toUpperCase();
 
+	// create a new tile in the specified position
 	game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
+
+    // hide the letter from the canvas bank
+    canvas.bank.find(a => a.bankIndex === bankItem.bankIndex).hidden = true;
 
 	boardUpdate();
 

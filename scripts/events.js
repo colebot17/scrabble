@@ -415,9 +415,6 @@ function handleDocumentKeyPress(e) {
         canvas.bank.find(a => a.bankIndex === tile.bankIndex).hidden = false;
     }
 
-    // hide the letter from the canvas bank
-    canvas.bank.find(a => a.bankIndex === bankItem.bankIndex).hidden = true;
-
     // add the letter to the board
     const newTile = addLetter(overItem.x + xAmount, overItem.y + yAmount, bankItem.bankIndex, letter);
 

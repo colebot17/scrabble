@@ -20,3 +20,7 @@ to draft moves:
     b. when they otherwise remove all letters from the board
     c. when they make a move
     d. when the draft is not valid (i. e. another player makes a conflicting move)
+
+
+current bugs:
+1. tiles aren't removed from letter bank when loaded from draft
