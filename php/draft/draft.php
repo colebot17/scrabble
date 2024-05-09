@@ -34,13 +34,14 @@ function getDraft($conn, $user, $gameId) {
     $draft = false;
     for ($i = 0; $i < count($players); $i++) {
         if ($players[$i]["id"] === $user) {
+            $pIndex = $i;
             if (array_key_exists('draft', $players[$i])) {
-                $pIndex = $i;
                 $draft = $players[$i]["id"]["draft"];
             }
         }
     }
-    if (!$pIndex || !$draft) exit('{"errorLevel":2,"message":"User not found (searching for draft)","debug":"' . $user . ' ' . $gameId . '"}');
+    if (!$pIndex) exit('{"errorLevel":2,"message":"User not found (searching for draft)"}');
+    if (!$draft) return;
 
     // check the validity of the draft
     for ($i = 0; $i < count($draft); $i++) {
