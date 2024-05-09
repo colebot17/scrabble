@@ -868,7 +868,7 @@ function makeMove() {
 	});
 }
 
-function flyingSaucer(from, value, destination) {
+function flyingSaucer(from, value, destination, duration = 1000) {
 	// get the saucer element
 	let saucer = document.getElementById('flyingSaucer');
 	if (!saucer) {
@@ -897,8 +897,6 @@ function flyingSaucer(from, value, destination) {
 	saucer.style.left = boardBounds.left + endPos[0] + 'px';
 
 	saucer.classList.remove('hidden');
-
-	const duration = 1000;
 
 	setTimeout(() => {
 		const d = (duration / 1000) + 's';
