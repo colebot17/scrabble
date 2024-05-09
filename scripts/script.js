@@ -900,7 +900,7 @@ function flyingSaucer(from, value, destination) {
 	saucer.classList.remove('hidden');
 
 	const duration = 750;
-	const shrinkDuration = 200;
+	const shrinkDuration = 100;
 
 	setTimeout(() => {
 		const d = (duration / 1000) + 's';
