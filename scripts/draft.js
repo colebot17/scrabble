@@ -7,6 +7,8 @@ function loadDraft() {
 			addLetter(...dl.pos, dl.bankIndex, dl.letter);
 		}
 	}
+
+    checkPoints();
 }
 
 function removeDraft() {
