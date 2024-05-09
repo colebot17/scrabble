@@ -32,7 +32,7 @@ function getDraft($conn, $user, $gameId) {
     $pIndex = false;
     $draft = false;
     for ($i = 0; $i < count($players); $i++) {
-        if ($players[$i]["id"] === $user) {
+        if ((int)$players[$i]["id"] === (int)$user) {
             $pIndex = $i;
             if (array_key_exists('draft', $players[$i])) {
                 $draft = $players[$i]["id"]["draft"];
