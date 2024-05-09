@@ -896,14 +896,15 @@ function flyingSaucer(from, value, destination) {
 	saucer.style.top = boardBounds.top + startPos[1] + 'px';
 	saucer.style.left = boardBounds.left + endPos[0] + 'px';
 
-	const duration = 3000;
-	const d = (duration / 1000) + 's';
-	const e = "ease-in"
-	destBounds = destination.getBoundingClientRect();
-
 	saucer.classList.remove('hidden');
+	
+	const duration = 3000;
 
 	setTimeout(() => {
+		const d = (duration / 1000) + 's';
+		const e = "ease-in"
+		destBounds = destination.getBoundingClientRect();
+
 		saucer.style.transition = `top ${d} ${e}, left ${d} ${e}`;
 
 		const destX = destBounds.left + (destBounds.width / 2);
