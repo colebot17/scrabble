@@ -905,9 +905,14 @@ function flyingSaucer(from, value, destination) {
 
 	setTimeout(() => {
 		saucer.style.transition = `top ${d} ${e}, left ${d} ${e}`;
+
+		const destX = destBounds.left + (destBounds.width / 2);
+		const destY = destBounds.top + (destBounds.height / 2);
+
+		const sBounds = saucer.getBoundingClientRect();
 	
-		saucer.style.top = destBounds.top + 'px';
-		saucer.style.left = destBounds.left + 'px';
+		saucer.style.top = (destY - (sBounds.height / 2)) + 'px';
+		saucer.style.left = (destX - (sBounds.width / 2)) + 'px';
 
 		setTimeout(() => {
 			saucer.style.transition = "";
