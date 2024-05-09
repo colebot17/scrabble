@@ -619,6 +619,7 @@ body.scrabble {
 	align-items: center;
 
 	background-color: var(--highlight);
+	color: var(--highlight-text);
 	border-radius: 10000px;
 
 	box-shadow: 0 0 25px var(--text-color);
