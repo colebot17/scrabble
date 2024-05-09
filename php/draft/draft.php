@@ -40,7 +40,7 @@ function getDraft($conn, $user, $gameId) {
             }
         }
     }
-    if (!$pIndex || !$draft) exit('{"errorLevel":2,"message":"User not found (searching for draft)"}');
+    if (!$pIndex || !$draft) exit('{"errorLevel":2,"message":"User not found (searching for draft)","debug":"' . $user . ' ' . $gameId . '"}');
 
     // check the validity of the draft
     for ($i = 0; $i < count($draft); $i++) {
