@@ -16,7 +16,8 @@ function checkParams() {
                 let accs = JSON.parse(localStorage.savedAccounts);
                 if (accs.length > 0) {
                     request('findGameOwner.php', {
-                        accounts: localStorage.savedAccounts
+                        accounts: localStorage.savedAccounts,
+                        gameId: gameId
                     }).then(res => {
                         if (res.errorLevel > 1) {
                             textModal("Error", res.message);
