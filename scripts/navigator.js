@@ -11,8 +11,32 @@ function checkParams() {
 
         // make sure the game is in the user's game list
         if (!account?.games?.find(a => a.id === gameId)) {
-            textModal("Game not found", "You are trying to load a game that you don't have access to. Sign in to the correct account to access game <b>#" + gameId + "</b>");
-            return;
+            // if there are multiple accounts saved
+            if (localStorage.savedAccounts) {
+                let accs;
+                if (accs = JSON.parse(localStorage.savedAccounts)) {
+                    if (accs.length > 0) {
+                        request('findGameOwner.php', {
+                            accounts: localStorage.savedAccounts
+                        }).then(res => {
+                            if (res.errorLevel > 1) {
+                                textModal("Error", res.message);
+                                return;
+                            };
+
+                            if (res.errorLevel === 1) {
+                                textModal("Game not found", "You are trying to load a game that you don't have access to. Sign in to the correct account to access game <b>#" + gameId + "</b>");
+                                return;
+                            }
+
+                            const ownerAcc = accs[res.data];
+                            signIn(ownerAcc.name, ownerAcc.pwd).then(() => {
+                                loadGame(gameId, 'scrabbleLoader');
+                            });
+                        });
+                    }
+                }
+            }
         }
 
         loadGame(gameId, 'scrabbleLoader');

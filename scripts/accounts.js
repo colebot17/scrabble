@@ -53,7 +53,7 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 	})
 
 	// when the request is finished, the document's fonts are loaded, and the timer is up
-	Promise.all([req, document.fonts.ready, msLoaded, timer]).then(values => {
+	return Promise.all([req, document.fonts.ready, msLoaded, timer]).then(values => {
 		// the response from the sign in request specifically
 		// (we don't care about the other requests)
 		const res = values[0];
