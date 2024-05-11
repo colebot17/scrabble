@@ -14,7 +14,7 @@
 	width: 300px;
     padding: 10px;
 
-	border: 1.5px solid var(--text-color);
+	border: 2px solid var(--text-color);
 	background-color: var(--text-highlight);
     box-shadow: 0 0 10px var(--text-color-light);
 	color: var(--text-highlight-text);
