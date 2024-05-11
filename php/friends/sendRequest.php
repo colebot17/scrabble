@@ -69,10 +69,11 @@ $sql = "UPDATE accounts SET sentRequests='$sentRequestsJson' WHERE id='$userId'"
 $query = mysqli_query($conn, $sql);
 
 // update the other user's request list
-$sql = "SELECT requests FROM accounts WHERE id='$friendId'";
+$sql = "SELECT requests, name FROM accounts WHERE id='$friendId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $requests = json_decode($row['requests'], true);
+$friendName = $row['name']; // this is for the email notification, later
 
 $requests[] = (int)$userId;
 
@@ -92,6 +93,10 @@ $res = Array(
 );
 echo json_encode($res);
 
-mysqli_close($conn);
+// send a notification email
+require "../notifications/notify.php";
+require "../notificaions/templates/friendRequestEmail.php";
 
-?>
+notifyByEmail($conn, $friendId, ...friendRequestEmail($friendName));
+
+mysqli_close($conn);
