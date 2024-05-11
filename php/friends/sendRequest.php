@@ -88,7 +88,7 @@ $listsList = getAllLists($conn, $userId);
 
 $res = Array(
 	"errorLevel" => 0,
-	"message" => "Friend Added.",
+	"message" => "Request Sent",
 	"data" => $listsList
 );
 echo json_encode($res);
