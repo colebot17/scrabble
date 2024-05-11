@@ -47,7 +47,8 @@ function openGame(gameId) {
                         loadGame(gameId, 'scrabbleLoader');
                     });
 
-                    // here would be where we show the message informing the user of the account change
+                    // let the user know they switched accounts
+                    toast("Account", "Now signed in as <b>" + acc.name + "</b>");
                 }
             }).catch(err => {
                 // network error (make the user think it never happened)
