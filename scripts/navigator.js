@@ -15,6 +15,8 @@ function checkParams() {
             if (localStorage.savedAccounts) {
                 let accs = JSON.parse(localStorage.savedAccounts);
                 if (accs.length > 0) {
+                    const sGrid = document.getElementById('scrabbleGrid');
+                    sGrid.dataset.signedin = 'loading';
                     request('findGameOwner.php', {
                         accounts: localStorage.savedAccounts,
                         gameId: gameId
@@ -22,20 +24,21 @@ function checkParams() {
                         if (res.errorLevel > 1) {
                             textModal("Error", res.message);
                             return;
-                        };
-
-                        if (res.errorLevel === 1) {
-                            textModal("Game not found", "You are trying to load a game that you don't have access to. Sign in to the correct account to access game <b>#" + gameId + "</b>");
-                            return;
                         }
 
-                        const ownerAcc = accs[res.data];
-                        signIn(ownerAcc.name, ownerAcc.pwd).then(() => {
-                            loadGame(gameId, 'scrabbleLoader');
-                        });
+                        if (res.errorLevel < 1) {
+                            const ownerAcc = accs[res.data];
+                            signIn(ownerAcc.name, ownerAcc.pwd).then(() => {
+                                loadGame(gameId, 'scrabbleLoader');
+                            });
+                            return;
+                        }
+                        
+                        return;
                     });
                 }
             }
+            textModal("Game not found", "You are trying to load a game that you don't have access to. Sign in to the correct account to access game <b>#" + gameId + "</b>");
             return;
         }
 
