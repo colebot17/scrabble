@@ -1,4 +1,4 @@
-export function toast(title, content, duration = 3000, urgent = false) {
+export function toast(title, content, duration = 3000) {
     let toastStack = document.getElementById('toastStack');
     if (!toastStack) {
         toastStack = document.createElement('div');
@@ -8,7 +8,6 @@ export function toast(title, content, duration = 3000, urgent = false) {
 
     const toast = document.createElement('div');
     toast.className = "toast";
-    if (urgent) toast.classList.add('urgent');
     toast.innerHTML = /* html */ `<span class="toastTitle"><b>${title}</b></span><span>${content}</span>`;
     toastStack.appendChild(toast);
 
