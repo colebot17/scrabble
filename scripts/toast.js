@@ -8,7 +8,7 @@ export function toast(title, content, duration = 3000) {
 
     const toast = document.createElement('div');
     toast.className = "toast";
-    toast.innerHTML = /* html */ `<span><b>${title}</b></span><span>${content}</span>`;
+    toast.innerHTML = /* html */ `<span class="toastTitle"><b>${title}</b></span><span>${content}</span>`;
     toastStack.appendChild(toast);
 
     if (duration !== 0) {
