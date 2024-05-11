@@ -86,17 +86,19 @@ $query = mysqli_query($conn, $sql);
 require "getFriends.php";
 $listsList = getAllLists($conn, $userId);
 
-$res = Array(
-	"errorLevel" => 0,
-	"message" => "Request Sent",
-	"data" => $listsList
-);
-echo json_encode($res);
-
 // send a notification email
 require "../notifications/notify.php";
 require "../notificaions/templates/friendRequestEmail.php";
 
-notifyByEmail($conn, $friendId, ...friendRequestEmail($friendName));
+[$emailSubject, $emailBody] = friendRequestEmail($friendName);
+notifyByEmail($conn, $friendId, $emailSubject, $emailBody);
+
+$res = Array(
+	"errorLevel" => 0,
+	"message" => "Request Sent",
+	"data" => $listsList,
+	"debug" => Array($friendId, $friendName, $emailSubject, $emailBody)
+);
+echo json_encode($res);
 
 mysqli_close($conn);
