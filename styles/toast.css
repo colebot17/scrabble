@@ -13,10 +13,10 @@
 	width: 300px;
     padding: 10px;
 
-	border: 2px solid var(--text-color);
-	background-color: var(--text-highlight);
+	border: 4px solid var(--highlight);
+	background-color: var(--background-2);
+	color: var(--text-color);
     box-shadow: 0 0 10px var(--text-color-light);
-	color: var(--text-highlight-text);
     border-radius: 15px;
 
     display: flex;
@@ -27,6 +27,11 @@
     transition: opacity 1s;
 
     font-size: 1.1rem;
+}
+.toast.urgent {
+    border: 2px solid var(--text-color);
+    background-color: var(--text-highlight);
+    color: var(--text-highlight-text);
 }
 .toastTitle {
     font-size: 1.2rem;
