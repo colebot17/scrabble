@@ -13,28 +13,26 @@ function checkParams() {
         if (!account?.games?.find(a => a.id === gameId)) {
             // if there are multiple accounts saved
             if (localStorage.savedAccounts) {
-                let accs;
-                if (accs = JSON.parse(localStorage.savedAccounts)) {
-                    if (accs.length > 0) {
-                        request('findGameOwner.php', {
-                            accounts: localStorage.savedAccounts
-                        }).then(res => {
-                            if (res.errorLevel > 1) {
-                                textModal("Error", res.message);
-                                return;
-                            };
+                let accs = JSON.parse(localStorage.savedAccounts);
+                if (accs.length > 0) {
+                    request('findGameOwner.php', {
+                        accounts: localStorage.savedAccounts
+                    }).then(res => {
+                        if (res.errorLevel > 1) {
+                            textModal("Error", res.message);
+                            return;
+                        };
 
-                            if (res.errorLevel === 1) {
-                                textModal("Game not found", "You are trying to load a game that you don't have access to. Sign in to the correct account to access game <b>#" + gameId + "</b>");
-                                return;
-                            }
+                        if (res.errorLevel === 1) {
+                            textModal("Game not found", "You are trying to load a game that you don't have access to. Sign in to the correct account to access game <b>#" + gameId + "</b>");
+                            return;
+                        }
 
-                            const ownerAcc = accs[res.data];
-                            signIn(ownerAcc.name, ownerAcc.pwd).then(() => {
-                                loadGame(gameId, 'scrabbleLoader');
-                            });
+                        const ownerAcc = accs[res.data];
+                        signIn(ownerAcc.name, ownerAcc.pwd).then(() => {
+                            loadGame(gameId, 'scrabbleLoader');
                         });
-                    }
+                    });
                 }
             }
         }
