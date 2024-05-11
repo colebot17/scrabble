@@ -10,6 +10,7 @@
     margin: 5px;
 }
 .toast {
+    position: relative;
 	width: 300px;
     padding: 10px;
 
@@ -27,7 +28,18 @@
     transition: opacity 1s;
 
     font-size: 1.1rem;
+
+    animation: toast 0.37s linear;
 }
 .toastTitle {
     font-size: 1.2rem;
+}
+
+@keyframes toast {
+    0% {
+        left: -350px;
+    }
+    100% {
+        left: 0;
+    }
 }

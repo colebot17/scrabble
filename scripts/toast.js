@@ -1,4 +1,4 @@
-export function toast(title, content, duration = 3000) {
+export function toast(title, content, duration = 3000, dismissable = true) {
     let toastStack = document.getElementById('toastStack');
     if (!toastStack) {
         toastStack = document.createElement('div');
@@ -11,13 +11,15 @@ export function toast(title, content, duration = 3000) {
     toast.innerHTML = /* html */ `<span class="toastTitle"><b>${title}</b></span><span>${content}</span>`;
     toastStack.appendChild(toast);
 
-    toast.addEventListener('click', () => {
-        toast.style.transition = "opacity 0.2s";
-        toast.style.opacity = 0;
-        setTimeout(() => {
-            toast.remove();
-        }, 200);
-    });
+    if (dismissable) {
+        toast.addEventListener('click', () => {
+            toast.style.transition = "opacity 0.2s";
+            toast.style.opacity = 0;
+            setTimeout(() => {
+                toast.remove();
+            }, 200);
+        });
+    }
 
     if (duration !== 0) {
         setTimeout(() => {
