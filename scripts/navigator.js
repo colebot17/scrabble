@@ -36,6 +36,7 @@ function checkParams() {
                     });
                 }
             }
+            return;
         }
 
         loadGame(gameId, 'scrabbleLoader');
