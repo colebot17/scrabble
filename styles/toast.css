@@ -29,7 +29,7 @@
 
     font-size: 1.1rem;
 
-    animation: toast 0.37s linear;
+    animation: toast 0.15s;
 }
 .toastTitle {
     font-size: 1.2rem;
