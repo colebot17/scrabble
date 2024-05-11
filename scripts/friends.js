@@ -25,7 +25,7 @@ function updateFriendsList(friends) {
                     </span>
                 </div>
                 ${showRecord ? /* html */ `
-                    <div class="friendRecord flex col">
+                    <div class="friendRecord flex col" title="Wins / Ties / Losses">
                         <span class="finePrint">Record</span>
                         <span>${record}</span>
                     </div>
