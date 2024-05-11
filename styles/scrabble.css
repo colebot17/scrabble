@@ -567,8 +567,8 @@ body.scrabble {
 	margin-right: 5px;
 	text-align: start;
 }
-.friendStreak {
-	align-items: flex-start;
+.friendRecord {
+	align-items: flex-end;
 	padding: 0 5px;
 }
 .friendListItem:not(:last-child) {

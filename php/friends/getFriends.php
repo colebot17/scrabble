@@ -22,7 +22,7 @@ function getFriends($conn, $userId) {
 
         // only count the games that are active
         $numSharedGames = 0;
-        $streak = Array(
+        $record = Array(
             "wins" => 0,
             "ties" => 0,
             "losses" => 0
@@ -42,13 +42,13 @@ function getFriends($conn, $userId) {
             // if the game is a 1v1 game that has already ended
             $players = json_decode($row['players'], true);
             if (count($players) === 2 && $row['inactive'] == 1) {
-                // count it towards the streak
+                // count it towards the record
                 if ($players[0]["points"] > $players[1]["points"]) {
-                    $streak[(int)$players[0]["id"] == (int)$userId ? "wins" : "losses"]++;
+                    $record[(int)$players[0]["id"] == (int)$userId ? "wins" : "losses"]++;
                 } else if ($players[1]["points"] > $players[0]["points"]) {
-                    $streak[(int)$players[1]["id"] == (int)$userId ? "wins" : "losses"]++;
+                    $record[(int)$players[1]["id"] == (int)$userId ? "wins" : "losses"]++;
                 } else {
-                    $streak["ties"]++;
+                    $record["ties"]++;
                 }
             }
         }
@@ -57,7 +57,7 @@ function getFriends($conn, $userId) {
             "id" => $friends[$i],
             "name" => $friendName,
             "numSharedGames" => $numSharedGames,
-            "streak" => $streak
+            "record" => $record
         );
     }
 
