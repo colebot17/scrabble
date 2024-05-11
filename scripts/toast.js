@@ -12,11 +12,11 @@ export function toast(title, content, duration = 3000) {
     toastStack.appendChild(toast);
 
     toast.addEventListener('click', () => {
-        toast.style.transition = "opacity 0.37s";
+        toast.style.transition = "opacity 0.2s";
         toast.style.opacity = 0;
         setTimeout(() => {
             toast.remove();
-        }, 370);
+        }, 200);
     });
 
     if (duration !== 0) {
