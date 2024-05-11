@@ -21,21 +21,43 @@ function getFriends($conn, $userId) {
         $sharedGames = array_values(array_intersect($games, $friendGames));
 
         // only count the games that are active
-        $numGames = 0;
+        $numSharedGames = 0;
+        $record = Array(
+            "wins" => 0,
+            "ties" => 0,
+            "losses" => 0
+        );
+
         for ($j = 0; $j < count($sharedGames); $j++) {
             $currentId = $sharedGames[$j];
-            $sql = "SELECT inactive FROM games WHERE id='$currentId'";
+            $sql = "SELECT inactive, players FROM games WHERE id='$currentId'";
             $query = mysqli_query($conn, $sql);
             $row = mysqli_fetch_assoc($query);
+
+            // count the total number of active shared games (including group games)
             if ($row['inactive'] == 0) {
-                $numGames++;
+                $numSharedGames++;
+            }
+
+            // if the game is a 1v1 game that has already ended
+            $players = json_decode($row['players'], true);
+            if (count($players) === 2 && $row['inactive'] == 1) {
+                // count it towards the record
+                if ($players[0]["points"] > $players[1]["points"]) {
+                    $record[(int)$players[0]["id"] == (int)$userId ? "wins" : "losses"]++;
+                } else if ($players[1]["points"] > $players[0]["points"]) {
+                    $record[(int)$players[1]["id"] == (int)$userId ? "wins" : "losses"]++;
+                } else {
+                    $record["ties"]++;
+                }
             }
         }
 
         $friendsList[] = Array(
             "id" => $friends[$i],
             "name" => $friendName,
-            "numGames" => $numGames
+            "numSharedGames" => $numSharedGames,
+            "record" => $record
         );
     }
 
@@ -97,5 +119,3 @@ function getAllLists($conn, $userId) {
         "sentRequestList" => getSentRequests($conn, $userId)
     );
 }
-
-?>
