@@ -39,9 +39,9 @@ function getFriends($conn, $userId) {
                 $numSharedGames++;
             }
 
-            // if the game is a 1v1 game
+            // if the game is a 1v1 game that has already ended
             $players = json_decode($row['players'], true);
-            if (count($players) === 2) {
+            if (count($players) === 2 && $row['inactive'] == 1) {
                 // count it towards the streak
                 if ($players[0]["points"] > $players[1]["points"]) {
                     $streak[(int)$players[0]["id"] == (int)$userId ? "wins" : "losses"]++;

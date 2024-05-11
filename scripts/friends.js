@@ -7,7 +7,7 @@ function updateFriendsList(friends) {
     let listContents = ``;
     for (let i = 0; i < friends.length; i++) {
         const friend = friends[i];
-        const friendStreak = `${friend.streak.wins}/ ${friend.streak.ties} / ${friend.streak.losses}`;
+        const friendStreak = `${friend.streak.wins} / ${friend.streak.ties} / ${friend.streak.losses}`;
         let listItem = `
             <div class="friendListItem friendListFriend" id="friend${i}" data-playerid="${friend.id}" data-checked="false">
                 <button class="friendCheckbox iconButton" onclick="toggleCheckbox(${i}, 'friend')">
