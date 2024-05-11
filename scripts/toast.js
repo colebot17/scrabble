@@ -11,7 +11,13 @@ export function toast(title, content, duration = 3000) {
     toast.innerHTML = /* html */ `<span class="toastTitle"><b>${title}</b></span><span>${content}</span>`;
     toastStack.appendChild(toast);
 
-    toast.addEventListener('click', () => toast.remove());
+    toast.addEventListener('click', () => {
+        toast.style.transition = "opacity 0.37s";
+        toast.style.opacity = 0;
+        setTimeout(() => {
+            toast.remove();
+        }, 370);
+    });
 
     if (duration !== 0) {
         setTimeout(() => {
