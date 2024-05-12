@@ -12,6 +12,7 @@
 .toast {
     position: relative;
 	width: 300px;
+    max-width: calc(100vw - 10px);
     padding: 10px;
 
     border: 2px solid var(--text-color);
