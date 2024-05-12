@@ -1,9 +1,9 @@
 $(function() {
 	// auto sign in
 	if (sessionStorage.name && sessionStorage.pwd) {
-		signIn(sessionStorage.name, sessionStorage.pwd);
+		signIn(sessionStorage.name, sessionStorage.pwd, false);
 	} else if (localStorage.name && localStorage.pwd) {
-		signIn(localStorage.name, localStorage.pwd);
+		signIn(localStorage.name, localStorage.pwd, false);
 	} else {
 		setSignInMode('signIn');
 		document.getElementById('scrabbleGrid').dataset.signedin = "false";
@@ -15,7 +15,7 @@ $(function() {
 
 var account = {};
 
-function signIn(name = document.getElementById('signInUsername').value, pwd = document.getElementById('signInPwd').value) {
+function signIn(name = document.getElementById('signInUsername').value, pwd = document.getElementById('signInPwd').value, showToast = true) {
 	const formEl = document.getElementById('signInForm');
 	const usernameField = document.getElementById('signInUsername');
 	const pwdField = document.getElementById('signInPwd');
@@ -53,7 +53,7 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 	})
 
 	// when the request is finished, the document's fonts are loaded, and the timer is up
-	Promise.all([req, document.fonts.ready, msLoaded, timer]).then(values => {
+	return Promise.all([req, document.fonts.ready, msLoaded, timer]).then(values => {
 		// the response from the sign in request specifically
 		// (we don't care about the other requests)
 		const res = values[0];
@@ -110,6 +110,9 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 
 		// show the signed in page
 		scrabbleGrid.dataset.signedin = "true";
+
+		// show the toast
+		if (showToast) toast("Account", "Now signed in as <b>" + account.name + "</b>");
 
 		checkParams();
 	}).catch(err => {
@@ -301,7 +304,7 @@ function updateSavedAccountList() {
 		list.innerHTML += /* html */ `
 			<div class="account" data-savedaccountid="${i}">
 				<span class="accountName">${savedAccounts[i].name}${isCurrent ? ` <span class="textColorLight">(You)</span>` : ``}</span>
-				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}')"${isCurrent ? ` disabled` : ``}>
+				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}', true)"${isCurrent ? ` disabled` : ``}>
 					<span class="material-symbols-rounded smallIcon">login</span>
 					${isCurrent ? `Signed In` : `Sign In`}
 				</button>

@@ -9,13 +9,54 @@ function checkParams() {
             return;
         }
 
-        // make sure the game is in the user's game list
-        if (!account?.games?.find(a => a.id === gameId)) {
-            textModal("Game not found", "You are trying to load a game that you don't have access to. Sign in to the correct account to access game <b>#" + gameId + "</b>");
-            return;
-        }
+        openGame(gameId);
+    }
+}
 
+function openGame(gameId) {
+    // logical flow to find the game
+        
+    const gameFindError = () => textModal("Game not found", "You are trying to load a game that you don't have access to. Sign in to the correct account to access game <b>#" + gameId + "</b>");
+
+    // does the game exist in the current account?
+    const inCurrentAccount = account?.games?.find(a => a.id === gameId);
+    if (inCurrentAccount) {
+        // yes: load game
         loadGame(gameId, 'scrabbleLoader');
+    } else {
+        // no: are there any saved accounts that can be checked?
+        if (localStorage.savedAccounts && JSON.parse(localStorage.savedAccounts).length > 0) {
+            // yes: do any of those accounts own the game? (server request)
+
+            const sGrid = document.getElementById('scrabbleGrid');
+            const oldSGridValue = sGrid.dataset.signedin;
+            sGrid.dataset.signedin = 'loading'; // keep showing the scrabble loader
+            
+            request('findGameOwner.php', {
+                accounts: localStorage.savedAccounts,
+                gameId: gameId
+            }).then(res => {
+                if (res.errorLevel > 0) {
+                    // no: show error message
+                    sGrid.dataset.signedin = oldSGridValue;
+                    gameFindError();
+                } else {
+                    // yes: sign in to that account => load game
+                    const acc = JSON.parse(localStorage.savedAccounts)[res.data];
+                    signIn(acc.name, acc.pwd).then(() => {
+                        loadGame(gameId, 'scrabbleLoader');
+                    });
+                }
+            }).catch(err => {
+                // network error (make the user think it never happened)
+                sGrid.dataset.signedin = oldSGridValue;
+                console.error(err);
+                gameFindError();
+            });
+        } else {
+            // no: show error message
+            gameFindError();
+        }
     }
 }
 
