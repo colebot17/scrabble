@@ -27,12 +27,10 @@
 
     transition: opacity 1s;
 
-    font-size: 1.1rem;
-
     animation: toast 0.15s;
 }
 .toastTitle {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 @keyframes toast {
