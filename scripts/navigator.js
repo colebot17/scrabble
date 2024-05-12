@@ -46,9 +46,6 @@ function openGame(gameId) {
                     signIn(acc.name, acc.pwd).then(() => {
                         loadGame(gameId, 'scrabbleLoader');
                     });
-
-                    // let the user know they switched accounts
-                    toast("Account", "Now signed in as <b>" + acc.name + "</b>");
                 }
             }).catch(err => {
                 // network error (make the user think it never happened)

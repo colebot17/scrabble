@@ -111,6 +111,9 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 		// show the signed in page
 		scrabbleGrid.dataset.signedin = "true";
 
+		// show the toast
+		toast("Account", "Now signed in as <b>" + account.name + "</b>");
+
 		checkParams();
 	}).catch(err => {
 		console.error("Sign-in could not be completed:", err);
@@ -301,7 +304,7 @@ function updateSavedAccountList() {
 		list.innerHTML += /* html */ `
 			<div class="account" data-savedaccountid="${i}">
 				<span class="accountName">${savedAccounts[i].name}${isCurrent ? ` <span class="textColorLight">(You)</span>` : ``}</span>
-				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}')"${isCurrent ? ` disabled` : ``}>
+				<button class="iconTextButton accountSignInButton noMargin semiHighlight" onclick="signIn('${savedAccounts[i].name}', '${savedAccounts[i].pwd}', true)"${isCurrent ? ` disabled` : ``}>
 					<span class="material-symbols-rounded smallIcon">login</span>
 					${isCurrent ? `Signed In` : `Sign In`}
 				</button>
