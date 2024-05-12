@@ -21,6 +21,8 @@ $gameId = $_POST['gameId'];
 
 require "verifyPassword.php";
 
+// loop through each specified account and see which one(s) own the game
+$owners = Array();
 for ($i = 0; $i < count($accounts); $i++) {
     $name = $accounts[$i]["name"];
     $sql = "SELECT id, games FROM accounts WHERE name='$name'";
@@ -30,21 +32,50 @@ for ($i = 0; $i < count($accounts); $i++) {
     $games = json_decode($row['games'], true);
     if (verifyPassword($conn, $row['id'], $accounts[$i]["pwd"])) {
         if (in_array($gameId, $games)) {
-            $res = Array(
-                "errorLevel" => 0,
-                "message" => "$name owns the game (index $i in list)",
-                "data" => $i
-            );
-            echo json_encode($res);
-            exit();
+            $owners[] = Array("index" => $i, "id" => (int)$row['id']);
         }
     }
 }
 
+// if we collected no owners in the earlier loop,
+if (count($owners) === 0) {
+    // then none of these players own the game
+    $res = Array(
+        "errorLevel" => 1,
+        "message" => "The owner of the game is not in the list",
+        "data" => null
+    );
+    exit(json_encode($res));
+}
+
+// if there are multiple owners, figure out which one to use based on the game turn (and then order)
+$owner = null;
+if (count($owners) > 1) {
+    $sql = "SELECT turn, players FROM games WHERE id='$gameId'";
+    $query = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($query);
+    $players = json_decode($row['players'], true);
+    $totalTurn = $row['turn'];
+    $turn = $totalTurn % count($players);
+
+    // if it is any owner's turn, use that owner
+    for ($i = 0; $i < count($owners); $i++) {
+        if ($players[$turn]["id"] == $owners[$i]["id"]) {
+            $owner = $owners[$i]["index"];
+            break;
+        }
+    }
+
+    // if the owner is still null, just pick the first one
+    if ($owner === null) $owner = $owners[0];
+}
+
+// now that we have narrowed it down, we can return the response
+$ownerName = $accounts[$owner]["name"];
 $res = Array(
-    "errorLevel" => 1,
-    "message" => "The owner of the game is not in the list",
-    "data" => null
+    "errorLevel" => 0,
+    "message" => "$ownerName owns the game (index $owner in list)",
+    "data" => $owner
 );
 echo json_encode($res);
 
