@@ -1,4 +1,4 @@
-export function toast(title, content, duration = 5000, _type = "info", dismissable = true) {
+export function toast(title, content, duration = 5000, _type = "info", userDismissable = true) {
     let toastStack = document.getElementById('toastStack');
     if (!toastStack) {
         toastStack = document.createElement('div');
@@ -11,14 +11,16 @@ export function toast(title, content, duration = 5000, _type = "info", dismissab
     toast.innerHTML = /* html */ `<span class="toastTitle"><b>${title}</b></span>${content ? `<span>${content}</span>` : ``}`;
     toastStack.appendChild(toast);
 
-    if (dismissable) {
-        toast.addEventListener('click', () => {
-            toast.style.transition = "opacity 0.2s";
-            toast.style.opacity = 0;
-            setTimeout(() => {
-                toast.remove();
-            }, 200);
-        });
+    dismiss = () => {
+        toast.style.transition = "opacity 0.2s";
+        toast.style.opacity = 0;
+        setTimeout(() => {
+            toast.remove();
+        }, 200);
+    };
+
+    if (userDismissable) {
+        toast.addEventListener('click', dismiss);
     }
 
     if (duration !== 0) {
@@ -28,5 +30,10 @@ export function toast(title, content, duration = 5000, _type = "info", dismissab
                 toast.remove();
             }, 1000);
         }, duration);
+    }
+
+    return {
+        el: toast,
+        dismiss: dismiss
     }
 }
