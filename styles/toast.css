@@ -19,6 +19,7 @@
     border: 2px solid var(--text-color);
     background-color: var(--text-highlight);
     color: var(--text-highlight-text);
+    text-align: start;
     box-shadow: 0 0 10px var(--text-color-light);
     border-radius: 15px;
 
