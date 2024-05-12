@@ -1,9 +1,9 @@
 $(function() {
 	// auto sign in
 	if (sessionStorage.name && sessionStorage.pwd) {
-		signIn(sessionStorage.name, sessionStorage.pwd);
+		signIn(sessionStorage.name, sessionStorage.pwd, false);
 	} else if (localStorage.name && localStorage.pwd) {
-		signIn(localStorage.name, localStorage.pwd);
+		signIn(localStorage.name, localStorage.pwd, false);
 	} else {
 		setSignInMode('signIn');
 		document.getElementById('scrabbleGrid').dataset.signedin = "false";
@@ -15,7 +15,7 @@ $(function() {
 
 var account = {};
 
-function signIn(name = document.getElementById('signInUsername').value, pwd = document.getElementById('signInPwd').value) {
+function signIn(name = document.getElementById('signInUsername').value, pwd = document.getElementById('signInPwd').value, showToast = true) {
 	const formEl = document.getElementById('signInForm');
 	const usernameField = document.getElementById('signInUsername');
 	const pwdField = document.getElementById('signInPwd');
@@ -112,7 +112,7 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 		scrabbleGrid.dataset.signedin = "true";
 
 		// show the toast
-		toast("Account", "Now signed in as <b>" + account.name + "</b>");
+		if (showToast) toast("Account", "Now signed in as <b>" + account.name + "</b>");
 
 		checkParams();
 	}).catch(err => {
