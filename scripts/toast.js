@@ -11,7 +11,7 @@ export function toast(title, content, duration = 5000, _type = "info", userDismi
     toast.innerHTML = /* html */ `<span class="toastTitle"><b>${title}</b></span>${content ? `<span>${content}</span>` : ``}`;
     toastStack.appendChild(toast);
 
-    dismiss = () => {
+    const dismiss = () => {
         toast.style.transition = "opacity 0.2s";
         toast.style.opacity = 0;
         setTimeout(() => {
