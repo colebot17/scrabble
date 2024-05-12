@@ -11,6 +11,7 @@
 }
 .toast {
     position: relative;
+    box-sizing: border-box;
 	width: 300px;
     max-width: calc(100vw - 10px);
     padding: 10px;
