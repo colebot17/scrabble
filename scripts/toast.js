@@ -1,4 +1,7 @@
 export function toast(title, content, duration = 5000, _type = "info", userDismissable = true) {
+    // in the future, possible types might be:
+    // info (yellow), success (green), error (red)
+    
     let toastStack = document.getElementById('toastStack');
     if (!toastStack) {
         toastStack = document.createElement('div');
