@@ -1,12 +1,13 @@
 $(function() {
 	// auto sign in
-	if (sessionStorage.name && sessionStorage.pwd) {
-		signIn(sessionStorage.name, sessionStorage.pwd, false);
-	} else if (localStorage.name && localStorage.pwd) {
-		signIn(localStorage.name, localStorage.pwd, false);
+	const savedName = sessionStorage.name || localStorage.name;
+	const savedPwd = sessionStorage.pwd || localStorage.pwd;
+	if (savedName && savedPwd) {
+		signIn(savedName, savedPwd, false).then(() => checkParams());
 	} else {
 		setSignInMode('signIn');
 		document.getElementById('scrabbleGrid').dataset.signedin = "false";
+		checkParams();
 	}
 
 	// check share ability
@@ -113,8 +114,6 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 
 		// show the toast
 		if (showToast) toast("Account", "Now signed in as <b>" + account.name + "</b>");
-
-		checkParams();
 	}).catch(err => {
 		console.error("Sign-in could not be completed:", err);
 		setSignInMode('signIn');
