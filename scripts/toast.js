@@ -1,4 +1,4 @@
-export function toast(title, content, duration = 5000, dismissable = true) {
+export function toast(title, content, duration = 5000, _type = "info", dismissable = true) {
     let toastStack = document.getElementById('toastStack');
     if (!toastStack) {
         toastStack = document.createElement('div');
