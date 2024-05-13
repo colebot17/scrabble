@@ -41,24 +41,28 @@
         $row = mysqli_fetch_assoc($query);
         $methods = json_decode($row['notificationMethods'], true);
 
-        // go through and remove any methods that have the specified email
+        // go through and disable any methods that have the specified email
+        $anyMatching = false;
         for ($i = 0; $i < count($methods); $i++) {
             if ($methods[$i]['type'] === "email" && $methods[$i]['address'] === $email) {
-                unset($methods[$i]);
+                $anyMatching = true;
+                $methods[$i]["enabled"] = false;
             }
         }
 
-        // deassociate the array
-        $methods = array_values($methods);
+        if (!$anyMatching) {
+            $title = "Error";
+            $body = "There's no email address <b>$email</b> in your account.";
+        } else {
+            // re-upload the notification methods
+            $methodsJson = json_encode($methods);
+            $sql = "UPDATE accounts SET notificationMethods='$methodsJson' WHERE id='$user'";
+            $query = mysqli_query($conn, $sql);
 
-        // re-upload the notification methods
-        $methodsJson = json_encode($methods);
-        $sql = "UPDATE accounts SET notificationMethods='$methodsJson' WHERE id='$user'";
-        $query = mysqli_query($conn, $sql);
-
-        // done!
-        $title = "Unsubscribed";
-        $body = "Your email address, <b>" . $email . "</b>, has been removed from your scrabble account. You will no longer receive any email notifications through this email address.";
+            // done!
+            $title = "Unsubscribed";
+            $body = "Your email address, <b>$email</b>, has been removed from your scrabble account. You will no longer receive any email notifications through this email address.";
+        }
     }
 
     ?>

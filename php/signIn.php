@@ -35,7 +35,16 @@ $obj['id'] = (int)$row['id'];
 $obj['name'] = $row['name'];
 $obj['defaultLang'] = $row['defaultLang'];
 $obj['tutorials'] = json_decode($row['tutorials'], true);
-$obj['notificationMethods'] = json_decode($row['notificationMethods'], true);
+
+// don't send disabled notification methods
+$notificationMethods = json_decode($row['notificationMethods'], true);
+for ($i = 0; $i < count($notificationMethods); $i++) {
+	if (array_key_exists('enabled', $notificationMethods[$i]) && $notificationMethods[$i]['enabled'] === false) {
+		unset($notificationMethods[$i]);
+	}
+}
+$notificationMethods = array_values($notificationMethods);
+$obj['notificationMethods'] = $notificationMethods;
 
 // get the games list
 require "getGamesList.php";
