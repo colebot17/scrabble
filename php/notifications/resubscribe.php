@@ -46,7 +46,7 @@
         for ($i = 0; $i < count($methods); $i++) {
             if ($methods[$i]['type'] === "email" && $methods[$i]['address'] === $email) {
                 $anyMatching = true;
-                $methods[$i]["enabled"] = false;
+                $methods[$i]["enabled"] = true;
             }
         }
 
