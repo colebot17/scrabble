@@ -265,6 +265,7 @@ function parseWords($gameId, $tiles, $user) {
                     }
                     
                     // compile the x cross axis word and points into the array unless it's only one letter
+                    // the x cross axis is really the y axis
                     if (!in_array($xCrossAxisWord, $langInfo["alphabet"])) {
                         array_push($words, Array(
                             "word" => $xCrossAxisWord,
@@ -272,7 +273,7 @@ function parseWords($gameId, $tiles, $user) {
                             "axis" => "y",
                             "cross" => true,
                             "start" => Array((int)$sweepX, (int)$sweepYMin),
-                            "end" => Array((int)$sweepY, (int)$sweepYMax)
+                            "end" => Array((int)$sweepX, (int)$sweepYMax)
                         ));
                     }
                 }
@@ -374,6 +375,7 @@ function parseWords($gameId, $tiles, $user) {
                     }
                     
                     // compile the y cross axis word and points into the array unless it's only one letter
+                    // the y cross axis is really the x axis
                     if (!in_array($yCrossAxisWord, $langInfo["alphabet"])) {
                         array_push($words, Array(
                             "word" => $yCrossAxisWord,
@@ -431,4 +433,3 @@ function parseWords($gameId, $tiles, $user) {
 
     return json_encode($words);
 }
-?>
