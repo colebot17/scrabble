@@ -52,7 +52,7 @@
 
         if (!$anyMatching) {
             $title = "Error";
-            $body = "There's no email address <b>$email</b> in your account.";
+            $body = "There is no email address <b>$email</b> associated with your account. Please check your link and try again.";
         } else {
             // re-upload the notification methods
             $methodsJson = json_encode($methods);
