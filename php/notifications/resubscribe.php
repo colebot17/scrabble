@@ -62,7 +62,7 @@
             // done!
             $title = "You're back in!";
             $body = "You will now continue to receive scrabble email notifications through the address <b>$email</b>.";
-            $body .= "<a href='unsubscribe.php?email=$email&user=$user'>Unsubscribe</a>";
+            $body .= "<br><br><a class='underline' href='unsubscribe.php?email=$email&user=$user'>Unsubscribe</a>";
         }
     }
 

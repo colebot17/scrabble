@@ -62,7 +62,7 @@
             // done!
             $title = "Unsubscribed";
             $body = "Your email address, <b>$email</b>, has been removed from your scrabble account. You will no longer receive any email notifications through this email address.";
-            $body .= "<br>Unsubscribed by mistake? <a href='resubscribe.php?email=$email&user=$user'>Resubscribe</a>";
+            $body .= "<br><br>Unsubscribed by mistake? <a class='underline' href='resubscribe.php?email=$email&user=$user'>Resubscribe</a>";
         }
     }
 
