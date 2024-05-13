@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unsubscribe</title>
+    <title>Resubscribe</title>
 
     <!-- import the font Rubik -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +18,7 @@
 
     if (!array_key_exists('email', $_GET) || !array_key_exists('user', $_GET)) {
         $title = "Invalid Link";
-        $body = "If you would like to unsubscribe, please click the link from the bottom of an email, or visit <a class='underline' href='https://scrabble.colebot.com'>scrabble.colebot.com</a> and manage your notification preferences from settings.";
+        $body = "If you would like to receive email notifications for your scrabble account, please visit <a class='underline' href='https://scrabble.colebot.com'>scrabble.colebot.com</a> and manage your notification preferences from settings.";
     } else {
         $email = $_GET['email'];
         $user = (int)$_GET['user'];
@@ -41,18 +41,18 @@
         $row = mysqli_fetch_assoc($query);
         $methods = json_decode($row['notificationMethods'], true);
 
-        // go through and disable any methods that have the specified email
+        // go through and enable any methods that have the specified email
         $anyMatching = false;
         for ($i = 0; $i < count($methods); $i++) {
             if ($methods[$i]['type'] === "email" && $methods[$i]['address'] === $email) {
                 $anyMatching = true;
-                $methods[$i]["enabled"] = false;
+                $methods[$i]["enabled"] = true;
             }
         }
 
         if (!$anyMatching) {
             $title = "Error";
-            $body = "There is no email address <b>$email</b> associated with your account. Please check your link and try again.";
+            $body = "The email address <b>$email</b> has never been associated with your account. To add a new email, please visit <a class='underline' href='https://scrabble.colebot.com'>scrabble.colebot.com</a> and manage your notification preferences from settings.";
         } else {
             // re-upload the notification methods
             $methodsJson = json_encode($methods);
@@ -60,9 +60,9 @@
             $query = mysqli_query($conn, $sql);
 
             // done!
-            $title = "Unsubscribed";
-            $body = "Your email address, <b>$email</b>, has been removed from your scrabble account. You will no longer receive any email notifications through this email address.";
-            $body .= "<br><br>Unsubscribed by mistake? <a class='underline' href='resubscribe.php?email=$email&user=$user'>Resubscribe</a>";
+            $title = "You're back in!";
+            $body = "You will now continue to receive scrabble email notifications through the address <b>$email</b>.";
+            $body .= "<br><br><a class='underline' href='unsubscribe.php?email=$email&user=$user'>Unsubscribe</a>";
         }
     }
 

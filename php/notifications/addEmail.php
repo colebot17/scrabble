@@ -34,7 +34,7 @@ $exists = false;
 for ($i = 0; $i < count($methods); $i++) {
     if ($methods[$i]["type"] === "email" && $methods[$i]["address"] === $address) {
         $exists = true;
-        $methods[$i]["enabled"] === true;
+        $methods[$i]["enabled"] = true;
     }
 }
 
