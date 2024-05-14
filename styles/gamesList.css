@@ -29,7 +29,6 @@
 	grid-template-columns: 1fr 8fr 1fr;
 
 	padding-bottom: 5px;
-	border-bottom: 1px solid var(--selection-color);
 }
 
 /* card view / defaults */
