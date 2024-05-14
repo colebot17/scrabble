@@ -169,7 +169,7 @@
 				</div>
 				<span id="activeGamesListMessage">Please create an account or sign in.</span>
 				<div class="gamesListWrapper">
-					<div class="gamesList" id="activeGamesList"></div>
+					<div class="gamesList scrolledTop" id="activeGamesList" onscroll="if (this.scrollTop < 0.1) {this.classList.add('scrolledTop')} else {this.classList.remove('scrolledTop')}"></div>
 				</div>
 			</div>
 			<div class="gamesListBox hidden" id="inactiveGames">
@@ -182,7 +182,7 @@
 				</div>
 				<span id="inactiveGamesListMessage">Please create an account or sign in.</span>
 				<div class="gamesListWrapper">
-					<div class="gamesList" id="inactiveGamesList"></div>
+					<div class="gamesList scrolledTop" id="inactiveGamesList" onscroll="if (this.scrollTop < 0.1) {this.classList.add('scrolledTop')} else {this.classList.remove('scrolledTop')}"></div>
 				</div>
 			</div>
 		</div>

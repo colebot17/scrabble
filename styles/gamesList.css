@@ -18,6 +18,11 @@
 	gap: 10px;
 
 	overflow: auto;
+
+	border-top: 1px solid transparent;
+}
+.gamesList:not(.scrolledTop) {
+	border-top: 1px solid var(--selection-color);
 }
 .gamesListHeader {
 	display: grid;
