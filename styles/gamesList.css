@@ -12,7 +12,6 @@
 	display: contents;
 }
 .gamesList {
-	margin-top: 10px;
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: flex-start;
@@ -23,6 +22,9 @@
 .gamesListHeader {
 	display: grid;
 	grid-template-columns: 1fr 8fr 1fr;
+
+	padding-bottom: 5px;
+	border-bottom: 1px solid var(--selection-color);
 }
 
 /* card view / defaults */
