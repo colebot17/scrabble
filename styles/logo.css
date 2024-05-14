@@ -17,6 +17,10 @@
 
   user-select: none;
 }
+.scrabbleLogo.scrabbleLogoSmall {
+  --tile-height: 2rem;
+  --total-width: calc(calc(var(--tile-height) * var(--num-tiles)) + calc(calc(var(--tile-height) / 12) * var(--num-gaps)))
+}
 
 [data-signedin=loading] .scrabbleLogo {
   --animation-time: 0.37s;
