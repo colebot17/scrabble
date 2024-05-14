@@ -158,13 +158,13 @@
 
 		<div id="gamesCell" class="gridCell" data-displaymode="card">
 			<div class="gamesListBox" id="activeGames">
-				<div class="flex gap10">
+				<div class="gamesListHeader">
 					<button class="iconButton" id="gamesListRefreshButton" onclick="loadGamesList()">
 						<span class="material-symbols-rounded">refresh</span>
 					</button>
-					<h1 class="inline">Active Games</h1>
+					<h1 class="inline">Scrabble</h1>
 					<button class="iconButton" id="viewInactiveGamesButton" onclick="setGamesList('inactive')">
-						<span class="material-symbols-rounded">chevron_right</span>
+						<span class="material-symbols-rounded">inventory_2</span>
 					</button>
 				</div>
 				<span id="activeGamesListMessage">Please create an account or sign in.</span>
@@ -173,7 +173,8 @@
 				</div>
 			</div>
 			<div class="gamesListBox hidden" id="inactiveGames">
-				<div class="flex gap10">
+				<div class="gamesListHeader">
+					<span></span>
 					<button class="iconButton" id="activeGamesButton" onclick="setGamesList('active')">
 						<span class="material-symbols-rounded">chevron_left</span>
 					</button>

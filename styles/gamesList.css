@@ -20,6 +20,10 @@
 
 	overflow: auto;
 }
+.gamesListHeader {
+	display: grid;
+	grid-template-columns: 1fr 8fr 1fr;
+}
 
 /* card view / defaults */
 .gamesList .listGame, .gamesList .newGameCard {
