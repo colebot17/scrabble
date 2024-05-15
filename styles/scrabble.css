@@ -896,6 +896,11 @@ body.scrabble {
 	#addMoreToGameLink {
 		display: none;
 	}
+
+	/* games list header */
+	.headerTitleHolder {
+		margin: 0 5px;
+	}
 }
 
 /* mobile */
