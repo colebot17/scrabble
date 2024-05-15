@@ -49,7 +49,7 @@ if (count($owners) === 0) {
 }
 
 // if there are multiple owners, figure out which one to use based on the game turn (and then order)
-$owner = $owners[0]; // use the first one by default in case we cannot find a preferable owner
+$owner = $owners[0]["index"]; // use the first one by default in case we cannot find a preferable owner
 if (count($owners) > 1) {
     $sql = "SELECT turn, players FROM games WHERE id='$gameId'";
     $query = mysqli_query($conn, $sql);
