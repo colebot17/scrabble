@@ -899,7 +899,7 @@ body.scrabble {
 
 	/* games list header */
 	.headerTitleHolder {
-		margin: 0 5px;
+		margin: 0 5px!important;
 	}
 }
 
