@@ -159,16 +159,20 @@
 		<div id="gamesCell" class="gridCell" data-displaymode="card">
 			<div class="gamesListBox" id="activeGames">
 				<div class="gamesListHeader">
-					<button class="iconButton" id="viewInactiveGamesButton" onclick="setGamesList('inactive')" title="Inactive Games">
-						<span class="material-symbols-rounded">inventory_2</span>
-					</button>
+					<div class="flex">
+						<button class="iconButton" id="viewInactiveGamesButton" onclick="setGamesList('inactive')" title="Inactive Games">
+							<span class="material-symbols-rounded">inventory_2</span>
+						</button>
+					</div>
 					<div class="headerTitleHolder">
 						<div class="scrabbleLogoInline">S C R A B B L E</div>
 						<div class="bold">Active Games</div>
 					</div>
-					<button class="iconButton" id="gamesListRefreshButton" onclick="loadGamesList()">
-						<span class="material-symbols-rounded">refresh</span>
-					</button>
+					<div class="flex">
+						<button class="iconButton" id="gamesListRefreshButton" onclick="loadGamesList()">
+							<span class="material-symbols-rounded">refresh</span>
+						</button>
+					</div>
 				</div>
 				<span id="activeGamesListMessage">Please create an account or sign in.</span>
 				<div class="gamesListWrapper">
@@ -177,14 +181,18 @@
 			</div>
 			<div class="gamesListBox hidden" id="inactiveGames">
 				<div class="gamesListHeader">
-					<button class="iconButton" id="activeGamesButton" onclick="setGamesList('active')" title="Active Games">
-						<span class="material-symbols-rounded">home</span>
-					</button>
+					<div class="flex">
+						<button class="iconButton" id="activeGamesButton" onclick="setGamesList('active')" title="Active Games">
+							<span class="material-symbols-rounded">home</span>
+						</button>
+					</div>
 					<div class="headerTitleHolder">
 						<div class="scrabbleLogoInline">S C R A B B L E</div>
 						<div class="bold">Inactive Games</div>
 					</div>
-					<span></span>
+					<div class="flex">
+						<span></span>
+					</div>
 				</div>
 				<span id="inactiveGamesListMessage">Please create an account or sign in.</span>
 				<div class="gamesListWrapper">
