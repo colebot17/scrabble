@@ -25,11 +25,13 @@
 .scrabbleLogoInline {
   font-family: 'Eurostile';
   font-size: 2rem;
+  
   color: white;
   background-color: var(--tile-brown);
-  border-radius: 10px;
-  padding: 5px;
-  letter-spacing: 5px;
+
+  border-radius: 0.3em;
+  padding: 0.25em 0.5em;
+  word-spacing: 0.5em;
 }
 
 [data-signedin=loading] .scrabbleLogo {
