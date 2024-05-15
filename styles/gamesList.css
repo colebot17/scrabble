@@ -39,6 +39,8 @@
 	gap: 5px;
 
 	margin: 10px 5px;
+
+	container: inline-logo / inline-size;
 }
 
 /* card view / defaults */
