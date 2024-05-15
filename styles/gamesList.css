@@ -12,13 +12,35 @@
 	display: contents;
 }
 .gamesList {
-	margin-top: 10px;
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: flex-start;
 	gap: 10px;
 
 	overflow: auto;
+
+	border-top: 1px solid transparent;
+	transition: border-top-color 0.2s;
+}
+.gamesList:not(.scrolledTop) {
+	border-top: 1px solid var(--selection-color);
+}
+.gamesListHeader {
+	display: grid;
+	grid-template-columns: 1fr 8fr 1fr;
+
+	padding-bottom: 5px;
+}
+.headerTitleHolder {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+
+	margin: 10px 5px;
+
+	container: inline-logo / inline-size;
 }
 
 /* card view / defaults */

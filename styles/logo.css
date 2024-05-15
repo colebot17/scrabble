@@ -17,6 +17,28 @@
 
   user-select: none;
 }
+.scrabbleLogo.scrabbleLogoSmall {
+  --tile-height: 2rem;
+  --total-width: calc(calc(var(--tile-height) * var(--num-tiles)) + calc(calc(var(--tile-height) / 12) * var(--num-gaps)))
+}
+
+.scrabbleLogoInline {
+  font-family: 'Eurostile';
+  font-size: 2rem;
+
+  color: white;
+  background-color: var(--tile-brown);
+
+  border-radius: 0.3em;
+  padding: 0.25em 0.5em;
+  word-spacing: 0.3em;
+}
+
+@container inline-logo (max-width: 315px) {
+  .scrabbleLogoInline {
+    font-size: 10cqw;
+  }
+}
 
 [data-signedin=loading] .scrabbleLogo {
   --animation-time: 0.37s;

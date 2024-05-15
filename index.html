@@ -158,30 +158,45 @@
 
 		<div id="gamesCell" class="gridCell" data-displaymode="card">
 			<div class="gamesListBox" id="activeGames">
-				<div class="flex gap10">
-					<button class="iconButton" id="gamesListRefreshButton" onclick="loadGamesList()">
-						<span class="material-symbols-rounded">refresh</span>
-					</button>
-					<h1 class="inline">Active Games</h1>
-					<button class="iconButton" id="viewInactiveGamesButton" onclick="setGamesList('inactive')">
-						<span class="material-symbols-rounded">chevron_right</span>
-					</button>
+				<div class="gamesListHeader">
+					<div class="flex">
+						<button class="iconButton" id="viewInactiveGamesButton" onclick="setGamesList('inactive')" title="Inactive Games">
+							<span class="material-symbols-rounded">inventory_2</span>
+						</button>
+					</div>
+					<div class="headerTitleHolder">
+						<div class="scrabbleLogoInline">S C R A B B L E</div>
+						<div class="bold">Active Games</div>
+					</div>
+					<div class="flex">
+						<button class="iconButton" id="gamesListRefreshButton" onclick="loadGamesList()">
+							<span class="material-symbols-rounded">refresh</span>
+						</button>
+					</div>
 				</div>
 				<span id="activeGamesListMessage">Please create an account or sign in.</span>
 				<div class="gamesListWrapper">
-					<div class="gamesList" id="activeGamesList"></div>
+					<div class="gamesList scrolledTop" id="activeGamesList" onscroll="if (this.scrollTop < 0.1) {this.classList.add('scrolledTop')} else {this.classList.remove('scrolledTop')}"></div>
 				</div>
 			</div>
 			<div class="gamesListBox hidden" id="inactiveGames">
-				<div class="flex gap10">
-					<button class="iconButton" id="activeGamesButton" onclick="setGamesList('active')">
-						<span class="material-symbols-rounded">chevron_left</span>
-					</button>
-					<h1 class="inline">Inactive Games</h1>
+				<div class="gamesListHeader">
+					<div class="flex">
+						<button class="iconButton" id="activeGamesButton" onclick="setGamesList('active')" title="Active Games">
+							<span class="material-symbols-rounded">home</span>
+						</button>
+					</div>
+					<div class="headerTitleHolder">
+						<div class="scrabbleLogoInline">S C R A B B L E</div>
+						<div class="bold">Inactive Games</div>
+					</div>
+					<div class="flex">
+						<span></span>
+					</div>
 				</div>
 				<span id="inactiveGamesListMessage">Please create an account or sign in.</span>
 				<div class="gamesListWrapper">
-					<div class="gamesList" id="inactiveGamesList"></div>
+					<div class="gamesList scrolledTop" id="inactiveGamesList" onscroll="if (this.scrollTop < 0.1) {this.classList.add('scrolledTop')} else {this.classList.remove('scrolledTop')}"></div>
 				</div>
 			</div>
 		</div>
