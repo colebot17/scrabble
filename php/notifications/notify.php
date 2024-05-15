@@ -8,7 +8,7 @@ function notifyByEmail($conn, $user, $subject, $body) {
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
     if (!$row) {
-        return Array("errorLevel" => 2, "message" => "User not found");
+        return json_encode(Array("errorLevel" => 2, "message" => "User not found"));
     }
 
     $methods = json_decode($row['notificationMethods'], true);

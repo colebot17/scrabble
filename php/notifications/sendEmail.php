@@ -49,9 +49,9 @@ function sendEmail($to, $subject, $body, $html = true) {
             $mail->AltBody = $body;
         
             $mail->send();
-            exit(Array("errorLevel" => 0, "message" => "Email Sent"));
+            exit(json_encode(Array("errorLevel" => 0, "message" => "Email Sent")));
         } catch (Exception $e) {
-            exit(Array("errorLevel" => 2, "message" => "There was an error sending the email: " . $mail->ErrorInfo));
+            exit(json_encode(Array("errorLevel" => 2, "message" => "There was an error sending the email: " . $mail->ErrorInfo)));
         }
     }
 }
