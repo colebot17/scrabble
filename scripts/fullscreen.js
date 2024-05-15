@@ -7,7 +7,6 @@ function fullScreenExit() {
 }
 
 function toggleFullScreen() {
-	console.log(document.fullScreenElement);
 	if (!document.fullscreenElement) {
 		fullScreen();
 	} else if (document.exitFullscreen) {
