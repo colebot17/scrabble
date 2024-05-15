@@ -124,10 +124,10 @@ for ($i = 0; $i < count($players); $i++) {
 
 [$emailSubject, $emailBody] = newGameEmail("", $gameId, $playerNames);
 
-for ($i = 0; $i < count($playerList); $i++) {
-	if ($playerList[$i] === $user) continue;
+for ($i = 0; $i < count($players); $i++) {
+	if ($players[$i]["id"] == $user) continue; // don't send an email to the one who created the game
 
-	notifyByEmail($conn, $playerList[$i], $emailSubject, $emailBody);
+	notifyByEmail($conn, $players[$i]["id"], $emailSubject, $emailBody);
 }
 
 // close the connection
