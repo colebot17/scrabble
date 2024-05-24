@@ -69,8 +69,8 @@
 
     ?>
 
-    <h4>Add Email Notification Method</h4>
     <?php echo '<form method="POST" action="addNotificationMethod.php?user=' . $user .'">'; ?>
+        <label>Add Email Notification Method</label>
         <input type="email" name="address" placeholder="Email...">
         <input type="hidden" name="type" value="email">
         <select name="confirm">
