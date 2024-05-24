@@ -16,7 +16,7 @@
         <?php echo '<input type="text" name="gameId"' . (array_key_exists('game', $_GET) ? ' value="' . $_GET['game'] . '"' : '') . ' placeholder="Game Id">';?>
         <button style="font-weight:bold" class="danger">Delete Game</button>
     </form>
-    <label class='flash danger'>Warning: This action will affect the users of the site and cannot be undone.</label>
+    <label class="flash danger">Warning: This action will affect the users of the site and cannot be undone.</label>
 
     <?php
 
