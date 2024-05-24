@@ -20,14 +20,14 @@
 
     if (array_key_exists('invalidate', $_POST)) {
         setcookie('password', '', time() - 3600);
-        echo 'Session Invalidated';
+        echo '<span class="success">Session Invalidated</span>';
     } else if (array_key_exists('password', $_POST)) {
         if ($_POST['password'] === '96819822') {
             setcookie('password', '96819822');
-            echo 'Redirecting...';
+            echo '<span>Redirecting...</span>';
             header('Location: index.php');
         } else {
-            echo '<span style="color:red">Incorrect Password</span>';
+            echo '<span class="danger">Incorrect Password</span>';
         }
     }
     
