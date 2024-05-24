@@ -16,7 +16,7 @@
         <?php echo '<input type="text" name="username"' . (array_key_exists('user', $_GET) ? ' value="' . $_GET['user'] . '"' : '') . ' placeholder="Username">';?>
         <button style="font-weight:bold" class="danger">Delete Account</button>
     </form>
-    <label>Warning: This action will affect the users of the site and cannot be undone.</label>
+    <label class="flash danger">Warning: This action will affect the users of the site and cannot be undone.</label>
 
     <?php
 
