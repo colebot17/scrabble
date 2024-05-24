@@ -58,8 +58,8 @@ class Animation {
 			}
 		}
 		
-		let smaller = Math.min(start, end);
-		let larger = Math.max(start, end);
+		let smaller = Math.min(this.start, this.end);
+		let larger = Math.max(this.start, this.end);
 
 		return Math.max(Math.min(frame, larger), smaller);
 	}
