@@ -1000,7 +1000,11 @@ function checkPoints() {
 	addRegion({
 		start: [0, 0],
 		end: [14, 14],
-		pulse: new Animation(750, 0, 0, 1, "loop"),
+		pulse: new Animation(750, 0, 0, 1, {
+			curve: "linear", curveOptions: {
+				boundsMode: "loop"
+			}
+		}),
 		removeCondition: () => removeLoadingAnimation
 	});
 

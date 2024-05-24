@@ -63,7 +63,14 @@ function animateMoves(startingAt = 0) {
 	const duration = 750;
 	let animations = {};
 	for (let i = startingAt; i < game.turn; i++) {
-		animations[i] = new Animation(duration, delay);
+		animations[i] = new Animation(duration, delay, 0, 1, {
+			curve: "spring",
+			curveOptions: {
+				mass: 1,
+				stiffness: 3,
+				damping: 3
+			}
+		});
 		delay += duration;
 	}
 
@@ -746,7 +753,7 @@ function updateDisplay() {
 	// destruct if necessary
 	if (canvas.destruct) {
 		canvas = {};
-		return;
+		return; // this will exit without calling requestAnimationFrame()
 	}
 
 	// draw the background for the board
