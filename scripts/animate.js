@@ -45,6 +45,10 @@ class Animation {
 			const expCurve = Math.E ** (-s * t);
 
 			frame = 1 - cosCurve * expCurve;
+
+			// restrict the beginning (to prevent ginormous values before delay kicks in)
+			const smaller = Math.min(this.start, this.end);
+			frame = Math.max(frame, smaller);
 		} else { // linear
 			let r = this.end - this.start;
 			let t = (document.timeline.currentTime - this.timelineStart) / this.duration;
@@ -54,8 +58,8 @@ class Animation {
 			if (this.options.curveOptions.boundsMode === "loop") {
 				frame = ((r * t) % r) + this.start;
 			} else {
-				let smaller = Math.min(this.start, this.end);
-				let larger = Math.max(this.start, this.end);
+				const smaller = Math.min(this.start, this.end);
+				const larger = Math.max(this.start, this.end);
 		
 				frame = Math.max(Math.min(frame, larger), smaller);
 			}
