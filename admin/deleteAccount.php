@@ -11,14 +11,12 @@
 </head>
 <body>
     <h3>This is the admin panel for scrabble.colebot.com<br><a href="index.php">Admin Home</a></h3>
-    <h1 style="color:red">Delete Account</h1>
+    <h1 class="danger">Delete Account</h1>
     <form method="POST">
         <?php echo '<input type="text" name="username"' . (array_key_exists('user', $_GET) ? ' value="' . $_GET['user'] . '"' : '') . ' placeholder="Username">';?>
-        <br>
-        <button style="color:red;font-weight:bold">Delete Account</button>
-        <br><br>
-        <label>Warning: This action will affect the users of the site and cannot be undone.</label>
+        <button style="font-weight:bold" class="danger">Delete Account</button>
     </form>
+    <label>Warning: This action will affect the users of the site and cannot be undone.</label>
 
     <?php
 
