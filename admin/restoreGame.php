@@ -14,7 +14,6 @@
     <h1>Restore Game</h1>
     <form method="POST">
         <?php echo '<input type="text" name="gameId"' . (array_key_exists('game', $_GET) ? ' value="' . $_GET['game'] . '"' : '') . ' placeholder="Game Id">';?>
-        <br>
         <button>Restore Game</button>
     </form>
 

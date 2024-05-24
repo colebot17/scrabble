@@ -18,7 +18,6 @@
     if (!array_key_exists('gameId', $_GET)) {
         echo '<form method="GET">';
             echo '<input type="number" name="gameId" placeholder="Game ID">';
-            echo '<br>';
             echo '<button>Continue</button>';
         echo '</form>';
         exit();
