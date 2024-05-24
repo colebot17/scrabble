@@ -19,11 +19,11 @@ class Animation {
 		this.duration = duration;
 		this.start = start;
 		this.end = end;
-		this.options = {...options, ...DEFAULT_OPTIONS};
+		this.options = {...DEFAULT_OPTIONS, ...options};
 
 		{ // sort out default options specific to the selected curve
 			const specified = this.options.curveOptions;
-			this.options.curveOptions = {...specified, ...DEFAULT_CURVE_OPTIONS[this.options.curve]};
+			this.options.curveOptions = {...DEFAULT_CURVE_OPTIONS[this.options.curve], ...specified};
 		}
 	}
 	
