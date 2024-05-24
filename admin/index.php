@@ -23,7 +23,7 @@
         <button>Get Info</button>
     </form>
     <form action="validate.php" method="POST">
-        <h3>Credentials</h3>
+        <label>Credentials</label>
         <input type="hidden" name="invalidate" value="true">
         <button>Invalidate</button>
     </form>
