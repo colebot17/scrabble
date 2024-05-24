@@ -66,10 +66,10 @@ class Animation {
 	
 	isActive() {
 		const frame = this.getFrame();
-		return frame === end || frame === start;
+		return frame === this.end || frame === this.start;
 	}
 	isComplete() {
 		const frame = this.getFrame();
-		return frame === end;
+		return frame === this.end;
 	}
 }
