@@ -29,7 +29,7 @@ class Animation {
 	
 	getFrame() {
 		// prevent division by zero
-		if (this.duration === 0) return end;
+		if (this.duration === 0) return this.end;
 
 		let frame;
 		if (this.options.curve === "spring") {
@@ -41,18 +41,18 @@ class Animation {
 
 			const phaseShift = Math.acos(1 / (1.2 * m));
 
-			const cosCurve = 1.2 * this.mass * Math.cos((2*Math.PI * t * d) + phaseShift);
+			const cosCurve = 1.2 * m * Math.cos((2*Math.PI * t * d) + phaseShift);
 			const expCurve = Math.E ** (-s * t);
 
 			frame = 1 - cosCurve * expCurve;
 		} else { // linear
-			let r = end - start;
+			let r = this.end - this.start;
 			let t = (document.timeline.currentTime - this.timelineStart) / this.duration;
 	
-			frame = (r * t) + start;
+			frame = (r * t) + this.start;
 	
 			if (this.options.curveOptions.boundsMode === "loop") {
-				frame = ((r * t) % r) + start;
+				frame = ((r * t) % r) + this.start;
 				// values will be restricted anyways at the end
 				// this should not matter when using loop because it is applied earlier
 			}
