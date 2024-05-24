@@ -14,9 +14,7 @@
     <h1>Change Username</h1>
     <form method="POST">
         <?php echo '<input type="text" name="username"' . (array_key_exists('user', $_GET) ? ' value="' . $_GET['user'] . '"' : '') . ' placeholder="Username">';?>
-        <br>
         <input type="text" name="newUsername" placeholder="New Username">
-        <br>
         <button>Change Username</button>
     </form>
 
