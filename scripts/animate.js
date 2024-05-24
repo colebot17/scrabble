@@ -53,15 +53,15 @@ class Animation {
 	
 			if (this.options.curveOptions.boundsMode === "loop") {
 				frame = ((r * t) % r) + this.start;
-				// values will be restricted anyways at the end
-				// this should not matter when using loop because it is applied earlier
+			} else {
+				let smaller = Math.min(this.start, this.end);
+				let larger = Math.max(this.start, this.end);
+		
+				frame = Math.max(Math.min(frame, larger), smaller);
 			}
 		}
 		
-		let smaller = Math.min(this.start, this.end);
-		let larger = Math.max(this.start, this.end);
-
-		return Math.max(Math.min(frame, larger), smaller);
+		return frame;
 	}
 	
 	isActive() {
