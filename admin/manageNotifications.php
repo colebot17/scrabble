@@ -70,7 +70,7 @@
     ?>
 
     <?php echo '<form method="POST" action="addNotificationMethod.php?user=' . $user .'">'; ?>
-        <label>Add Email Notification Method</label>
+        <legend>Add Email Notification Method</legend>
         <input type="email" name="address" placeholder="Email...">
         <input type="hidden" name="type" value="email">
         <select name="confirm">
