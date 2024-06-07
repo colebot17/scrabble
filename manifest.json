@@ -25,10 +25,9 @@
     "scope": "/",
     "theme_color": "#F2F5FF",
     "shortcuts": [],
-    "protocol_handlers": [
+    "url_handlers": [
         {
-            "protocol": "web+scrabble",
-            "url": "/?game=%s"
+            "origin": "https://scrabble.colebot.com"
         }
     ]
 }

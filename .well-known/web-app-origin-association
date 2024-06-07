@@ -1,0 +1,11 @@
+{
+    "web_apps": [
+        {
+            "manifest": "https://scrabble.colebot.com/manifest.json",
+            "details": {
+                "paths": ["*"],
+                "exclude_paths": []
+            }
+        }
+    ]
+}
