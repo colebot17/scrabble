@@ -44,7 +44,7 @@ class Animation {
 
 				const phaseShift = Math.acos(1 / (1.2 * m));
 
-				const cosCurve = 1.2 * m * Math.cos((2*Math.PI * t * d) + phaseShift);
+				const cosCurve = 1.2 * m * Math.cos((2*Math.PI * t / d) + phaseShift);
 				const expCurve = Math.E ** (-s * t);
 
 				frame = 1 - cosCurve * expCurve;
