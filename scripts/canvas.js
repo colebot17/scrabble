@@ -53,6 +53,8 @@ function canvasInit() {
 	canvas.initialized = true;
 }
 
+let gMass = 1, gStiff = 1, gDamp = 1;
+
 function animateMoves(startingAt = 0) {
 	if (canvas.movesAnimating) {
 		stopAnimatingMoves();
@@ -66,9 +68,9 @@ function animateMoves(startingAt = 0) {
 		animations[i] = new Animation(duration, delay, 0, 1, {
 			curve: "spring",
 			curveOptions: {
-				mass: 1,
-				stiffness: 2,
-				damping: 5
+				mass: gMass,
+				stiffness: gStiff,
+				damping: gDamp
 			}
 		});
 		delay += duration;
