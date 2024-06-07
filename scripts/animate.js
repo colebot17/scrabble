@@ -35,20 +35,24 @@ class Animation {
 		if (this.options.curve === "spring") {
 			const t = (document.timeline.currentTime - this.timelineStart) / this.duration;
 
-			const m = this.options.curveOptions.mass;
-			const s = this.options.curveOptions.stiffness;
-			const d = this.options.curveOptions.damping;
+			if (t <= 0) {
+				frame = this.start;
+			} else {
+				const m = this.options.curveOptions.mass;
+				const s = this.options.curveOptions.stiffness;
+				const d = this.options.curveOptions.damping;
 
-			const phaseShift = Math.acos(1 / (1.2 * m));
+				const phaseShift = Math.acos(1 / (1.2 * m));
 
-			const cosCurve = 1.2 * m * Math.cos((2*Math.PI * t * d) + phaseShift);
-			const expCurve = Math.E ** (-s * t);
+				const cosCurve = 1.2 * m * Math.cos((2*Math.PI * t * d) + phaseShift);
+				const expCurve = Math.E ** (-s * t);
 
-			frame = 1 - cosCurve * expCurve;
+				frame = 1 - cosCurve * expCurve;
 
-			// restrict the beginning (to prevent ginormous values before delay kicks in)
-			const smaller = Math.min(this.start, this.end);
-			frame = Math.max(frame, smaller);
+				// restrict the beginning (to prevent ginormous values before delay kicks in)
+				const smaller = Math.min(this.start, this.end);
+				frame = Math.max(frame, smaller);
+			}
 		} else { // linear
 			let r = this.end - this.start;
 			let t = (document.timeline.currentTime - this.timelineStart) / this.duration;
