@@ -67,8 +67,8 @@ function animateMoves(startingAt = 0) {
 			curve: "spring",
 			curveOptions: {
 				mass: 1,
-				stiffness: 3,
-				damping: 3
+				stiffness: 2,
+				damping: 5
 			}
 		});
 		delay += duration;
