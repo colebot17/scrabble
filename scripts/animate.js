@@ -36,7 +36,7 @@ class Animation {
 			const t = (document.timeline.currentTime - this.timelineStart) / this.duration;
 
 			if (t <= 0) {
-				frame = this.start;
+				frame = this.start; // prevent ginormous values before delay kicks in
 			} else {
 				const m = this.options.curveOptions.mass;
 				const s = this.options.curveOptions.stiffness;
@@ -49,7 +49,6 @@ class Animation {
 
 				frame = 1 - cosCurve * expCurve;
 
-				// restrict the beginning (to prevent ginormous values before delay kicks in)
 				const smaller = Math.min(this.start, this.end);
 				frame = Math.max(frame, smaller);
 			}
