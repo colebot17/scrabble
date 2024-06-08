@@ -595,22 +595,33 @@ function endGame() {
 					textModal("Error", res.message);
 					return;
 				}
-				setGameEndVote(game.currentPlayerIndex, !voted);
+				//setGameEndVote(game.currentPlayerIndex, !voted);
+				const g = account.games.find(a => a.id === game.id);
+				const p = g.players.find(a => a.id === account.id);
+				p.endGameRequest = !voted; // remember voted represents whether the user had *already* voted
+
 				if (res?.data?.gameEnded) {
 					if (res.data.gameDeleted) {
 						showEndGameScreen({
 							gameDeleted: true,
 							winnerIndicies: []
 						});
+						const gId = account.games.findIndex(a => a.id === game.id);
+						account.games.splice(gId, 1);
 					} else {
 						showEndGameScreen({
 							reason: "vote",
 							gameDeleted: false,
 							winnerIndicies: res.data.winnerIndicies
 						});
+						g.inactive = true;
 					}
+					updateGamesList();
 					return;
 				}
+
+				updateGamesList();
+				
 				textModal("End Game", res.message);
 			}).catch(err => {
 				throw new Error(err);
