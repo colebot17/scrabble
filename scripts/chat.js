@@ -284,7 +284,7 @@ function readChat() {
 		// update the local read marker after a short timeout
 		setTimeout(() => {
 			// mark chat as read
-			game.players.find(el => el.id === account.id).chatRead = game.chat.length - 1;
+			game.players.find(a => a.id === account.id).chatRead = game.chat.length - 1;
 
 			// remove the marker
 			const marker = document.getElementsByClassName('unreadMessageMarker')[0];
@@ -302,8 +302,7 @@ function readChat() {
 			document.getElementById('showChatButton').classList.remove('badge');
 
 			// remove the chat unread marker from the games list
-			const game = account.games.find(a => a.id === game.id);
-			game.chatUnread = false;
+			account.games.find(a => a.id === game.id).chatUnread = false;
 			updateGamesList();
 		}, 1000);
 	}).catch(() => {
