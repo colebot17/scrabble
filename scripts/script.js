@@ -828,7 +828,6 @@ function makeMove() {
 
 			// load the game and store its progress in a promise so we can do some stuff once it's done
 			const lgPromise = loadGame(game.id, "moveMade");
-			loadGamesList(); // also load the games list on the outside for when the user will be able to see it
 
 			if (res.status === 1) {
 				textModal("Game Over!", res.message);
@@ -863,6 +862,17 @@ function makeMove() {
 				// restore the chat draft
 				document.getElementById('chatInput').value = chatDraft;
 				chatBoxResize();
+
+				// update the status of the game in the games list
+				const g = account.games.find(a => a.id === game.id);
+				g.turn++;                                            // increment the turn
+
+				const p = g.players.find(a => a.id === account.id); // add the new points
+				p.points += newPoints; 
+
+				g.lastUpdate = new Date();                           // set the last update time
+			
+				updateGamesList();                                   // show the changes we made
 			});
 		} else {
 			textModal("Error", res.message);
