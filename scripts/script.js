@@ -213,7 +213,9 @@ function renameGame(gameId, loc) {
 
 function setGameName(gameId, gameName) {
 	// update in account games list
-	account.games.find(a => a.id === gameId).name = gameName;
+	const g = account.games.find(a => a.id === gameId);
+	g.name = gameName;
+	g.lastUpdate = new Date();
 
 	// update the games list
 	updateGamesList();
