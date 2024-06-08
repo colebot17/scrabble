@@ -302,7 +302,9 @@ function readChat() {
 			document.getElementById('showChatButton').classList.remove('badge');
 
 			// remove the chat unread marker from the games list
-			account.games.find(a => a.id === game.id).chatUnread = false;
+			const g = account.games.find(a => a.id === game.id);
+			g.chatUnread = false;
+			g.lastUpdate = new Date();
 			updateGamesList();
 		}, 1000);
 	}).catch(() => {
