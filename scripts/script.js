@@ -215,7 +215,8 @@ function setGameName(gameId, gameName) {
 	// update in account games list
 	const g = account.games.find(a => a.id === gameId);
 	g.name = gameName;
-	g.lastUpdate = new Date();
+	//g.lastUpdate = new Date();
+	// ^^ we aren't doing this because it causes the layout to shift when renaming a game from the list
 
 	// update the games list
 	updateGamesList();
