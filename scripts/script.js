@@ -213,7 +213,10 @@ function renameGame(gameId, loc) {
 
 function setGameName(gameId, gameName) {
 	// update in account games list
-	account.games.find(a => a.id === gameId).name = gameName;
+	const g = account.games.find(a => a.id === gameId);
+	g.name = gameName;
+	//g.lastUpdate = new Date();
+	// ^^ we aren't doing this because it causes the layout to shift when renaming a game from the list
 
 	// update the games list
 	updateGamesList();
@@ -592,22 +595,33 @@ function endGame() {
 					textModal("Error", res.message);
 					return;
 				}
-				setGameEndVote(game.currentPlayerIndex, !voted);
+				//setGameEndVote(game.currentPlayerIndex, !voted);
+				const g = account.games.find(a => a.id === game.id);
+				const p = g.players.find(a => a.id === account.id);
+				p.endGameRequest = !voted; // remember voted represents whether the user had *already* voted
+
 				if (res?.data?.gameEnded) {
 					if (res.data.gameDeleted) {
 						showEndGameScreen({
 							gameDeleted: true,
 							winnerIndicies: []
 						});
+						const gId = account.games.findIndex(a => a.id === game.id);
+						account.games.splice(gId, 1);
 					} else {
 						showEndGameScreen({
 							reason: "vote",
 							gameDeleted: false,
 							winnerIndicies: res.data.winnerIndicies
 						});
+						g.inactive = true;
 					}
+					updateGamesList();
 					return;
 				}
+
+				updateGamesList();
+				
 				textModal("End Game", res.message);
 			}).catch(err => {
 				throw new Error(err);
@@ -828,17 +842,30 @@ function makeMove() {
 
 			// load the game and store its progress in a promise so we can do some stuff once it's done
 			const lgPromise = loadGame(game.id, "moveMade");
-			loadGamesList(); // also load the games list on the outside for when the user will be able to see it
 
-			if (res.status === 1) {
-				textModal("Game Over!", res.message);
-			}
-
-			// calculate the number of new points
+			// calculate the number of new points earned
 			let newPoints = 0;
 			for (let i = 0; i < res.data.newWords.length; i++) {
 				newPoints += res.data.newWords[i].points;
 			}
+
+			// this is the game in the account games list
+			// we will use this to update the games list without making a new request
+			const g = account.games.find(a => a.id === game.id);
+
+			if (res.status === 1) {
+				textModal("Game Over!", res.message);
+
+				g.inactive = true;
+			} else { // the turn should not be updated when the game ends (not that it really matters)
+				g.turn++;
+			}
+			
+			const p = g.players.find(a => a.id === account.id); // add the new points
+			p.points += newPoints; 
+
+			g.lastUpdate = new Date();
+			updateGamesList(); // show the updated game in the games list
 
 			// once the game has been loaded,
 			lgPromise.then(() => {
@@ -862,7 +889,7 @@ function makeMove() {
 
 				// restore the chat draft
 				document.getElementById('chatInput').value = chatDraft;
-				chatBoxResize();
+				chatBoxResize();                            // show the changes we made
 			});
 		} else {
 			textModal("Error", res.message);
