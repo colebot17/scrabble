@@ -13,9 +13,9 @@ if ($conn->connect_error) {
 }
 
 // get data from POST
-$user = $_POST['user'];
+$user = (int)$_POST['user'];
 $pwd = $_POST['pwd'];
-$gameId = $_POST['gameId'];
+$gameId = (int)$_POST['gameId'];
 
 // check password
 require "verifyPassword.php";
@@ -39,17 +39,24 @@ $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $methods = json_decode($row['notificationMethods'], true);
 
-if (count($methods) === 0) {
-    exit(json_encode(
-        Array(
-            "errorLevel" => 1,
-            "message" => "This player cannot be nudged."
-        )
-    ));
+// prevent self-nudging
+if ($user == $currentPlayerId) {
+    exit('{"errorLevel":1,"message":"You cannot nudge yourself"}');
 }
 
+// make sure the user has a way to be notified
+$hasEnabledMethods = false;
+for ($i = 0; $i < count($methods); $i++) {
+    if (!$methods[$i]["disabled"]) {
+        $hasEnabledMethods = true;
+        break;
+    }
+}
+if (!$hasEnabledMethods) {
+    exit('{"errorLevel":1,"message":"This player cannot be nudged"}');
+}
 
-// gather information
+// gather information for notification
 $un = "";
 $playerList = Array();
 for ($i = 0; $i < count($players); $i++) {
