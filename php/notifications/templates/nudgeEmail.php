@@ -2,7 +2,7 @@
 
 require "gameCard.php";
 
-function nudgeEmail($nudgingPlayerName, $nudgedPlayerName, $gameName, $gameId, $playerNames) {
+function nudgeEmail($nudgingPlayerName, $gameName, $gameId, $playerNames) {
     $gameCard = gameCard($gameName, $gameId, $playerNames);
 
     $body = '

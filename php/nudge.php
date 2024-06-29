@@ -27,7 +27,7 @@ if (!verifyPassword($conn, $user, $pwd)) {
 $sql = "SELECT players, turn, name FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
-if (!$row) exit(json_encode(Array("errorLevel" => 2, "message" => "Invalid game id.")));
+if (!$row) exit('{"errorLevel":2,"message":"Invalid Game Id"}');
 $players = json_decode($row['players'], true);
 $totalTurn = $row['turn'];
 $turn = $totalTurn % count($players);
@@ -66,7 +66,7 @@ for ($i = 0; $i < count($players); $i++) {
 require "notifications/notify.php";
 require "notifications/templates/nudgeEmail.php";
 
-[$emailSubject, $emailBody] = nudgeEmail($un, $playerList[$turn], $gameName, $gameId, $playerList);
+[$emailSubject, $emailBody] = nudgeEmail($un, $gameName, $gameId, $playerList);
 notifyByEmail($conn, $currentPlayerId, $emailSubject, $emailBody);
 
 mysqli_close($conn);
