@@ -110,7 +110,7 @@ for ($i = 0; $i < count($chat); $i++) {
 
 // determine if the nudge button should be enabled
 require "canNudge.php";
-$nudgeEnabled = canNudge($conn, $user, $gameId);
+$nudgeEnabled = canNudge($conn, $user, $gameId)[0];
 
 // put it all together
 $obj = Array(
