@@ -23,7 +23,7 @@ function canNudge($conn, $user, $gameId) {
     $updates = json_decode($row['updates'], true);
 
     // get information about the current turn player
-    $sql = "SELECT notificationMethods FROM accounts WHERE row='$currentTurnPlayerId'";
+    $sql = "SELECT notificationMethods FROM accounts WHERE id='$currentTurnPlayerId'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
     $methods = json_decode($row['notificationMethods'], true);
