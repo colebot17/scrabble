@@ -23,40 +23,20 @@ if (!verifyPassword($conn, $user, $pwd)) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
-// make sure that the current player has a notification method
-$sql = "SELECT players, turn, name FROM games WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-if (!$row) exit('{"errorLevel":2,"message":"Invalid Game Id"}');
-$players = json_decode($row['players'], true);
-$totalTurn = $row['turn'];
-$turn = $totalTurn % count($players);
-$gameName = $row['name'];
-
-$currentPlayerId = $players[$turn]['id'];
-$sql = "SELECT notificationMethods FROM accounts WHERE id='$currentPlayerId'";
-$query = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($query);
-$methods = json_decode($row['notificationMethods'], true);
-
-// prevent self-nudging
-if ($user == $currentPlayerId) {
-    exit('{"errorLevel":1,"message":"You cannot nudge yourself"}');
+// make sure the nudge is valid
+require "canNudge.php";
+$res = canNudge($conn, $user, $gameId);
+if (!$res[0]) {
+    exit('{"errorLevel":1,"message":"' . $res[1] . '"}');
 }
 
-// make sure the user has a way to be notified
-$hasEnabledMethods = false;
-for ($i = 0; $i < count($methods); $i++) {
-    if (!$methods[$i]["disabled"]) {
-        $hasEnabledMethods = true;
-        break;
-    }
-}
-if (!$hasEnabledMethods) {
-    exit('{"errorLevel":1,"message":"This player cannot be nudged"}');
-}
 
 // gather information for notification
+$sql = "SELECT players FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$players = json_decode($row['players'], true);
+
 $un = "";
 $playerList = Array();
 for ($i = 0; $i < count($players); $i++) {
@@ -69,7 +49,7 @@ for ($i = 0; $i < count($players); $i++) {
 }
 
 
-// send a nudge notification to the player
+// send the nudge notification
 require "notifications/notify.php";
 require "notifications/templates/nudgeEmail.php";
 
@@ -82,3 +62,17 @@ echo json_encode(Array(
     "errorLevel" => 0,
     "message" => "You nudged $playerList[$turn] to make their move"
 ));
+
+
+
+// add a nudge update to the updates list
+
+$updateData = Array(
+    "nudgingPlayer" => $user,
+    "nudgedPlayer" => $currentPlayerId
+);
+
+require "addUpdate.php";
+addUpdate($conn, $gameId, "nudge", $updateData);
+
+mysqli_close($conn);

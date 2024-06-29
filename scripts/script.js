@@ -700,7 +700,29 @@ function gameInit() {
 	canvas.gameBannerParams = gameBannerParams;
 
 	// show the game info
+	updateGameInfo();
 
+	//setTimeout(startChangeCheck, 3000);
+
+	chatInit();
+
+	updateMoveHistory();
+
+	document.getElementsByClassName('moreGameControls')[0].removeAttribute('open');
+
+	setCanvasSize();
+
+	setMoveButtonEnablement();
+
+	loadDraft();
+
+	if (!account.tutorials?.firstGame) {
+		startTutorial(firstGameTutorial);
+		setTutorial('firstGame', true);
+	}
+}
+
+function updateGameInfo() {
 	// start with the language, if not english
 	let gameInfo = game.lang !== account.defaultLang ? /* html */ `
 		<div class="gameLanguageBox bold">
@@ -768,6 +790,16 @@ function gameInit() {
 		`;
 	}
 
+	// add the nudge button if it is available
+	if (game.nudgeEnabled) {
+		gameInfo += /* html */ `
+			<div class="nudgeContainer flex col gap5">
+				<span>It's been ${game.players[turnIndex].name}'s turn for a while</span>
+				<button class="highlight" id="nudgeButton" onclick="nudge()">Give them a nudge</button>
+			</div>
+		`;
+	}
+
 	gameInfo += `</div>`;
 
 	// set the content of the game info box
@@ -788,25 +820,6 @@ function gameInit() {
 	// show the correct text for the skip turn / exchange letters button
 	const skipTurnButton = document.getElementById('skipTurnButton');
 	skipTurnButton.textContent = game.lettersLeft <= 0 ? 'Skip Turn' : 'Exchange Letters';
-
-	setTimeout(startChangeCheck, 3000);
-
-	chatInit();
-
-	updateMoveHistory();
-
-	document.getElementsByClassName('moreGameControls')[0].removeAttribute('open');
-
-	setCanvasSize();
-
-	setMoveButtonEnablement();
-
-	loadDraft();
-
-	if (!account.tutorials?.firstGame) {
-		startTutorial(firstGameTutorial);
-		setTutorial('firstGame', true);
-	}
 }
 
 function getPlayerLastTurn() {

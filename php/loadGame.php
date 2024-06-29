@@ -108,6 +108,10 @@ for ($i = 0; $i < count($chat); $i++) {
 	}
 }
 
+// determine if the nudge button should be enabled
+require "canNudge.php";
+$nudgeEnabled = canNudge($conn, $user, $gameId);
+
 // put it all together
 $obj = Array(
 	"id"           => (int)$gameId,
@@ -122,7 +126,8 @@ $obj = Array(
 	"creationDate" => $creationDate,
 	"endDate"      => ($inactive ? $endDate : null),
 	"chat"         => $chat,
-	"updateNumber" => $updateNumber
+	"updateNumber" => $updateNumber,
+	"nudgeEnabled" => $nudgeEnabled
 );
 
 // get the draft
@@ -140,5 +145,3 @@ echo json_encode($res);
 
 // close the connection
 $conn->close();
-
-?>
