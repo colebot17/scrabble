@@ -58,7 +58,7 @@ for ($i = 0; $i < count($players); $i++) {
 	$query = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($query);
 	$playerList[] = $row['name'];
-	if ($pid === $user) $un = $row['name'];
+	if ($pid == $user) $un = $row['name'];
 }
 
 
