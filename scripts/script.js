@@ -793,9 +793,8 @@ function updateGameInfo() {
 	// add the nudge button if it is available
 	if (game.nudgeEnabled) {
 		gameInfo += /* html */ `
-			<div class="nudgeContainer flex col gap5">
-				<span>It's been ${game.players[turnIndex].name}'s turn for a while</span>
-				<button class="highlight" id="nudgeButton" onclick="nudge()">Give them a nudge</button>
+			<div class="nudgeContainer flex col noGap">
+				<button class="highlight" id="nudgeButton" onclick="nudge()">Nudge ${game.players[turnIndex].name}</button>
 			</div>
 		`;
 	}
