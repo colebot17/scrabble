@@ -44,7 +44,7 @@ function handleCanvasMouseDown(e) {
         if (e.touches.length <= 1 || dragged) {
             e.preventDefault();
         } else {
-            return;
+            //return;
         }
     } else {
         e.preventDefault();
@@ -187,7 +187,7 @@ function handleCanvasMouseMove(e) {
         if (e.touches.length <= 1 || dragged) {
             e.preventDefault();
         } else {
-            return;
+            //return;
         }
     } else {
         e.preventDefault();
@@ -248,7 +248,7 @@ function handleDocumentMouseUp(e) {
         if (e.touches.length <= 1 || dragged) {
             
         } else {
-            return;
+            //return;
         }
     }
 
