@@ -40,15 +40,16 @@ function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
 
 // handle drag start on canvas
 function handleCanvasMouseDown(e) {
-    if (e.type === 'touchstart') {
-        if (e.touches.length <= 1) {
-            e.preventDefault();
-        } else {
-            return;
-        }
-    } else {
-        e.preventDefault();
-    }
+    // if (e.type === 'touchstart') {
+    //     if (e.touches.length <= 1) {
+    //         e.preventDefault();
+    //     } else {
+    //         return;
+    //     }
+    // } else {
+    //     e.preventDefault();
+    // }
+    e.preventDefault();
 
 	// determine whether it is the current user's turn
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
@@ -73,17 +74,19 @@ function handleCanvasMouseDown(e) {
     }
 
     // get the pixel position of the mouse/finger
-    let x, y, clientX, clientY;
+    let x, y, clientX, clientY, touchIdentifier;
     if (e.type === 'touchstart') {
         x = e.changedTouches[0].clientX - this.getBoundingClientRect().left;
         y = e.changedTouches[0].clientY - this.getBoundingClientRect().top;
         clientX = e.changedTouches[0].clientX;
         clientY = e.changedTouches[0].clientY;
+        touchIdentifier = e.changedTouches[0].identifier;
     } else {
         x = e.offsetX;
         y = e.offsetY;
         clientX = e.clientX;
         clientY = e.clientY;
+        touchIdentifier = undefined;
     }
 
     // get what the mouse is over
@@ -103,7 +106,8 @@ function handleCanvasMouseDown(e) {
             blank: !canvasLetter.letter,
             letter: canvasLetter.letter,
             pixelX: x,
-            pixelY: y
+            pixelY: y,
+            touchIdentifier
         };
         canvasLetter.hidden = true; // hide the letter from the bank
 
@@ -176,15 +180,16 @@ function handleCanvasMouseDown(e) {
 // update position of tile when mouse moves during drag
 function handleCanvasMouseMove(e) {
 
-    if (e.type === 'touchmove') {
-        if (e.touches.length <= 1) {
-            e.preventDefault();
-        } else {
-            return;
-        }
-    } else {
-        e.preventDefault();
-    }
+    // if (e.type === 'touchmove') {
+    //     if (e.touches.length <= 1) {
+    //         e.preventDefault();
+    //     } else {
+    //         return;
+    //     }
+    // } else {
+    //     e.preventDefault();
+    // }
+    e.preventDefault();
 
 	// determine whether it is the current user's turn
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
@@ -192,8 +197,18 @@ function handleCanvasMouseMove(e) {
     // get the pixel position of the mouse/finger
     let x, y;
     if (e.type === 'touchmove') {
-        x = e.changedTouches[0].clientX - this.getBoundingClientRect().left;
-        y = e.changedTouches[0].clientY - this.getBoundingClientRect().top;
+        let tIndex = 0;
+        if (dragged?.touchIdentifier) {
+            for (let i = 0; i < e.touches.length; i++) {
+                if (e.touches[i].identifier === dragged.touchIdentifier) {
+                    tIndex = i;
+                    break;
+                }
+            }
+        }
+
+        x = e.touches[tIndex].clientX - this.getBoundingClientRect().left;
+        y = e.touches[tIndex].clientY - this.getBoundingClientRect().top;
     } else {
         x = e.offsetX;
         y = e.offsetY;
@@ -227,15 +242,17 @@ function handleCanvasMouseMove(e) {
 }
 
 function handleDocumentMouseUp(e) {
-    if (e.type === 'touchend') {
-        if (e.touches.length <= 1) {
-            e.preventDefault();
-        } else {
-            return;
-        }
-    } else {
-        e.preventDefault();
-    }
+    // if (e.type === 'touchend') {
+    //     if (e.touches.length <= 1) {
+    //         e.preventDefault();
+    //     } else {
+    //         return;
+    //     }
+    // } else {
+    //     e.preventDefault();
+    // }
+
+    e.preventDefault();
 
 	// determine whether it is the current user's turn
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
