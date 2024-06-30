@@ -244,15 +244,11 @@ function handleCanvasMouseMove(e) {
 function handleDocumentMouseUp(e) {
     // if (e.type === 'touchend') {
     //     if (e.touches.length <= 1) {
-    //         e.preventDefault();
+    //         
     //     } else {
     //         return;
     //     }
-    // } else {
-    //     e.preventDefault();
     // }
-
-    e.preventDefault();
 
 	// determine whether it is the current user's turn
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
