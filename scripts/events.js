@@ -279,14 +279,15 @@ function handleDocumentMouseUp(e) {
     const overListCategories = getPropArray(overList, "category");
 
     // check for the shuffle button
-    if (!dragged && overListCategories.includes("shuffleButton")) {
-        if (canvas.bankShuffleButton.clicking && !canvas.bankShuffleButton.cooldown && canvas.bankShuffleButton.touchIdentifier === touchIdentifier) {
+
+    if (canvas.bankShuffleButton.clicking && !canvas.bankShuffleButton.cooldown && canvas.bankShuffleButton.touchIdentifier === touchIdentifier) {
+        if (!dragged && overListCategories.includes("shuffleButton")) {
             shuffleBank();
             canvas.doubleTap = false;
         }
+        canvas.bankShuffleButton.clicking = false;
+        if (e.type === 'touchend') canvas.bankShuffleButton.hover = false;
     }
-    canvas.bankShuffleButton.clicking = false;
-    if (e.type === 'touchend') canvas.bankShuffleButton.hover = false;
     
     // do the word lookup
     if (!dragged && overListCategories.includes("board")) {
