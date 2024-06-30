@@ -167,7 +167,14 @@ function handleCanvasMouseDown(e) {
 
 // update position of tile when mouse moves during drag
 function handleCanvasMouseMove(e) {
-    e.preventDefault();
+
+    if (e.type === 'touchmove') {
+        if (e.touches.length <= 1) {
+            e.preventDefault();
+        }
+    } else {
+        e.preventDefault();
+    }
 
 	// determine whether it is the current user's turn
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
