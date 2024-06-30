@@ -172,7 +172,10 @@ function handleCanvasMouseDown(e) {
     // if the mouse is over the shuffle button
     if (overListCategories.includes("shuffleButton")) {
         canvas.bankShuffleButton.clicking = true;
+        canvas.bankShuffleButton.touchIdentifier = touchIdentifier;
+
         canvas.doubleTap = false;
+
         return;
     }
 }
@@ -256,17 +259,19 @@ function handleDocumentMouseUp(e) {
     if (visiblePopups.length > 0) return;
 
     // get the pixel position of the mouse/finger
-    let x, y, clientX, clientY;
+    let x, y, clientX, clientY, touchIdentifier;
     if (e.type === 'touchend') {
         x = e.changedTouches[0].clientX - canvas.c.getBoundingClientRect().left;
         y = e.changedTouches[0].clientY - canvas.c.getBoundingClientRect().top;
         clientX = e.changedTouches[0].clientX;
         clientY = e.changedTouches[0].clientY;
+        touchIdentifier = e.changedTouches[0].identifier;
     } else {
         x = e.offsetX;
         y = e.offsetY;
         clientX = e.clientX;
         clientY = e.clientY;
+        touchIdentifier = undefined;
     }
 
 
@@ -274,9 +279,11 @@ function handleDocumentMouseUp(e) {
     const overListCategories = getPropArray(overList, "category");
 
     // check for the shuffle button
-    if (!dragged && overListCategories.includes("shuffleButton") && canvas.bankShuffleButton.clicking && !canvas.bankShuffleButton.cooldown) {
-        shuffleBank();
-        canvas.doubleTap = false;
+    if (!dragged && overListCategories.includes("shuffleButton")) {
+        if (canvas.bankShuffleButton.clicking && !canvas.bankShuffleButton.cooldown && canvas.bankShuffleButton.touchIdentifier === touchIdentifier) {
+            shuffleBank();
+            canvas.doubleTap = false;
+        }
     }
     canvas.bankShuffleButton.clicking = false;
     if (e.type === 'touchend') canvas.bankShuffleButton.hover = false;
@@ -295,6 +302,7 @@ function handleDocumentMouseUp(e) {
 
     if (!dragged) return; // from here on we will assume that a letter is being dragged
 
+    // make sure the touch identifier matches
     if (e.type === 'touchend' && dragged.touchIdentifier >= 0 && dragged.touchIdentifier !== e.changedTouches[0].identifier) return;
 
     // determine whether the tile has moved since touchdown (otherwise it has just been clicked)
