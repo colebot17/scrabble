@@ -7,7 +7,7 @@ $password = "96819822";
 $dbname = "scrabble";
 
 // get data from GET/POST
-$user = $_POST['user'];
+$user = (int)$_POST['user'];
 $pwd = $_POST['pwd'];
 $playerList = json_decode($_POST['players'], true);
 $lang = $_POST['lang'];
@@ -77,8 +77,19 @@ $boardJson = json_encode($board);
 // get the datestamp
 $datestamp = date("Y-m-d");
 
+// create an update for the game creation
+$update = Array(
+	"type" => "creation",
+	"data" => Array(
+		"player" => $user
+	),
+	"timestamp" => time()
+);
+$updates = Array($update);
+$updatesJson = json_encode($updates);
+
 // add the game
-$sql = "INSERT INTO games(lang, letterBag, players, turn, inactive, board, words, creationDate, chat, updates) VALUES ('$lang', '$letterBagJson', '$playersJson', 0, 0, '$boardJson', '[]', '$datestamp', '[]', '[]');";
+$sql = "INSERT INTO games(lang, letterBag, players, board, creationDate, updates) VALUES ('$lang', '$letterBagJson', '$playersJson', '$boardJson', '$datestamp', '$updatesJson');";
 $query = mysqli_query($conn, $sql);
 
 // get the id of the game

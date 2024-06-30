@@ -7,6 +7,7 @@ function canNudge($conn, $user, $gameId) {
     //    must not be current player's turn
     //    current turn player must have enabled notification methods
     //
+    //    game must have been created at least 24 hours ago
     //    last move must have been at least 24 hours ago
     //    last nudge must have been at least 24 hours ago
 
@@ -48,7 +49,7 @@ function canNudge($conn, $user, $gameId) {
         return Array(false, "This user cannot be nudged");
     }
 
-    // make sure the last move and nudge was at least 24 hours ago
+    // make sure the game creation, last move, and last nudge were all at least 24 hours ago
     $compareEpoch = time() - (24 * 60 * 60);
     for ($i = count($updates) - 1; $i >= 0; $i--) {
         // stop (and pass check) if the update happened before the compare time
@@ -64,6 +65,11 @@ function canNudge($conn, $user, $gameId) {
         // stop (and fail check) if the update is a nudge update
         if ($updates[$i]["type"] === "nudge") {
             return Array(false, "You can only nudge a player once every 24 hours");
+        }
+
+        // stop (and fail check) if the update is the creation of the game
+        if ($updates[$i]["type"] === "creation") {
+            return Array(false, "You can only nudge a player if they haven't moved for 24 hours");
         }
     }
 
