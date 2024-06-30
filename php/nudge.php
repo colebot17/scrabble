@@ -60,7 +60,7 @@ notifyByEmail($conn, $players[$turn]["id"], $emailSubject, $emailBody);
 
 echo json_encode(Array(
     "errorLevel" => 0,
-    "message" => "You nudged $playerList[$turn] to make their move"
+    "message" => "You nudged $playerList[$turn] to move"
 ));
 
 
