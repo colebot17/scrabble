@@ -442,7 +442,7 @@ function drawLetterBank() {
 
 		// draw tile
 		canvas.ctx.fillStyle = "#a47449"; // tile brown
-		roundRect(canvas.ctx, x, y, tileWidth, tileWidth);
+		roundRect(canvas.ctx, x, y, tileWidth, tileWidth, 5 * BOARD_PIXEL_SCALE);
 
 		// if not blank
 		if (canvasLetter.letter) {
