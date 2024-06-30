@@ -10,5 +10,9 @@ function nudge() {
         }
 
         textModal("Nudge Sent", res.message);
+
+        // remove the nudge button
+        document.getElementById('nudgeContainer').remove();
+        game.nudgeEnabled = false;
     })
 }
