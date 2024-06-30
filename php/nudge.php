@@ -56,8 +56,6 @@ require "notifications/templates/nudgeEmail.php";
 [$emailSubject, $emailBody] = nudgeEmail($un, $gameName, $gameId, $playerList);
 notifyByEmail($conn, $currentPlayerId, $emailSubject, $emailBody);
 
-mysqli_close($conn);
-
 echo json_encode(Array(
     "errorLevel" => 0,
     "message" => "You nudged $playerList[$turn] to make their move"
