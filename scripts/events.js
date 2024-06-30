@@ -71,16 +71,17 @@ function handleCanvasMouseDown(e) {
     }
 
     // get the pixel position of the mouse/finger
+    const pixScale = getScale();
     let x, y, clientX, clientY, touchIdentifier;
     if (e.type === 'touchstart') {
-        x = e.changedTouches[0].clientX - this.getBoundingClientRect().left;
-        y = e.changedTouches[0].clientY - this.getBoundingClientRect().top;
+        x = (e.changedTouches[0].clientX - this.getBoundingClientRect().left) * pixScale;
+        y = (e.changedTouches[0].clientY - this.getBoundingClientRect().top) * pixScale;
         clientX = e.changedTouches[0].clientX;
         clientY = e.changedTouches[0].clientY;
         touchIdentifier = e.changedTouches[0].identifier;
     } else {
-        x = e.offsetX;
-        y = e.offsetY;
+        x = e.offsetX * pixScale;
+        y = e.offsetY * pixScale;
         clientX = e.clientX;
         clientY = e.clientY;
         touchIdentifier = undefined;
@@ -193,6 +194,7 @@ function handleCanvasMouseMove(e) {
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
     
     // get the pixel position of the mouse/finger
+    const pixScale = getScale();
     let x, y;
     if (e.type === 'touchmove') {
         let tIndex = 0;
@@ -205,11 +207,11 @@ function handleCanvasMouseMove(e) {
             }
         }
 
-        x = e.touches[tIndex].clientX - this.getBoundingClientRect().left;
-        y = e.touches[tIndex].clientY - this.getBoundingClientRect().top;
+        x = (e.touches[tIndex].clientX - this.getBoundingClientRect().left) * pixScale;
+        y = (e.touches[tIndex].clientY - this.getBoundingClientRect().top) * pixScale;
     } else {
-        x = e.offsetX;
-        y = e.offsetY;
+        x = e.offsetX * pixScale;
+        y = e.offsetY * pixScale;
     }
 
     if (dragged) {
@@ -248,16 +250,17 @@ function handleDocumentMouseUp(e) {
     if (visiblePopups.length > 0) return;
 
     // get the pixel position of the mouse/finger
+    const pixScale = getScale();
     let x, y, clientX, clientY, touchIdentifier;
     if (e.type === 'touchend') {
-        x = e.changedTouches[0].clientX - canvas.c.getBoundingClientRect().left;
-        y = e.changedTouches[0].clientY - canvas.c.getBoundingClientRect().top;
+        x = (e.changedTouches[0].clientX - canvas.c.getBoundingClientRect().left) * pixScale;
+        y = (e.changedTouches[0].clientY - canvas.c.getBoundingClientRect().top) * pixScale;
         clientX = e.changedTouches[0].clientX;
         clientY = e.changedTouches[0].clientY;
         touchIdentifier = e.changedTouches[0].identifier;
     } else {
-        x = e.offsetX;
-        y = e.offsetY;
+        x = e.offsetX * pixScale;
+        y = e.offsetY * pixScale;
         clientX = e.clientX;
         clientY = e.clientY;
         touchIdentifier = undefined;
@@ -464,4 +467,13 @@ function handleDocumentKeyPress(e) {
 
     canvas.pointsPreview = false;
     checkPoints();
+}
+
+function getScale() {
+    // we're doing this based on width
+    // since we assume that the board is uniformly scaled, it shouldn't matter
+    const virtualWidth = canvas.c.width;
+    const actualWidth = canvas.c.getBoundingClientRect().width;
+
+    return virtualWidth / actualWidth;
 }
