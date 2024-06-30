@@ -35,7 +35,7 @@ function removeHandlers() {
 const dropZoneAnimationTime = 50;
 
 function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
-    clearBoard();
+    if (!dragged) clearBoard();
 }
 
 // handle drag start on canvas
