@@ -40,16 +40,15 @@ function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
 
 // handle drag start on canvas
 function handleCanvasMouseDown(e) {
-    // if (e.type === 'touchstart') {
-    //     if (e.touches.length <= 1) {
-    //         e.preventDefault();
-    //     } else {
-    //         return;
-    //     }
-    // } else {
-    //     e.preventDefault();
-    // }
-    e.preventDefault();
+    if (e.type === 'touchstart') {
+        if (e.touches.length <= 1 || dragged) {
+            e.preventDefault();
+        } else {
+            return;
+        }
+    } else {
+        e.preventDefault();
+    }
 
 	// determine whether it is the current user's turn
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
@@ -181,16 +180,15 @@ function handleCanvasMouseDown(e) {
 // update position of tile when mouse moves during drag
 function handleCanvasMouseMove(e) {
 
-    // if (e.type === 'touchmove') {
-    //     if (e.touches.length <= 1) {
-    //         e.preventDefault();
-    //     } else {
-    //         return;
-    //     }
-    // } else {
-    //     e.preventDefault();
-    // }
-    e.preventDefault();
+    if (e.type === 'touchmove') {
+        if (e.touches.length <= 1 || dragged) {
+            e.preventDefault();
+        } else {
+            return;
+        }
+    } else {
+        e.preventDefault();
+    }
 
 	// determine whether it is the current user's turn
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
@@ -243,13 +241,13 @@ function handleCanvasMouseMove(e) {
 }
 
 function handleDocumentMouseUp(e) {
-    // if (e.type === 'touchend') {
-    //     if (e.touches.length <= 1) {
-    //         
-    //     } else {
-    //         return;
-    //     }
-    // }
+    if (e.type === 'touchend') {
+        if (e.touches.length <= 1 || dragged) {
+            
+        } else {
+            return;
+        }
+    }
 
 	// determine whether it is the current user's turn
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
