@@ -40,7 +40,13 @@ function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
 
 // handle drag start on canvas
 function handleCanvasMouseDown(e) {
-    e.preventDefault();
+    if (e.type === 'touchstart') {
+        if (e.touches.length <= 1) {
+            e.preventDefault();
+        }
+    } else {
+        e.preventDefault();
+    }
 
 	// determine whether it is the current user's turn
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
