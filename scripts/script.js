@@ -648,7 +648,7 @@ function gameInit() {
 	game.currentPlayerIndex = currentPlayerIndex;
 
 	// this is the current player's bank
-	const bank = game.players[currentPlayerIndex].letterBank;
+	const bank = game.players[game.currentPlayerIndex].letterBank;
 
 	// create an object of the letter bank for the canvas
 	canvas.bank = [];
@@ -666,7 +666,7 @@ function gameInit() {
 	}
 
 	// this is the bank order
-	const bankOrder = game.players[currentPlayerIndex].bankOrder;
+	const bankOrder = game.players[game.currentPlayerIndex].bankOrder;
 
 	// initialize the bank order
 	if (!bankOrder) {
@@ -812,7 +812,7 @@ function updateGameInfo() {
 		endGameCount += (game.players[i].endGameRequest) & 1;
 	}
 	const votesLeft = game.players.length - endGameCount;
-	endGameButton.textContent = game.players[currentPlayerIndex].endGameRequest ? 'Don\'t End' : 'End Game';
+	endGameButton.textContent = game.players[game.currentPlayerIndex].endGameRequest ? 'Don\'t End' : 'End Game';
 	endGameButton.disabled = game.inactive;
 	endGameButton.style.cursor = (game.inactive ? 'not-allowed' : 'pointer');
 	endGameButton.title = (game.inactive ? 'The game is already over' : votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end');
