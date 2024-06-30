@@ -1,5 +1,7 @@
 var canvas = {};
 
+const BOARD_PIXEL_SCALE = 2;
+
 const BOARD_BACKGROUND_COLOR = "#f2f5ff";
 const BOARD_COLOR_KEY = ["#00000009", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2b", "#faaab5"];
 const BOARD_SQUARE_TYPES = ["outline", "fill", "fill", "fill", "fill", "fill"];
@@ -124,8 +126,8 @@ function setCanvasSize() {
 	var limitingDimension = Math.min(wrapperWidth + sizeDifference, wrapperHeight);
 
 	// size the canvas accordingly
-	canvas.c.width = limitingDimension - sizeDifference;
-	canvas.c.height = limitingDimension;
+	canvas.c.width = (limitingDimension - sizeDifference) * BOARD_PIXEL_SCALE;
+	canvas.c.height = limitingDimension * BOARD_PIXEL_SCALE;
 
 	// show the canvas again
 	canvas.c.style.display = "";
