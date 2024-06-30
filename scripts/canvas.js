@@ -128,7 +128,7 @@ function setCanvasSize() {
 	canvas.c.width = (limitingDimension - sizeDifference) * BOARD_PIXEL_SCALE;
 	canvas.c.height = limitingDimension * BOARD_PIXEL_SCALE;
 	canvas.ctx.setTransform(1, 0, 0, 1, 0, 0);
-	canvas.ctx.scale(BOARD_PIXEL_SCALE, BOARD_PIXEL_SCALE);
+	canvas.ctx.scale(1 / BOARD_PIXEL_SCALE, 1 / BOARD_PIXEL_SCALE);
 
 	// show the canvas again
 	canvas.c.style.display = "";
