@@ -148,7 +148,8 @@ function handleCanvasMouseDown(e) {
                 },
                 pixelX: x,
                 pixelY: y,
-                posHistory: [{x, y}]
+                posHistory: [{x, y}],
+                touchIdentifier
             };
 
             game.board[overObj.y][overObj.x] = null; // remove the tile from the board
