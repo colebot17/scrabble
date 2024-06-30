@@ -205,14 +205,14 @@ function drawLetterBank() {
 	let remainingSpace = canvas.c.height - startY;
 
 	// draw title and shuffle button if space allows
-	let titleSize = -15; // this accounts for padding when the title isn't there
+	let titleSize = -15 * BOARD_PIXEL_SCALE; // this accounts for padding when the title isn't there
 	if (!canvas.vertSpaceLimited || canvas.bank.length === 0) {
 		const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
-		titleSize = (canvas.bank.length > 0 ? 25 : 15);
+		titleSize = (canvas.bank.length > 0 ? 25 : 15) * BOARD_PIXEL_SCALE;
 		canvas.ctx.font = titleSize + "px Rubik";
 		canvas.ctx.fillStyle = textColor;
 		canvas.ctx.textAlign = "center";
-		canvas.ctx.fillText((canvas.bank.length > 0 ? "Letter Bank" : "Your letter bank is empty."), canvasWidth / 2, startY + titleSize + 10);
+		canvas.ctx.fillText((canvas.bank.length > 0 ? "Letter Bank" : "Your letter bank is empty."), canvasWidth / 2, startY + titleSize + (10 * BOARD_PIXEL_SCALE));
 
 		// if the game is active
 		if (!game.inactive) {
@@ -226,9 +226,9 @@ function drawLetterBank() {
 			canvas.ctx.font = lbcSize + "px scrabble";
 			const iconWidth = canvas.ctx.measureText("\ue900").width;
 
-			const totalWidth = numberWidth + 5 + iconWidth;
+			const totalWidth = numberWidth + (5 * BOARD_PIXEL_SCALE) + iconWidth;
 			
-			const lbcX = (canvasWidth / 2) - 90 + (lbcSize / 2);
+			const lbcX = (canvasWidth / 2) - (90 * BOARD_PIXEL_SCALE) + (lbcSize / 2);
 			const iconStartX = lbcX - totalWidth;
 			const numberStartX = lbcX - numberWidth;
 
@@ -245,14 +245,14 @@ function drawLetterBank() {
 
 
 			// draw the bank shuffle button
-			const shuffleButtonX = (canvasWidth / 2) + 90;
-			const shuffleButtonY = startY + titleSize + 14;
+			const shuffleButtonX = (canvasWidth / 2) + (90 * BOARD_PIXEL_SCALE);
+			const shuffleButtonY = startY + titleSize + (14 * BOARD_PIXEL_SCALE);
 
 			// draw background if hovering/clicking and cooldown is not active
 			if (canvas.bankShuffleButton.hover || canvas.bankShuffleButton.clicking) {
 				canvas.ctx.fillStyle = ((!canvas.bankShuffleButton.cooldown && canvas.bankShuffleButton.clicking) ? "#0000004C" : "#00000033");
 				canvas.ctx.beginPath();
-				canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + 5, 0, 2 * Math.PI, false);
+				canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + (5 * BOARD_PIXEL_SCALE), 0, 2 * Math.PI, false);
 				canvas.ctx.fill();
 			}
 			
@@ -267,11 +267,11 @@ function drawLetterBank() {
 			// store the coordinates so we know when we click on it
 			canvas.bankShuffleButton.position = {
 				start: {
-					x: shuffleButtonX - (titleSize / 2) - 5,
-					y: shuffleButtonY - titleSize - 5
+					x: shuffleButtonX - (titleSize / 2) - (5 * BOARD_PIXEL_SCALE),
+					y: shuffleButtonY - titleSize - (5 * BOARD_PIXEL_SCALE)
 				},
 				end: {
-					x: shuffleButtonX + (titleSize / 2) + 5,
+					x: shuffleButtonX + (titleSize / 2) + (5 * BOARD_PIXEL_SCALE),
 					y: shuffleButtonY + 5
 				}
 			}
@@ -290,13 +290,13 @@ function drawLetterBank() {
 				canvas.ctx.save();
 
 				const y = shuffleButtonY - (titleSize / 2);
-				const circleX = canvas.bankShuffleButton.position.end.x + 15;
-				const textX = circleX + 10;
+				const circleX = canvas.bankShuffleButton.position.end.x + (15 * BOARD_PIXEL_SCALE);
+				const textX = circleX + (10 * BOARD_PIXEL_SCALE);
 
 				// draw the yellow circle
 				canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight');
 				canvas.ctx.beginPath();
-				canvas.ctx.arc(circleX, y, 5, 0, Math.PI * 2);
+				canvas.ctx.arc(circleX, y, (5 * BOARD_PIXEL_SCALE), 0, Math.PI * 2);
 				canvas.ctx.fill();
 				
 				// draw the text
@@ -314,13 +314,13 @@ function drawLetterBank() {
 	// STOP here if the bank is empty
 	if (canvas.bank.length === 0) return;
 
-	remainingSpace -= titleSize + 20;
+	remainingSpace -= titleSize + (20 * BOARD_PIXEL_SCALE);
 
 	// define some constants
 	const numTiles = bank.length;
 
-	const minTileGap = 5;
-	const extraTileGap = 50;
+	const minTileGap = (5 * BOARD_PIXEL_SCALE);
+	const extraTileGap = (50 * BOARD_PIXEL_SCALE);
 
 	// check and update gap animations
 	if (canvas.gapBeforeBankAnimation) {
@@ -350,13 +350,13 @@ function drawLetterBank() {
 	// we are subtracting here because we will add this value to the x position to get the x position of the first tile
 	// it doesn't make sense but it works
 
-	const tileWidth = Math.min(remainingSpace - 5, ((canvasWidth - totalGapSpace) / numTiles), 55);
+	const tileWidth = Math.min(remainingSpace - (5 * BOARD_PIXEL_SCALE), ((canvasWidth - totalGapSpace) / numTiles), (55 * BOARD_PIXEL_SCALE));
 	const totalBankWidth = (tileWidth * numTiles) + totalGapSpace;
 	const startX = (canvasWidth - totalBankWidth) / 2;
 
 	canvas.bankTileWidth = tileWidth;
 
-	const textSize = tileWidth - 5;
+	const textSize = tileWidth - (5 * BOARD_PIXEL_SCALE);
 	const smallTextSize = textSize / 3;
 
 	let currentGapSpace = 0;
@@ -399,7 +399,7 @@ function drawLetterBank() {
 
 		// calculate where to start
 		let x = startX + (tileWidth * drawnLetters) + currentGapSpace;
-		let y = startY + titleSize + 20;
+		let y = startY + titleSize + (20 * BOARD_PIXEL_SCALE);
 		if (canvas?.animations?.bankShuffle) {
 			let animationRandMultiplier;
 			if (!canvasLetter.animationRandMultiplier) {
@@ -437,7 +437,7 @@ function drawLetterBank() {
 		// draw outline if highlighted
 		if (canvasLetter.highlight) {
 			canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight');
-			roundRect(canvas.ctx, x - 3, y - 3, tileWidth + 6, tileWidth + 6, 8);
+			roundRect(canvas.ctx, x - (3 * BOARD_PIXEL_SCALE), y - (3 * BOARD_PIXEL_SCALE), tileWidth + (6 * BOARD_PIXEL_SCALE), tileWidth + (6 * BOARD_PIXEL_SCALE), (8 * BOARD_PIXEL_SCALE));
 		}
 
 		// draw tile
