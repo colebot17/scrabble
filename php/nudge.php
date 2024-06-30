@@ -32,13 +32,14 @@ if (!$res[0]) {
 
 
 // gather information for notification
-$sql = "SELECT players FROM games WHERE id='$gameId'";
+$sql = "SELECT players, turn FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $players = json_decode($row['players'], true);
+$totalTurn = (int)$row['turn'];
+$turn = $totalTurn % count($players);
 
 $un = "";
-$currentPlayerName = "";
 $playerList = Array();
 for ($i = 0; $i < count($players); $i++) {
 	$pid = $players[$i]['id'];
@@ -47,7 +48,6 @@ for ($i = 0; $i < count($players); $i++) {
 	$row = mysqli_fetch_assoc($query);
 	$playerList[] = $row['name'];
 	if ($pid == $user) $un = $row['name'];
-	if ($pid == $currentPlayerId) $currentPlayerName = $row['name'];
 }
 
 
@@ -56,11 +56,11 @@ require "notifications/notify.php";
 require "notifications/templates/nudgeEmail.php";
 
 [$emailSubject, $emailBody] = nudgeEmail($un, $gameName, $gameId, $playerList);
-notifyByEmail($conn, $currentPlayerId, $emailSubject, $emailBody);
+notifyByEmail($conn, $players[$turn]["id"], $emailSubject, $emailBody);
 
 echo json_encode(Array(
     "errorLevel" => 0,
-    "message" => "You nudged $currentPlayerName to make their move"
+    "message" => "You nudged $playerList[$turn] to make their move"
 ));
 
 
@@ -69,7 +69,7 @@ echo json_encode(Array(
 
 $updateData = Array(
     "nudgingPlayer" => $user,
-    "nudgedPlayer" => $currentPlayerId
+    "nudgedPlayer" => $players[$turn]["id"]
 );
 
 require "addUpdate.php";
