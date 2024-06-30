@@ -648,7 +648,7 @@ function gameInit() {
 	game.currentPlayerIndex = currentPlayerIndex;
 
 	// this is the current player's bank
-	const bank = game.players[currentPlayerIndex].letterBank;
+	const bank = game.players[game.currentPlayerIndex].letterBank;
 
 	// create an object of the letter bank for the canvas
 	canvas.bank = [];
@@ -666,7 +666,7 @@ function gameInit() {
 	}
 
 	// this is the bank order
-	const bankOrder = game.players[currentPlayerIndex].bankOrder;
+	const bankOrder = game.players[game.currentPlayerIndex].bankOrder;
 
 	// initialize the bank order
 	if (!bankOrder) {
@@ -700,7 +700,29 @@ function gameInit() {
 	canvas.gameBannerParams = gameBannerParams;
 
 	// show the game info
+	updateGameInfo();
 
+	//setTimeout(startChangeCheck, 3000);
+
+	chatInit();
+
+	updateMoveHistory();
+
+	document.getElementsByClassName('moreGameControls')[0].removeAttribute('open');
+
+	setCanvasSize();
+
+	setMoveButtonEnablement();
+
+	loadDraft();
+
+	if (!account.tutorials?.firstGame) {
+		startTutorial(firstGameTutorial);
+		setTutorial('firstGame', true);
+	}
+}
+
+function updateGameInfo() {
 	// start with the language, if not english
 	let gameInfo = game.lang !== account.defaultLang ? /* html */ `
 		<div class="gameLanguageBox bold">
@@ -768,6 +790,15 @@ function gameInit() {
 		`;
 	}
 
+	// add the nudge button if it is available
+	if (game.nudgeEnabled) {
+		gameInfo += /* html */ `
+			<div id="nudgeContainer" class="nudgeContainer flex col noGap">
+				<button class="highlight" id="nudgeButton" onclick="nudge()">Nudge ${game.players[turnIndex].name}</button>
+			</div>
+		`;
+	}
+
 	gameInfo += `</div>`;
 
 	// set the content of the game info box
@@ -780,7 +811,7 @@ function gameInit() {
 		endGameCount += (game.players[i].endGameRequest) & 1;
 	}
 	const votesLeft = game.players.length - endGameCount;
-	endGameButton.textContent = game.players[currentPlayerIndex].endGameRequest ? 'Don\'t End' : 'End Game';
+	endGameButton.textContent = game.players[game.currentPlayerIndex].endGameRequest ? 'Don\'t End' : 'End Game';
 	endGameButton.disabled = game.inactive;
 	endGameButton.style.cursor = (game.inactive ? 'not-allowed' : 'pointer');
 	endGameButton.title = (game.inactive ? 'The game is already over' : votesLeft + ' more vote' + (votesLeft === 1 ? '' : 's') + ' to end');
@@ -788,25 +819,6 @@ function gameInit() {
 	// show the correct text for the skip turn / exchange letters button
 	const skipTurnButton = document.getElementById('skipTurnButton');
 	skipTurnButton.textContent = game.lettersLeft <= 0 ? 'Skip Turn' : 'Exchange Letters';
-
-	setTimeout(startChangeCheck, 3000);
-
-	chatInit();
-
-	updateMoveHistory();
-
-	document.getElementsByClassName('moreGameControls')[0].removeAttribute('open');
-
-	setCanvasSize();
-
-	setMoveButtonEnablement();
-
-	loadDraft();
-
-	if (!account.tutorials?.firstGame) {
-		startTutorial(firstGameTutorial);
-		setTutorial('firstGame', true);
-	}
 }
 
 function getPlayerLastTurn() {

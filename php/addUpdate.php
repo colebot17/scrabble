@@ -30,5 +30,3 @@ function addUpdate($conn, int $gameId, string $type, array $data) {
 
     return true;
 }
-
-?>
