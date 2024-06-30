@@ -43,6 +43,8 @@ function handleCanvasMouseDown(e) {
     if (e.type === 'touchstart') {
         if (e.touches.length <= 1) {
             e.preventDefault();
+        } else {
+            return;
         }
     } else {
         e.preventDefault();
@@ -177,6 +179,8 @@ function handleCanvasMouseMove(e) {
     if (e.type === 'touchmove') {
         if (e.touches.length <= 1) {
             e.preventDefault();
+        } else {
+            return;
         }
     } else {
         e.preventDefault();
