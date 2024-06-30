@@ -15,10 +15,9 @@ var squareWidth;
 
 function canvasInit() {
 	canvas.c = document.getElementById("scrabbleCanvas");
+	canvas.ctx = canvas.c.getContext('2d');
 
 	setCanvasSize();
-
-	canvas.ctx = canvas.c.getContext('2d');
 
 	// set the frame refresh rate
 	if (canvas.animationFrame) {window.cancelAnimationFrame(canvas.animationFrame)}
