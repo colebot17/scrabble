@@ -9,6 +9,6 @@ function nudge() {
             return;
         }
 
-        textModal("Success", res.message);
+        textModal("Nudge Sent", res.message);
     })
 }

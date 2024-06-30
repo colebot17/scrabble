@@ -38,6 +38,7 @@ $row = mysqli_fetch_assoc($query);
 $players = json_decode($row['players'], true);
 
 $un = "";
+$currentPlayerName = "";
 $playerList = Array();
 for ($i = 0; $i < count($players); $i++) {
 	$pid = $players[$i]['id'];
@@ -46,6 +47,7 @@ for ($i = 0; $i < count($players); $i++) {
 	$row = mysqli_fetch_assoc($query);
 	$playerList[] = $row['name'];
 	if ($pid == $user) $un = $row['name'];
+	if ($pid == $currentPlayerId) $currentPlayerName = $row['name'];
 }
 
 
@@ -58,7 +60,7 @@ notifyByEmail($conn, $currentPlayerId, $emailSubject, $emailBody);
 
 echo json_encode(Array(
     "errorLevel" => 0,
-    "message" => "You nudged $playerList[$turn] to make their move"
+    "message" => "You nudged $currentPlayerName to make their move"
 ));
 
 
