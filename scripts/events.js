@@ -296,6 +296,8 @@ function handleDocumentMouseUp(e) {
 
     if (!dragged) return; // from here on we will assume that a letter is being dragged
 
+    if (e.type === 'touchend' && dragged.touchIdentifier !== e.changedTouches[0].identifier) return;
+
     // determine whether the tile has moved since touchdown (otherwise it has just been clicked)
     const stayedStill = dragged?.posHistory?.length === 1;
 
