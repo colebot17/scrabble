@@ -43,8 +43,6 @@ function handleCanvasMouseDown(e) {
     if (e.type === 'touchstart') {
         if (e.touches.length <= 1 || dragged) {
             e.preventDefault();
-        } else {
-            //return;
         }
     } else {
         e.preventDefault();
@@ -186,8 +184,6 @@ function handleCanvasMouseMove(e) {
     if (e.type === 'touchmove') {
         if (e.touches.length <= 1 || dragged) {
             e.preventDefault();
-        } else {
-            //return;
         }
     } else {
         e.preventDefault();
@@ -244,13 +240,6 @@ function handleCanvasMouseMove(e) {
 }
 
 function handleDocumentMouseUp(e) {
-    if (e.type === 'touchend') {
-        if (e.touches.length <= 1 || dragged) {
-            
-        } else {
-            //return;
-        }
-    }
 
 	// determine whether it is the current user's turn
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
