@@ -9,14 +9,14 @@ function notify($conn, $user, $notifType, $notifOptions) {
     // ensure the type is valid
     $notificationTypes = Array("friendRequest", "newGame", "nudge", "turn");
     if (!in_array($notifType, $notificationTypes)) {
-        return json_encode(Array("success" => false, "message" => "Invalid notification type"));
+        return Array("success" => false, "message" => "Invalid notification type");
     }
 
     $sql = "SELECT notificationMethods, name FROM accounts WHERE id='$user'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
     if (!$row) {
-        return json_encode(Array("success" => false, "message" => "User not found"));
+        return Array("success" => false, "message" => "User not found");
     }
 
     $methods = json_decode($row['notificationMethods'], true);
@@ -40,6 +40,8 @@ function notify($conn, $user, $notifType, $notifOptions) {
             }
         }
     }
+
+    return Array("success" => true, "message" => "Notification(s) sent");
 }
 
 // require "sendEmail.php";
