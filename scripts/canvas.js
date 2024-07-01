@@ -675,7 +675,7 @@ function drawRegions(regions) {
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
 		canvas.ctx.lineWidth = (squareWidth * 0.1) + 1;
 
-		const fontSize = 16;
+		const fontSize = 16 * BOARD_PIXEL_SCALE;
 		canvas.ctx.font = fontSize + "px Rubik";
 
 		// draw the rectangle
@@ -695,7 +695,7 @@ function drawRegions(regions) {
 
 		roundRect(canvas.ctx, x1, y1, width, height, cornerRadius, false);
 
-		const radius = 15;
+		const radius = (15 * BOARD_PIXEL_SCALE);
 
 		// move the bubble over if it is on an edge
 		if (onRightEdge) {
