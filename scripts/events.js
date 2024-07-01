@@ -272,7 +272,7 @@ function handleDocumentMouseUp(e) {
 
     // check for the shuffle button
 
-    if (canvas.bankShuffleButton.clicking && !canvas.bankShuffleButton.cooldown && canvas.bankShuffleButton.touchIdentifier === touchIdentifier) {
+    if (canvas.bankShuffleButton.clicking && !canvas.bankShuffleButton.cooldown && (canvas.bankShuffleButton.touchIdentifier === touchIdentifier || canvas.bankShuffleButton.touchIdentifier === undefined)) {
         if (dragged?.touchIdentifier !== touchIdentifier && overListCategories.includes("shuffleButton")) {
             shuffleBank();
             canvas.doubleTap = false;
