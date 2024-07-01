@@ -12,4 +12,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+require "../php/notifications/notify.php";
+
 echo json_encode(notify($conn, 1, "friendRequest", Array("Boyy")));
