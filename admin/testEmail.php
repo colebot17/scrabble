@@ -14,4 +14,4 @@ if ($conn->connect_error) {
 
 require "../php/notifications/notify.php";
 
-echo json_encode(notify($conn, 1, "friendRequest", Array("Boyy")));
+echo json_encode(notify($conn, 1, "nudge", Array("Boyy", "GAMie", 133, Array("Calvin", "Harris", "Mitchell"))));
