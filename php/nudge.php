@@ -53,10 +53,8 @@ for ($i = 0; $i < count($players); $i++) {
 
 // send the nudge notification
 require "notifications/notify.php";
-require "notifications/templates/nudgeEmail.php";
 
-[$emailSubject, $emailBody] = nudgeEmail($un, $gameName, $gameId, $playerList);
-notifyByEmail($conn, $players[$turn]["id"], $emailSubject, $emailBody);
+notify($conn, $players[$turn]["id"], "nudge", Array($un, $gameName, $gameId, $playerList));
 
 echo json_encode(Array(
     "errorLevel" => 0,
@@ -64,14 +62,11 @@ echo json_encode(Array(
 ));
 
 
-
 // add a nudge update to the updates list
-
 $updateData = Array(
     "nudgingPlayer" => $user,
     "nudgedPlayer" => $players[$turn]["id"]
 );
-
 require "addUpdate.php";
 addUpdate($conn, $gameId, "nudge", $updateData);
 

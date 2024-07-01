@@ -264,8 +264,6 @@ setDraft($conn, $user, $gameId, null);
 
 
 // notify the next player
-require "notifications/notify.php";
-require "notifications/templates/turnEmail.php";
 
 $playerList = Array();
 for ($i = 0; $i < count($players); $i++) {
@@ -277,8 +275,8 @@ for ($i = 0; $i < count($players); $i++) {
 	if ($pid === $user) $un = $row['name'];
 }
 
-[$emailSubject, $emailBody] = turnEmail($un, $gameName, $gameId, $playerList);
-notifyByEmail($conn, $players[$totalTurn % count($players)]["id"], $emailSubject, $emailBody);
+require "notifications/notify.php";
+notify($conn, $players[$totalTurn % count($players)]["id"], "turn", Array($un, $gameName, $gameId, $playerList));
 
 //////////
 // add to updates list
