@@ -35,12 +35,18 @@ function removeHandlers() {
 const dropZoneAnimationTime = 50;
 
 function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
-    clearBoard();
+    if (!dragged) clearBoard();
 }
 
 // handle drag start on canvas
 function handleCanvasMouseDown(e) {
-    e.preventDefault();
+    if (e.type === 'touchstart') {
+        if (e.touches.length <= 1 || dragged) {
+            e.preventDefault();
+        }
+    } else {
+        e.preventDefault();
+    }
 
 	// determine whether it is the current user's turn
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
@@ -65,17 +71,20 @@ function handleCanvasMouseDown(e) {
     }
 
     // get the pixel position of the mouse/finger
-    let x, y, clientX, clientY;
+    const pixScale = getScale();
+    let x, y, clientX, clientY, touchIdentifier;
     if (e.type === 'touchstart') {
-        x = e.changedTouches[0].clientX - this.getBoundingClientRect().left;
-        y = e.changedTouches[0].clientY - this.getBoundingClientRect().top;
+        x = (e.changedTouches[0].clientX - this.getBoundingClientRect().left) * pixScale;
+        y = (e.changedTouches[0].clientY - this.getBoundingClientRect().top) * pixScale;
         clientX = e.changedTouches[0].clientX;
         clientY = e.changedTouches[0].clientY;
+        touchIdentifier = e.changedTouches[0].identifier;
     } else {
-        x = e.offsetX;
-        y = e.offsetY;
+        x = e.offsetX * pixScale;
+        y = e.offsetY * pixScale;
         clientX = e.clientX;
         clientY = e.clientY;
+        touchIdentifier = undefined;
     }
 
     // get what the mouse is over
@@ -95,7 +104,8 @@ function handleCanvasMouseDown(e) {
             blank: !canvasLetter.letter,
             letter: canvasLetter.letter,
             pixelX: x,
-            pixelY: y
+            pixelY: y,
+            touchIdentifier
         };
         canvasLetter.hidden = true; // hide the letter from the bank
 
@@ -136,7 +146,8 @@ function handleCanvasMouseDown(e) {
                 },
                 pixelX: x,
                 pixelY: y,
-                posHistory: [{x, y}]
+                posHistory: [{x, y}],
+                touchIdentifier
             };
 
             game.board[overObj.y][overObj.x] = null; // remove the tile from the board
@@ -160,26 +171,47 @@ function handleCanvasMouseDown(e) {
     // if the mouse is over the shuffle button
     if (overListCategories.includes("shuffleButton")) {
         canvas.bankShuffleButton.clicking = true;
+        canvas.bankShuffleButton.touchIdentifier = touchIdentifier;
+
         canvas.doubleTap = false;
+
         return;
     }
 }
 
 // update position of tile when mouse moves during drag
 function handleCanvasMouseMove(e) {
-    e.preventDefault();
+
+    if (e.type === 'touchmove') {
+        if (e.touches.length <= 1 || dragged) {
+            e.preventDefault();
+        }
+    } else {
+        e.preventDefault();
+    }
 
 	// determine whether it is the current user's turn
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
     
     // get the pixel position of the mouse/finger
+    const pixScale = getScale();
     let x, y;
     if (e.type === 'touchmove') {
-        x = e.changedTouches[0].clientX - this.getBoundingClientRect().left;
-        y = e.changedTouches[0].clientY - this.getBoundingClientRect().top;
+        let tIndex = 0;
+        if (dragged?.touchIdentifier) {
+            for (let i = 0; i < e.touches.length; i++) {
+                if (e.touches[i].identifier === dragged.touchIdentifier) {
+                    tIndex = i;
+                    break;
+                }
+            }
+        }
+
+        x = (e.touches[tIndex].clientX - this.getBoundingClientRect().left) * pixScale;
+        y = (e.touches[tIndex].clientY - this.getBoundingClientRect().top) * pixScale;
     } else {
-        x = e.offsetX;
-        y = e.offsetY;
+        x = e.offsetX * pixScale;
+        y = e.offsetY * pixScale;
     }
 
     if (dragged) {
@@ -210,6 +242,7 @@ function handleCanvasMouseMove(e) {
 }
 
 function handleDocumentMouseUp(e) {
+
 	// determine whether it is the current user's turn
 	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
     
@@ -217,17 +250,20 @@ function handleDocumentMouseUp(e) {
     if (visiblePopups.length > 0) return;
 
     // get the pixel position of the mouse/finger
-    let x, y, clientX, clientY;
+    const pixScale = getScale();
+    let x, y, clientX, clientY, touchIdentifier;
     if (e.type === 'touchend') {
-        x = e.changedTouches[0].clientX - canvas.c.getBoundingClientRect().left;
-        y = e.changedTouches[0].clientY - canvas.c.getBoundingClientRect().top;
+        x = (e.changedTouches[0].clientX - canvas.c.getBoundingClientRect().left) * pixScale;
+        y = (e.changedTouches[0].clientY - canvas.c.getBoundingClientRect().top) * pixScale;
         clientX = e.changedTouches[0].clientX;
         clientY = e.changedTouches[0].clientY;
+        touchIdentifier = e.changedTouches[0].identifier;
     } else {
-        x = e.offsetX;
-        y = e.offsetY;
+        x = e.offsetX * pixScale;
+        y = e.offsetY * pixScale;
         clientX = e.clientX;
         clientY = e.clientY;
+        touchIdentifier = undefined;
     }
 
 
@@ -235,12 +271,16 @@ function handleDocumentMouseUp(e) {
     const overListCategories = getPropArray(overList, "category");
 
     // check for the shuffle button
-    if (!dragged && overListCategories.includes("shuffleButton") && canvas.bankShuffleButton.clicking && !canvas.bankShuffleButton.cooldown) {
-        shuffleBank();
-        canvas.doubleTap = false;
+
+    if (canvas.bankShuffleButton.clicking && !canvas.bankShuffleButton.cooldown && canvas.bankShuffleButton.touchIdentifier === touchIdentifier) {
+        const notDragFinger = dragged?.touchIdentifier !== touchIdentifier || (touchIdentifier == undefined && !dragged);
+        if (notDragFinger && overListCategories.includes("shuffleButton")) {
+            shuffleBank();
+            canvas.doubleTap = false;
+        }
+        canvas.bankShuffleButton.clicking = false;
+        if (e.type === 'touchend') canvas.bankShuffleButton.hover = false;
     }
-    canvas.bankShuffleButton.clicking = false;
-    if (e.type === 'touchend') canvas.bankShuffleButton.hover = false;
     
     // do the word lookup
     if (!dragged && overListCategories.includes("board")) {
@@ -255,6 +295,9 @@ function handleDocumentMouseUp(e) {
     canvas.lookingUp = false;
 
     if (!dragged) return; // from here on we will assume that a letter is being dragged
+
+    // make sure the touch identifier matches
+    if (e.type === 'touchend' && dragged.touchIdentifier >= 0 && dragged.touchIdentifier !== e.changedTouches[0].identifier) return;
 
     // determine whether the tile has moved since touchdown (otherwise it has just been clicked)
     const stayedStill = dragged?.posHistory?.length === 1;
@@ -425,4 +468,13 @@ function handleDocumentKeyPress(e) {
 
     canvas.pointsPreview = false;
     checkPoints();
+}
+
+function getScale() {
+    // we're doing this based on width
+    // since we assume that the board is uniformly scaled, it shouldn't matter
+    const virtualWidth = canvas.c.width;
+    const actualWidth = canvas.c.getBoundingClientRect().width;
+
+    return virtualWidth / actualWidth;
 }
