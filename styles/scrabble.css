@@ -147,7 +147,7 @@ body.scrabble {
 	overflow-y: hidden;
 }
 #canvasCell {
-	display: flex;
+	display: unset;
 	justify-content: center;
 	align-items: center;
 	user-select: none;
@@ -156,6 +156,12 @@ body.scrabble {
 #canvasCell canvas {
 	max-width: 100%;
 	max-height: 100%;
+}
+#canvasCanvasPage {
+	height: 100%;
+	display: grid;
+	grid-template-rows: min-content minmax(0, 1fr);
+	gap: 3px;
 }
 #canvasWrapper {
 	width: 100%;
