@@ -58,7 +58,7 @@ function canNudge($conn, $user, $gameId) {
         }
 
         // stop (and fail check) if the update is a move update
-        if ($updates[$i]["type"] === "move") {
+        if ($updates[$i]["type"] === "move" || $updates[$i]["type"] === "turnSkip") {
             return Array(false, "You can only nudge a player if they haven't moved for 24 hours");
         }
 

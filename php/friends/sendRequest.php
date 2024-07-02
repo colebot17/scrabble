@@ -7,7 +7,7 @@ $password = "96819822";
 $dbname = "scrabble";
 
 // get data from GET/POST
-$userId = (int)$_POST['userId'];
+$user = (int)$_POST['userId'];
 $pwd = $_POST['pwd'];
 $friendName = $_POST['friendName'];
 
@@ -19,7 +19,7 @@ if ($conn->connect_error) {
 
 // check password
 require "../verifyPassword.php";
-if (!verifyPassword($conn, $userId, $pwd)) {
+if (!verifyPassword($conn, $user, $pwd)) {
 	exit('{"errorLevel":2,"message":"Invalid Session"}');
 }
 
@@ -33,15 +33,16 @@ if (mysqli_num_rows($query) === 0) {
 }
 
 // get friends and requests list
-$sql = "SELECT friends, requests, sentRequests FROM accounts WHERE id='$userId'";
+$sql = "SELECT friends, requests, sentRequests, name FROM accounts WHERE id='$user'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $friends = json_decode($row['friends'], true);
 $requests = json_decode($row['requests'], true);
 $sentRequests = json_decode($row['sentRequests'], true);
+$un = $row['name']; // will be used later for the notification email
 
 // cannot add yourself
-if ($friendId == $userId) {
+if ($friendId == $user) {
     exit('{"errorLevel":1,"message":"You cannot be friends with yourself."}');
 }
 
@@ -65,17 +66,16 @@ $sentRequests[] = (int)$friendId;
 
 // re-upload the sent requests list
 $sentRequestsJson = json_encode($sentRequests);
-$sql = "UPDATE accounts SET sentRequests='$sentRequestsJson' WHERE id='$userId'";
+$sql = "UPDATE accounts SET sentRequests='$sentRequestsJson' WHERE id='$user'";
 $query = mysqli_query($conn, $sql);
 
 // update the other user's request list
-$sql = "SELECT requests, name FROM accounts WHERE id='$friendId'";
+$sql = "SELECT requests FROM accounts WHERE id='$friendId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $requests = json_decode($row['requests'], true);
-$friendName = $row['name']; // this is for the email notification, later
 
-$requests[] = (int)$userId;
+$requests[] = (int)$user;
 
 $requestsJson = json_encode($requests);
 $sql = "UPDATE accounts SET requests='$requestsJson' WHERE id='$friendId'";
@@ -84,7 +84,7 @@ $query = mysqli_query($conn, $sql);
 
 // get the full requests list to return to the client
 require "getFriends.php";
-$listsList = getAllLists($conn, $userId);
+$listsList = getAllLists($conn, $user);
 
 $res = Array(
 	"errorLevel" => 0,
@@ -95,8 +95,6 @@ echo json_encode($res);
 
 // send a notification email
 require "../notifications/notify.php";
-require "../notifications/templates/friendRequestEmail.php";
-
-notifyByEmail($conn, $friendId, ...friendRequestEmail($friendName));
+notify($conn, $friendId, "friendRequest", Array($un));
 
 mysqli_close($conn);

@@ -174,7 +174,6 @@ if ($endGame) {
 }
 
 // notify the next player
-require "notifications/notify.php";
 
 $sql = "SELECT name FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
@@ -191,9 +190,9 @@ for ($i = 0; $i < count($players); $i++) {
 	if ($pid === $user) $un = $row['name'];
 }
 
-require "notifications/templates/turnEmail.php";
-$emailBody = turnEmail($un, $gameName, $gameId, $playerNames);
-notifyByEmail($conn, $players[$totalTurn % count($players)]["id"], "It's your turn on Scrabble!", $emailBody);
+require "notifications/notify.php";
+notify($conn, $players[$totalTurn % count($players)]["id"], "turn", Array($un, $gameName, $gameId, $playerNames));
+
 
 //////////
 // add to updates list
