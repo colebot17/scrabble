@@ -32,9 +32,10 @@ if (!$res[0]) {
 
 
 // gather information for notification
-$sql = "SELECT players, turn FROM games WHERE id='$gameId'";
+$sql = "SELECT name, players, turn FROM games WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
+$gameName = $row['name'];
 $players = json_decode($row['players'], true);
 $totalTurn = (int)$row['turn'];
 $turn = $totalTurn % count($players);
