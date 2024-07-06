@@ -1,6 +1,6 @@
 <?php
 
-$mmsTemplates = Array(
+$smsTemplates = Array(
     "friendRequest" => function ($fromName) {
         $body = $fromName + ' wants to be your friend on scrabble.colebot.com. Log in to accept!';
         return $body;

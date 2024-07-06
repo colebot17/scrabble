@@ -4,10 +4,10 @@
 // and coordinating their formulation and delivery
 
 $carrierAddresses = Array(
-    "at&t" => "mms.att.net",
+    "at&t" => "txt.att.net",
     "sprint" => "pm.sprint.com",
     "t-mobile" => "tmomail.net",
-    "verizon" => "vzwpix.com"
+    "verizon" => "vtext.com"
 );
 
 function notify($conn, $user, $notifType, $notifOptions) {
@@ -41,9 +41,9 @@ function notify($conn, $user, $notifType, $notifOptions) {
                     sendEmail($met["address"], $subject, $greeting . $body . $disclaimer);
                     break;
 
-                case 'mms':
-                    require_once "templates/mms.php";
-                    $body = $mmsTemplates[$notifType](...$notifOptions);
+                case 'sms':
+                    require_once "templates/sms.php";
+                    $body = $smsTemplates[$notifType](...$notifOptions);
                     $address = $met["number"] + '@' + $carrierAddresses[$met["carrier"]];
                     sendEmail($address, '', $body);
                     break;
