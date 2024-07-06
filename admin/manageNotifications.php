@@ -55,6 +55,17 @@
                 echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Disable</a>';
             }
             echo '</li>';
+        } else if ($type === "sms") {
+            echo '<li>';
+            echo '<span style="color:gray">SMS:</span> +1' . $methods[$i]['number'] . ' - ' . $methods[$i]['carrier'];
+            if (!$methods[$i]["enabled"]) {
+                echo ' <span style="color:red">[Disabled]</span>';
+                echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Enable</a>';
+                echo ' - <a href="removeNotificationMethod.php?user=' . $user . '&index=' . $i . '" style="color:red">Remove</a>';
+            } else {
+                echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Disable</a>';
+            }
+            echo '</li>';
         } else {
             echo '<li style="color:gray">' . json_encode($methods[$i]) . '</li>';
         }
