@@ -3,14 +3,15 @@
 // this script is responsible for keeping track of what notification types there are
 // and coordinating their formulation and delivery
 
-$carrierAddresses = Array(
-    "at&t" => "txt.att.net",
-    "sprint" => "pm.sprint.com",
-    "t-mobile" => "tmomail.net",
-    "verizon" => "vtext.com"
-);
-
 function notify($conn, $user, $notifType, $notifOptions) {
+
+    $carrierAddresses = Array(
+        "at&t" => "txt.att.net",
+        "sprint" => "pm.sprint.com",
+        "t-mobile" => "tmomail.net",
+        "verizon" => "vtext.com"
+    );
+
     // this function delivers a notification of the specified type to the specified user via all methods
     
     // ensure the type is valid
