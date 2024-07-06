@@ -28,7 +28,7 @@ $emailTemplates = Array(
             </style>
             <h1><b>' . $firstName . '</b> just started a new Scrabble game with you!</h1>
             ' . $gameCard . '
-            <h2>You\'ll receive another notification when it\'s your turn to make your move.</h2>
+            <h2>You\'ll receive another notification when it\'s your turn to play.</h2>
         ';
     
         return ["$firstName added you to a Scrabble game!", $body];
