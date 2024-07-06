@@ -46,7 +46,7 @@ function notify($conn, $user, $notifType, $notifOptions) {
                     require_once "templates/sms.php";
                     $body = $smsTemplates[$notifType](...$notifOptions);
                     $address = $met["number"] . '@' . $carrierAddresses[$met["carrier"]];
-                    sendEmail($address, 'Scrabble', $body);
+                    sendEmail($address, 'scrabble.colebot.com', $body);
                     break;
                 
                 default:
