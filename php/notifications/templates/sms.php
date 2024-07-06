@@ -12,7 +12,7 @@ $smsTemplates = Array(
         } else if (count($playerNames) > 3) {
             $withString = 'you and ' . (count($playerNames) - 2) . ' other players';
         }
-        $body = $playerNames[0] . ' created a game with ' . $withString . '! Log on to play.';
+        $body = $playerNames[0] . ' started a game with ' . $withString . '! Log on to play.';
         return $body;
     },
     "nudge" => function ($nudgingPlayerName, $gameName, $gameId, $playerNames) {
@@ -20,7 +20,7 @@ $smsTemplates = Array(
         return $body;
     },
     "turn" => function ($prevPlayerName, $gameName, $gameId, $playerNames) {
-        $body = $prevPlayerName . ' moved, and it\'s your turn now! ' . ($gameName || '') . '#' . $gameId . ' - Log on to play!';
+        $body = $prevPlayerName . ' moved in ' . ($gameName || 'game ') . '#' . $gameId . ', and it\'s your turn now! Log on to play.';
         return $body;
     }
 );
