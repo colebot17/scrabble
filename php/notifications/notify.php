@@ -3,6 +3,13 @@
 // this script is responsible for keeping track of what notification types there are
 // and coordinating their formulation and delivery
 
+$carrierAddresses = Array(
+    "at&t" => "mms.att.net",
+    "sprint" => "pm.sprint.com",
+    "t-mobile" => "tmomail.net",
+    "verizon" => "vzwpix.com"
+);
+
 function notify($conn, $user, $notifType, $notifOptions) {
     // this function delivers a notification of the specified type to the specified user via all methods
     
@@ -32,6 +39,13 @@ function notify($conn, $user, $notifType, $notifOptions) {
                     $greeting = '<h3 style="margin-bottom:-1em">Hey ' . $un . ',</h3>';
                     $disclaimer = '<p style="font-size:small">You are receiving this email because you signed up for notifications on <a href="https://scrabble.colebot.com">scrabble.colebot.com</a>. <a href="https://scrabble.colebot.com/php/notifications/unsubscribe.php?email=' . $methods[$i]['address'] . '&user=' . $user . '">Unsubscribe</a></p>';
                     sendEmail($met["address"], $subject, $greeting . $body . $disclaimer);
+                    break;
+
+                case 'mms':
+                    require_once "templates/mms.php";
+                    $body = $mmsTemplates[$notifType](...$notifOptions);
+                    $address = $met["number"] + '@' + $carrierAddresses[$met["carrier"]];
+                    sendEmail($address, '', $body);
                     break;
                 
                 default:
