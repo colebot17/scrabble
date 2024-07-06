@@ -30,7 +30,7 @@ function notify($conn, $user, $notifType, $notifOptions) {
     $un = $row['name'];
     for ($i = 0; $i < count($methods); $i++) {
         $met = $methods[$i];
-        if (!array_key_exists('disabled', $met) || !$met["disabled"]) {
+        if ($met["enabled"]) {
             switch ($met["type"]) {
                 case 'email':
                     require_once "templates/email.php";
