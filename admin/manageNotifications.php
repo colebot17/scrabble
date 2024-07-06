@@ -78,5 +78,22 @@
         </select>
         <button>Add</button>
     </form>
+
+    <h4>Add SMS Notification Method</h4>
+    <?php echo '<form method="POST" action="addSMSNotificationMethod.php?user=' . $user .'">'; ?>
+        <input type="tel" name="number" placeholder="Phone Number...">
+        <select name="carrier">
+            <option disabled selected value="">--Select Carrier--</option>
+            <option value="at&t">AT&T</option>
+            <option value="sprint">Sprint</option>
+            <option value="t-mobile">T-Mobile</option>
+            <option value="verizon">Verizon</option>
+        </select>
+        <select name="confirm">
+            <option value="true">Send Confirmation</option>
+            <option value="false">Don't Send Confirmation</option>
+        </select>
+        <button>Add</button>
+    </form>
 </body>
 </html>
