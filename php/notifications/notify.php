@@ -5,13 +5,6 @@
 
 function notify($conn, $user, $notifType, $notifOptions) {
 
-    $carrierAddresses = Array(
-        "at&t" => "txt.att.net",
-        "sprint" => "pm.sprint.com",
-        "t-mobile" => "tmomail.net",
-        "verizon" => "vtext.com"
-    );
-
     // this function delivers a notification of the specified type to the specified user via all methods
     
     // ensure the type is valid
@@ -44,6 +37,7 @@ function notify($conn, $user, $notifType, $notifOptions) {
 
                 case 'sms':
                     require_once "templates/sms.php";
+                    require_once "carriers.php";
                     $body = $smsTemplates[$notifType](...$notifOptions);
                     $address = $met["number"] . '@' . $carrierAddresses[$met["carrier"]];
                     sendEmail($address, 'scrabble.colebot.com', $body);

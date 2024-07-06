@@ -70,9 +70,10 @@
     if ($confirm) {
         require "../php/notifications/sendEmail.php";
         require "../php/notifications/templates/sms.php";
+        require "../php/notifications/carriers.php";
 
         $confirmationBody = $smsTemplates["confirmation"]($un, $number, $user);
-        sendEmail($address, "scrabble.colebot.com", $confirmationBody);
+        sendEmail($number . '@' . $carrierAddresses[$carrier], "scrabble.colebot.com", $confirmationBody);
     }
 
     header('Location: manageNotifications.php?user=' . $user);
