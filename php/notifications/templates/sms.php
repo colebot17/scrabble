@@ -1,6 +1,10 @@
 <?php
 
 $smsTemplates = Array(
+    "confirmation" => function ($un, $number, $user) {
+        $body = 'This number (+1' . $number . ') has been added as a notification method for ' . $un . '.';
+        return $body;
+    },
     "friendRequest" => function ($fromName) {
         $body = $fromName . ' wants to be your friend. Log on to accept!';
         return $body;
@@ -20,7 +24,7 @@ $smsTemplates = Array(
         return $body;
     },
     "turn" => function ($prevPlayerName, $gameName, $gameId, $playerNames) {
-        $body = $prevPlayerName . ' moved in ' . ($gameName || 'game ') . '#' . $gameId . ', and it\'s your turn now! Log on to play.';
+        $body = $prevPlayerName . ' moved in ' . ($gameName !== '' ? $gameName : 'game ') . '#' . $gameId . ', and it\'s your turn now! Log on to play.';
         return $body;
     }
 );
