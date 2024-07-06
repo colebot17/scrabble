@@ -48,7 +48,7 @@
     }
 
     $newMethod = Array(
-        "type" => $type,
+        "type" => 'email',
         "address" => $address,
         "enabled" => true
     );

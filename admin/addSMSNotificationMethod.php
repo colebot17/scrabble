@@ -56,7 +56,7 @@
     }
 
     $newMethod = Array(
-        "type" => $type,
+        "type" => 'sms',
         "number" => $number,
         "carrier" => $carrier,
         "enabled" => true
