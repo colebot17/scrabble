@@ -115,7 +115,7 @@ numberBox.addEventListener('keyup', e => {
     if (e.key === "Enter") {
         addSMSNotificationMethod();
     } else {
-        addEmailButton.disabled = numberBox.value.replaceAll(/\D/g, '').length === 10;
+        addEmailButton.disabled = numberBox.value.replace(/\D/g, '').length === 10;
     }
 });
 
