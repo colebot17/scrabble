@@ -15,6 +15,7 @@ function manageNotifications() {
     emailBox.value = "";
     addButton.disabled = true;
     displayNotificationMethods();
+    setNotificationPage();
 }
 
 function displayNotificationMethods() {
