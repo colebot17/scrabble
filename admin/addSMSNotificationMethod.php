@@ -36,13 +36,16 @@
     }
     $methods = json_decode($row['notificationMethods'], true);
     $un = $row['name'];
-
-    $type = $_POST["type"];
-    if ($type !== "email") {
-        echo '<h2 style="color:red">Unrecognized Method Type \'' . $type . '\'</h2>';
+    
+    $number = preg_replace('/\D/', '', $_POST["number"]);
+    if (strlen($number) !== 10) {
+        echo '<h2 style="color:red">Error: Invalid number format</h2>';
+        echo '<p>Please format phone numbers in a 10-digit format, excluding the country code.</p>';
         exit();
     }
-    $address = $_POST["address"];
+
+    $carrier = $_POST["carrier"];
+
     $confirm = $_POST["confirm"];
     if ($confirm === "true") {
         $confirm = true;
@@ -53,8 +56,9 @@
     }
 
     $newMethod = Array(
-        "type" => $type,
-        "address" => $address,
+        "type" => 'sms',
+        "number" => $number,
+        "carrier" => $carrier,
         "enabled" => true
     );
     $methods[] = $newMethod;
@@ -65,10 +69,11 @@
 
     if ($confirm) {
         require "../php/notifications/sendEmail.php";
-        require "../php/notifications/templates/confirmationEmail.php";
+        require "../php/notifications/templates/sms.php";
+        require "../php/notifications/carriers.php";
 
-        $confirmationBody = confirmationEmail($un, $address, $user);
-        sendEmail($address, "Email address added", $confirmationBody);
+        $confirmationBody = $smsTemplates["confirmation"]($un, $number, $user);
+        sendEmail($number . '@' . $carrierAddresses[$carrier], "scrabble.colebot.com", $confirmationBody);
     }
 
     header('Location: manageNotifications.php?user=' . $user);

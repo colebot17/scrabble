@@ -131,3 +131,14 @@ function setCanvasPage(page = 'canvas') {
 		setHistoryButtonMode('%auto');
     }
 }
+
+function setNotificationPage(page = 'methodList') {
+	// hide all the pages
+	const pages = document.getElementsByClassName('notifPage');
+	for (let page of pages) {
+		page.classList.add('hidden');
+	}
+
+	// show the correct page
+	document.getElementById('notifPage-' + page).classList.remove('hidden');
+}

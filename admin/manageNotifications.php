@@ -55,6 +55,17 @@
                 echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Disable</a>';
             }
             echo '</li>';
+        } else if ($type === "sms") {
+            echo '<li>';
+            echo '<span style="color:gray">SMS:</span> +1' . $methods[$i]['number'] . ' - ' . $methods[$i]['carrier'];
+            if (!$methods[$i]["enabled"]) {
+                echo ' <span style="color:red">[Disabled]</span>';
+                echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Enable</a>';
+                echo ' - <a href="removeNotificationMethod.php?user=' . $user . '&index=' . $i . '" style="color:red">Remove</a>';
+            } else {
+                echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Disable</a>';
+            }
+            echo '</li>';
         } else {
             echo '<li style="color:gray">' . json_encode($methods[$i]) . '</li>';
         }
@@ -72,6 +83,23 @@
     <?php echo '<form method="POST" action="addNotificationMethod.php?user=' . $user .'">'; ?>
         <input type="email" name="address" placeholder="Email...">
         <input type="hidden" name="type" value="email">
+        <select name="confirm">
+            <option value="true">Send Confirmation</option>
+            <option value="false">Don't Send Confirmation</option>
+        </select>
+        <button>Add</button>
+    </form>
+
+    <h4>Add SMS Notification Method</h4>
+    <?php echo '<form method="POST" action="addSMSNotificationMethod.php?user=' . $user .'">'; ?>
+        <input type="tel" name="number" placeholder="Phone Number...">
+        <select name="carrier">
+            <option disabled selected value="">--Select Carrier--</option>
+            <option value="at&t">AT&T</option>
+            <option value="sprint">Sprint</option>
+            <option value="t-mobile">T-Mobile</option>
+            <option value="verizon">Verizon</option>
+        </select>
         <select name="confirm">
             <option value="true">Send Confirmation</option>
             <option value="false">Don't Send Confirmation</option>

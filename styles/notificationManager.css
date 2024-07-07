@@ -1,11 +1,13 @@
-#notificationManagerModal {
+#notifPage-methodList {
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: max-content 1fr max-content;
     gap: 10px;
+
+    height: 100%;
 }
 
-.emailNotificationMethod {
+.notificationMethod {
     display: grid;
     grid-template-rows: 100%;
     grid-template-columns: 1fr max-content;

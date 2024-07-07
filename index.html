@@ -14,7 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="styles/gamesList.css?v=1"> <!-- games list -->
 	<link rel="stylesheet" type="text/css" href="styles/customFont.css"> <!-- custom font for letter bag -->
 	<link rel="stylesheet" type="text/css" href="styles/tutorialOverlay.css"> <!-- tutorial overlay -->
-	<link rel="stylesheet" type="text/css" href="styles/notificationManager.css"> <!-- notification manager -->
+	<link rel="stylesheet" type="text/css" href="styles/notificationManager.css?v=1"> <!-- notification manager -->
 	<link rel="stylesheet" type="text/css" href="styles/toast.css"> <!-- toasts -->
 	<!-- <script type="module" src="//www.colebot.com/themes.js" defer></script> --> <!-- themes -->
 
@@ -495,21 +495,49 @@
 		<button class="iconButton modalCloseButton" onclick="$('#notificationManagerModal').modalClose()">
 			<span class="material-symbols-rounded">close</span>
 		</button>
-		<div class="titleLine flex col">
-			<h2>Notifications</h2>
-			<span>Turn notifications will be sent to all email addresses below.</span>
-		</div>
-		<div class="scrollable">
-			<div id="notificationMethodsList" class="friendList darkerScrollbar">
-				<!-- <div class="friendListItem emailNotificationMethod">
-					<div class="flex flexStart">colebot@colebot.com</div>
-					<button class="iconButton"><span class="material-symbols-rounded">remove</span></button>
-				</div> -->
+		<div id="notifPage-methodList" class="notifPage">
+			<div class="titleLine flex col">
+				<h2 class="noMargin">Notifications</h2>
+			</div>
+			<div class="scrollable">
+				<div id="notificationMethodsList" class="friendList darkerScrollbar">
+					<!-- <div class="friendListItem emailNotificationMethod">
+						<div class="flex flexStart">colebot@colebot.com</div>
+						<button class="iconButton"><span class="material-symbols-rounded">remove</span></button>
+					</div> -->
+				</div>
+			</div>
+			<div class="grid" style="grid-template-columns: 50% 50%;">
+				<button class="semiHighlight" onclick="setNotificationPage('addEmail')">Add Email</button>
+				<button class="semiHighlight" onclick="setNotificationPage('addSMS')">Add SMS Number</button>
 			</div>
 		</div>
-		<div class="flex stretch noGap">
-			<input type="email" class="largeTextInput flexGrow3" id="addNotificationEmailBox" placeholder="Email">
-			<button class="highlight flexGrow" onclick="addEmailNotificationMethod()" id="addEmailNotificationMethodButton" disabled>Add</button>
+		<div id="notifPage-addEmail" class="notifPage">
+			<div class="flex titleLine">
+				<button class="iconButton" onclick="setNotificationPage('methodList')"><span class="material-symbols-rounded">chevron_left</span></button>
+				<h2 class="noMargin">Add Email</h2>
+			</div>
+			<div class="grid" style="grid-template-columns: 84% 16%;">
+				<input type="email" class="largeTextInput" id="addNotificationEmailBox" placeholder="Email">
+				<button class="highlight" onclick="addEmailNotificationMethod()" id="addEmailNotificationMethodButton" disabled>Add</button>
+			</div>
+		</div>
+		<div id="notifPage-addSMS" class="notifPage">
+			<div class="flex titleLine">
+				<button class="iconButton" onclick="setNotificationPage('methodList')"><span class="material-symbols-rounded">chevron_left</span></button>
+				<h2 class="noMargin">Add SMS</h2>
+			</div>
+			<div class="grid" style="grid-template-columns: 42% 42% 16%;">
+				<input type="email" class="largeTextInput" id="addSMSNumberBox" placeholder="Phone Number">
+				<select id="addSMSCarrierBox">
+					<option disabled selected value="">--Select Carrier--</option>
+					<option value="at&t">AT&T</option>
+					<option value="sprint">Sprint</option>
+					<option value="t-mobile">T-Mobile</option>
+					<option value="verizon">Verizon</option>
+				</select>
+				<button class="highlight" onclick="addSMSNotificationMethod()" id="addSMSNotificationMethodButton" disabled>Add</button>
+			</div>
 		</div>
 	</div>
 	<div class="modal hidden" id="letterExchangeModal">
@@ -554,7 +582,7 @@
 	<script type="text/javascript" src="scripts/util.js" defer></script>
 	<script type="text/javascript" src="scripts/settings.js" defer></script>
 	<script type="text/javascript" src="scripts/defaultLanguage.js" defer></script>
-	<script type="text/javascript" src="scripts/pages.js" defer></script>
+	<script type="text/javascript" src="scripts/pages.js?v=1" defer></script>
 	<script type="text/javascript" src="scripts/canvas.js?v=3" defer></script>
 	<script type="text/javascript" src="scripts/board.js" defer></script>
 	<script type="text/javascript" src="scripts/events.js?v=14" defer></script>
@@ -574,7 +602,7 @@
 	<script type="text/javascript" src="scripts/share.js" defer></script>
 	<script type="text/javascript" src="scripts/gamesList.js" defer></script>
 	<script type="text/javascript" src="scripts/letterExchange.js" defer></script>
-	<script type="text/javascript" src="scripts/notifications.js" defer></script>
+	<script type="text/javascript" src="scripts/notifications.js?v=1" defer></script>
 	<script type="text/javascript" src="scripts/draft.js" defer></script>
 	<script type="text/javascript" src="scripts/nudge.js" defer></script>
 	<!-- <script type="text/javascript" src="libraries/pullToRefresh.min.js" defer></script> -->
