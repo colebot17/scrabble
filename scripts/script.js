@@ -1043,6 +1043,9 @@ function checkPoints() {
 		removeCondition: () => removeLoadingAnimation
 	});
 
+	// reset the move history
+	updateMoveHistory();
+
 	request('checkPoints.php', {
 		game: game.id,
 		tiles: JSON.stringify(newTiles),
@@ -1098,6 +1101,9 @@ function checkPoints() {
 			start: res.data.newWords[mainWordId].pos.start,
 			end: res.data.newWords[mainWordId].pos.end
 		}
+
+		// show the draft in the move history
+		updateMoveHistory(res.data);
 
 	}).catch(err => {
 		console.error(err);

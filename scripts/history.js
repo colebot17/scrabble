@@ -1,4 +1,4 @@
-function updateMoveHistory() {
+function updateMoveHistory(draft) {
     const historyEl = document.getElementById('historyContents');
 
     // generate a moves array
@@ -19,13 +19,28 @@ function updateMoveHistory() {
         }
     }
 
+    // add the draft if it exists
+    if (draft) {
+        moves[game.turn] = {
+            turn: undefined,
+            player: account.id,
+            playerName: account.name,
+            words: draft.newWords,
+            points: draft.newPoints
+        };
+    }
+
     historyEl.innerHTML = "";
+
+    // add the moves
     for (let i = moves.length - 1; i >= 0; i--) {
         if (!moves[i]) continue; // there may be gaps in the moves array due to players skipping turns
 
+        const isDraft = moves[i].turn === undefined;
+
         const moveEl = document.createElement('div');
-        moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow pointer";
-        moveEl.id = "historyEntry" + moves[i].turn;
+        moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow pointer" + (isDraft ? " moveHistoryDraft" : "");
+        moveEl.id = "historyEntry" + i;
         moveEl.tabIndex = "0";
         moveEl.addEventListener('click', () => {
             setCanvasPage('canvas');
@@ -48,7 +63,7 @@ function updateMoveHistory() {
         const moveTitle = document.createElement('span');
         moveTitle.className = "moveHistoryMoveTitle";
         moveTitle.innerHTML = /* html */ `
-            <span class="finePrint">Turn ${moves[i].turn}</span>
+            <span class="finePrint">${isDraft ? `Draft` : `Turn ${moves[i].turn}`}</span>
             <br>
             <span>${moves[i].playerName}</span>
         `;
