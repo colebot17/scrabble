@@ -39,12 +39,14 @@ $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $methods = json_decode($row['notificationMethods'], true);
 
-// make sure there isn't already an identical method (and make sure it's enabled if there is)
+// handle duplicate methods and method information
 $exists = false;
 for ($i = 0; $i < count($methods); $i++) {
-    if ($methods[$i]["type"] === "sms" && $methods[$i]["number"] === $number && $methods[$i]["carrier"] === $carrier) {
+
+    if ($methods[$i]["type"] === "sms" && $methods[$i]["number"] === $number) {
         $exists = true;
         $methods[$i]["enabled"] = true;
+        $methods[$i]["carrier"] = $carrier;
     }
 }
 
