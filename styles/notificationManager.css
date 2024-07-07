@@ -1,4 +1,4 @@
-#notificationManagerModal {
+#notifPage-methodList {
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: max-content 1fr max-content;
