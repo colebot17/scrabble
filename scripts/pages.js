@@ -140,5 +140,5 @@ function setNotificationPage(page = 'methodList') {
 	}
 
 	// show the correct page
-	document.getElementById('notifPage-' + page);
+	document.getElementById('notifPage-' + page).classList.remove('hidden');
 }
