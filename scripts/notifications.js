@@ -115,7 +115,7 @@ numberBox.addEventListener('keyup', e => {
     if (e.key === "Enter") {
         addSMSNotificationMethod();
     } else {
-        addSMSButton.disabled = numberBox.value.replace(/\D/g, '').length === 10;
+        addSMSButton.disabled = numberBox.value.replace(/\D/g, '').length !== 10;
     }
 });
 
