@@ -1099,6 +1099,9 @@ function checkPoints() {
 			end: res.data.newWords[mainWordId].pos.end
 		}
 
+		// show the draft in the move history
+		updateMoveHistory(res.data);
+
 	}).catch(err => {
 		console.error(err);
 

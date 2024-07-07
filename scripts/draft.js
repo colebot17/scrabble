@@ -18,4 +18,7 @@ function removeDraft() {
         pwd: account.pwd,
         game: game.id
     });
+
+    // make sure the draft is not shown in the move history
+    updateMoveHistory();
 }
