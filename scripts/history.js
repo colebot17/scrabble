@@ -10,6 +10,7 @@ function updateMoveHistory(draft) {
             moves[turn].points += game.words[i].points;
         } else {
             moves[turn] = {
+                isDraft: false,
                 turn: turn,
                 player: game.words[i].player,
                 playerName: game.words[i].playerName,
@@ -22,7 +23,8 @@ function updateMoveHistory(draft) {
     // add the draft if it exists
     if (draft) {
         moves[game.turn] = {
-            turn: undefined,
+            isDraft: true,
+            turn: game.turn,
             player: account.id,
             playerName: account.name,
             words: draft.newWords,
@@ -34,9 +36,11 @@ function updateMoveHistory(draft) {
 
     // add the moves
     for (let i = moves.length - 1; i >= 0; i--) {
-        if (!moves[i]) continue; // there may be gaps in the moves array due to players skipping turns
+        const move = moves[i];
 
-        const isDraft = moves[i].turn === undefined;
+        const isSkipped = !move; // any gap in moves is assumed to be a skipped turn
+
+        const isDraft = move.isDraft;
 
         const moveEl = document.createElement('div');
         moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow pointer" + (isDraft ? " moveHistoryDraft" : "");
@@ -45,7 +49,7 @@ function updateMoveHistory(draft) {
         moveEl.addEventListener('click', () => {
             setCanvasPage('canvas');
             setTimeout(() => {
-                const word = moves[i].words.find(a => a.cross === false);
+                const word = move.words.find(a => a.cross === false);
                 const region = {
                     start: [
                         word.pos.start[0],
@@ -63,35 +67,41 @@ function updateMoveHistory(draft) {
         const moveTitle = document.createElement('span');
         moveTitle.className = "moveHistoryMoveTitle";
         moveTitle.innerHTML = /* html */ `
-            <span class="finePrint">${isDraft ? `Draft` : `Turn ${moves[i].turn}`}</span>
+            <span class="finePrint">${isDraft ? `Draft` : `Turn ${i}`}</span>
             <br>
-            <span>${moves[i].playerName}</span>
+            <span>${move ? move.playerName : game.players[i % game.players.length].name}</span>
         `;
         moveEl.appendChild(moveTitle);
         
         const wordsEl = document.createElement('div');
         wordsEl.className = "flex col fullHeight gap2";
 
-        const words = moves[i].words;
-        for (let j = 0; j < words.length; j++) {
-            if (!words[j].placeholder) {
-                const wordEl = document.createElement('div');
-                wordEl.className = "moveHistoryWord";
-                wordEl.innerHTML = "<span class='bold'>" + words[j].word.toTitleCase() + "</span>" + (words.length > 1 ? " - " + words[j].points + "pt" + (words[j].points === 1 ? "" : "s") : "");
-                wordsEl.appendChild(wordEl);
-            } else {
-                const bonusEl = document.createElement('div');
-                bonusEl.className = "moveHistoryWord flex";
-                bonusEl.innerHTML = "<span class='material-symbols-rounded smallIcon'>add_circle</span><span>" + words[j].points + " point" + (words[j].points === 1 ? "" : "s") + "</span>";
-                bonusEl.title = "The player used all 7 of their letters in this single turn.";
-                wordsEl.appendChild(bonusEl);
+        if (!isSkipped) {
+            const words = move.words;
+            for (let j = 0; j < words.length; j++) {
+                if (!words[j].placeholder) {
+                    const wordEl = document.createElement('div');
+                    wordEl.className = "moveHistoryWord";
+                    wordEl.innerHTML = "<span class='bold'>" + words[j].word.toTitleCase() + "</span>" + (words.length > 1 ? " - " + words[j].points + "pt" + (words[j].points === 1 ? "" : "s") : "");
+                    wordsEl.appendChild(wordEl);
+                } else {
+                    const bonusEl = document.createElement('div');
+                    bonusEl.className = "moveHistoryWord flex";
+                    bonusEl.innerHTML = "<span class='material-symbols-rounded smallIcon'>add_circle</span><span>" + words[j].points + " point" + (words[j].points === 1 ? "" : "s") + "</span>";
+                    bonusEl.title = "The player used all 7 of their letters in this single turn.";
+                    wordsEl.appendChild(bonusEl);
+                }
             }
+        } else {
+            wordsEl.innerHTML = "--";
+            wordsEl.classList.add('textColorLight');
         }
 
         moveEl.appendChild(wordsEl);
 
         const totalPointsEl = document.createElement('div');
-        totalPointsEl.innerHTML = moves[i].points + " point" + (moves[i].points === 1 ? "" : "s");
+        totalPointsEl.innerHTML = (isSkipped ? "Skipped" : move.points + " point" + (move.points === 1 ? "" : "s"));
+        if (isSkipped) totalPointsEl.classList.add('textColorLight');
         moveEl.appendChild(totalPointsEl);
 
         historyEl.appendChild(moveEl);
