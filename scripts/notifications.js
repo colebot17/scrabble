@@ -111,13 +111,15 @@ async function addEmailNotificationMethod() {
 const numberBox = document.getElementById('addSMSNumberBox');
 const carrierBox = document.getElementById('addSMSCarrierBox');
 const addSMSButton = document.getElementById('addSMSNotificationMethodButton');
-numberBox.addEventListener('keyup', e => {
+const smsUpdate = e => {
     if (e.key === "Enter") {
         addSMSNotificationMethod();
     } else {
-        addSMSButton.disabled = numberBox.value.replace(/\D/g, '').length !== 10;
+        addSMSButton.disabled = numberBox.value.replace(/\D/g, '').length !== 10 || !carrierBox.value;
     }
-});
+};
+numberBox.addEventListener('keyup', smsUpdate);
+carrierBox.addEventListener('change', smsUpdate);
 
 async function addSMSNotificationMethod() {
     const number = numberBox.value.replace(/\D/g, '');
