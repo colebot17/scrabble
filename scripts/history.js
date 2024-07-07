@@ -44,7 +44,7 @@ function updateMoveHistory(draft) {
 
         const moveEl = document.createElement('div');
         moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow pointer" + (isDraft ? " moveHistoryDraft" : "");
-        moveEl.id = "historyEntry" + i;
+        moveEl.id = "historyEntry" + move.turn;
         moveEl.tabIndex = "0";
         moveEl.addEventListener('click', () => {
             setCanvasPage('canvas');
@@ -67,7 +67,7 @@ function updateMoveHistory(draft) {
         const moveTitle = document.createElement('span');
         moveTitle.className = "moveHistoryMoveTitle";
         moveTitle.innerHTML = /* html */ `
-            <span class="finePrint">${isDraft ? `Draft` : `Turn ${i}`}</span>
+            <span class="finePrint">${isDraft ? `Draft` : `Turn ${move.turn}`}</span>
             <br>
             <span>${move ? move.playerName : game.players[i % game.players.length].name}</span>
         `;
@@ -79,15 +79,16 @@ function updateMoveHistory(draft) {
         if (!isSkipped) {
             const words = move.words;
             for (let j = 0; j < words.length; j++) {
-                if (!words[j].placeholder) {
+                const word = words[j];
+                if (!word.placeholder) {
                     const wordEl = document.createElement('div');
                     wordEl.className = "moveHistoryWord";
-                    wordEl.innerHTML = "<span class='bold'>" + words[j].word.toTitleCase() + "</span>" + (words.length > 1 ? " - " + words[j].points + "pt" + (words[j].points === 1 ? "" : "s") : "");
+                    wordEl.innerHTML = "<span class='bold'>" + word.word.toTitleCase() + "</span>" + (words.length > 1 ? " - " + word.points + "pt" + (word.points === 1 ? "" : "s") : "");
                     wordsEl.appendChild(wordEl);
                 } else {
                     const bonusEl = document.createElement('div');
                     bonusEl.className = "moveHistoryWord flex";
-                    bonusEl.innerHTML = "<span class='material-symbols-rounded smallIcon'>add_circle</span><span>" + words[j].points + " point" + (words[j].points === 1 ? "" : "s") + "</span>";
+                    bonusEl.innerHTML = "<span class='material-symbols-rounded smallIcon'>add_circle</span><span>" + word.points + " point" + (word.points === 1 ? "" : "s") + "</span>";
                     bonusEl.title = "The player used all 7 of their letters in this single turn.";
                     wordsEl.appendChild(bonusEl);
                 }
