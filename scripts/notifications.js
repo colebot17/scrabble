@@ -32,8 +32,11 @@ function displayNotificationMethods() {
                 content = /* html */ `
                     <div class="friendListItem notificationMethod">
                         <div class="flex col alignFlexStart">
-                            <span>${met.address}</span>
-                            ${met.enabled ? `` : /* html */ `<span class="finePrint" style="color:red">Disabled</span>`}
+                            <span>(${met.number.slice(0, 3)}) ${met.number.slice(3, 6)} - ${met.number.slice(6, 10)}</span>
+                            <span>
+                                <span class="finePrint">${met.carrier}</span>
+                                ${met.enabled ? `` : /* html */ `<span class="finePrint" style="color:red"> - Disabled</span>`}
+                            </span>
                         </div>
                         <button class="iconButton" onclick="removeNotificationMethod(${i})"><span class="material-symbols-rounded">remove</span></button>
                     </div>
