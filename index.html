@@ -528,7 +528,18 @@
 				<button class="iconButton" onclick="setNotificationPage('methodList')"><span class="material-symbols-rounded">chevron_left</span></button>
 				<h2 class="noMargin">Add SMS</h2>
 			</div>
-			<br>This is the page where the user can add their phone number for sms notifications
+			<br>
+			<div class="flex stretch noGap">
+				<input type="email" class="largeTextInput flexGrow3" id="addSMSNumberBox" placeholder="Phone Number">
+				<select class="flexGrow3" id="addSMSCarrierBox">
+					<option disabled selected value="">--Select Carrier--</option>
+					<option value="at&t">AT&T</option>
+					<option value="sprint">Sprint</option>
+					<option value="t-mobile">T-Mobile</option>
+					<option value="verizon">Verizon</option>
+				</select>
+				<button class="highlight flexGrow" onclick="addSMSNotificationMethod()" id="addSMSNotificationMethodButton" disabled>Add</button>
+			</div>
 		</div>
 	</div>
 	<div class="modal hidden" id="letterExchangeModal">
