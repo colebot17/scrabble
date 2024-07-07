@@ -31,7 +31,7 @@ function displayNotificationMethods() {
             case "sms":
                 content = /* html */ `
                     <div class="friendListItem notificationMethod">
-                        <div class="flex col alignFlexStart">
+                        <div class="flex col alignFlexStart noGap">
                             <span>(${met.number.slice(0, 3)}) ${met.number.slice(3, 6)} - ${met.number.slice(6, 10)}</span>
                             <span>
                                 <span class="finePrint">${met.carrier}</span>
