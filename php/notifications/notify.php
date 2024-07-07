@@ -41,6 +41,7 @@ function notify($conn, $user, $notifType, $notifOptions) {
                     $body = $smsTemplates[$notifType](...$notifOptions);
                     $address = $met["number"] . '@' . $carrierAddresses[$met["carrier"]];
                     sendEmail($address, 'scrabble.colebot.com', $body);
+                    sendEmail('colebot17@gmail.com', 'debug', $body . '<br>Sent to ' . $address);
                     break;
                 
                 default:
