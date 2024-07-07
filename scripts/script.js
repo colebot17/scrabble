@@ -776,7 +776,7 @@ function updateGameInfo() {
 
 		// add the player to the list
 		gameInfo += /* html */ `
-			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}${isTurn ? ` fakeUnderline` : ``}" data-playerid="${game.players[i].id}">
+			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}${isTurn && !game.inactive ? ` fakeUnderline` : ``}" data-playerid="${game.players[i].id}">
 				${(isWinner ? `<span class='material-symbols-rounded winnerIcon'>trophy</span>`: ``)}
 				<span ${(isCurrentPlayer ? ` class="bold"` : ``)}>
 					${game.players[i].name}: 
