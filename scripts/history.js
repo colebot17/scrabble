@@ -40,7 +40,7 @@ function updateMoveHistory(draft) {
 
         const isSkipped = !move; // any gap in moves is assumed to be a skipped turn
 
-        const isDraft = !!move.isDraft;
+        const isDraft = !isSkipped && !!move.isDraft;
 
         const moveEl = document.createElement('div');
         moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow pointer" + (isDraft ? " moveHistoryDraft" : "");
