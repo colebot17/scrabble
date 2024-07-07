@@ -517,9 +517,9 @@
 				<button class="iconButton" onclick="setNotificationPage('methodList')"><span class="material-symbols-rounded">chevron_left</span></button>
 				<h2 class="noMargin">Add Email</h2>
 			</div>
-			<div class="flex stretch noGap">
-				<input type="email" class="largeTextInput flexGrow3" id="addNotificationEmailBox" placeholder="Email">
-				<button class="highlight flexGrow" onclick="addEmailNotificationMethod()" id="addEmailNotificationMethodButton" disabled>Add</button>
+			<div class="grid" style="grid-template-columns: 84%;">
+				<input type="email" class="largeTextInput" id="addNotificationEmailBox" placeholder="Email">
+				<button class="highlight" onclick="addEmailNotificationMethod()" id="addEmailNotificationMethodButton" disabled>Add</button>
 			</div>
 		</div>
 		<div id="notifPage-addSMS" class="notifPage">
@@ -528,15 +528,15 @@
 				<h2 class="noMargin">Add SMS</h2>
 			</div>
 			<div class="grid" style="grid-template-columns: 42% 42% 16%;">
-				<input type="email" class="largeTextInput flexGrow3" id="addSMSNumberBox" placeholder="Phone Number">
-				<select class="flexGrow3" id="addSMSCarrierBox">
+				<input type="email" class="largeTextInput" id="addSMSNumberBox" placeholder="Phone Number">
+				<select id="addSMSCarrierBox">
 					<option disabled selected value="">--Select Carrier--</option>
 					<option value="at&t">AT&T</option>
 					<option value="sprint">Sprint</option>
 					<option value="t-mobile">T-Mobile</option>
 					<option value="verizon">Verizon</option>
 				</select>
-				<button class="highlight flexGrow" onclick="addSMSNotificationMethod()" id="addSMSNotificationMethodButton" disabled>Add</button>
+				<button class="highlight" onclick="addSMSNotificationMethod()" id="addSMSNotificationMethodButton" disabled>Add</button>
 			</div>
 		</div>
 	</div>
