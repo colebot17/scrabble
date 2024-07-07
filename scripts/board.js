@@ -32,6 +32,8 @@ function boardUpdate() {
     // this function is called immediately after the tiles present on the board are changed in any way
     
     setMoveButtonEnablement();
+
+    updateMoveHistory();
 }
 
 function setMoveButtonEnablement() {

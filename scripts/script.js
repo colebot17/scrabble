@@ -1043,9 +1043,6 @@ function checkPoints() {
 		removeCondition: () => removeLoadingAnimation
 	});
 
-	// reset the move history
-	updateMoveHistory();
-
 	request('checkPoints.php', {
 		game: game.id,
 		tiles: JSON.stringify(newTiles),
