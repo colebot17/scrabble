@@ -81,7 +81,7 @@ async function addEmailNotificationMethod() {
         return;
     }
 
-    document.getElementById('addEmailNotificationMethodButton').disabled = true;
+    addEmailButton.disabled = true;
 
     const res = await request('notifications/addEmail.php', {
         user: account.id,
@@ -89,8 +89,8 @@ async function addEmailNotificationMethod() {
         address: email
     });
 
-    document.getElementById('addEmailNotificationMethodButton').disabled = true;
-    document.getElementById('addNotificationEmailBox').value = "";
+    addEmailButton.disabled = true;
+    emailBox.value = "";
 
     if (res.errorLevel) {
         textModal("Error", res.message);
@@ -133,12 +133,17 @@ async function addSMSNotificationMethod() {
         return;
     }
 
+    addSMSButton.disabled = true;
+
     const res = await request('notifications/addSMS.php', {
         user: account.id,
         pwd: account.pwd,
         number,
         carrier
     });
+
+    numberBox.value = "";
+    carrierBox.value = "";
 
     if (res.errorLevel > 0) {
         textModal("Error", res.message);
