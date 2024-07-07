@@ -44,7 +44,7 @@ function updateMoveHistory(draft) {
 
         const moveEl = document.createElement('div');
         moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow pointer" + (isDraft ? " moveHistoryDraft" : "");
-        moveEl.id = "historyEntry" + move.turn;
+        moveEl.id = "historyEntry" + i;
         moveEl.tabIndex = "0";
         moveEl.addEventListener('click', () => {
             setCanvasPage('canvas');
@@ -67,7 +67,7 @@ function updateMoveHistory(draft) {
         const moveTitle = document.createElement('span');
         moveTitle.className = "moveHistoryMoveTitle";
         moveTitle.innerHTML = /* html */ `
-            <span class="finePrint">${isDraft ? `Draft` : `Turn ${move.turn}`}</span>
+            <span class="finePrint">${isDraft ? `Draft` : `Turn ${i}`}</span>
             <br>
             <span>${move ? move.playerName : game.players[i % game.players.length].name}</span>
         `;
