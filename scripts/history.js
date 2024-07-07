@@ -77,12 +77,12 @@ function updateMoveHistory(draft) {
             if (!words[j].placeholder) {
                 const wordEl = document.createElement('div');
                 wordEl.className = "moveHistoryWord";
-                wordEl.innerHTML = "<span class='bold'>" + words[j].word.toTitleCase() + "</span>" + (words.length > 1 ? " - " + words[j].points + "pts" : "");
+                wordEl.innerHTML = "<span class='bold'>" + words[j].word.toTitleCase() + "</span>" + (words.length > 1 ? " - " + words[j].points + "pt" + (words[j].points === 1 ? "" : "s") : "");
                 wordsEl.appendChild(wordEl);
             } else {
                 const bonusEl = document.createElement('div');
                 bonusEl.className = "moveHistoryWord flex";
-                bonusEl.innerHTML = "<span class='material-symbols-rounded smallIcon'>add_circle</span><span>" + words[j].points + " points</span>";
+                bonusEl.innerHTML = "<span class='material-symbols-rounded smallIcon'>add_circle</span><span>" + words[j].points + " point" + (words[j].points === 1 ? "" : "s") + "</span>";
                 bonusEl.title = "The player used all 7 of their letters in this single turn.";
                 wordsEl.appendChild(bonusEl);
             }
@@ -91,7 +91,7 @@ function updateMoveHistory(draft) {
         moveEl.appendChild(wordsEl);
 
         const totalPointsEl = document.createElement('div');
-        totalPointsEl.innerHTML = moves[i].points + " points";
+        totalPointsEl.innerHTML = moves[i].points + " point" + (moves[i].points === 1 ? "" : "s");
         moveEl.appendChild(totalPointsEl);
 
         historyEl.appendChild(moveEl);
