@@ -19,7 +19,7 @@ function displayNotificationMethods() {
             case "email":
                 content = /* html */ `
                     <div class="friendListItem notificationMethod">
-                        <div class="flex col alignFlexStart">
+                        <div class="flex col alignFlexStart noGap">
                             <span>${met.address}</span>
                             ${met.enabled ? `` : /* html */ `<span class="finePrint" style="color:red">Disabled</span>`}
                         </div>
