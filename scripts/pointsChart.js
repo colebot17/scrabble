@@ -56,7 +56,7 @@ function startChart() {
             data: d,
             borderColor: currentPlayer ? highlightColor : LINE_COLORS[lineColorIndex++ % LINE_COLORS.length],
             order: currentPlayer ? 0 : 1,
-            borderWidth: currentPlayer ? 8 : 5
+            borderWidth: currentPlayer ? 7 : 5
         });
     }
 
