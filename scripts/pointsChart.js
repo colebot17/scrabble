@@ -34,7 +34,7 @@ function startChart(data) {
             for (let k = 0; k < words.length; k++) {
                 turnPoints += words[k].points;
             }
-            d.push({x: j, y: turnPoints});
+            if (words.length) d.push({x: j, y: turnPoints});
         }
         const currentPlayer = game.players[i].id == account.id;
         datasets.push({
