@@ -41,7 +41,7 @@ function startChart(data) {
             label: game.players[i].name,
             data: d,
             borderColor: currentPlayer ? highlightColor : semiHighlightColor,
-            order: currentPlayer ? 1 : 0
+            order: currentPlayer ? 0 : 1
         });
     }
 
