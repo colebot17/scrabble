@@ -8,7 +8,8 @@ const semiHighlightColor = styles.getPropertyValue('--semi-highlight');
 const LINE_COLORS = [
     "#7E57FF",
     "#FF5757",
-    "#ED57FF"
+    "#ED57FF",
+    "#FFAF57"
 ]
 
 Chart.defaults.color = textColor;
