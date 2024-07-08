@@ -108,5 +108,5 @@ function startChart() {
 }
 
 function destroyChart() {
-    chart.destroy();
+    if (chart) chart.destroy();
 }
