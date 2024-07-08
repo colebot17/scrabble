@@ -3,6 +3,8 @@ const textColor = styles.getPropertyValue('--text-color');
 const highlightColor = styles.getPropertyValue('--highlight');
 const semiHighlightColor = styles.getPropertyValue('--semi-highlight');
 
+Chart.defaults.color = textColor;
+
 const ctx = document.getElementById('graphCanvas');
 
 function startChart() {
