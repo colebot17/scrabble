@@ -99,7 +99,8 @@ function startChart(data) {
                     align: "start",
                     labels: {
                         pointStyle: "line",
-                        usePointStyle: true
+                        usePointStyle: true,
+                        borderWidth: 5
                     }
                 }
             }
