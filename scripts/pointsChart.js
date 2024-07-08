@@ -76,7 +76,8 @@ function startChart(data) {
                 line: {
                     tension: 0.25,
                     borderWidth: 5,
-                    borderCapStyle: "round"
+                    borderCapStyle: "round",
+                    step: true
                 },
                 point: {
                     pointStyle: false
