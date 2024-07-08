@@ -151,7 +151,7 @@
 					<button id="playMoveAnimationButton" class="iconButton" onclick="setCanvasPage('canvas');animateMoves();" title="Play Animation">
 						<span class="material-symbols-rounded">play_arrow</span>
 					</button>
-					<button id="showGraphButton" class="iconButton" onclick="setCanvasPage('canvas');startChart();">
+					<button id="showGraphButton" class="iconButton" onclick="setCanvasPage('graph');startChart();">
 						<span class="material-symbols-rounded">show_chart</span>
 					</button>
 				</div>
@@ -159,7 +159,7 @@
 			</div>
 			<div class="canvasPage flex col fullWidth fullHeight hidden" id="graphCanvasPage">
 				<div class="flex titleLine">
-					<button class="iconButton" onclick="setCanvasPage('history');destroyChart();">
+					<button class="iconButton" onclick="setCanvasPage('canvas');destroyChart();">
 						<span class="material-symbols-rounded">chevron_left</span>
 					</button>
 					<h3 class="noMargin">Points Graph</h3>
