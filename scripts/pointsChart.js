@@ -98,9 +98,7 @@ function startChart(data) {
                     position: "chartArea",
                     align: "start",
                     labels: {
-                        pointStyle: "line",
-                        usePointStyle: true,
-                        borderWidth: 5
+                        boxHeight: 0
                     }
                 }
             }
