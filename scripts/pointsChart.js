@@ -6,6 +6,7 @@ const highlightColor = styles.getPropertyValue('--highlight');
 const semiHighlightColor = styles.getPropertyValue('--semi-highlight');
 
 const LINE_COLORS = [
+    semiHighlightColor,
     "#3D1452",
     "#C1292E",
     "#63A375",
