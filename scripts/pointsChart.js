@@ -30,7 +30,7 @@ function startChart(data) {
         d = [];
         for (let j = 0; j < labels.length; j++) {
             const words = game.words.filter(a => a.turn === j && a.player === game.players[i].id);
-            const turnPoints = 0;
+            let turnPoints = 0;
             for (let k = 0; k < words.length; k++) {
                 turnPoints += words[k].points;
             }
