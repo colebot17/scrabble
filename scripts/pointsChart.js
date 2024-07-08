@@ -78,6 +78,7 @@ function startChart(data) {
                     }
                 }
             },
+            maintainAspectRatio: false,
             devicePixelRatio: 2,
             elements: {
                 line: {
