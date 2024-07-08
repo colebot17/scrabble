@@ -25,8 +25,6 @@ unavailableMessage.classList.add('hidden');
 let chart;
 
 function startChart() {
-    let canShowChart = true;
-
     const labels = [];
     for (let i = 0; i < game.turn; i++) {
         labels.push(i);
