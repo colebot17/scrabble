@@ -7,6 +7,8 @@ Chart.defaults.color = textColor;
 
 const ctx = document.getElementById('graphCanvas');
 
+let chart;
+
 function startChart(data) {
     // const labels = [];
     // for (let i = 0; i < 20; i++) {
@@ -45,7 +47,7 @@ function startChart(data) {
         });
     }
 
-    new Chart(ctx, {
+    chart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
@@ -99,4 +101,8 @@ function startChart(data) {
             }
         }
     });
+}
+
+function destroyChart() {
+    chart.destroy();
 }
