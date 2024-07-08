@@ -7,17 +7,35 @@ Chart.defaults.color = textColor;
 
 const ctx = document.getElementById('graphCanvas');
 
-function startChart() {
+function startChart(data) {
+    // const labels = [];
+    // for (let i = 0; i < 20; i++) {
+    //     labels.push(i);
+    // }
+
+    // const dataset1 = [Math.floor(Math.random() * 20) + 7];
+    // const dataset2 = [Math.floor(Math.random() * 20) + 7];
+    // for (let i = 0; i < labels.length; i++) {
+    //     dataset1.push(dataset1.at(-1) + Math.floor(Math.random() * 20) + 7);
+    //     dataset2.push(dataset2.at(-1) + Math.floor(Math.random() * 20) + 7);
+    // }
+
     const labels = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < game.turn; i++) {
         labels.push(i);
     }
 
-    const dataset1 = [Math.floor(Math.random() * 20) + 7];
-    const dataset2 = [Math.floor(Math.random() * 20) + 7];
-    for (let i = 0; i < labels.length; i++) {
-        dataset1.push(dataset1.at(-1) + Math.floor(Math.random() * 20) + 7);
-        dataset2.push(dataset2.at(-1) + Math.floor(Math.random() * 20) + 7);
+    const datasets = [];
+    for (let i = 0; i < game.players.length; i++) {
+        d = [];
+        for (let j = 0; j < labels.length; j++) {
+            d.push(Math.random() * 20);
+        }
+        datasets.push({
+            label: game.players[i].name,
+            data: d,
+            borderColor: game.players[i].id == account.id ? highlightColor : semiHighlightColor
+        });
     }
 
     new Chart(ctx, {
