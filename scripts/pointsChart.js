@@ -36,10 +36,12 @@ function startChart(data) {
             }
             d.push(turnPoints);
         }
+        const currentPlayer = game.players[i].id == account.id;
         datasets.push({
             label: game.players[i].name,
             data: d,
-            borderColor: game.players[i].id == account.id ? highlightColor : semiHighlightColor
+            borderColor: currentPlayer ? highlightColor : semiHighlightColor,
+            order: currentPlayer ? 1 : 0
         });
     }
 
