@@ -42,18 +42,7 @@ function startChart(data) {
         type: 'line',
         data: {
             labels: labels,
-            datasets: [
-                {
-                    label: 'Cole',
-                    data: dataset1,
-                    borderColor: highlightColor
-                },
-                {
-                    label: 'test',
-                    data: dataset2,
-                    borderColor: semiHighlightColor
-                }
-            ]
+            datasets: datasets
         },
         options: {
             scales: {
