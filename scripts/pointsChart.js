@@ -51,7 +51,7 @@ function startChart() {
                 },
                 x: {
                     title: {
-                        text: "Turn",
+                        text: "Round",
                         display: true
                     },
                     grid: {
