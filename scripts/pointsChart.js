@@ -55,7 +55,8 @@ function startChart() {
             label: game.players[i].name,
             data: d,
             borderColor: currentPlayer ? highlightColor : LINE_COLORS[lineColorIndex++ % LINE_COLORS.length],
-            order: currentPlayer ? 0 : 1
+            order: currentPlayer ? 0 : 1,
+            borderWidth: currentPlayer ? 8 : 5
         });
     }
 
