@@ -34,7 +34,7 @@ function startChart(data) {
             for (let k = 0; k < words.length; k++) {
                 turnPoints += words[k].points;
             }
-            d.push(turnPoints);
+            d.push(turnPoints + d.at(-1));
         }
         datasets.push({
             label: game.players[i].name,
@@ -63,7 +63,7 @@ function startChart(data) {
                 },
                 x: {
                     title: {
-                        text: "Round",
+                        text: "Turn",
                         display: true
                     },
                     grid: {
