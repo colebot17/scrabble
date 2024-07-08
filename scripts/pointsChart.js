@@ -30,11 +30,11 @@ function startChart(data) {
         d = [];
         for (let j = 0; j < labels.length; j++) {
             const words = game.words.filter(a => a.turn === j && a.player === game.players[i].id);
-            let turnPoints = 0;
+            let turnPoints = d.at(-1) || 0;
             for (let k = 0; k < words.length; k++) {
                 turnPoints += words[k].points;
             }
-            d.push(turnPoints + d.at(-1));
+            d.push(turnPoints);
         }
         datasets.push({
             label: game.players[i].name,
