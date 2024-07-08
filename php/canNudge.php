@@ -34,7 +34,7 @@ function canNudge($conn, $user, $gameId) {
     //// VALIDATE
 
     // make sure the game is active 
-    if ($inactive == '1') {
+    if ($inactive == 1) {
         return Array(false, "This game has ended");
     }
 
