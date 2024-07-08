@@ -17,14 +17,15 @@ Chart.defaults.color = textColor;
 Chart.defaults.borderColor = selectionColor;
 
 const ctx = document.getElementById('graphCanvas');
-ctx.classList.remove('hidden');
 
 const unavailableMessage = document.getElementById('graphUnavailableMessage');
-unavailableMessage.classList.add('hidden');
 
 let chart;
 
 function startChart() {
+    ctx.classList.remove('hidden');
+    unavailableMessage.classList.add('hidden');
+
     const labels = [];
     for (let i = 0; i < game.turn; i++) {
         labels.push(i);
