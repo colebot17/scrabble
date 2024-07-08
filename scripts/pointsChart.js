@@ -1,9 +1,11 @@
 const styles = getComputedStyle(document.documentElement);
 const textColor = styles.getPropertyValue('--text-color');
+const textColorLight = styles.getPropertyValue('--text-color-light');
 const highlightColor = styles.getPropertyValue('--highlight');
 const semiHighlightColor = styles.getPropertyValue('--semi-highlight');
 
 Chart.defaults.color = textColor;
+Chart.defaults.borderColor = textColorLight;
 
 const ctx = document.getElementById('graphCanvas');
 
