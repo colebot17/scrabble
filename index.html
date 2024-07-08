@@ -138,7 +138,7 @@
 				</div>
 				<div id="canvasWrapper">
 					<canvas id="scrabbleCanvas">
-						This project requires the canvas element, which is not supported on your browser.
+						You are using an unsupported browser. Please switch to one that supports the canvas element.
 					</canvas>
 				</div>
 			</div>
@@ -151,8 +151,21 @@
 					<button id="playMoveAnimationButton" class="iconButton" onclick="setCanvasPage('canvas');animateMoves();" title="Play Animation">
 						<span class="material-symbols-rounded">play_arrow</span>
 					</button>
+					<button id="showGraphButton" class="iconButton" onclick="setCanvasPage('graph')">
+						<span class="material-symbols-rounded">show_chart</span>
+					</button>
 				</div>
 				<div id="historyContents" class="flex wrap noMargin stretch fullWidth scrollable"></div>
+			</div>
+			<div class="canvasPage hidden" id="graphCanvasPage">
+				<button class="iconButton" onclick="setCanvasPage('history')">
+					<span class="material-symbols-rounded">chevron_left</span>
+				</button>
+				<div id="graphWrapper">
+					<canvas id="graphCanvas">
+						You are using an unsupported browser. Please switch to one that supports the canvas element.
+					</canvas>
+				</div>
 			</div>
 		</div>
 
@@ -605,6 +618,8 @@
 	<script type="text/javascript" src="scripts/notifications.js?v=1" defer></script>
 	<script type="text/javascript" src="scripts/draft.js?v=1" defer></script>
 	<script type="text/javascript" src="scripts/nudge.js" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script type="text/javascript" src="scripts/pointsChart.js" defer></script>
 	<!-- <script type="text/javascript" src="libraries/pullToRefresh.min.js" defer></script> -->
 	<!-- <script type="text/javascript" src="libraries/confetti.js" defer></script> -->
 	<!-- <script type="text/javascript" src="libraries/confetti2.min.js" defer></script> -->
