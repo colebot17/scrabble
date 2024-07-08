@@ -29,7 +29,12 @@ function startChart(data) {
     for (let i = 0; i < game.players.length; i++) {
         d = [];
         for (let j = 0; j < labels.length; j++) {
-            d.push(Math.random() * 20);
+            const words = game.words.filter(a => a.turn === j && a.player === game.players[i].id);
+            const turnPoints = 0;
+            for (let k = 0; k < words.length; k++) {
+                turnPoints += words[k].points;
+            }
+            d.push(turnPoints);
         }
         datasets.push({
             label: game.players[i].name,
