@@ -12,7 +12,7 @@ const ctx = document.getElementById('graphCanvas');
 
 let chart;
 
-function startChart(data) {
+function startChart() {
     // const labels = [];
     // for (let i = 0; i < 20; i++) {
     //     labels.push(i);
