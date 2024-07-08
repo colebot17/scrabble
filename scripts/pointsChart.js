@@ -52,7 +52,7 @@ function startChart() {
         }
         const currentPlayer = game.players[i].id == account.id;
         datasets.push({
-            label: game.players[i].name,
+            label: game.players[i].name + (currentPlayer ? " (you)" : ""),
             data: d,
             borderColor: currentPlayer ? highlightColor : LINE_COLORS[lineColorIndex++ % LINE_COLORS.length],
             order: currentPlayer ? 0 : 1,
