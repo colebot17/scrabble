@@ -5,6 +5,14 @@ const selectionColor = styles.getPropertyValue('--selection-color');
 const highlightColor = styles.getPropertyValue('--highlight');
 const semiHighlightColor = styles.getPropertyValue('--semi-highlight');
 
+const LINE_COLORS = [
+    "#3D1452",
+    "#C1292E",
+    "#63A375",
+    "#773344",
+    "#931F1D"
+]
+
 Chart.defaults.color = textColor;
 Chart.defaults.borderColor = selectionColor;
 
@@ -31,6 +39,7 @@ function startChart() {
     }
 
     const datasets = [];
+    let lineColorIndex = 0;
     for (let i = 0; i < game.players.length; i++) {
         d = [];
         for (let j = 0; j < labels.length; j++) {
@@ -45,7 +54,7 @@ function startChart() {
         datasets.push({
             label: game.players[i].name,
             data: d,
-            borderColor: currentPlayer ? highlightColor : semiHighlightColor,
+            borderColor: currentPlayer ? highlightColor : LINE_COLORS[lineColorIndex++],
             order: currentPlayer ? 0 : 1
         });
     }
