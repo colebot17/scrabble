@@ -48,7 +48,7 @@ function startChart(data) {
     new Chart(ctx, {
         type: 'line',
         data: {
-            //labels: labels,
+            labels: labels,
             datasets: datasets
         },
         options: {
