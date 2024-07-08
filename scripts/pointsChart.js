@@ -6,7 +6,7 @@ const highlightColor = styles.getPropertyValue('--highlight');
 const semiHighlightColor = styles.getPropertyValue('--semi-highlight');
 
 Chart.defaults.color = textColor;
-Chart.defaults.borderColor = textColorLight;
+Chart.defaults.borderColor = selectionColor;
 
 const ctx = document.getElementById('graphCanvas');
 
