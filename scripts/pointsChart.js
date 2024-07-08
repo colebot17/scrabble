@@ -54,7 +54,7 @@ function startChart() {
         datasets.push({
             label: game.players[i].name,
             data: d,
-            borderColor: currentPlayer ? highlightColor : LINE_COLORS[lineColorIndex++],
+            borderColor: currentPlayer ? highlightColor : LINE_COLORS[lineColorIndex++ % LINE_COLORS.length],
             order: currentPlayer ? 0 : 1
         });
     }
