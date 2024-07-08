@@ -17,21 +17,15 @@ Chart.defaults.color = textColor;
 Chart.defaults.borderColor = selectionColor;
 
 const ctx = document.getElementById('graphCanvas');
+ctx.classList.remove('hidden');
+
+const unavailableMessage = document.getElementById('graphUnavailableMessage');
+unavailableMessage.classList.add('hidden');
 
 let chart;
 
 function startChart() {
-    // const labels = [];
-    // for (let i = 0; i < 20; i++) {
-    //     labels.push(i);
-    // }
-
-    // const dataset1 = [Math.floor(Math.random() * 20) + 7];
-    // const dataset2 = [Math.floor(Math.random() * 20) + 7];
-    // for (let i = 0; i < labels.length; i++) {
-    //     dataset1.push(dataset1.at(-1) + Math.floor(Math.random() * 20) + 7);
-    //     dataset2.push(dataset2.at(-1) + Math.floor(Math.random() * 20) + 7);
-    // }
+    let canShowChart = true;
 
     const labels = [];
     for (let i = 0; i < game.turn; i++) {
@@ -58,6 +52,10 @@ function startChart() {
             order: currentPlayer ? 0 : 1,
             borderWidth: currentPlayer ? 7 : 5
         });
+        if (d.length < 2) {
+            ctx.classList.add('hidden');
+            unavailableMessage.classList.remove('hidden');
+        }
     }
 
     chart = new Chart(ctx, {
