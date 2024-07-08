@@ -98,7 +98,8 @@ function startChart(data) {
                     position: "chartArea",
                     align: "start",
                     labels: {
-                        boxHeight: 0
+                        boxHeight: 0,
+                        borderRadius: 5
                     }
                 }
             }
