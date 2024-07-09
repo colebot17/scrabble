@@ -8,7 +8,10 @@ function updateFriendsList(friends) {
     for (let i = 0; i < friends.length; i++) {
         const friend = friends[i];
         const showRecord = friend.record.wins || friend.record.ties || friend.record.losses;
-        const record = `${friend.record.wins} / ${friend.record.ties} / ${friend.record.losses}`;
+
+        const recordHasTies = friend.record.ties !== 0;
+        const record = `${friend.record.wins} / ${friend.record.losses}` + (recordHasTies ? ` / ${friend.record.ties}` : ``);
+
         let listItem = /* html */ `
             <div class="friendListItem friendListFriend" id="friend${i}" data-playerid="${friend.id}" data-checked="false">
                 <button class="friendCheckbox iconButton" onclick="toggleCheckbox(${i}, 'friend')">
@@ -25,7 +28,7 @@ function updateFriendsList(friends) {
                     </span>
                 </div>
                 ${showRecord ? /* html */ `
-                    <div class="friendRecord flex col" title="Wins / Ties / Losses">
+                    <div class="friendRecord flex col" title="${recordHasTies ? `Wins / Losses / Ties` : `Wins / Losses`}">
                         <span class="finePrint">Record</span>
                         <span>${record}</span>
                     </div>
