@@ -114,6 +114,9 @@ function setCanvasPage(page = 'canvas') {
     // show the specified page
     document.getElementById(page + 'CanvasPage').classList.remove('hidden');
 
+	// update the history button mode
+	setHistoryButtonMode('%auto');
+
     // do miscellaneous tasks
     if (page === 'history') {
         addToEscStack(() => {
@@ -121,15 +124,17 @@ function setCanvasPage(page = 'canvas') {
         }, 'canvasPage_canvas');
 
 		document.getElementById('historyContents').scrollTo(0, 0);
-
-		setHistoryButtonMode('%auto');
     } else if (page === 'canvas') {
         removeFromEscStack('canvasPage_canvas');
 
 		if (canvas.initialized) setCanvasSize();
+    } else if (page === 'graph') {
+		startChart();
+	}
 
-		setHistoryButtonMode('%auto');
-    }
+	if (page !== 'graph') {
+		destroyChart();
+	}
 }
 
 function setNotificationPage(page = 'methodList') {

@@ -14,7 +14,7 @@ function canNudge($conn, $user, $gameId) {
     //// GATHER INFO
 
     // get information about the game
-    $sql = "SELECT players, turn, updates FROM games WHERE id='$gameId'";
+    $sql = "SELECT players, turn, updates, inactive FROM games WHERE id='$gameId'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
     $players = json_decode($row['players'], true);
@@ -22,6 +22,7 @@ function canNudge($conn, $user, $gameId) {
     $turn = $totalTurn % count($players);
     $currentTurnPlayerId = $players[$turn]["id"];
     $updates = json_decode($row['updates'], true);
+    $inactive = $row['inactive'];
 
     // get information about the current turn player
     $sql = "SELECT notificationMethods FROM accounts WHERE id='$currentTurnPlayerId'";
@@ -31,6 +32,11 @@ function canNudge($conn, $user, $gameId) {
 
 
     //// VALIDATE
+
+    // make sure the game is active 
+    if ($inactive == 1) {
+        return Array(false, "This game has ended");
+    }
 
     // make sure it is not the current player's turn
     if ($players[$turn]['id'] == $user) {
