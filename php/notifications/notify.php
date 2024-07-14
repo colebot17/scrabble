@@ -43,6 +43,11 @@ function notify($conn, $user, $notifType, $notifOptions) {
                     require_once "sendEmail.php";
                     sendEmail($address, 'scrabble.colebot.com', $body);
                     break;
+
+                case 'push':
+                    require_once "sendPush.php";
+                    sendPush($met["subscription"]);
+                    break;
                 
                 default:
                     // do nothing (unsupported notification method)
