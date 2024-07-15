@@ -177,13 +177,8 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
                     return worker.pushManager.subscribe({
                         userVisibleOnly: true,
                         applicationServerKey: urlB64ToUint8Array("BDFxOE30BWtMOXpSGFdcTY5GrhGeI4EZZJG-TOVnK56J5Ehg-UTTevPDsuZ5owHVYYgBV_A8pdHFc-cDrhQWyFU")
-                        // applicationServerKey: urlB64ToUint8Array("BMRnTPiOOcT2WA6wmuYVuwd-z6mdz7n72zxGEXdGqwLqP9xK9HcM0d8ukHamWk4jdcxZ9bSyFe9wM39EEoz1qDM")
                     }).then(sub => {
-                        console.log(sub);
-
                         addPushNotificationMethod(sub);
-
-                        return sub;
                     });
                 })
             }
