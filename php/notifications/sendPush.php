@@ -5,9 +5,14 @@ require_once(__DIR__ . '/../../vendor/autoload.php');
 use Minishlink\WebPush\WebPush;
 use Minishlink\WebPush\Subscription;
 
-function sendPush($sub) {
+function sendPush($sub, $title, $text) {
 
     $subscription = Subscription::create($sub);
+
+    $messageObj = Array(
+        "title" => $title,
+        "text" => $text
+    );
 
     $auth = Array(
         "VAPID" => Array(
@@ -21,7 +26,7 @@ function sendPush($sub) {
 
     $report = $webPush->sendOneNotification(
         $subscription,
-        '{"message":"Hello! 👋"}'
+        json_encode($messageObj)
     );
 
     return $report;

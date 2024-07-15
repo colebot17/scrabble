@@ -1,11 +1,11 @@
 function receiveNotification(e) {
     console.log("[Service Worker] Push Received");
 
-    const text = e.data.text();
-    const title = "Yay! It is working!";
+    const msg = JSON.parse(e.data.text());
+    const title = msg.title;
     const options = {
         data: "https://scrabble.colebot.com",
-        body: text
+        body: msg.text
     };
 
     self.registration.showNotification(title, options);
