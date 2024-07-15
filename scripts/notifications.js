@@ -192,6 +192,7 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
             if (res === "granted") {
 
                 console.log(navigator.serviceWorker.ready);
+                navigator.serviceWorker.ready.then(() => console.log("ready");)
 
                 navigator.serviceWorker.ready.then(worker => {
                     return worker.pushManager.subscribe({
