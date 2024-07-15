@@ -191,6 +191,8 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
         Notification.requestPermission().then(res => {
             if (res === "granted") {
 
+                console.log(navigator.serviceWorker.ready);
+
                 navigator.serviceWorker.ready.then(worker => {
                     return worker.pushManager.subscribe({
                         userVisibleOnly: true,
