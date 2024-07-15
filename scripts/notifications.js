@@ -192,6 +192,16 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
             if (res === "granted") {
 
                 navigator.serviceWorker.ready.then(worker => {
+                    return worker.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: "<KEY GOES HERE>"
+                    }).then(sub => {
+                        console.log(sub);
+                        return sub;
+                    });
+                })
+
+                navigator.serviceWorker.ready.then(worker => {
                     worker.showNotification('hi', 'this is a test');
                 });
 
