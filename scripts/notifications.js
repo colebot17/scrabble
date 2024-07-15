@@ -178,3 +178,30 @@ async function removeNotificationMethod(index) {
     account.notificationMethods.splice(index, 1);
     displayNotificationMethods();
 }
+
+
+if ("serviceWorker" in navigator && "PushManager" in window) {
+    const btn = document.getElementById('pushSubscribeButton');
+    btn.disabled = false;
+    btn.title = "";
+    
+    navigator.serviceWorker.register("./workers/push.js");
+
+    btn.addEventListener('click', () => {
+        Notification.requestPermission().then(res => {
+            if (res === "granted") {
+
+                navigator.serviceWorker.ready.then(worker => {
+                    worker.showNotification('hi', 'this is a test');
+                });
+
+                // navigator.serviceWorker.register("./workers/push.js");
+                
+                // navigator.serviceWorker.ready.then(registration => {
+                //     registration.pushManager.subscribe({userVisibleOnly: true});
+                // });
+            }
+        });
+    });
+}
+
