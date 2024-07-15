@@ -1,6 +1,6 @@
 <?php
 
-$smsTemplates = Array(
+$pushTemplates = Array(
     "confirmation" => function ($un, $number, $user) {
         $title = "Method Added";
         $text = "You will now receive notifications from scrabble on this device";
