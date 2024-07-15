@@ -44,7 +44,7 @@ $methods = json_decode($row['notificationMethods'], true);
 
 if (!$exists) {
     $methods[] = Array(
-        "type" => "sms",
+        "type" => "push",
         "enabled" => true,
         "subscription" => $subscription
     );
