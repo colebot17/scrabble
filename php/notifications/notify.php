@@ -27,7 +27,7 @@ function notify($conn, $user, $notifType, $notifOptions) {
         if ($met["enabled"]) {
             switch ($met["type"]) {
                 case 'email':
-                    require_once "templates/email.php";
+                    require_once __DIR__ . "/templates/email.php";
                     [$subject, $body] = $emailTemplates[$notifType](...$notifOptions);
                     require_once "sendEmail.php";
                     $greeting = '<h3 style="margin-bottom:-1em">Hey ' . $un . ',</h3>';
@@ -36,8 +36,8 @@ function notify($conn, $user, $notifType, $notifOptions) {
                     break;
 
                 case 'sms':
-                    require_once "templates/sms.php";
-                    require_once "carriers.php";
+                    require_once __DIR__ . "/templates/sms.php";
+                    require_once __DIR__ . "/carriers.php";
                     $body = $smsTemplates[$notifType](...$notifOptions);
                     $address = $met["number"] . '@' . $carrierAddresses[$met["carrier"]];
                     require_once "sendEmail.php";
@@ -45,7 +45,8 @@ function notify($conn, $user, $notifType, $notifOptions) {
                     break;
 
                 case 'push':
-                    require_once "templates/push.php";
+                    require_once __DIR__ . "/templates/push.php";
+                    if (!array_key_exists($notifType, $pushTemplates)) break;
                     [$title, $text] = $pushTemplates[$notifType](...$notifOptions);
                     require_once "sendPush.php";
                     sendPush($met["subscription"], $title, $text);
