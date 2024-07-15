@@ -1,4 +1,6 @@
 function receiveNotification(e) {
+    console.log("[Service Worker] Push Received");
+
     const text = e.data.text();
     const title = "Yay! It is working!";
     const options = {
