@@ -207,6 +207,8 @@ async function addPushNotificationMethod(subscription) {
         enabled: true,
         subscription
     });
+
+    toast("Push Method Added", "Does it work yet? No one knows.");
 }
 
 
