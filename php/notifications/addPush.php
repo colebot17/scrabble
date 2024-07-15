@@ -42,13 +42,13 @@ $methods = json_decode($row['notificationMethods'], true);
 
 // maybe we could compare the subscription endpoint urls?
 
-if (!$exists) {
+// if (!$exists) {
     $methods[] = Array(
         "type" => "push",
         "enabled" => true,
         "subscription" => $subscription
     );
-}
+// }
 
 // re-upload the list
 $methodsJson = json_encode($methods);
