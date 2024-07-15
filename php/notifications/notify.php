@@ -28,6 +28,7 @@ function notify($conn, $user, $notifType, $notifOptions) {
             switch ($met["type"]) {
                 case 'email':
                     require_once __DIR__ . "/templates/email.php";
+                    if (!array_key_exists($notifType, $emailTemplates)) break;
                     [$subject, $body] = $emailTemplates[$notifType](...$notifOptions);
                     require_once "sendEmail.php";
                     $greeting = '<h3 style="margin-bottom:-1em">Hey ' . $un . ',</h3>';
@@ -37,8 +38,9 @@ function notify($conn, $user, $notifType, $notifOptions) {
 
                 case 'sms':
                     require_once __DIR__ . "/templates/sms.php";
-                    require_once __DIR__ . "/carriers.php";
+                    if (!array_key_exists($notifType, $smsTemplates)) break;
                     $body = $smsTemplates[$notifType](...$notifOptions);
+                    require_once __DIR__ . "/carriers.php";
                     $address = $met["number"] . '@' . $carrierAddresses[$met["carrier"]];
                     require_once "sendEmail.php";
                     sendEmail($address, 'scrabble.colebot.com', $body);
