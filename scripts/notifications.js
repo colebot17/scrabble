@@ -197,7 +197,7 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
                 navigator.serviceWorker.ready.then(worker => {
                     return worker.pushManager.subscribe({
                         userVisibleOnly: true,
-                        applicationServerKey: urlB64ToUint8Array("BE1Ga3dFd1lIS29aSXpqMENBUVlJS29aSXpqMERBUWNEUWdBRXhHZE0rSTQ1eFBaWURyQ2E1aFc3QjM3UHFaM1B1ZnZiUEVZUmQwYXJBdW8vM0VyMGR3elIzeTZRZHFaYVRpTjF6Rm4xdExJVjczQXpmMFFTalBXb013PT0")
+                        // applicationServerKey: urlB64ToUint8Array("BE1Ga3dFd1lIS29aSXpqMENBUVlJS29aSXpqMERBUWNEUWdBRXhHZE0rSTQ1eFBaWURyQ2E1aFc3QjM3UHFaM1B1ZnZiUEVZUmQwYXJBdW8vM0VyMGR3elIzeTZRZHFaYVRpTjF6Rm4xdExJVjczQXpmMFFTalBXb013PT0")
                     }).then(sub => {
                         console.log(sub);
                         return sub;
