@@ -204,9 +204,9 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
                     });
                 })
 
-                navigator.serviceWorker.ready.then(worker => {
-                    worker.showNotification('hi', 'this is a test');
-                });
+                // navigator.serviceWorker.ready.then(worker => {
+                //     worker.showNotification('hi', 'this is a test');
+                // });
 
                 // navigator.serviceWorker.register("./workers/push.js");
                 
