@@ -194,24 +194,18 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
                 console.log(navigator.serviceWorker.ready);
                 navigator.serviceWorker.ready.then(() => console.log("ready"));
 
-                // navigator.serviceWorker.ready.then(worker => {
-                //     return worker.pushManager.subscribe({
-                //         userVisibleOnly: true,
-                //         applicationServerKey: urlB64ToUint8Array("BE1Ga3dFd1lIS29aSXpqMENBUVlJS29aSXpqMERBUWNEUWdBRXhHZE0rSTQ1eFBaWURyQ2E1aFc3QjM3UHFaM1B1ZnZiUEVZUmQwYXJBdW8vM0VyMGR3elIzeTZRZHFaYVRpTjF6Rm4xdExJVjczQXpmMFFTalBXb013PT0")
-                //     }).then(sub => {
-                //         console.log(sub);
-                //         return sub;
-                //     });
-                // })
-
                 navigator.serviceWorker.ready.then(worker => {
-                    worker.showNotification('hi');
-                });
+                    return worker.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: urlB64ToUint8Array("BMRnTPiOOcT2WA6wmuYVuwd-z6mdz7n72zxGEXdGqwLqP9xK9HcM0d8ukHamWk4jdcxZ9bSyFe9wM39EEoz1qDM")
+                    }).then(sub => {
+                        console.log(sub);
+                        return sub;
+                    });
+                })
 
-                // navigator.serviceWorker.register("./workers/push.js");
-                
-                // navigator.serviceWorker.ready.then(registration => {
-                //     registration.pushManager.subscribe({userVisibleOnly: true});
+                // navigator.serviceWorker.ready.then(worker => {
+                //     worker.showNotification('hi');
                 // });
             }
         });
