@@ -8,7 +8,7 @@ function receiveNotification(e) {
         body: text
     };
 
-    e.waitUntil(self.registration.showNotification(title, options));
+    self.registration.showNotification(title, options);
 }
 
 self.addEventListener('push', receiveNotification);
