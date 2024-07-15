@@ -198,13 +198,23 @@ async function addPushNotificationMethod(subscription) {
         return;
     }
 
-    account.notificationMethods.push({
-        type: "push",
-        enabled: true,
-        subscription
-    });
+    let exists = false;
+    for (let i = 0; i < account.notificationMethods.length; i++) {
+        const met = account.notificationMethods[i];
+        if (met.type === "push" && met.subscription.endpoint = subscription.endpoint) {
+            exists = true;
+            met.enabled = true;
+            break;
+        }
+    }
 
-    toast("Push Method Added", "Does it work yet? No one knows.");
+    if (!exists) {
+        account.notificationMethods.push({
+            type: "push",
+            enabled: true,
+            subscription
+        });
+    }
 }
 
 async function removeNotificationMethod(index) {

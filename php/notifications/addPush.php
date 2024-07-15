@@ -29,26 +29,22 @@ $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
 $methods = json_decode($row['notificationMethods'], true);
 
-// // handle duplicate methods and method information
-// $exists = false;
-// for ($i = 0; $i < count($methods); $i++) {
+// handle duplicate methods
+$exists = false;
+for ($i = 0; $i < count($methods); $i++) {
+    if ($methods[$i]["type"] === "push" && $methods[$i]["subscription"]["endpoint"] === $subscription["endpoint"]) {
+        $exists = true;
+        $methods[$i]["enabled"] = true;
+    }
+}
 
-//     if ($methods[$i]["type"] === "sms" && $methods[$i]["number"] === $number) {
-//         $exists = true;
-//         $methods[$i]["enabled"] = true;
-//         $methods[$i]["carrier"] = $carrier;
-//     }
-// }
-
-// maybe we could compare the subscription endpoint urls?
-
-// if (!$exists) {
+if (!$exists) {
     $methods[] = Array(
         "type" => "push",
         "enabled" => true,
         "subscription" => $subscription
     );
-// }
+}
 
 // re-upload the list
 $methodsJson = json_encode($methods);
