@@ -163,6 +163,57 @@ async function addSMSNotificationMethod() {
 }
 
 
+if ("serviceWorker" in navigator && "PushManager" in window) {
+    const btn = document.getElementById('pushSubscribeButton');
+    btn.disabled = false;
+    btn.title = "";
+    
+    navigator.serviceWorker.register("pushWorker.js");
+
+    btn.addEventListener('click', () => {
+        Notification.requestPermission().then(res => {
+            if (res === "granted") {
+                navigator.serviceWorker.ready.then(worker => {
+                    return worker.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: urlB64ToUint8Array("BMRnTPiOOcT2WA6wmuYVuwd-z6mdz7n72zxGEXdGqwLqP9xK9HcM0d8ukHamWk4jdcxZ9bSyFe9wM39EEoz1qDM")
+                    }).then(sub => {
+                        console.log(sub);
+
+                        addPushNotificationMethod(sub);
+
+                        return sub;
+                    });
+                })
+            }
+        });
+    });
+}
+
+async function addPushNotificationMethod(subscription) {
+    const res = await request('notifications/addPush.php', {
+        user: account.id,
+        pwd: account.pwd,
+        subscription: JSON.stringify(subscription)
+    });
+
+    if (res.errorLevel > 0) {
+        textModal("Error", res.message);
+        return;
+    }
+
+    account.notificationMethods.push({
+        type: "push",
+        enabled: true,
+        subscription
+    });
+}
+
+
+
+
+
+
 async function removeNotificationMethod(index) {
     const res = await request('notifications/removeMethod.php', {
         user: account.id,
@@ -178,37 +229,3 @@ async function removeNotificationMethod(index) {
     account.notificationMethods.splice(index, 1);
     displayNotificationMethods();
 }
-
-
-if ("serviceWorker" in navigator && "PushManager" in window) {
-    const btn = document.getElementById('pushSubscribeButton');
-    btn.disabled = false;
-    btn.title = "";
-    
-    navigator.serviceWorker.register("pushWorker.js");
-
-    btn.addEventListener('click', () => {
-        Notification.requestPermission().then(res => {
-            if (res === "granted") {
-
-                console.log(navigator.serviceWorker.ready);
-                navigator.serviceWorker.ready.then(() => console.log("ready"));
-
-                navigator.serviceWorker.ready.then(worker => {
-                    return worker.pushManager.subscribe({
-                        userVisibleOnly: true,
-                        applicationServerKey: urlB64ToUint8Array("BMRnTPiOOcT2WA6wmuYVuwd-z6mdz7n72zxGEXdGqwLqP9xK9HcM0d8ukHamWk4jdcxZ9bSyFe9wM39EEoz1qDM")
-                    }).then(sub => {
-                        console.log(sub);
-                        return sub;
-                    });
-                })
-
-                // navigator.serviceWorker.ready.then(worker => {
-                //     worker.showNotification('hi');
-                // });
-            }
-        });
-    });
-}
-
