@@ -24,7 +24,7 @@ function sendPush($sub) {
         '{"message":"Hello! 👋"}'
     );
 
-    echo $report;
+    print_r($report);
 
     return $report;
 }
