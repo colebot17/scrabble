@@ -46,7 +46,7 @@ function canNudge($conn, $user, $gameId) {
     // make sure the user has at least one enabled notification method
     $hasEnabledMethods = false;
     for ($i = 0; $i < count($methods); $i++) {
-        if (!$methods[$i]["disabled"]) {
+        if ($methods[$i]["enabled"]) {
             $hasEnabledMethods = true;
             break;
         }
