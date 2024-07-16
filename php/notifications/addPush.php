@@ -68,7 +68,7 @@ require "templates/push.php";
 $messageObj = $pushTemplates["confirmation"](null, null, null);
 
 require "sendPush.php";
-$res = sendPush($subscription, $messageObj);
+sendPush($subscription, $messageObj);
 
 // return the success response
 $res = Array(
