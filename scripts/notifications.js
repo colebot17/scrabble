@@ -230,6 +230,8 @@ async function addPushNotificationMethod(subscription) {
             subscription
         });
     }
+
+    displayNotificationMethods();
 }
 
 async function removeNotificationMethod(index) {
