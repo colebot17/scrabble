@@ -201,7 +201,7 @@ async function addPushNotificationMethod(subscription) {
     let exists = false;
     for (let i = 0; i < account.notificationMethods.length; i++) {
         const met = account.notificationMethods[i];
-        if (met.type === "push" && met.subscription.endpoint = subscription.endpoint) {
+        if (met.type === "push" && met.subscription.endpoint === subscription.endpoint) {
             exists = true;
             met.enabled = true;
             break;
