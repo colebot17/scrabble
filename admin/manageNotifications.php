@@ -47,13 +47,6 @@
         echo '<li>';
         if ($type === "email") {
             echo '<span style="color:gray">Email:</span> ' . $methods[$i]['address'];
-            if (!$methods[$i]["enabled"]) {
-                echo ' <span style="color:red">[Disabled]</span>';
-                echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Enable</a>';
-                echo ' - <a href="removeNotificationMethod.php?user=' . $user . '&index=' . $i . '" style="color:red">Remove</a>';
-            } else {
-                echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Disable</a>';
-            }
         } else if ($type === "sms") {
             echo '<span style="color:gray">SMS:</span> +1' . $methods[$i]['number'] . ' - ' . $methods[$i]['carrier'];
         } else if ($type === "push") {
