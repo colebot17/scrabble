@@ -11,8 +11,7 @@ function sendPush($sub, $title, $text) {
 
     $messageObj = Array(
         "title" => $title,
-        "text" => $text,
-        "game" => 649
+        "text" => $text
     );
 
     $auth = Array(
