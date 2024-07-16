@@ -1,4 +1,7 @@
 function showTab(tab, updateHistory = true) {
+	const TABS = ['home', 'game', 'chat', 'friends', 'account'];
+	if (!TABS.includes(tab)) return;
+
 	const sGrid = document.getElementById('scrabbleGrid');
 	sGrid.dataset.tab = tab;
 
