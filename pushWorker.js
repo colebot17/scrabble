@@ -9,9 +9,14 @@ function receiveNotification(e) {
 
     const notif = new Notification(title, options);
 
-    notif.addEventListener('click', (e) => {
-        self.clients.openWindow('https://scrabble.colebot.com?game=' + game);
-    });
+    // notif.addEventListener('click', (e) => {
+    //     self.clients.openWindow('https://scrabble.colebot.com?game=' + game);
+    // });
+
+    notif.onclick = e => {
+        e.preventDefault();
+        window.open("https://www.colebot.com/wordsearch", "_blank");
+    }
 }
 
 self.addEventListener('push', receiveNotification);
