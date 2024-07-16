@@ -15,6 +15,8 @@ function displayNotificationMethods() {
 
         let content = '';
 
+        let pushCount = 0;
+
         switch (met.type) {
             case "email":
                 content = /* html */ `
@@ -44,14 +46,16 @@ function displayNotificationMethods() {
                 break;
 
             case "push":
+                pushCount++;
                 content = /* html */ `
                     <div class="friendListItem notificationMethod">
                         <div class="flex col alignFlexStart noGap">
-                            <span>Push Notifications</span>
+                            <span>Push Method ${pushCount}</span>
                         </div>
                         <button class="iconButton" onclick="removeNotificationMethod(${i})"><span class="material-symbols-rounded">remove</span></button>
                     </div>
                 `;
+                
                 break;
             
             default:
