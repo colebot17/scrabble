@@ -48,7 +48,7 @@ function displayNotificationMethods() {
                     <div class="friendListItem notificationMethod">
                         <div class="flex col alignFlexStart noGap">
                             <span>Push Notifications</span>
-                            <span>
+                            <span style="text-align:start">
                                 <span class="finePrint">${met.userAgent}</span>
                                 ${met.enabled ? `` : /* html */ `<span class="finePrint" style="color:red"> - Disabled</span>`}
                             </span>
