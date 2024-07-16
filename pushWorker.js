@@ -19,8 +19,15 @@ function notifClick(e) {
         params.append(prop, item);
     }
 
-    let url = 'https://scrabble.colebot.com?' + params.toString();
-    self.clients.openWindow(url);
+    let url = 'https://scrabble.colebot.com';
+    const paramsStr = params.toString();
+    if (paramsStr) {
+        url += '?' + paramsStr;
+    }
+
+    console.log(url);
+
+    //self.clients.openWindow(url);
 
     e.notification.close();
 }
