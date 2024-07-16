@@ -14,7 +14,8 @@ $pushTemplates = Array(
         $text = $fromName . ' wants to be your friend. Log on to accept!';
         return Array(
             "title" => $title,
-            "text" => $text
+            "text" => $text,
+            "data" => Array("tab" => "friends")
         );
     },
     "newGame" => function ($gameName, $gameId, $playerNames) {
