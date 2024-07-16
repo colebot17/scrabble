@@ -42,6 +42,16 @@ function displayNotificationMethods() {
                     </div>
                 `;
                 break;
+
+            case "push":
+                content = /* html */ `
+                    <div class="friendListItem notificationMethod">
+                        <div class="flex col alignFlexStart noGap">
+                            <span>Push Notifications</span>
+                        </div>
+                    </div>
+                `;
+                break;
             
             default:
                 break;
