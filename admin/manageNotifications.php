@@ -57,7 +57,7 @@
         } else if ($type === "sms") {
             echo '<span style="color:gray">SMS:</span> +1' . $methods[$i]['number'] . ' - ' . $methods[$i]['carrier'];
         } else if ($type === "push") {
-            echo '<span style="color:gray">Push:</span>';
+            echo '<span style="color:gray">Push:</span> ' . $methods[$i]['userAgent'];
             echo '<ul>';
             echo '<li><span style="color:gray">Endpoint:</span> ' . $methods[$i]["subscription"]["endpoint"] . '</li>';
             echo '<li><span style="color:gray">Expiration Time: ' . $methods[$i]["subscription"]["expirationTime"] . '</span></li>';

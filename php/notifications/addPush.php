@@ -10,6 +10,7 @@ $dbname = "scrabble";
 $user = $_POST['user'];
 $pwd = $_POST['pwd'];
 $subscription = json_decode($_POST['subscription'], true);
+$userAgent = $_POST['userAgent'];
 
 // create and check connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -35,6 +36,7 @@ for ($i = 0; $i < count($methods); $i++) {
     if ($methods[$i]["type"] === "push" && $methods[$i]["subscription"]["endpoint"] === $subscription["endpoint"]) {
         $exists = true;
         $methods[$i]["enabled"] = true;
+        $methods[$i]["userAgent"] = $userAgent;
     }
 }
 
@@ -42,7 +44,8 @@ if (!$exists) {
     $methods[] = Array(
         "type" => "push",
         "enabled" => true,
-        "subscription" => $subscription
+        "subscription" => $subscription,
+        "userAgent" => $userAgent
     );
 }
 

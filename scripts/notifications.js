@@ -10,8 +10,6 @@ function displayNotificationMethods() {
     const container = document.getElementById('notificationMethodsList');
     container.innerHTML = "";
 
-    let pushCount = 0;
-
     for (let i = 0; i < account.notificationMethods.length; i++) {
         const met = account.notificationMethods[i];
 
@@ -46,11 +44,11 @@ function displayNotificationMethods() {
                 break;
 
             case "push":
-                pushCount++;
                 content = /* html */ `
                     <div class="friendListItem notificationMethod">
                         <div class="flex col alignFlexStart noGap">
-                            <span>Push Method ${pushCount}</span>
+                            <span>Push Notifications</span>
+                            <span class="finePrint">${met.userAgent}</span>
                         </div>
                         <button class="iconButton" onclick="removeNotificationMethod(${i})"><span class="material-symbols-rounded">remove</span></button>
                     </div>
@@ -205,7 +203,8 @@ async function addPushNotificationMethod(subscription) {
     const res = await request('notifications/addPush.php', {
         user: account.id,
         pwd: account.pwd,
-        subscription: JSON.stringify(subscription)
+        subscription: JSON.stringify(subscription),
+        userAgent: navigator.userAgent
     });
 
     if (res.errorLevel > 0) {
