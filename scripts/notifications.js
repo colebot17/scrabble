@@ -184,7 +184,7 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
     btn.disabled = false;
     btn.title = "";
     
-    navigator.serviceWorker.register("pushWorker.js?v=11");
+    navigator.serviceWorker.register("pushWorker.js?v=12");
 
     btn.addEventListener('click', () => {
         Notification.requestPermission().then(res => {

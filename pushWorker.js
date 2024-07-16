@@ -25,9 +25,7 @@ function notifClick(e) {
         url += '?' + paramsStr;
     }
 
-    console.log(url);
-
-    //self.clients.openWindow(url);
+    self.clients.openWindow(url);
 
     e.notification.close();
 }
