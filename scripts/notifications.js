@@ -226,7 +226,8 @@ async function addPushNotificationMethod(subscription) {
         account.notificationMethods.push({
             type: "push",
             enabled: true,
-            subscription
+            subscription,
+            userAgent: navigator.userAgent
         });
     }
 
