@@ -61,10 +61,11 @@ $un = $row['name'];
 $conn->close();
 
 // send the confirmation message
-require "sendPush.php";
-// require "templates/sms.php";
+require "templates/push.php";
+[$title, $text] = $pushTemplates["confirmation"](null, null, null);
 
-sendPush($subscription);
+require "sendPush.php";
+sendPush($subscription, $title, $text);
 
 // return the success response
 $res = Array(
