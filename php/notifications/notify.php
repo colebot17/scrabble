@@ -49,9 +49,9 @@ function notify($conn, $user, $notifType, $notifOptions) {
                 case 'push':
                     require_once __DIR__ . "/templates/push.php";
                     if (!array_key_exists($notifType, $pushTemplates)) break;
-                    [$title, $text] = $pushTemplates[$notifType](...$notifOptions);
+                    $messageObj = $pushTemplates[$notifType](...$notifOptions);
                     require_once "sendPush.php";
-                    sendPush($met["subscription"], $title, $text);
+                    sendPush($met["subscription"], $messageObj);
                     break;
                 
                 default:

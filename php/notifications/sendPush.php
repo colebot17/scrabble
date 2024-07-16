@@ -5,14 +5,17 @@ require_once(__DIR__ . '/../../vendor/autoload.php');
 use Minishlink\WebPush\WebPush;
 use Minishlink\WebPush\Subscription;
 
-function sendPush($sub, $title, $text) {
+function sendPush($sub, $messageObj) {
 
     $subscription = Subscription::create($sub);
 
-    $messageObj = Array(
-        "title" => $title,
-        "text" => $text
-    );
+    // $messageObj = Array(
+    //     "title" => $title,
+    //     "text" => $text,
+    //     "data" => Array(
+    //         "game" => 649
+    //     )
+    // );
 
     $auth = Array(
         "VAPID" => Array(
