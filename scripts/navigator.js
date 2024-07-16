@@ -11,6 +11,10 @@ function checkParams() {
 
         openGame(gameId);
     }
+
+    if (params.has('tab')) {
+        showTab(params.get('tab'));
+    }
 }
 
 function openGame(gameId) {
