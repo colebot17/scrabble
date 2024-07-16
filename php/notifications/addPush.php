@@ -65,10 +65,10 @@ $conn->close();
 
 // send the confirmation message
 require "templates/push.php";
-[$title, $text] = $pushTemplates["confirmation"](null, null, null);
+$messageObj = $pushTemplates["confirmation"](null, null, null);
 
 require "sendPush.php";
-$res = sendPush($subscription, $title, $text);
+$res = sendPush($subscription, $messageObj);
 
 // return the success response
 $res = Array(
