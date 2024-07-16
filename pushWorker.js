@@ -15,8 +15,9 @@ self.addEventListener('push', receiveNotification);
 
 
 function notifClick(e) {
-    e.preventDefault();
-    self.clients.openWindow('https://scrabble.colebot.com?game=' + e.notification.data.game);
+    let url = 'https://scrabble.colebot.com';
+    if (e.notification.data.game) url += `?game=${e.notification.data.game}`;
+    self.clients.openWindow(url);
 }
 
 self.addEventListener('notificationclick', notifClick);
