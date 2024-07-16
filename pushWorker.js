@@ -1,4 +1,4 @@
-function receiveNotification(e) {
+async function receiveNotification(e) {
     const msg = JSON.parse(e.data.text());
     const title = msg.title;
     const game = msg.game;
@@ -7,7 +7,9 @@ function receiveNotification(e) {
         body: msg.text
     };
 
-    const notif = new Notification(title, options);
+    const notif = await self.registration.showNotification(title, options);
+
+    console.log(notif);
 
     // notif.addEventListener('click', (e) => {
     //     self.clients.openWindow('https://scrabble.colebot.com?game=' + game);
