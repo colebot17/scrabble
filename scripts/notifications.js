@@ -48,7 +48,10 @@ function displayNotificationMethods() {
                     <div class="friendListItem notificationMethod">
                         <div class="flex col alignFlexStart noGap">
                             <span>Push Notifications</span>
-                            <span class="finePrint">${met.userAgent}</span>
+                            <span>
+                                <span class="finePrint">${met.userAgent}</span>
+                                ${met.enabled ? `` : /* html */ `<span class="finePrint" style="color:red"> - Disabled</span>`}
+                            </span>
                         </div>
                         <button class="iconButton" onclick="removeNotificationMethod(${i})"><span class="material-symbols-rounded">remove</span></button>
                     </div>
