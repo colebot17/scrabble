@@ -15,7 +15,7 @@
     <?php
 
     if (!array_key_exists('user', $_GET)) {
-        exit('<h1 style="color:red">No Player Supplied</h1>');
+        exit('<h2 style="color:red">No Player Supplied</h2>');
     }
     $user = $_GET['user'];
 
