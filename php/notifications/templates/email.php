@@ -1,6 +1,20 @@
 <?php
 
 $emailTemplates = Array(
+    "test" => function () {
+        $body = '
+            <link href="https://fonts.googleapis.com/css2?family=Rubik" rel="stylesheet">
+            <style>
+                :root {
+                    font-family: "Rubik", Helvetica, sans-serif;
+                }
+            </style>
+            <h1>Testing</h1>
+            <p>This is a test of the scrabble notification system. You may disregard this message.</p>
+        ';
+
+        return ["Test Email", $body];
+    },
     "friendRequest" => function ($fromName) {
         $body = '
             <link href="https://fonts.googleapis.com/css2?family=Rubik" rel="stylesheet">

@@ -8,10 +8,11 @@ function notify($conn, $user, $notifType, $notifOptions) {
     // this function delivers a notification of the specified type to the specified user via all methods
     
     // ensure the type is valid
-    $notificationTypes = Array("friendRequest", "newGame", "nudge", "turn");
-    if (!in_array($notifType, $notificationTypes)) {
-        return Array("success" => false, "message" => "Invalid notification type");
-    }
+    // $notificationTypes = Array("friendRequest", "newGame", "nudge", "turn");
+    // if (!in_array($notifType, $notificationTypes)) {
+    //     return Array("success" => false, "message" => "Invalid notification type");
+    // }
+    // (this is done instead for each method because different methods may have different supported types)
 
     $sql = "SELECT notificationMethods, name FROM accounts WHERE id='$user'";
     $query = mysqli_query($conn, $sql);
@@ -27,7 +28,8 @@ function notify($conn, $user, $notifType, $notifOptions) {
         if ($met["enabled"]) {
             switch ($met["type"]) {
                 case 'email':
-                    require_once "templates/email.php";
+                    require_once __DIR__ . "/templates/email.php";
+                    if (!array_key_exists($notifType, $emailTemplates)) break;
                     [$subject, $body] = $emailTemplates[$notifType](...$notifOptions);
                     require_once "sendEmail.php";
                     $greeting = '<h3 style="margin-bottom:-1em">Hey ' . $un . ',</h3>';
@@ -36,12 +38,21 @@ function notify($conn, $user, $notifType, $notifOptions) {
                     break;
 
                 case 'sms':
-                    require_once "templates/sms.php";
-                    require_once "carriers.php";
+                    require_once __DIR__ . "/templates/sms.php";
+                    if (!array_key_exists($notifType, $smsTemplates)) break;
                     $body = $smsTemplates[$notifType](...$notifOptions);
+                    require_once __DIR__ . "/carriers.php";
                     $address = $met["number"] . '@' . $carrierAddresses[$met["carrier"]];
                     require_once "sendEmail.php";
                     sendEmail($address, 'scrabble.colebot.com', $body);
+                    break;
+
+                case 'push':
+                    require_once __DIR__ . "/templates/push.php";
+                    if (!array_key_exists($notifType, $pushTemplates)) break;
+                    $messageObj = $pushTemplates[$notifType](...$notifOptions);
+                    require_once "sendPush.php";
+                    sendPush($met["subscription"], $messageObj);
                     break;
                 
                 default:

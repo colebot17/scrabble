@@ -44,31 +44,29 @@
 
     for ($i = 0; $i < count($methods); $i++) {
         $type = $methods[$i]['type'];
+        echo '<li>';
         if ($type === "email") {
-            echo '<li>';
             echo '<span style="color:gray">Email:</span> ' . $methods[$i]['address'];
-            if (!$methods[$i]["enabled"]) {
-                echo ' <span style="color:red">[Disabled]</span>';
-                echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Enable</a>';
-                echo ' - <a href="removeNotificationMethod.php?user=' . $user . '&index=' . $i . '" style="color:red">Remove</a>';
-            } else {
-                echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Disable</a>';
-            }
-            echo '</li>';
         } else if ($type === "sms") {
-            echo '<li>';
             echo '<span style="color:gray">SMS:</span> +1' . $methods[$i]['number'] . ' - ' . $methods[$i]['carrier'];
-            if (!$methods[$i]["enabled"]) {
-                echo ' <span style="color:red">[Disabled]</span>';
-                echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Enable</a>';
-                echo ' - <a href="removeNotificationMethod.php?user=' . $user . '&index=' . $i . '" style="color:red">Remove</a>';
-            } else {
-                echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Disable</a>';
-            }
-            echo '</li>';
+        } else if ($type === "push") {
+            echo '<span style="color:gray">Push:</span> ' . $methods[$i]['userAgent'];
+            echo '<ul>';
+            echo '<li><span style="color:gray">Endpoint:</span> ' . $methods[$i]["subscription"]["endpoint"] . '</li>';
+            echo '<li><span style="color:gray">Expiration Time: ' . $methods[$i]["subscription"]["expirationTime"] . '</span></li>';
+            echo '<li><span style="color:gray">Keys: ' . json_encode($methods[$i]["subscription"]["keys"]) . '</span></li>';
+            echo '</ul>';
         } else {
-            echo '<li style="color:gray">' . json_encode($methods[$i]) . '</li>';
+            echo '<span style="color:gray">' . json_encode($methods[$i]) . '</span>';
         }
+        if (!$methods[$i]["enabled"]) {
+            echo ' <span style="color:red">[Disabled]</span>';
+            echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Enable</a>';
+            echo ' - <a href="removeNotificationMethod.php?user=' . $user . '&index=' . $i . '" style="color:red">Remove</a>';
+        } else {
+            echo ' - <a href="toggleNotificationMethodEnablement.php?user=' . $user . '&index=' . $i . '">Disable</a>';
+        }
+        echo '</li>';
     }
 
     if (count($methods) === 0) {
@@ -77,10 +75,14 @@
 
     echo '</ul>';
 
+    echo '<a href="testNotify.php?user=' . $user . '">Send Test Notification</a>';
+
     ?>
 
+    
+
     <h4>Add Email Notification Method</h4>
-    <?php echo '<form method="POST" action="addNotificationMethod.php?user=' . $user .'">'; ?>
+    <?php echo '<form method="POST" action="addEmailNotificationMethod.php?user=' . $user .'">'; ?>
         <input type="email" name="address" placeholder="Email...">
         <input type="hidden" name="type" value="email">
         <select name="confirm">

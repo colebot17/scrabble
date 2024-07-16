@@ -42,6 +42,25 @@ function displayNotificationMethods() {
                     </div>
                 `;
                 break;
+
+            case "push":
+                content = /* html */ `
+                    <div class="friendListItem notificationMethod">
+                        <div class="flex col alignFlexStart noGap">
+                            <span>Push Notifications</span>
+                            <span style="text-align:start">
+                                <span class="finePrint">${met.userAgent}</span>
+                                ${met.enabled ? `` : /* html */ `<span class="finePrint" style="color:red"> - Disabled</span>`}
+                            </span>
+                            ${met.userAgent === navigator.userAgent ? /* html */ `
+                                <span class="finePrint" style="color:darkblue">This Browser</span>
+                            ` : ``}
+                        </div>
+                        <button class="iconButton" onclick="removeNotificationMethod(${i})"><span class="material-symbols-rounded">remove</span></button>
+                    </div>
+                `;
+                
+                break;
             
             default:
                 break;
@@ -51,7 +70,7 @@ function displayNotificationMethods() {
     }
 
     if (account.notificationMethods.length === 0) {
-        container.innerHTML = "<span class='friendListItem'>Add an email address below to receive notifications.</span>";
+        container.innerHTML = "<span class='friendListItem'>Add a method below to receive notifications.</span>";
     }
 }
 
@@ -162,6 +181,79 @@ async function addSMSNotificationMethod() {
     toast("SMS Number Added", "Check your messages for a confirmation");
 }
 
+// async function getExistingPushSubscription() {
+//     const reg = await navigator.serviceWorker.ready;
+//     const sub = await reg.pushManager.getSubscription();
+//     return sub;
+// }
+
+function initializePush() {
+    if (!("serviceWorker" in navigator && "PushManager" in window)) return;
+
+    const btn = document.getElementById('pushSubscribeButton');
+    btn.disabled = false;
+    btn.title = "";
+    
+    navigator.serviceWorker.register("pushWorker.js?v=12");
+
+    btn.addEventListener('click', () => {
+        attemptAddPushMethod();
+    });
+}
+
+initializePush();
+
+async function attemptAddPushMethod() {
+    const perm = await Notification.requestPermission()
+    
+    if (perm === "granted") {
+        const worker = await navigator.serviceWorker.ready;
+        
+        const sub = await worker.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlB64ToUint8Array("BDFxOE30BWtMOXpSGFdcTY5GrhGeI4EZZJG-TOVnK56J5Ehg-UTTevPDsuZ5owHVYYgBV_A8pdHFc-cDrhQWyFU")
+        });
+        addPushNotificationMethod(sub);
+        return true;
+    }
+
+    return false;
+}
+
+async function addPushNotificationMethod(subscription) {
+    const res = await request('notifications/addPush.php', {
+        user: account.id,
+        pwd: account.pwd,
+        subscription: JSON.stringify(subscription),
+        userAgent: navigator.userAgent
+    });
+
+    if (res.errorLevel > 0) {
+        textModal("Error", res.message);
+        return;
+    }
+
+    let exists = false;
+    for (let i = 0; i < account.notificationMethods.length; i++) {
+        const met = account.notificationMethods[i];
+        if (met.type === "push" && met.subscription.endpoint === subscription.endpoint) {
+            exists = true;
+            met.enabled = true;
+            break;
+        }
+    }
+
+    if (!exists) {
+        account.notificationMethods.push({
+            type: "push",
+            enabled: true,
+            subscription,
+            userAgent: navigator.userAgent
+        });
+    }
+
+    displayNotificationMethods();
+}
 
 async function removeNotificationMethod(index) {
     const res = await request('notifications/removeMethod.php', {

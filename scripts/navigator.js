@@ -11,6 +11,13 @@ function checkParams() {
 
         openGame(gameId);
     }
+
+    if (params.has('tab')) {
+        const tab = params.get('tab');
+        if (tab === 'friends') {
+            showTab('friends');
+        }
+    }
 }
 
 function openGame(gameId) {
