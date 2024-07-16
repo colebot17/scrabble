@@ -181,8 +181,15 @@ async function addSMSNotificationMethod() {
     toast("SMS Number Added", "Check your messages for a confirmation");
 }
 
+// async function getExistingPushSubscription() {
+//     const reg = await navigator.serviceWorker.ready;
+//     const sub = await reg.pushManager.getSubscription();
+//     return sub;
+// }
 
-if ("serviceWorker" in navigator && "PushManager" in window) {
+function initializePush() {
+    if (!("serviceWorker" in navigator && "PushManager" in window)) return;
+
     const btn = document.getElementById('pushSubscribeButton');
     btn.disabled = false;
     btn.title = "";
@@ -190,19 +197,27 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
     navigator.serviceWorker.register("pushWorker.js?v=12");
 
     btn.addEventListener('click', () => {
-        Notification.requestPermission().then(res => {
-            if (res === "granted") {
-                navigator.serviceWorker.ready.then(worker => {
-                    return worker.pushManager.subscribe({
-                        userVisibleOnly: true,
-                        applicationServerKey: urlB64ToUint8Array("BDFxOE30BWtMOXpSGFdcTY5GrhGeI4EZZJG-TOVnK56J5Ehg-UTTevPDsuZ5owHVYYgBV_A8pdHFc-cDrhQWyFU")
-                    }).then(sub => {
-                        addPushNotificationMethod(sub);
-                    });
-                })
-            }
-        });
+        attemptAddPushMethod();
     });
+}
+
+initializePush();
+
+async function attemptAddPushMethod() {
+    const perm = await Notification.requestPermission()
+    
+    if (perm === "granted") {
+        const worker = await navigator.serviceWorker.ready;
+        
+        const sub = await worker.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlB64ToUint8Array("BDFxOE30BWtMOXpSGFdcTY5GrhGeI4EZZJG-TOVnK56J5Ehg-UTTevPDsuZ5owHVYYgBV_A8pdHFc-cDrhQWyFU")
+        });
+        addPushNotificationMethod(sub);
+        return true;
+    }
+
+    return false;
 }
 
 async function addPushNotificationMethod(subscription) {
