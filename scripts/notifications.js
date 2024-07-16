@@ -10,12 +10,12 @@ function displayNotificationMethods() {
     const container = document.getElementById('notificationMethodsList');
     container.innerHTML = "";
 
+    let pushCount = 0;
+
     for (let i = 0; i < account.notificationMethods.length; i++) {
         const met = account.notificationMethods[i];
 
         let content = '';
-
-        let pushCount = 0;
 
         switch (met.type) {
             case "email":
