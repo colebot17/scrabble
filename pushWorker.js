@@ -6,7 +6,9 @@ function receiveNotification(e) {
         body: msg.text
     };
 
-    self.registration.showNotification(title, options);
+    // self.registration.showNotification(title, options);
+
+    new Notification(title, options);
 }
 
 self.addEventListener('push', receiveNotification);
