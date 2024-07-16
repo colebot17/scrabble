@@ -8,10 +8,11 @@ function notify($conn, $user, $notifType, $notifOptions) {
     // this function delivers a notification of the specified type to the specified user via all methods
     
     // ensure the type is valid
-    $notificationTypes = Array("friendRequest", "newGame", "nudge", "turn");
-    if (!in_array($notifType, $notificationTypes)) {
-        return Array("success" => false, "message" => "Invalid notification type");
-    }
+    // $notificationTypes = Array("friendRequest", "newGame", "nudge", "turn");
+    // if (!in_array($notifType, $notificationTypes)) {
+    //     return Array("success" => false, "message" => "Invalid notification type");
+    // }
+    // (this is done instead for each method because different methods may have different supported types)
 
     $sql = "SELECT notificationMethods, name FROM accounts WHERE id='$user'";
     $query = mysqli_query($conn, $sql);
