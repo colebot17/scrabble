@@ -13,6 +13,7 @@ self.addEventListener('push', receiveNotification);
 
 
 function notifClick(e) {
+    e.preventDefault();
     self.clients.openWindow('https://scrabble.colebot.com?game=649');
 }
 
