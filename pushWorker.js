@@ -16,6 +16,8 @@ function notifClick(e) {
     let url = 'https://scrabble.colebot.com';
     if (e.notification?.data?.game) url += `?game=${e.notification.data.game}`;
     self.clients.openWindow(url);
+
+    e.notification.close();
 }
 
 self.addEventListener('notificationclick', notifClick);
