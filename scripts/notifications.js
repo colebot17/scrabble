@@ -52,6 +52,9 @@ function displayNotificationMethods() {
                                 <span class="finePrint">${met.userAgent}</span>
                                 ${met.enabled ? `` : /* html */ `<span class="finePrint" style="color:red"> - Disabled</span>`}
                             </span>
+                            ${met.userAgent === navigator.userAgent ? /* html */ `
+                                <span class="finePrint" style="color:blue">This Browser</span>
+                            ` : ``}
                         </div>
                         <button class="iconButton" onclick="removeNotificationMethod(${i})"><span class="material-symbols-rounded">remove</span></button>
                     </div>
