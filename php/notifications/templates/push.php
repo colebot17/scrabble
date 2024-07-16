@@ -9,6 +9,14 @@ $pushTemplates = Array(
             "text" => $text
         );
     },
+    "test" => function () {
+        $title = "Test Notification";
+        $text = "This is a test of the scrabble notification system. You may disregard this message.";
+        return Array(
+            "title" => $title,
+            "text" => $text
+        );
+    },
     "friendRequest" => function ($fromName) {
         $title = "New Friend Request";
         $text = $fromName . ' wants to be your friend. Log on to accept!';

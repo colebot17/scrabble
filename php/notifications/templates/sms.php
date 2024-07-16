@@ -5,6 +5,10 @@ $smsTemplates = Array(
         $body = 'This number (+1' . $number . ') has been added as a notification method for ' . $un . '.';
         return $body;
     },
+    "test" => function () {
+        $body = 'Test Message: This is a test of the scrabble notification system. You may disregard this message.';
+        return $body;
+    },
     "friendRequest" => function ($fromName) {
         $body = $fromName . ' wants to be your friend. Log on to accept!';
         return $body;
