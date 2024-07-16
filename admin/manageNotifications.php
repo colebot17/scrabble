@@ -82,6 +82,8 @@
 
     echo '</ul>';
 
+    echo '<a href="testNotify.php?user=' . $user . '">Send Test Notification</a>';
+
     ?>
 
     
