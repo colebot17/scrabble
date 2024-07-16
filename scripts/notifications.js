@@ -49,6 +49,7 @@ function displayNotificationMethods() {
                         <div class="flex col alignFlexStart noGap">
                             <span>Push Notifications</span>
                         </div>
+                        <button class="iconButton" onclick="removeNotificationMethod(${i})"><span class="material-symbols-rounded">remove</span></button>
                     </div>
                 `;
                 break;
