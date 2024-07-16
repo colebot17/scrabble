@@ -40,7 +40,7 @@
 
     notify($conn, $user, "test", Array());
 
-    echo '<h1><a href="playerLookup.php?playerName=' . $name . '">' . $name . '</a> has been notified.</h1>';
+    echo '<h2><a href="playerLookup.php?playerName=' . $name . '">' . $name . '</a> has been notified.</h2>';
 
     ?>
 </body>
