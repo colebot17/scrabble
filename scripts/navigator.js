@@ -13,7 +13,10 @@ function checkParams() {
     }
 
     if (params.has('tab')) {
-        showTab(params.get('tab'));
+        const tab = params.get('tab');
+        if (tab === 'friends') {
+            showTab('friends');
+        }
     }
 }
 
