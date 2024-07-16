@@ -69,7 +69,6 @@ require "templates/push.php";
 
 require "sendPush.php";
 $res = sendPush($subscription, $title, $text);
-print_r($res);
 
 // return the success response
 $res = Array(
