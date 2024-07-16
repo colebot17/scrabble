@@ -3,7 +3,8 @@ function receiveNotification(e) {
     const title = msg.title;
     const options = {
         body: msg.text,
-        data: msg.data
+        data: msg.data,
+        icon: "assets/appicons/appicon-512.png"
     };
 
     self.registration.showNotification(title, options);
