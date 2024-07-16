@@ -16,7 +16,7 @@ function sendPush($sub, $title, $text) {
 
     $auth = Array(
         "VAPID" => Array(
-            "subject" => "mailto: <colebot17@gmail.com>",
+            "subject" => "https://scrabble.colebot.com",
             "publicKey" => "BDFxOE30BWtMOXpSGFdcTY5GrhGeI4EZZJG-TOVnK56J5Ehg-UTTevPDsuZ5owHVYYgBV_A8pdHFc-cDrhQWyFU",
             "privateKey" => "JBne33dUaLrXJ21haGbOAU5quqoJsaSsdvs-kfEjlv4"
         )
