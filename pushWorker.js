@@ -14,11 +14,9 @@ self.addEventListener('push', receiveNotification);
 
 function notifClick(e) {
     const params = new URLSearchParams();
-    if (e.notification.data) {
-        for (let prop in e.notification.data) {
-            const item = e.notification.data[prop];
-            params.append(prop, item);
-        }
+    for (let prop in e.notification.data) {
+        const item = e.notification.data[prop];
+        params.append(prop, item);
     }
 
     let url = 'https://scrabble.colebot.com?' + params.toString();
