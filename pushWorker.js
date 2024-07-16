@@ -3,7 +3,6 @@ function receiveNotification(e) {
     const title = msg.title;
     const options = {
         data: {
-            game: 649
         },
         body: msg.text
     };
