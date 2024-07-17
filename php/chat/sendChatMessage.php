@@ -26,7 +26,11 @@ if (!verifyPassword($conn, $user, $pwd)) {
 
 // trim the message
 $message = trim($message);
+
+// save the un-escaped message for the notification later on
+require_once __DIR__ . '/../util/decodeURIComponent.php';
 $notifMessage = decodeURIComponent($message);
+
 $message = htmlentities($message);
 $message = str_replace(PHP_EOL, "<br>", $message);
 
