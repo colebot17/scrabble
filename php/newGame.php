@@ -120,7 +120,7 @@ $res = Array(
 echo json_encode($res);
 
 
-// send email notifications
+// send notifications
 
 $playerNames = Array();
 for ($i = 0; $i < count($players); $i++) {
@@ -134,7 +134,7 @@ for ($i = 0; $i < count($players); $i++) {
 require "notifications/notify.php";
 
 for ($i = 0; $i < count($players); $i++) {
-	if ($players[$i]["id"] == $user) continue; // don't send an email to the one who created the game
+	if ($players[$i]["id"] == $user) continue; // don't notify the one who created the game
 
 	notify($conn, $players[$i]["id"], "newGame", Array("", $gameId, $playerNames));
 }
