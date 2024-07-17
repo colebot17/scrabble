@@ -32,7 +32,7 @@ require_once __DIR__ . '/../util/decodeURIComponent.php';
 $notifMessage = decodeURIComponent($message);
 
 $message = htmlentities($message);
-$message = str_replace(PHP_EOL, "<br>", $message);
+$message = str_replace("%0A", "<br>", $message);
 
 // formulate the new chat message
 $fullMessage = Array(
