@@ -31,7 +31,7 @@ while ($row = mysqli_fetch_assoc($query)) {
     $gamesJson = json_encode($games);
 
     $sql2 = "UPDATE accounts SET games='$gamesJson' WHERE id='$id'";
-    $query2 = mysqli_query($conn, $sql);
+    $query2 = mysqli_query($conn, $sql2);
 }
 
 echo '<br>';
@@ -54,7 +54,7 @@ while ($row = mysqli_fetch_assoc($query)) {
     $pListJson = json_encode($pList);
 
     $sql2 = "UPDATE games SET players='$pListJson' WHERE id='$id'";
-    $query2 = mysqli_query($conn, $sql);
+    $query2 = mysqli_query($conn, $sql2);
 }
 
 echo '<br>';
