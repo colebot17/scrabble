@@ -7,14 +7,10 @@ async function receiveNotification(e) {
         icon: "assets/appicons/appicon-512.png"
     };
 
-    if (msg.tag) {
-        options.tag = msg.tag;
+    if (msg.tag) options.tag = msg.tag;
 
-        // get any other notifications with the same tag
-        const allNotifs = await self.registration.getNotifications();
-        const taggedNotifs = allNotifs.filter(a => a.tag === msg.tag);
-
-        console.log(allNotifs, taggedNotifs);
+    if (await collapseNotifications(msg.tag)) {
+        options.body = "New Chat Messages";
     }
 
     self.registration.showNotification(title, options);
@@ -46,4 +42,21 @@ function genURL(paramsObj) {
     }
 
     return url;
+}
+
+// returns boolean representing whether or not any notifications were collapsed
+async function collapseNotifications(tag) {
+    if (!tag) return false;
+
+    // get any other notifications with the same tag
+    const allNotifs = await self.registration.getNotifications();
+    const taggedNotifs = allNotifs.filter(a => a.tag === tag);
+
+    if (taggedNotifs.length === 0) return false;
+
+    for (let i = 0; i < taggedNotifs.length; i++) {
+        taggedNotifs[i].close();
+    }
+
+    return true;
 }
