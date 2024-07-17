@@ -11,7 +11,8 @@ async function receiveNotification(e) {
         options.tag = msg.tag;
 
         // get any other notifications with the same tag
-        const taggedNotifs = await self.registration.getNotifications();
+        const allNotifs = await self.registration.getNotifications();
+        const taggedNotifs = allNotifs.filter(a => a.tag === msg.tag);
 
         console.log(taggedNotifs);
     }

@@ -194,7 +194,7 @@ function initializePush() {
     btn.disabled = false;
     btn.title = "";
     
-    navigator.serviceWorker.register("pushWorker.js?v=14");
+    navigator.serviceWorker.register("pushWorker.js?v=15");
 
     btn.addEventListener('click', () => {
         attemptAddPushMethod();
