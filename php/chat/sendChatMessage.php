@@ -7,9 +7,9 @@ $password = "96819822";
 $dbname = "scrabble";
 
 // get data from GET/POST
-$user = $_POST['user'];
+$user = (int)$_POST['user'];
 $pwd = $_POST['pwd'];
-$gameId = $_POST['gameId'];
+$gameId = (int)$_POST['gameId'];
 $message = $_POST['message'];
 
 // create and check connection
@@ -44,6 +44,27 @@ if(!$messageAdded) exit('{"errorLevel":2,"message":"The message could not be sen
 
 // return success message
 echo '{"errorLevel":0,"message":"Message Sent."}';
+
+// notify the other players
+$sql = "SELECT name, players FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$gameName = $row['name'];
+$players = json_decode($row['players'], true);
+
+$sql = "SELECT name FROM accounts WHERE id='$user'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$un = $row['name'];
+
+$data = Array($un, $message, $gameName, $gameId);
+require "../notifications/notify.php";
+
+for ($i = 0; $i < count($players); $i++) {
+    if ($players[$i]["id"] === $user) continue; // don't notify the sender of their own message
+
+    notify($conn, $user, "chat", $options);
+}
 
 // update the chat read marker of the player sending the message
 require "updateChatRead.php";

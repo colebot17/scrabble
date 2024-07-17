@@ -58,5 +58,14 @@ $pushTemplates = Array(
             "text" => $text,
             "data" => Array("game" => $gameId)
         );
+    },
+    "chat" => function ($senderName, $message, $gameName, $gameId) {
+        $title = "$senderName - " . ($gameName ? $gameName : "game") . "#$gameId";
+        $text = $message;
+        return Array(
+            "title" => $title,
+            "text" => $text,
+            "data" => Array("game" => $gameId, "tab" => "chat")
+        );
     }
 );
