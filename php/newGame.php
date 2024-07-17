@@ -96,7 +96,7 @@ $query = mysqli_query($conn, $sql);
 $sql = "SELECT id FROM games ORDER BY id DESC LIMIT 1;";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
-$gameId = $row['id'];
+$gameId = (int)$row['id'];
 
 // add the game to player accounts
 for ($i = 0; $i < $numPlayers; $i++) { // for each player in the game
@@ -105,7 +105,7 @@ for ($i = 0; $i < $numPlayers; $i++) { // for each player in the game
 	$row = mysqli_fetch_assoc($query);
 	$userGames = json_decode($row['games'], true);
 
-	array_push($userGames, $gameId); // add the new game to it
+	$userGames[] = $gameId; // add the new game to it
 
 	$userGamesJson = json_encode($userGames); // encode and reupload the game list of the player
 	$sql = "UPDATE accounts SET games='$userGamesJson' WHERE id='$playerList[$i]'";
