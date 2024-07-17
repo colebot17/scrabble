@@ -63,7 +63,7 @@ require "../notifications/notify.php";
 for ($i = 0; $i < count($players); $i++) {
     if ($players[$i]["id"] == $user) continue; // don't notify the sender of their own message
 
-    notify($conn, $user, "chat", $data);
+    notify($conn, $players[$i]["id"], "chat", $data);
 }
 
 // update the chat read marker of the player sending the message
