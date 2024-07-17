@@ -1,16 +1,19 @@
 async function receiveNotification(e) {
     const msg = JSON.parse(e.data.text());
-    const title = msg.title;
-    const options = {
+    let title = msg.title;
+    let options = {
         body: msg.text,
         data: msg.data,
         icon: "assets/appicons/appicon-512.png"
     };
 
-    if (msg.tag) options.tag = msg.tag;
+    if (msg.collapse) {
+        options.tag = msg.collapse.tag;
 
-    if (await collapseNotifications(msg.tag)) {
-        options.body = "New Chat Messages";
+        if (await collapseNotifications(options.tag)) {
+            title = msg.collapse.title;
+            options.body = msg.collapse.text;
+        }
     }
 
     self.registration.showNotification(title, options);

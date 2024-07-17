@@ -66,7 +66,11 @@ $pushTemplates = Array(
             "title" => $title,
             "text" => $text,
             "data" => Array("game" => $gameId, "tab" => "chat"),
-            "tag" => "$senderName $gameId"
+            "collapse" => Array(
+                "tag" => "$gameId",
+                "title" => "New Chat Messages",
+                "text" => ($gameName === '' ? "Game" : $gameName) . "#$gameId"
+            )
         );
     }
 );
