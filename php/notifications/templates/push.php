@@ -65,7 +65,8 @@ $pushTemplates = Array(
         return Array(
             "title" => $title,
             "text" => $text,
-            "data" => Array("game" => $gameId, "tab" => "chat")
+            "data" => Array("game" => $gameId, "tab" => "chat"),
+            "tag" => "$senderName $gameId"
         );
     }
 );

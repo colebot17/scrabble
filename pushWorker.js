@@ -1,4 +1,4 @@
-function receiveNotification(e) {
+async function receiveNotification(e) {
     const msg = JSON.parse(e.data.text());
     const title = msg.title;
     const options = {
@@ -7,6 +7,15 @@ function receiveNotification(e) {
         icon: "assets/appicons/appicon-512.png"
     };
 
+    if (msg.tag) {
+        options.tag = msg.tag;
+
+        // get any other notifications with the same tag
+        const taggedNotifs = await self.registration.getNotifications({tag: msg.tag});
+
+        console.log(taggedNotifs);
+    }
+
     self.registration.showNotification(title, options);
 }
 
@@ -14,9 +23,18 @@ self.addEventListener('push', receiveNotification);
 
 
 function notifClick(e) {
+    self.clients.openWindow(genURL(e.notification.data));
+
+    e.notification.close();
+}
+
+self.addEventListener('notificationclick', notifClick);
+
+
+function genURL(paramsObj) {
     const params = new URLSearchParams();
-    for (let prop in e.notification.data) {
-        const item = e.notification.data[prop];
+    for (let prop in paramsObj) {
+        const item = paramsObj[prop];
         params.append(prop, item);
     }
 
@@ -26,9 +44,5 @@ function notifClick(e) {
         url += '?' + paramsStr;
     }
 
-    self.clients.openWindow(url);
-
-    e.notification.close();
+    return url;
 }
-
-self.addEventListener('notificationclick', notifClick);
