@@ -32,7 +32,7 @@ $numPlayers = count($playerList);
 $players = array();
 for ($i = 0; $i < $numPlayers; $i++) { 
 	array_push($players, array(
-		"id" => $playerList[$i],
+		"id" => (int)$playerList[$i],
 		"letterBank" => array(),
 		"bankOrder" => array(0, 1, 2, 3, 4, 5, 6),
 		"points" => 0,
