@@ -7,9 +7,9 @@ $password = "96819822";
 $dbname = "scrabble";
 
 // get data from GET/POST
-$user = $_POST['user'];
+$user = (int)$_POST['user'];
 $pwd = $_POST['pwd'];
-$gameId = $_POST['gameId'];
+$gameId = (int)$_POST['gameId'];
 $message = $_POST['message'];
 
 // create and check connection
@@ -26,8 +26,13 @@ if (!verifyPassword($conn, $user, $pwd)) {
 
 // trim the message
 $message = trim($message);
+
+// save the un-escaped message for the notification later on
+require_once __DIR__ . '/../util/decodeURIComponent.php';
+$notifMessage = decodeURIComponent($message);
+
 $message = htmlentities($message);
-$message = str_replace(PHP_EOL, "<br>", $message);
+$message = str_replace("%0A", "<br>", $message);
 
 // formulate the new chat message
 $fullMessage = Array(
@@ -44,6 +49,27 @@ if(!$messageAdded) exit('{"errorLevel":2,"message":"The message could not be sen
 
 // return success message
 echo '{"errorLevel":0,"message":"Message Sent."}';
+
+// notify the other players
+$sql = "SELECT name, players FROM games WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$gameName = $row['name'];
+$players = json_decode($row['players'], true);
+
+$sql = "SELECT name FROM accounts WHERE id='$user'";
+$query = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($query);
+$un = $row['name'];
+
+$data = Array($un, $notifMessage, $gameName, $gameId);
+require "../notifications/notify.php";
+
+for ($i = 0; $i < count($players); $i++) {
+    if ($players[$i]["id"] == $user) continue; // don't notify the sender of their own message
+
+    notify($conn, $players[$i]["id"], "chat", $data);
+}
 
 // update the chat read marker of the player sending the message
 require "updateChatRead.php";
