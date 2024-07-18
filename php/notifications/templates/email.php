@@ -83,5 +83,22 @@ $emailTemplates = Array(
         ';
     
         return ["It's your turn on Scrabble!", $body];
+    },
+    "endGame" => function ($playerName, $gameName, $gameId, $playerNames) {
+        require_once "gameCard.php";
+        $playLink = 'https://scrabble.colebot.com?game=' . $gameId;
+        $gameCard = gameCard($gameName, $gameId, $playerNames, false);
+        $body = '
+            <link href="https://fonts.googleapis.com/css2?family=Rubik" rel="stylesheet">
+            <style>
+                :root {
+                    font-family: "Rubik", Helvetica, sans-serif;
+                }
+            </style>
+            <h1><b>' . $playerName . '</b> wants to end this game<h1>
+            ' . $gameCard . '
+            <h2>If you want to end it too, log on to vote</h2>
+            <p>Otherwise, the game will remain active</p>
+        ';
     }
 );

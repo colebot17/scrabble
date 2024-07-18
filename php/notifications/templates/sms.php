@@ -30,5 +30,9 @@ $smsTemplates = Array(
     "turn" => function ($prevPlayerName, $gameName, $gameId, $playerNames) {
         $body = $prevPlayerName . ' moved in ' . ($gameName !== '' ? $gameName : 'game ') . '#' . $gameId . ', and it\'s your turn now! Log on to play.';
         return $body;
+    },
+    "endGame" => function ($playerName, $gameName, $gameId, $playerNames) {
+        $body = "$playerName wants to end " . ($gameName === '' ? "game" : $gameName) . " #$gameId. The game will remain active unless you vote to end it too.";
+        return $body;
     }
 );
