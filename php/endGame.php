@@ -117,12 +117,13 @@ if (!$deleteGame) {
 	$playerNames = Array();
 	$un = "<unknown player>";
 	for ($i = 0; $i < count($players); $i++) {
-		$sql = "SELECT name FROM accounts WHERE id='$players[$i]'";
+		$pid = $players[$i]["id"];
+		$sql = "SELECT name FROM accounts WHERE id='$pid'";
 		$query = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($query);
 
 		$playerNames[] = $row['name'];
-		if ($players[$i]["id"] == $user) $un = $row['name'];
+		if ($pid == $user) $un = $row['name'];
 	}
 
 	$sql = "SELECT name FROM games WHERE id='$gameId'";
