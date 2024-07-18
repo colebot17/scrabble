@@ -72,5 +72,14 @@ $pushTemplates = Array(
                 "text" => "New Chat Messages"
             )
         );
+    },
+    "endGame" => function ($playerName, $gameName, $gameId, $playerNames) {
+        $title = "$playerName wants to end " . ($gameName === '' ? "game" : $gameName) . " #$gameId";
+        $text = "If you want to end it too, log on to vote.\nOtherwise, the game will remain active.";
+        return Array(
+            "title" => $title,
+            "text" => $text,
+            "data" => Array("game" => $gameId)
+        );
     }
 );

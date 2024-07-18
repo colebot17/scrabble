@@ -112,6 +112,30 @@ if (!$deleteGame) {
 			$winnerIndicies[] = $i;
 		}
 	}
+
+	// notify the other players
+	$playerNames = Array();
+	$un = "<unknown player>";
+	for ($i = 0; $i < count($players); $i++) {
+		$sql = "SELECT name FROM accounts WHERE id='$players[$i]'";
+		$query = mysqli_query($conn, $sql);
+		$row = mysqli_fetch_assoc($query);
+
+		$playerNames[] = $row['name'];
+		if ($players[$i]["id"] == $user) $un = $row['name'];
+	}
+
+	$sql = "SELECT name FROM games WHERE id='$gameId'";
+	$query = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($query);
+	$gameName = $row['name'];
+
+	require_once "notifications/notify.php";
+	for ($i = 0; $i < count($players); $i++) {
+		if ($players[$i]["id"] == $user) continue;
+
+		notify($conn, $players[$i]["id"], "endGame", Array($un, $gameName, $gameId, $playerNames));
+	}
 }
 
 $res = Array(
