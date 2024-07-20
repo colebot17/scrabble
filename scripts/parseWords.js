@@ -216,7 +216,7 @@ function sweepX(tiles, board, bInfo, lInfo) {
         let sweepX = i ? x - 1 : x;
 
         let tile;
-        while (tile = board[y][sweepX]) {
+        while (tile = board[y]?.[sweepX]) {
             const letter = tile.letter.toUpperCase();
             xAxisWord = i ? letter + xAxisWord : xAxisWord + letter;
 
@@ -241,7 +241,7 @@ function sweepX(tiles, board, bInfo, lInfo) {
                     let sweepY = j ? y - 1 : y;
 
                     let crossTile;
-                    while (crossTile = board[sweepY][sweepX]) {
+                    while (crossTile = board[sweepY]?.[sweepX]) {
                         const letter = crossTile.letter.toUpperCase();
                         xCrossAxisWord = j ? letter + xCrossAxisWord : xCrossAxisWord + letter;
 
@@ -325,7 +325,7 @@ function sweepY(tiles, board, bInfo, lInfo) {
         let sweepY = i ? y - 1 : y;
 
         let tile;
-        while (tile = board[sweepY][x]) {
+        while (tile = board[sweepY]?.[x]) {
             const letter = tile.letter.toUpperCase();
             yAxisWord = i ? letter + yAxisWord : yAxisWord + letter;
 
@@ -350,7 +350,7 @@ function sweepY(tiles, board, bInfo, lInfo) {
                     let sweepX = j ? x - 1 : x;
 
                     let crossTile;
-                    while (crossTile = board[sweepY][sweepX]) {
+                    while (crossTile = board[sweepY]?.[sweepX]) {
                         const letter = crossTile.letter.toUpperCase();
                         yCrossAxisWord = j ? letter + yCrossAxisWord : yCrossAxisWord + letter;
 
