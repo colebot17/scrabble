@@ -165,7 +165,7 @@ async function lazyLoadInfo(lang) {
     return Promise.all([lazyLoadDict(lang), lazyLoadBoardInfo(), lazyLoadLangInfo(lang)]);
 }
 async function lazyLoadDict(lang) {
-    if (dictionary[lang]) return dictionary[lang];
+    if (dictionary[lang]) return dictionary[lang].words;
 
     // send a request to get the dictionary for the specified language
     const res = await fetch('../resources/dictionary_' + lang + '.json');
