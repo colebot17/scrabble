@@ -269,8 +269,10 @@ function sweepX(tiles, board, bInfo, lInfo) {
                         points: xCrossAxisWordPoints * xCrossAxisWordMultiplier,
                         axis: "y",
                         cross: true,
-                        start: [sweepX, sweepYMin],
-                        end: [sweepX, sweepYMax]
+                        pos: {
+                            start: [sweepX, sweepYMin],
+                            end: [sweepX, sweepYMax]
+                        }
                     });
                 }
             }
@@ -294,8 +296,10 @@ function sweepX(tiles, board, bInfo, lInfo) {
             points: xAxisWordPoints * xAxisWordMultiplier,
             axis: "x",
             cross: false,
-            start: [sweepXMin, y],
-            end: [sweepXMax, y]
+            pos: {
+                start: [sweepXMin, y],
+                end: [sweepXMax, y]
+            }
         });
     }
 
@@ -374,8 +378,10 @@ function sweepY(tiles, board, boardInfo, langInfo) {
                         points: yCrossAxisWordPoints * yCrossAxisWordMultiplier,
                         axis: "x",
                         cross: true,
-                        start: [sweepXMin, sweepY],
-                        end: [sweepXMax, sweepY]
+                        pos: {
+                            start: [sweepXMin, sweepY],
+                            end: [sweepXMax, sweepY]
+                        }
                     });
                 }
             }
@@ -399,8 +405,10 @@ function sweepY(tiles, board, boardInfo, langInfo) {
             points: yAxisWordPoints * yAxisWordMultiplier,
             axis: "y",
             cross: false,
-            start: [x, sweepYMin],
-            end: [x, sweepYMax]
+            pos: {
+                start: [x, sweepYMin],
+                end: [x, sweepYMax]
+            }
         });
     }
 
