@@ -27,7 +27,7 @@ if (!$tiles || count($tiles) === 0) {
     exit('{"errorLevel":1,"message":"You must place at least one tile to store a draft"}');
 }
 
-require "draft/draft.php";
+require "draft.php";
 $draft = Array();
 for ($i = 0; $i < count($tiles); $i++) {
     $draft[] = Array(
