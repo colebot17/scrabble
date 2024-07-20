@@ -74,7 +74,7 @@ function getGamesList($conn, int $userId) {
             // if this is the current player
             if ($playerId === (int)$userId) {
                 // if the game has ended and hasn't been seen
-                if ($inactive && $player?->gameEndUnseen) {
+                if ($inactive && array_key_exists('gameEndUnseen', $player) && $player["gameEndUnseen"]) {
                     // send this back with the game
                     $game['newlyInactive'] = true;
 
