@@ -115,6 +115,8 @@ export function checkConnectedness(b) {
 // determine what axis a set of tiles is on
 // returns "horizontal", "vertical", or false
 function determineAxis(tiles, board) {
+    if (tiles.length === 0) return false;
+
     const xs = [];
     const ys = [];
     for (let i = 0; i < tiles.length; i++) {
