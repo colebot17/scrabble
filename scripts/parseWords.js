@@ -174,7 +174,7 @@ async function lazyLoadDict(lang) {
     };
     const dict = await res.json();
     dictionary[lang] = dict;
-    return dict;
+    return dict.words;
 }
 async function lazyLoadBoardInfo() {
     if (boardInfo) return boardInfo;
