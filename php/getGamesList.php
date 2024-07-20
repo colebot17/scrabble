@@ -66,7 +66,7 @@ function getGamesList($conn, int $userId) {
                 "id" => $playerId,
                 "name" => $row['name'],
                 "points" => (int)$player['points'],
-                "endGameRequest" => $player['endGameRequest']
+                "endGameRequest" => $player['endGameRequest'] ?? false
             );
 
             $game['players'][] = $playerObj;
@@ -74,7 +74,7 @@ function getGamesList($conn, int $userId) {
             // if this is the current player
             if ($playerId === (int)$userId) {
                 // if the game has ended and hasn't been seen
-                if ($inactive && $player['gameEndUnseen']) {
+                if ($inactive && $player['gameEndUnseen'] ?? false) {
                     // send this back with the game
                     $game['newlyInactive'] = true;
 
