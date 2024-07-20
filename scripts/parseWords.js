@@ -201,6 +201,8 @@ function sweepX(tiles, board, bInfo, lInfo) {
     const x = tiles[0].x;
     const y = tiles[0].y;
 
+    let words = [];
+
     let xAxisWord = "";
     let xAxisWordPoints = 0;
     let xAxisWordMultiplier = 1;
@@ -301,6 +303,8 @@ function sweepX(tiles, board, bInfo, lInfo) {
 function sweepY(tiles, board, boardInfo, langInfo) {
     const x = tiles[0].x;
     const y = tiles[0].y;
+
+    let words = [];
 
     let yAxisWord = "";
     let yAxisWordPoints = 0;
