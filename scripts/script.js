@@ -1059,7 +1059,7 @@ async function checkPoints() {
 	}
 
 	// show the draft in the move history
-	updateMoveHistory(res.data);
+	//updateMoveHistory(res.data);
 }
 
 function setBankOrder() {
