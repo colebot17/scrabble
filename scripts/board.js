@@ -55,7 +55,7 @@ function setMoveButtonEnablement() {
     }
 
     // make sure all tiles are connected to center
-    if (!checkConnectedness()) {
+    if (!checkConnectedness(game.board)) {
         enableButton = false;
     }
 
