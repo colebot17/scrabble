@@ -306,7 +306,7 @@ function sweepX(tiles, board, bInfo, lInfo) {
     return words;
 }
 
-function sweepY(tiles, board, boardInfo, langInfo) {
+function sweepY(tiles, board, bInfo, lInfo) {
     const x = tiles[0].x;
     const y = tiles[0].y;
 
@@ -328,13 +328,13 @@ function sweepY(tiles, board, boardInfo, langInfo) {
             yAxisWord = i ? letter + yAxisWord : yAxisWord + letter;
 
             if (!tile.blank) {
-                let newPoints = langInfo.letterScores[letter];
-                if (!tile.locked) newPoints *= boardInfo.scoreMultipliers[boardInfo.modifiers[sweepY][x].letter];
+                let newPoints = lInfo.letterScores[letter];
+                if (!tile.locked) newPoints *= bInfo.scoreMultipliers[bInfo.modifiers[sweepY][x].letter];
                 yAxisWordPoints += newPoints;
             }
 
             if (!tile.locked) {
-                yAxisWordMultiplier *= boardInfo.scoreMultipliers[boardInfo.modifiers[sweepY][x]].word;
+                yAxisWordMultiplier *= bInfo.scoreMultipliers[bInfo.modifiers[sweepY][x]].word;
 
                 // sweep the cross axis
                 let yCrossAxisWord = "";
@@ -353,12 +353,12 @@ function sweepY(tiles, board, boardInfo, langInfo) {
                         yCrossAxisWord = j ? letter + yCrossAxisWord : yCrossAxisWord + letter;
 
                         if (!crossTile.blank) {
-                            let newCrossPoints = langInfo.letterScores[letter];
-                            if (!crossTile.locked) newCrossPoints *= boardInfo.scoreMultipliers[boardInfo.modifiers[sweepY][sweepX]].letter;
+                            let newCrossPoints = lInfo.letterScores[letter];
+                            if (!crossTile.locked) newCrossPoints *= bInfo.scoreMultipliers[bInfo.modifiers[sweepY][sweepX]].letter;
                             yCrossAxisWordPoints += newCrossPoints;
                         }
 
-                        if (!crossTile.locked) yCrossAxisWordMultiplier *= boardInfo.scoreMultipliers[boardInfo.modifiers[sweepY][sweepX]].word;
+                        if (!crossTile.locked) yCrossAxisWordMultiplier *= bInfo.scoreMultipliers[bInfo.modifiers[sweepY][sweepX]].word;
 
                         j ? sweepX-- : sweepX++;
                     }
@@ -372,7 +372,7 @@ function sweepY(tiles, board, boardInfo, langInfo) {
                 }
 
                 // compile the y cross axis word and points into the array
-                if (!langInfo.alphabet.includes(yCrossAxisWord)) {
+                if (!lInfo.alphabet.includes(yCrossAxisWord)) {
                     words.push({
                         word: yCrossAxisWord,
                         points: yCrossAxisWordPoints * yCrossAxisWordMultiplier,
@@ -399,7 +399,7 @@ function sweepY(tiles, board, boardInfo, langInfo) {
     }
 
     // compile the y axis word and points into the array
-    if (!langInfo.alphabet.includes(yAxisWord)) {
+    if (!lInfo.alphabet.includes(yAxisWord)) {
         words.push({
             word: yAxisWord,
             points: yAxisWordPoints * yAxisWordMultiplier,
