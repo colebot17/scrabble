@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 
 $user = (int)$_POST['user'];
 $pwd = $_POST['pwd'];
-$gameId = (int)$_POST['gameId'];
+$gameId = (int)$_POST['game'];
 $tiles = json_decode($_POST['tiles'], true);
 
 require "../verifyPassword.php";
