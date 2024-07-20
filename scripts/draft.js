@@ -11,6 +11,17 @@ function loadDraft() {
     checkPoints();
 }
 
+function saveDraft(tiles) {
+    if (!game.id) return;
+
+    request('draft/saveDraft.php', {
+        user: account.id,
+        pwd: account.pwd,
+        game: game.id,
+        tiles: JSON.stringify(tiles)
+    });
+}
+
 function removeDraft() {
     if (!game.id) return;
     request('draft/removeDraft.php', {

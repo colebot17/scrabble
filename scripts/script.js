@@ -1,3 +1,5 @@
+import { getUnlockedTiles } from "./parseWords";
+
 const boardInfo = {
 	modifiers: [
 		[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4],
@@ -1004,14 +1006,11 @@ function showPointsOverlay(userId, newPoints) {
 async function checkPoints() {
 	canvas.pointsPreview = false;
 
+	saveDraft(getUnlockedTiles(game.board));
+
 	const words = await parseWords(game);
 
-	if (!words || words.length === 0) {
-		// show the border animation
-		//tempHighlight({start: [0, 0], end: [14, 14]}, "#ff0000", 250, 250);
-
-		return;
-	};
+	if (!words || words.length === 0) return;
 
 	// find the first non-cross word
 	let mainWordId;
@@ -1041,7 +1040,7 @@ async function checkPoints() {
 	}
 
 	// show the draft in the move history
-	//updateMoveHistory(res.data);
+	updateMoveHistory(res.data);
 }
 
 function setBankOrder() {
