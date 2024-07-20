@@ -298,6 +298,8 @@ function sweepX(tiles, board, bInfo, lInfo) {
             end: [sweepXMax, y]
         });
     }
+
+    return words;
 }
 
 function sweepY(tiles, board, boardInfo, langInfo) {
@@ -401,4 +403,6 @@ function sweepY(tiles, board, boardInfo, langInfo) {
             end: [x, sweepYMax]
         });
     }
+
+    return words;
 }
