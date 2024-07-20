@@ -39,7 +39,7 @@ export async function parseWords(g) {
     return words;
 }
 
-function getUnlockedTiles(b) {
+export function getUnlockedTiles(b) {
 	// returns a simplified list of any unlocked tiles on the board
 	var newTiles = [];
 	for (let y in b) {
@@ -59,7 +59,7 @@ function getUnlockedTiles(b) {
 	return newTiles;
 }
 
-function checkConnectedness(b) {
+export function checkConnectedness(b) {
 	// returns true if all tiles on the board are connected to the center
 	// returns false if not
 	//
