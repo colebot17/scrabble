@@ -1045,9 +1045,15 @@ async function checkPoints() {
 		}
 	}
 
+	// add up the total points
+	let totalPoints = 0;
+	for (let i = 0; i < words.length; i++) {
+		totalPoints += words[i].points;
+	}
+
 	// draw the points box
 	canvas.pointsPreview = {
-		points: res.data.newPoints,
+		points: totalPoints,
 		start: words[mainWordId].pos.start,
 		end: words[mainWordId].pos.end
 	}
