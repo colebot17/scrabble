@@ -337,7 +337,7 @@ function handleDocumentMouseUp(e) {
         canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
 
         // remove the draft if the board is empty
-        if (getUnlockedTiles().length === 0) {
+        if (getUnlockedTiles(game.board).length === 0) {
             removeDraft();
         }
         

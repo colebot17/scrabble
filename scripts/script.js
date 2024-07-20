@@ -840,7 +840,7 @@ function setOOTD(disabled) {
 
 function makeMove() {
 	// first, get a list of all unlocked tiles
-	var newTiles = getUnlockedTiles();
+	var newTiles = getUnlockedTiles(game.board);
 
 	request('makeMove.php', {
 		game: game.id,
