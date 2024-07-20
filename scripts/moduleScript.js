@@ -9,3 +9,12 @@ window.multiplyColor = multiplyColor_;
 
 import { toast as toast_ } from "./toast.js";
 window.toast = toast_;
+
+import {
+    parseWords as parseWords_,
+    getUnlockedTiles as getUnlockedTiles_,
+    checkConnectedness as checkConnectedness_
+} from "./parseWords.js";
+window.parseWords = parseWords_;
+window.getUnlockedTiles = getUnlockedTiles_;
+window.checkConnectedness = checkConnectedness_;
