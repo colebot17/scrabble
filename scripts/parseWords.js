@@ -222,7 +222,7 @@ function sweepX(tiles, board, bInfo, lInfo) {
 
             if (!tile.blank) {
                 let newPoints = lInfo.letterScores[letter];
-                if (!tile.locked) newPoints *= bInfo.scoreMultipliers[bInfo.modifiers[y][sweepX].letter];
+                if (!tile.locked) newPoints *= bInfo.scoreMultipliers[bInfo.modifiers[y][sweepX]].letter;
                 xAxisWordPoints += newPoints;
             }
 
@@ -331,7 +331,7 @@ function sweepY(tiles, board, bInfo, lInfo) {
 
             if (!tile.blank) {
                 let newPoints = lInfo.letterScores[letter];
-                if (!tile.locked) newPoints *= bInfo.scoreMultipliers[bInfo.modifiers[sweepY][x].letter];
+                if (!tile.locked) newPoints *= bInfo.scoreMultipliers[bInfo.modifiers[sweepY][x]].letter;
                 yAxisWordPoints += newPoints;
             }
 
