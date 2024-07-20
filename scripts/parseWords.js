@@ -187,7 +187,7 @@ async function lazyLoadBoardInfo() {
     return boardInfo;
 }
 async function lazyLoadLangInfo(lang) {
-    if (langInfo) return langInfo;
+    if (langInfo) return langInfo[lang];
 
     const res = await fetch('../resources/languages.json');
     if (!res.ok) {
