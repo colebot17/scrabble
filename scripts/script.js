@@ -1008,7 +1008,7 @@ async function checkPoints() {
 
 	if (!words || words.length === 0) {
 		// show the border animation
-		tempHighlight({start: [0, 0], end: [14, 14]}, "#ff0000", 250, 250);
+		//tempHighlight({start: [0, 0], end: [14, 14]}, "#ff0000", 250, 250);
 
 		return;
 	};
@@ -1025,24 +1025,6 @@ async function checkPoints() {
 	// if no word was made (this shouldn't ever happen because it should get caught above)
 	if (mainWordId === undefined) {
 		return;
-	}
-
-	// make sure word is still on the board
-	const word = words[mainWordId];
-	
-	if (word.axis === "x") {
-		for (let x = word.pos.start[0]; x <= word.pos.end[0]; x++) {
-			if (!game.board[word.pos.start[1]][x]) {
-				return;
-			}
-		}
-	}
-	if (word.axis === "y") {
-		for (let y = word.pos.start[1]; y <= word.pos.end[1]; y++) {
-			if (!game.board[y][word.pos.start[0]]) {
-				return;
-			}
-		}
 	}
 
 	// add up the total points
