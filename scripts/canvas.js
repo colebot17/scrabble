@@ -143,7 +143,7 @@ function drawBoard() {
 	// calculate some values
 	squareWidth = (canvas.c.width - (SQUARE_GAP * (SQUARE_NUM - 1))) / SQUARE_NUM;
 	const fontSize = squareWidth * 0.5;
-	const cornerRadius = 5 * (squareWidth * 0.03);
+	const cornerRadius = 0//5 * (squareWidth * 0.03);
 
 	// draw the background
 	canvas.ctx.fillStyle = BOARD_BACKGROUND_COLOR;

@@ -153,7 +153,7 @@ body.scrabble {
 	user-select: none;
 	-webkit-user-select: none;
 
-	padding: 2px!important;
+	padding: 0!important;
 }
 #canvasCell canvas {
 	max-width: 100%;
@@ -707,7 +707,7 @@ body.scrabble {
 
 	gap: 10px;
 
-	padding: 2px;
+	padding: 5px;
 }
 #scrabbleGrid .gridCell {
 	padding: 10px;
