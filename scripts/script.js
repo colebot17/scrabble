@@ -1003,6 +1003,7 @@ function showPointsOverlay(userId, newPoints) {
 
 async function checkPoints() {
 	canvas.pointsPreview = false;
+
 	setMoveButtonEnablement(false);
 
 	saveDraft(getUnlockedTiles(game.board));
@@ -1039,7 +1040,7 @@ async function checkPoints() {
 	}
 
 	// show the draft in the move history
-	updateMoveHistory(res.data);
+	updateMoveHistory(words);
 
 	// enable the move button
 	setMoveButtonEnablement(true);
