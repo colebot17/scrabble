@@ -1,5 +1,3 @@
-import { lazyLoadInfo } from "./parseWords";
-
 $(function() {
 	// auto sign in
 	const savedName = sessionStorage.name || localStorage.name;
