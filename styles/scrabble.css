@@ -152,14 +152,12 @@ body.scrabble {
 	align-items: center;
 	user-select: none;
 	-webkit-user-select: none;
+
+	padding: 0;
 }
 #canvasCell canvas {
 	max-width: 100%;
 	max-height: 100%;
-
-	position: fixed;
-	left: 0;
-	right: 0;
 }
 #canvasCanvasPage {
 	height: 100%;
@@ -708,6 +706,8 @@ body.scrabble {
 	align-items: center;
 
 	gap: 10px;
+
+	padding: 0;
 }
 #scrabbleGrid .gridCell {
 	padding: 10px;
