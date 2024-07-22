@@ -712,7 +712,7 @@ function gameInit() {
 
 	setCanvasSize();
 
-	setMoveButtonEnablement();
+	setMoveButtonEnablement(false);
 
 	loadDraft();
 
@@ -1003,6 +1003,7 @@ function showPointsOverlay(userId, newPoints) {
 
 async function checkPoints() {
 	canvas.pointsPreview = false;
+	setMoveButtonEnablement(false);
 
 	saveDraft(getUnlockedTiles(game.board));
 
@@ -1039,6 +1040,9 @@ async function checkPoints() {
 
 	// show the draft in the move history
 	updateMoveHistory(res.data);
+
+	// enable the move button
+	setMoveButtonEnablement(true);
 }
 
 function setBankOrder() {
