@@ -163,7 +163,7 @@ function determineAxis(tiles, board) {
 }
 
 let dictionary = {}, boardInfo, langInfo;
-async function lazyLoadInfo(lang) {
+export async function lazyLoadInfo(lang) {
     return Promise.all([lazyLoadDict(lang), lazyLoadBoardInfo(), lazyLoadLangInfo(lang)]);
 }
 async function lazyLoadDict(lang) {

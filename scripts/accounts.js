@@ -1,3 +1,5 @@
+import { lazyLoadInfo } from "./parseWords";
+
 $(function() {
 	// auto sign in
 	const savedName = sessionStorage.name || localStorage.name;
@@ -16,7 +18,7 @@ $(function() {
 
 var account = {};
 
-function signIn(name = document.getElementById('signInUsername').value, pwd = document.getElementById('signInPwd').value, showToast = true) {
+async function signIn(name = document.getElementById('signInUsername').value, pwd = document.getElementById('signInPwd').value, showToast = true) {
 	const formEl = document.getElementById('signInForm');
 	const usernameField = document.getElementById('signInUsername');
 	const pwdField = document.getElementById('signInPwd');
@@ -51,10 +53,13 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 				return;
 			}
 		}, 100);
-	})
+	});
 
-	// when the request is finished, the document's fonts are loaded, and the timer is up
-	return Promise.all([req, document.fonts.ready, msLoaded, timer]).then(values => {
+	try {
+
+		// when the request is finished, the document's fonts are loaded, and the timer is up
+		const values = await Promise.all([req, document.fonts.ready, msLoaded, timer]);
+
 		// the response from the sign in request specifically
 		// (we don't care about the other requests)
 		const res = values[0];
@@ -114,12 +119,18 @@ function signIn(name = document.getElementById('signInUsername').value, pwd = do
 
 		// show the toast
 		if (showToast) toast("Account", "Now signed in as <b>" + account.name + "</b>");
-	}).catch(err => {
+
+		// go ahead and load the files for checking points for the user's default language
+		lazyLoadInfo(account.defaultLang);
+
+	} catch (err) {
+
 		console.error("Sign-in could not be completed:", err);
 		setSignInMode('signIn');
 		
 		scrabbleGrid.dataset.signedin = "false";
-	});
+
+	}
 }
 
 function emailAddressCheck() {
