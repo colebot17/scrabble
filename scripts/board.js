@@ -30,42 +30,22 @@ function clearBoard() {
 
 function boardUpdate() {
     // this function is called immediately after the tiles present on the board are changed in any way
-    
-    setMoveButtonEnablement();
-
     updateMoveHistory();
 }
 
-function setMoveButtonEnablement() {
+function setMoveButtonEnablement(enableButton) {
     const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
     if (!userTurn) return;
     // the move button will be disabled no matter what when it is not the current user's turn
     // the enablement of the move button when it isn't the user's turn is controlled by setOOTD() in script.js
     
-    let enableButton = false;
-
-    // make sure there are actually some unlocked tiles on the board
-    for (let y = 0; y < game.board.length; y++) {
-        for (let x = 0; x < game.board[y].length; x++) {
-            if (game.board[y][x] && !game.board[y][x].locked) {
-                enableButton = true;
-                break;
-            }
-        }
-    }
-
-    // make sure all tiles are connected to center
-    if (!checkConnectedness()) {
-        enableButton = false;
-    }
-
     const moveButton = document.getElementById('makeMoveButton');
     if (enableButton) {
         moveButton.disabled = false;
         moveButton.title = "";
     } else {
         moveButton.disabled = true;
-        moveButton.title = "You must place tiles on the board to make a move.";
+        moveButton.title = "You must form a valid word to make your move.";
     }
 }
 
@@ -212,77 +192,4 @@ function clearDropZoneGaps() {
         current.gapAnimation = undefined;
         current.extraGapAfter = 0;
     }
-}
-
-function checkConnectedness() {
-	// returns true if all tiles on the board are connected to the center
-	// returns false if not
-	//
-	// using a four-way flood fill algorithm with a queue
-
-	// make a copy of the board that is simpler
-	let boardCopy = [];
-	for (let y = 0; y < game.board.length; y++) {
-		let rowCopy = [];
-		for (let x = 0; x < game.board[y].length; x++) {
-			rowCopy.push(!!game.board[y][x] ? "tile" : "empty");
-		}
-		boardCopy.push(rowCopy);
-	}
-
-	// create a queue
-	let queue = [];
-	queue.push([7, 7]); // start with the center tile
-
-	// go through the queue
-	while (queue.length > 0) {
-		let [x, y] = queue.shift();
-
-		// this item is in the queue, so it must be connected
-		boardCopy[y][x] = "connected";
-
-		// add all adjacent tiles to the queue as well
-		if (boardCopy?.[y]?.[x + 1] === "tile") {
-			queue.push([x + 1, y]);
-		}
-		if (boardCopy?.[y]?.[x - 1] === "tile") {
-			queue.push([x - 1, y]);
-		}
-		if (boardCopy?.[y + 1]?.[x] === "tile") {
-			queue.push([x, y + 1]);
-		}
-		if (boardCopy?.[y - 1]?.[x] === "tile") {
-			queue.push([x, y - 1]);
-		}
-	}
-
-	// now go through the copy and see if we missed any "tile"s
-	for (let y = 0; y < boardCopy.length; y++) {
-		for (let x = 0; x < boardCopy[y].length; x++) {
-			if (boardCopy[y][x] === "tile") {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
-function getUnlockedTiles() {
-	// returns a simplified list of any unlocked tiles on the board
-	var newTiles = [];
-	for (let y in game.board) {
-		for (let x in game.board) {
-			if (game.board[y][x] && !game.board[y][x].locked) {
-				let tile = game.board[y][x];
-				newTiles.push({
-					bankIndex: tile.bankIndex,
-					blank: tile.blank,
-					letter: tile.letter,
-					x: tile.x,
-					y: tile.y
-				});
-			}
-		}
-	}
-	return newTiles;
 }

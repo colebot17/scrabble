@@ -712,7 +712,7 @@ function gameInit() {
 
 	setCanvasSize();
 
-	setMoveButtonEnablement();
+	setMoveButtonEnablement(false);
 
 	loadDraft();
 
@@ -840,7 +840,7 @@ function setOOTD(disabled) {
 
 function makeMove() {
 	// first, get a list of all unlocked tiles
-	var newTiles = getUnlockedTiles();
+	var newTiles = getUnlockedTiles(game.board);
 
 	request('makeMove.php', {
 		game: game.id,
@@ -1001,127 +1001,49 @@ function showPointsOverlay(userId, newPoints) {
 	}, 3000);
 }
 
-function checkPoints() {
+async function checkPoints() {
 	canvas.pointsPreview = false;
 
-	// first, get a list of all unlocked tiles
-	var newTiles = getUnlockedTiles();
+	setMoveButtonEnablement(false);
 
-	// don't bother if there are no unlocked tiles
-	// or if the tiles aren't connected to the center
-	if (newTiles.length < 1 || !checkConnectedness()) {
+	saveDraft(getUnlockedTiles(game.board));
+
+	const words = await parseWords(game);
+
+	if (!words || words.length === 0) return;
+
+	// find the first non-cross word
+	let mainWordId;
+	for (let i = 0; i < words.length; i++) {
+		if (!words[i].cross) {
+			mainWordId = i;
+			break;
+		}
+	}
+
+	// if no word was made (this shouldn't ever happen because it should get caught above)
+	if (mainWordId === undefined) {
 		return;
 	}
 
-	// set the loading animation (region pulse)
-	//
-	// PROBLEM!!!
-	// we don't actually know where the word is right now,
-	// so we don't know where to show the loading box
-	// 
-	// the solution to this would be to do word checks locally.
-	// this would require the download of the whole dictionary,
-	// which would take a while, but could be done in the background.
-	// the bigger benefit to doing this is that we wouldn't have to
-	// worry about how often we check the word (within reason).
-	//
-	// it would also require rewriting the whole word parser in js.
-	// this will take some time as it is not a small task. However,
-	// there is a chance that it can be made more lightweight since
-	// there's probably some stuff it doesn't need to keep track of.
+	// add up the total points
+	let totalPoints = 0;
+	for (let i = 0; i < words.length; i++) {
+		totalPoints += words[i].points;
+	}
 
-	// SOLUTION!!!
-	// we can just apply the effect to a region that consumes the entire
-	// board, which creates a really cool more general loading animation.
+	// draw the points box
+	canvas.pointsPreview = {
+		points: totalPoints,
+		start: words[mainWordId].pos.start,
+		end: words[mainWordId].pos.end
+	}
 
-	let removeLoadingAnimation = false;
+	// show the draft in the move history
+	updateMoveHistory(words);
 
-	addRegion({
-		start: [0, 0],
-		end: [14, 14],
-		pulse: new Animation(750, 0, 0, 1, "loop"),
-		removeCondition: () => removeLoadingAnimation
-	});
-
-	request('checkPoints.php', {
-		game: game.id,
-		tiles: JSON.stringify(newTiles),
-		user: account.id,
-		pwd: account.pwd
-	}).then(res => {
-		if (res.errorLevel > 0) {
-			// show the border animation
-			tempHighlight({start: [0, 0], end: [14, 14]}, "#ff0000", 250, 250);
-
-			if (res.errorLevel > 1) {
-				gameBanner(res.message, "#ff0000");
-			}
-
-			return;
-		}
-
-		// find the first non-cross word
-		let mainWordId;
-		for (let i = 0; i < res.data.newWords.length; i++) {
-			if (!res.data.newWords[i].cross) {
-				mainWordId = i;
-				break;
-			}
-		}
-
-		// if no word was made (this shouldn't ever happen because it should get caught above)
-		if (mainWordId === undefined) {
-			return;
-		}
-
-		// make sure word is still on the board
-		const word = res.data.newWords[mainWordId];
-		
-		if (word.axis === "x") {
-			for (let x = word.pos.start[0]; x <= word.pos.end[0]; x++) {
-				if (!game.board[word.pos.start[1]][x]) {
-					return;
-				}
-			}
-		}
-		if (word.axis === "y") {
-			for (let y = word.pos.start[1]; y <= word.pos.end[1]; y++) {
-				if (!game.board[y][word.pos.start[0]]) {
-					return;
-				}
-			}
-		}
-
-		// draw the points box
-		canvas.pointsPreview = {
-			points: res.data.newPoints,
-			start: res.data.newWords[mainWordId].pos.start,
-			end: res.data.newWords[mainWordId].pos.end
-		}
-
-		// show the draft in the move history
-		updateMoveHistory(res.data);
-
-	}).catch(err => {
-		console.error(err);
-
-		if (!navigator.onLine) {
-			gameBanner("No Connection", "#ff0000");
-
-			window.ononline = () => {
-				gameBanner("Connection Restored", "#00ff00", true).then(() => {
-					gameBanner(...canvas.gameBannerParams);
-				});
-
-				window.ononline = null;
-			};
-		} else {
-			gameBanner("An unknown error occurred.", "#ff0000");
-		}
-	}).finally(() => {
-		// remove the loading animation
-		removeLoadingAnimation = true;
-	});
+	// enable the move button
+	setMoveButtonEnablement(true);
 }
 
 function setBankOrder() {

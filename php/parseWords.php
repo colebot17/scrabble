@@ -96,7 +96,7 @@ function parseWords($gameId, $tiles, $user) {
     }
 
     // prevent axis confusion when there is only one tile
-    if (count($tiles) === 1) {
+    if ($onAxisX && $onAxisY) {
         // detect tiles around the tile
         $otherLetterSideSide = $board[$tiles[0]["y"]][$tiles[0]["x"] + 1] || $board[$tiles[0]["y"]][$tiles[0]["x"] - 1];
         $otherLetterAboveBelow = $board[$tiles[0]["y"] + 1][$tiles[0]["x"]] || $board[$tiles[0]["y"] - 1][$tiles[0]["x"]];

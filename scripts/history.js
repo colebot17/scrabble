@@ -1,4 +1,4 @@
-function updateMoveHistory(draft) {
+function updateMoveHistory(words) {
     const historyEl = document.getElementById('historyContents');
 
     // generate a moves array
@@ -21,14 +21,21 @@ function updateMoveHistory(draft) {
     }
 
     // add the draft if it exists
-    if (draft) {
+    if (words) {
+        // add up the points
+        let totalNewPoints = 0;
+        for (let i = 0; i < words.length; i++) {
+            totalNewPoints += words[i].points;
+        }
+        
+        // store it as the current turn
         moves[game.turn] = {
-            isDraft: true,
+            isDraft: true, // this is what controls the draft class on the history item
             turn: game.turn,
             player: account.id,
             playerName: account.name,
-            words: draft.newWords,
-            points: draft.newPoints
+            words: words,
+            points: totalNewPoints
         };
     }
 

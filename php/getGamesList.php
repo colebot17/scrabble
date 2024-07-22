@@ -66,7 +66,7 @@ function getGamesList($conn, int $userId) {
                 "id" => $playerId,
                 "name" => $row['name'],
                 "points" => (int)$player['points'],
-                "endGameRequest" => $player['endGameRequest']
+                "endGameRequest" => $player['endGameRequest'] ?? false
             );
 
             $game['players'][] = $playerObj;
@@ -74,7 +74,7 @@ function getGamesList($conn, int $userId) {
             // if this is the current player
             if ($playerId === (int)$userId) {
                 // if the game has ended and hasn't been seen
-                if ($inactive && $player['gameEndUnseen']) {
+                if ($inactive && array_key_exists('gameEndUnseen', $player) && $player["gameEndUnseen"]) {
                     // send this back with the game
                     $game['newlyInactive'] = true;
 
@@ -86,7 +86,7 @@ function getGamesList($conn, int $userId) {
                 }
 
                 // if there are unread chat messages
-                if (count($chat) - 1 > (int)$player['chatRead']) {
+                if (array_key_exists('chatRead', $player) && count($chat) - 1 > (int)$player['chatRead']) {
                     // send this back with the game
                     $game['chatUnread'] = true;
                 }
