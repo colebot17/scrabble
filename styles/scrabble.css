@@ -707,7 +707,7 @@ body.scrabble {
 
 	gap: 10px;
 
-	padding: 0;
+	padding: 0!important;
 }
 #scrabbleGrid .gridCell {
 	padding: 10px;
