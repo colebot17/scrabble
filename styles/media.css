@@ -4,6 +4,7 @@
 	}
 	#scrabbleGrid {
 		padding: 5px;
+        gap: 5px;
 	}
 	#scrabbleGrid .gridCell#canvasCell {
 		padding: 0;
