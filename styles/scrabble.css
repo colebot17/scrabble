@@ -154,19 +154,6 @@ body.scrabble {
 	-webkit-user-select: none;
 }
 
-@media (max-width: 500px) {
-	#scrabbleGrid {
-		padding: 5px;
-	}
-	.gridCell#canvasCell {
-		padding: 0;
-		overflow: visible;
-	}
-	#canvasCanvasPage {
-		gap: 0;
-	}
-}
-
 #canvasCell canvas {
 	max-width: 100%;
 	max-height: 100%;
@@ -199,6 +186,21 @@ body.scrabble {
 @font-face { /* Scrabble Font - Eurostile */
 	font-family: Eurostile;
 	src: url(https://scrabble.colebot.com/fonts/eurostile.TTF);
+}
+
+
+
+@media (max-width: 500px) {
+	#scrabbleGrid {
+		padding: 5px;
+	}
+	.gridCell#canvasCell {
+		padding: 0;
+		overflow: visible;
+	}
+	#canvasCanvasPage {
+		gap: 0;
+	}
 }
 
 #shuffleLoader {
