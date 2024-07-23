@@ -1,0 +1,23 @@
+@media (max-width: 500px) {
+	body:has([data-tab=game]) {
+		background: linear-gradient(180deg, var(--background-1), var(--background-0))
+	}
+	#scrabbleGrid {
+		padding: 5px;
+	}
+	#scrabbleGrid .gridCell#canvasCell {
+		padding: 0;
+		overflow: visible;
+	}
+	#scrabbleGrid .gridCell#canvasCell #gameBannerWrapper {
+		width: 100%;
+	}
+	#scrabbleGrid .gridCell#canvasCell #gameBannerWrapper #gameBanner {
+		margin: 0;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	#scrabbleGrid .gridCell#canvasCell #canvasCanvasPage {
+		gap: 0;
+	}
+}
