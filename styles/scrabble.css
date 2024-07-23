@@ -194,11 +194,11 @@ body.scrabble {
 	#scrabbleGrid {
 		padding: 5px;
 	}
-	.gridCell#canvasCell {
+	#scrabbleGrid .gridCell#canvasCell {
 		padding: 0;
 		overflow: visible;
 	}
-	#canvasCanvasPage {
+	#scrabbleGrid .gridCell#canvasCell #canvasCanvasPage {
 		gap: 0;
 	}
 }
