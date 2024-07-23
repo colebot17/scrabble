@@ -35,6 +35,11 @@ for ($i=0; $i < count($players); $i++) {
 }
 $players[array_search($user, $playerList)]['endGameRequest'] = true;
 
+// reupload the player list to the server
+$playersJson = json_encode($players);
+$sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
+$query = mysqli_query($conn, $sql);
+
 // check whether all players have the endGameRequest property
 $endGame = true;
 for ($i=0; $i < count($players); $i++) { 
@@ -44,61 +49,14 @@ for ($i=0; $i < count($players); $i++) {
 	}
 }
 
-$deleteGame = false;
+$deleted = false;
 
 if ($endGame) {
-	// if no players have scored any points yet, completely delete the game
-	$deleteGame = true;
-	for ($i=0; $i < count($players); $i++) { 
-		if ($players[$i]['points'] > 0) {
-			$deleteGame = false;
-			break;
-		}
-	}
-
-	if ($deleteGame) {
-		// remove the game from all players
-		for ($i=0; $i < count($playerList); $i++) { 
-			$sql = "SELECT games FROM accounts WHERE id='$playerList[$i]'";
-			$query = mysqli_query($conn, $sql);
-			$row = mysqli_fetch_assoc($query);
-
-			$playerGames = json_decode($row['games'], true);
-			if (($key = array_search($gameId, $playerGames)) !== false) {
-				unset($playerGames[$key]);
-			}
-			$playerGames = json_encode(array_values($playerGames));
-
-			$sql = "UPDATE accounts SET games='$playerGames' WHERE id='$playerList[$i]'";
-			$query = mysqli_query($conn, $sql);
-		}
-
-		// delete the game
-		$sql = "DELETE FROM games WHERE id='$gameId'";
-		$query = mysqli_query($conn, $sql);
-	} else { // if players have already scored points
-		// deactivate the game
-		$sql = "UPDATE games SET inactive=1 WHERE id='$gameId'";
-		$query = mysqli_query($conn, $sql);
-
-		// set all the players' gameEndUnseen (except current player)
-		for ($i = 0; $i < count($players); $i++) {
-			$players[$i]['gameEndUnseen'] = (int)$players[$i]['id'] !== $user;
-		}
-
-		// set the endDate
-		$datestamp = date("Y-m-d");
-		$sql = "UPDATE games SET endDate='$datestamp' WHERE id='$gameId'";
-		$query = mysqli_query($conn, $sql);
-	}
+	require "deactivateGame.php";
+	$deleted = deactivate($conn, $gameId, $user, "end") === "deleted";
 }
 
-if (!$deleteGame) {
-	// reupload the player list to the server
-	$playersJson = json_encode($players);
-	$sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
-	$query = mysqli_query($conn, $sql);
-
+if (!$deleted) {
 	// calculate the winning player(s)
 	$highestScore = 0;
 	for ($i = 0; $i < count($players); $i++) {
@@ -144,14 +102,14 @@ $res = Array(
 	"message" => ($endGame ? "The game has ended." : "You have voted to end the game."),
 	"data" => Array(
 		"gameEnded" => $endGame,
-		"gameDeleted" => $deleteGame,
+		"gameDeleted" => $deleted,
 		"winnerIndicies" => $winnerIndicies || []
 	)
 );
 
 echo json_encode($res);
 
-if ($deleteGame) exit();
+if ($deleted) exit();
 
 //////////
 // add to updates list

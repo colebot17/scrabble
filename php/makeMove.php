@@ -242,8 +242,15 @@ $letterBagJson = json_encode($letterBag);
 $boardJson = json_encode($board);
 $playersJson = json_encode($players);
 
-$sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn='$totalTurn',inactive='$inactive',endDate='$endDate',board='$boardJson',words='$wordsJson' WHERE id='$gameId'";
+$sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn='$totalTurn',endDate='$endDate',board='$boardJson',words='$wordsJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
+
+// end the game if it is over
+if ($inactive) {
+	require "deactivateGame.php";
+	deactivate($conn, $gameId, $user, "move");
+	// the game should never be completely deleted in this case
+}
 
 // return the response
 $response = Array(
@@ -305,14 +312,7 @@ if ($inactive) {
 		if ($players[$i]["points"] === $highestScore) {
 			$winnerIndicies[] = $i;
 		}
-
-		// set all the players' gameEndUnseen (except current player)
-		$players[$i]['gameEndUnseen'] = (int)$players[$i]['id'] !== $user;
 	}
-	// upload the player list again (because of gameEndUnseen)
-	$playersJson = json_encode($players);
-	$sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
-	$query = mysqli_query($conn, $sql);
 
 	// add the game end update
 	$updateData = Array(
