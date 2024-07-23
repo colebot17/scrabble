@@ -162,6 +162,9 @@ body.scrabble {
 		padding: 0;
 		overflow: visible;
 	}
+	#canvasCanvasPage {
+		gap: 0;
+	}
 }
 
 #canvasCell canvas {
