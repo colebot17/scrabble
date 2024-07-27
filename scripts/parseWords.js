@@ -144,7 +144,7 @@ function determineAxis(tiles, board) {
     if (horizontal && vertical) {
         // detect tiles around the tile
         const sideToSide = board[tiles[0].y]?.[tiles[0].x + 1] || board[tiles[0].y]?.[tiles[0].x - 1];
-        const upAndDown = board[tiles[0].y - 1]?.[tiles[0].x] || board[tiles[0].y - 1]?.[tiles[0].x];
+        const upAndDown = board[tiles[0].y - 1]?.[tiles[0].x] || board[tiles[0].y + 1]?.[tiles[0].x];
 
         // there is a slight preference here towards the horizontal axis
         // in a perfect world we would count the number of tiles around the tile (but we're lazy)
