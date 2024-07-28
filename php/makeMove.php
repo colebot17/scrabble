@@ -297,7 +297,7 @@ $updateData = Array(
 	"newPoints" => $pointsSum
 );
 
-require "addUpdate.php";
+require_once "addUpdate.php";
 addUpdate($conn, $gameId, "move", $updateData);
 
 // close the connection
