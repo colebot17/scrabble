@@ -55,6 +55,13 @@ function deactivate($conn, $gameId, $user, $reason) {
     $sql = "UPDATE games SET endDate='$datestamp' WHERE id='$gameId'";
     $query = mysqli_query($conn, $sql);
 
+    // add the update
+    require_once __DIR__ . "/addUpdate.php";
+    $updateData = Array(
+        "reason" => $reason
+    );
+    addUpdate($conn, $gameId, "gameEnd", $updateData);
+
     return "deactivated";
 }
 

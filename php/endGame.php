@@ -121,22 +121,11 @@ $updateData = Array(
 	"playerIndex" => array_search($user, $playerList)
 );
 
-require "addUpdate.php";
+require_once "addUpdate.php";
 addUpdate($conn, $gameId, "gameEndVote", $updateData);
 
-if ($endGame) {
-	$updateData = Array(
-		"player" => $user,
-		"playerIndex" => array_search($user, $playerList),
-		"reason" => "vote",
-		"gameDeleted" => false,
-		"winnerIndicies" => $winnerIndicies
-	);
-	addUpdate($conn, $gameId, "gameEnd", $updateData);
-}
-
 // add system message to chat
-require "chat/addSystemChatMessage.php";
+require_once "chat/addSystemChatMessage.php";
 $data = Array(
 	"playerId" => $user
 );

@@ -167,31 +167,8 @@ $updateData = Array(
 	"newTurn" => $totalTurn
 );
 
-require "addUpdate.php";
+require_once "addUpdate.php";
 addUpdate($conn, $gameId, "turnSkip", $updateData);
-
-if ($endGame) {
-	$highestScore = 0;
-	for ($i = 0; $i < count($players); $i++) {
-		if ($players[$i]["points"] > $highestScore) {
-			$highestScore = $players[$i]["points"];
-		}
-	}
-	$winnerIndicies = Array();
-	for ($i = 0; $i < count($players); $i++) {
-		if ($players[$i]["points"] === $highestScore) {
-			$winnerIndicies[] = $i;
-		}
-	}
-	$updateData = Array(
-		"player" => $user,
-		"playerIndex" => array_search($user, $playerList),
-		"reason" => "skip",
-		"gameDeleted" => $deleteGame,
-		"winnerIndicies" => $winnerIndicies
-	);
-	addUpdate($conn, $gameId, "gameEnd", $updateData);
-}
 
 // close the connection
 $conn->close();

@@ -300,30 +300,5 @@ $updateData = Array(
 require "addUpdate.php";
 addUpdate($conn, $gameId, "move", $updateData);
 
-if ($inactive) {
-	$highestScore = 0;
-	for ($i = 0; $i < count($players); $i++) {
-		if ($players[$i]["points"] > $highestScore) {
-			$highestScore = $players[$i]["points"];
-		}
-	}
-	$winnerIndicies = Array();
-	for ($i = 0; $i < count($players); $i++) {
-		if ($players[$i]["points"] === $highestScore) {
-			$winnerIndicies[] = $i;
-		}
-	}
-
-	// add the game end update
-	$updateData = Array(
-		"player" => $user,
-		"playerIndex" => $currentPlayerIndex,
-		"reason" => "move",
-		"gameDeleted" => false,
-		"winnerIndicies" => $winnerIndicies
-	);
-	addUpdate($conn, $gameId, "gameEnd", $updateData);
-}
-
 // close the connection
 $conn->close();
