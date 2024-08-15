@@ -130,7 +130,7 @@ if (!$completelyDeleted) {
 }
 
 if ($endGame) {
-	echo '{"errorLevel":0,"status":1,"message":"All players have skipped their turns twice in a row, so the game has ended. Good game!"}';
+	echo '{"errorLevel":0,"status":1,"completelyDeleted":' . ($completelyDeleted ? '1' : '0') . ',"message":"All players have skipped their turns twice in a row, so the game has ended. Good game!"}';
 } else {
 	echo '{"errorLevel":0,"status":0,"message":"You have skipped your turn' . (count($redrawLetters) > 0 ? ' and exchanged ' . count($redrawLetters) . ' letter' . (count($redrawLetters) === 1 ? '' : 's') : '') . '."}';
 }

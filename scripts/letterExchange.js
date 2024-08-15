@@ -98,6 +98,27 @@ function skipTurn() {
 						return;
 					}
 
+					if (res.status === 1) {
+						// calculate the winner indices
+						let winPts = 0;
+						for (let i = 0; i < game.players.length; i++) {
+							if (game.players[i].points > winPts) winPts = game.players[i].points;
+						}
+						let winds = [];
+						for (let i = 0; i < game.players.length; i++) {
+							if (game.players[i].points === winPts) winds.push(i);
+						}
+
+						showEndGameScreen({
+							reason: "skip",
+							gameDeleted: res.completelyDeleted,
+							winnerIndices: winds
+						});
+
+					} else {
+						textModal("Turn Skipped", res.message);
+					}
+
 					textModal((res.status === 1 ? "Game Over!" : "Turn Skipped"), res.message);
 					$('#letterExchangeModal').modalClose();
 					loadGame(game.id);
