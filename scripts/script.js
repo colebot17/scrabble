@@ -881,9 +881,6 @@ async function makeMove() {
 	g.lastUpdate = new Date();
 	updateGamesList(); // show the updated game in the games list
 
-	// load the game and store its progress in a promise so we can do some stuff once it's done
-	const lgPromise = loadGame(game.id, "moveMade");
-
 	// load the game
 	await loadGame(game.id, "moveMade");
 
