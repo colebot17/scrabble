@@ -868,9 +868,20 @@ async function makeMove() {
 	const g = account.games.find(a => a.id === game.id);
 
 	if (res.status === 1) {
+		// calculate the winner indices
+		let winPts = 0;
+		for (let i = 0; i < game.players.length; i++) {
+			if (game.players[i].points > winPts) winPts = game.players[i].points;
+		}
+		let winds = [];
+		for (let i = 0; i < game.players.length; i++) {
+			if (game.players[i].points === winPts) winds.push(i);
+		}
+
 		showEndGameScreen({
 			reason: "move",
-			gameDeleted: false
+			gameDeleted: false,
+			winnerIndicies: winds
 		});
 
 		g.inactive = true;
