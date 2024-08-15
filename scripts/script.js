@@ -868,7 +868,10 @@ async function makeMove() {
 	const g = account.games.find(a => a.id === game.id);
 
 	if (res.status === 1) {
-		textModal("Game Over!", res.message);
+		showEndGameScreen({
+			reason: "move",
+			gameDeleted: false
+		});
 
 		g.inactive = true;
 	} else { // the turn should not be updated when the game ends (not that it really matters)
