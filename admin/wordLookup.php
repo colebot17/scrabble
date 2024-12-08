@@ -19,7 +19,7 @@
 
     $language = $_GET['language'] ? $_GET['language'] : "english";
 
-    $dictFile = file_get_contents("../resources/dictionary_" . $language);
+    $dictFile = file_get_contents("../resources/dictionary_" . $language . ".json");
 
     // if (!$dictFile) header('Location: index.php');
     if (!$dictFile) echo "$language dictionary not found";
