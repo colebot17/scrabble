@@ -18,8 +18,9 @@
     if (!$word) echo "<span style='color:red'><b>Error:</b> no word provided</span>";
 
     $language = $_GET['language'] ? $_GET['language'] : "english";
-
-    $dictFile = file_get_contents("../resources/dictionary_" . $language . ".json");
+    
+    // dictionary is not managed by vcs
+    $dictFile = file_get_contents("//scrabble.colebot.com/resources/dictionary_" . $language . ".json");
 
     // if (!$dictFile) header('Location: index.php');
     if (!$dictFile) echo "<span style='color:red'><b>Error:</b> $language dictionary not found</span>";
