@@ -22,6 +22,16 @@
     </form>
     <h3>User List</h3>
     <a href="userList.php">View All Users</a>
+    <h3>Is it a word?</h3>
+    <form action="wordLookup.php">
+        <input type="text" name="word" placeholder="Word" required>
+        <select name="language">
+            <option value="english">English</option>
+            <option value="spanish">Spanish</option>
+            <option value="french">French</option>
+        </select>
+        <button>Word Lookup</button>
+    </form>
     <h3>Invalidate Credentials</h3>
     <form action="validate.php" method="POST">
         <input type="hidden" name="invalidate" value="true">
