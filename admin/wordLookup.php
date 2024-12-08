@@ -22,7 +22,7 @@
     $dictFile = file_get_contents("../resources/dictionary_" . $language);
 
     // if (!$dictFile) header('Location: index.php');
-    if (!$dictFile) echo "dictionary not found";
+    if (!$dictFile) echo "$language dictionary not found";
 
     $dictionary = json_decode($dictFile)["words"];
 
