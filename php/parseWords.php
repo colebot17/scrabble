@@ -166,7 +166,7 @@ function parseWords($gameId, $tiles, $user) {
     $boardInfo = json_decode(file_get_contents('../resources/board.json'), true);
     $langInfo = json_decode(file_get_contents('../resources/languages.json'), true)[$lang];
     // dictionary is not managed by vcs
-    $dictionary = json_decode(file_get_contents('//scrabble.colebot.com/dictionaries/dictionary_' . $lang . '.json'), true);
+    $dictionary = json_decode(file_get_contents('/dictionaries/dictionary_' . $lang . '.json'), true);
 
     // the complicated part...
 
