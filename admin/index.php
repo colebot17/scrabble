@@ -23,7 +23,7 @@
     <h3>User List</h3>
     <a href="userList.php">View All Users</a>
     <h3>Is it a word?</h3>
-    <form action="wordLookup.php">
+    <form action="wordLookup.php" method="GET">
         <input type="text" name="word" placeholder="Word" required>
         <select name="language">
             <option value="english">English</option>

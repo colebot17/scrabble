@@ -14,13 +14,15 @@
     <?php
 
     $word = $_GET['word'];
-    if (!$word) header('Location: index.php');
+    // if (!$word) header('Location: index.php');
+    if (!$word) echo "no word found";
 
     $language = $_GET['language'] || "english";
 
     $dictFile = file_get_contents("../resources/dictionary_" . $language);
 
-    if (!$dictFile) header('Location: index.php');
+    // if (!$dictFile) header('Location: index.php');
+    if (!$dictFile) echo "dictionary not found";
 
     $dictionary = json_decode($dictFile)["words"];
 
