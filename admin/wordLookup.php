@@ -20,7 +20,7 @@
     $language = $_GET['language'] ? $_GET['language'] : "english";
     
     // dictionary is not managed by vcs
-    $dictFile = file_get_contents("//scrabble.colebot.com/resources/dictionary_" . $language . ".json");
+    $dictFile = file_get_contents("//scrabble.colebot.com/dictionary/dictionary_" . $language . ".json");
 
     // if (!$dictFile) header('Location: index.php');
     if (!$dictFile) echo "<span style='color:red'><b>Error:</b> $language dictionary not found</span>";
