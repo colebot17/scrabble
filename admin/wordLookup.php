@@ -32,5 +32,17 @@
     echo "<h2 style='color:" . ($isWord ? "green" : "red") . "'>'$word' " . ($isWord ? "is" : "is not") . " a word in $language</h2>";
 
     ?>
+
+    <br><br>
+    <h3>Lookup Another</h3>
+    <form method="GET">
+        <input type="text" name="word" placeholder="Word" required>
+        <select name="language">
+            <option value="english">English</option>
+            <option value="spanish">Spanish</option>
+            <option value="french">French</option>
+        </select>
+        <button>Word Lookup</button>
+    </form>
 </body>
 </html>
