@@ -24,6 +24,8 @@
     // if (!$dictFile) header('Location: index.php');
     if (!$dictFile) echo "$language dictionary not found";
 
+    print_r($dictFile);
+
     $dictionary = json_decode($dictFile)["words"];
 
     $isWord = in_array(strtolower($word), $dictionary);
