@@ -171,7 +171,7 @@ async function lazyLoadDict(lang) {
 
     // send a request to get the dictionary for the specified language
     // dictionary is not managed by vcs
-    const res = await fetch('//scrabble.colebot.com/dictionary/dictionary_' + lang + '.json');
+    const res = await fetch('//scrabble.colebot.com/dictionaries/dictionary_' + lang + '.json');
     if (!res.ok) {
         throw new Error("HTTP Error: " + res.status);
     };
