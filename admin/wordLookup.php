@@ -15,20 +15,20 @@
 
     $word = $_GET['word'];
     // if (!$word) header('Location: index.php');
-    if (!$word) echo "no word found";
+    if (!$word) echo "<span style='color:red'><b>Error:</b> no word provided</span>";
 
     $language = $_GET['language'] ? $_GET['language'] : "english";
 
     $dictFile = file_get_contents("../resources/dictionary_" . $language . ".json");
 
     // if (!$dictFile) header('Location: index.php');
-    if (!$dictFile) echo "$language dictionary not found";
+    if (!$dictFile) echo "<span style='color:red'><b>Error:</b> $language dictionary not found</span>";
 
     $dictionary = json_decode($dictFile, true)["words"];
 
     $isWord = in_array(strtolower($word), $dictionary);
 
-    echo "<h2 style='color:" . ($isWord ? "green" : "red") . "'>'$word' " . ($isWord ? "is" : "is not") . " a word</h2>";
+    echo "<h2 style='color:" . ($isWord ? "green" : "red") . "'>'$word' " . ($isWord ? "is" : "is not") . " a word in $language</h2>";
 
     ?>
 </body>
