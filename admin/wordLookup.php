@@ -14,14 +14,14 @@
     <?php
 
     $word = $_GET['word'];
-    if (!$word) echo "<span style='color:red'><b>Error:</b> no word provided</span>";
+    if (!$word) exit("<span style='color:red'><b>Error:</b> no word provided</span>");
 
     $language = $_GET['language'] ? $_GET['language'] : "english";
     
     // dictionary is not managed by vcs
     $dictFile = file_get_contents("https://scrabble.colebot.com/dictionaries/dictionary_" . $language . ".json");
 
-    if (!$dictFile) echo "<span style='color:red'><b>Error:</b> $language dictionary not found</span>";
+    if (!$dictFile) exit("<span style='color:red'><b>Error:</b> $language dictionary not found</span>");
 
     $dictionary = json_decode($dictFile, true)["words"];
 
