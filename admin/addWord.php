@@ -19,7 +19,7 @@
     $language = $_GET['language'] ? $_GET['language'] : "english";
     
     // dictionary is not managed by vcs
-    $dictPath = "https://scrabble.colebot.com/dictionaries/dictionary_$language.json";
+    $dictPath = "/dictionaries/dictionary_$language.json";
     $dictFile = file_get_contents($dictPath);
 
     if (!$dictFile) echo "<span style='color:red'><b>Error:</b> $language dictionary not found</span>";
