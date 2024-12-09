@@ -19,7 +19,7 @@
     $language = $_GET['language'] ? $_GET['language'] : "english";
     
     // dictionary is not managed by vcs
-    $dictPath = "/dictionaries/dictionary_$language.json";
+    $dictPath = "https://scrabble.colebot.com/dictionaries/dictionary_$language.json";
     $dictFile = file_get_contents($dictPath);
 
     if (!$dictFile) echo "<span style='color:red'><b>Error:</b> $language dictionary not found</span>";
@@ -29,7 +29,8 @@
     $isWord = in_array($word, $dictionary);
     if (!$isWord) { // we don't want any duplicates
         $dictionary[] = $word;
-        if (file_put_contents($dictPath, json_encode(Array("words" => $dictionary)))) {
+        $putPath = "/dictionaries/dictionary_$language.json";
+        if (file_put_contents($putPath, json_encode(Array("words" => $dictionary)))) {
             echo "<h2>'$word' is a word now!</h2>";
         } else {
             echo "<span style='color:red'><b>Error:</b> couldn't update dictionary</span>";
