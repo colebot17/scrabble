@@ -29,7 +29,7 @@
     $isWord = in_array($word, $dictionary);
     if (!$isWord) { // we don't want any duplicates
         $dictionary[] = $word;
-        if (file_put_contents($dictPath, json_encode(Array("words" => $dictionary))) === true) {
+        if (file_put_contents($dictPath, json_encode(Array("words" => $dictionary)))) {
             echo "<h2 style='color:green'>'$word' is a word now!</h2>";
             echo "<a href='wordLookup.php?word=$word&language=$language'>Done</a> ";
             echo "<a href='removeWord.php?word=$word&language=$language'>Undo</a>";
