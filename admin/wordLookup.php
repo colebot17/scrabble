@@ -42,9 +42,9 @@
     <form method="GET">
         <input type="text" name="word" placeholder="Word" required>
         <select name="language">
-            <option value="english">English</option>
-            <option value="spanish">Spanish</option>
-            <option value="french">French</option>
+            <option value="english"<?php if ($language === 'english') echo " selected" ?>>English</option>
+            <option value="spanish"<?php if ($language === 'spanish') echo " selected" ?>>Spanish</option>
+            <option value="french"<?php if ($language === 'french') echo " selected" ?>>French</option>
         </select>
         <button>Word Lookup</button>
     </form>
