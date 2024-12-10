@@ -31,7 +31,7 @@
         $dictionary[] = $word;
         $putPath = "test_dict.json";
         if (file_put_contents($putPath, json_encode(Array("words" => $dictionary)))) {
-            echo "<h2>'$word' is a word now!</h2>";
+            echo "<h2 style='color:green'>'$word' is a word now!</h2>";
         } else {
             echo "<span style='color:red'><b>Error:</b> couldn't update dictionary</span>";
         }
