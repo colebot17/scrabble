@@ -29,8 +29,10 @@
 
     echo "<h2 style='color:" . ($isWord ? "green" : "red") . "'>'$word' " . ($isWord ? "is" : "is not") . " a word in $language</h2>";
 
-    if (!$isWord) {
-        echo "<br><a href='addWord.php?word=$word&language=$language'>Make it one</a>";
+    if ($isWord) {
+        echo "<a href='removeWord.php?word=$word&language=$language' style='color:red'>Remove</a>";
+    } else {
+        echo "<a href='addWord.php?word=$word&language=$language'>Make it one</a>";
     }
 
     ?>

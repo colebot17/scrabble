@@ -31,14 +31,15 @@
         $dictionary = array_filter($dictionary, function($c) use ($word) {return $c !== $word;});
         if (file_put_contents($dictPath, json_encode(Array("words" => $dictionary)))) {
             echo "<h2>'$word' is no longer a word</h2>";
+            echo "<a href='wordLookup.php?word=$word&language=$language'>Done</a> ";
             echo "<a href='addWord.php?word=$word&language=$language'>Undo</a>";
         } else {
             echo "<span style='color:red'><b>Error:</b> couldn't update dictionary</span>";
+            echo "<br><a href='wordLookup.php?word=$word&language=$language'>Back</a>";
         }
     } else {
         echo "<span style='color:red'><b>'$word'</b> isn't a word!</span>";
-        echo "<br>";
-        echo "<a href='addWord.php?word=$word&language=$language'>Make it one</a>";
+        echo "<br><a href='wordLookup.php?word=$word&language=$language'>Back</a>";
     }
 
     ?>
