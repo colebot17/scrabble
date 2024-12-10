@@ -40,7 +40,7 @@
     <br><br>
     <h3>Lookup Another</h3>
     <form method="GET">
-        <input type="text" name="word" placeholder="Word" required>
+        <input type="text" name="word" placeholder="Word" required value="<?php echo $word ?>">
         <select name="language">
             <option value="english"<?php if ($language === 'english') echo " selected" ?>>English</option>
             <option value="spanish"<?php if ($language === 'spanish') echo " selected" ?>>Spanish</option>
