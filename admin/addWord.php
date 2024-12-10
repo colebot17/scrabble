@@ -35,7 +35,7 @@
             echo "<span style='color:red'><b>Error:</b> couldn't update dictionary</span>";
         }
     } else {
-        echo "<span style='color:green'>'$word' is already a word!</span>";
+        echo "<span style='color:green'><b>$word</b> is already a word!</span>";
     }
 
     ?>
