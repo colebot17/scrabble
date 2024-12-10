@@ -29,7 +29,8 @@
     $isWord = in_array($word, $dictionary);
     if (!$isWord) { // we don't want any duplicates
         $dictionary[] = $word;
-        if (file_put_contents($dictPath, json_encode(Array("words" => $dictionary)))) {
+        $putPath = "test_dict.json";
+        if (file_put_contents($putPath, json_encode(Array("words" => $dictionary)))) {
             echo "<h2>'$word' is a word now!</h2>";
         } else {
             echo "<span style='color:red'><b>Error:</b> couldn't update dictionary</span>";
