@@ -29,7 +29,7 @@
     $isWord = in_array($word, $dictionary);
     if ($isWord) { // can only remove if it exists
         $dictionary = array_filter($dictionary, function($c) use ($word) {return $c !== $word;});
-        if (file_put_contents($dictPath, json_encode(Array("words" => $dictionary)))) {
+        if (file_put_contents($dictPath, json_encode(Array("words" => array_values($dictionary))))) {
             echo "<h2>'$word' is no longer a word</h2>";
             echo "<a href='wordLookup.php?word=$word&language=$language'>Done</a> ";
             echo "<a href='addWord.php?word=$word&language=$language'>Undo</a>";
