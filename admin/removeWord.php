@@ -31,7 +31,7 @@
         $dictionary = array_filter($dictionary, function($c) use ($word) {return $c !== $word;});
         if (file_put_contents($dictPath, json_encode(Array("words" => $dictionary)))) {
             echo "<h2>'$word' is no longer a word</h2>";
-            echo "<a href='addWord?word=$word&language=$language'>Undo</a>";
+            echo "<a href='addWord.php?word=$word&language=$language'>Undo</a>";
         } else {
             echo "<span style='color:red'><b>Error:</b> couldn't update dictionary</span>";
         }
