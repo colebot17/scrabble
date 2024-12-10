@@ -35,11 +35,11 @@
             echo "<a href='addWord.php?word=$word&language=$language'>Undo</a>";
         } else {
             echo "<span style='color:red'><b>Error:</b> couldn't update dictionary</span>";
-            echo "<br><a href='wordLookup.php?word=$word&language=$language'>Back</a>";
+            echo "<br><br><a href='wordLookup.php?word=$word&language=$language'>Back</a>";
         }
     } else {
-        echo "<span style='color:red'><b>'$word'</b> isn't a word!</span>";
-        echo "<br><a href='wordLookup.php?word=$word&language=$language'>Back</a>";
+        echo "<h2 style='color:red'><b>'$word'</b> isn't a word!</h2>";
+        echo "<a href='wordLookup.php?word=$word&language=$language'>Back</a>";
     }
 
     ?>
