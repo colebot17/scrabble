@@ -29,7 +29,7 @@
     $isWord = in_array($word, $dictionary);
     if (!$isWord) { // we don't want any duplicates
         $dictionary[] = $word;
-        $putPath = "/scrabble.colebot.com/dictionaries/dictionary_$language.json";
+        $putPath = "/home/hfcyju9l2xme/scrabble.colebot.com/dictionaries/dictionary_$language.json";
         if (file_put_contents($putPath, json_encode(Array("words" => $dictionary)))) {
             echo "<h2 style='color:green'>'$word' is a word now!</h2>";
         } else {
