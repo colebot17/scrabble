@@ -33,6 +33,8 @@
             echo "<h2 style='color:green'>'$word' is a word now!</h2>";
             echo "<a href='wordLookup.php?word=$word&language=$language'>Done</a> ";
             echo "<a href='removeWord.php?word=$word&language=$language'>Undo</a>";
+
+            header("Location: wordLookup.php?word=$word&language=$language");
         } else {
             echo "<span style='color:red'><b>Error:</b> couldn't update dictionary</span>";
             echo "<br><br><a href='wordLookup.php?word=$word&language=$language'>Back</a>";
