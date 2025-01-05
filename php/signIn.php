@@ -27,6 +27,8 @@ if ($row['pwd'] !== "" && !password_verify($pwd, $row['pwd'])) {
 // define empty object to return
 $obj = Array();
 
+$obj['temporaryAccount'] = $row['pwd'] === "";
+
 // get the id, name, etc.
 $sql = "SELECT id, name, defaultLang, tutorials, notificationMethods FROM accounts WHERE name='$name'";
 $query = mysqli_query($conn, $sql);

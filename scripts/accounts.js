@@ -16,7 +16,7 @@ $(function() {
 
 var account = {};
 
-async function signIn(name = document.getElementById('signInUsername').value, pwd = document.getElementById('signInPwd').value, showToast = true, temporaryAccount = false) {
+async function signIn(name = document.getElementById('signInUsername').value, pwd = document.getElementById('signInPwd').value, showToast = true) {
 	const formEl = document.getElementById('signInForm');
 	const usernameField = document.getElementById('signInUsername');
 	const pwdField = document.getElementById('signInPwd');
@@ -88,7 +88,7 @@ async function signIn(name = document.getElementById('signInUsername').value, pw
 		account = res.data;
 		account.pwd = pwd;
 
-		if (!temporaryAccount) {
+		if (!account.temporaryAccount) {
 			localStorage.name = account.name;
 			localStorage.pwd = pwd;
 		}
@@ -102,7 +102,7 @@ async function signIn(name = document.getElementById('signInUsername').value, pw
 		formEl.reset();
 		setSignInMode('signOut');
 
-		if (!temporaryAccount) {
+		if (!account.temporaryAccount) {
 			saveAccount(res.data.name, pwd);
 			updateSavedAccountList();
 		}
