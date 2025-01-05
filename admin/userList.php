@@ -45,7 +45,8 @@
         if ($noGames && $noFriends && $noRequests && $noSentRequests) echo ' <span style="color:red">[Empty]</span>';
         echo '</li>';
     }
-    
+
+    echo '</ul>';
 
     ?>
 </body>
