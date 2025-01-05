@@ -45,7 +45,10 @@
         if ($noGames && $noFriends && $noRequests && $noSentRequests) echo ' <span style="color:red">[Empty]</span>';
         echo '</li>';
     }
-    
+
+    echo '</ul>';
+
+    echo '<br><a href="https://scrabble.colebot.com/tempAccLog.txt">Temporary Account Login Log</a>';
 
     ?>
 </body>

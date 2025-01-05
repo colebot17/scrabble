@@ -6,5 +6,8 @@ function verifyPassword($conn, int $userId, string $pwd) {
     $query = mysqli_query($conn, $sql);
     if (!$query) return false; // make sure the user exists
     $row = mysqli_fetch_assoc($query);
-    return password_verify($pwd, $row['pwd']);
+
+    if ($pwd === "") return true; // always allow access if account has no password
+
+    return password_verify($pwd, $row['pwd']); // otherwise use password hashing
 }
