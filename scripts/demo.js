@@ -1,5 +1,5 @@
 async function demo() {
-    await signIn("Demo Account", "");
+    await signIn("Demo Account", "", false);
     loadGame(674);
 }
 
