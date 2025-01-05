@@ -2,7 +2,7 @@ $(function() {
 	// auto sign in
 	const savedName = sessionStorage.name || localStorage.name;
 	const savedPwd = sessionStorage.pwd || localStorage.pwd;
-	if (savedName && savedPwd) {
+	if (savedName) {
 		signIn(savedName, savedPwd, false).then(() => checkParams());
 	} else {
 		setSignInMode('signIn');
@@ -16,7 +16,7 @@ $(function() {
 
 var account = {};
 
-async function signIn(name = document.getElementById('signInUsername').value, pwd = document.getElementById('signInPwd').value, showToast = true) {
+async function signIn(name = document.getElementById('signInUsername').value, pwd = document.getElementById('signInPwd').value, showToast = true, temporaryAccount = false) {
 	const formEl = document.getElementById('signInForm');
 	const usernameField = document.getElementById('signInUsername');
 	const pwdField = document.getElementById('signInPwd');
@@ -88,8 +88,10 @@ async function signIn(name = document.getElementById('signInUsername').value, pw
 		account = res.data;
 		account.pwd = pwd;
 
-		localStorage.name = account.name;
-		localStorage.pwd = pwd;
+		if (!temporaryAccount) {
+			localStorage.name = account.name;
+			localStorage.pwd = pwd;
+		}
 		sessionStorage.name = account.name;
 		sessionStorage.pwd = pwd;
 
@@ -100,8 +102,10 @@ async function signIn(name = document.getElementById('signInUsername').value, pw
 		formEl.reset();
 		setSignInMode('signOut');
 
-		saveAccount(res.data.name, pwd);
-		updateSavedAccountList();
+		if (!temporaryAccount) {
+			saveAccount(res.data.name, pwd);
+			updateSavedAccountList();
+		}
 
 		updateGamesList();
 		
