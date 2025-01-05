@@ -80,8 +80,8 @@ mysqli_close($conn);
 if ($obj['temporaryAccount']) {
 	$logPath = "/home/hfcyju9l2xme/scrabble.colebot.com/tempAccLog.txt";
 	$ip = $_SERVER['REMOTE_ADDR'];
-	$ipLookup = file_get_contents("http://ip-api.com/json/" . $ip);
+	$ipLookup = json_decode(file_get_contents("http://ip-api.com/json/" . $ip), true);
 	$ipLookupSummary = $ipLookup['city'] . ", " . $ipLookup['region'] . ", " . $ipLookup['countryCode'];
-	$logText = date('Y-m-d H:i:s') . " - " . $ipLookupSummary . " - " . $ip . "\n" ;
+	$logText = date('Y-m-d H:i:s') . " - " . $ipLookupSummary . " - " . $ip . "\n";
 	file_put_contents($logPath, $logText, FILE_APPEND);
 }
