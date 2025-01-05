@@ -79,7 +79,9 @@ mysqli_close($conn);
 // log timestamp and location if signing into a temporary account
 if ($obj['temporaryAccount']) {
 	$logPath = "/home/hfcyju9l2xme/scrabble.colebot.com/tempAccLog.txt";
-	$ipLookup = file_get_contents("http://ip-api.com/json/" . $_SERVER['REMOTE_ADDR']);
-	$logText = date('Y-m-d H:i:s') . " - " . $ipLookup . "\n" ;
+	$ip = $_SERVER['REMOTE_ADDR'];
+	$ipLookup = file_get_contents("http://ip-api.com/json/" . $ip);
+	$ipLookupSummary = $ipLookup['city'] . ", " . $ipLookup['region'] . ", " . $ipLookup['countryCode'];
+	$logText = date('Y-m-d H:i:s') . " - " . $ipLookupSummary . " - " . $ip . "\n" ;
 	file_put_contents($logPath, $logText, FILE_APPEND);
 }
