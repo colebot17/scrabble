@@ -79,5 +79,6 @@ mysqli_close($conn);
 // log timestamp and location if signing into a temporary account
 if ($obj['temporaryAccount']) {
 	$logPath = "/home/hfcyju9l2xme/scrabble.colebot.com/tempAccLog.txt";
-	file_put_contents($logPath, date('Y-m-d H:i:s'), FILE_APPEND);
+	$logText = date('Y-m-d H:i:s') . "\n";
+	file_put_contents($logPath, $logText, FILE_APPEND);
 }
