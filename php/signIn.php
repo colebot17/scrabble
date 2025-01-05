@@ -82,6 +82,6 @@ if ($obj['temporaryAccount']) {
 	$ip = $_SERVER['REMOTE_ADDR'];
 	$ipLookup = json_decode(file_get_contents("http://ip-api.com/json/" . $ip), true);
 	$ipLookupSummary = $ipLookup['city'] . ", " . $ipLookup['region'] . ", " . $ipLookup['countryCode'];
-	$logText = date('Y-m-d H:i:s') . " - " . $ipLookupSummary . " - " . $ip . "\n";
+	$logText = $obj['name'] . " - " . date('Y-m-d H:i:s') . " - " . $ipLookupSummary . " - " . $ip . "\n";
 	file_put_contents($logPath, $logText, FILE_APPEND);
 }
