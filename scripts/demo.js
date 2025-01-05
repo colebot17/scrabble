@@ -1,5 +1,5 @@
 async function demo() {
-    await signIn("Demo Account", "", false);
+    await signIn("Demo Account", "", false, true);
     for (let i = 0; i < account.games.length; i++) {
         const g = account.games[i];
 
