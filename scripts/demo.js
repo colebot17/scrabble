@@ -1,5 +1,5 @@
 function demo() {
-    alert("demo")
+    signIn("Demo Account", "");
 }
 
 document.getElementById('demoButton').addEventListener('click', demo);
