@@ -20,7 +20,7 @@ if ($conn->connect_error) {
 $sql = "SELECT pwd FROM accounts WHERE name='$name'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
-if (!password_verify($pwd, $row['pwd'])) {
+if ($row['pwd'] !== "" && !password_verify($pwd, $row['pwd'])) {
 	exit('{"errorLevel":1,"message":"Incorrect username or password."}');
 }
 
