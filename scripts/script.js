@@ -895,7 +895,7 @@ function makeMove() {
 				// (after a short timeout to let ui settle before important measurments take place)
 				let mainWord = res.data.newWords.find(a => !a.cross);
 				const destination = document.querySelector('.gamePlayerListPlayer[data-playerId="' + account.id + '"] .points');
-				setTimeout(() => flyingSaucer((mainWord.axis === "x" ? mainWord.pos.end : mainWord.pos.start) / BOARD_PIXEL_SCALE, newPoints, destination).then(() => {
+				setTimeout(() => flyingSaucer(mainWord.axis === "x" ? mainWord.pos.end : mainWord.pos.start, newPoints, destination).then(() => {
 					showPointsOverlay(account.id, newPoints);
 				}), 10);
 
@@ -911,6 +911,13 @@ function makeMove() {
 	});
 }
 
+/**
+ * 
+ * @param {Pos} from the board position from which to start the animation
+ * @param {string} value the innerHTML of the bubble
+ * @param {DOMElement} destination the element at which to end the animation
+ * @returns {Promise<none>} a promise that resolves once the animation is complete
+ */
 function flyingSaucer(from, value, destination) {
 	return new Promise((resolve) => {
 		// get the saucer element
@@ -923,14 +930,10 @@ function flyingSaucer(from, value, destination) {
 		}
 		saucer.innerHTML = value;
 
-		// calculate the position values
-		const startPos = [
-			from[0] * (squareWidth + SQUARE_GAP),
-			from[1] * (squareWidth + SQUARE_GAP)
-		];
-		const endPos = [
-			startPos[0] + squareWidth,
-			startPos[1] + squareWidth
+		// calculate the pixel position to start from
+		const fromPos = [
+			(startPos[0] + squareWidth) / BOARD_PIXEL_SCALE,
+			(from[1] * (squareWidth + SQUARE_GAP)) / BOARD_PIXEL_SCALE
 		];
 
 		const boardBounds = canvas.c.getBoundingClientRect();
@@ -940,8 +943,8 @@ function flyingSaucer(from, value, destination) {
 		const sBounds = saucer.getBoundingClientRect();
 
 		// set the starting position
-		saucer.style.top = (boardBounds.top + startPos[1] - (sBounds.height / 2)) + 'px';
-		saucer.style.left = (boardBounds.left + endPos[0] - (sBounds.width / 2)) + 'px';
+		saucer.style.top = (boardBounds.top + fromPos[1] - (sBounds.height / 2)) + 'px';
+		saucer.style.left = (boardBounds.left + fromPos[0] - (sBounds.width / 2)) + 'px';
 		saucer.style.scale = 1;
 
 		const duration = 750;
