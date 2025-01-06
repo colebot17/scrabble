@@ -932,7 +932,7 @@ function flyingSaucer(from, value, destination) {
 
 		// calculate the pixel position to start from
 		const fromPos = [
-			(startPos[0] + squareWidth) / BOARD_PIXEL_SCALE,
+			((from[0] * (squareWidth + SQUARE_GAP)) + squareWidth) / BOARD_PIXEL_SCALE,
 			(from[1] * (squareWidth + SQUARE_GAP)) / BOARD_PIXEL_SCALE
 		];
 
