@@ -740,7 +740,7 @@ body.scrabble {
 
 	height: auto;
 }
-#scrabbleGrid[data-signedin=loading] #welcomeTagline, #scrabbleGrid[data-signedin=loading] .hiddenWhileLoading {
+#scrabbleGrid[data-signedin=loading] .hiddenWhileLoading {
 	display: none;
 }
 
