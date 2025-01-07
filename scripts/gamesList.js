@@ -259,7 +259,6 @@ function inactiveGameLI(game) {
 
 function playerList(game) {
     let turnIndex = parseInt(game.turn) % game.players.length;
-    let turnUser = parseInt(game.players[turnIndex].id);
 
     // find the winning point number
     let winningPoints = 1;
@@ -278,12 +277,7 @@ function playerList(game) {
             <div class="listGamePlayerListPlayer">
                 ${player.points === winningPoints ? `<span class='material-symbols-rounded winnerIcon'>trophy</span>` : ``}
                 <span>
-                    <b>
-                        ${i === turnIndex && !game.inactive ? '<u>' : ''}
-                        ${player.name}
-                        ${i === turnIndex && !game.inactive ? '</u>' : ''}
-                    </b>
-                    : ${player.points}
+                    <b>${i === turnIndex && !game.inactive ? '<u>' : ''}${player.name}${i === turnIndex && !game.inactive ? '</u>' : ''}</b>: ${player.points}
                 </span>
                 ${player.endGameRequest && !game.inactive ? `<span class="material-symbols-rounded winnerIcon" title="Voted to end the game">highlight_off</span>` : ``}
             </div>
