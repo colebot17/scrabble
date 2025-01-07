@@ -79,6 +79,7 @@
 /* list view */
 [data-displaymode=list] .gamesList {
 	flex-flow: column nowrap;
+	gap: 10px;
 }
 [data-displaymode=list] .gamesList .listGame {
 	grid-template-columns: 25% minmax(0, 1fr) max-content;
