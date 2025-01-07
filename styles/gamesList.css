@@ -14,8 +14,8 @@
 .gamesList {
 	display: flex;
 	flex-flow: row wrap;
-	justify-content: flex-start;
-	gap: 10px;
+	justify-content: center;
+	gap: 20px;
 
 	overflow: auto;
 
@@ -45,7 +45,6 @@
 
 /* card view / defaults */
 .gamesList .listGame, .gamesList .newGameCard {
-	margin: auto;
 	padding: 10px;
 	border: none;
 	border-radius: 20px;
