@@ -79,6 +79,7 @@
 /* list view */
 [data-displaymode=list] .gamesList {
 	flex-flow: column nowrap;
+	justify-content: flex-start;
 	gap: 10px;
 }
 [data-displaymode=list] .gamesList .listGame {
