@@ -17,6 +17,11 @@ function sendPush($sub, $messageObj) {
     //     )
     // );
 
+    require '/../../vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+    $privateKey = $_ENV['PRIVATE_KEY'];
+
     $auth = Array(
         "VAPID" => Array(
             "subject" => "https://scrabble.colebot.com",
