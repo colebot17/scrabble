@@ -9,7 +9,7 @@ require 'phpmailer/src/PHPMailer.php';
 require 'phpmailer/src/SMTP.php';
 
 require_once(__DIR__ . '/../../vendor/autoload.php');
-$dotenv = Dotenv\Dotenv::createImmutable("/home/hfcyju9l2xme/scrabble.colebot.com/");
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../../");
 $dotenv->load();
 
 function sendEmail($to, $subject, $body, $html = true) {

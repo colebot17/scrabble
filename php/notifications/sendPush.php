@@ -18,7 +18,7 @@ function sendPush($sub, $messageObj) {
     // );
 
     require_once(__DIR__ . '/../../vendor/autoload.php');
-    $dotenv = Dotenv\Dotenv::createImmutable("/home/hfcyju9l2xme/scrabble.colebot.com/");
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../../");
     $dotenv->load();
 
     $auth = Array(
