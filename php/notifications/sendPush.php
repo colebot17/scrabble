@@ -25,7 +25,7 @@ function sendPush($sub, $messageObj) {
         "VAPID" => Array(
             "subject" => "https://scrabble.colebot.com",
             "publicKey" => "BDFxOE30BWtMOXpSGFdcTY5GrhGeI4EZZJG-TOVnK56J5Ehg-UTTevPDsuZ5owHVYYgBV_A8pdHFc-cDrhQWyFU",
-            "privateKey" => $ENV["VAPID_PRIVATE_KEY"]
+            "privateKey" => $_ENV["VAPID_PRIVATE_KEY"]
         )
     );
 
