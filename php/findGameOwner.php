@@ -4,7 +4,7 @@
 //
 // it returns the index in the list of the player who owns the specified game
 
-require(__DIR__ . "/util/getConn.php");
+require_once(__DIR__ . "/util/getConn.php");
 $conn = getConn();
 
 $accounts = json_decode($_POST['accounts'], true);

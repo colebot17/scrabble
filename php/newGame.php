@@ -6,7 +6,7 @@ $pwd = $_POST['pwd'];
 $playerList = json_decode($_POST['players'], true);
 $lang = $_POST['lang'];
 
-require(__DIR__ . "/util/getConn.php");
+require_once(__DIR__ . "/util/getConn.php");
 $conn = getConn();
 
 // check password

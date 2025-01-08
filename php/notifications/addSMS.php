@@ -15,7 +15,7 @@ if (!array_key_exists($carrier, $carrierAddresses)) {
     exit('{"errorLevel":1,"message":"Unsupported Carrier"}');
 }
 
-require(__DIR__ . "/../util/getConn.php");
+require_once(__DIR__ . "/../util/getConn.php");
 $conn = getConn();
 
 // check password

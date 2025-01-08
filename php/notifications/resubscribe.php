@@ -23,7 +23,7 @@
         $email = $_GET['email'];
         $user = (int)$_GET['user'];
 
-        require(__DIR__ . "/../util/getConn.php");
+        require_once(__DIR__ . "/../util/getConn.php");
         $conn = getConn();
 
         // get the user's notification methods

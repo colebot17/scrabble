@@ -5,7 +5,7 @@ $user = $_POST['user'];
 $pwd = $_POST['pwd'];
 $name = $_POST['name'];
 
-require(__DIR__ . "/util/getConn.php");
+require_once(__DIR__ . "/util/getConn.php");
 $conn = getConn();
 
 // check password

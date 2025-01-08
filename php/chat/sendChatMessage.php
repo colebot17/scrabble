@@ -6,7 +6,7 @@ $pwd = $_POST['pwd'];
 $gameId = (int)$_POST['gameId'];
 $message = $_POST['message'];
 
-require(__DIR__ . "/../util/getConn.php");
+require_once(__DIR__ . "/../util/getConn.php");
 $conn = getConn();
 
 // check password

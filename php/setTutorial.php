@@ -8,7 +8,7 @@ $value = $_POST['tutorialValue'];
 if ($value === "true") $value = true;
 if ($value === "false") $value = false;
 
-require(__DIR__ . "/util/getConn.php");
+require_once(__DIR__ . "/util/getConn.php");
 $conn = getConn();
 
 // check password

@@ -5,7 +5,7 @@ $user = $_POST['user'];
 $pwd = $_POST['pwd'];
 $newPwd = $_POST['newPwd'];
 
-require(__DIR__ . "/util/getConn.php");
+require_once(__DIR__ . "/util/getConn.php");
 $conn = getConn();
 
 // check current password

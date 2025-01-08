@@ -1,6 +1,6 @@
 <?php
 function parseWords($gameId, $tiles, $user) {
-    require(__DIR__ . "/util/getConn.php");
+    require_once(__DIR__ . "/util/getConn.php");
     $conn = getConn();
 
     // get game information

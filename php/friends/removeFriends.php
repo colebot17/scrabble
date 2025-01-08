@@ -5,7 +5,7 @@ $userId = (int)$_POST['userId'];
 $pwd = $_POST['pwd'];
 $friendIds = json_decode($_POST['friendIds'], true);
 
-require(__DIR__ . "/../util/getConn.php");
+require_once(__DIR__ . "/../util/getConn.php");
 $conn = getConn();
 
 // check password

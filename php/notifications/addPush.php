@@ -6,7 +6,7 @@ $pwd = $_POST['pwd'];
 $subscription = json_decode($_POST['subscription'], true);
 $userAgent = $_POST['userAgent'];
 
-require(__DIR__ . "/../util/getConn.php");
+require_once(__DIR__ . "/../util/getConn.php");
 $conn = getConn();
 
 // check password

@@ -1,6 +1,6 @@
 <?php
 
-require(__DIR__ . "/util/getConn.php");
+require_once(__DIR__ . "/util/getConn.php");
 $conn = getConn();
 
 // get data from client

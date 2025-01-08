@@ -6,7 +6,7 @@ $tiles = json_decode($_POST['tiles'], true);
 $user = (int)$_POST['user'];
 $pwd = $_POST['pwd'];
 
-require(__DIR__ . "/util/getConn.php");
+require_once(__DIR__ . "/util/getConn.php");
 $conn = getConn();
 
 // check password
