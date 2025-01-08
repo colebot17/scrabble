@@ -17,17 +17,8 @@
     if (!array_key_exists('gameId', $_GET)) exit('<h2 style="color:red">A game id is required to edit the letter bag</h2>');
     $gameId = $_GET['gameId'];
 
-    // define connection
-    $servername = "173.201.180.187";
-    $username = "Colebot";
-    $password = "96819822";
-    $dbname = "scrabble";
-
-    // create and check connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    require(__DIR__ . "/../php/util/getConn.php");
+    $conn = getConn();
 
     if (array_key_exists('submit', $_POST)) {
         $sql = "SELECT letterBag FROM games WHERE id='$gameId'";

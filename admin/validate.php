@@ -21,8 +21,12 @@
         setcookie('password', '', time() - 3600);
         echo 'Session Invalidated';
     } else if (array_key_exists('password', $_POST)) {
-        if ($_POST['password'] === '96819822') {
-            setcookie('password', '96819822');
+        require_once(__DIR__ . '/../vendor/autoload.php');
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../");
+        $dotenv->load();
+
+        if ($_POST['password'] === $_ENV["ADMIN_PASSWORD"]) {
+            setcookie('password', $_ENV["ADMIN_PASSWORD"]);
             echo 'Redirecting...';
             header('Location: index.php');
         } else {
