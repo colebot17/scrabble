@@ -84,11 +84,8 @@
 	
 		border-color: var(--background-2);
 	}
-	.gameTitleLine, .listGamePlayerListPlayer {
+	.gameTitleLine, .listGamePlayerListPlayer, .openGameButton {
 		background: radial-gradient(var(--background-2), transparent);
-	}
-	.openGameButton {
-		background: var(--background-2);
 	}
 }
 
