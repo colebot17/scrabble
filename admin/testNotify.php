@@ -19,7 +19,7 @@
     }
     $user = $_GET['user'];
 
-    require(__DIR__ . "/../php/util/getConn.php");
+    require_once(__DIR__ . "/../php/util/getConn.php");
     $conn = getConn();
     
     $sql = "SELECT name FROM accounts WHERE id='$user'";

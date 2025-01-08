@@ -13,7 +13,7 @@
     <h1>Change Default Language</h1>
     <?php 
     
-    require(__DIR__ . "/../php/util/getConn.php");
+    require_once(__DIR__ . "/../php/util/getConn.php");
     $conn = getConn();
 
     if (array_key_exists('username', $_POST) && array_key_exists('newDefaultLang', $_POST) && $_POST['username'] !== "" && $_POST['newDefaultLang'] !== "") {

@@ -17,7 +17,7 @@
     if (!array_key_exists('gameId', $_GET)) exit('<h2 style="color:red">A game id is required to edit the letter bag</h2>');
     $gameId = $_GET['gameId'];
 
-    require(__DIR__ . "/../php/util/getConn.php");
+    require_once(__DIR__ . "/../php/util/getConn.php");
     $conn = getConn();
 
     if (array_key_exists('submit', $_POST)) {

@@ -28,7 +28,7 @@
         $mode = $_POST['mode'];
         // mode can be loud or quiet
 
-        require(__DIR__ . "/../php/util/getConn.php");
+        require_once(__DIR__ . "/../php/util/getConn.php");
         $conn = getConn();
 
         $sql = "UPDATE games SET inactive=1 WHERE id='$gameId'";

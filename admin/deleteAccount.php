@@ -24,7 +24,7 @@
     if (array_key_exists('username', $_POST) && $_POST['username'] !== "") {
         $un = $_POST['username'];
 
-        require(__DIR__ . "/../php/util/getConn.php");
+        require_once(__DIR__ . "/../php/util/getConn.php");
         $conn = getConn();
 
         // make sure the account is empty first

@@ -18,7 +18,7 @@
 
     $gameId = $_GET['gameId'];
 
-    require(__DIR__ . "/../php/util/getConn.php");
+    require_once(__DIR__ . "/../php/util/getConn.php");
     $conn = getConn();
 
     $sql = "SELECT name, lang, players, turn, letterBag, inactive, creationDate, endDate, chat FROM games WHERE id='$gameId'";

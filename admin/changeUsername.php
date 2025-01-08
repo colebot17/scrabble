@@ -25,7 +25,7 @@
         $un = $_POST['username'];
         $newUsername = $_POST['newUsername'];
         
-        require(__DIR__ . "/../php/util/getConn.php");
+        require_once(__DIR__ . "/../php/util/getConn.php");
         $conn = getConn();
 
         $sql = "UPDATE accounts SET name='$newUsername' WHERE name='$un'";

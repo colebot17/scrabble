@@ -15,7 +15,7 @@
 
     $user = (int)$_GET['user'];
 
-    require(__DIR__ . "/../php/util/getConn.php");
+    require_once(__DIR__ . "/../php/util/getConn.php");
     $conn = getConn();
 
     $sql = "SELECT name, notificationMethods FROM accounts WHERE id='$user'";

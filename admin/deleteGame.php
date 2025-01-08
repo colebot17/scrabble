@@ -24,7 +24,7 @@
     if (array_key_exists('gameId', $_POST) && $_POST['gameId'] !== "") {
         $gameId = $_POST['gameId'];
 
-        require(__DIR__ . "/../php/util/getConn.php");
+        require_once(__DIR__ . "/../php/util/getConn.php");
         $conn = getConn();
 
         $sql = "DELETE FROM games WHERE id='$gameId'";

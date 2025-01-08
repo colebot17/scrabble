@@ -15,7 +15,7 @@
 
     $playerName = $_GET['playerName'];
 
-    require(__DIR__ . "/../php/util/getConn.php");
+    require_once(__DIR__ . "/../php/util/getConn.php");
     $conn = getConn();
 
     $sql = "SELECT name, id, defaultLang, games, creationDate, friends, requests, sentRequests, notificationMethods FROM accounts WHERE name='$playerName'";
