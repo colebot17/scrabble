@@ -23,7 +23,7 @@ function checkParams() {
 function openGame(gameId) {
     // logical flow to find the game
         
-    const gameFindError = () => textModal("Game not found", "You are trying to load a game that you don't have access to. Sign in to the correct account to access game <b>#" + gameId + "</b>");
+    const gameFindError = () => textModal("Game not found", "You are trying to load a game that you don't have access to. Sign in to the correct account to access game <b>#" + gameId + "</b>.");
 
     // does the game exist in the current account?
     const inCurrentAccount = account?.games?.find(a => a.id === gameId);
