@@ -78,7 +78,7 @@
 
 /* inactive game striped background */
 .gamesList#inactiveGamesList .listGame {
-	--stripe-color: #333;
+	--stripe-color: #33333333;
 	background-image: repeating-linear-gradient(-135deg,transparent,transparent .5625rem,var(--stripe-color) .5625rem,var(--stripe-color) .625rem)
 }
 
