@@ -15,7 +15,7 @@
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
-	gap: 15px;
+	gap: 15px 17px;
 
 	overflow: auto;
 
