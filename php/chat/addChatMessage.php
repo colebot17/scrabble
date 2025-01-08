@@ -38,7 +38,7 @@ function addChatMessage($conn, int $gameId, array $message) {
         $updateData['senderName'] = $row['name'];
     }
 
-    require __DIR__ . "/../addUpdate.php";
+    require_once __DIR__ . "/../addUpdate.php";
     addUpdate($conn, $gameId, "chatMessageSend", $updateData);
 
     return true;
