@@ -1,4 +1,4 @@
-<?php if (!array_key_exists('password', $_COOKIE) || $_COOKIE['password'] !== '96819822') header('Location: validate.php');?>
+<?php require "verify.php" ?>
 
 <!DOCTYPE html>
 <html lang="en">

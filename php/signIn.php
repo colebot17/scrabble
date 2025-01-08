@@ -1,20 +1,11 @@
 <?php
 
-// define connection
-$servername = "173.201.180.187";
-$username = "Colebot";
-$password = "96819822";
-$dbname = "scrabble";
-
 // get data from GET/POST
 $name = $_POST['name'];
 $pwd = $_POST['pwd'];
 
-// create and check connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-	die("Connection failed: " . $conn->connect_error);
-}
+require_once(__DIR__ . "/util/getConn.php");
+$conn = getConn();
 
 // check password
 $sql = "SELECT pwd FROM accounts WHERE name='$name'";
