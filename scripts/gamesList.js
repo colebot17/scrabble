@@ -203,8 +203,8 @@ function gameLI(game) {
     } else {
         // for inactive games, show the winner(s)
         const winnerNames = [];
-        for (let i = 0; i < game.winnerIndicies.length; i++) {
-            const player = game.players[game.winnerIndicies[i]];
+        for (let i = 0; i < game.winnerIndices.length; i++) {
+            const player = game.players[game.winnerIndices[i]];
 
             // this ensures that "You" appears at the front of the list
             if (player.id === account.id) {
@@ -333,8 +333,8 @@ function showNewlyInactiveGames(newlyInactiveGames) {
         game.newlyInactive = false;
 
         const winners = [];
-        for (let j = 0; j < game.winnerIndicies.length; j++) {
-            winners.push(game.players[game.winnerIndicies[j]]);
+        for (let j = 0; j < game.winnerIndices.length; j++) {
+            winners.push(game.players[game.winnerIndices[j]]);
         }
 
         const str = `<b>${game.name || "Game #" + game.id}</b> has ended. ${winnerString(winners)} won!`;

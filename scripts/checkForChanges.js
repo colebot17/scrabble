@@ -197,16 +197,16 @@ function showEndGameScreen(data) {
 
     // create a string displaying the winner(s)
     let winnerString = ``;
-    if (data.winnerIndicies.length === 1) {
-        winnerString = /* html */ `<b>${game.players[data.winnerIndicies[0]].name}</b>`;
-    } else if (data.winnerIndicies.length === 2) {
-        winnerString = /* html */ `<b>${game.players[data.winnerIndicies[0]].name}</b> and <b>${game.players[winners[1]].name}</b>`;
-    } else if (data.winnerIndicies.length >= 3) {
-        for (let i = 0; i < data.winnerIndicies.length; i++) {
-            if (i < data.winnerIndicies.length - 1) {
-                winnerString += /* html */ `<b>${game.players[data.winnerIndicies[i]].name}</b>, `;
+    if (data.winnerIndices.length === 1) {
+        winnerString = /* html */ `<b>${game.players[data.winnerIndices[0]].name}</b>`;
+    } else if (data.winnerIndices.length === 2) {
+        winnerString = /* html */ `<b>${game.players[data.winnerIndices[0]].name}</b> and <b>${game.players[winners[1]].name}</b>`;
+    } else if (data.winnerIndices.length >= 3) {
+        for (let i = 0; i < data.winnerIndices.length; i++) {
+            if (i < data.winnerIndices.length - 1) {
+                winnerString += /* html */ `<b>${game.players[data.winnerIndices[i]].name}</b>, `;
             } else {
-                winnerString += /* html */ `and <b>${game.players[data.winnerIndicies[i]].name}</b>`;
+                winnerString += /* html */ `and <b>${game.players[data.winnerIndices[i]].name}</b>`;
             }
         }
     }

@@ -604,7 +604,7 @@ function endGame() {
 					if (res.data.gameDeleted) {
 						showEndGameScreen({
 							gameDeleted: true,
-							winnerIndicies: []
+							winnerIndices: []
 						});
 						const gId = account.games.findIndex(a => a.id === game.id);
 						account.games.splice(gId, 1);
@@ -612,7 +612,7 @@ function endGame() {
 						showEndGameScreen({
 							reason: "vote",
 							gameDeleted: false,
-							winnerIndicies: res.data.winnerIndicies
+							winnerIndices: res.data.winnerIndices
 						});
 						g.inactive = true;
 					}
@@ -881,7 +881,7 @@ async function makeMove() {
 		showEndGameScreen({
 			reason: "move",
 			gameDeleted: false,
-			winnerIndicies: winds
+			winnerIndices: winds
 		});
 
 		g.inactive = true;
@@ -1086,7 +1086,7 @@ function setBankOrder() {
 }
 
 function moveBankLetter(from, to) {
-	// "from" and "to" are both ORDER indicies
+	// "from" and "to" are both ORDER indices
 
 	// "from" represents the tile we are moving
 	// "to" represents the index before which we are moving (aka the new index of the tile)

@@ -108,7 +108,7 @@ function getGamesList($conn, int $userId) {
                 }
             }
 
-            $game['winnerIndicies'] = $winningPlayers;
+            $game['winnerIndices'] = $winningPlayers;
         }
 
         // add the new game to the full list

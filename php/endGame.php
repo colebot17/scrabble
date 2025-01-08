@@ -56,10 +56,10 @@ if (!$deleted) {
 			$highestScore = $players[$i]["points"];
 		}
 	}
-	$winnerIndicies = Array();
+	$winnerIndices = Array();
 	for ($i = 0; $i < count($players); $i++) {
 		if ($players[$i]["points"] === $highestScore) {
-			$winnerIndicies[] = $i;
+			$winnerIndices[] = $i;
 		}
 	}
 
@@ -95,7 +95,7 @@ $res = Array(
 	"data" => Array(
 		"gameEnded" => $endGame,
 		"gameDeleted" => $deleted,
-		"winnerIndicies" => $winnerIndicies || []
+		"winnerIndices" => $winnerIndices || []
 	)
 );
 

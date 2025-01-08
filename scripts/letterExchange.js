@@ -75,9 +75,9 @@ function exchangeLetters() {
 }
 
 function skipTurn() {
-	let letterExchangeIndicies = [];
+	let letterExchangeIndices = [];
 	let letterExchanges = $('#letterExchangeBank').children('[aria-pressed=true]').each(function() {
-		letterExchangeIndicies.push($(this).attr('data-bankindex'));
+		letterExchangeIndices.push($(this).attr('data-bankindex'));
 	});
 
 	textModal(
@@ -91,7 +91,7 @@ function skipTurn() {
 					user: account.id,
 					pwd: account.pwd,
 					game: game.id,
-					redrawLetters: JSON.stringify(letterExchangeIndicies)
+					redrawLetters: JSON.stringify(letterExchangeIndices)
 				}).then(res => {
 					if (res.errorLevel > 0) {
 						textModal("Error", res.message);
