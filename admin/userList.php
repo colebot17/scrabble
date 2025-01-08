@@ -1,4 +1,4 @@
-<?php if (!array_key_exists('password', $_COOKIE) || $_COOKIE['password'] !== '96819822') header('Location: validate.php');?>
+<?php require "verify.php" ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,17 +13,8 @@
     <h1>User List</h1>
     <?php
 
-    // define connection
-    $servername = "173.201.180.187";
-    $username = "Colebot";
-    $password = "96819822";
-    $dbname = "scrabble";
-
-    // create and check connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    require_once(__DIR__ . "/../php/util/getConn.php");
+    $conn = getConn();
 
     $sql = "SELECT id, name, games, friends, requests, sentRequests FROM accounts ORDER BY id ASC";
     $query = mysqli_query($conn, $sql);
@@ -45,7 +36,10 @@
         if ($noGames && $noFriends && $noRequests && $noSentRequests) echo ' <span style="color:red">[Empty]</span>';
         echo '</li>';
     }
-    
+
+    echo '</ul>';
+
+    echo '<br><a href="https://scrabble.colebot.com/tempAccLog.txt">Temporary Account Login Log</a>';
 
     ?>
 </body>

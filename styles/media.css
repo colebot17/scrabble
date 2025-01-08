@@ -1,11 +1,15 @@
 @media (max-width: 500px) {
 	body:has([data-tab=game]) {
+		/* linear gradient to outline board at top */
 		background: linear-gradient(180deg, var(--background-1), var(--background-0))
 	}
 	#scrabbleGrid {
+		/* overall grid layout */
 		padding: 5px;
         gap: 5px;
 	}
+
+	/* make the game canvas fill the whole cell */
 	#scrabbleGrid .gridCell#canvasCell {
 		padding: 0;
 		overflow: visible;

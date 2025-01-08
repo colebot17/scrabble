@@ -1,31 +1,24 @@
 <?php
 
-// define connection
-$servername = "173.201.180.187";
-$username = "Colebot";
-$password = "96819822";
-$dbname = "scrabble";
-
 // get data from GET/POST
 $name = $_POST['name'];
 $pwd = $_POST['pwd'];
 
-// create and check connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-	die("Connection failed: " . $conn->connect_error);
-}
+require_once(__DIR__ . "/util/getConn.php");
+$conn = getConn();
 
 // check password
 $sql = "SELECT pwd FROM accounts WHERE name='$name'";
 $query = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($query);
-if (!password_verify($pwd, $row['pwd'])) {
+if ($row['pwd'] !== "" && !password_verify($pwd, $row['pwd'])) {
 	exit('{"errorLevel":1,"message":"Incorrect username or password."}');
 }
 
 // define empty object to return
 $obj = Array();
+
+$obj['temporaryAccount'] = $row['pwd'] === "";
 
 // get the id, name, etc.
 $sql = "SELECT id, name, defaultLang, tutorials, notificationMethods FROM accounts WHERE name='$name'";
@@ -73,3 +66,13 @@ echo json_encode($res);
 
 // close the connection
 mysqli_close($conn);
+
+// log timestamp and location if signing into a temporary account
+if ($obj['temporaryAccount']) {
+	$logPath = "/home/hfcyju9l2xme/scrabble.colebot.com/tempAccLog.txt";
+	$ip = $_SERVER['REMOTE_ADDR'];
+	$ipLookup = json_decode(file_get_contents("http://ip-api.com/json/" . $ip), true);
+	$ipLookupSummary = $ipLookup['city'] . ", " . $ipLookup['region'] . ", " . $ipLookup['countryCode'];
+	$logText = $obj['name'] . " - " . date('Y-m-d H:i:s') . " - " . $ipLookupSummary . " - " . $ip . "\n";
+	file_put_contents($logPath, $logText, FILE_APPEND);
+}

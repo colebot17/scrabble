@@ -144,7 +144,7 @@ function determineAxis(tiles, board) {
     if (horizontal && vertical) {
         // detect tiles around the tile
         const sideToSide = board[tiles[0].y]?.[tiles[0].x + 1] || board[tiles[0].y]?.[tiles[0].x - 1];
-        const upAndDown = board[tiles[0].y - 1]?.[tiles[0].x] || board[tiles[0].y - 1]?.[tiles[0].x];
+        const upAndDown = board[tiles[0].y - 1]?.[tiles[0].x] || board[tiles[0].y + 1]?.[tiles[0].x];
 
         // there is a slight preference here towards the horizontal axis
         // in a perfect world we would count the number of tiles around the tile (but we're lazy)
@@ -170,7 +170,8 @@ async function lazyLoadDict(lang) {
     if (dictionary[lang]) return dictionary[lang].words;
 
     // send a request to get the dictionary for the specified language
-    const res = await fetch('../resources/dictionary_' + lang + '.json');
+    // dictionary is not managed by vcs
+    const res = await fetch('https://scrabble.colebot.com/dictionaries/dictionary_' + lang + '.json');
     if (!res.ok) {
         throw new Error("HTTP Error: " + res.status);
     };

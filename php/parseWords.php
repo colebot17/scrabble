@@ -1,16 +1,7 @@
 <?php
 function parseWords($gameId, $tiles, $user) {
-    // define connection
-    $servername = "173.201.180.187";
-    $username = "Colebot";
-    $password = "96819822";
-    $dbname = "scrabble";
-
-    // create and check connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        return '{"errorLevel":3,"message":"Connection failed: ' . $conn->connect_error . '"}';
-    }
+    require_once(__DIR__ . "/util/getConn.php");
+    $conn = getConn();
 
     // get game information
     $sql = "SELECT lang, board, turn, inactive, endDate, letterBag, players FROM games WHERE id='$gameId'";
@@ -165,7 +156,8 @@ function parseWords($gameId, $tiles, $user) {
     // go ahead and get the json files we will need
     $boardInfo = json_decode(file_get_contents('../resources/board.json'), true);
     $langInfo = json_decode(file_get_contents('../resources/languages.json'), true)[$lang];
-    $dictionary = json_decode(file_get_contents('../resources/dictionary_' . $lang . '.json'), true);
+    // dictionary is not managed by vcs
+    $dictionary = json_decode(file_get_contents('https://scrabble.colebot.com/dictionaries/dictionary_' . $lang . '.json'), true);
 
     // the complicated part...
 

@@ -740,7 +740,7 @@ body.scrabble {
 
 	height: auto;
 }
-#scrabbleGrid[data-signedin=loading] #welcomeTagline {
+#scrabbleGrid[data-signedin=loading] .hiddenWhileLoading {
 	display: none;
 }
 
@@ -852,7 +852,7 @@ body.scrabble {
 		grid-row: 1 / 3;
 	}
 
-	/* signed out account tab */
+	/* signed out */
 	#scrabbleGrid[data-tab=home][data-signedin=false] {
 		grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr);
 		grid-template-rows: max-content max-content;
@@ -1003,7 +1003,7 @@ body.scrabble {
 		justify-content: flex-start;
 	}
 
-	/* signed out account tab */
+	/* signed out */
 	#scrabbleGrid[data-tab=home][data-signedin=false] {
 		grid-template-columns: 100%;
 		grid-template-rows: max-content max-content;

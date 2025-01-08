@@ -32,5 +32,3 @@ function updateChatRead($conn, int $gameId, int $userId) {
 
     return true;
 }
-
-?>

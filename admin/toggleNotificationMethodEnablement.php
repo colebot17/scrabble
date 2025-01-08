@@ -1,4 +1,4 @@
-<?php if (!array_key_exists('password', $_COOKIE) || $_COOKIE['password'] !== '96819822') header('Location: validate.php');?>
+<?php require "verify.php" ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,17 +16,8 @@
     $user = (int)$_GET['user'];
     $index = (int)$_GET['index'];
 
-    // define connection
-    $servername = "173.201.180.187";
-    $username = "Colebot";
-    $password = "96819822";
-    $dbname = "scrabble";
-
-    // create and check connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    require_once(__DIR__ . "/../php/util/getConn.php");
+    $conn = getConn();
 
     $sql = "SELECT notificationMethods FROM accounts WHERE id='$user'";
     $query = mysqli_query($conn, $sql);

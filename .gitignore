@@ -3,3 +3,5 @@
 *.bat
 plan.txt
 plan.md
+dictionary_*.json
+.env

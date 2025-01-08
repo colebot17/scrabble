@@ -8,6 +8,10 @@ require 'phpmailer/src/Exception.php';
 require 'phpmailer/src/PHPMailer.php';
 require 'phpmailer/src/SMTP.php';
 
+require_once(__DIR__ . '/../../vendor/autoload.php');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../../");
+$dotenv->load();
+
 function sendEmail($to, $subject, $body, $html = true) {
     $pid = pcntl_fork();
 
@@ -26,7 +30,7 @@ function sendEmail($to, $subject, $body, $html = true) {
             $mail->Host       = 'mail.colebot.com';                     //Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
             $mail->Username   = 'colebot@colebot.com';                  //SMTP username
-            $mail->Password   = 'Colebot@96819822';                     //SMTP password
+            $mail->Password   = $_ENV["SMTP_PASSWORD"];                 //SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
             $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
             $mail->addCustomHeader('X-Entity-Ref-ID', random_bytes(12));//Ensure separate conversations in gmail

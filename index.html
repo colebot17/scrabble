@@ -9,9 +9,9 @@
 
 	<!-- beautiful css -->
 	<link rel="stylesheet" type="text/css" href="https://www.colebot.com/style.css">
-	<link rel="stylesheet" type="text/css" href="styles/scrabble.css?v=5">
+	<link rel="stylesheet" type="text/css" href="styles/scrabble.css?v=6">
 	<link rel="stylesheet" type="text/css" href="styles/logo.css?v=1"> <!-- loading animation -->
-	<link rel="stylesheet" type="text/css" href="styles/gamesList.css?v=1"> <!-- games list -->
+	<link rel="stylesheet" type="text/css" href="styles/gamesList.css?v=3"> <!-- games list -->
 	<link rel="stylesheet" type="text/css" href="styles/customFont.css"> <!-- custom font for letter bag -->
 	<link rel="stylesheet" type="text/css" href="styles/tutorialOverlay.css"> <!-- tutorial overlay -->
 	<link rel="stylesheet" type="text/css" href="styles/notificationManager.css?v=1"> <!-- notification manager -->
@@ -43,8 +43,9 @@
 	<div class="grid" id="scrabbleGrid" data-tab="home" data-signedin="none">
 		<div id="welcomeCell" class="gridCell">
 			<div class="scrabbleLogo"><div class="slLetter" id="slLetter1">S</div><div class="slLetter" id="slLetter2">C</div><div class="slLetter" id="slLetter3">R</div><div class="slLetter" id="slLetter4">A</div><div class="slLetter" id="slLetter5">B</div><div class="slLetter" id="slLetter6">B</div><div class="slLetter" id="slLetter7">L</div><div class="slLetter" id="slLetter8">E</div></div>
-			<h3 id="welcomeTagline">Play with your friends on your own schedule</h3>
+			<h3 class="hiddenWhileLoading" id="welcomeTagline">Play with your friends on your own schedule</h3>
 			<span class="material-symbols-rounded invisible" style="position:fixed;top:0;left:0;">home</span> <!-- This ensures that material symbols loads immediately rather than waiting until sign in completes -->
+			<button id="demoButton" class="highlight hiddenWhileLoading">VIEW DEMO</button>
 		</div>
 
 		<div id="gameControlsCell" class="gridCell">
@@ -85,7 +86,7 @@
 								<span class="material-symbols-rounded">more_horiz</span>
 							</span>
 						</summary>
-						<div class="flex col stretch noGap flexGrow">
+						<div class="flex col stretch noGap flexGrow fullHeight">
 							<button class="flexGrow" id="skipTurnButton" onclick="exchangeLetters()"></button>
 							<button class="flexGrow" id="endGameButton" onclick="endGame()"></button>
 						</div>
@@ -635,5 +636,6 @@
 	<script type="text/javascript" src="libraries/confetti3.js" defer></script>
 	<script type="module" src="scripts/moduleScript.js?v=2" defer></script>
 	<script type="text/javascript" src="scripts/script.js?v=3" defer></script>
+	<script type="text/javascript" src="scripts/demo.js" defer></script>
 </body>
 </html>
