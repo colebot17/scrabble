@@ -77,9 +77,17 @@
 }
 
 /* inactive game striped background */
-.gamesList#inactiveGamesList .listGame {
-	--stripe-color: #33333333;
-	background-image: repeating-linear-gradient(-135deg,transparent,transparent .5625rem,var(--stripe-color) .5625rem,var(--stripe-color) .625rem)
+.gamesList#inactiveGamesList {
+	.listGame {
+		--stripe-color: #22222222;
+		background-image: repeating-linear-gradient(-135deg,transparent,transparent .5625rem,var(--stripe-color) .5625rem,var(--stripe-color) .625rem)
+	}
+	.gameTitleLine, .listGamePlayerListPlayer {
+		background: radial-gradient(var(--background-2), transparent);
+	}
+	.openGameButton {
+		background: var(--background-2);
+	}
 }
 
 /* list view */
