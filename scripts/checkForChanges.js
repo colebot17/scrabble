@@ -200,7 +200,7 @@ function showEndGameScreen(data) {
     if (data.winnerIndices.length === 1) {
         winnerString = /* html */ `<b>${game.players[data.winnerIndices[0]].name}</b>`;
     } else if (data.winnerIndices.length === 2) {
-        winnerString = /* html */ `<b>${game.players[data.winnerIndices[0]].name}</b> and <b>${game.players[winners[1]].name}</b>`;
+        winnerString = /* html */ `<b>${game.players[data.winnerIndices[0]].name}</b> and <b>${game.players[winnerIndices[1]].name}</b>`;
     } else if (data.winnerIndices.length >= 3) {
         for (let i = 0; i < data.winnerIndices.length; i++) {
             if (i < data.winnerIndices.length - 1) {
