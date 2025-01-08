@@ -117,22 +117,22 @@ function skipTurn() {
 
 					} else {
 						textModal("Turn Skipped", res.message);
+
+						loadGame(game.id);
+						
+						// update the game in the game list
+						const g = account.games.find(a => a.id === game.id);
+						if (res.status === 1) {
+							g.inactive = true;
+						} else {
+							g.turn++;
+						}
+						g.lastUpdate = new Date();
+
+						updateGamesList(); // show the changes
 					}
 
-					textModal((res.status === 1 ? "Game Over!" : "Turn Skipped"), res.message);
 					$('#letterExchangeModal').modalClose();
-					loadGame(game.id);
-					
-					// update the game list game
-					const g = account.games.find(a => a.id === game.id);
-					if (res.status === 1) {
-						g.inactive = true;
-					} else {
-						g.turn++;
-					}
-					g.lastUpdate = new Date();
-
-					updateGamesList(); // show the changes
 				}).catch(err =>{
 					throw new Error(err);
 				})
