@@ -1,11 +1,5 @@
 <?php
 
-// define connection
-$servername = "173.201.180.187";
-$username = "Colebot";
-$password = "96819822";
-$dbname = "scrabble";
-
 // get data from GET/POST
 $user = $_POST['user'];
 $pwd = $_POST['pwd'];
@@ -14,11 +8,8 @@ $value = $_POST['tutorialValue'];
 if ($value === "true") $value = true;
 if ($value === "false") $value = false;
 
-// create and check connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-	die("Connection failed: " . $conn->connect_error);
-}
+require(__DIR__ . "/util/getConn.php");
+$conn = getConn();
 
 // check password
 require "verifyPassword.php";

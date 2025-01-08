@@ -16,5 +16,3 @@ function addSystemChatMessage($conn, int $gameId, string $action, array $data) {
 
     return true;
 }
-
-?>

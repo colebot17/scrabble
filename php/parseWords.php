@@ -1,16 +1,7 @@
 <?php
 function parseWords($gameId, $tiles, $user) {
-    // define connection
-    $servername = "173.201.180.187";
-    $username = "Colebot";
-    $password = "96819822";
-    $dbname = "scrabble";
-
-    // create and check connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        return '{"errorLevel":3,"message":"Connection failed: ' . $conn->connect_error . '"}';
-    }
+    require(__DIR__ . "/util/getConn.php");
+    $conn = getConn();
 
     // get game information
     $sql = "SELECT lang, board, turn, inactive, endDate, letterBag, players FROM games WHERE id='$gameId'";

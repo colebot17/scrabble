@@ -43,5 +43,3 @@ function addChatMessage($conn, int $gameId, array $message) {
 
     return true;
 }
-
-?>

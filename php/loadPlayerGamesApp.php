@@ -1,20 +1,11 @@
 <?php
 
-// define connection
-$servername = "173.201.180.187";
-$username = "Colebot";
-$password = "96819822";
-$dbname = "scrabble";
-
 // get data from GET/POST
 $name = $_POST['name'];
 $userPwd = $_POST['pwd'];
 
-// create and check connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-	die("Connection failed: " . $conn->connect_error);
-}
+require(__DIR__ . "/util/getConn.php");
+$conn = getConn();
 
 // get the data we need
 $sql = "SELECT id, pwd, games FROM accounts WHERE name='$name'";
