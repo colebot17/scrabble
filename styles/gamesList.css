@@ -80,7 +80,9 @@
 .gamesList#inactiveGamesList {
 	.listGame {
 		--stripe-color: #22222222;
-		background-image: repeating-linear-gradient(-135deg,transparent,transparent .5625rem,var(--stripe-color) .5625rem,var(--stripe-color) .625rem)
+		background-image: repeating-linear-gradient(-135deg,transparent,transparent .5625rem,var(--stripe-color) .5625rem,var(--stripe-color) .625rem);
+	
+		border-color: var(--background-2);
 	}
 	.gameTitleLine, .listGamePlayerListPlayer {
 		background: radial-gradient(var(--background-2), transparent);
