@@ -232,6 +232,34 @@ body.scrabble {
 	right: 5px;
 }
 
+/* a letter tile */
+.tile {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 0.25rem;
+
+	background-color: var(--tile-brown);
+	color: white;
+
+	font-family: 'Eurostile';
+	font-size: 1.5rem;
+	line-height: 2rem;
+
+	position: relative;
+}
+.tile .tilePoints {
+	position: absolute;
+	bottom: -1px;
+	right: 2px;
+	
+	font-size: 0.6rem;
+	line-height: 0.6rem;
+}
+.tile.yellowOutline {
+    outline: 0.15rem solid var(--text-highlight);
+    outline-offset: -0.075rem;
+}
+
 /* account forms */
 .accountFormTitle h3, .titleLine h3 {
 	margin: 0;

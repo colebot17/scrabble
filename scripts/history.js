@@ -1,89 +1,107 @@
-function updateMoveHistory(words) {
-    const historyEl = document.getElementById('historyContents');
-
-    // generate a moves array
-    let moves = [];
-    for (let i = 0; i < game.words.length; i++) {
-        const turn = game.words[i].turn;
-        if (moves[turn]) {
-            moves[turn].words.push(game.words[i]);
-            moves[turn].points += game.words[i].points;
-        } else {
-            moves[turn] = {
-                isDraft: false,
-                turn: turn,
-                player: game.words[i].player,
-                playerName: game.words[i].playerName,
-                words: [game.words[i]],
-                points: game.words[i].points
-            };
-        }
+class Player {
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
     }
+}
+
+class Move {
+    /**
+     * Creates an empty move object, which can hold words made on a specific turn by a specific player
+     * @param {int} turn the game turn on which the move was made
+     * @param {Player} player the player who made the move
+     * @param {boolean} draft whether or not the move is a draft (styled with dotted border)
+     */
+    constructor(turn, player, draft = false) {
+        this.isDraft = draft;
+        this.turn = turn;
+        this.player = player;
+        this.words = [];
+        this.points = 0;
+    }
+
+    /**
+     * Adds a single word to the move object, putting non-cross words at the front
+     * @param {Word} word the word to add
+     */
+    addWord(word) {
+        if (word.cross) this.words.push(word);
+        else            this.words.unshift(word);
+
+        this.points += word.points || 0;
+    }
+
+    wasSkipped() {
+        return this.words.length === 0;
+    }
+}
+
+function getMovesArr(g) {
+    // create an array full of empty moves
+    let moves = new Array(g.turn);
+    for (let i = 0; i < game.turn; i++) {
+        const p = game.players[i % game.players.length];
+        moves[i] = new Move(i, new Player(p.id, p.name), i === game.turn);
+    }
+
+    // sort the words into their respective moves
+    for (let i = 0; i < g.words.length; i++) {
+        const w = g.words[i];
+        if (!moves[w.turn]) continue; // ignore words with invalid turns
+        moves[w.turn].addWord(w);
+    }
+
+    return moves;
+}
+
+function updateMoveHistory(draftWords) {
+    // get the moves array
+    let moves = getMovesArr(game);
 
     // add the draft if it exists
-    if (words) {
-        // add up the points
-        let totalNewPoints = 0;
-        for (let i = 0; i < words.length; i++) {
-            totalNewPoints += words[i].points;
-        }
-        
-        // store it as the current turn
-        moves[game.turn] = {
-            isDraft: true, // this is what controls the draft class on the history item
-            turn: game.turn,
-            player: account.id,
-            playerName: account.name,
-            words: words,
-            points: totalNewPoints
-        };
+    if (draftWords) {
+        const draft = new Move(game.turn, game.players[game.turn % game.players.length], true);
+        for (let i = 0; i < draftWords.length; i++) draft.addWord(draftWords[i]);
+        moves[game.turn] = draft;
     }
 
+    const historyEl = document.getElementById('historyContents');
     historyEl.innerHTML = "";
 
     // add the moves
     for (let i = moves.length - 1; i >= 0; i--) {
         const move = moves[i];
 
-        const isSkipped = !move; // any gap in moves is assumed to be a skipped turn
-
-        const isDraft = !isSkipped && !!move.isDraft;
+        const wasSkipped = move.wasSkipped();
+        const isDraft = !wasSkipped && !!move.isDraft;
 
         const moveEl = document.createElement('div');
         moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow pointer" + (isDraft ? " moveHistoryDraft" : "");
         moveEl.id = "historyEntry" + i;
         moveEl.tabIndex = "0";
-        moveEl.addEventListener('click', () => {
+        if (!wasSkipped) moveEl.addEventListener('click', () => {
             setCanvasPage('canvas');
             setTimeout(() => {
-                const word = move.words.find(a => a.cross === false);
-                const region = {
-                    start: [
-                        word.pos.start[0],
-                        word.pos.start[1]
-                    ],
-                    end: [
-                        word.pos.end[0],
-                        word.pos.end[1]
-                    ]
-                }
+                const word = move.words[0]; // non-cross words are in the front
+                const region = word.pos;
                 tempHighlight(region);
             }, 200);
-        })
+        });
+        if (wasSkipped) moveEl.style.cursor = "default";
 
         const moveTitle = document.createElement('span');
         moveTitle.className = "moveHistoryMoveTitle";
         moveTitle.innerHTML = /* html */ `
             <span class="finePrint">${isDraft ? `Draft` : `Turn ${i}`}</span>
             <br>
-            <span>${move ? move.playerName : game.players[i % game.players.length].name}</span>
+            <span>${move ? move.player.name : game.players[i % game.players.length].name}</span>
         `;
         moveEl.appendChild(moveTitle);
         
         const wordsEl = document.createElement('div');
         wordsEl.className = "flex col fullHeight gap2";
 
-        if (!isSkipped) {
+        if (!wasSkipped) {
             const words = move.words;
             for (let j = 0; j < words.length; j++) {
                 const word = words[j];
@@ -108,8 +126,8 @@ function updateMoveHistory(words) {
         moveEl.appendChild(wordsEl);
 
         const totalPointsEl = document.createElement('div');
-        totalPointsEl.innerHTML = (isSkipped ? "Skipped" : move.points + " point" + (move.points === 1 ? "" : "s"));
-        if (isSkipped) totalPointsEl.classList.add('textColorLight');
+        totalPointsEl.innerHTML = (wasSkipped ? "Skipped" : move.points + " point" + (move.points === 1 ? "" : "s"));
+        if (wasSkipped) totalPointsEl.classList.add('textColorLight');
         moveEl.appendChild(totalPointsEl);
 
         historyEl.appendChild(moveEl);

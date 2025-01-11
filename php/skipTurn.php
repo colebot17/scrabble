@@ -69,10 +69,14 @@ for ($i = 0; $i < count($letterBag); $i++) {
 $redrawLetters = array_slice($redrawLetters, 0, count($longBag));
 
 // redraw the specified letters
+$newLetters = [];
 for ($i=0; $i < count($redrawLetters); $i++) { // for each letter to be redrawn
 	// draw a letter from the long bag
 	$rand = random_int(0, count($longBag) - 1);
 	$letter = $longBag[$rand];
+
+	// save this to be sent back
+	$newLetters[] = Array("index" => $redrawLetters[$i], "letter" => $letter);
 
 	// remove drawn letter from bag and long bag
 	$letterBag[$letter]--;
@@ -121,10 +125,21 @@ if (!$completelyDeleted) {
 }
 
 if ($endGame) {
-	echo '{"errorLevel":0,"status":1,"completelyDeleted":' . ($completelyDeleted ? '1' : '0') . ',"message":"All players have skipped their turns twice in a row, so the game has ended. Good game!"}';
+	$res = Array(
+		"errorLevel" => 0,
+		"status" => 1,
+		"completelyDeleted" => $completelyDeleted,
+		"message" => "All players have skipped their turns twice in a row, so the game has ended. Good game!"
+	);
 } else {
-	echo '{"errorLevel":0,"status":0,"message":"You have skipped your turn' . (count($redrawLetters) > 0 ? ' and exchanged ' . count($redrawLetters) . ' letter' . (count($redrawLetters) === 1 ? '' : 's') : '') . '."}';
+	$res = Array(
+		"errorLevel" => 0,
+		"status" => 0,
+		"newLetters" => $newLetters,
+		"message" => 'You have skipped your turn' . (count($redrawLetters) > 0 ? ' and exchanged ' . count($redrawLetters) . ' letter' . (count($redrawLetters) === 1 ? '' : 's') : '') . '.'
+	);
 }
+echo json_encode($res);
 
 // notify the next player
 

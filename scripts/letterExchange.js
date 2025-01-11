@@ -28,7 +28,7 @@ function exchangeLetters() {
 
 	const letterExchangeButton = document.getElementById('letterExchangeButton');
 	letterExchangeButton.innerText = 'Skip Turn';
-	let bank = game.players[parseInt(game.turn) % game.players.length].letterBank;
+	const bank = game.players[game.currentPlayerIndex].letterBank;
 	for (let i in canvas.bankOrder) {
 		letterBank.innerHTML += /* html */ `
 			<button class='letter' data-bankindex='${canvas.bankOrder[i]}' aria-pressed='false'>
@@ -75,67 +75,108 @@ function exchangeLetters() {
 }
 
 function skipTurn() {
+	let letterExchangeEls = document.querySelectorAll("#letterExchangeBank [aria-pressed=true]");
+
 	let letterExchangeIndices = [];
-	let letterExchanges = $('#letterExchangeBank').children('[aria-pressed=true]').each(function() {
-		letterExchangeIndices.push($(this).attr('data-bankindex'));
-	});
+	for (let el of letterExchangeEls) {
+		letterExchangeIndices.push(el.dataset.bankindex);
+	}
+
+	let num = letterExchangeIndices.length;
 
 	textModal(
-		`Skip Turn${letterExchanges.length > 0 ? ` and Exchange Letter${letterExchanges.length === 1 ? `` : `s`}` : ``}`,
-		`Are you sure you want to ${letterExchanges.length > 0 ? `exchange ${letterExchanges.length >= 7 ? `all ` : ``}${letterExchanges.length} letter${letterExchanges.length === 1 ? `` : `s`} and ` : ``}forfeit your turn?`
+		`Skip Turn${num > 0 ? ` and Exchange Letter${num === 1 ? `` : `s`}` : ``}`,
+		`Are you sure you want to ${num > 0 ? `exchange ${num >= 7 ? `all ` : ``}${num} letter${num === 1 ? `` : `s`} and ` : ``}forfeit your turn?`
 		+ (game.lettersLeft <= 0 ? "<br><br>You cannot exchange any letters since there are no letters left in the bag." : ""),
 		{
 			cancelable: true,
-			complete: () => {
-				request('skipTurn.php', {
+			complete: async () => {
+				let res = await request('skipTurn.php', {
 					user: account.id,
 					pwd: account.pwd,
 					game: game.id,
 					redrawLetters: JSON.stringify(letterExchangeIndices)
-				}).then(res => {
-					if (res.errorLevel > 0) {
-						textModal("Error", res.message);
-						return;
+				});
+
+				if (res.errorLevel > 0) {
+					textModal("Error", res.message);
+					return;
+				}
+
+				if (res.status === 1) { // if the game has ended
+					// calculate the winner indices
+					let winPts = 0;
+					for (let i = 0; i < game.players.length; i++) {
+						if (game.players[i].points > winPts) winPts = game.players[i].points;
+					}
+					let winds = [];
+					for (let i = 0; i < game.players.length; i++) {
+						if (game.players[i].points === winPts) winds.push(i);
 					}
 
-					if (res.status === 1) {
-						// calculate the winner indices
-						let winPts = 0;
-						for (let i = 0; i < game.players.length; i++) {
-							if (game.players[i].points > winPts) winPts = game.players[i].points;
-						}
-						let winds = [];
-						for (let i = 0; i < game.players.length; i++) {
-							if (game.players[i].points === winPts) winds.push(i);
-						}
+					showEndGameScreen({
+						reason: "skip",
+						gameDeleted: res.completelyDeleted,
+						winnerIndices: winds
+					});
+				} else {
+					// display the exchange/skip confirmation
+					const exchangedAny = letterExchangeIndices.length && res.newLetters.length;
+					if (exchangedAny) {
+						const bank = game.players[game.currentPlayerIndex].letterBank;
+						let diagram = `<div class="flex">`;
+						for (let i = 0; i < letterExchangeIndices.length; i++) {
+							const letter = bank[letterExchangeIndices[i]];
+							diagram += `<div class="tile">${letter}`;
 
-						showEndGameScreen({
-							reason: "skip",
-							gameDeleted: res.completelyDeleted,
-							winnerIndices: winds
-						});
+							const score = langInfo?.[game.lang]?.letterScores?.[letter];
+							if (score) {
+								diagram += `<div class="tilePoints">${score}</div>`;
+							}
 
+							diagram += `</div>`;
+						}
+						diagram += `</div>&darr;<div class="flex">`;
+						for (let i = 0; i < res.newLetters.length; i++) {
+							const letter = res.newLetters[i]["letter"];
+							diagram += `<div class="tile yellowOutline">${letter}`;
+
+							const score = langInfo?.[game.lang]?.letterScores?.[letter];
+							if (score) {
+								diagram += `<div class="tilePoints">${score}</div>`;
+							}
+
+							diagram += `</div>`;
+						}
+						diagram += `</div>`;
+
+						textModal("Letters Exchanged", res.message + `<br><br>` + diagram);
 					} else {
 						textModal("Turn Skipped", res.message);
-
-						loadGame(game.id);
-						
-						// update the game in the game list
-						const g = account.games.find(a => a.id === game.id);
-						if (res.status === 1) {
-							g.inactive = true;
-						} else {
-							g.turn++;
-						}
-						g.lastUpdate = new Date();
-
-						updateGamesList(); // show the changes
 					}
 
-					$('#letterExchangeModal').modalClose();
-				}).catch(err =>{
-					throw new Error(err);
-				})
+					loadGame(game.id).then(() => {
+						const bannerMessage = 'You have ' + (exchangedAny ? 'exchanged your letters' : 'skipped your turn') + '. It\'s <b>' + game.players[game.turn % game.players.length].name + '</b>\'s turn now!';
+						gameBanner(bannerMessage, getComputedStyle(document.documentElement).getPropertyValue('--highlight'));
+						
+						for (let i = 0; i < res.newLetters.length; i++) {
+							canvas.bank[res.newLetters[i]["index"]].highlight = true;
+						}
+					});
+					
+					// update the game in the game list
+					const g = account.games.find(a => a.id === game.id);
+					if (res.status === 1) {
+						g.inactive = true;
+					} else {
+						g.turn++;
+					}
+					g.lastUpdate = new Date();
+
+					updateGamesList(); // show the changes
+				}
+
+				$('#letterExchangeModal').modalClose();
 			}
 		}
 	);
