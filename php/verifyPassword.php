@@ -11,7 +11,7 @@ function verifyPassword($conn, int $userId, string $pwd, bool $allowTemp = true,
     if (!$query) exit(json_encode(["errorLevel" => "2", "message" => "Account not found."])); // make sure the user exists
     $row = mysqli_fetch_assoc($query);
 
-    if ($pwd === "") {
+    if ($row['pwd'] === "") {
         if (!$allowTemp) {
             if ($exit) exit(json_encode(["errorLevel" => "2", "message" => "You cannot perform this action from this account."]));
             return false;
