@@ -188,6 +188,14 @@ function setGameEndVote(playerIndex, vote) {
     endGameButton.title = votesLeft + " more vote" + (votesLeft === 1 ? "" : "s") + " to end";
 }
 
+/**
+ * Shows a textModal describing a reason for ending the game, then when it is closed,
+ * switches to the inactive games screen and shows a confetti animation with the game card
+ * @param {EndGameScreenData} data  {reason: "move|vote|skip",
+							            gameDeleted: true|false,
+							            winnerIndices: [...]
+						            }
+ */
 function showEndGameScreen(data) {
     const endReasons = {
         move: "A player made the final move.",
@@ -239,6 +247,11 @@ function showEndGameScreen(data) {
 
 var confetti;
 
+/**
+ * Slam in and confetti
+ * @param {Element} el the element to animate
+ * @returns 
+ */
 function endGameAnimation(el) {
     return new Promise(resolve => {
         el.style.scale = "500%";

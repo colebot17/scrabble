@@ -25,15 +25,22 @@ function clearBoard() {
     // clear the draft
     removeDraft();
 
+    // disable the move button
+    setMoveButtonEnablementTo(false);
+
     boardUpdate();
 }
 
 function boardUpdate() {
-    // this function is called immediately after the tiles present on the board are changed in any way
+    // called when tiles on board change in any way
     updateMoveHistory();
 }
 
-function setMoveButtonEnablement(enableButton) {
+/**
+ * Enables or disables the move button. Does not check whether the button should or should not be enabled.
+ * @param {boolean} enableButton whether to enable the button
+ */
+function setMoveButtonEnablementTo(enableButton) {
     const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
     if (!userTurn) return;
     // the move button will be disabled no matter what when it is not the current user's turn

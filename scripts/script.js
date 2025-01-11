@@ -712,7 +712,7 @@ function gameInit() {
 
 	setCanvasSize();
 
-	setMoveButtonEnablement(false);
+	setMoveButtonEnablementTo(false);
 
 	loadDraft();
 
@@ -1017,7 +1017,7 @@ function showPointsOverlay(userId, newPoints) {
 async function checkPoints() {
 	canvas.pointsPreview = false;
 
-	setMoveButtonEnablement(false);
+	setMoveButtonEnablementTo(false);
 
 	saveDraft(getUnlockedTiles(game.board));
 
@@ -1056,7 +1056,7 @@ async function checkPoints() {
 	updateMoveHistory(words);
 
 	// enable the move button
-	setMoveButtonEnablement(true);
+	setMoveButtonEnablementTo(true);
 }
 
 function setBankOrder() {
