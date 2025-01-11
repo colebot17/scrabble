@@ -121,7 +121,8 @@ function skipTurn() {
 					});
 				} else {
 					// display the exchange/skip confirmation
-					if (letterExchangeIndices.length && res.newLetters.length) {
+					const exchangedAny = letterExchangeIndices.length && res.newLetters.length;
+					if (exchangedAny) {
 						const bank = game.players[game.currentPlayerIndex].letterBank;
 						let diagram = `<div class="flex">`;
 						for (let i = 0; i < letterExchangeIndices.length; i++) {
@@ -155,6 +156,9 @@ function skipTurn() {
 					}
 
 					loadGame(game.id).then(() => {
+						const bannerMessage = 'You have ' + (exchangedAny ? 'exchanged your letters' : 'skipped your turn') + '. It\'s <b>' + game.players[game.turn % game.players.length].name + '</b>\'s turn now!';
+						gameBanner(bannerMessage, getComputedStyle(document.documentElement).getPropertyValue('--highlight'));
+						
 						for (let i = 0; i < res.newLetters.length; i++) {
 							canvas.bank[res.newLetters[i]["index"]].highlight = true;
 						}
