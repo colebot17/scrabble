@@ -198,32 +198,35 @@ function setGameEndVote(playerIndex, vote) {
  */
 function showEndGameScreen(data) {
     const endReasons = {
-        move: "A player made the final move.",
-        vote: "All players voted to end the game.",
-        skip: "All players skipped their turn twice consecutively."
+        move: "A player used all their letters, so the game is over.",
+        vote: "All players voted to end the game, so the game is over.",
+        skip: "All players skipped their turn twice consecutively, so the game is over."
     };
 
-    // create a string displaying the winner(s)
-    let winnerString = ``;
-    if (data.winnerIndices.length === 1) {
-        winnerString = /* html */ `<b>${game.players[data.winnerIndices[0]].name}</b>`;
-    } else if (data.winnerIndices.length === 2) {
-        winnerString = /* html */ `<b>${game.players[data.winnerIndices[0]].name}</b> and <b>${game.players[data.winnerIndices[1]].name}</b>`;
-    } else if (data.winnerIndices.length >= 3) {
-        for (let i = 0; i < data.winnerIndices.length; i++) {
-            if (i < data.winnerIndices.length - 1) {
-                winnerString += /* html */ `<b>${game.players[data.winnerIndices[i]].name}</b>, `;
-            } else {
-                winnerString += /* html */ `and <b>${game.players[data.winnerIndices[i]].name}</b>`;
+    let title = "Game Over!";
+
+    if (data.winnerIndices) {
+        // create a string displaying the winner(s)
+        let winnerString = ``;
+        if (data.winnerIndices.length === 1) {
+            winnerString = /* html */ `<b>${game.players[data.winnerIndices[0]].name}</b>`;
+        } else if (data.winnerIndices.length === 2) {
+            winnerString = /* html */ `<b>${game.players[data.winnerIndices[0]].name}</b> and <b>${game.players[data.winnerIndices[1]].name}</b>`;
+        } else if (data.winnerIndices.length >= 3) {
+            for (let i = 0; i < data.winnerIndices.length; i++) {
+                if (i < data.winnerIndices.length - 1) {
+                    winnerString += /* html */ `<b>${game.players[data.winnerIndices[i]].name}</b>, `;
+                } else {
+                    winnerString += /* html */ `and <b>${game.players[data.winnerIndices[i]].name}</b>`;
+                }
             }
         }
+
+        title = `${winnerString} wins!`;
     }
 
     const message = /* html */ `
-        This game is over! Good Job!
-        <br><br>
-        ${winnerString ? /* html */ `${winnerString} won.<br><br>` : ``}
-        ${data.reason ? /* html */ `End Reason: ${endReasons[data.reason] || data.reason}<br><br>` : ``}
+        ${data.reason ? `End Reason: ${endReasons[data.reason] || data.reason}<br><br>` : ``}
         ${data.gameDeleted
             ? `This game was deleted because no players scored any points.`
             : `This game has been archived to the inactive games page.`
@@ -234,7 +237,7 @@ function showEndGameScreen(data) {
     if (data.gameDeleted) stopChecking = true;
 
     loadGamesList();
-    textModal("Game Over!", message, {
+    textModal(title, message, {
         complete: () => {
             showTab('home');
             setGamesList(data.gameDeleted ? 'active' : 'inactive');
