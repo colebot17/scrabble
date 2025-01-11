@@ -11,6 +11,9 @@ function initDefaultLanguageSelectors() {
             });
             if (res.errorLevel) {
                 textModal('Error', res.message);
+
+                // put the selector back
+                document.querySelector('.defaultLanguageOption[value=' + account.defaultLang + ']').checked = true;
             } else {
                 account.defaultLang = selectedLang;
                 updateGamesList();
