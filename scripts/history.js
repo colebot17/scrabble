@@ -82,7 +82,7 @@ function updateMoveHistory(draftWords) {
         moveEl.addEventListener('click', () => {
             setCanvasPage('canvas');
             setTimeout(() => {
-                const word = move[0]; // non-cross words are in the front
+                const word = move.words[0]; // non-cross words are in the front
                 const region = word.pos;
                 tempHighlight(region);
             }, 200);
