@@ -121,7 +121,7 @@ function skipTurn() {
 					});
 				} else {
 					// display the exchange/skip confirmation
-					if (letterExchangeIndices > 0) {
+					if (letterExchangeIndices.length > 0) {
 						let diagram = `<div class="flex">`;
 						for (let i = 0; i < letterExchangeIndices.length; i++) {
 							const letter = canvas.letterBank[i].letter;
