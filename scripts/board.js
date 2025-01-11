@@ -25,15 +25,22 @@ function clearBoard() {
     // clear the draft
     removeDraft();
 
+    // disable the move button
+    setMoveButtonEnablementTo(false);
+
     boardUpdate();
 }
 
 function boardUpdate() {
-    // this function is called immediately after the tiles present on the board are changed in any way
+    // called when tiles on board change in any way
     updateMoveHistory();
 }
 
-function setMoveButtonEnablement(enableButton) {
+/**
+ * Enables or disables the move button. Does not check whether the button should or should not be enabled.
+ * @param {boolean} enableButton whether to enable the button
+ */
+function setMoveButtonEnablementTo(enableButton) {
     const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
     if (!userTurn) return;
     // the move button will be disabled no matter what when it is not the current user's turn
@@ -160,21 +167,19 @@ function setExpandedDropZone(zoneIndex) {
     const dropZoneChanged = zoneIndex != canvas.expandedDropZone;
     if (!dropZoneChanged) return;
 
-    // if there actually is a drop zone to be expanded
-    if (typeof zoneIndex === "number") {
-        animateDropZone(zoneIndex, 1);
-    }
+    // expand the new drop zone
+    animateDropZone(zoneIndex, 1);
 
     // collapse the old drop zone
-    if (typeof canvas.expandedDropZone === "number") {
-        animateDropZone(canvas.expandedDropZone, 0);
-    }
+    animateDropZone(canvas.expandedDropZone, 0);
 
     canvas.expandedDropZone = zoneIndex;
 }
 
 // raw function - be careful
 function animateDropZone(zoneIndex, value) {
+    if (typeof zoneIndex !== "number" || !canvas.dropZones[zoneIndex]) return;
+
     if (zoneIndex == 0) {
         canvas.gapBeforeBankAnimation = new Animation(DROP_ZONE_ANIMATION_TIME, 0, canvas.extraGapBeforeBank, value);
     } else {

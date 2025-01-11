@@ -203,8 +203,8 @@ function gameLI(game) {
     } else {
         // for inactive games, show the winner(s)
         const winnerNames = [];
-        for (let i = 0; i < game.winnerIndicies.length; i++) {
-            const player = game.players[game.winnerIndicies[i]];
+        for (let i = 0; i < game.winnerIndices.length; i++) {
+            const player = game.players[game.winnerIndices[i]];
 
             // this ensures that "You" appears at the front of the list
             if (player.id === account.id) {
@@ -260,22 +260,16 @@ function inactiveGameLI(game) {
 function playerList(game) {
     let turnIndex = parseInt(game.turn) % game.players.length;
 
-    // find the winning point number
-    let winningPoints = 1;
-    for (let i = 0; i < game.players.length; i++) {
-        if (game.players[i].points > winningPoints) {
-            winningPoints = game.players[i].points;
-        }
-    }
-
     // player list
     let html = ``;
     for (let i = 0; i < game.players.length; i++) {
         const player = game.players[i];
 
+        const isWinner = game.winnerIndices.includes(game.players[i].id);
+
         html += /* html */ `
             <div class="listGamePlayerListPlayer">
-                ${player.points === winningPoints ? `<span class='material-symbols-rounded winnerIcon'>trophy</span>` : ``}
+                ${isWinner ? `<span class='material-symbols-rounded winnerIcon'>trophy</span>` : ``}
                 <span>
                     <b>${i === turnIndex && !game.inactive ? '<u>' : ''}${player.name}${i === turnIndex && !game.inactive ? '</u>' : ''}</b>: ${player.points}
                 </span>
@@ -333,8 +327,8 @@ function showNewlyInactiveGames(newlyInactiveGames) {
         game.newlyInactive = false;
 
         const winners = [];
-        for (let j = 0; j < game.winnerIndicies.length; j++) {
-            winners.push(game.players[game.winnerIndicies[j]]);
+        for (let j = 0; j < game.winnerIndices.length; j++) {
+            winners.push(game.players[game.winnerIndices[j]]);
         }
 
         const str = `<b>${game.name || "Game #" + game.id}</b> has ended. ${winnerString(winners)} won!`;
@@ -409,7 +403,7 @@ function showNewlyInactiveGames(newlyInactiveGames) {
     const plural = newlyInactiveGames.length > 1;
     
     const msg = document.createElement('span');
-        msg.innerHTML = (plural ? "These games are" : "This game is") + " over and " + (plural ? "have" : "has") + " been archived. You can still view " + (plural ? "them" : "it") + " by pressing the <span class='material-symbols-rounded smallIcon'>chevron_right</span> button above the active games list.";
+        msg.innerHTML = (plural ? "These games are" : "This game is") + " over and " + (plural ? "have" : "has") + " been archived. You can still view " + (plural ? "them" : "it") + " by pressing the <span class='material-symbols-rounded smallIcon'>inventory_2</span> button above the active games list.";
         msg.style.opacity = "0%";
         msg.style.transition = "opacity 0.37s";
         setTimeout(() => { // animate this in

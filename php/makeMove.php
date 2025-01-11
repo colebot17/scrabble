@@ -134,10 +134,6 @@ for ($i = 0; $i < count($letterBag); $i++) {
 // if the letter bank of the current player and the letter bag are both empty,
 if (count($players[$currentPlayerIndex]['letterBank']) === 0 && count($longBag) === 0) {
 	$inactive = 1; // end the game
-
-	// set the endDate
-	$datestamp = date("Y-m-d");
-	$endDate = $datestamp;
 }
 
 // update the points in the player obj
@@ -233,8 +229,15 @@ $letterBagJson = json_encode($letterBag);
 $boardJson = json_encode($board);
 $playersJson = json_encode($players);
 
-$sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn='$totalTurn',inactive='$inactive',endDate='$endDate',board='$boardJson',words='$wordsJson' WHERE id='$gameId'";
+$sql = "UPDATE games SET letterBag='$letterBagJson',players='$playersJson',turn='$totalTurn',endDate='$endDate',board='$boardJson',words='$wordsJson' WHERE id='$gameId'";
 $query = mysqli_query($conn, $sql);
+
+// end the game if it is over
+if ($inactive) {
+	require "deactivateGame.php";
+	deactivate($conn, $gameId, $user, "move");
+	// the game should never be completely deleted in this case
+}
 
 // return the response
 $response = Array(
@@ -281,40 +284,8 @@ $updateData = Array(
 	"newPoints" => $pointsSum
 );
 
-require "addUpdate.php";
+require_once "addUpdate.php";
 addUpdate($conn, $gameId, "move", $updateData);
-
-if ($inactive) {
-	$highestScore = 0;
-	for ($i = 0; $i < count($players); $i++) {
-		if ($players[$i]["points"] > $highestScore) {
-			$highestScore = $players[$i]["points"];
-		}
-	}
-	$winnerIndicies = Array();
-	for ($i = 0; $i < count($players); $i++) {
-		if ($players[$i]["points"] === $highestScore) {
-			$winnerIndicies[] = $i;
-		}
-
-		// set all the players' gameEndUnseen (except current player)
-		$players[$i]['gameEndUnseen'] = (int)$players[$i]['id'] !== $user;
-	}
-	// upload the player list again (because of gameEndUnseen)
-	$playersJson = json_encode($players);
-	$sql = "UPDATE games SET players='$playersJson' WHERE id='$gameId'";
-	$query = mysqli_query($conn, $sql);
-
-	// add the game end update
-	$updateData = Array(
-		"player" => $user,
-		"playerIndex" => $currentPlayerIndex,
-		"reason" => "move",
-		"gameDeleted" => false,
-		"winnerIndicies" => $winnerIndicies
-	);
-	addUpdate($conn, $gameId, "gameEnd", $updateData);
-}
 
 // close the connection
 $conn->close();

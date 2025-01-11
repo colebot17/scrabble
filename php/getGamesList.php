@@ -93,23 +93,21 @@ function getGamesList($conn, int $userId) {
             }
         }
 
-        if ($inactive) {
-            $winningPoints = 0;
-            for ($j = 0; $j < count($players); $j++) {
-                if ($players[$j]['points'] > $winningPoints) {
-                    $winningPoints = $players[$j]['points'];
-                }
+        $winningPoints = 0;
+        for ($j = 0; $j < count($players); $j++) {
+            if ($players[$j]['points'] > $winningPoints) {
+                $winningPoints = $players[$j]['points'];
             }
-
-            $winningPlayers = Array();
-            for ($j = 0; $j < count($players); $j++) {
-                if ($players[$j]['points'] === $winningPoints) {
-                    $winningPlayers[] = $j;
-                }
-            }
-
-            $game['winnerIndicies'] = $winningPlayers;
         }
+
+        $winningPlayers = Array();
+        for ($j = 0; $j < count($players); $j++) {
+            if ($players[$j]['points'] === $winningPoints) {
+                $winningPlayers[] = $j;
+            }
+        }
+
+        $game['winnerIndices'] = $winningPlayers;
 
         // add the new game to the full list
         $fullGamesList[] = $game;

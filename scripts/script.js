@@ -604,7 +604,7 @@ function endGame() {
 					if (res.data.gameDeleted) {
 						showEndGameScreen({
 							gameDeleted: true,
-							winnerIndicies: []
+							winnerIndices: []
 						});
 						const gId = account.games.findIndex(a => a.id === game.id);
 						account.games.splice(gId, 1);
@@ -612,7 +612,7 @@ function endGame() {
 						showEndGameScreen({
 							reason: "vote",
 							gameDeleted: false,
-							winnerIndicies: res.data.winnerIndicies
+							winnerIndices: res.data.winnerIndices
 						});
 						g.inactive = true;
 					}
@@ -712,7 +712,7 @@ function gameInit() {
 
 	setCanvasSize();
 
-	setMoveButtonEnablement(false);
+	setMoveButtonEnablementTo(false);
 
 	loadDraft();
 
@@ -756,20 +756,15 @@ function updateGameInfo() {
 		</div>
 	`;
 
-	// calculate the winning player
 	let turnIndex = parseInt(game.turn) % game.players.length;
-	let winningPoints = 1;
-	for (let i in game.players) {
-		winningPoints = Math.max(winningPoints, game.players[i].points);
-	}
 
 	gameInfo += `<div class="gamePlayerList flex col">`;
 
 	const showBankCounts = game.lettersLeft === 0;
 
 	// add each player to the player list
-	for (let i in game.players) {
-		let isWinner = game.players[i].points == winningPoints;
+	for (let i = 0; i < game.players.length; i++) {
+		let isWinner = game.winnerIndices.includes(i);
 		let isTurn = turnIndex == i;
 		let isCurrentPlayer = game.players[i].id == account.id;
 		let endGameVoted = game.players[i].endGameRequest;
@@ -838,77 +833,87 @@ function setOOTD(disabled) {
 	});
 }
 
-function makeMove() {
+async function makeMove() {
 	// first, get a list of all unlocked tiles
 	var newTiles = getUnlockedTiles(game.board);
 
-	request('makeMove.php', {
+	const res = await request('makeMove.php', {
 		game: game.id,
 		tiles: JSON.stringify(newTiles),
 		user: account.id,
 		pwd: account.pwd
-	}).then(res => {
-		if (res.errorLevel === 0) {
-			// store the chat draft
-			const chatDraft = document.getElementById('chatInput').value;
-
-			// load the game and store its progress in a promise so we can do some stuff once it's done
-			const lgPromise = loadGame(game.id, "moveMade");
-
-			// calculate the number of new points earned
-			let newPoints = 0;
-			for (let i = 0; i < res.data.newWords.length; i++) {
-				newPoints += res.data.newWords[i].points;
-			}
-
-			// this is the game in the account games list
-			// we will use this to update the games list without making a new request
-			const g = account.games.find(a => a.id === game.id);
-
-			if (res.status === 1) {
-				textModal("Game Over!", res.message);
-
-				g.inactive = true;
-			} else { // the turn should not be updated when the game ends (not that it really matters)
-				g.turn++;
-			}
-			
-			const p = g.players.find(a => a.id === account.id); // add the new points
-			p.points += newPoints; 
-
-			g.lastUpdate = new Date();
-			updateGamesList(); // show the updated game in the games list
-
-			// once the game has been loaded,
-			lgPromise.then(() => {
-				// show a confirmation banner
-				const bannerMessage = 'Your move has been made for ' + newPoints + ' point' + (newPoints === 1 ? '' : 's') + '. Tell <b>' + game.players[game.turn % game.players.length].name + '</b> that it\'s their turn!';
-				gameBanner(bannerMessage, getComputedStyle(document.documentElement).getPropertyValue('--highlight'));
-
-				// highlight new letters in the player's bank
-				for (let i = 0; i < res.data.newLetterIndices.length; i++) {
-					const canvasLetter = canvas.bank.find(a => a.bankIndex === res.data.newLetterIndices[i]);
-					canvasLetter.highlight = true;
-				}
-
-				// perform the flying saucer animation
-				// (after a short timeout to let ui settle before important measurments take place)
-				let mainWord = res.data.newWords.find(a => !a.cross);
-				const destination = document.querySelector('.gamePlayerListPlayer[data-playerId="' + account.id + '"] .points');
-				setTimeout(() => flyingSaucer(mainWord.axis === "x" ? mainWord.pos.end : mainWord.pos.start, newPoints, destination).then(() => {
-					showPointsOverlay(account.id, newPoints);
-				}), 10);
-
-				// restore the chat draft
-				document.getElementById('chatInput').value = chatDraft;
-				chatBoxResize();                            // show the changes we made
-			});
-		} else {
-			textModal("Error", res.message);
-		}
-	}).catch(err => {
-		throw new Error(err);
 	});
+
+	if (res.errorLevel > 0) {
+		textModal("Error", res.message);
+		return;
+	}
+
+	// store the chat draft
+	const chatDraft = document.getElementById('chatInput').value;
+
+	// calculate the number of new points earned
+	let newPoints = 0;
+	for (let i = 0; i < res.data.newWords.length; i++) {
+		newPoints += res.data.newWords[i].points;
+	}
+
+	// this is the game in the account games list
+	// we will use this to update the games list without making a new request
+	const g = account.games.find(a => a.id === game.id);
+
+	if (res.status === 1) {
+		// calculate the winner indices
+		let winPts = 0;
+		for (let i = 0; i < game.players.length; i++) {
+			if (game.players[i].points > winPts) winPts = game.players[i].points;
+		}
+		let winds = [];
+		for (let i = 0; i < game.players.length; i++) {
+			if (game.players[i].points === winPts) winds.push(i);
+		}
+
+		showEndGameScreen({
+			reason: "move",
+			gameDeleted: false,
+			winnerIndices: winds
+		});
+
+		g.inactive = true;
+	} else { // the turn should not be updated when the game ends (not that it really matters)
+		g.turn++;
+	}
+	
+	const p = g.players.find(a => a.id === account.id); // add the new points
+	p.points += newPoints; 
+
+	g.lastUpdate = new Date();
+	updateGamesList(); // show the updated game in the games list
+
+	// load the game
+	await loadGame(game.id, "moveMade");
+
+	// show a confirmation banner
+	const bannerMessage = 'Your move has been made for ' + newPoints + ' point' + (newPoints === 1 ? '' : 's') + '. Tell <b>' + game.players[game.turn % game.players.length].name + '</b> that it\'s their turn!';
+	gameBanner(bannerMessage, getComputedStyle(document.documentElement).getPropertyValue('--highlight'));
+
+	// highlight new letters in the player's bank
+	for (let i = 0; i < res.data.newLetterIndices.length; i++) {
+		const canvasLetter = canvas.bank.find(a => a.bankIndex === res.data.newLetterIndices[i]);
+		canvasLetter.highlight = true;
+	}
+
+	// perform the flying saucer animation
+	// (after a short timeout to let ui settle before important measurments take place)
+	let mainWord = res.data.newWords.find(a => !a.cross);
+	const destination = document.querySelector('.gamePlayerListPlayer[data-playerId="' + account.id + '"] .points');
+	setTimeout(() => flyingSaucer(mainWord.axis === "x" ? mainWord.pos.end : mainWord.pos.start, newPoints, destination).then(() => {
+		showPointsOverlay(account.id, newPoints);
+	}), 10);
+
+	// restore the chat draft
+	document.getElementById('chatInput').value = chatDraft;
+	chatBoxResize(); // show the changes we made
 }
 
 /**
@@ -1007,7 +1012,7 @@ function showPointsOverlay(userId, newPoints) {
 async function checkPoints() {
 	canvas.pointsPreview = false;
 
-	setMoveButtonEnablement(false);
+	setMoveButtonEnablementTo(false);
 
 	saveDraft(getUnlockedTiles(game.board));
 
@@ -1046,7 +1051,7 @@ async function checkPoints() {
 	updateMoveHistory(words);
 
 	// enable the move button
-	setMoveButtonEnablement(true);
+	setMoveButtonEnablementTo(true);
 }
 
 function setBankOrder() {
@@ -1076,7 +1081,7 @@ function setBankOrder() {
 }
 
 function moveBankLetter(from, to) {
-	// "from" and "to" are both ORDER indicies
+	// "from" and "to" are both ORDER indices
 
 	// "from" represents the tile we are moving
 	// "to" represents the index before which we are moving (aka the new index of the tile)

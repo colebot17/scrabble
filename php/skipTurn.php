@@ -106,48 +106,8 @@ for ($i=0; $i < count($players); $i++) {
 }
 if ($endGame) {
 	// if so, end the game
-	$deleteGame = true;
-	for ($i=0; $i < count($players); $i++) { 
-		if ($players[$i]['points'] > 0) {
-			$deleteGame = false;
-			break;
-		}
-	}
-
-	if ($deleteGame) { // if no players in the game have scored points
-		// remove the game from all players
-		for ($i=0; $i < count($players); $i++) { 
-			$sql = "SELECT games FROM accounts WHERE id='$players[$i][`id`]'";
-			$query = mysqli_query($conn, $sql);
-			$row = mysqli_fetch_assoc($query);
-
-			$playersGames = json_decode($row['games'], true);
-			if (($key = array_search($gameId, $playersGames)) !== false) {
-				unset($playersGames[$key]);
-			}
-			$playerGamesJson = json_encode(array_values($playerGames));
-
-			$sql = "UPDATE accounts SET games='$playerGamesJson' WHERE id='$playerList[$i]'";
-			$query = mysqli_query($conn, $sql);
-		}
-
-		// delete the game
-		$sql = "DELETE FROM games WHERE id='$gameId'";
-		$query = mysqli_query($conn, $sql);
-	} else { // if players have already scored points
-		// set all the players' gameEndUnseen (except current player)
-		for ($i = 0; $i < count($players); $i++) {
-			$players[$i]['gameEndUnseen'] = (int)$players[$i]['id'] !== $user;
-		}
-
-		// set the endDate
-		$datestamp = date("Y-m-d");
-
-		// deactivate the game and upload
-		$playersJson = json_encode($players);
-		$sql = "UPDATE games SET inactive=1,endDate='$datestamp',players='$playersJson' WHERE id='$gameId'";
-		$query = mysqli_query($conn, $sql);
-	}
+	require "deactivateGame.php";
+	$completelyDeleted = deactivate($conn, $gameId, $user, "skip") === "deleted";
 }
 
 // encode players and letter bag
@@ -155,11 +115,13 @@ $playersJson = json_encode($players);
 $letterBagJson = json_encode($letterBag);
 
 // reupload the turn, players, and letter bag
-$sql = "UPDATE games SET turn='$totalTurn', players='$playersJson', letterBag='$letterBagJson' WHERE id='$gameId'";
-$query = mysqli_query($conn, $sql);
+if (!$completelyDeleted) {
+	$sql = "UPDATE games SET turn='$totalTurn', players='$playersJson', letterBag='$letterBagJson' WHERE id='$gameId'";
+	$query = mysqli_query($conn, $sql);
+}
 
 if ($endGame) {
-	echo '{"errorLevel":0,"status":1,"message":"All players have skipped their turns twice in a row, so the game has ended. Good game!"}';
+	echo '{"errorLevel":0,"status":1,"completelyDeleted":' . ($completelyDeleted ? '1' : '0') . ',"message":"All players have skipped their turns twice in a row, so the game has ended. Good game!"}';
 } else {
 	echo '{"errorLevel":0,"status":0,"message":"You have skipped your turn' . (count($redrawLetters) > 0 ? ' and exchanged ' . count($redrawLetters) . ' letter' . (count($redrawLetters) === 1 ? '' : 's') : '') . '."}';
 }
@@ -196,31 +158,8 @@ $updateData = Array(
 	"newTurn" => $totalTurn
 );
 
-require "addUpdate.php";
+require_once "addUpdate.php";
 addUpdate($conn, $gameId, "turnSkip", $updateData);
-
-if ($endGame) {
-	$highestScore = 0;
-	for ($i = 0; $i < count($players); $i++) {
-		if ($players[$i]["points"] > $highestScore) {
-			$highestScore = $players[$i]["points"];
-		}
-	}
-	$winnerIndicies = Array();
-	for ($i = 0; $i < count($players); $i++) {
-		if ($players[$i]["points"] === $highestScore) {
-			$winnerIndicies[] = $i;
-		}
-	}
-	$updateData = Array(
-		"player" => $user,
-		"playerIndex" => array_search($user, $playerList),
-		"reason" => "skip",
-		"gameDeleted" => $deleteGame,
-		"winnerIndicies" => $winnerIndicies
-	);
-	addUpdate($conn, $gameId, "gameEnd", $updateData);
-}
 
 // close the connection
 $conn->close();

@@ -371,9 +371,10 @@ function drawLetterBank() {
 		}
 	}
 
-	if (firstLetter) {
+	let newDropZones = [];
+	if (firstLetter) { // if there are any letters in the bank
 		// initialize the first drop zone
-		canvas.dropZones = [{
+		newDropZones.push({
 			start: {
 				x: firstLetter.position.x - (minTileGap + (canvas.extraGapBeforeBank * extraTileGap)) - (canvas.bankTileWidth / 2),
 				y: firstLetter.position.y - (canvas.bankTileWidth / 5)
@@ -383,9 +384,7 @@ function drawLetterBank() {
 				y: firstLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
 			},
 			orderIndex: canvas.bankOrder.indexOf(firstLetter.bankIndex)
-		}];
-	} else {
-		canvas.dropZones = []; // initialize no drop zones because there are no visible letters in the bank
+		});
 	}
 
 	// draw each letter
@@ -474,10 +473,13 @@ function drawLetterBank() {
 			},
 			orderIndex: parseInt(i) + 1
 		};
-		canvas.dropZones.push(newZone);
+		newDropZones.push(newZone);
 
 		drawnLetters++;
 	}
+
+	// update the drop zones (all at once to prevent edge case where user clicks while drop zones are empty)
+	canvas.dropZones = newDropZones;
 
 	/* // draw drop zones for testing
 	for (let i in canvas.dropZones) {

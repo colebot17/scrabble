@@ -29,7 +29,7 @@ if (mysqli_num_rows($query) === 0) {
                 "type" => "gameEnd",
                 "data" => Array(
                     "gameDeleted" => true,
-                    "winnerIndicies" => Array()
+                    "winnerIndices" => Array()
                 )
             )
         )

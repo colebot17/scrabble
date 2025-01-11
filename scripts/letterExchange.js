@@ -75,9 +75,9 @@ function exchangeLetters() {
 }
 
 function skipTurn() {
-	let letterExchangeIndicies = [];
+	let letterExchangeIndices = [];
 	let letterExchanges = $('#letterExchangeBank').children('[aria-pressed=true]').each(function() {
-		letterExchangeIndicies.push($(this).attr('data-bankindex'));
+		letterExchangeIndices.push($(this).attr('data-bankindex'));
 	});
 
 	textModal(
@@ -91,27 +91,48 @@ function skipTurn() {
 					user: account.id,
 					pwd: account.pwd,
 					game: game.id,
-					redrawLetters: JSON.stringify(letterExchangeIndicies)
+					redrawLetters: JSON.stringify(letterExchangeIndices)
 				}).then(res => {
 					if (res.errorLevel > 0) {
 						textModal("Error", res.message);
 						return;
 					}
 
-					textModal((res.status === 1 ? "Game Over!" : "Turn Skipped"), res.message);
-					$('#letterExchangeModal').modalClose();
-					loadGame(game.id);
-					
-					// update the game list game
-					const g = account.games.find(a => a.id === game.id);
 					if (res.status === 1) {
-						g.inactive = true;
-					} else {
-						g.turn++;
-					}
-					g.lastUpdate = new Date();
+						// calculate the winner indices
+						let winPts = 0;
+						for (let i = 0; i < game.players.length; i++) {
+							if (game.players[i].points > winPts) winPts = game.players[i].points;
+						}
+						let winds = [];
+						for (let i = 0; i < game.players.length; i++) {
+							if (game.players[i].points === winPts) winds.push(i);
+						}
 
-					updateGamesList(); // show the changes
+						showEndGameScreen({
+							reason: "skip",
+							gameDeleted: res.completelyDeleted,
+							winnerIndices: winds
+						});
+
+					} else {
+						textModal("Turn Skipped", res.message);
+
+						loadGame(game.id);
+						
+						// update the game in the game list
+						const g = account.games.find(a => a.id === game.id);
+						if (res.status === 1) {
+							g.inactive = true;
+						} else {
+							g.turn++;
+						}
+						g.lastUpdate = new Date();
+
+						updateGamesList(); // show the changes
+					}
+
+					$('#letterExchangeModal').modalClose();
 				}).catch(err =>{
 					throw new Error(err);
 				})
