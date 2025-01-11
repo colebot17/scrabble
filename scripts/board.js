@@ -167,21 +167,19 @@ function setExpandedDropZone(zoneIndex) {
     const dropZoneChanged = zoneIndex != canvas.expandedDropZone;
     if (!dropZoneChanged) return;
 
-    // if there actually is a drop zone to be expanded
-    if (typeof zoneIndex === "number") {
-        animateDropZone(zoneIndex, 1);
-    }
+    // expand the new drop zone
+    animateDropZone(zoneIndex, 1);
 
     // collapse the old drop zone
-    if (typeof canvas.expandedDropZone === "number") {
-        animateDropZone(canvas.expandedDropZone, 0);
-    }
+    animateDropZone(canvas.expandedDropZone, 0);
 
     canvas.expandedDropZone = zoneIndex;
 }
 
 // raw function - be careful
 function animateDropZone(zoneIndex, value) {
+    if (typeof zoneIndex !== "number" || !canvas.dropZones[zoneIndex]) return;
+
     if (zoneIndex == 0) {
         canvas.gapBeforeBankAnimation = new Animation(DROP_ZONE_ANIMATION_TIME, 0, canvas.extraGapBeforeBank, value);
     } else {
