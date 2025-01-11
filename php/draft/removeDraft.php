@@ -10,9 +10,7 @@ $gameId = $_POST['game'];
 
 // check password
 require "../verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd);
 
 // remove the draft
 require "draft.php";

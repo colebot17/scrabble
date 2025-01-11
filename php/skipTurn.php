@@ -11,9 +11,7 @@ $redrawLetters = json_decode($_POST['redrawLetters'], true);
 
 // check password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd);
 
 // make sure the game belongs to the user
 $sql = "SELECT games FROM accounts WHERE id='$user'";

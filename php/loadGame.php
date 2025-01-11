@@ -10,9 +10,7 @@ $conn = getConn();
 
 // check password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd);
 
 // check game ownership
 $sql = "SELECT games FROM accounts WHERE id='$user'";

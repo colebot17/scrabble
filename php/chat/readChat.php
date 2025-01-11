@@ -10,9 +10,7 @@ $game = $_POST['game'];
 
 // check password
 require "../verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd);
 
 require "updateChatRead.php";
 $success = updateChatRead($conn, $game, $user);

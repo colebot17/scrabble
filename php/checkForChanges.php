@@ -11,9 +11,7 @@ $conn = getConn();
 
 // check password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd);
 
 // get the last update for comparison
 $sql = "SELECT updates FROM games WHERE id='$gameId'";

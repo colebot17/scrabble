@@ -11,9 +11,7 @@ $conn = getConn();
 
 // check password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd);
 
 // generate a game
 $letterBag = json_decode(file_get_contents('../resources/languages.json'), true)[$lang]["letterDistribution"];

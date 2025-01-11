@@ -10,9 +10,7 @@ $gameId = (int)$_POST['game'];
 
 // check password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $userId, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $userId, $pwd);
 
 // get the player list from the server
 $sql = "SELECT players FROM games WHERE id='$gameId'";

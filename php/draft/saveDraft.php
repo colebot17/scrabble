@@ -9,9 +9,7 @@ $gameId = (int)$_POST['game'];
 $tiles = json_decode($_POST['tiles'], true);
 
 require "../verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
-    exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd);
 
 // make sure there are actually some tiles
 if (!$tiles || count($tiles) === 0) {

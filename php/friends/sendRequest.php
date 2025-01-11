@@ -10,9 +10,7 @@ $conn = getConn();
 
 // check password
 require "../verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd);
 
 // get id from friend name
 $sql = "SELECT id FROM accounts WHERE name='$friendName'";

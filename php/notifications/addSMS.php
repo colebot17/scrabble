@@ -20,9 +20,7 @@ $conn = getConn();
 
 // check password
 require "../verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd, false)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd, false);
 
 // get the current list
 $sql = "SELECT notificationMethods FROM accounts WHERE id='$user'";

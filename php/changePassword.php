@@ -10,9 +10,7 @@ $conn = getConn();
 
 // check current password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd, false)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd, false);
 
 // validate password
 $pwdValid = strlen($newPwd) >= 8; // pwd must be at least eight characters

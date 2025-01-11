@@ -9,7 +9,7 @@ $conn = getConn();
 
 // check password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $userId, $pwd)) exit('{"errorLevel":2,"message":"Invalid Session"}');
+verifyPassword($conn, $userId, $pwd);
 
 // get the games list
 require "getGamesList.php";

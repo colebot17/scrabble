@@ -10,9 +10,7 @@ $gameId = (int)$_POST['gameId'];
 
 // check password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd);
 
 // make sure the nudge is valid
 require "canNudge.php";
