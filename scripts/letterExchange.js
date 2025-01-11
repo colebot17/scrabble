@@ -121,7 +121,7 @@ function skipTurn() {
 					});
 				} else {
 					// display the exchange/skip confirmation
-					if (letterExchangeIndices.length > 0) {
+					if (letterExchangeIndices.length && res.newLetters.length) {
 						const bank = game.players[game.currentPlayerIndex].letterBank;
 						let diagram = `<div class="flex">`;
 						for (let i = 0; i < letterExchangeIndices.length; i++) {
@@ -136,8 +136,8 @@ function skipTurn() {
 							diagram += `</div>`;
 						}
 						diagram += `</div>&darr;<div class="flex">`;
-						for (let i = 0; i < letterExchangeIndices.length; i++) {
-							const letter = bank[letterExchangeIndices[i]];
+						for (let i = 0; i < res.newLetters.length; i++) {
+							const letter = res.newLetters[i];
 							diagram += `<div class="tile yellowOutline">${letter}`;
 
 							const score = langInfo?.[game.lang]?.letterScores?.[letter];
