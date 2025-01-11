@@ -28,7 +28,7 @@ function exchangeLetters() {
 
 	const letterExchangeButton = document.getElementById('letterExchangeButton');
 	letterExchangeButton.innerText = 'Skip Turn';
-	let bank = game.players[game.currentPlayerIndex].letterBank;
+	const bank = game.players[game.currentPlayerIndex].letterBank;
 	for (let i in canvas.bankOrder) {
 		letterBank.innerHTML += /* html */ `
 			<button class='letter' data-bankindex='${canvas.bankOrder[i]}' aria-pressed='false'>
@@ -122,9 +122,10 @@ function skipTurn() {
 				} else {
 					// display the exchange/skip confirmation
 					if (letterExchangeIndices.length > 0) {
+						const bank = game.players[game.currentPlayerIndex].letterBank;
 						let diagram = `<div class="flex">`;
 						for (let i = 0; i < letterExchangeIndices.length; i++) {
-							const letter = canvas.letterBank[i].letter;
+							const letter = bank[i];
 							diagram += `<div class="tile">${letter}`;
 
 							const score = langInfo?.[game.lang]?.letterScores?.[letter];
@@ -136,7 +137,7 @@ function skipTurn() {
 						}
 						diagram += `</div>&darr;<div class="flex">`;
 						for (let i = 0; i < letterExchangeIndices.length; i++) {
-							const letter = canvas.letterBank[i].letter;
+							const letter = bank[i];
 							diagram += `<div class="tile">${letter}`;
 
 							const score = langInfo?.[game.lang]?.letterScores?.[letter];
