@@ -76,7 +76,7 @@ for ($i=0; $i < count($redrawLetters); $i++) { // for each letter to be redrawn
 	$letter = $longBag[$rand];
 
 	// save this to be sent back
-	$newLetters[] = $letter;
+	$newLetters[] = Array("index" => $redrawLetters[$i], "letter" => $letter);
 
 	// remove drawn letter from bag and long bag
 	$letterBag[$letter]--;

@@ -137,7 +137,7 @@ function skipTurn() {
 						}
 						diagram += `</div>&darr;<div class="flex">`;
 						for (let i = 0; i < res.newLetters.length; i++) {
-							const letter = res.newLetters[i];
+							const letter = res.newLetters[i]["index"];
 							diagram += `<div class="tile yellowOutline">${letter}`;
 
 							const score = langInfo?.[game.lang]?.letterScores?.[letter];
@@ -154,7 +154,11 @@ function skipTurn() {
 						textModal("Turn Skipped", res.message);
 					}
 
-					loadGame(game.id);
+					loadGame(game.id).then(() => {
+						for (let i = 0; i < res.newLetters.length; i++) {
+							canvas.bank[res.newLetters[i]["index"]].highlight = true;
+						}
+					});
 					
 					// update the game in the game list
 					const g = account.games.find(a => a.id === game.id);
