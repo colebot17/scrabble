@@ -249,11 +249,11 @@ body.scrabble {
 }
 .tile .tilePoints {
 	position: absolute;
-	bottom: 0;
-	right: 3px;
+	bottom: -1px;
+	right: 2px;
 	
-	font-size: 0.75rem;
-	line-height: 0.75rem;
+	font-size: 0.6rem;
+	line-height: 0.6rem;
 }
 
 /* account forms */
