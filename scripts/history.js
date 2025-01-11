@@ -86,7 +86,8 @@ function updateMoveHistory(draftWords) {
                 const region = word.pos;
                 tempHighlight(region);
             }, 200);
-        })
+        });
+        if (wasSkipped) moveEl.style.cursor = "normal";
 
         const moveTitle = document.createElement('span');
         moveTitle.className = "moveHistoryMoveTitle";
