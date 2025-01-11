@@ -134,10 +134,6 @@ for ($i = 0; $i < count($letterBag); $i++) {
 // if the letter bank of the current player and the letter bag are both empty,
 if (count($players[$currentPlayerIndex]['letterBank']) === 0 && count($longBag) === 0) {
 	$inactive = 1; // end the game
-
-	// set the endDate
-	$datestamp = date("Y-m-d");
-	$endDate = $datestamp;
 }
 
 // update the points in the player obj
