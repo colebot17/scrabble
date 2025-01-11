@@ -756,6 +756,8 @@ function updateGameInfo() {
 		</div>
 	`;
 
+	let turnIndex = parseInt(game.turn) % game.players.length;
+
 	gameInfo += `<div class="gamePlayerList flex col">`;
 
 	const showBankCounts = game.lettersLeft === 0;
