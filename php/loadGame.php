@@ -103,22 +103,33 @@ for ($i = 0; $i < count($chat); $i++) {
 require "canNudge.php";
 $nudgeEnabled = canNudge($conn, $user, $gameId)[0];
 
+// calculate the winning players
+$winningPoints = 0;
+for ($i = 0; $i < count($players); $i++) {
+	if ($players[$i]["points"] > $winningPoints) $winningPoints = $players[$i]["points"];
+}
+$winnerIndices = Array();
+for ($i = 0; $i < count($players); $i++) {
+	if ($players[$i]["points"] === $winningPoints) $winnerIndices[] = $i;
+}
+
 // put it all together
 $obj = Array(
-	"id"           => (int)$gameId,
-	"name"         => $name,
-	"lang"         => $lang,
-	"lettersLeft"  => (int)$lettersLeft,
-	"players"      => $players,
-	"turn"         => (int)$turn,
-	"inactive"     => $inactive,
-	"board"        => $board,
-	"words"        => $words,
-	"creationDate" => $creationDate,
-	"endDate"      => ($inactive ? $endDate : null),
-	"chat"         => $chat,
-	"updateNumber" => $updateNumber,
-	"nudgeEnabled" => $nudgeEnabled
+	"id"            => (int)$gameId,
+	"name"          => $name,
+	"lang"          => $lang,
+	"lettersLeft"   => (int)$lettersLeft,
+	"players"       => $players,
+	"turn"          => (int)$turn,
+	"inactive"      => $inactive,
+	"board"         => $board,
+	"words"         => $words,
+	"creationDate"  => $creationDate,
+	"endDate"       => ($inactive ? $endDate : null),
+	"chat"          => $chat,
+	"updateNumber"  => $updateNumber,
+	"nudgeEnabled"  => $nudgeEnabled,
+	"winnerIndices" => $winnerIndices
 );
 
 // get the draft
