@@ -226,7 +226,7 @@ function showEndGameScreen(data) {
     }
 
     const message = /* html */ `
-        ${data.reason ? `End Reason: ${endReasons[data.reason] || data.reason}<br><br>` : ``}
+        ${data.reason ? `${endReasons[data.reason] || data.reason}<br><br>` : ``}
         ${data.gameDeleted
             ? `This game was deleted because no players scored any points.`
             : `This game has been archived to the inactive games page.`
