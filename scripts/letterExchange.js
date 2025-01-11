@@ -137,7 +137,7 @@ function skipTurn() {
 						}
 						diagram += `</div>&darr;<div class="flex">`;
 						for (let i = 0; i < res.newLetters.length; i++) {
-							const letter = res.newLetters[i]["index"];
+							const letter = res.newLetters[i]["letter"];
 							diagram += `<div class="tile yellowOutline">${letter}`;
 
 							const score = langInfo?.[game.lang]?.letterScores?.[letter];
