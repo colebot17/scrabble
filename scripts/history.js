@@ -79,7 +79,7 @@ function updateMoveHistory(draftWords) {
         moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow pointer" + (isDraft ? " moveHistoryDraft" : "");
         moveEl.id = "historyEntry" + i;
         moveEl.tabIndex = "0";
-        moveEl.addEventListener('click', () => {
+        if (!wasSkipped) moveEl.addEventListener('click', () => {
             setCanvasPage('canvas');
             setTimeout(() => {
                 const word = move.words[0]; // non-cross words are in the front
