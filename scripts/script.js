@@ -894,7 +894,7 @@ async function makeMove() {
 	await loadGame(game.id, "moveMade");
 
 	// show a confirmation banner
-	const bannerMessage = 'Your move has been made for ' + newPoints + ' point' + (newPoints === 1 ? '' : 's') + '. It\'s <b>' + game.players[game.turn % game.players.length].name + '</b>\'s turn now!';
+	const bannerMessage = 'You made your move for ' + newPoints + ' point' + (newPoints === 1 ? '' : 's') + '. It\'s <b>' + game.players[game.turn % game.players.length].name + '</b>\'s turn now!';
 	gameBanner(bannerMessage, getComputedStyle(document.documentElement).getPropertyValue('--highlight'));
 
 	// highlight new letters in the player's bank
