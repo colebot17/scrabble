@@ -125,7 +125,7 @@ function skipTurn() {
 						const bank = game.players[game.currentPlayerIndex].letterBank;
 						let diagram = `<div class="flex">`;
 						for (let i = 0; i < letterExchangeIndices.length; i++) {
-							const letter = bank[i];
+							const letter = bank[letterExchangeIndices[i]];
 							diagram += `<div class="tile">${letter}`;
 
 							const score = langInfo?.[game.lang]?.letterScores?.[letter];
@@ -137,7 +137,7 @@ function skipTurn() {
 						}
 						diagram += `</div>&darr;<div class="flex">`;
 						for (let i = 0; i < letterExchangeIndices.length; i++) {
-							const letter = bank[i];
+							const letter = bank[letterExchangeIndices[i]];
 							diagram += `<div class="tile yellowOutline">${letter}`;
 
 							const score = langInfo?.[game.lang]?.letterScores?.[letter];
