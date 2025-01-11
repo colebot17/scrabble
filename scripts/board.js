@@ -178,7 +178,10 @@ function setExpandedDropZone(zoneIndex) {
 
 // raw function - be careful
 function animateDropZone(zoneIndex, value) {
-    if (typeof zoneIndex !== "number" || !canvas.dropZones[zoneIndex]) return;
+    if (typeof zoneIndex !== "number" || !canvas.dropZones[zoneIndex]) {
+        console.log("prevented error");
+        return;
+    };
 
     if (zoneIndex == 0) {
         canvas.gapBeforeBankAnimation = new Animation(DROP_ZONE_ANIMATION_TIME, 0, canvas.extraGapBeforeBank, value);
