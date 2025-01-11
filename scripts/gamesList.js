@@ -260,22 +260,16 @@ function inactiveGameLI(game) {
 function playerList(game) {
     let turnIndex = parseInt(game.turn) % game.players.length;
 
-    // find the winning point number
-    let winningPoints = 1;
-    for (let i = 0; i < game.players.length; i++) {
-        if (game.players[i].points > winningPoints) {
-            winningPoints = game.players[i].points;
-        }
-    }
-
     // player list
     let html = ``;
     for (let i = 0; i < game.players.length; i++) {
         const player = game.players[i];
 
+        const isWinner = game.winnerIndices.includes(game.players[i].id);
+
         html += /* html */ `
             <div class="listGamePlayerListPlayer">
-                ${player.points === winningPoints ? `<span class='material-symbols-rounded winnerIcon'>trophy</span>` : ``}
+                ${isWinner ? `<span class='material-symbols-rounded winnerIcon'>trophy</span>` : ``}
                 <span>
                     <b>${i === turnIndex && !game.inactive ? '<u>' : ''}${player.name}${i === turnIndex && !game.inactive ? '</u>' : ''}</b>: ${player.points}
                 </span>
