@@ -756,20 +756,13 @@ function updateGameInfo() {
 		</div>
 	`;
 
-	// calculate the winning player
-	let turnIndex = parseInt(game.turn) % game.players.length;
-	let winningPoints = 1;
-	for (let i in game.players) {
-		winningPoints = Math.max(winningPoints, game.players[i].points);
-	}
-
 	gameInfo += `<div class="gamePlayerList flex col">`;
 
 	const showBankCounts = game.lettersLeft === 0;
 
 	// add each player to the player list
-	for (let i in game.players) {
-		let isWinner = game.players[i].points == winningPoints;
+	for (let i = 0; i < game.players.length; i++) {
+		let isWinner = game.winnerIndices.includes(i);
 		let isTurn = turnIndex == i;
 		let isCurrentPlayer = game.players[i].id == account.id;
 		let endGameVoted = game.players[i].endGameRequest;
