@@ -481,7 +481,7 @@ function drawLetterBank() {
 	// update the drop zones (all at once to prevent edge case where user clicks while drop zones are empty)
 	canvas.dropZones = newDropZones;
 
-	/* // draw drop zones for testing
+	// draw drop zones for testing
 	for (let i in canvas.dropZones) {
 		const x = canvas.dropZones[i].start.x;
 		const y = canvas.dropZones[i].start.y;
@@ -494,7 +494,7 @@ function drawLetterBank() {
 		canvas.ctx.strokeStyle = "#0000FF99";
 		canvas.ctx.lineWidth = 1;
 		canvas.ctx.strokeRect(x, y, width, height);
-	} */
+	}
 }
 
 function updateTile(tile) {
