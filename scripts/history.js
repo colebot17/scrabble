@@ -50,6 +50,8 @@ function getMovesArr(g) {
         if (!moves[w.turn]) continue; // ignore words with invalid turns
         moves[w.turn].addWord(w);
     }
+
+    return moves;
 }
 
 function updateMoveHistory(draftWords) {
@@ -70,7 +72,7 @@ function updateMoveHistory(draftWords) {
         const move = moves[i];
 
         const wasSkipped = move.wasSkipped();
-        const isDraft = !isSkipped && !!move.isDraft;
+        const isDraft = !wasSkipped && !!move.isDraft;
 
         const moveEl = document.createElement('div');
         moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow pointer" + (isDraft ? " moveHistoryDraft" : "");
@@ -97,7 +99,7 @@ function updateMoveHistory(draftWords) {
         const wordsEl = document.createElement('div');
         wordsEl.className = "flex col fullHeight gap2";
 
-        if (!isSkipped) {
+        if (!wasSkipped) {
             const words = move.words;
             for (let j = 0; j < words.length; j++) {
                 const word = words[j];
