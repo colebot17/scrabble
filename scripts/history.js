@@ -62,6 +62,7 @@ function updateMoveHistory(draftWords) {
     if (draftWords) {
         const draft = new Move(game.turn, game.players[game.turn % game.players.length], true);
         for (let i = 0; i < draftWords.length; i++) draft.addWord(draftWords[i]);
+        moves[game.turn] = draft;
     }
 
     const historyEl = document.getElementById('historyContents');
