@@ -92,7 +92,7 @@ function updateMoveHistory(draftWords) {
         moveTitle.innerHTML = /* html */ `
             <span class="finePrint">${isDraft ? `Draft` : `Turn ${i}`}</span>
             <br>
-            <span>${move ? move.playerName : game.players[i % game.players.length].name}</span>
+            <span>${move ? move.player.name : game.players[i % game.players.length].name}</span>
         `;
         moveEl.appendChild(moveTitle);
         
