@@ -28,7 +28,7 @@ function exchangeLetters() {
 
 	const letterExchangeButton = document.getElementById('letterExchangeButton');
 	letterExchangeButton.innerText = 'Skip Turn';
-	let bank = game.players[parseInt(game.turn) % game.players.length].letterBank;
+	let bank = game.players[game.currentPlayerIndex].letterBank;
 	for (let i in canvas.bankOrder) {
 		letterBank.innerHTML += /* html */ `
 			<button class='letter' data-bankindex='${canvas.bankOrder[i]}' aria-pressed='false'>
@@ -75,7 +75,6 @@ function exchangeLetters() {
 }
 
 function skipTurn() {
-
 	let letterExchangeEls = document.querySelectorAll("#letterExchangeBank [aria-pressed=true]");
 
 	let letterExchangeIndices = [];
@@ -121,35 +120,38 @@ function skipTurn() {
 						winnerIndices: winds
 					});
 				} else {
-					// display the exchange confirmation
-					
-					let diagram = `<div class="flex">`;
-					for (let i = 0; i < letterExchangeIndices.length; i++) {
-						const letter = game.players[game.currentPlayer];
-						diagram += `<div class="tile">${letter}`;
+					// display the exchange/skip confirmation
+					if (letterExchangeIndices > 0) {
+						let diagram = `<div class="flex">`;
+						for (let i = 0; i < letterExchangeIndices.length; i++) {
+							const letter = canvas.letterBank[i].letter;
+							diagram += `<div class="tile">${letter}`;
 
-						const score = langInfo?.[game.lang]?.letterScores?.[letter];
-						if (score) {
-							diagram += `<div class="tilePoints">${score}</div>`;
+							const score = langInfo?.[game.lang]?.letterScores?.[letter];
+							if (score) {
+								diagram += `<div class="tilePoints">${score}</div>`;
+							}
+
+							diagram += `</div>`;
 						}
+						diagram += `</div>&darr;<div class="flex">`;
+						for (let i = 0; i < letterExchangeIndices.length; i++) {
+							const letter = canvas.letterBank[i].letter;
+							diagram += `<div class="tile">${letter}`;
 
-						diagram += `</div>`;
-					}
-					diagram += `</div>&rarr;<div class="flex">`;
-					for (let i = 0; i < letterExchangeIndices.length; i++) {
-						const letter = game.players[game.currentPlayer];
-						diagram += `<div class="tile">${letter}`;
+							const score = langInfo?.[game.lang]?.letterScores?.[letter];
+							if (score) {
+								diagram += `<div class="tilePoints">${score}</div>`;
+							}
 
-						const score = langInfo?.[game.lang]?.letterScores?.[letter];
-						if (score) {
-							diagram += `<div class="tilePoints">${score}</div>`;
+							diagram += `</div>`;
 						}
-
 						diagram += `</div>`;
-					}
-					diagram += `</div>`;
 
-					textModal("Turn Skipped", res.message + `<br><br>` + diagram);
+						textModal("Letters Exchanged", res.message + `<br><br>` + diagram);
+					} else {
+						textModal("Turn Skipped", res.message);
+					}
 
 					loadGame(game.id);
 					
