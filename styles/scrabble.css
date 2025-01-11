@@ -246,7 +246,7 @@ body.scrabble {
 
 	background-color: var(--background-2);
 	box-shadow: 0 0 5px var(--text-color-light);
-	border-radius: 10px;
+	border-radius: 20px;
 
 	padding: 20px 10px 10px 10px;
 }
