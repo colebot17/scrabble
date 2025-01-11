@@ -255,6 +255,10 @@ body.scrabble {
 	font-size: 0.6rem;
 	line-height: 0.6rem;
 }
+.tile.yellowOutline {
+    outline: 0.15rem solid var(--text-highlight);
+    outline-offset: -0.075rem;
+}
 
 /* account forms */
 .accountFormTitle h3, .titleLine h3 {
