@@ -123,6 +123,7 @@ function skipTurn() {
 					// display the exchange/skip confirmation
 					const exchangedAny = letterExchangeIndices.length && res.newLetters.length;
 					const exchangedPlural = letterExchangeIndices.length !== 1;
+					const multiLineDiagram = letterExchangeIndices.length > 2;
 					if (exchangedAny) {
 						const bank = game.players[game.currentPlayerIndex].letterBank;
 						let diagram = `<div class="flex">`;
@@ -137,8 +138,8 @@ function skipTurn() {
 
 							diagram += `</div>`;
 						}
-						if (exchangedPlural) diagram += `</div>&darr;<div class="flex">`;
-						else                 diagram += `<span>&rarr;</span>`; // show single-letter exchange inline
+						if (multiLineDiagram) diagram += `</div>&darr;<div class="flex">`;
+						else                  diagram += `<span>&rarr;</span>`; // show small exchange inline
 						for (let i = 0; i < res.newLetters.length; i++) {
 							const letter = res.newLetters[i]["letter"];
 							diagram += `<div class="tile yellowOutline">${letter}`;
