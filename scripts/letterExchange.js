@@ -122,6 +122,7 @@ function skipTurn() {
 				} else {
 					// display the exchange/skip confirmation
 					const exchangedAny = letterExchangeIndices.length && res.newLetters.length;
+					const exchangedPlural = letterExchangeIndices.length !== 1;
 					if (exchangedAny) {
 						const bank = game.players[game.currentPlayerIndex].letterBank;
 						let diagram = `<div class="flex">`;
@@ -150,13 +151,13 @@ function skipTurn() {
 						}
 						diagram += `</div>`;
 
-						textModal("Letters Exchanged", res.message + `<br><br>` + diagram);
+						textModal(`Letter${exchangedPlural?'s':''} Exchanged`, res.message + `<br><br>` + diagram);
 					} else {
 						textModal("Turn Skipped", res.message);
 					}
 
 					loadGame(game.id).then(() => {
-						const bannerMessage = 'You have ' + (exchangedAny ? 'exchanged your letters' : 'skipped your turn') + '. It\'s <b>' + game.players[game.turn % game.players.length].name + '</b>\'s turn now!';
+						const bannerMessage = 'You have ' + (exchangedAny ? ('exchanged your letter' + (exchangedPlural?'s':'')) : 'skipped your turn') + '. It\'s <b>' + game.players[game.turn % game.players.length].name + '</b>\'s turn now!';
 						gameBanner(bannerMessage, getComputedStyle(document.documentElement).getPropertyValue('--highlight'));
 						
 						for (let i = 0; i < res.newLetters.length; i++) {
