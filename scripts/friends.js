@@ -20,7 +20,7 @@ function updateFriendsList(friends) {
                     </span>
                 </button>
                 <div class="friendNameContainer flex col">
-                    <span class="friendName">
+                    <span class="friendName ellipsis fullWidthLimit">
                         ${friend.name}
                     </span>
                     <span class="finePrint friendInfo">
