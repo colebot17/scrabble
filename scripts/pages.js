@@ -45,6 +45,11 @@ function setSignInMode(mode) {
 		mode = backButtonKey[currentMode];
 	}
 
+	if (mode === 'accountSwitcher' && account.temporaryAccount) {
+		textModal("Error", "You cannot perform this action from this account.")
+		return;
+	}
+
 	$signInCell.off();
 	$('#signInCell .accountForm').addClass('hidden');
 	const action = $('#signInCell #' + mode + 'Form').removeClass('hidden').attr('data-action');
