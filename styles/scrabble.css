@@ -608,6 +608,10 @@ body.scrabble {
 	margin-right: 5px;
 	text-align: start;
 }
+.friendName {
+	text-overflow: ellipsis;
+	max-width: 100%;
+}
 .friendRecord {
 	align-items: flex-end;
 	padding: 0 5px;
