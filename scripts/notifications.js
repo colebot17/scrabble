@@ -168,6 +168,7 @@ async function addSMSNotificationMethod() {
 
     if (res.errorLevel > 0) {
         textModal("Error", res.message);
+        return;
     }
 
     account.notificationMethods.push({

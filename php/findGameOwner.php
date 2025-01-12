@@ -21,7 +21,7 @@ for ($i = 0; $i < count($accounts); $i++) {
     $row = mysqli_fetch_assoc($query);
     if (!$row) continue;
     $games = json_decode($row['games'], true);
-    if (verifyPassword($conn, $row['id'], $accounts[$i]["pwd"])) {
+    if (verifyPassword($conn, $row['id'], $accounts[$i]["pwd"], true, false)) {
         if (in_array($gameId, $games)) {
             $owners[] = Array("index" => $i, "id" => (int)$row['id']);
         }

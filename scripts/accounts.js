@@ -230,7 +230,7 @@ function signOut(confirm = true, saveAccount = false) {
 		if (!saveAccount && localStorage.savedAccounts) {
 			const savedAccounts = JSON.parse(localStorage.savedAccounts);
 			const index = savedAccounts.findIndex(a => a.name === account.name);
-			removeSavedAccount(index, false);
+			if (index >= 0) removeSavedAccount(index, false);
 		}
 
 		// remove name and password from storage

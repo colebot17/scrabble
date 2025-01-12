@@ -13,9 +13,7 @@ $conn = getConn();
 
 // check password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd);
 
 // get the current tutorials list
 $sql = "SELECT tutorials FROM accounts WHERE id='$user'";

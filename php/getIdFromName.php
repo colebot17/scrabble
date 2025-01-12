@@ -10,9 +10,7 @@ $conn = getConn();
 
 // check password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd);
 
 $sql = "SELECT id, name FROM accounts WHERE name='$name'";
 $query = mysqli_query($conn, $sql);

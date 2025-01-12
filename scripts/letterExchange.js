@@ -87,7 +87,7 @@ function skipTurn() {
 	textModal(
 		`Skip Turn${num > 0 ? ` and Exchange Letter${num === 1 ? `` : `s`}` : ``}`,
 		`Are you sure you want to ${num > 0 ? `exchange ${num >= 7 ? `all ` : ``}${num} letter${num === 1 ? `` : `s`} and ` : ``}forfeit your turn?`
-		+ (game.lettersLeft <= 0 ? "<br><br>You cannot exchange any letters since there are no letters left in the bag." : ""),
+		+ (game.lettersLeft <= 0 ? "<br><br>You cannot exchange since the letter bag is empty." : ""),
 		{
 			cancelable: true,
 			complete: async () => {
@@ -122,6 +122,7 @@ function skipTurn() {
 				} else {
 					// display the exchange/skip confirmation
 					const exchangedAny = letterExchangeIndices.length && res.newLetters.length;
+					const exchangedPlural = letterExchangeIndices.length !== 1;
 					if (exchangedAny) {
 						const bank = game.players[game.currentPlayerIndex].letterBank;
 						let diagram = `<div class="flex">`;
@@ -136,7 +137,8 @@ function skipTurn() {
 
 							diagram += `</div>`;
 						}
-						diagram += `</div>&darr;<div class="flex">`;
+						if (exchangedPlural) diagram += `</div>&darr;<div class="flex">`;
+						else                 diagram += `<span>&rarr;</span>`; // show single-letter exchange inline
 						for (let i = 0; i < res.newLetters.length; i++) {
 							const letter = res.newLetters[i]["letter"];
 							diagram += `<div class="tile yellowOutline">${letter}`;
@@ -150,13 +152,13 @@ function skipTurn() {
 						}
 						diagram += `</div>`;
 
-						textModal("Letters Exchanged", res.message + `<br><br>` + diagram);
+						textModal(`Letter${exchangedPlural?'s':''} Exchanged`, res.message + `<br><br>` + diagram);
 					} else {
 						textModal("Turn Skipped", res.message);
 					}
 
 					loadGame(game.id).then(() => {
-						const bannerMessage = 'You have ' + (exchangedAny ? 'exchanged your letters' : 'skipped your turn') + '. It\'s <b>' + game.players[game.turn % game.players.length].name + '</b>\'s turn now!';
+						const bannerMessage = 'You have ' + (exchangedAny ? ('exchanged your letter' + (exchangedPlural?'s':'')) : 'skipped your turn') + '. It\'s <b>' + game.players[game.turn % game.players.length].name + '</b>\'s turn now!';
 						gameBanner(bannerMessage, getComputedStyle(document.documentElement).getPropertyValue('--highlight'));
 						
 						for (let i = 0; i < res.newLetters.length; i++) {

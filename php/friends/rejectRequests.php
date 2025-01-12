@@ -10,9 +10,7 @@ $conn = getConn();
 
 // check password
 require "../verifyPassword.php";
-if (!verifyPassword($conn, $userId, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $userId, $pwd);
 
 // get requests list
 $sql = "SELECT requests FROM accounts WHERE id='$userId'";

@@ -10,9 +10,7 @@ $newDefaultLang = $_POST['newDefaultLang'];
 
 // check password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd, false);
 
 $sql = "UPDATE accounts SET defaultLang='$newDefaultLang' WHERE id='$user'";
 $query = mysqli_query($conn, $sql);

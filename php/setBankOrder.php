@@ -11,9 +11,7 @@ $bankOrder = json_decode($_POST['bankOrder'], true);
 
 // check password
 require "verifyPassword.php";
-if (!verifyPassword($conn, $user, $pwd)) {
-	exit('{"errorLevel":2,"message":"Invalid Session"}');
-}
+verifyPassword($conn, $user, $pwd);
 
 // make sure the game is active
 $sql = "SELECT inactive FROM games WHERE id='$game'";
