@@ -137,7 +137,8 @@ function skipTurn() {
 
 							diagram += `</div>`;
 						}
-						diagram += `</div>&darr;<div class="flex">`;
+						if (exchangedPlural) diagram += `</div>&darr;<div class="flex">`;
+						else                 diagram += `<span>&rarr;</span>`; // show single-letter exchange inline
 						for (let i = 0; i < res.newLetters.length; i++) {
 							const letter = res.newLetters[i]["letter"];
 							diagram += `<div class="tile yellowOutline">${letter}`;
