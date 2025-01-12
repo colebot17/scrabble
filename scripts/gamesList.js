@@ -265,7 +265,7 @@ function playerList(game) {
     for (let i = 0; i < game.players.length; i++) {
         const player = game.players[i];
 
-        const isWinner = game.winnerIndices.includes(game.players[i].id);
+        const isWinner = game.winnerIndices.includes(i);
 
         html += /* html */ `
             <div class="listGamePlayerListPlayer">
