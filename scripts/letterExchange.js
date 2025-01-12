@@ -87,7 +87,7 @@ function skipTurn() {
 	textModal(
 		`Skip Turn${num > 0 ? ` and Exchange Letter${num === 1 ? `` : `s`}` : ``}`,
 		`Are you sure you want to ${num > 0 ? `exchange ${num >= 7 ? `all ` : ``}${num} letter${num === 1 ? `` : `s`} and ` : ``}forfeit your turn?`
-		+ (game.lettersLeft <= 0 ? "<br><br>There are no letters left in the bag to exchange for." : ""),
+		+ (game.lettersLeft <= 0 ? "<br><br>You cannot exchange since the letter bag is empty." : ""),
 		{
 			cancelable: true,
 			complete: async () => {
