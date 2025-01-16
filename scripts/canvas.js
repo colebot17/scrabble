@@ -14,6 +14,7 @@ const GRADIENT_PADDING = 0.2;
 var squareWidth;
 
 function canvasInit() {
+	canvas.destruct = false;
 	canvas.c = document.getElementById("scrabbleCanvas");
 	canvas.ctx = canvas.c.getContext('2d');
 
