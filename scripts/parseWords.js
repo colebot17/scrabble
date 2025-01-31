@@ -24,8 +24,14 @@ export async function parseWords(g) {
 
     // check word validity
     for (let i = 0; i < words.length; i++) {
-        alert(words[i].word.toLowerCase());
-        if (!dict.includes(words[i].word.toLowerCase())) {
+        let word = words[i].word;
+        if (lInfo?.letterReplacements) {
+            repls = lInfo.letterReplacements;
+            for (let i in repls) {
+                word.replaceAll(i, repls[i]);
+            }
+        }
+        if (!dict.includes(word.toLowerCase())) {
             return false;
         }
     }

@@ -15,7 +15,7 @@ import {
     getUnlockedTiles as getUnlockedTiles_,
     checkConnectedness as checkConnectedness_,
     lazyLoadInfo as lazyLoadInfo_
-} from "./parseWords.js?v=3";
+} from "./parseWords.js";
 window.parseWords = parseWords_;
 window.getUnlockedTiles = getUnlockedTiles_;
 window.checkConnectedness = checkConnectedness_;
