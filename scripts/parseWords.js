@@ -25,12 +25,15 @@ export async function parseWords(g) {
     // check word validity
     for (let i = 0; i < words.length; i++) {
         let word = words[i].word;
+        console.log(word);
         if (lInfo?.letterReplacements) {
             repls = lInfo.letterReplacements;
             for (let i in repls) {
                 word.replaceAll(i, repls[i]);
+                console.log("REPLACING", i, "->", repls[i]);
             }
         }
+        console.log(word);
         if (!dict.includes(word.toLowerCase())) {
             return false;
         }
