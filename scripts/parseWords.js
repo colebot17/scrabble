@@ -25,9 +25,10 @@ export async function parseWords(g) {
     // check word validity
     for (let i = 0; i < words.length; i++) {
         let word = words[i].word;
-        console.log(word);
+        console.log(word, lInfo);
         if (lInfo?.letterReplacements) {
             repls = lInfo.letterReplacements;
+            console.log(repls);
             for (let i in repls) {
                 word.replaceAll(i, repls[i]);
                 console.log("REPLACING", i, "->", repls[i]);
