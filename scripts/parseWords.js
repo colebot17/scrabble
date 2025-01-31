@@ -24,7 +24,7 @@ export async function parseWords(g) {
 
     // check word validity
     for (let i = 0; i < words.length; i++) {
-        textModal(word, "is the word");
+        alert(word);
         if (!dict.includes(words[i].word.toLowerCase())) {
             return false;
         }
