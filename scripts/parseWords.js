@@ -203,7 +203,7 @@ async function lazyLoadBoardInfo() {
 async function lazyLoadLangInfo(lang) {
     if (langInfo) return langInfo[lang];
 
-    const res = await fetch('../resources/languages.json');
+    const res = await fetch('../resources/languages.json?v=1');
     if (!res.ok) {
         throw new Error("HTTP Error: " + res.status);
     }

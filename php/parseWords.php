@@ -408,7 +408,16 @@ function parseWords($gameId, $tiles, $user) {
 
     // check word validity
     for ($i=0; $i < count($words); $i++) { 
-        if (!in_array(strtolower($words[$i]["word"]), $dictionary["words"])) {
+        $word = $words[$i]["word"];
+        if (array_key_exists("letterReplacements", $langInfo)) {
+            $repls = $langInfo["letterReplacements"];
+            $replKeys = array_keys($repls);
+            $replVals = array_values($repls);
+            for ($i = 0; $i < count($repls); $i++) {
+                $word = str_replace($replKeys[$i], $replVals[$i], $word);
+            }
+        }
+        if (!in_array(strtolower($word), $dictionary["words"])) {
             return '{"errorLevel":1,"message":"All words must be valid.","data":' . json_encode($words) . '}';
         }
     }
