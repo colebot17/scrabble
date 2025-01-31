@@ -27,7 +27,7 @@ export async function parseWords(g) {
         let word = words[i].word;
         console.log(word, lInfo);
         if (lInfo?.letterReplacements) {
-            repls = lInfo.letterReplacements;
+            let repls = lInfo.letterReplacements;
             console.log(repls);
             for (let i in repls) {
                 word.replaceAll(i, repls[i]);
