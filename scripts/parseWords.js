@@ -30,7 +30,7 @@ export async function parseWords(g) {
             let repls = lInfo.letterReplacements;
             console.log(repls);
             for (let i in repls) {
-                word.replaceAll(i, repls[i]);
+                word = word.replaceAll(i, repls[i]);
                 console.log("REPLACING", i, "->", repls[i]);
             }
         }
