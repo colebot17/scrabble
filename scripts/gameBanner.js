@@ -1,4 +1,4 @@
-import { autoContrast } from "//www.colebot.com/colors.js";
+import { autoContrast } from "https://www.colebot.com/colors.js";
 
 export async function gameBanner(content, color, temp = false) {
 	const wrapper = document.getElementById('gameBannerWrapper');
