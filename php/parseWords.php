@@ -413,7 +413,8 @@ function parseWords($gameId, $tiles, $user) {
             $repls = $langInfo["letterReplacements"];
             $word = strtr($word, $repls);
         }
-        if (!in_array(strtolower($word), $dictionary["words"])) {
+        // mb_strtolower handles special language characters
+        if (!in_array(mb_strtolower($word), $dictionary["words"])) {
             return '{"errorLevel":1,"message":"All words must be valid.","data":' . json_encode($words) . '}';
         }
     }
