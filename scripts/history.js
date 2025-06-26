@@ -26,7 +26,7 @@ class Move {
      */
     addWord(word) {
         if (word.cross) this.words.push(word);
-        else            this.words.unshift(word);
+        else this.words.unshift(word);
 
         this.points += word.points || 0;
     }
@@ -41,7 +41,7 @@ function getMovesArr(g) {
     let moves = new Array(g.turn);
     for (let i = 0; i < game.turn + (game.inactive ? 1 : 0); i++) {
         const p = game.players[i % game.players.length];
-        moves[i] = new Move(i, new Player(p.id, p.name), i === game.turn);
+        moves[i] = new Move(i, new Player(p.id, p.name), i === game.turn && !game.inactive);
     }
 
     // sort the words into their respective moves
@@ -97,7 +97,7 @@ function updateMoveHistory(draftWords) {
             <span>${move ? move.player.name : game.players[i % game.players.length].name}</span>
         `;
         moveEl.appendChild(moveTitle);
-        
+
         const wordsEl = document.createElement('div');
         wordsEl.className = "flex col fullHeight gap2";
 

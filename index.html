@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html data-theme="default">
+
 <head>
 	<!-- meta stuff -->
 	<meta charset="utf-8">
@@ -25,26 +26,38 @@
 	<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
 
 	<!-- import material symbols -->
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 	<!-- import the tab icon -->
-	<link rel="icon" type="image/x-icon" href="favicon.ico">  
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-MKX80G4261"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+	window.dataLayer = window.dataLayer || [];
+	function gtag() { dataLayer.push(arguments); }
+	gtag('js', new Date());
 
-  gtag('config', 'G-MKX80G4261');
+	gtag('config', 'G-MKX80G4261');
 </script>
+
 <body class="scrabble">
 	<div class="grid" id="scrabbleGrid" data-tab="home" data-signedin="none">
 		<div id="welcomeCell" class="gridCell">
-			<div class="scrabbleLogo"><div class="slLetter" id="slLetter1">S</div><div class="slLetter" id="slLetter2">C</div><div class="slLetter" id="slLetter3">R</div><div class="slLetter" id="slLetter4">A</div><div class="slLetter" id="slLetter5">B</div><div class="slLetter" id="slLetter6">B</div><div class="slLetter" id="slLetter7">L</div><div class="slLetter" id="slLetter8">E</div></div>
+			<div class="scrabbleLogo">
+				<div class="slLetter" id="slLetter1">S</div>
+				<div class="slLetter" id="slLetter2">C</div>
+				<div class="slLetter" id="slLetter3">R</div>
+				<div class="slLetter" id="slLetter4">A</div>
+				<div class="slLetter" id="slLetter5">B</div>
+				<div class="slLetter" id="slLetter6">B</div>
+				<div class="slLetter" id="slLetter7">L</div>
+				<div class="slLetter" id="slLetter8">E</div>
+			</div>
 			<h3 class="hiddenWhileLoading" id="welcomeTagline">Play with your friends on your own schedule</h3>
-			<span class="material-symbols-rounded invisible" style="position:fixed;top:0;left:0;">home</span> <!-- This ensures that material symbols loads immediately rather than waiting until sign in completes -->
+			<span class="material-symbols-rounded invisible" style="position:fixed;top:0;left:0;">home</span>
+			<!-- This ensures that material symbols loads immediately rather than waiting until sign in completes -->
 			<button id="demoButton" class="highlight hiddenWhileLoading">VIEW DEMO</button>
 		</div>
 
@@ -120,13 +133,8 @@
 				Could not load chat
 			</div>
 			<div class="chatControls">
-				<textarea
-					name="chatInput"
-					id="chatInput"
-					class="chatInput"
-					placeholder="Send a message..."
-					onkeypress="if (event.key === 'Enter' && !event.shiftKey) {event.preventDefault();sendChatMessage()}"
-				></textarea>
+				<textarea name="chatInput" id="chatInput" class="chatInput" placeholder="Send a message..."
+					onkeypress="if (event.key === 'Enter' && !event.shiftKey) {event.preventDefault();sendChatMessage()}"></textarea>
 				<button class="chatSendButton iconButton" onclick="sendChatMessage()">
 					<span class="material-symbols-rounded">send</span>
 				</button>
@@ -150,7 +158,8 @@
 						<span class="material-symbols-rounded">chevron_left</span>
 					</button>
 					<h3>Move History</h3>
-					<button id="playMoveAnimationButton" class="iconButton" onclick="setCanvasPage('canvas');animateMoves();" title="Play Animation">
+					<button id="playMoveAnimationButton" class="iconButton"
+						onclick="setCanvasPage('canvas');animateMoves();" title="Play Animation">
 						<span class="material-symbols-rounded">play_arrow</span>
 					</button>
 					<button id="showGraphButton" class="iconButton" onclick="setCanvasPage('graph')">
@@ -168,7 +177,8 @@
 				</div>
 				<div id="graphUnavailableMessage">
 					<h4>Not enough data</h4>
-					<p>There isn't enough data in this game to show a graph. Come back after a few moves to see point trends.</p>
+					<p>There isn't enough data in this game to show a graph. Come back after a few moves to see point
+						trends.</p>
 				</div>
 				<div id="graphWrapper" class="fullWidth fullHeight">
 					<canvas id="graphCanvas">
@@ -182,7 +192,8 @@
 			<div class="gamesListBox" id="activeGames">
 				<div class="gamesListHeader">
 					<div class="flex">
-						<button class="iconButton" id="viewInactiveGamesButton" onclick="setGamesList('inactive')" title="Inactive Games">
+						<button class="iconButton" id="viewInactiveGamesButton" onclick="setGamesList('inactive')"
+							title="Inactive Games">
 							<span class="material-symbols-rounded">inventory_2</span>
 						</button>
 					</div>
@@ -198,13 +209,16 @@
 				</div>
 				<span id="activeGamesListMessage">Please create an account or sign in.</span>
 				<div class="gamesListWrapper">
-					<div class="gamesList scrolledTop" id="activeGamesList" onscroll="if (this.scrollTop < 0.1) {this.classList.add('scrolledTop')} else {this.classList.remove('scrolledTop')}"></div>
+					<div class="gamesList scrolledTop" id="activeGamesList"
+						onscroll="if (this.scrollTop < 0.1) {this.classList.add('scrolledTop')} else {this.classList.remove('scrolledTop')}">
+					</div>
 				</div>
 			</div>
 			<div class="gamesListBox hidden" id="inactiveGames">
 				<div class="gamesListHeader">
 					<div class="flex">
-						<button class="iconButton" id="activeGamesButton" onclick="setGamesList('active')" title="Active Games">
+						<button class="iconButton" id="activeGamesButton" onclick="setGamesList('active')"
+							title="Active Games">
 							<span class="material-symbols-rounded">home</span>
 						</button>
 					</div>
@@ -218,7 +232,9 @@
 				</div>
 				<span id="inactiveGamesListMessage">Please create an account or sign in.</span>
 				<div class="gamesListWrapper">
-					<div class="gamesList scrolledTop" id="inactiveGamesList" onscroll="if (this.scrollTop < 0.1) {this.classList.add('scrolledTop')} else {this.classList.remove('scrolledTop')}"></div>
+					<div class="gamesList scrolledTop" id="inactiveGamesList"
+						onscroll="if (this.scrollTop < 0.1) {this.classList.add('scrolledTop')} else {this.classList.remove('scrolledTop')}">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -232,40 +248,48 @@
 					<h3>Sign In</h3>
 				</div>
 				<label for="signInUsername">Username:</label>
-				<input class="accountFormInput" autocomplete="username" type="text" name="username" id="signInUsername"><br>
+				<input class="accountFormInput" autocomplete="username" type="text" name="username"
+					id="signInUsername"><br>
 
 				<label for="signInPwd">Password:</label>
 				<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="signInPwd"><br>
 
 				<button id="signInSubmitButton" type="submit" onclick="signIn()">Sign In</button>
 				<!-- <br> -->
-				<a id="createAccountModeButton" onclick="setSignInMode('createAccount')" class="hoverLine small">Create Account</a>
+				<a id="createAccountModeButton" onclick="setSignInMode('createAccount')" class="hoverLine small">Create
+					Account</a>
 				<!-- –
 				<a onclick="setSignInMode('resetPassword')" class="hoverLine small">Forgot Password?</a> -->
 			</form>
-			
-			<form class="hidden accountForm" id="createAccountForm" data-action="createAccount" onsubmit="return false;">
+
+			<form class="hidden accountForm" id="createAccountForm" data-action="createAccount"
+				onsubmit="return false;">
 				<h3 class="accountFormTitle">Create Account</h3>
 				<label for="createAccountUsername">Username:</label>
-				<input class="accountFormInput" autocomplete="username" type="text" name="username" id="createAccountUsername" oninput="emailAddressCheck()"><br>
+				<input class="accountFormInput" autocomplete="username" type="text" name="username"
+					id="createAccountUsername" oninput="emailAddressCheck()"><br>
 
 				<div id="emailAddressWarning" class="hidden">
 					<span>
-						It looks like you entered an email address. This site doesn't collect your email address, so you can pick any username you'd like.
+						It looks like you entered an email address. This site doesn't collect your email address, so you
+						can pick any username you'd like.
 					</span>
 				</div>
 
 				<label for="createAccountPwd">Password:</label>
-				<input class="accountFormInput" autocomplete="new-password" type="password" name="pwd" id="createAccountPwd"><br>
+				<input class="accountFormInput" autocomplete="new-password" type="password" name="pwd"
+					id="createAccountPwd"><br>
 
 				<label for="createAccountConfirmPwd">Confirm Password:</label>
-				<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd" id="createAccountConfirmPwd"><br>
+				<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmPwd"
+					id="createAccountConfirmPwd"><br>
 
 				<button type="submit" onclick="createAccount()">Create Account</button>
 				<a onclick="setSignInMode('signIn')" class="hoverLine small">Sign In</a>
 			</form>
 
-			<form class="hidden accountForm" id="changePasswordForm" data-action="changePassword" onsubmit="return false;">
+			<form class="hidden accountForm" id="changePasswordForm" data-action="changePassword"
+				onsubmit="return false;">
 				<div class="flex accountFormTitle">
 					<button class="iconButton" onclick="setSignInMode('settings')">
 						<span class="material-symbols-rounded smallIcon">chevron_left</span>
@@ -274,13 +298,16 @@
 				</div>
 
 				<label for="changePasswordPwd">Current Password:</label>
-				<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="changePasswordPwd"><br>
+				<input class="accountFormInput" autocomplete="password" type="password" name="pwd"
+					id="changePasswordPwd"><br>
 
 				<label for="changePasswordNewPwd">New Password:</label>
-				<input class="accountFormInput" autocomplete="new-password" type="password" name="newPwd" id="changePasswordNewPwd"><br>
+				<input class="accountFormInput" autocomplete="new-password" type="password" name="newPwd"
+					id="changePasswordNewPwd"><br>
 
 				<label for="changePasswordConfirmNewPwd">Confirm New Password:</label>
-				<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmNewPwd" id="changePasswordConfirmNewPwd"><br>
+				<input class="accountFormInput" autocomplete="new-password" type="password" name="confirmNewPwd"
+					id="changePasswordConfirmNewPwd"><br>
 
 				<button type="submit" onclick="changePassword()">Change Password</button>
 				<!-- <br>
@@ -288,7 +315,8 @@
 				<span class="finePrint">Email <a class="underline hoverDarken" href="mailto:colebot17@gmail.com?subject=Reset%20my%20Password">colebot17@gmail.com</a> if you don't know your current password.</span> -->
 			</form>
 
-			<form class="hidden accountForm" id="changeUsernameForm" data-action="changeUsername" onsubmit="return false;">
+			<form class="hidden accountForm" id="changeUsernameForm" data-action="changeUsername"
+				onsubmit="return false;">
 				<div class="flex accountFormTitle">
 					<button class="iconButton" onclick="setSignInMode('settings')">
 						<span class="material-symbols-rounded smallIcon">chevron_left</span>
@@ -297,10 +325,12 @@
 				</div>
 
 				<label for="changeUsernameNewName">New Username:</label>
-				<input class="accountFormInput" autocomplete="username" type="text" name="newName" id="changeUsernameNewName"><br>
+				<input class="accountFormInput" autocomplete="username" type="text" name="newName"
+					id="changeUsernameNewName"><br>
 
 				<label for="changeUsernamePwd">Password:</label>
-				<input class="accountFormInput" autocomplete="password" type="password" name="pwd" id="changeUsernamePwd"><br>
+				<input class="accountFormInput" autocomplete="password" type="password" name="pwd"
+					id="changeUsernamePwd"><br>
 
 				<button type="submit" onclick="changeUsername()">Change Username</button>
 			</form>
@@ -317,7 +347,8 @@
 					Available accounts will appear here.
 				</div>
 				<br>
-				<a class="finePrint hoverDarken hoverLine" onclick="removeAllSavedAccounts()">Remove all saved accounts</a>
+				<a class="finePrint hoverDarken hoverLine" onclick="removeAllSavedAccounts()">Remove all saved
+					accounts</a>
 			</div>
 
 			<div class="hidden accountForm" id="settingsForm">
@@ -329,9 +360,12 @@
 				</div>
 				<div id="settings">
 					<div id="accountSettingsSection" class="settingsSection">
-						<a onclick="setSignInMode('changeUsername')" class="hoverLine small" tabindex="0">Change Username</a>
-						<a onclick="setSignInMode('changePassword')" class="hoverLine small" tabindex="0">Change Password</a>
-						<a onclick="setSignInMode('accountSwitcher')" class="hoverLine small" tabindex="0">Switch Accounts</a>
+						<a onclick="setSignInMode('changeUsername')" class="hoverLine small" tabindex="0">Change
+							Username</a>
+						<a onclick="setSignInMode('changePassword')" class="hoverLine small" tabindex="0">Change
+							Password</a>
+						<a onclick="setSignInMode('accountSwitcher')" class="hoverLine small" tabindex="0">Switch
+							Accounts</a>
 						<button class="flex" onclick="setSignInMode('signOutConfirm')">
 							<span class="material-symbols-rounded smallIcon">logout</span>
 							Sign Out
@@ -339,17 +373,20 @@
 					</div>
 					<div id="displayModeSettingSection" class="settingsSection">
 						<div id="displayModeButtonContainer">
-							<button class="iconButton displayModeButton" id="cardViewButton" title="Card View (Default)" aria-pressed="true" onclick="setDisplayMode('card')">
+							<button class="iconButton displayModeButton" id="cardViewButton" title="Card View (Default)"
+								aria-pressed="true" onclick="setDisplayMode('card')">
 								<span class="material-symbols-rounded">grid_view</span>
 							</button>
-							<button class="iconButton displayModeButton" id="listViewButton" title="List View" onclick="setDisplayMode('list')">
+							<button class="iconButton displayModeButton" id="listViewButton" title="List View"
+								onclick="setDisplayMode('list')">
 								<span class="material-symbols-rounded">view_list</span>
 							</button>
 						</div>
 						<span class="finePrint" title="Affects current browser only">Game List View</span>
 					</div>
 					<div id="manageNotificationsSection" class="settingsSection">
-						<button class="iconButton" onclick="manageNotifications()"><span class="material-symbols-rounded">notifications</span></button>
+						<button class="iconButton" onclick="manageNotifications()"><span
+								class="material-symbols-rounded">notifications</span></button>
 						<span class="finePrint">Notifications</span>
 					</div>
 					<div id="chatSettingSection" class="settingsSection">
@@ -360,9 +397,12 @@
 						<span class="finePrint" title="Affects current browser only">Hide In-Game Chat</span>
 					</div>
 					<div id="languageSettingSection" class="settingsSection">
-						<label><input type="radio" id="englishDefaultLanguageOption" class="defaultLanguageOption" name="defaultLanguage" value="english">English</label>
-						<label><input type="radio" id="spanishDefaultLanguageOption" class="defaultLanguageOption" name="defaultLanguage" value="spanish">Spanish</label>
-						<label><input type="radio" id="frenchDefaultLanguageOption" class="defaultLanguageOption" name="defaultLanguage" value="french">French</label>
+						<label><input type="radio" id="englishDefaultLanguageOption" class="defaultLanguageOption"
+								name="defaultLanguage" value="english">English</label>
+						<label><input type="radio" id="spanishDefaultLanguageOption" class="defaultLanguageOption"
+								name="defaultLanguage" value="spanish">Spanish</label>
+						<label><input type="radio" id="frenchDefaultLanguageOption" class="defaultLanguageOption"
+								name="defaultLanguage" value="french">French</label>
 						<span class="finePrint">Default Language</span>
 					</div>
 					<!-- <div class="settingsSection">
@@ -395,7 +435,8 @@
 
 			<div class="hidden accountForm flex col stretch" id="changePasswordConfirmForm">
 				<h3 class="accountFormTitle">Really Change Your Password?</h3>
-				<div>You will be signed out of all devices, and you will lose the ability to sign in using your old password.</div>
+				<div>You will be signed out of all devices, and you will lose the ability to sign in using your old
+					password.</div>
 				<div class="flex stretch noMargin">
 					<button class="flexGrow" onclick="setSignInMode('settings')">Cancel</button>
 					<button class="flexGrow highlight" onclick="changePassword(true)">Change</button>
@@ -406,7 +447,8 @@
 				<button class="iconButton hidden" id="shareButton" onclick="share()" title="Share">
 					<span class="material-symbols-rounded">share</span>
 				</button>
-				<button class="iconButton desktopHidden" id="friendsButton" onclick="showTab('friends')" title="Friends">
+				<button class="iconButton desktopHidden" id="friendsButton" onclick="showTab('friends')"
+					title="Friends">
 					<span class="material-symbols-rounded">group</span>
 				</button>
 				<span id="accountNameLabel"></span>
@@ -423,10 +465,12 @@
 						<span class="material-symbols-rounded">chevron_left</span>
 					</button>
 					<h3>Friends</h3>
-					<button id="removeSelectedFriendsButton" class="iconButton" title="Remove Selected" onclick="removeFriends()" disabled>
+					<button id="removeSelectedFriendsButton" class="iconButton" title="Remove Selected"
+						onclick="removeFriends()" disabled>
 						<span class="material-symbols-rounded">group_remove</span>
 					</button>
-					<button id="goToAddFriendsButton" class="iconButton" title="Add Friends" onclick="setFriendsPage('addFriends')">
+					<button id="goToAddFriendsButton" class="iconButton" title="Add Friends"
+						onclick="setFriendsPage('addFriends')">
 						<span class="material-symbols-rounded">group_add</span>
 					</button>
 				</div>
@@ -443,7 +487,8 @@
 				<div class="friendList" id="sentRequestList">
 				</div>
 
-				<button class="highlight" id="newGameWithSelectedButton" onclick="createGame([account.id, ...getCheckedFriends()])">
+				<button class="highlight" id="newGameWithSelectedButton"
+					onclick="createGame([account.id, ...getCheckedFriends()])">
 					New Game with Selected
 				</button>
 				<a class="small hoverLine" id="addMoreToGameLink" onclick="addMoreToGame()">Add Others</a>
@@ -457,7 +502,8 @@
 					<h3>Add Friend</h3>
 				</div>
 
-				<input type="text" class="largeTextInput" placeholder="Username" id="addFriendField" onkeyup="requestFieldKeyHandler(event)">
+				<input type="text" class="largeTextInput" placeholder="Username" id="addFriendField"
+					onkeyup="requestFieldKeyHandler(event)">
 
 				<div class="finePrint hidden" id="isSelfNotice">
 					You can't add yourself as a friend.
@@ -488,15 +534,18 @@
 					<div class="flex col stretch scrollable darkerScrollbar">
 						<h3>Add Friends</h3>
 						<div class="friendList darkerScrollbar" id="createGameFriendList"></div>
-						<a class="finePrint hoverLine hoverDarken" id="addOthersButton" onclick="setAddPlayerPanelPage('others')">Add Others</a>
+						<a class="finePrint hoverLine hoverDarken" id="addOthersButton"
+							onclick="setAddPlayerPanelPage('others')">Add Others</a>
 					</div>
 				</div>
 				<div class="addPlayerPanelPage" id="addPlayerPanel-others">
 					<div class="flex col stretch scrollable darkerScrollbar">
 						<h3>Add Others</h3>
-						<input type="text" class="largeTextInput textCenter" id="createGamePlayerInput" placeholder="Username">
+						<input type="text" class="largeTextInput textCenter" id="createGamePlayerInput"
+							placeholder="Username">
 						<button id="createGamePlayerAddButton" onclick="addPlayerToNewGame()">Add Player</button>
-						<a class="finePrint hoverLine hoverDarken" id="addFriendsButton" onclick="setAddPlayerPanelPage('friends')">Add Friends</a>
+						<a class="finePrint hoverLine hoverDarken" id="addFriendsButton"
+							onclick="setAddPlayerPanelPage('friends')">Add Friends</a>
 					</div>
 				</div>
 			</div>
@@ -532,22 +581,26 @@
 			<div class="grid" style="grid-template-columns: 33% 33% 33%;">
 				<button class="semiHighlight" onclick="setNotificationPage('addEmail')">Add Email</button>
 				<button class="semiHighlight" onclick="setNotificationPage('addSMS')">Add SMS Number</button>
-				<button class="highlight" id="pushSubscribeButton" disabled title="Your browser does not support push notifications">Add Push Method</button>
+				<button class="highlight" id="pushSubscribeButton" disabled
+					title="Your browser does not support push notifications">Add Push Method</button>
 			</div>
 		</div>
 		<div id="notifPage-addEmail" class="notifPage">
 			<div class="flex titleLine">
-				<button class="iconButton" onclick="setNotificationPage('methodList')"><span class="material-symbols-rounded">chevron_left</span></button>
+				<button class="iconButton" onclick="setNotificationPage('methodList')"><span
+						class="material-symbols-rounded">chevron_left</span></button>
 				<h2 class="noMargin">Add Email</h2>
 			</div>
 			<div class="grid" style="grid-template-columns: 84% 16%;">
 				<input type="email" class="largeTextInput" id="addNotificationEmailBox" placeholder="Email">
-				<button class="highlight" onclick="addEmailNotificationMethod()" id="addEmailNotificationMethodButton" disabled>Add</button>
+				<button class="highlight" onclick="addEmailNotificationMethod()" id="addEmailNotificationMethodButton"
+					disabled>Add</button>
 			</div>
 		</div>
 		<div id="notifPage-addSMS" class="notifPage">
 			<div class="flex titleLine">
-				<button class="iconButton" onclick="setNotificationPage('methodList')"><span class="material-symbols-rounded">chevron_left</span></button>
+				<button class="iconButton" onclick="setNotificationPage('methodList')"><span
+						class="material-symbols-rounded">chevron_left</span></button>
 				<h2 class="noMargin">Add SMS</h2>
 			</div>
 			<div class="grid" style="grid-template-columns: 42% 42% 16%;">
@@ -559,7 +612,8 @@
 					<option value="t-mobile">T-Mobile</option>
 					<option value="verizon">Verizon</option>
 				</select>
-				<button class="highlight" onclick="addSMSNotificationMethod()" id="addSMSNotificationMethodButton" disabled>Add</button>
+				<button class="highlight" onclick="addSMSNotificationMethod()" id="addSMSNotificationMethodButton"
+					disabled>Add</button>
 			</div>
 		</div>
 	</div>
@@ -577,7 +631,8 @@
 		<div id="textModalControls">
 			<input id="textModalInput" name="textModalInput" type="text" class="hidden"></input>
 			<div id="textModalButtonHolder">
-				<button class="textModalButton hidden" id="textModalCancelButton" onclick="$('#textModal').modalClose()">Cancel</button>
+				<button class="textModalButton hidden" id="textModalCancelButton"
+					onclick="$('#textModal').modalClose()">Cancel</button>
 				<button class="textModalButton highlight" id="textModalOkButton">OK</button>
 			</div>
 		</div>
@@ -613,7 +668,7 @@
 	<script type="text/javascript" src="scripts/navigator.js?v=1" defer></script>
 	<script type="text/javascript" src="scripts/accounts.js?v=1" defer></script>
 	<script type="text/javascript" src="scripts/lookup.js" defer></script>
-	<script type="text/javascript" src="scripts/history.js?v=3" defer></script>
+	<script type="text/javascript" src="scripts/history.js?v=4" defer></script>
 	<script type="text/javascript" src="scripts/chat.js" defer></script>
 	<script type="text/javascript" src="scripts/friends.js" defer></script>
 	<script type="text/javascript" src="scripts/animate.js" defer></script>
@@ -638,4 +693,5 @@
 	<script type="text/javascript" src="scripts/script.js?v=4" defer></script>
 	<script type="text/javascript" src="scripts/demo.js" defer></script>
 </body>
+
 </html>
