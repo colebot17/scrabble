@@ -39,7 +39,7 @@ class Move {
 function getMovesArr(g) {
     // create an array full of empty moves
     let moves = new Array(g.turn);
-    for (let i = 0; i < game.turn; i++) {
+    for (let i = 0; i < game.turn + (game.inactive ? 1 : 0); i++) {
         const p = game.players[i % game.players.length];
         moves[i] = new Move(i, new Player(p.id, p.name), i === game.turn);
     }
