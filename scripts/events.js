@@ -353,15 +353,17 @@ function handleDocumentMouseUp(e) {
 function handleDocumentKeyPress(e) {
     if (document.activeElement !== document.body) return; // cancel if anything else is trying to accept text
 
+    // we keep an up-to-date overList in the move handler because we can't get the mouse position from this event
     if (!canvas.overList) return;
 
     const overItem = canvas.overList.find(a => a.category === 'board');
     if (!overItem) return;
-    //if (overItem.tile && overItem.tile.locked) return;
+
+    handleKeyPressOnTile(e.key, overItem.tile);
 
     const letter = e.key.toUpperCase();
-    if (!["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"].includes(letter)) return;
 
+    // make sure the user has the letter in their bank
     const bankItem = canvas.bank.find(a => a.letter.toUpperCase() === letter && a.hidden === false);
     if (!bankItem) return;
 
@@ -374,14 +376,21 @@ function handleDocumentKeyPress(e) {
     let xAmount = 0;
     let yAmount = 0;
 
+    // if the mouse is over a tile
     if (overItem.tile) {
+        // set xAmount and yAmount to represent where to place the next tile
+
         const tx = overItem.tile.x;
         const ty = overItem.tile.y;
         const locked = overItem.tile.locked;
 
+
+        // find the axis where the edge is closest
+        // (fewest locked tiles before empty spot)
+        
+        // preliminary check of adjacent tiles
         const blockedBelow = game.board[ty + 1]?.[tx]?.locked;
         const blockedRight = game.board[ty]?.[tx + 1]?.locked;
-
         const blockedAbove = game.board[ty - 1]?.[tx]?.locked;
         const blockedLeft = game.board[ty]?.[tx - 1]?.locked;
 
