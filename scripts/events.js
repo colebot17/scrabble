@@ -8,11 +8,11 @@ function addHandlers() {
 
     canvas.addEventListener('mousemove', handleCanvasMouseMove);
     canvas.addEventListener('touchmove', handleCanvasMouseMove);
-    
+
     document.addEventListener('mouseup', handleDocumentMouseUp);
     document.addEventListener('touchend', handleDocumentMouseUp);
 
-    document.addEventListener('keypress', handleDocumentKeyPress);
+    document.addEventListener('keydown', handleDocumentKeyDown);
 }
 function removeHandlers() {
     const canvas = document.getElementById('scrabbleCanvas');
@@ -24,11 +24,11 @@ function removeHandlers() {
 
     canvas.removeEventListener('mousemove', handleCanvasMouseMove);
     canvas.removeEventListener('touchmove', handleCanvasMouseMove);
-    
+
     document.removeEventListener('mouseup', handleDocumentMouseUp);
     document.removeEventListener('touchend', handleDocumentMouseUp);
 
-    document.removeEventListener('keypress', handleDocumentKeyPress);
+    document.removeEventListener('keydown', handleDocumentKeyDown);
 }
 
 // define constants
@@ -48,8 +48,8 @@ function handleCanvasMouseDown(e) {
         e.preventDefault();
     }
 
-	// determine whether it is the current user's turn
-	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
+    // determine whether it is the current user's turn
+    // const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
     // cancel if a popup is open
     if (visiblePopups.length > 0) {
@@ -130,7 +130,7 @@ function handleCanvasMouseDown(e) {
     // if the mouse is over the board
     if (overListCategories.includes("board")) {
         const overObj = overList[overListCategories.indexOf("board")];
-        
+
         const tile = overObj.tile;
         const locked = tile?.locked;
 
@@ -146,7 +146,7 @@ function handleCanvasMouseDown(e) {
                 },
                 pixelX: x,
                 pixelY: y,
-                posHistory: [{x, y}],
+                posHistory: [{ x, y }],
                 touchIdentifier
             };
 
@@ -190,9 +190,9 @@ function handleCanvasMouseMove(e) {
         e.preventDefault();
     }
 
-	// determine whether it is the current user's turn
-	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
-    
+    // determine whether it is the current user's turn
+    // const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
+
     // get the pixel position of the mouse/finger
     const pixScale = getScale();
     let x, y;
@@ -223,7 +223,7 @@ function handleCanvasMouseMove(e) {
         if (!dragged.posHistory) dragged.posHistory = [];
         const lastPos = dragged.posHistory.at(-1);
         if (!lastPos || lastPos.x !== x || lastPos.y !== y) {
-            dragged.posHistory.push({x, y});
+            dragged.posHistory.push({ x, y });
         }
     }
 
@@ -243,9 +243,9 @@ function handleCanvasMouseMove(e) {
 
 function handleDocumentMouseUp(e) {
 
-	// determine whether it is the current user's turn
-	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
-    
+    // determine whether it is the current user's turn
+    // const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
+
     // cancel if a popup is open
     if (visiblePopups.length > 0) return;
 
@@ -281,7 +281,7 @@ function handleDocumentMouseUp(e) {
         canvas.bankShuffleButton.clicking = false;
         if (e.type === 'touchend') canvas.bankShuffleButton.hover = false;
     }
-    
+
     // do the word lookup
     if (!dragged && overListCategories.includes("board")) {
         const overObj = overList[overListCategories.indexOf("board")];
@@ -340,134 +340,29 @@ function handleDocumentMouseUp(e) {
         if (getUnlockedTiles(game.board).length === 0) {
             removeDraft();
         }
-        
+
         clearDropZoneGaps();
     }
 
     // show the points preview
     if (sendPointsRequest) checkPoints();
-    
+
     dragged = undefined; // remove the dragged tile
 }
 
-function handleDocumentKeyPress(e) {
+function handleDocumentKeyDown(e) {
     if (document.activeElement !== document.body) return; // cancel if anything else is trying to accept text
 
+    if (e.metaKey || e.altKey) return; // ignore if cmd/alt are pressed
+
+    // we keep an up-to-date overList in the move handler because we can't get the mouse position from this event
     if (!canvas.overList) return;
 
+    // make sure we're over the board
     const overItem = canvas.overList.find(a => a.category === 'board');
     if (!overItem) return;
-    //if (overItem.tile && overItem.tile.locked) return;
 
-    const letter = e.key.toUpperCase();
-    if (!["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"].includes(letter)) return;
-
-    const bankItem = canvas.bank.find(a => a.letter.toUpperCase() === letter && a.hidden === false);
-    if (!bankItem) return;
-
-
-    // at this point we know that we can add the letter to the board
-    // it is now all about where we want to place it
-    // if the space is empty, place it there
-    // otherwise, try to place it forwards
-
-    let xAmount = 0;
-    let yAmount = 0;
-
-    if (overItem.tile) {
-        const tx = overItem.tile.x;
-        const ty = overItem.tile.y;
-        const locked = overItem.tile.locked;
-
-        const blockedBelow = game.board[ty + 1]?.[tx]?.locked;
-        const blockedRight = game.board[ty]?.[tx + 1]?.locked;
-
-        const blockedAbove = game.board[ty - 1]?.[tx]?.locked;
-        const blockedLeft = game.board[ty]?.[tx - 1]?.locked;
-
-        const horizontal = blockedLeft || blockedRight;
-        const vertical = blockedAbove || blockedBelow;
-
-        let useH = (!locked && horizontal) || (locked && vertical);
-        let useV = (!locked && vertical) || (locked && horizontal);
-
-        if (useH && useV) {
-            // use the one with the fewest blocked tiles in the path
-            
-            let hBlocks = 0;
-            while (game.board[ty][tx + hBlocks + 1]?.locked) {
-                hBlocks += 1;
-            }
-
-            let vBlocks = 0;
-            while (game.board[ty + vBlocks + 1]?.[tx]?.locked) {
-                vBlocks += 1;
-            }
-
-            if (vBlocks >= hBlocks) {
-                useV = false;
-            } else {
-                useH = false;
-            }
-        }
-
-        if (!useH && !useV) {
-            // use the one closest to the next blocked tile
-
-            let hSpaces = 0;
-            while (!game.board[ty][tx + hSpaces + 1]) {
-                hSpaces += 1;
-            }
-
-            let vSpaces = 0;
-            while (game.board[ty + vSpaces + 1] && !game.board[ty + vSpaces + 1][tx]) {
-                vSpaces += 1;
-            }
-
-            if (vSpaces >= hSpaces) {
-                useH = true;
-            } else {
-                useV = true;
-            }
-        }
-
-        if (useH) {
-            // scan to the right
-            let next = game.board[ty][tx + xAmount];
-            while (tx + xAmount < 14 && (next)) {
-                xAmount += 1;
-                next = game.board[ty][tx + xAmount];
-            }
-        } else if (useV) {
-            // scan downwards
-            let next = game.board[ty + yAmount]?.[tx];
-            while (ty + yAmount < 14 && (next)) {
-                yAmount += 1;
-                next = game.board[ty + yAmount]?.[tx];
-            }
-        }
-    }
-
-    const tile = game.board[overItem.y + yAmount][overItem.x + xAmount];
-
-    // abort if we are about to modify a locked tile
-    if (tile && tile.locked) return;
-
-    // show the letter that used to be there back in the bank
-    if (tile) {
-        canvas.bank.find(a => a.bankIndex === tile.bankIndex).hidden = false;
-    }
-
-    // add the letter to the board
-    const newTile = addLetter(overItem.x + xAmount, overItem.y + yAmount, bankItem.bankIndex, letter);
-
-    // store the tile in the overItem if we are still at zero offset
-    if (xAmount === 0 && yAmount === 0) {
-        overItem.tile = newTile;
-    }
-
-    canvas.pointsPreview = false;
-    checkPoints();
+    handleKeyPressOnTile(e.key, overItem.x, overItem.y, e.ctrlKey);
 }
 
 function getScale() {
