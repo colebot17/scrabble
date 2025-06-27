@@ -1195,7 +1195,7 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 }
 
 function removeTileFromBoard(x, y) {
-	const tile = game.board[y][x];
+	let tile = game.board[y][x];
 	if (!tile || tile.locked) return false;
 
 	canvas.bank.find(a => a.bankIndex === tile.bankIndex).hidden = false;
