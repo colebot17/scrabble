@@ -362,7 +362,7 @@ function handleDocumentKeyDown(e) {
     const overItem = canvas.overList.find(a => a.category === 'board');
     if (!overItem) return;
 
-    handleKeyPressOnTile(e.key, overItem.tile, e.ctrlKey);
+    handleKeyPressOnTile(e.key, overItem.x, overItem.y, e.ctrlKey);
 }
 
 function getScale() {
