@@ -12,7 +12,7 @@ function addHandlers() {
     document.addEventListener('mouseup', handleDocumentMouseUp);
     document.addEventListener('touchend', handleDocumentMouseUp);
 
-    document.addEventListener('keypress', handleDocumentKeyPress);
+    document.addEventListener('keyup', handleDocumentKeyUp);
 }
 function removeHandlers() {
     const canvas = document.getElementById('scrabbleCanvas');
@@ -28,7 +28,7 @@ function removeHandlers() {
     document.removeEventListener('mouseup', handleDocumentMouseUp);
     document.removeEventListener('touchend', handleDocumentMouseUp);
 
-    document.removeEventListener('keypress', handleDocumentKeyPress);
+    document.removeEventListener('keyup', handleDocumentKeyUp);
 }
 
 // define constants
@@ -350,7 +350,7 @@ function handleDocumentMouseUp(e) {
     dragged = undefined; // remove the dragged tile
 }
 
-function handleDocumentKeyPress(e) {
+function handleDocumentKeyUp(e) {
     if (document.activeElement !== document.body) return; // cancel if anything else is trying to accept text
 
     // we keep an up-to-date overList in the move handler because we can't get the mouse position from this event
