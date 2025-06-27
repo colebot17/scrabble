@@ -1199,7 +1199,7 @@ function removeTileFromBoard(x, y) {
 	if (!tile || tile.locked) return false;
 
 	canvas.bank.find(a => a.bankIndex === tile.bankIndex).hidden = false;
-	tile = null;
+	game.board[y][x] = null;
 }
 
 function isValidBoardPos(x, y) {
