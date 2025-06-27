@@ -1200,6 +1200,7 @@ function removeTileFromBoard(x, y) {
 
 	canvas.bank.find(a => a.bankIndex === tile.bankIndex).hidden = false;
 	game.board[y][x] = null;
+	return true;
 }
 
 function isValidBoardPos(x, y) {
