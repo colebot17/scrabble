@@ -3,7 +3,7 @@
 const placeHistory = [/* [x, y] */];
 
 
-function handleKeyPressOnTile(key, overItem, ctrl = false) {
+function handleKeyPressOnTile(key, x, y, ctrl = false) {
 
     // handle backspace
     if (key === "Backspace") {
@@ -23,15 +23,15 @@ function handleKeyPressOnTile(key, overItem, ctrl = false) {
     if (!bankItem) return;
 
 
-    if (overItem.tile) { // if the mouse is over an existing tile, find the next available spot
-        var nextPos = searchForNextSpot(overItem.x, overItem.y);
+    if (game.board[y][x]) { // if the mouse is over an existing tile, find the next available spot
+        var nextPos = searchForNextSpot(x, y);
         if (isValidBoardPos(...nextPos) && game.board[nextPos[1]][nextPos[0]] == null) {
             addLetter(nextPos[0], nextPos[1], bankItem.bankIndex);
             placeHistory.push(nextPos);
             checkPoints();
         }
     } else { // if the mouse is over an empty spot, place the tile there
-        addLetter(overItem.x, overItem.y, bankItem.bankIndex);
+        addLetter(x, y, bankItem.bankIndex);
         placeHistory.push(nextPos);
         checkPoints();
     }

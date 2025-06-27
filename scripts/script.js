@@ -1163,6 +1163,10 @@ function pickLetter(bankIndex, complete = function (letter) { }) {
 function addLetter(x, y, bankIndex, assignedLetter = false) {
 	if (game.inactive) return;
 
+	if (!isValidBoardPos(x, y)) return;
+
+	if (game.board[y][x]) return;
+
 	const bank = game.players[game.currentPlayerIndex].letterBank;
 
 	let letter = bank[bankIndex];
