@@ -31,24 +31,27 @@ function searchForNextSpot(x, y) {
     // given a position, find the next open spot for a letter to be placed
 
     // scan forwards and downwards to find next empty spot
-    let nextClearY;
+    let nextClearY, yDiff = 0;
     for (let lookY = y; lookY < 15; lookY++) {
-        if (!isValidBoardPos(x, lookY) || !game.board[lookY][x]) {
+        yDiff++;
+        if (!isValidBoardPos(x, lookY) || !game.board[lookY][x] || !game.board[lookY][x].locked) {
+            while (game.board[lookY][x]) lookY++;
             nextClearY = lookY;
             break;
         }
     }
 
-    let nextClearX;
+    let nextClearX, xDiff = 0;
     for (let lookX = x; lookX < 15; lookX++) {
-        if (!isValidBoardPos(lookX, y) || !game.board[y][lookX]) {
+        xDiff++;
+        if (!isValidBoardPos(lookX, y) || !game.board[y][lookX] || !game.board[y][lookX].locked) {
+            while (game.board[y][lookX]) lookX++;
             nextClearX = lookX;
             break;
         }
     }
 
     // determine which way is closer
-    let xDiff = nextClearX - x, yDiff = nextClearY - y;
     if (xDiff < yDiff) {
         // going horizontal
         return [nextClearX, y];
