@@ -23,6 +23,7 @@ function handleKeyPressOnTile(key, tile) {
         if (isValidBoardPos(...nextPos) && game.board[nextPos[1]][nextPos[0]] == null) {
             addLetter(nextPos[0], nextPos[1], bankItem.bankIndex);
             placeHistory.push(nextPos);
+            checkPoints();
         }
     }
 }
