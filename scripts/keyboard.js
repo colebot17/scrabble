@@ -41,7 +41,7 @@ function searchForNextSpot(x, y) {
     for (let lookY = y; lookY < 15; lookY++) {
         yDiff++;
         if (!isValidBoardPos(x, lookY) || !game.board[lookY][x] || !game.board[lookY][x].locked) {
-            if (isValidBoardPos(x, lookY)) while (game.board[lookY][x]) lookY++;
+            while (game.board[lookY]?.[x]) lookY++;
             nextClearY = lookY;
             break;
         }
@@ -51,7 +51,7 @@ function searchForNextSpot(x, y) {
     for (let lookX = x; lookX < 15; lookX++) {
         xDiff++;
         if (!isValidBoardPos(lookX, y) || !game.board[y][lookX] || !game.board[y][lookX].locked) {
-            if (isValidBoardPos(lookX, y)) while (game.board[y][lookX]) lookX++;
+            while (game.board[y]?.[lookX]) lookX++;
             nextClearX = lookX;
             break;
         }
