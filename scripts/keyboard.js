@@ -3,7 +3,7 @@
 const placeHistory = [/* [x, y] */];
 
 
-function handleKeyPressOnTile(key, tile, x, y) {
+function handleKeyPressOnTile(key, tile) {
 
     // handle backspace
     if (key === "Backspace") {
@@ -19,7 +19,10 @@ function handleKeyPressOnTile(key, tile, x, y) {
 
 
     if (tile) { // if the mouse is over an existing tile, find the next available spot
-        searchForNextSpot()
+        var nextPos = searchForNextSpot(tile.x, tile.y);
+        if (isValidBoardPos(...nextPos) && game.board[nextPos[1]][nextPos[0]] == null) {
+            addLetter(nextPos[0], nextPos[1], bankItem.bankIndex);
+        }
     }
 }
 
@@ -27,9 +30,9 @@ function searchForNextSpot(x, y) {
     // given a position, find the next open spot for a letter to be placed
 
     // scan forwards and downwards to find next empty spot
-    let nextClearY; 
+    let nextClearY;
     for (let lookY = y; lookY < 15; lookY++) {
-        if (!game.board[lookY][x]) {
+        if (!isValidBoardPos(x, lookY) || !game.board[lookY][x]) {
             nextClearY = lookY;
             break;
         }
@@ -37,25 +40,44 @@ function searchForNextSpot(x, y) {
 
     let nextClearX;
     for (let lookX = x; lookX < 15; lookX++) {
-        if (!game.board[y][lookX]) {
+        if (!isValidBoardPos(lookX, y) || !game.board[y][lookX]) {
             nextClearX = lookX;
             break;
         }
     }
 
-    // todo: make sure it can go either way
-
     // determine which way is closer
-    let xDiff = nextClearX - x, yDiff = nextClearY - y, vertical;
+    let xDiff = nextClearX - x, yDiff = nextClearY - y;
     if (xDiff < yDiff) {
-        vertical = false;
+        // going horizontal
+        return [nextClearX, y];
     } else if (xDiff > yDiff) {
-        vertical = true;
+        // going vertical
+        return [x, nextClearY];
     } else {
         // if it's a tie, look backwards for "back support"
-        let bsY;
-        for (let lookY = y; lookY > 0; lookY--) {
+        let bsY = 0;
+        for (let lookY = y; lookY >= 0; lookY--) {
+            if (!isValidBoardPos(x, lookY) || !game.board[lookY][x]) {
+                break;
+            }
+            bsY++;
+        }
 
+        let bsX = 0;
+        for (let lookX = x; lookX >= 0; lookX--) {
+            if (!isValidBoardPos(lookX, y) || !game.board[y][lookX]) {
+                break;
+            }
+            bsX++;
+        }
+
+        if (bsX > bsY) {
+            // going vertical
+            return [x, nextClearY];
+        } else { // slight horizontal bias
+            // going horizontal
+            return [nextClearX, y];
         }
     }
 }

@@ -17,20 +17,20 @@ const boardInfo = {
 		[4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4]
 	],
 	"scoreMultipliers": [
-		{"letter": 1, "word": 1},
-		{"letter": 2, "word": 1},
-		{"letter": 3, "word": 1},
-		{"letter": 1, "word": 2},
-		{"letter": 1, "word": 3},
-		{"letter": 1, "word": 2}
+		{ "letter": 1, "word": 1 },
+		{ "letter": 2, "word": 1 },
+		{ "letter": 3, "word": 1 },
+		{ "letter": 1, "word": 2 },
+		{ "letter": 1, "word": 3 },
+		{ "letter": 1, "word": 2 }
 	]
 };
 
 let langInfo = {
 	"english": {
 		"alphabet": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
-		"letterScores": {"A": 1, "B": 3, "C": 3, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1, "J": 8, "K": 5, "L": 1, "M": 3, "N": 1, "O": 1, "P": 3, "Q": 10, "R": 1, "S": 1, "T": 1, "U": 1, "V": 4, "W": 4, "X": 8, "Y": 4, "Z": 10},
-		"letterDistribution": {"A": 9, "B": 2, "C": 2, "D": 4, "E": 12, "F": 2, "G": 3, "H": 2, "I": 9, "J": 1, "K": 1, "L": 4, "M": 2, "N": 6, "O": 8, "P": 2, "Q": 1, "R": 6, "S": 4, "T": 6, "U": 4, "V": 2, "W": 2, "X": 1, "Y": 2, "Z": 1, "": 2},
+		"letterScores": { "A": 1, "B": 3, "C": 3, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1, "J": 8, "K": 5, "L": 1, "M": 3, "N": 1, "O": 1, "P": 3, "Q": 10, "R": 1, "S": 1, "T": 1, "U": 1, "V": 4, "W": 4, "X": 8, "Y": 4, "Z": 10 },
+		"letterDistribution": { "A": 9, "B": 2, "C": 2, "D": 4, "E": 12, "F": 2, "G": 3, "H": 2, "I": 9, "J": 1, "K": 1, "L": 4, "M": 2, "N": 6, "O": 8, "P": 2, "Q": 1, "R": 6, "S": 4, "T": 6, "U": 4, "V": 2, "W": 2, "X": 1, "Y": 2, "Z": 1, "": 2 },
 		"letterReplacements": {},
 		"dictionaryAddress": "https://www.merriam-webster.com/dictionary/",
 		"languageAbbreviation": "en",
@@ -38,22 +38,22 @@ let langInfo = {
 	},
 	"spanish": {
 		"alphabet": ["A", "B", "C", "CH", "D", "E", "F", "G", "H", "I", "J", "L", "LL", "M", "N", "Ñ", "N~", "O", "P", "Q", "R", "RR", "S", "T", "U", "V", "X", "Y", "Z"],
-		"letterScores": {"A": 1, "B": 3, "C": 3, "CH": 5, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1, "J": 8, "L": 1, "LL": 8, "M": 3, "N": 1, "N~": 8, "O": 1, "P": 3, "Q": 5, "R": 1, "RR": 8, "S": 1, "T": 1, "U": 1, "V": 4, "X": 8, "Y": 4, "Z": 10},
-		"letterDistribution": {"A": 12, "B": 2, "C": 4, "CH": 1, "D": 5, "E": 12, "F": 1, "G": 2, "H": 2, "I": 6, "J": 1, "L": 4, "LL": 1, "M": 2, "N": 5, "N~": 1, "O": 9, "P": 2, "Q": 1, "R": 5, "RR": 1, "S": 6, "T": 4, "U": 5, "V": 1, "X": 1, "Y": 1, "Z": 1},
-		"letterReplacements": {"N~": "Ñ"},
+		"letterScores": { "A": 1, "B": 3, "C": 3, "CH": 5, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1, "J": 8, "L": 1, "LL": 8, "M": 3, "N": 1, "N~": 8, "O": 1, "P": 3, "Q": 5, "R": 1, "RR": 8, "S": 1, "T": 1, "U": 1, "V": 4, "X": 8, "Y": 4, "Z": 10 },
+		"letterDistribution": { "A": 12, "B": 2, "C": 4, "CH": 1, "D": 5, "E": 12, "F": 1, "G": 2, "H": 2, "I": 6, "J": 1, "L": 4, "LL": 1, "M": 2, "N": 5, "N~": 1, "O": 9, "P": 2, "Q": 1, "R": 5, "RR": 1, "S": 6, "T": 4, "U": 5, "V": 1, "X": 1, "Y": 1, "Z": 1 },
+		"letterReplacements": { "N~": "Ñ" },
 		"dictionaryAddress": "https://www.collinsdictionary.com/us/dictionary/spanish-english/",
 		"languageAbbreviation": "es",
 		"containsDoubleLetters": true
 	},
 	"french": {
-        "alphabet": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
-		"letterScores": {"A": 1, "B": 3, "C": 3, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1, "J": 8, "K": 10, "L": 1, "M": 2, "N": 1, "O": 1, "P": 3, "Q": 8, "R": 1, "S": 1, "T": 1, "U": 1, "V": 4, "W": 10, "X": 10, "Y": 10, "Z": 10},
-		"letterDistribution": {"A": 9, "B": 2, "C": 2, "D": 3, "E": 15, "F": 2, "G": 2, "H": 2, "I": 8, "J": 1, "K": 1, "L": 5, "M": 3, "N": 6, "O": 6, "P": 2, "Q": 1, "R": 6, "S": 6, "T": 6, "U": 6, "V": 2, "W": 1, "X": 1, "Y": 1, "Z": 1, "": 2},
+		"alphabet": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
+		"letterScores": { "A": 1, "B": 3, "C": 3, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4, "I": 1, "J": 8, "K": 10, "L": 1, "M": 2, "N": 1, "O": 1, "P": 3, "Q": 8, "R": 1, "S": 1, "T": 1, "U": 1, "V": 4, "W": 10, "X": 10, "Y": 10, "Z": 10 },
+		"letterDistribution": { "A": 9, "B": 2, "C": 2, "D": 3, "E": 15, "F": 2, "G": 2, "H": 2, "I": 8, "J": 1, "K": 1, "L": 5, "M": 3, "N": 6, "O": 6, "P": 2, "Q": 1, "R": 6, "S": 6, "T": 6, "U": 6, "V": 2, "W": 1, "X": 1, "Y": 1, "Z": 1, "": 2 },
 		"letterReplacements": {},
 		"dictionaryAddress": "https://www.collinsdictionary.com/dictionary/french-english/",
 		"languageAbbreviation": "fr",
 		"containsDoubleLetters": false
-    }
+	}
 };
 
 const windowTitle = "Scrabble - Colebot.com";
@@ -72,7 +72,7 @@ async function loadGamesList() {
 	let complete = false;
 
 	await sleep(10);
-	
+
 	button.classList.add('spin');
 	int = setInterval(() => {
 		if (complete) {
@@ -164,9 +164,9 @@ function renameGame(gameId, loc) {
 		inputField.remove();
 		nameField.classList.remove('hidden');
 	}
-	
+
 	// add the listeners
-	inputField.addEventListener('keydown', function(e) {
+	inputField.addEventListener('keydown', function (e) {
 		if (e.key === "Enter") {
 			// rename the game
 			let name = inputField.value;
@@ -264,8 +264,8 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 	if (!id) return;
 
 	if (game.loadingId) return;
-	
-	let animationCleanup = () => {};
+
+	let animationCleanup = () => { };
 	if (animation === 'expand') { // expanding animation of the play button
 		let expandEl = document.querySelector('#listGame' + id + ' .openGameButton');
 
@@ -314,7 +314,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 
 		// run the expansion animation
 		dupEl.classList.add('expandAnimation');
-		setTimeout(function() {dupEl.remove()}, 740);
+		setTimeout(function () { dupEl.remove() }, 740);
 
 		// show loading status if it is taking too long
 		expandEl.style.transition = "background-color 0.37s, color 0.37s, border-color 0.37s";
@@ -427,7 +427,7 @@ function loadGame(id = prompt("Enter the id of the game you want to load:"), ani
 		el.style.top = '0';
 
 		el.style.lineHeight = '100vh';
-		
+
 		el.style.transition = "opacity 0.37s";
 
 		if (!navigator.onLine) {
@@ -555,7 +555,7 @@ function endGame() {
 	}
 
 	let voted = game.players[game.currentPlayerIndex].endGameRequest;
-	
+
 	let endGameCount = 0;
 	for (let i in game.players) {
 		if (game.players[i].endGameRequest) {
@@ -571,8 +571,8 @@ function endGame() {
 	} else {
 		confirmMsg = "Do you really want to cast your vote to end the game? " + (
 			willBeDeleted
-			? "You are the final player to do so, so the game will end."
-			: "If you do, " + (votesLeft - 1) + " player" + ((votesLeft - 1) === 1 ? "" : "s") + " will still have to vote before the game ends."
+				? "You are the final player to do so, so the game will end."
+				: "If you do, " + (votesLeft - 1) + " player" + ((votesLeft - 1) === 1 ? "" : "s") + " will still have to vote before the game ends."
 		);
 	}
 
@@ -586,7 +586,7 @@ function endGame() {
 				pwd: account.pwd,
 				game: game.id
 			};
-			
+
 			// update update number twice if game will be deleted
 			game.updateNumber += (willBeDeleted ? 2 : 1);
 
@@ -621,13 +621,13 @@ function endGame() {
 				}
 
 				updateGamesList();
-				
+
 				textModal("End Game", res.message);
 			}).catch(err => {
 				throw new Error(err);
 			});
 		}
-	});	
+	});
 }
 
 // initialize the game in the global variable 'game'
@@ -677,7 +677,7 @@ function gameInit() {
 	} else {
 		canvas.bankOrder = bankOrder;
 	}
-	
+
 	// refresh handlers
 	removeHandlers();
 	addHandlers();
@@ -729,7 +729,7 @@ function updateGameInfo() {
 			${game.lang.toTitleCase()}
 		</div>
 	` : ``;
-	
+
 	// start with the game name
 	gameInfo += /* html */ `
 		<div class="gameTitleBox">
@@ -772,14 +772,14 @@ function updateGameInfo() {
 		// add the player to the list
 		gameInfo += /* html */ `
 			<div class="gamePlayerListPlayer${isCurrentPlayer ? ` currentPlayer` : ``}${isTurn && !game.inactive ? ` fakeUnderline` : ``}" data-playerid="${game.players[i].id}">
-				${(isWinner ? `<span class='material-symbols-rounded winnerIcon'>trophy</span>`: ``)}
+				${(isWinner ? `<span class='material-symbols-rounded winnerIcon'>trophy</span>` : ``)}
 				<span ${(isCurrentPlayer ? ` class="bold"` : ``)}>
 					${game.players[i].name}: 
 				</span>
 				<span class="points bold">
 					${game.players[i].points}
 				</span>
-				${(endGameVoted && !game.inactive ? `<span class='material-symbols-rounded winnerIcon endGameVoteIcon' title='Voted to end the game'>highlight_off</span>`: ``)}
+				${(endGameVoted && !game.inactive ? `<span class='material-symbols-rounded winnerIcon endGameVoteIcon' title='Voted to end the game'>highlight_off</span>` : ``)}
 				${showBankCounts ? /* html */ `<span class="playerBankCount" title="Letters in ${game.players[i].name}'s bank">${game.players[i].bankCount}</span>` : ``}
 			</div>
 		`;
@@ -883,9 +883,9 @@ async function makeMove() {
 	} else { // the turn should not be updated when the game ends (not that it really matters)
 		g.turn++;
 	}
-	
+
 	const p = g.players.find(a => a.id === account.id); // add the new points
-	p.points += newPoints; 
+	p.points += newPoints;
 
 	g.lastUpdate = new Date();
 	updateGamesList(); // show the updated game in the games list
@@ -961,7 +961,7 @@ function flyingSaucer(from, value, destination) {
 			const ex = "cubic-bezier(.56,.08,.81,.6)";
 			const ey = "cubic-bezier(.37,-0.47,.81,.6)";
 			saucer.style.transition = `top ${d} ${ey}, left ${d} ${ex}, scale ${sd}`;
-			
+
 			const destBounds = destination.getBoundingClientRect();
 
 			const destX = destBounds.left + (destBounds.width / 2);
@@ -1075,7 +1075,7 @@ function setBankOrder() {
 	}).catch(err => {
 		// restore from the old bank order
 		canvas.bankOrder = JSON.parse(JSON.stringify(oldOrder));
-		
+
 		console.error(err);
 	});
 }
@@ -1088,7 +1088,7 @@ function moveBankLetter(from, to) {
 
 	from = parseInt(from);
 	to = parseInt(to);
-	
+
 	// account for element being removed before
 	if (from < to) {
 		to--;
@@ -1102,7 +1102,7 @@ function moveBankLetter(from, to) {
 
 	// store the order in case we need to revert
 	const oldOrder = JSON.parse(JSON.stringify(canvas.bankOrder));
-	
+
 	// remove that letter from the order
 	const fromBankIndex = canvas.bankOrder[from];
 	canvas.bankOrder.splice(from, 1);
@@ -1132,13 +1132,13 @@ function shuffleBank() {
 	}, animationTime);
 }
 
-function pickLetter(bankIndex, complete = function(letter) {}) {
+function pickLetter(bankIndex, complete = function (letter) { }) {
 	let $letterPicker = $('#letterPicker');
 	const letterPicker = document.getElementById('letterPicker');
 	$('#chooseLetterModal').modalOpen();
 	letterPicker.focus();
 	letterPicker.value = '';
-	$letterPicker.off().on('keyup', function(e) {
+	$letterPicker.off().on('keyup', function (e) {
 		// check for letter in alphabet
 		if (letterPicker.value) {
 			if (!langInfo[game.lang].alphabet.includes(letterPicker.value.toUpperCase())) {
@@ -1154,7 +1154,7 @@ function pickLetter(bankIndex, complete = function(letter) {}) {
 				$('#chooseLetterModal').modalClose();
 			}
 		}
-	}).on('blur', function() {
+	}).on('blur', function () {
 		canvas.bank[bankIndex].hidden = false;
 		$('#chooseLetterModal').modalClose();
 	});
@@ -1171,21 +1171,21 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 	}
 
 	if (blank && !assignedLetter) {
-		pickLetter(bankIndex, function(letter) {
+		pickLetter(bankIndex, function (letter) {
 			game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
 			boardUpdate();
 			checkPoints();
 		});
 		return;
 	}
-	
+
 	letter = letter.toUpperCase();
 
 	// create a new tile in the specified position
 	game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
 
-    // hide the letter from the canvas bank
-    canvas.bank[bankIndex].hidden = true;
+	// hide the letter from the canvas bank
+	canvas.bank[bankIndex].hidden = true;
 
 	boardUpdate();
 
@@ -1198,6 +1198,10 @@ function removeTileFromBoard(x, y) {
 
 	canvas.bank.find(a => a.bankIndex === tile.bankIndex).hidden = false;
 	tile = null;
+}
+
+function isValidBoardPos(x, y) {
+	return x >= 0 && x < 15 && y >= 0 && y < 15;
 }
 
 class Tile {

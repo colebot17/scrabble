@@ -8,7 +8,7 @@ function addHandlers() {
 
     canvas.addEventListener('mousemove', handleCanvasMouseMove);
     canvas.addEventListener('touchmove', handleCanvasMouseMove);
-    
+
     document.addEventListener('mouseup', handleDocumentMouseUp);
     document.addEventListener('touchend', handleDocumentMouseUp);
 
@@ -24,7 +24,7 @@ function removeHandlers() {
 
     canvas.removeEventListener('mousemove', handleCanvasMouseMove);
     canvas.removeEventListener('touchmove', handleCanvasMouseMove);
-    
+
     document.removeEventListener('mouseup', handleDocumentMouseUp);
     document.removeEventListener('touchend', handleDocumentMouseUp);
 
@@ -48,8 +48,8 @@ function handleCanvasMouseDown(e) {
         e.preventDefault();
     }
 
-	// determine whether it is the current user's turn
-	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
+    // determine whether it is the current user's turn
+    // const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
 
     // cancel if a popup is open
     if (visiblePopups.length > 0) {
@@ -130,7 +130,7 @@ function handleCanvasMouseDown(e) {
     // if the mouse is over the board
     if (overListCategories.includes("board")) {
         const overObj = overList[overListCategories.indexOf("board")];
-        
+
         const tile = overObj.tile;
         const locked = tile?.locked;
 
@@ -146,7 +146,7 @@ function handleCanvasMouseDown(e) {
                 },
                 pixelX: x,
                 pixelY: y,
-                posHistory: [{x, y}],
+                posHistory: [{ x, y }],
                 touchIdentifier
             };
 
@@ -190,9 +190,9 @@ function handleCanvasMouseMove(e) {
         e.preventDefault();
     }
 
-	// determine whether it is the current user's turn
-	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
-    
+    // determine whether it is the current user's turn
+    // const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
+
     // get the pixel position of the mouse/finger
     const pixScale = getScale();
     let x, y;
@@ -223,7 +223,7 @@ function handleCanvasMouseMove(e) {
         if (!dragged.posHistory) dragged.posHistory = [];
         const lastPos = dragged.posHistory.at(-1);
         if (!lastPos || lastPos.x !== x || lastPos.y !== y) {
-            dragged.posHistory.push({x, y});
+            dragged.posHistory.push({ x, y });
         }
     }
 
@@ -243,9 +243,9 @@ function handleCanvasMouseMove(e) {
 
 function handleDocumentMouseUp(e) {
 
-	// determine whether it is the current user's turn
-	// const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
-    
+    // determine whether it is the current user's turn
+    // const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
+
     // cancel if a popup is open
     if (visiblePopups.length > 0) return;
 
@@ -281,7 +281,7 @@ function handleDocumentMouseUp(e) {
         canvas.bankShuffleButton.clicking = false;
         if (e.type === 'touchend') canvas.bankShuffleButton.hover = false;
     }
-    
+
     // do the word lookup
     if (!dragged && overListCategories.includes("board")) {
         const overObj = overList[overListCategories.indexOf("board")];
@@ -340,13 +340,13 @@ function handleDocumentMouseUp(e) {
         if (getUnlockedTiles(game.board).length === 0) {
             removeDraft();
         }
-        
+
         clearDropZoneGaps();
     }
 
     // show the points preview
     if (sendPointsRequest) checkPoints();
-    
+
     dragged = undefined; // remove the dragged tile
 }
 
@@ -356,6 +356,7 @@ function handleDocumentKeyPress(e) {
     // we keep an up-to-date overList in the move handler because we can't get the mouse position from this event
     if (!canvas.overList) return;
 
+    // make sure we're over the board
     const overItem = canvas.overList.find(a => a.category === 'board');
     if (!overItem) return;
 
@@ -387,7 +388,7 @@ function handleDocumentKeyPress(e) {
 
         // find the axis where the edge is closest
         // (fewest locked tiles before empty spot)
-        
+
         // preliminary check of adjacent tiles
         const blockedBelow = game.board[ty + 1]?.[tx]?.locked;
         const blockedRight = game.board[ty]?.[tx + 1]?.locked;
@@ -402,7 +403,7 @@ function handleDocumentKeyPress(e) {
 
         if (useH && useV) {
             // use the one with the fewest blocked tiles in the path
-            
+
             let hBlocks = 0;
             while (game.board[ty][tx + hBlocks + 1]?.locked) {
                 hBlocks += 1;
