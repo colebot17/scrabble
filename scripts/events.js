@@ -353,6 +353,8 @@ function handleDocumentMouseUp(e) {
 function handleDocumentKeyDown(e) {
     if (document.activeElement !== document.body) return; // cancel if anything else is trying to accept text
 
+    if (e.metaKey || e.altKey) return; // ignore if cmd/alt are pressed
+
     // we keep an up-to-date overList in the move handler because we can't get the mouse position from this event
     if (!canvas.overList) return;
 
@@ -360,7 +362,7 @@ function handleDocumentKeyDown(e) {
     const overItem = canvas.overList.find(a => a.category === 'board');
     if (!overItem) return;
 
-    handleKeyPressOnTile(e.key, overItem.tile);
+    handleKeyPressOnTile(e.key, overItem.tile, e.ctrlKey);
 }
 
 function getScale() {

@@ -3,14 +3,17 @@
 const placeHistory = [/* [x, y] */];
 
 
-function handleKeyPressOnTile(key, tile) {
+function handleKeyPressOnTile(key, tile, ctrl = false) {
 
     // handle backspace
     if (key === "Backspace") {
+        if (ctrl) clearBoard();
         if (placeHistory.length) removeTileFromBoard(...placeHistory.pop()); // pop the last placed tile and remove it
         checkPoints();
         return;
     }
+
+    if (ctrl) return;
 
     const letter = key.toUpperCase(); // get the capital letter
 
