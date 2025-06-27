@@ -8,6 +8,7 @@ function handleKeyPressOnTile(key, tile) {
     // handle backspace
     if (key === "Backspace") {
         if (placeHistory.length) removeTileFromBoard(...placeHistory.pop()); // pop the last placed tile and remove it
+        checkPoints();
         return;
     }
 
