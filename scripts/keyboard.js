@@ -87,11 +87,11 @@ function searchForNextSpot(x, y) {
         }
 
         if (bsX > bsY) {
-            // going vertical
-            return [x, nextClearY];
-        } else { // slight horizontal bias
             // going horizontal
             return [nextClearX, y];
+        } else { // slight horizontal bias
+            // going vertical
+            return [x, nextClearY];
         }
     }
 }
