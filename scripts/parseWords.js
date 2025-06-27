@@ -25,16 +25,12 @@ export async function parseWords(g) {
     // check word validity
     for (let i = 0; i < words.length; i++) {
         let word = words[i].word;
-        console.log(word, lInfo);
         if (lInfo?.letterReplacements) {
             let repls = lInfo.letterReplacements;
-            console.log(repls);
             for (let i in repls) {
                 word = word.replaceAll(i, repls[i]);
-                console.log("REPLACING", i, "->", repls[i]);
             }
         }
-        console.log(word);
         if (!dict.includes(word.toLowerCase())) {
             return false;
         }
@@ -42,7 +38,7 @@ export async function parseWords(g) {
 
     // add the bonus 50 points if the user used all letters
     if (tiles.length === 7) {
-        words.push({points: 50, placeholder: true});
+        words.push({ points: 50, placeholder: true });
     } else if (tiles.legnth > 7) {
         return false;
     }
@@ -51,76 +47,76 @@ export async function parseWords(g) {
 }
 
 export function getUnlockedTiles(b) {
-	// returns a simplified list of any unlocked tiles on the board
-	var newTiles = [];
-	for (let y in b) {
-		for (let x in b[y]) {
-			if (b[y][x] && !b[y][x].locked) {
-				let tile = b[y][x];
-				newTiles.push({
-					bankIndex: tile.bankIndex,
-					blank: tile.blank,
-					letter: tile.letter,
-					x: tile.x,
-					y: tile.y
-				});
-			}
-		}
-	}
-	return newTiles;
+    // returns a simplified list of any unlocked tiles on the board
+    var newTiles = [];
+    for (let y in b) {
+        for (let x in b[y]) {
+            if (b[y][x] && !b[y][x].locked) {
+                let tile = b[y][x];
+                newTiles.push({
+                    bankIndex: tile.bankIndex,
+                    blank: tile.blank,
+                    letter: tile.letter,
+                    x: tile.x,
+                    y: tile.y
+                });
+            }
+        }
+    }
+    return newTiles;
 }
 
 export function checkConnectedness(b) {
-	// returns true if all tiles on the board are connected to the center
-	// returns false if not
-	//
-	// using a four-way flood fill algorithm with a queue
+    // returns true if all tiles on the board are connected to the center
+    // returns false if not
+    //
+    // using a four-way flood fill algorithm with a queue
 
-	// make a copy of the board that is simpler
-	let boardCopy = [];
-	for (let y = 0; y < b.length; y++) {
-		let rowCopy = [];
-		for (let x = 0; x < b[y].length; x++) {
-			rowCopy.push(!!b[y][x] ? "tile" : "empty");
-		}
-		boardCopy.push(rowCopy);
-	}
+    // make a copy of the board that is simpler
+    let boardCopy = [];
+    for (let y = 0; y < b.length; y++) {
+        let rowCopy = [];
+        for (let x = 0; x < b[y].length; x++) {
+            rowCopy.push(!!b[y][x] ? "tile" : "empty");
+        }
+        boardCopy.push(rowCopy);
+    }
 
-	// create a queue
-	let queue = [];
-	queue.push([7, 7]); // start with the center tile
+    // create a queue
+    let queue = [];
+    queue.push([7, 7]); // start with the center tile
 
-	// go through the queue
-	while (queue.length > 0) {
-		let [x, y] = queue.shift();
+    // go through the queue
+    while (queue.length > 0) {
+        let [x, y] = queue.shift();
 
-		// this item is in the queue, so it must be connected
-		boardCopy[y][x] = "connected";
+        // this item is in the queue, so it must be connected
+        boardCopy[y][x] = "connected";
 
-		// add all adjacent tiles to the queue as well
-		if (boardCopy?.[y]?.[x + 1] === "tile") {
-			queue.push([x + 1, y]);
-		}
-		if (boardCopy?.[y]?.[x - 1] === "tile") {
-			queue.push([x - 1, y]);
-		}
-		if (boardCopy?.[y + 1]?.[x] === "tile") {
-			queue.push([x, y + 1]);
-		}
-		if (boardCopy?.[y - 1]?.[x] === "tile") {
-			queue.push([x, y - 1]);
-		}
-	}
+        // add all adjacent tiles to the queue as well
+        if (boardCopy?.[y]?.[x + 1] === "tile") {
+            queue.push([x + 1, y]);
+        }
+        if (boardCopy?.[y]?.[x - 1] === "tile") {
+            queue.push([x - 1, y]);
+        }
+        if (boardCopy?.[y + 1]?.[x] === "tile") {
+            queue.push([x, y + 1]);
+        }
+        if (boardCopy?.[y - 1]?.[x] === "tile") {
+            queue.push([x, y - 1]);
+        }
+    }
 
-	// now go through the copy and see if we missed any "tile"s
-	for (let y = 0; y < boardCopy.length; y++) {
-		for (let x = 0; x < boardCopy[y].length; x++) {
-			if (boardCopy[y][x] === "tile") {
-				return false;
-			}
-		}
-	}
-	return true;
+    // now go through the copy and see if we missed any "tile"s
+    for (let y = 0; y < boardCopy.length; y++) {
+        for (let x = 0; x < boardCopy[y].length; x++) {
+            if (boardCopy[y][x] === "tile") {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 // determine what axis a set of tiles is on
