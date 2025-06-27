@@ -22,6 +22,7 @@ function handleKeyPressOnTile(key, tile) {
         var nextPos = searchForNextSpot(tile.x, tile.y);
         if (isValidBoardPos(...nextPos) && game.board[nextPos[1]][nextPos[0]] == null) {
             addLetter(nextPos[0], nextPos[1], bankItem.bankIndex);
+            placeHistory.push(nextPos);
         }
     }
 }
