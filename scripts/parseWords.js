@@ -39,7 +39,7 @@ export async function parseWords(g) {
     // add the bonus 50 points if the user used all letters
     if (tiles.length === 7) {
         words.push({ points: 50, placeholder: true });
-    } else if (tiles.legnth > 7) {
+    } else if (tiles.length > 7) {
         return false;
     }
 

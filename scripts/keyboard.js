@@ -35,7 +35,7 @@ function handleKeyPressOnTile(key, x, y, ctrl = false) {
         }
     } else { // if the mouse is over an empty spot, place the tile there
         addLetter(x, y, bankItem.bankIndex);
-        placeHistory.push(nextPos);
+        placeHistory.push([x, y]);
         checkPoints();
     }
 }
