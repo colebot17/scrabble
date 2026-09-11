@@ -14,4 +14,4 @@ jobs:
         server: colebot.com
         username: Colebot@colebot.com
         password: ${{ secrets.ftp_password }}
-        server-dir: scrabble.colebot.com
+        server-dir: scrabble.colebot.com/
