@@ -305,20 +305,33 @@ function handleDocumentMouseUp(e) {
         // determine whether the tile has moved since touchdown (otherwise it has just been clicked)
         const stayedStill = dragged?.posHistory?.length === 1;
 
-        const onBoard = overListCategories.includes("board");
+        // get a new overList for the center of the dragged tile
+        const tileCenterX = dragged.pixelX + (dragged.mouseOffset?.x + squareWidth / 2 || 0);
+        const tileCenterY = dragged.pixelY + (dragged.mouseOffset?.y + squareWidth / 2 || 0);
+        const tileOverList = whatMouseIsOver(tileCenterX, tileCenterY);
+        const tileOverListCategories = getPropArray(tileOverList, "category");
 
-        let overObj;
+        const onBoard = tileOverListCategories.includes("board");
+
+        let tileOverObj;
         if (onBoard) {
-            overObj = overList[overListCategories.indexOf("board")];
+            tileOverObj = tileOverList[tileOverListCategories.indexOf("board")];
         }
 
-        const onExistingTile = onBoard && overObj?.tile;
+        const onExistingTile = onBoard && tileOverObj?.tile;
 
         let sendPointsRequest = true;
 
         // only if the letter was moved to a free space on the board
         if (onBoard && !onExistingTile && !stayedStill && !game.inactive) {
-            addLetter(overObj.x, overObj.y, dragged.bankIndex, dragged.letter); // add the letter to the appropriate spot on the board
+            // add the letter to the appropriate spot on the board
+            const snapFromX = dragged.pixelX + (dragged.mouseOffset?.x || -squareWidth / 2)
+            const snapFromY = dragged.pixelY + (dragged.mouseOffset?.y || -squareWidth / 2)
+            addLetter(
+                tileOverObj.x, tileOverObj.y,
+                dragged.bankIndex, dragged.letter,
+                snapFromX, snapFromY
+            );
         } else { // if the letter was dropped anywhere else or stayed still, remove it
 
             // reorder the letter in the bank order

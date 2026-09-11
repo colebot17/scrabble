@@ -1160,7 +1160,7 @@ function pickLetter(bankIndex, complete = function (letter) { }) {
 	});
 }
 
-function addLetter(x, y, bankIndex, assignedLetter = false) {
+function addLetter(x, y, bankIndex, assignedLetter = false, snapFromX, snapFromY) {
 	if (game.inactive) return;
 
 	if (!isValidBoardPos(x, y)) return;
@@ -1189,6 +1189,11 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 
 	// create a new tile in the specified position
 	game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
+	if (snapFromX && snapFromY) game.board[y][x].snapFrom = {
+		x: snapFromX,
+		y: snapFromY,
+		anim: new Anim(100, 0, 0, 1, "restrict", () => game.board[y][x].snapFrom = undefined)
+	};
 
 	// hide the letter from the canvas bank
 	canvas.bank[bankIndex].hidden = true;
@@ -1219,9 +1224,7 @@ class Tile {
 		this.bankIndex = bankIndex;
 		this.blank = blank;
 		this.locked = locked;
-		if (pixelX || pixelY) {
-			this.pixelX = pixelX;
-			this.pixelY = pixelY;
-		}
+		this.pixelX = pixelX;
+		this.pixelY = pixelY;
 	}
 }

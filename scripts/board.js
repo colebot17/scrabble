@@ -114,7 +114,14 @@ function whatMouseIsOver(x, y) {
 }
 
 function setCanvasCursor(x, y) {
-    const overList = whatMouseIsOver(x, y);
+    let overList;
+    if (dragged) {
+        const tileCenterX = dragged.pixelX + (dragged.mouseOffset?.x + squareWidth / 2 || 0);
+        const tileCenterY = dragged.pixelY + (dragged.mouseOffset?.y + squareWidth / 2 || 0);
+        overList = whatMouseIsOver(tileCenterX, tileCenterY);
+    } else {
+        overList = whatMouseIsOver(x, y);
+    }
     const overObj = overList[0];
 
     if (!overObj) {

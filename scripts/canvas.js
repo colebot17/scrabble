@@ -517,7 +517,7 @@ function updateTile(tile) {
 	if (typeof tile.pixelX === "number") {
 		// if the tile is being manually positioned (it is probably being dragged)
 		let xOffset = -squareWidth / 2;
-		if (typeof tile?.mouseOffset?.x === "number") xOffset = tile.mouseOffset.x;
+		if (typeof tile.mouseOffset?.x === "number") xOffset = tile.mouseOffset.x;
 
 		pixelX = tile.pixelX + xOffset;
 	} else {
@@ -532,7 +532,7 @@ function updateTile(tile) {
 	if (typeof tile.pixelY === "number") {
 		// if the tile is being manually positioned (it is probably being dragged)
 		let yOffset = -squareWidth / 2;
-		if (typeof tile?.mouseOffset?.y === "number") yOffset = tile.mouseOffset.y;
+		if (typeof tile.mouseOffset?.y === "number") yOffset = tile.mouseOffset.y;
 
 		pixelY = tile.pixelY + yOffset;
 	} else {
@@ -543,16 +543,47 @@ function updateTile(tile) {
 		pixelY = squarePos + shrunkenTileOffset;
 	}
 
+	// account for snapFrom animation
+	const t = tile.snapFrom?.anim.getFrame();
+	if (tile.snapFrom) {
+		pixelX = lerp(tile.snapFrom.x, pixelX, t);
+		pixelY = lerp(tile.snapFrom.y, pixelY, t);
+	}
+
 	// draw the tile
 	const darkenTile = canvas.darkenTiles?.find(a => a.x == tile.x && a.y == tile.y);
 	const darkenAmt = darkenTile ? (darkenTile.fade ? darkenTile.fade.getFrame() : 1) : 0;
-	canvas.ctx.fillStyle = lerpColor("#a47449", "#7d5837", darkenAmt) + (tile.locked ? "" : "cc"); // tile brown
-	const radii = (tile.x !== undefined && tile.y !== undefined) ? { // make sure the tile isn't being dragged
-		tl: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x - 1] ? 0 : borderRadius, //
-		tr: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x + 1] ? 0 : borderRadius, // round corners unless that
-		bl: game.board[tile.y + 1]?.[tile.x] || game.board[tile.y][tile.x - 1] ? 0 : borderRadius, // side is touching another
-		br: game.board[tile.y + 1]?.[tile.x] || game.board[tile.y][tile.x + 1] ? 0 : borderRadius  // tile
-	} : borderRadius;
+	const snapFromAmt = tile.snapFrom ? tile.snapFrom.anim.getFrame() : 1;
+	canvas.ctx.fillStyle = lerpColor("#a47449", "#7d5837", snapFromAmt * darkenAmt) + (tile.locked ? "" : "cc"); // tile brown
+
+
+	const radii = { tl: borderRadius, tr: borderRadius, bl: borderRadius, br: borderRadius };
+	if (typeof tile.x === "number" && typeof tile.y === "number") { // if it has an actual spot on the board (not being dragged)
+		const upTile = game.board[tile.y - 1]?.[tile.x];
+		if (upTile) {
+			const m = upTile.snapFrom ? 1-upTile.snapFrom.anim.getFrame() : 1-snapFromAmt;
+			radii.tl *= m;
+			radii.tr *= m;
+		}
+		const downTile = game.board[tile.y + 1]?.[tile.x];
+		if (downTile) {
+			const m = downTile.snapFrom ? 1-downTile.snapFrom.anim.getFrame() : 1-snapFromAmt;
+			radii.bl *= m;
+			radii.br *= m;
+		}
+		const leftTile = game.board[tile.y][tile.x - 1];
+		if (leftTile) {
+			const m = leftTile.snapFrom ? 1-leftTile.snapFrom.anim.getFrame() : 1-snapFromAmt;
+			radii.tl *= m;
+			radii.bl *= m;
+		}
+		const rightTile = game.board[tile.y][tile.x + 1];
+		if (rightTile) {
+			const m = rightTile.snapFrom ? 1-rightTile.snapFrom.anim.getFrame() : 1-snapFromAmt;
+			radii.tr *= m;
+			radii.br *= m;
+		}
+	}
 	roundRect(canvas.ctx, pixelX, pixelY, tileWidth, tileWidth, radii);
 
 	// draw the letter on the tile
