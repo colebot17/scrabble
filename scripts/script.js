@@ -1116,7 +1116,7 @@ function moveBankLetter(from, to) {
 function shuffleBank() {
 	// create the shuffling animation
 	const animationTime = 370;
-	canvas.animations.bankShuffle = new Animation(animationTime);
+	canvas.animations.bankShuffle = new Anim(animationTime);
 
 	// actually switch the letters halfway through the animation (when all the letters are in the middle)
 	setTimeout(() => {

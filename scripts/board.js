@@ -161,6 +161,70 @@ function setCanvasCursor(x, y) {
     return overList;
 }
 
+// given an overList, update canvas.darkenedTiles to darken hovered words
+function updateDarkenedTiles(overList) {
+    const boardOverObj = overList.find(a => a.category === "board");
+    const darkenTiles = [];
+    if (!dragged) {
+        if (boardOverObj && boardOverObj.tile?.locked) {
+            let sweepX = boardOverObj.x;
+            let sweepY = boardOverObj.y;
+
+            // sweep down
+            while (sweepY < 15 && game.board[sweepY][sweepX]) {
+                darkenTiles.push({ x: sweepX, y: sweepY });
+                sweepY++;
+            }
+            sweepY = boardOverObj.y;
+
+            // sweep up
+            while (sweepY >= 0 && game.board[sweepY][sweepX]) {
+                darkenTiles.push({ x: sweepX, y: sweepY });
+                sweepY--;
+            }
+            sweepY = boardOverObj.y;
+            
+            // sweep right
+            while (sweepX < 15 && game.board[sweepY][sweepX]) {
+                darkenTiles.push({ x: sweepX, y: sweepY });
+                sweepX++;
+            }
+            sweepX = boardOverObj.x;
+
+            // sweep left
+            while (sweepX >= 0 && game.board[sweepY][sweepX]) {
+                darkenTiles.push({ x: sweepX, y: sweepY });
+                sweepX--;
+            }
+            sweepX = boardOverObj.x;
+        } else if (boardOverObj && !boardOverObj.tile?.locked) {
+            darkenTiles.push({ x: boardOverObj.x, y: boardOverObj.y });
+        }
+    }
+    
+    // fade out all tiles no longer to remain darkened
+    if (canvas.darkenTiles) {
+        for (let darkenTile of canvas.darkenTiles) {
+            // if the tile is no longer to remain darkened
+            if (!darkenTiles.some(a => a.x == darkenTile.x && a.y == darkenTile.y) && !darkenTile.fade) {
+                // set up the animation to fade it out
+                darkenTile.fade = new Anim(150, 0, 1, 0, "restrict", () => canvas.darkenTiles.splice(canvas.darkenTiles.indexOf(darkenTile), 1));
+            }
+        }
+    }
+
+    // add all newly darkend tiles
+    for (let darkenTile of darkenTiles) {
+        if (!canvas.darkenTiles) canvas.darkenTiles = [];
+        let t = canvas.darkenTiles.find(a => a.x == darkenTile.x && a.y == darkenTile.y)
+        if (t?.fade) {
+            t.fade = undefined;
+        } else if (!t) {
+            canvas.darkenTiles.push(darkenTile);
+        }
+    }
+}
+
 function setExpandedDropZone(zoneIndex) {
     // this function is also responsible for checking if the expanded drop zone has changed since last time
 
@@ -181,10 +245,10 @@ function animateDropZone(zoneIndex, value) {
     if (typeof zoneIndex !== "number" || !canvas.dropZones[zoneIndex]) return;
 
     if (zoneIndex == 0) {
-        canvas.gapBeforeBankAnimation = new Animation(DROP_ZONE_ANIMATION_TIME, 0, canvas.extraGapBeforeBank, value);
+        canvas.gapBeforeBankAnimation = new Anim(DROP_ZONE_ANIMATION_TIME, 0, canvas.extraGapBeforeBank, value);
     } else {
         const expandZone = canvas.bank[canvas.bankOrder[canvas.dropZones[zoneIndex].orderIndex - 1]]
-        expandZone.gapAnimation = new Animation(DROP_ZONE_ANIMATION_TIME, 0, expandZone.extraGapAfter, value);
+        expandZone.gapAnimation = new Anim(DROP_ZONE_ANIMATION_TIME, 0, expandZone.extraGapAfter, value);
     }
 }
 

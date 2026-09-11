@@ -126,7 +126,7 @@ function updateMove(data) {
         }
         game.board[tile.y][tile.x] = tile;
         game.board[tile.y][tile.x].size = 0;
-        game.board[tile.y][tile.x].animation = new Animation(750);
+        game.board[tile.y][tile.x].animation = new Anim(750);
     }
 }
 

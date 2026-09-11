@@ -65,7 +65,7 @@ function animateMoves(startingAt = 0) {
 	const duration = 750;
 	let animations = {};
 	for (let i = startingAt; i < game.turn; i++) {
-		animations[i] = new Animation(duration, delay);
+		animations[i] = new Anim(duration, delay);
 		delay += duration;
 	}
 
@@ -544,7 +544,9 @@ function updateTile(tile) {
 	}
 
 	// draw the tile
-	canvas.ctx.fillStyle = (tile.locked ? "#a47449" : "#a47449cc"); // tile brown
+	const darkenTile = canvas.darkenTiles?.find(a => a.x == tile.x && a.y == tile.y);
+	const darkenAmt = darkenTile ? (darkenTile.fade ? darkenTile.fade.getFrame() : 1) : 0;
+	canvas.ctx.fillStyle = lerpColor("#a47449", "#7d5837", darkenAmt) + (tile.locked ? "" : "cc"); // tile brown
 	const radii = (tile.x !== undefined && tile.y !== undefined) ? { // make sure the tile isn't being dragged
 		tl: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x - 1] ? 0 : borderRadius, //
 		tr: game.board[tile.y - 1]?.[tile.x] || game.board[tile.y][tile.x + 1] ? 0 : borderRadius, // round corners unless that
@@ -732,7 +734,7 @@ function tempHighlight(
 ) {
 	region.color = color;
 	region.textColor = autoContrast(color) ? "#000000" : "#FFFFFF";
-	region.opacity = new Animation(duration, delay, 1, 0);
+	region.opacity = new Anim(duration, delay, 1, 0);
 	region.removeCondition = () => region.opacity.isComplete();
 
 	addRegion(region);

@@ -94,10 +94,27 @@ function getRGBA(color) {
 }
 function makeHex(r, g, b, a) {
 	let str = "#";
-	str += r.toString(16);
-	str += g.toString(16);
-	str += b.toString(16);
+	str += Math.round(Math.min(r, 255)).toString(16).padStart(2, "0");
+	str += Math.round(Math.min(g, 255)).toString(16).padStart(2, "0");
+	str += Math.round(Math.min(b, 255)).toString(16).padStart(2, "0");
+	if (typeof a === "number" && a < 255) str += a.toString(16).padStart(2, "0");
 	return str;
+}
+
+function lerp(a, b, t) {
+	return a + ((b-a) * t);
+}
+
+function lerpColor(col1, col2, t) {
+	const rgb1 = getRGBA(col1);
+	const rgb2 = getRGBA(col2);
+
+	const r = lerp(rgb1[0], rgb2[0], t);
+	const g = lerp(rgb1[1], rgb2[1], t);
+	const b = lerp(rgb1[2], rgb2[2], t);
+	const a = lerp(rgb1[3] || 255, rgb2[3] || 255, t);
+
+	return makeHex(r, g, b, a);
 }
 
 function updateMetaTag(name, option, value) {

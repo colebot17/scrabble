@@ -1,5 +1,5 @@
-class Animation {
-	constructor(duration, delay = 0, start = 0, end = 1, boundsMode = "restrict") {
+class Anim {
+	constructor(duration, delay = 0, start = 0, end = 1, boundsMode = "restrict", onComplete = () => {}) {
 		this.timelineStart = document.timeline.currentTime + delay;
 		this.duration = duration;
 		this.start = start;
@@ -12,22 +12,22 @@ class Animation {
 			let r = end - start;
 			let t = (document.timeline.currentTime - this.timelineStart) / this.duration;
 
-			let frame = (r * t) + start;
-
+			if (boundsMode === "restrict" && t >= 1) onComplete();
 			if (boundsMode === "loop") {
-				frame = ((r * t) % r) + start;
+				t = t % 1;
+			} else {
+				t = Math.max(Math.min(t, 1), 0);
 			}
 			// allowed values for boundsMode:
 			// ["restrict", "loop"]
 			// default: "restrict"
 
+			let frame = (r * t) + start;
+
 			// values will be restricted anyways at the end
 			// this should not matter when using loop because it is applied earlier
-		
-			let smaller = Math.min(start, end);
-			let larger = Math.max(start, end);
 
-			return Math.max(Math.min(frame, larger), smaller);
+			return frame;
 		};
 		this.isActive = function () {
 			const frame = this.getFrame();

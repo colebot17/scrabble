@@ -233,6 +233,9 @@ function handleCanvasMouseMove(e) {
 
     canvas.overList = overList; // store this for use in places that may not have access to the mouse cursor
 
+    // determine which tiles should be darkened
+    updateDarkenedTiles(overList);
+
     if (dragged && overListCategories.includes("bankDropZone")) {
         let dropZone = overList[overListCategories.indexOf("bankDropZone")].zoneIndex;
         setExpandedDropZone(dropZone);
@@ -294,60 +297,63 @@ function handleDocumentMouseUp(e) {
     }
     canvas.lookingUp = false;
 
-    if (!dragged) return; // from here on we will assume that a letter is being dragged
+    if (dragged) {
 
-    // make sure the touch identifier matches
-    if (e.type === 'touchend' && dragged.touchIdentifier >= 0 && dragged.touchIdentifier !== e.changedTouches[0].identifier) return;
+        // make sure the touch identifier matches
+        if (e.type === 'touchend' && dragged.touchIdentifier >= 0 && dragged.touchIdentifier !== e.changedTouches[0].identifier) return;
 
-    // determine whether the tile has moved since touchdown (otherwise it has just been clicked)
-    const stayedStill = dragged?.posHistory?.length === 1;
+        // determine whether the tile has moved since touchdown (otherwise it has just been clicked)
+        const stayedStill = dragged?.posHistory?.length === 1;
 
-    const onBoard = overListCategories.includes("board");
+        const onBoard = overListCategories.includes("board");
 
-    let overObj;
-    if (onBoard) {
-        overObj = overList[overListCategories.indexOf("board")];
+        let overObj;
+        if (onBoard) {
+            overObj = overList[overListCategories.indexOf("board")];
+        }
+
+        const onExistingTile = onBoard && overObj?.tile;
+
+        let sendPointsRequest = true;
+
+        // only if the letter was moved to a free space on the board
+        if (onBoard && !onExistingTile && !stayedStill && !game.inactive) {
+            addLetter(overObj.x, overObj.y, dragged.bankIndex, dragged.letter); // add the letter to the appropriate spot on the board
+        } else { // if the letter was dropped anywhere else or stayed still, remove it
+
+            // reorder the letter in the bank order
+            if (overListCategories.includes("bankDropZone")) {
+                const overObj = overList[overListCategories.indexOf("bankDropZone")];
+
+                const from = canvas.bankOrder.indexOf(dragged.bankIndex);
+                const to = canvas.dropZones[overObj.zoneIndex].orderIndex;
+
+                moveBankLetter(from, to);
+            }
+
+            // if there is already a points preview, show it
+            if (canvas.pointsPreview) {
+                canvas.pointsPreview.hidden = false;
+                sendPointsRequest = false;
+            }
+
+            canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
+
+            // remove the draft if the board is empty
+            if (getUnlockedTiles(game.board).length === 0) {
+                removeDraft();
+            }
+
+            clearDropZoneGaps();
+        }
+
+        // show the points preview
+        if (sendPointsRequest) checkPoints();
+
+        dragged = undefined; // remove the dragged tile
     }
 
-    const onExistingTile = onBoard && overObj?.tile;
-
-    let sendPointsRequest = true;
-
-    // only if the letter was moved to a free space on the board
-    if (onBoard && !onExistingTile && !stayedStill && !game.inactive) {
-        addLetter(overObj.x, overObj.y, dragged.bankIndex, dragged.letter); // add the letter to the appropriate spot on the board
-    } else { // if the letter was dropped anywhere else or stayed still, remove it
-
-        // reorder the letter in the bank order
-        if (overListCategories.includes("bankDropZone")) {
-            const overObj = overList[overListCategories.indexOf("bankDropZone")];
-
-            const from = canvas.bankOrder.indexOf(dragged.bankIndex);
-            const to = canvas.dropZones[overObj.zoneIndex].orderIndex;
-
-            moveBankLetter(from, to);
-        }
-
-        // if there is already a points preview, show it
-        if (canvas.pointsPreview) {
-            canvas.pointsPreview.hidden = false;
-            sendPointsRequest = false;
-        }
-
-        canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
-
-        // remove the draft if the board is empty
-        if (getUnlockedTiles(game.board).length === 0) {
-            removeDraft();
-        }
-
-        clearDropZoneGaps();
-    }
-
-    // show the points preview
-    if (sendPointsRequest) checkPoints();
-
-    dragged = undefined; // remove the dragged tile
+    updateDarkenedTiles(overList);
 }
 
 function handleDocumentKeyDown(e) {
