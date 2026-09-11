@@ -427,6 +427,20 @@ body.scrabble {
 }
 #wordLookupPopup {
 	overflow-y: auto;
+	transition: scale 0.1s ease-out, display 0.1s allow-discrete;
+}
+#wordLookupPopup.popup-hidden {
+	scale: 0.5;
+	display: none;
+	transition-timing-function: ease-in;
+}
+#wordLookupPopup:not(.popup-hidden) {
+	scale: 1;
+}
+@starting-style {
+	#wordLookupPopup:not(.popup-hidden) {
+		scale: 0.5;
+	}
 }
 #wordLookupPopup .wordLookupResults {
 	display: flex;
