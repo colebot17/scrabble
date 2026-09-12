@@ -1,9 +1,6 @@
-export async function parseWords(g) {
+export async function parseWords(g, tiles = getUnlockedTiles(g.board)) {
     // make sure all tiles are connected
     if (!checkConnectedness(g.board)) return false;
-
-    // get a list of all changed tiles
-    const tiles = getUnlockedTiles(g.board);
 
     // get the axis for the word
     const axis = determineAxis(tiles, g.board);

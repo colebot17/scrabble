@@ -79,15 +79,17 @@ function updateMoveHistory(draftWords) {
         moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow pointer" + (isDraft ? " moveHistoryDraft" : "");
         moveEl.id = "historyEntry" + i;
         moveEl.tabIndex = "0";
-        if (!wasSkipped) moveEl.addEventListener('click', () => {
-            setCanvasPage('canvas');
-            setTimeout(() => {
-                const word = move.words[0]; // non-cross words are in the front
-                const region = word.pos;
-                tempHighlight(region);
-            }, 200);
-        });
-        if (wasSkipped) moveEl.style.cursor = "default";
+        if (!wasSkipped) {
+            moveEl.addEventListener('click', () => {
+                setCanvasPage('canvas');
+                setTimeout(() => {
+                    const word = move.words[0]; // non-cross words are in the front
+                    tempHighlight({ start: word.pos.start, end: word.pos.end });
+                }, 200);
+            });
+        } else {
+            moveEl.style.cursor = "default";
+        }
 
         const moveTitle = document.createElement('span');
         moveTitle.className = "moveHistoryMoveTitle";
