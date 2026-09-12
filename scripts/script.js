@@ -56,6 +56,9 @@ let langInfo = {
 	}
 };
 
+const SNAP_FROM_DURATION = 100;
+const REGION_GROW_DURATION = 75;
+
 const windowTitle = "Scrabble - Colebot.com";
 
 var game = {};
@@ -1044,8 +1047,9 @@ async function checkPoints() {
 	canvas.pointsPreview = {
 		points: totalPoints,
 		start: words[mainWordId].pos.start,
-		end: words[mainWordId].pos.end
-	}
+		end: words[mainWordId].pos.end,
+		grow: new Anim(REGION_GROW_DURATION, SNAP_FROM_DURATION) // delay to wait for snapFrom
+	};
 
 	// show the draft in the move history
 	updateMoveHistory(words);
@@ -1192,7 +1196,7 @@ function addLetter(x, y, bankIndex, assignedLetter = false, snapFromX, snapFromY
 	if (snapFromX && snapFromY) game.board[y][x].snapFrom = {
 		x: snapFromX,
 		y: snapFromY,
-		anim: new Anim(100, 0, 0, 1, "restrict", () => game.board[y][x].snapFrom = undefined)
+		anim: new Anim(SNAP_FROM_DURATION, 0, 0, 1, "restrict", () => game.board[y][x].snapFrom = undefined)
 	};
 
 	// hide the letter from the canvas bank

@@ -617,10 +617,11 @@ function drawRegions(regions) {
 			"points": 4,
 			"color": "#56789A",
 			"textColor": "#BCDEF0",
-			"opacity": Animation {...},
+			"opacity": Anim {...},
 			"opacity": 0.1,
-			"pulse": Animation {...},
-			"removeCondition": () => a > b
+			"pulse": Anim {...},
+			"removeCondition": () => a > b,
+			"grow": Anim {...}
 		}
 
 		** = Required
@@ -628,6 +629,10 @@ function drawRegions(regions) {
 
 	// draw each region
 	for (let i = 0; i < regions.length; i++) {
+		if (regions[i].hidden) continue;
+
+		const growFrame = regions[i].grow ? regions[i].grow.getFrame() : 1;
+
 		// calculate the positions
 		let x1 = regions[i].start[0] * (squareWidth + SQUARE_GAP);
 		let y1 = regions[i].start[1] * (squareWidth + SQUARE_GAP);
@@ -710,9 +715,9 @@ function drawRegions(regions) {
 		}
 		
 		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
-		canvas.ctx.lineWidth = (squareWidth * 0.1) + 1;
+		canvas.ctx.lineWidth = ((squareWidth * 0.1) + 1) * growFrame;
 
-		const fontSize = 16 * BOARD_PIXEL_SCALE;
+		const fontSize = 16 * BOARD_PIXEL_SCALE * growFrame;
 		canvas.ctx.font = fontSize + "px Rubik";
 
 		// draw the rectangle
@@ -730,7 +735,7 @@ function drawRegions(regions) {
 
 		const cornerRadius = 5 * (squareWidth * 0.03);
 
-		roundRect(canvas.ctx, x1, y1, width, height, cornerRadius, false);
+		if (growFrame > 0) roundRect(canvas.ctx, x1, y1, width, height, cornerRadius, false);
 
 		const radius = (15 * BOARD_PIXEL_SCALE);
 
@@ -742,13 +747,13 @@ function drawRegions(regions) {
 			circY += (radius - 1);
 		}
 
-		// draw the bubble
 		if (regions[i].points) {
+			// draw the bubble
 			canvas.ctx.beginPath();
-			canvas.ctx.arc(circX, circY, radius, 0, 2*Math.PI);
+			canvas.ctx.arc(circX, circY, radius * growFrame, 0, 2*Math.PI);
 			canvas.ctx.fill();
 
-		// draw the number on the bubble
+			// draw the number on the bubble
 			canvas.ctx.fillStyle = regions[i].textColor || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight-text' : '--semi-highlight-text');
 			canvas.ctx.textAlign = "center";
 			canvas.ctx.fillText(regions[i].points.toString(), circX, circY + (fontSize / 3));
@@ -809,8 +814,8 @@ function updateDisplay() {
 			}
 		}
 	}
-	if (canvas.pointsPreview && !canvas.pointsPreview.hidden) {
-		drawRegions([{points: canvas.pointsPreview.points, start: canvas.pointsPreview.start, end: canvas.pointsPreview.end}]);
+	if (canvas.pointsPreview) {
+		drawRegions([ canvas.pointsPreview ]);
 	}
 	if (canvas.regions) {
 		drawRegions(canvas.regions);

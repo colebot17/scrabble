@@ -347,6 +347,7 @@ function handleDocumentMouseUp(e) {
             // if there is already a points preview, show it
             if (canvas.pointsPreview) {
                 canvas.pointsPreview.hidden = false;
+                canvas.pointsPreview.grow = new Anim(REGION_GROW_DURATION, SNAP_FROM_DURATION);
                 sendPointsRequest = false;
             }
 
