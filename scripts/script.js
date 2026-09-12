@@ -58,6 +58,7 @@ let langInfo = {
 
 const SNAP_FROM_DURATION = 100;
 const REGION_GROW_DURATION = 75;
+const HOVER_FADE_OUT_DURATION = 150;
 
 const windowTitle = "Scrabble - Colebot.com";
 

@@ -126,7 +126,6 @@ function setCanvasCursor(x, y) {
 
     if (!overObj) {
         canvas.c.style.cursor = 'default';
-        canvas.bankShuffleButton.hover = false;
         return overList;
     }
 
@@ -153,9 +152,6 @@ function setCanvasCursor(x, y) {
 
         if (overObj.category === "shuffleButton") {
             cursor = 'pointer';
-            canvas.bankShuffleButton.hover = true;
-        } else {
-            canvas.bankShuffleButton.hover = false;
         }
 
         if (overObj.category === "bankLetter") {
@@ -215,7 +211,10 @@ function updateDarkenedTiles(overList) {
             // if the tile is no longer to remain darkened
             if (!darkenTiles.some(a => a.x == darkenTile.x && a.y == darkenTile.y) && !darkenTile.fade) {
                 // set up the animation to fade it out
-                darkenTile.fade = new Anim(150, 0, 1, 0, "restrict", () => canvas.darkenTiles.splice(canvas.darkenTiles.indexOf(darkenTile), 1));
+                darkenTile.fade = new Anim(
+                    HOVER_FADE_OUT_DURATION, 0, 1, 0, "restrict",
+                    () => canvas.darkenTiles.splice(canvas.darkenTiles.indexOf(darkenTile), 1)
+                );
             }
         }
     }
@@ -229,6 +228,21 @@ function updateDarkenedTiles(overList) {
         } else if (!t) {
             canvas.darkenTiles.push(darkenTile);
         }
+    }
+}
+
+function updateBankShuffleButton(overList) {
+    const isOverShuffleButton = overList.some(a => a.category === "shuffleButton");
+
+    if (isOverShuffleButton && !dragged) {
+        canvas.bankShuffleButton.hover = true;
+        canvas.bankShuffleButton.hoverFade = undefined;
+    } else if (canvas.bankShuffleButton.hover) {
+        canvas.bankShuffleButton.hover = false;
+        canvas.bankShuffleButton.hoverFade = new Anim(
+            HOVER_FADE_OUT_DURATION, 0, 1, 0, "restrict",
+            () => canvas.bankShuffleButton.hoverFade = undefined
+        );
     }
 }
 

@@ -251,12 +251,19 @@ function drawLetterBank() {
 			const shuffleButtonY = startY + titleSize + (14 * BOARD_PIXEL_SCALE);
 
 			// draw background if hovering/clicking and cooldown is not active
-			if (canvas.bankShuffleButton.hover || canvas.bankShuffleButton.clicking) {
-				canvas.ctx.fillStyle = ((!canvas.bankShuffleButton.cooldown && canvas.bankShuffleButton.clicking) ? "#0000004C" : "#00000033");
-				canvas.ctx.beginPath();
-				canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + (5 * BOARD_PIXEL_SCALE), 0, 2 * Math.PI, false);
-				canvas.ctx.fill();
+			if (!canvas.bankShuffleButton.cooldown && canvas.bankShuffleButton.clicking) {
+				canvas.ctx.fillStyle = "#0000004C";
+			} else if (canvas.bankShuffleButton.hover) {
+				canvas.ctx.fillStyle = "#00000033";
+			} else if (canvas.bankShuffleButton.hoverFade) {
+				const opa = canvas.bankShuffleButton.hoverFade.getFrame();
+				canvas.ctx.fillStyle = lerpColor("#00000000", "#00000033", opa);
+			} else {
+				canvas.ctx.fillStyle = "#00000000";
 			}
+			canvas.ctx.beginPath();
+			canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + (5 * BOARD_PIXEL_SCALE), 0, 2 * Math.PI, false);
+			canvas.ctx.fill();
 			
 			// draw the icon
 			canvas.ctx.font = titleSize + "px Material Symbols Rounded";

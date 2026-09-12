@@ -236,6 +236,8 @@ function handleCanvasMouseMove(e) {
     // determine which tiles should be darkened
     updateDarkenedTiles(overList);
 
+    updateBankShuffleButton(overList);
+
     if (dragged && overListCategories.includes("bankDropZone")) {
         let dropZone = overList[overListCategories.indexOf("bankDropZone")].zoneIndex;
         setExpandedDropZone(dropZone);
@@ -368,6 +370,7 @@ function handleDocumentMouseUp(e) {
     }
 
     updateDarkenedTiles(overList);
+    updateBankShuffleButton(overList);
 }
 
 function handleDocumentKeyDown(e) {
