@@ -721,7 +721,7 @@ function drawRegions(regions) {
 			canvas.ctx.strokeStyle = calculatedColor;
 		}
 		
-		canvas.ctx.fillStyle = canvas.ctx.strokeStyle;
+		canvas.ctx.fillStyle = calculatedColor;
 		canvas.ctx.lineWidth = ((squareWidth * 0.1) + 1) * growFrame;
 
 		const fontSize = 16 * BOARD_PIXEL_SCALE * growFrame;
