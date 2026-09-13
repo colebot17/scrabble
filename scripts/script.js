@@ -56,9 +56,11 @@ let langInfo = {
 	}
 };
 
-const SNAP_FROM_DURATION = 100;
+const SNAP_FROM_DURATION = 75;
 const REGION_GROW_DURATION = 75;
 const HOVER_FADE_OUT_DURATION = 150;
+const DROP_ZONE_ANIMATION_TIME = 75;
+
 
 const windowTitle = "Scrabble - Colebot.com";
 

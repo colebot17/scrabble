@@ -1,5 +1,3 @@
-const DROP_ZONE_ANIMATION_TIME = 50;
-
 function clearBoard() {
     // remove all unlocked tiles from the board
     for (let y in game.board) {
