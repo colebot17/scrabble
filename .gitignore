@@ -1,5 +1,8 @@
 *.DS_STORE
 .vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/extensions.json
 *.bat
 plan.txt
 plan.md
