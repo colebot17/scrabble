@@ -331,33 +331,18 @@ function drawLetterBank() {
 	const minTileGap = (5 * BOARD_PIXEL_SCALE);
 	const extraTileGap = (50 * BOARD_PIXEL_SCALE);
 
-	// check and update gap animations
-	if (canvas.gapBeforeBankAnimation) {
-		canvas.extraGapBeforeBank = canvas.gapBeforeBankAnimation.getFrame();
-		if (canvas.gapBeforeBankAnimation.isComplete()) {
-			canvas.gapBeforeBankAnimation = undefined;
-		}
-	}
-	for (let i in bank) {
-		let current = bank[i];
-		if (!current.hidden) {
-			if (current.gapAnimation) {
-				current.extraGapAfter = current.gapAnimation.getFrame();
-				if (current.gapAnimation.isComplete()) {
-					current.gapAnimation = undefined;
-				}
-			}
-		}
-	}
+	if (!canvas.dropZones) canvas.dropZones = [];
 
-	// determine the total amount of gap space we will use
-	let totalGapSpace = 0;
-	for (let i in bank) {
-		totalGapSpace += (minTileGap + (bank[i].extraGapAfter * extraTileGap));
+	// determine the per-zone expansion amts and total gap space
+	let totalGapSpace = bank.length * minTileGap;
+	const expansionAmts = [];
+	for (let i = 0; i < canvas.dropZones.length && i <= bank.length; i++) {
+		const zoneExp = canvas.dropZones[i].expansion;
+		const expansionAmt = typeof zoneExp === "boolean" ? (zoneExp ? 1 : 0) : zoneExp?.getFrame() || 0;
+
+		expansionAmts.push(expansionAmt);
+		totalGapSpace += expansionAmt * extraTileGap;
 	}
-	totalGapSpace -= (minTileGap + (extraTileGap * (canvas.extraGapBeforeBank || 0)));
-	// we are subtracting here because we will add this value to the x position to get the x position of the first tile
-	// it doesn't make sense but it works
 
 	const tileWidth = Math.min(remainingSpace - (5 * BOARD_PIXEL_SCALE), ((canvasWidth - totalGapSpace) / numTiles), (55 * BOARD_PIXEL_SCALE));
 	const totalBankWidth = (tileWidth * numTiles) + totalGapSpace;
@@ -368,47 +353,24 @@ function drawLetterBank() {
 	const textSize = tileWidth - (5 * BOARD_PIXEL_SCALE);
 	const smallTextSize = textSize / 3;
 
-	let currentGapSpace = 0;
-
-	// find the first visible letter
-	let firstLetter;
-	for (let i in canvas.bankOrder) {
-		if (!canvas.bank[canvas.bankOrder[i]].hidden) {
-			firstLetter = canvas.bank[canvas.bankOrder[i]];
-			break;
-		}
-	}
-
-	let newDropZones = [];
-	if (firstLetter) { // if there are any letters in the bank
-		// initialize the first drop zone
-		newDropZones.push({
-			start: {
-				x: firstLetter.position.x - (minTileGap + (canvas.extraGapBeforeBank * extraTileGap)) - (canvas.bankTileWidth / 2),
-				y: firstLetter.position.y - (canvas.bankTileWidth / 5)
-			},
-			end: {
-				x: firstLetter.position.x + (canvas.bankTileWidth / 2),
-				y: firstLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
-			},
-			orderIndex: canvas.bankOrder.indexOf(firstLetter.bankIndex)
-		});
-	}
+	let currentTotalGapSpace = (expansionAmts[0] || 0) * extraTileGap;
 
 	// draw each letter
-	let drawnLetters = 0;
-	for (let i in canvas.bankOrder) {
+	let firstLetter, drawnLetters = 0;
+	for (let i = 0; i < canvas.bankOrder.length; i++) {
 		const canvasLetter = canvas.bank[canvas.bankOrder[i]];
 
 		// don't display the letter if it is hidden
-		if (canvasLetter?.hidden) {
-			continue;
-		}
+		if (canvasLetter?.hidden) continue;
+
+		if (!firstLetter) firstLetter = canvasLetter;
 
 		// calculate where to start
-		let x = startX + (tileWidth * drawnLetters) + currentGapSpace;
+		let x = startX + (tileWidth * drawnLetters) + currentTotalGapSpace;
 		let y = startY + titleSize + (20 * BOARD_PIXEL_SCALE);
-		if (canvas?.animations?.bankShuffle) {
+
+		// bank shuffle animation
+		if (canvas.animations?.bankShuffle) {
 			let animationRandMultiplier;
 			if (!canvasLetter.animationRandMultiplier) {
 				canvasLetter.animationRandMultiplier = Math.random();
@@ -418,17 +380,11 @@ function drawLetterBank() {
 			const frame = canvas.animations.bankShuffle.getFrame();
 			const frameMultiplier = Math.abs(frame - 0.5) * 2;
 			x = ((x - (canvasWidth / 2)) * frameMultiplier) + (canvasWidth / 2);
-			y += Math.sin(
-				(frameMultiplier - 1)
-				* Math.PI
-				* 0.5
-			)
-			* 50
-			* animationRandMultiplier
-			* ((i % 2) - 0.5);
+			y += Math.sin( (frameMultiplier - 1) * Math.PI * 0.5 )
+			     * 50 * animationRandMultiplier * ((i % 2) - 0.5);
 		}
 		
-		// store the position of the tile for later use
+		// store the position of the tile
 		canvasLetter.position.x = x;
 		canvasLetter.position.y = y;
 
@@ -439,8 +395,11 @@ function drawLetterBank() {
 		const pointsX = x + (tileWidth * 0.9);
 		const pointsY = y + (tileWidth * 0.9);
 
+		// calculate the amount of gap space after this tile
+		const gapSpaceAfter = minTileGap + ((expansionAmts[drawnLetters + 1] || 0) * extraTileGap);
+
 		// after calculating, increase the current gap space
-		currentGapSpace += (minTileGap + (canvasLetter.extraGapAfter * extraTileGap));
+		currentTotalGapSpace += gapSpaceAfter;
 
 		// draw outline if highlighted
 		if (canvasLetter.highlight) {
@@ -469,25 +428,52 @@ function drawLetterBank() {
 			canvas.ctx.fillText(points, pointsX, pointsY);
 		}
 
-		// calculate drop zones for the letter bank
-		let newZone = {
-			start: {
-				x: canvasLetter.position.x + (canvas.bankTileWidth / 2),
-				y: canvasLetter.position.y - (canvas.bankTileWidth / 5)
-			},
-			end: {
-				x: canvasLetter.position.x + (canvas.bankTileWidth * 1.5) + (minTileGap + (canvasLetter.extraGapAfter * extraTileGap)),
-				y: canvasLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
-			},
-			orderIndex: parseInt(i) + 1
-		};
-		newDropZones.push(newZone);
-
 		drawnLetters++;
+
+		// calculate and store drop zone size and position
+		const dropZoneStart = {
+			x: canvasLetter.position.x + (canvas.bankTileWidth / 2),
+			y: canvasLetter.position.y - (canvas.bankTileWidth / 5)
+		};
+		const dropZoneEnd = {
+			x: canvasLetter.position.x + (canvas.bankTileWidth * 1.5) + gapSpaceAfter,
+			y: canvasLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
+		}
+		
+		const dropZone = canvas.dropZones[drawnLetters];
+		if (!dropZone) {
+			canvas.dropZones[drawnLetters] = { start: dropZoneStart, end: dropZoneEnd, orderIndex: i + 1 };
+		} else {
+			dropZone.start = dropZoneStart;
+			dropZone.end = dropZoneEnd;
+			dropZone.orderIndex = i + 1;
+		}
 	}
 
-	// update the drop zones (all at once to prevent edge case where user clicks while drop zones are empty)
-	canvas.dropZones = newDropZones;
+	// store the first drop zone if we have at least one letter
+	if (firstLetter) {
+		const dropZoneStart = {
+			x: firstLetter.position.x - (minTileGap + ((expansionAmts[0] || 0) * extraTileGap)) - (canvas.bankTileWidth / 2),
+			y: firstLetter.position.y - (canvas.bankTileWidth / 5)
+		};
+		const dropZoneEnd = {
+			x: firstLetter.position.x + (canvas.bankTileWidth / 2),
+			y: firstLetter.position.y + canvas.bankTileWidth + (canvas.bankTileWidth / 5)
+		};
+		const orderIndex = canvas.bankOrder.indexOf(firstLetter.bankIndex);
+
+		const firstDropZone = canvas.dropZones[0];
+		if (!firstDropZone) {
+			canvas.dropZones[0] = { start: dropZoneStart, end: dropZoneEnd, orderIndex: orderIndex };
+		} else {
+			firstDropZone.start = dropZoneStart;
+			firstDropZone.end = dropZoneEnd;
+			firstDropZone.orderIndex = orderIndex;
+		}
+	}
+
+	// remove extra drop zones
+	canvas.dropZones.splice(drawnLetters + 1);
 
 	/* // draw drop zones for testing
 	for (let i in canvas.dropZones) {

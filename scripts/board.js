@@ -58,7 +58,7 @@ function whatMouseIsOver(x, y) {
     // x and y are pixel values offset from the canvas
 
     // this function will return the general category(ies) that the mouse is over, with more specific details for some categories
-    // the mouse can be over multiple things at once!
+    // the mouse can be over multiple things at once! (i.e. over a bank letter and a bank drop zone)
 
     // things the mouse could be over: board, shuffleButton, bankLetter, bankDropZone
     // {category: "board", x: 12, y: 7, tile: Tile}
@@ -111,14 +111,12 @@ function whatMouseIsOver(x, y) {
     return overList;
 }
 
-function setCanvasCursor(x, y) {
-    let overList;
+function setCanvasCursor(overList) {
+    // change the overList to use the tile's center if dragging a tile
     if (dragged) {
         const tileCenterX = dragged.pixelX + (dragged.mouseOffset?.x + squareWidth / 2 || 0);
         const tileCenterY = dragged.pixelY + (dragged.mouseOffset?.y + squareWidth / 2 || 0);
         overList = whatMouseIsOver(tileCenterX, tileCenterY);
-    } else {
-        overList = whatMouseIsOver(x, y);
     }
     const overObj = overList[0];
 
@@ -158,8 +156,6 @@ function setCanvasCursor(x, y) {
     }
 
     canvas.c.style.cursor = cursor;
-
-    return overList;
 }
 
 // given an overList, update canvas.darkenedTiles to darken hovered words
@@ -244,40 +240,32 @@ function updateBankShuffleButton(overList) {
     }
 }
 
-function setExpandedDropZone(zoneIndex) {
-    // this function is also responsible for checking if the expanded drop zone has changed since last time
-
-    const dropZoneChanged = zoneIndex != canvas.expandedDropZone;
-    if (!dropZoneChanged) return;
-
-    // expand the new drop zone
-    animateDropZone(zoneIndex, 1);
-
-    // collapse the old drop zone
-    animateDropZone(canvas.expandedDropZone, 0);
-
-    canvas.expandedDropZone = zoneIndex;
+function setExpandedDropZones(zoneIndicies, animate = true) {
+    for (let i = 0; i < canvas.dropZones.length; i++) {
+        setDropZoneExpanded(i, zoneIndicies.includes(i), animate);
+    }
 }
 
-// raw function - be careful
-function animateDropZone(zoneIndex, value) {
-    if (typeof zoneIndex !== "number" || !canvas.dropZones[zoneIndex]) return;
+function setDropZoneExpanded(zoneIndex, expanded = true, animate = true) {
+    const zone = canvas.dropZones[zoneIndex];
+    if (!zone) return;
 
-    if (zoneIndex == 0) {
-        canvas.gapBeforeBankAnimation = new Anim(DROP_ZONE_ANIMATION_TIME, 0, canvas.extraGapBeforeBank, value);
+    if (animate) {
+        const currAmt = zone.expansion ? (typeof zone.expansion === "boolean" ? 1 : zone.expansion.getFrame()) : 0;
+        const currDestAmt = zone.expansion ? (typeof zone.expansion === "boolean" ? 1 : zone.expansion.end) : 0;
+        const destAmt = expanded ? 1 : 0;
+        if (destAmt === currDestAmt) return;
+        
+        const distanceToGo = Math.abs(destAmt - currAmt);
+        const time = DROP_ZONE_ANIMATION_TIME * distanceToGo;
+        zone.expansion = new Anim(time, 0, currAmt, destAmt, "restrict", () => zone.expansion = !!expanded);
     } else {
-        const expandZone = canvas.bank[canvas.bankOrder[canvas.dropZones[zoneIndex].orderIndex - 1]]
-        expandZone.gapAnimation = new Anim(DROP_ZONE_ANIMATION_TIME, 0, expandZone.extraGapAfter, value);
+        zone.expansion = !!expanded;
     }
 }
 
 function clearDropZoneGaps() {
-    canvas.gapBeforeBankAnimation = undefined;
-    canvas.extraGapBeforeBank = 0;
-
-    for (let i = 0; i < canvas.bank.length; i++) {
-        const current = canvas.bank[i];
-        current.gapAnimation = undefined;
-        current.extraGapAfter = 0;
+    for (let i = 0; i < canvas.dropZones.length; i++) {
+        canvas.dropZones[i].expansion = false;
     }
 }
