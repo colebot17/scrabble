@@ -329,31 +329,45 @@ function drawLetterBank() {
 	const numTiles = bank.length;
 
 	const minTileGap = (5 * BOARD_PIXEL_SCALE);
-	const extraTileGap = (50 * BOARD_PIXEL_SCALE);
+	const extraTileGap = (55 * BOARD_PIXEL_SCALE);
 
 	if (!canvas.dropZones) canvas.dropZones = [];
 
 	// determine the per-zone expansion amts and total gap space
-	let totalGapSpace = bank.length * minTileGap;
+	const baseGapSpace = (bank.length - 1) * minTileGap;
 	const expansionAmts = [];
+	let totalExpansionAmt = 0;
+	let extraGapSpace = 0;
 	for (let i = 0; i < canvas.dropZones.length && i <= bank.length; i++) {
 		const zoneExp = canvas.dropZones[i].expansion;
 		const expansionAmt = typeof zoneExp === "boolean" ? (zoneExp ? 1 : 0) : zoneExp?.getFrame() || 0;
 
 		expansionAmts.push(expansionAmt);
-		totalGapSpace += expansionAmt * extraTileGap;
+		totalExpansionAmt += expansionAmt;
+		extraGapSpace += minTileGap * expansionAmt;
+	}
+	
+	for (let i = 0; i < bank.length; i++) {
+		const t = bank[i].snapFrom?.anim.getFrame();
+		if (bank[i].snapFrom) {
+			const w = lerp(bank[i].snapFrom.w, 1, t);
+			totalExpansionAmt += w - 1;
+			extraGapSpace += (w - 1) * minTileGap;
+		}
 	}
 
-	const tileWidth = Math.min(remainingSpace - (5 * BOARD_PIXEL_SCALE), ((canvasWidth - totalGapSpace) / numTiles), (55 * BOARD_PIXEL_SCALE));
-	const totalBankWidth = (tileWidth * numTiles) + totalGapSpace;
+	// limit the tile width by:
+	const tileWidth = Math.min(
+		remainingSpace - (5 * BOARD_PIXEL_SCALE), // height remaining
+		((canvasWidth - baseGapSpace - extraGapSpace) / (numTiles + totalExpansionAmt)), // total width available
+		(55 * BOARD_PIXEL_SCALE) // 55 px
+	);
+	const totalBankWidth = (tileWidth * (numTiles + totalExpansionAmt)) + baseGapSpace + extraGapSpace;
 	const startX = (canvasWidth - totalBankWidth) / 2;
 
 	canvas.bankTileWidth = tileWidth;
 
-	const textSize = tileWidth - (5 * BOARD_PIXEL_SCALE);
-	const smallTextSize = textSize / 3;
-
-	let currentTotalGapSpace = (expansionAmts[0] || 0) * extraTileGap;
+	let currentSpaceUsed = (expansionAmts[0] || 0) * extraTileGap;
 
 	// draw each letter
 	let firstLetter, drawnLetters = 0;
@@ -366,8 +380,10 @@ function drawLetterBank() {
 		if (!firstLetter) firstLetter = canvasLetter;
 
 		// calculate where to start
-		let x = startX + (tileWidth * drawnLetters) + currentTotalGapSpace;
+		let x = startX + currentSpaceUsed;
 		let y = startY + titleSize + (20 * BOARD_PIXEL_SCALE);
+		let scale = 1;
+		let spaceScale = 1;
 
 		// bank shuffle animation
 		if (canvas.animations?.bankShuffle) {
@@ -383,50 +399,40 @@ function drawLetterBank() {
 			y += Math.sin( (frameMultiplier - 1) * Math.PI * 0.5 )
 			     * 50 * animationRandMultiplier * ((i % 2) - 0.5);
 		}
+
+		// snapFrom
+		const t = canvasLetter.snapFrom?.anim.getFrame();
+		// this is checked after getFrame because getFrame can delete snapFrom
+		if (canvasLetter.snapFrom) {
+			x = lerp(canvasLetter.snapFrom.x, x, t);
+			y = lerp(canvasLetter.snapFrom.y, y, t);
+			scale = lerp(squareWidth / tileWidth, 1, t);
+			spaceScale = lerp(canvasLetter.snapFrom.w, 1, t);
+		}
 		
 		// store the position of the tile
 		canvasLetter.position.x = x;
 		canvasLetter.position.y = y;
 
-		// calculate the position of the letter and points on the tile
-		const textX = x + (tileWidth / 2);
-		const textY = y + (tileWidth / 2) + (textSize / 3);
-
-		const pointsX = x + (tileWidth * 0.9);
-		const pointsY = y + (tileWidth * 0.9);
+		// define effective size constants
+		const effTileWidth = tileWidth * scale;
 
 		// calculate the amount of gap space after this tile
-		const gapSpaceAfter = minTileGap + ((expansionAmts[drawnLetters + 1] || 0) * extraTileGap);
+		const gapSpaceAfter = (minTileGap * spaceScale) + ((expansionAmts[drawnLetters + 1] || 0) * (tileWidth + minTileGap));
 
 		// after calculating, increase the current gap space
-		currentTotalGapSpace += gapSpaceAfter;
+		currentSpaceUsed += (tileWidth * spaceScale) + gapSpaceAfter;
 
 		// draw outline if highlighted
 		if (canvasLetter.highlight) {
 			canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight');
-			roundRect(canvas.ctx, x - (3 * BOARD_PIXEL_SCALE), y - (3 * BOARD_PIXEL_SCALE), tileWidth + (6 * BOARD_PIXEL_SCALE), tileWidth + (6 * BOARD_PIXEL_SCALE), (8 * BOARD_PIXEL_SCALE));
+			roundRect(canvas.ctx, x - (3 * BOARD_PIXEL_SCALE), y - (3 * BOARD_PIXEL_SCALE), effTileWidth + (6 * BOARD_PIXEL_SCALE), effTileWidth + (6 * BOARD_PIXEL_SCALE), (8 * BOARD_PIXEL_SCALE));
 		}
 
 		// draw tile
-		canvas.ctx.fillStyle = "#a47449"; // tile brown
-		roundRect(canvas.ctx, x, y, tileWidth, tileWidth, 5 * BOARD_PIXEL_SCALE);
-
-		// if not blank
-		if (canvasLetter.letter) {
-			// draw letter
-			canvas.ctx.fillStyle = "#f2f5ff" // tile text color
-			canvas.ctx.font = textSize + "px Eurostile";
-			canvas.ctx.textAlign = "center";
-			const letter = langInfo[game.lang].letterReplacements[canvasLetter.letter] || canvasLetter.letter;
-			canvas.ctx.fillText(letter, textX, textY);
-
-			// draw points
-			let points = langInfo[game.lang].letterScores[canvasLetter.letter.toUpperCase()];
-
-			canvas.ctx.font = smallTextSize + "px Eurostile";
-			canvas.ctx.textAlign = "right";
-			canvas.ctx.fillText(points, pointsX, pointsY);
-		}
+		const borderRadius = 5 * (effTileWidth * 0.015) * BOARD_PIXEL_SCALE;
+		const tileColor = canvasLetter.snapFrom ? lerpColor("#a47449cc", "#a47449", t) : "#a47449";
+		drawTile(canvasLetter.letter, !canvasLetter.blank, x, y, effTileWidth, borderRadius, tileColor, "#f2f5ff");
 
 		drawnLetters++;
 
@@ -491,64 +497,66 @@ function drawLetterBank() {
 	} */
 }
 
-function updateTile(tile) {
-	// figure out animiation stuff
-	var tileSize = (tile.size === undefined ? 1 : tile.size);
-
-	// don't even bother drawing tile if size is 0
-	if (tileSize === 0) return;
-
-	var borderRadius = 5 * (squareWidth * 0.03) * tileSize;
-
-	var tileWidth = squareWidth * tileSize;
-	var fontSize = tileWidth * 0.83;
-
-	// get the exact pixel positions
+// gets the pixel position of any tile
+function getPixelPos(tile) {
 	let pixelX, pixelY;
 
-	// get the exact x pixel position
+	const tileScale = typeof tile.size === "number" ? tile.size : 1;
+	const tileWidth = squareWidth * tileScale
+
 	if (typeof tile.pixelX === "number") {
 		// if the tile is being manually positioned (it is probably being dragged)
 		let xOffset = -squareWidth / 2;
 		if (typeof tile.mouseOffset?.x === "number") xOffset = tile.mouseOffset.x;
-
 		pixelX = tile.pixelX + xOffset;
 	} else {
 		// if the tile is positioned on the grid
 		const squarePos = (tile.x * squareWidth) + (tile.x * SQUARE_GAP);
 		const shrunkenTileOffset = (squareWidth - tileWidth) / 2;
-
 		pixelX = squarePos + shrunkenTileOffset;
 	}
 
-	// get the exact y pixel position
 	if (typeof tile.pixelY === "number") {
 		// if the tile is being manually positioned (it is probably being dragged)
 		let yOffset = -squareWidth / 2;
 		if (typeof tile.mouseOffset?.y === "number") yOffset = tile.mouseOffset.y;
-
 		pixelY = tile.pixelY + yOffset;
 	} else {
 		// if the tile is positioned on the grid
 		const squarePos = (tile.y * squareWidth) + (tile.y * SQUARE_GAP);
 		const shrunkenTileOffset = (squareWidth - tileWidth) / 2;
-
 		pixelY = squarePos + shrunkenTileOffset;
 	}
 
 	// account for snapFrom animation
 	const t = tile.snapFrom?.anim.getFrame();
+	// this is checked after getFrame because getFrame can delete snapFrom
 	if (tile.snapFrom) {
 		pixelX = lerp(tile.snapFrom.x, pixelX, t);
 		pixelY = lerp(tile.snapFrom.y, pixelY, t);
 	}
 
+	return { x: pixelX, y: pixelY, scale: tileScale };
+}
+
+function updateTile(tile) {
+	// find the size and position of the tile
+	let { x: pixelX, y: pixelY, scale } = getPixelPos(tile);
+
+	// don't even bother drawing tile if size is 0
+	if (scale === 0) return;
+
+	const tileWidth = squareWidth * scale;
+	const borderRadius = 0.075 * tileWidth * BOARD_PIXEL_SCALE;
+
 	// draw the tile
+
 	const darkenTile = canvas.darkenTiles?.find(a => a.x == tile.x && a.y == tile.y);
 	const darkenAmt = darkenTile ? (darkenTile.fade ? darkenTile.fade.getFrame() : 1) : 0;
 	const snapFromAmt = tile.snapFrom ? tile.snapFrom.anim.getFrame() : 1;
-	canvas.ctx.fillStyle = lerpColor("#a47449", "#7d5837", snapFromAmt * darkenAmt) + (tile.locked ? "" : "cc"); // tile brown
+	const tileColor = lerpColor("#a47449", "#7d5837", snapFromAmt * darkenAmt) + (tile.locked ? "" : "cc"); // tile brown
 
+	const textColor = tile.blank ? "#f2f5ff66" : "#f2f5ff";
 
 	const radii = { tl: borderRadius, tr: borderRadius, bl: borderRadius, br: borderRadius };
 	if (typeof tile.x === "number" && typeof tile.y === "number") { // if it has an actual spot on the board (not being dragged)
@@ -577,28 +585,36 @@ function updateTile(tile) {
 			radii.br *= m;
 		}
 	}
-	roundRect(canvas.ctx, pixelX, pixelY, tileWidth, tileWidth, radii);
 
-	// draw the letter on the tile
-	if (tile.blank) {
-		canvas.ctx.fillStyle = "#f2f5ff66"; // tile text color but transparent
-	} else {
-		canvas.ctx.fillStyle = "#f2f5ff"; // tile text color
-	}
-	canvas.ctx.font = fontSize + "px Eurostile";
+	drawTile(tile.letter, !tile.blank, pixelX, pixelY, tileWidth, radii, tileColor, textColor);
+}
+
+// used for drawing a tile, either on the board or in the letter bank
+function drawTile(letter, drawPoints, x, y, width, radii, tileColor, textColor) {
+	canvas.ctx.save();
+
+	// draw tile
+	canvas.ctx.fillStyle = tileColor;
+	roundRect(canvas.ctx, x, y, width, width, radii);
+
+	// draw letter
+	canvas.ctx.fillStyle = textColor;
 	canvas.ctx.textAlign = "center";
 	canvas.ctx.textBaseline = "middle";
-	const letter = tile.letter ? (langInfo[game.lang].letterReplacements[tile.letter] || tile.letter) : "";
-	canvas.ctx.fillText(letter, pixelX + (tileWidth / 2), pixelY + (tileWidth / 2));
-	canvas.ctx.textBaseline = "alphabetic";
+	canvas.ctx.font = (width * 0.83) + "px Eurostile";
+	const l = letter ? (langInfo[game.lang].letterReplacements[letter] || letter) : "";
+	canvas.ctx.fillText(l, x + (width / 2), y + (width / 2) + (width / 24));
 
-	// draw the points on the tile if size allows
-	if (squareWidth >= 35 && !tile.blank) {
-		canvas.ctx.fillStyle = "#f2f5ff"; // tile text color
-		canvas.ctx.font = (fontSize / 3) + "px Eurostile";
+	// draw number of points
+	const points = langInfo[game.lang].letterScores[letter];
+	if (points && drawPoints) {
+		canvas.ctx.font = (width * 0.83 / 3) + "px Eurostile";
 		canvas.ctx.textAlign = "right";
-		canvas.ctx.fillText(langInfo[game.lang].letterScores[tile.letter], (pixelX + (tileWidth * 0.9)), (pixelY + (tileWidth * 0.9)));
+		canvas.ctx.textBaseline = "alphabetic";
+		canvas.ctx.fillText(points, x + width * 0.9, y + width * 0.9);
 	}
+
+	canvas.ctx.restore();
 }
 
 function drawRegions(regions) {
@@ -619,6 +635,8 @@ function drawRegions(regions) {
 
 		** = Required
 	*/
+
+	canvas.ctx.save();
 
 	// draw each region
 	for (let i = 0; i < regions.length; i++) {
@@ -750,9 +768,10 @@ function drawRegions(regions) {
 			canvas.ctx.fillStyle = regions[i].textColor || getComputedStyle(document.documentElement).getPropertyValue(userTurn ? '--highlight-text' : '--semi-highlight-text');
 			canvas.ctx.textAlign = "center";
 			canvas.ctx.fillText(regions[i].points.toString(), circX, circY + (fontSize / 3));
-			canvas.ctx.textAlign = "";
 		}
 	}
+
+	canvas.ctx.restore();
 }
 
 function tempHighlight(

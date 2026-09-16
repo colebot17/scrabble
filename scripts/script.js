@@ -1020,8 +1020,6 @@ async function checkPoints() {
 
 	setMoveButtonEnablementTo(false);
 
-	saveDraft(getUnlockedTiles(game.board));
-
 	const words = await parseWords(game);
 
 	if (!words || words.length === 0) return;

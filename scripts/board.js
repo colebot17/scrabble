@@ -1,27 +1,47 @@
+function returnToBank(tile, toBankPos) {
+    if (tile.locked || typeof tile.bankIndex !== "number") return;
+
+    let bankPos = canvas.bankOrder.indexOf(tile.bankIndex);
+
+    // move the bank letter to the correct spot if needed
+    if (typeof toBankPos === "number") {
+        moveBankLetter(bankPos, toBankPos);
+        bankPos = toBankPos;
+    }
+
+    // gather information
+    const bankLetter = canvas.bank[tile.bankIndex];
+    const zone = canvas.dropZones.find(a => a.orderIndex === bankPos);
+    const zoneExp = zone?.expansion;
+    const expansionAmt = typeof zoneExp === "boolean" ? (zoneExp ? 1 : 0) : zoneExp?.getFrame() || 0;
+
+    // set up snapFrom animation
+    const { x, y } = getPixelPos(tile);
+    bankLetter.snapFrom = { // animate into place
+        x, y, w: expansionAmt,
+        anim: new Anim(SNAP_FROM_DURATION, 0, 0, 1, "restrict", () => bankLetter.snapFrom = undefined)
+    }
+
+    // clear the gap in front of the letter
+    if (zone) zone.expansion = false;
+
+    // show the letter in the bank
+    bankLetter.hidden = false;
+}
+
 function clearBoard() {
-    // remove all unlocked tiles from the board
+    // return all unlocked tiles to the bank
     for (let y in game.board) {
         for (let x in game.board) {
             if (game.board?.[y]?.[x] && !game.board[y][x].locked) {
+                returnToBank(game.board[y][x]);
                 game.board[y][x] = null;
             }
         }
     }
 
-    // un-hide all letters in bank
-    for (let i in canvas.bank) {
-        canvas.bank[i].hidden = false;
-        canvas.bank[i].gapAnimation = undefined;
-        canvas.bank[i].extraGapAfter = 0;
-    }
-    canvas.gapBeforeBankAnimation = undefined;
-    canvas.extraGapBeforeBank = 0;
-
     // remove points preview
     canvas.pointsPreview = false;
-
-    // clear the draft
-    removeDraft();
 
     // disable the move button
     setMoveButtonEnablementTo(false);
@@ -29,8 +49,9 @@ function clearBoard() {
     boardUpdate();
 }
 
+// called after tiles on board change in any way
 function boardUpdate() {
-    // called when tiles on board change in any way
+    updateDraft();
     updateMoveHistory();
 }
 

@@ -11,6 +11,16 @@ function loadDraft() {
     checkPoints();
 }
 
+function updateDraft() {
+    const tiles = getUnlockedTiles(game.board);
+    
+    if (tiles.length) {
+        saveDraft(tiles);
+    } else {
+        removeDraft();
+    }
+}
+
 function saveDraft(tiles) {
     if (!game.id) return;
 
