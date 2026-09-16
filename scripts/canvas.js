@@ -384,6 +384,8 @@ function drawLetterBank() {
 		let y = startY + titleSize + (20 * BOARD_PIXEL_SCALE);
 		let scale = 1;
 		let spaceScale = 1;
+		let tileColor = "#a47449";
+		let outlineWidth = canvasLetter.highlight ? 3 * BOARD_PIXEL_SCALE : 0;
 
 		// bank shuffle animation
 		if (canvas.animations?.bankShuffle) {
@@ -408,6 +410,8 @@ function drawLetterBank() {
 			y = lerp(canvasLetter.snapFrom.y, y, t);
 			scale = lerp(squareWidth / tileWidth, 1, t);
 			spaceScale = lerp(canvasLetter.snapFrom.w, 1, t);
+			tileColor = lerpColor("#a47449cc", tileColor, t);
+			outlineWidth = lerp(0, outlineWidth, t);
 		}
 		
 		// store the position of the tile
@@ -423,16 +427,9 @@ function drawLetterBank() {
 		// after calculating, increase the current gap space
 		currentSpaceUsed += (tileWidth * spaceScale) + gapSpaceAfter;
 
-		// draw outline if highlighted
-		if (canvasLetter.highlight) {
-			canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight');
-			roundRect(canvas.ctx, x - (3 * BOARD_PIXEL_SCALE), y - (3 * BOARD_PIXEL_SCALE), effTileWidth + (6 * BOARD_PIXEL_SCALE), effTileWidth + (6 * BOARD_PIXEL_SCALE), (8 * BOARD_PIXEL_SCALE));
-		}
-
 		// draw tile
 		const borderRadius = 5 * (effTileWidth * 0.015) * BOARD_PIXEL_SCALE;
-		const tileColor = canvasLetter.snapFrom ? lerpColor("#a47449cc", "#a47449", t) : "#a47449";
-		drawTile(canvasLetter.letter, !canvasLetter.blank, x, y, effTileWidth, borderRadius, tileColor, "#f2f5ff");
+		drawTile(canvasLetter.letter, !canvasLetter.blank, x, y, effTileWidth, borderRadius, tileColor, "#f2f5ff", outlineWidth);
 
 		drawnLetters++;
 
@@ -590,7 +587,7 @@ function updateTile(tile) {
 }
 
 // used for drawing a tile, either on the board or in the letter bank
-function drawTile(letter, drawPoints, x, y, width, radii, tileColor, textColor) {
+function drawTile(letter, drawPoints, x, y, width, radii, tileColor, textColor, outlineWidth) {
 	canvas.ctx.save();
 
 	// draw tile
@@ -612,6 +609,17 @@ function drawTile(letter, drawPoints, x, y, width, radii, tileColor, textColor) 
 		canvas.ctx.textAlign = "right";
 		canvas.ctx.textBaseline = "alphabetic";
 		canvas.ctx.fillText(points, x + width * 0.9, y + width * 0.9);
+	}
+
+	// draw outline
+	if (outlineWidth) {
+		canvas.ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--text-highlight");
+		canvas.ctx.lineWidth = outlineWidth;
+		const halfW = outlineWidth / 2;
+		const outlineRadii = typeof radii === "object" ?
+			{ tl: radii.tl + outlineWidth, tr: radii.tr + outlineWidth, bl: radii.bl + outlineWidth, br: radii.br + outlineWidth }
+			: (radii || 0) + outlineWidth;
+		roundRect(canvas.ctx, x - halfW, y - halfW, width + outlineWidth, width + outlineWidth, outlineRadii, false);
 	}
 
 	canvas.ctx.restore();
