@@ -13,6 +13,10 @@ const SQUARE_INSET = 0.15;
 const GRADIENT_PADDING = 0.2;
 var squareWidth;
 
+// up, right, down, left
+const DIR_RADII = [ ["tl", "tr"], ["tr", "br"], ["br", "bl"], ["bl", "tl"] ];
+const DIRS = [ [0, -1], [1, 0], [0, 1], [-1, 0] ];
+
 function canvasInit() {
 	canvas.destruct = false;
 	canvas.c = document.getElementById("scrabbleCanvas");
@@ -61,32 +65,24 @@ function animateMoves(startingAt = 0) {
 		return;
 	}
 
-	let delay = 0;
-	const duration = 750;
-	let animations = {};
-	for (let i = startingAt; i < game.turn; i++) {
-		animations[i] = new Anim(duration, delay);
-		delay += duration;
-	}
-
 	// figure out what tiles should animate
-	for (let y in game.board) {
-		for (let x in game.board[y]) {
-			if (game.board?.[y]?.[x] && animations[game.board[y][x].turn]) {
-				game.board[y][x].animation = animations[game.board[y][x].turn];
-			}
+	for (let y = 0; y < game.board.length; y++) {
+		for (let x = 0; x < game.board[y].length; x++) {
+			const tile = game.board[y]?.[x];
+			if (!tile) continue;
+
+			const delay = (tile.turn - startingAt) * TILE_GROW_IN_DURATION;
+			tile.size = new Anim(TILE_GROW_IN_DURATION, delay, 0, 1, "restrict", () => tile.size = 1);
 		}
 	}
 
-	canvas.movesAnimating = setTimeout(stopAnimatingMoves, duration * (game.turn - startingAt));
+	canvas.movesAnimating = setTimeout(stopAnimatingMoves, TILE_GROW_IN_DURATION * (game.turn - startingAt));
 
 	setHistoryButtonMode('%auto');
 }
 
 function stopAnimatingMoves() {
-	if (!canvas.movesAnimating) {
-		return;
-	}
+	if (!canvas.movesAnimating) return;
 
 	clearTimeout(canvas.movesAnimating);
 	canvas.movesAnimating = undefined;
@@ -94,7 +90,7 @@ function stopAnimatingMoves() {
 	for (let y in game.board) {
 		for (let x in game.board[y]) {
 			if (game.board?.[y]?.[x]) {
-				game.board[y][x].animation = undefined;
+				game.board[y][x].size = 1;
 			}
 		}
 	}
@@ -408,7 +404,8 @@ function drawLetterBank() {
 		if (canvasLetter.snapFrom) {
 			x = lerp(canvasLetter.snapFrom.x, x, t);
 			y = lerp(canvasLetter.snapFrom.y, y, t);
-			scale = lerp(squareWidth / tileWidth, 1, t);
+			const snapFromBankScale = canvasLetter.snapFrom.scale * squareWidth / tileWidth;
+			scale = lerp(snapFromBankScale, 1, t);
 			spaceScale = lerp(canvasLetter.snapFrom.w, 1, t);
 			tileColor = lerpColor("#a47449cc", tileColor, t);
 			outlineWidth = lerp(0, outlineWidth, t);
@@ -498,18 +495,18 @@ function drawLetterBank() {
 function getPixelPos(tile) {
 	let pixelX, pixelY;
 
-	const tileScale = typeof tile.size === "number" ? tile.size : 1;
-	const tileWidth = squareWidth * tileScale
+	const tileScale = typeof tile.size === "object" ? tile.size.getFrame() : (typeof tile.size === "number" ? tile.size : 1);
+	const tileWidth = squareWidth * tileScale;
+	const shrunkenTileOffset = (squareWidth - tileWidth) / 2;
 
 	if (typeof tile.pixelX === "number") {
 		// if the tile is being manually positioned (it is probably being dragged)
 		let xOffset = -squareWidth / 2;
 		if (typeof tile.mouseOffset?.x === "number") xOffset = tile.mouseOffset.x;
-		pixelX = tile.pixelX + xOffset;
+		pixelX = tile.pixelX + xOffset + shrunkenTileOffset;
 	} else {
 		// if the tile is positioned on the grid
 		const squarePos = (tile.x * squareWidth) + (tile.x * SQUARE_GAP);
-		const shrunkenTileOffset = (squareWidth - tileWidth) / 2;
 		pixelX = squarePos + shrunkenTileOffset;
 	}
 
@@ -517,11 +514,10 @@ function getPixelPos(tile) {
 		// if the tile is being manually positioned (it is probably being dragged)
 		let yOffset = -squareWidth / 2;
 		if (typeof tile.mouseOffset?.y === "number") yOffset = tile.mouseOffset.y;
-		pixelY = tile.pixelY + yOffset;
+		pixelY = tile.pixelY + yOffset + shrunkenTileOffset;
 	} else {
 		// if the tile is positioned on the grid
 		const squarePos = (tile.y * squareWidth) + (tile.y * SQUARE_GAP);
-		const shrunkenTileOffset = (squareWidth - tileWidth) / 2;
 		pixelY = squarePos + shrunkenTileOffset;
 	}
 
@@ -538,7 +534,7 @@ function getPixelPos(tile) {
 
 function updateTile(tile) {
 	// find the size and position of the tile
-	let { x: pixelX, y: pixelY, scale } = getPixelPos(tile);
+	const { x: pixelX, y: pixelY, scale } = getPixelPos(tile);
 
 	// don't even bother drawing tile if size is 0
 	if (scale === 0) return;
@@ -552,34 +548,22 @@ function updateTile(tile) {
 	const darkenAmt = darkenTile ? (darkenTile.fade ? darkenTile.fade.getFrame() : 1) : 0;
 	const snapFromAmt = tile.snapFrom ? tile.snapFrom.anim.getFrame() : 1;
 	const tileColor = lerpColor("#a47449", "#7d5837", snapFromAmt * darkenAmt) + (tile.locked ? "" : "cc"); // tile brown
-
 	const textColor = tile.blank ? "#f2f5ff66" : "#f2f5ff";
 
 	const radii = { tl: borderRadius, tr: borderRadius, bl: borderRadius, br: borderRadius };
 	if (typeof tile.x === "number" && typeof tile.y === "number") { // if it has an actual spot on the board (not being dragged)
-		const upTile = game.board[tile.y - 1]?.[tile.x];
-		if (upTile) {
-			const m = upTile.snapFrom ? 1-upTile.snapFrom.anim.getFrame() : 1-snapFromAmt;
-			radii.tl *= m;
-			radii.tr *= m;
-		}
-		const downTile = game.board[tile.y + 1]?.[tile.x];
-		if (downTile) {
-			const m = downTile.snapFrom ? 1-downTile.snapFrom.anim.getFrame() : 1-snapFromAmt;
-			radii.bl *= m;
-			radii.br *= m;
-		}
-		const leftTile = game.board[tile.y][tile.x - 1];
-		if (leftTile) {
-			const m = leftTile.snapFrom ? 1-leftTile.snapFrom.anim.getFrame() : 1-snapFromAmt;
-			radii.tl *= m;
-			radii.bl *= m;
-		}
-		const rightTile = game.board[tile.y][tile.x + 1];
-		if (rightTile) {
-			const m = rightTile.snapFrom ? 1-rightTile.snapFrom.anim.getFrame() : 1-snapFromAmt;
-			radii.tr *= m;
-			radii.br *= m;
+		for (let i = 0; i < DIRS.length; i++) {
+			const otherTile = game.board[tile.y + DIRS[i][1]]?.[tile.x + DIRS[i][0]];
+			if (otherTile) {
+				const otherM = otherTile.snapFrom ? 1-otherTile.snapFrom.anim.getFrame() : 1;
+				const thisM = 1-snapFromAmt;
+
+				const { scale: otherScale } = getPixelPos(otherTile);
+				const scaledScale = Math.min(Math.max(Math.abs(scale - 1) / 0.2, Math.abs(otherScale - 1) / 0.2), 1);
+				const m = lerp(thisM * otherM, 1, scaledScale);
+
+				for (let j = 0; j < DIR_RADII[i].length; j++) radii[DIR_RADII[i][j]] *= m;
+			}
 		}
 	}
 
@@ -822,13 +806,6 @@ function updateDisplay() {
 	for (var y in game.board) {
 		for (var x in game.board[y]) {
 			if (game.board?.[y]?.[x]) {
-				// set the size based on the animation (if it has one)
-				let size = 1;
-				if (game.board[y][x].animation) {
-					size = game.board[y][x].animation.getFrame();
-				}
-				game.board[y][x].size = size;
-
 				// update the tile
 				updateTile(game.board[y][x]);
 			}

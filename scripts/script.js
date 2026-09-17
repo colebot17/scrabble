@@ -56,11 +56,12 @@ let langInfo = {
 	}
 };
 
+const TILE_GROW_IN_DURATION= 750;
 const SNAP_FROM_DURATION = 75;
+const POP_IN_DURATION = 75;
 const REGION_GROW_DURATION = 75;
 const HOVER_FADE_OUT_DURATION = 150;
 const DROP_ZONE_ANIMATION_TIME = 75;
-
 
 const windowTitle = "Scrabble - Colebot.com";
 
@@ -1183,7 +1184,7 @@ function addLetter(x, y, bankIndex, assignedLetter = false, snapFromX, snapFromY
 
 	if (blank && !assignedLetter) {
 		pickLetter(bankIndex, function (letter) {
-			game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
+			addLetter(x, y, bankIndex, letter);
 			boardUpdate();
 			checkPoints();
 		});
@@ -1194,11 +1195,15 @@ function addLetter(x, y, bankIndex, assignedLetter = false, snapFromX, snapFromY
 
 	// create a new tile in the specified position
 	game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
-	if (snapFromX && snapFromY) game.board[y][x].snapFrom = {
-		x: snapFromX,
-		y: snapFromY,
-		anim: new Anim(SNAP_FROM_DURATION, 0, 0, 1, "restrict", () => game.board[y][x].snapFrom = undefined)
-	};
+	if (snapFromX && snapFromY) {
+		game.board[y][x].snapFrom = {
+			x: snapFromX,
+			y: snapFromY,
+			anim: new Anim(SNAP_FROM_DURATION, 0, 0, 1, "restrict", () => game.board[y][x].snapFrom = undefined)
+		};
+	} else {
+		game.board[y][x].size = new Anim(POP_IN_DURATION, 0, 1.2, 1, "restrict", () => game.board[y][x].size = 1);
+	}
 
 	// hide the letter from the canvas bank
 	canvas.bank[bankIndex].hidden = true;

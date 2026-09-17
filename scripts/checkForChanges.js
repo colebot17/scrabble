@@ -125,8 +125,7 @@ function updateMove(data) {
             canvas.bank[boardPos.bankIndex].hidden = false;
         }
         game.board[tile.y][tile.x] = tile;
-        game.board[tile.y][tile.x].size = 0;
-        game.board[tile.y][tile.x].animation = new Anim(750);
+        game.board[tile.y][tile.x].size = new Anim(TILE_GROW_IN_DURATION, 0);
     }
 }
 

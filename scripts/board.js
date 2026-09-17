@@ -16,9 +16,9 @@ function returnToBank(tile, toBankPos) {
     const expansionAmt = typeof zoneExp === "boolean" ? (zoneExp ? 1 : 0) : zoneExp?.getFrame() || 0;
 
     // set up snapFrom animation
-    const { x, y } = getPixelPos(tile);
+    const { x, y, scale } = getPixelPos(tile);
     bankLetter.snapFrom = { // animate into place
-        x, y, w: expansionAmt,
+        x, y, scale, w: expansionAmt,
         anim: new Anim(SNAP_FROM_DURATION, 0, 0, 1, "restrict", () => bankLetter.snapFrom = undefined)
     }
 
