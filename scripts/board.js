@@ -116,7 +116,9 @@ function whatMouseIsOver(x, y) {
         const xMatch = x.isBetween(canvasLetter.position.x, canvasLetter.position.x + canvas.bankTileWidth);
         const yMatch = y.isBetween(canvasLetter.position.y, canvasLetter.position.y + canvas.bankTileWidth);
         if (xMatch && yMatch) {
-            overList.push({category: "bankLetter", orderIndex: i});
+            const xNorm = (x - canvasLetter.position.x) / canvas.bankTileWidth;
+            const yNorm = (y - canvasLetter.position.y) / canvas.bankTileWidth;
+            overList.push({category: "bankLetter", orderIndex: i, xNorm, yNorm });
         }
     }
 

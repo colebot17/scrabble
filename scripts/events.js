@@ -101,6 +101,10 @@ function handleCanvasMouseDown(e) {
             bankIndex: canvasLetter.bankIndex,
             blank: !canvasLetter.letter,
             letter: canvasLetter.letter,
+            mouseOffset: {
+                x: -overObj.xNorm * squareWidth,
+                y: -overObj.yNorm * squareWidth
+            },
             pixelX: x,
             pixelY: y,
             touchIdentifier
