@@ -19,7 +19,7 @@ function returnToBank(tile, toBankPos) {
     const { x, y, scale } = getPixelPos(tile);
     bankLetter.snapFrom = { // animate into place
         x, y, scale, w: expansionAmt,
-        anim: new Anim(SNAP_FROM_DURATION, 0, 0, 1, "restrict", () => bankLetter.snapFrom = undefined)
+        anim: new Anim(SNAP_FROM_DURATION, { onComplete: () => bankLetter.snapFrom = undefined })
     }
 
     // clear the gap in front of the letter
@@ -227,8 +227,10 @@ function updateDarkenedTiles(overList) {
             if (!darkenTiles.some(a => a.x == darkenTile.x && a.y == darkenTile.y) && !darkenTile.fade) {
                 // set up the animation to fade it out
                 darkenTile.fade = new Anim(
-                    HOVER_FADE_OUT_DURATION, 0, 1, 0, "restrict",
-                    () => canvas.darkenTiles.splice(canvas.darkenTiles.indexOf(darkenTile), 1)
+                    HOVER_FADE_OUT_DURATION, {
+                        from: 1, to: 0,
+                        onComplete: () => canvas.darkenTiles.splice(canvas.darkenTiles.indexOf(darkenTile), 1)
+                    }
                 );
             }
         }
@@ -255,8 +257,10 @@ function updateBankShuffleButton(overList) {
     } else if (canvas.bankShuffleButton.hover) {
         canvas.bankShuffleButton.hover = false;
         canvas.bankShuffleButton.hoverFade = new Anim(
-            HOVER_FADE_OUT_DURATION, 0, 1, 0, "restrict",
-            () => canvas.bankShuffleButton.hoverFade = undefined
+            HOVER_FADE_OUT_DURATION, {
+                from: 1, to: 0,
+                onComplete: () => canvas.bankShuffleButton.hoverFade = undefined
+            }
         );
     }
 }
@@ -279,7 +283,10 @@ function setDropZoneExpanded(zoneIndex, expanded = true, animate = true) {
         
         const distanceToGo = Math.abs(destAmt - currAmt);
         const time = DROP_ZONE_ANIMATION_TIME * distanceToGo;
-        zone.expansion = new Anim(time, 0, currAmt, destAmt, "restrict", () => zone.expansion = !!expanded);
+        zone.expansion = new Anim(time, {
+            from: currAmt, to: destAmt,
+            onComplete: () => zone.expansion = !!expanded
+        });
     } else {
         zone.expansion = !!expanded;
     }

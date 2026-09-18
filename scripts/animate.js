@@ -1,41 +1,46 @@
+const DEFAULT_OPTIONS = {
+	delay: 0,
+	from: 0,
+	to: 1,
+	boundsMode: "restrict", // "restrict", "loop", "bounce-loop"
+	onComplete: () => {}
+}
+
 class Anim {
-	constructor(duration, delay = 0, start = 0, end = 1, boundsMode = "restrict", onComplete = () => {}) {
-		this.timelineStart = document.timeline.currentTime + delay;
+	constructor(duration, options = {}) {
+		const opts = { ...DEFAULT_OPTIONS, ...options };
+
+		this.timelineStart = document.timeline.currentTime + opts.delay;
 		this.duration = duration;
-		this.start = start;
-		this.end = end;
-		this.getFrame = function () {
-			// prevent division by zero
-			if (this.duration === 0) return end;
+		this.start = opts.from;
+		this.end = opts.to;
+		this.boundsMode = opts.boundsMode;
+		this.onComplete = opts.onComplete;
+	}
 
-			// linear interpolation
-			let r = end - start;
-			let t = (document.timeline.currentTime - this.timelineStart) / this.duration;
+	getFrame() {
+		// prevent division by zero
+		if (this.duration === 0) return document.timeline.currentTime >= this.timelineStart ? this.end : this.start;
 
-			if (boundsMode === "restrict" && t >= 1) onComplete();
-			if (boundsMode === "loop") {
-				t = t % 1;
-			} else {
-				t = Math.max(Math.min(t, 1), 0);
-			}
-			// allowed values for boundsMode:
-			// ["restrict", "loop"]
-			// default: "restrict"
+		// linear interpolation
+		let t = (document.timeline.currentTime - this.timelineStart) / this.duration;
 
-			let frame = (r * t) + start;
+		if (this.boundsMode === "restrict" && t >= 1) this.onComplete();
 
-			// values will be restricted anyways at the end
-			// this should not matter when using loop because it is applied earlier
+		if (this.boundsMode === "loop") {
+			t = t % 1;
+		} else if (this.boundsMode === "loop-bounce") {
+			t = Math.abs((t % 2) - 1);
+		} else {
+			t = Math.max(Math.min(t, 1), 0);
+		}
 
-			return frame;
-		};
-		this.isActive = function () {
-			const frame = this.getFrame();
-			return frame === end || frame === start;
-		};
-		this.isComplete = function () {
-			const frame = this.getFrame();
-			return frame === end;
-		};
+		let frame = ((this.end - this.start) * t) + this.start;
+
+		return frame;
+	}
+
+	isComplete() {
+		return this.boundsMode === "restrict" && document.timeline.currentTime >= this.timelineStart + this.duration;
 	}
 }

@@ -62,6 +62,7 @@ const POP_IN_DURATION = 75;
 const REGION_GROW_DURATION = 75;
 const HOVER_FADE_OUT_DURATION = 150;
 const DROP_ZONE_ANIMATION_TIME = 75;
+const MAKING_MOVE_PULSE_DURATION = 300;
 
 const windowTitle = "Scrabble - Colebot.com";
 
@@ -841,9 +842,13 @@ function setOOTD(disabled) {
 }
 
 async function makeMove() {
-	// first, get a list of all unlocked tiles
-	var newTiles = getUnlockedTiles(game.board);
 
+	// pulse the points preview if it exists
+	if (canvas.pointsPreview) {
+		canvas.pointsPreview.opacity = new Anim(MAKING_MOVE_PULSE_DURATION, { boundsMode: "loop-bounce" });
+	}
+
+	const newTiles = getUnlockedTiles(game.board);
 	const res = await request('makeMove.php', {
 		game: game.id,
 		tiles: JSON.stringify(newTiles),
@@ -1050,7 +1055,7 @@ async function checkPoints() {
 		points: totalPoints,
 		start: words[mainWordId].pos.start,
 		end: words[mainWordId].pos.end,
-		grow: new Anim(REGION_GROW_DURATION, SNAP_FROM_DURATION) // delay to wait for snapFrom
+		grow: new Anim(REGION_GROW_DURATION, { delay: SNAP_FROM_DURATION }) // delay to wait for snapFrom
 	};
 
 	// show the draft in the move history
@@ -1199,10 +1204,13 @@ function addLetter(x, y, bankIndex, assignedLetter = false, snapFromX, snapFromY
 		game.board[y][x].snapFrom = {
 			x: snapFromX,
 			y: snapFromY,
-			anim: new Anim(SNAP_FROM_DURATION, 0, 0, 1, "restrict", () => game.board[y][x].snapFrom = undefined)
+			anim: new Anim(SNAP_FROM_DURATION, { onComplete: () => game.board[y][x].snapFrom = undefined })
 		};
 	} else {
-		game.board[y][x].size = new Anim(POP_IN_DURATION, 0, 1.2, 1, "restrict", () => game.board[y][x].size = 1);
+		game.board[y][x].size = new Anim(POP_IN_DURATION, {
+			from: 1.2, to: 1,
+			onComplete: () => game.board[y][x].size = 1
+		});
 	}
 
 	// hide the letter from the canvas bank

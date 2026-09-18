@@ -72,7 +72,9 @@ function animateMoves(startingAt = 0) {
 			if (!tile) continue;
 
 			const delay = (tile.turn - startingAt) * TILE_GROW_IN_DURATION;
-			tile.size = new Anim(TILE_GROW_IN_DURATION, delay, 0, 1, "restrict", () => tile.size = 1);
+			tile.size = new Anim(TILE_GROW_IN_DURATION, {
+				delay, onComplete: () => tile.size = 1
+			});
 		}
 	}
 
@@ -717,7 +719,7 @@ function drawRegions(regions) {
 			canvas.ctx.strokeStyle = calculatedColor;
 		}
 		
-		canvas.ctx.fillStyle = calculatedColor;
+		canvas.ctx.fillStyle = rawColor;
 		canvas.ctx.lineWidth = ((squareWidth * 0.1) + 1) * growFrame;
 
 		const fontSize = 16 * BOARD_PIXEL_SCALE * growFrame;
@@ -743,12 +745,8 @@ function drawRegions(regions) {
 		const radius = (15 * BOARD_PIXEL_SCALE);
 
 		// move the bubble over if it is on an edge
-		if (onRightEdge) {
-			circX -= (radius - 1);
-		}
-		if (onTopEdge) {
-			circY += (radius - 1);
-		}
+		if (onRightEdge) circX -= (radius - 1);
+		if (onTopEdge) circY += (radius - 1);
 
 		if (regions[i].points) {
 			// draw the bubble
@@ -774,7 +772,7 @@ function tempHighlight(
 ) {
 	region.color = color;
 	region.textColor = autoContrast(color) ? "#000000" : "#FFFFFF";
-	region.opacity = new Anim(duration, delay, 1, 0);
+	region.opacity = new Anim(duration, { delay, from: 1, to: 0 });
 	region.removeCondition = () => region.opacity.isComplete();
 
 	addRegion(region);
