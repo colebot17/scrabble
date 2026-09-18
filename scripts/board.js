@@ -123,7 +123,7 @@ function whatMouseIsOver(x, y) {
     }
 
     // check the bank drop zones
-    for (let i = 0; i < canvas.dropZones.length; i++) {
+    for (let i = 0; i < canvas.dropZones?.length; i++) {
         const zone = canvas.dropZones[i];
         const inZone = x.isBetween(zone.start.x, zone.end.x) && y.isBetween(zone.start.y, zone.end.y);
         if (inZone) {
@@ -300,7 +300,7 @@ function updateBankShuffleButton(overList) {
 }
 
 function setExpandedDropZones(zoneIndicies, animate = true) {
-    for (let i = 0; i < canvas.dropZones.length; i++) {
+    for (let i = 0; i < canvas.dropZones?.length; i++) {
         setDropZoneExpanded(i, zoneIndicies.includes(i), animate);
     }
 }
