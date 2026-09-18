@@ -4,6 +4,7 @@ const BOARD_PIXEL_SCALE = 2;
 
 const BOARD_BACKGROUND_COLOR = "#f2f5ff";
 const BOARD_COLOR_KEY = ["#00000009", "#6dd0f7", "#1b4afc", "#faaab5", "#ff2c2b", "#faaab5"];
+const BOARD_DARKENED_COLOR_KEY = ["#00000052", "#4c91ac", "#1233b0", "#af767e", "#b21e1e", "#af767e"];
 const BOARD_SQUARE_TYPES = ["outline", "fill", "fill", "fill", "fill", "fill"];
 const OUTLINE_THICKNESS = 0.1;
 const SQUARE_CONTENTS = ["", "L2", "L3", "W2", "W3", ""];
@@ -153,7 +154,14 @@ function drawBoard() {
 
 	for (var y = 0; y < SQUARE_NUM; y++) { // for each tile
 		for (var x = 0; x < SQUARE_NUM; x++) {
-			const squareColor = BOARD_COLOR_KEY[boardModifiers[y][x]];
+			const regColor = BOARD_COLOR_KEY[boardModifiers[y][x]];
+			const darkColor = BOARD_DARKENED_COLOR_KEY[boardModifiers[y][x]];
+			const darkened = canvas.darkenedSquares?.find(a => a.x === x && a.y === y);
+			const squareColor = (() => {
+				if (!darkened) return regColor;
+				if (!darkened.fade) return darkColor;
+				return lerpColor(regColor, darkColor, darkened.fade.getFrame());
+			})();
 			const squareType = BOARD_SQUARE_TYPES[boardModifiers[y][x]];
 			const squareContents = SQUARE_CONTENTS[boardModifiers[y][x]];
 			if (squareColor === "transparent") continue; // skip regular/transparent tiles since they are the same as the background

@@ -144,6 +144,8 @@ function handleCanvasMouseDown(e) {
 
                 canvas.pointsPreview = false; // remove the points preview
 
+                updateDarkenedSquares(dragged);
+
                 boardUpdate();
             } else if (tile.locked) {
                 // lookup is performed on mouse up, but we need to register mouse down on correct letter type first
@@ -216,7 +218,7 @@ function handleCanvasMouseMove(e) {
 
     // determine which tiles should be darkened
     updateDarkenedTiles(overList);
-
+    updateDarkenedSquares(dragged);
     updateBankShuffleButton(overList);
 
     if (dragged && overListCategories.includes("bankDropZone")) {
@@ -337,6 +339,7 @@ function handleDocumentMouseUp(e) {
     }
 
     updateDarkenedTiles(overList);
+    updateDarkenedSquares(dragged);
     updateBankShuffleButton(overList);
 }
 

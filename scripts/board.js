@@ -153,7 +153,7 @@ function setCanvasCursor(overList) {
     if (dragged) {
         cursor = 'grabbing';
 
-        if (overObj.category === "board" && overObj.tile?.locked) {
+        if (overObj.category === "board" && overObj.tile) {
             cursor = 'no-drop';
         }
     } else {
@@ -226,12 +226,10 @@ function updateDarkenedTiles(overList) {
             // if the tile is no longer to remain darkened
             if (!darkenTiles.some(a => a.x == darkenTile.x && a.y == darkenTile.y) && !darkenTile.fade) {
                 // set up the animation to fade it out
-                darkenTile.fade = new Anim(
-                    HOVER_FADE_OUT_DURATION, {
-                        from: 1, to: 0,
-                        onComplete: () => canvas.darkenTiles.splice(canvas.darkenTiles.indexOf(darkenTile), 1)
-                    }
-                );
+                darkenTile.fade = new Anim(HOVER_FADE_OUT_DURATION, {
+                    from: 1, to: 0,
+                    onComplete: () => canvas.darkenTiles.splice(canvas.darkenTiles.indexOf(darkenTile), 1)
+                });
             }
         }
     }
@@ -244,6 +242,40 @@ function updateDarkenedTiles(overList) {
             t.fade = undefined;
         } else if (!t) {
             canvas.darkenTiles.push(darkenTile);
+        }
+    }
+}
+
+function updateDarkenedSquares(d) {
+    let toBeDarkened;
+    if (d) {
+        const x = d.pixelX + (d.mouseOffset?.x + squareWidth / 2 || 0);
+        const y = d.pixelY + (d.mouseOffset?.y + squareWidth / 2 || 0);
+        const boardOverObj = whatMouseIsOver(x, y).find(a => a.category === "board");
+        if (boardOverObj && !game.board[boardOverObj.y][boardOverObj.x]) toBeDarkened = {
+            x: boardOverObj.x,
+            y: boardOverObj.y
+        };
+    }
+
+    if (!canvas.darkenedSquares) canvas.darkenedSquares = [];
+
+    for (const darkenedSquare of canvas.darkenedSquares) {
+        const isToBeDarkened = darkenedSquare.x === toBeDarkened?.x && darkenedSquare.y === toBeDarkened?.y;
+        if (!darkenedSquare.fade && !isToBeDarkened) {
+            darkenedSquare.fade = new Anim(HOVER_FADE_OUT_DURATION, {
+                from: 1, to: 0,
+                onComplete: () => canvas.darkenedSquares.splice(canvas.darkenedSquares.indexOf(darkenedSquare), 1)
+            });
+        }
+    }
+
+    if (toBeDarkened) {
+        const existing = canvas.darkenedSquares.find(a => a.x === toBeDarkened.x && a.y === toBeDarkened.y);
+        if (existing) {
+            existing.fade = undefined;
+        } else {
+            canvas.darkenedSquares.push(toBeDarkened);
         }
     }
 }
