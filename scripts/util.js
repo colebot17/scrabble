@@ -60,7 +60,12 @@ function getPropArray(input, prop) {
 }
 
 String.prototype.toTitleCase = function() {
-	return this.toLowerCase().replace(/^\w/, (c) => c.toUpperCase());
+	const words = this.split(" ");
+	let result = "";
+	for (let i = 0; i < words.length; i++) {
+		result += (i === 0 ? "" : " ") + words[i][0].toUpperCase() + words[i].slice(1).toLowerCase();
+	}
+	return result;
 }
 
 // copied from colebot.com themes.js

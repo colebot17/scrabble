@@ -25,7 +25,7 @@ function lookup(boardX, boardY, clientX, clientY) {
     const sweepXMin = sweepX + 1;
 
     // add to words array
-    if (xWord.length > 1) {
+    if (!langInfo[game.lang].alphabet.includes(xWord)) {
         words.push({
             word: xWord,
             pos: {
@@ -61,7 +61,7 @@ function lookup(boardX, boardY, clientX, clientY) {
     const sweepYMin = sweepY + 1;
 
     // add to words array
-    if (yWord.length > 1) {
+    if (!langInfo[game.lang].alphabet.includes(yWord)) {
         words.push({
             word: yWord,
             pos: {
@@ -90,10 +90,16 @@ function lookup(boardX, boardY, clientX, clientY) {
 
         const w = gameWord?.word || word.word;
 
+        let displayWord = w.toUpperCase();
+        for (const [letter, replacement] of Object.entries(langInfo[game.lang].letterReplacements)) {
+            displayWord = displayWord.replaceAll(letter, replacement);
+        }
+        displayWord = displayWord.toTitleCase();
+
         resultsEl.innerHTML += `
             <div class="wordLookupEntry">
                 <h3 class="wordLookupWord narrowHeading">
-                    ${w.toTitleCase()}
+                    ${displayWord}
                 </h3>
                 <div class="wordLookupInfo" id="lookupInfo${i}">
                     ${!word.unlockedTiles.length ?
@@ -107,7 +113,7 @@ function lookup(boardX, boardY, clientX, clientY) {
                             More Info
                         </a>
                     ` : ``}
-                    <a class="wordLookupLink flex blue fakeHoverLine" href="${langInfo[game.lang].dictionaryAddress + w.toLowerCase()}" target="_blank">
+                    <a class="wordLookupLink flex blue fakeHoverLine" href="${langInfo[game.lang].dictionaryAddress + displayWord.toLowerCase()}" target="_blank">
                         <span class="material-symbols-rounded smallIcon">search</span>
                         Look up
                     </a>

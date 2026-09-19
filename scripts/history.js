@@ -107,10 +107,16 @@ function updateMoveHistory(draftWords) {
             const words = move.words;
             for (let j = 0; j < words.length; j++) {
                 const word = words[j];
+                let displayWord = word.word.toUpperCase();
+                for (const [letter, replacement] of Object.entries(langInfo[game.lang].letterReplacements)) {
+                    displayWord = displayWord.replaceAll(letter, replacement);
+                }
+                displayWord = displayWord.toTitleCase();
+
                 if (!word.placeholder) {
                     const wordEl = document.createElement('div');
                     wordEl.className = "moveHistoryWord";
-                    wordEl.innerHTML = "<span class='bold'>" + word.word.toTitleCase() + "</span>" + (words.length > 1 ? " - " + word.points + "pt" + (word.points === 1 ? "" : "s") : "");
+                    wordEl.innerHTML = "<span class='bold'>" + displayWord + "</span>" + (words.length > 1 ? " - " + word.points + "pt" + (word.points === 1 ? "" : "s") : "");
                     wordsEl.appendChild(wordEl);
                 } else {
                     const bonusEl = document.createElement('div');
