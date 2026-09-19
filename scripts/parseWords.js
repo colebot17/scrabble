@@ -87,20 +87,14 @@ export function checkConnectedness(b) {
     while (queue.length > 0) {
         let [x, y] = queue.shift();
 
-        // this item is in the queue, so it must be connected
-        boardCopy[y][x] = "connected";
+        // check if the current tile is connected
+        if (boardCopy?.[y]?.[x] === "tile") {
+            boardCopy[y][x] = "connected";
 
-        // add all adjacent tiles to the queue as well
-        if (boardCopy?.[y]?.[x + 1] === "tile") {
+            // add all adjacent tiles to the queue as well
             queue.push([x + 1, y]);
-        }
-        if (boardCopy?.[y]?.[x - 1] === "tile") {
             queue.push([x - 1, y]);
-        }
-        if (boardCopy?.[y + 1]?.[x] === "tile") {
             queue.push([x, y + 1]);
-        }
-        if (boardCopy?.[y - 1]?.[x] === "tile") {
             queue.push([x, y - 1]);
         }
     }

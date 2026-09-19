@@ -47,6 +47,9 @@ function handleCanvasMouseDown(e) {
     // don't let them zoom in when they're dragging a tile
     if (!isTouchEvent || e.touches.length <= 1 || dragged) e.preventDefault();
 
+    // close the letter picker
+    document.getElementById("letterPicker")?.blur();
+
     // cancel if a popup is open
     if (visiblePopups.length > 0) return;
 
