@@ -81,20 +81,14 @@
 				</button>
 			</div>
 			<div class="gameInfoBox"></div>
-			<div class="gameControlButtons flex stretch">
+			<div id="gameControlButtons" class="gameControlButtons flex stretch">
 				<button class="highlight flexGrow fontSize1" id="makeMoveButton" onclick="makeMove()">Move</button>
-				<div class="flex mobileCol stretch">
-					<details class="moreGameControls contents">
-						<summary class="flex">
-							<span class="iconButton">
-								<span class="material-symbols-rounded">more_horiz</span>
-							</span>
-						</summary>
-						<div class="flex col stretch noGap flexGrow fullHeight">
-							<button class="flexGrow" id="skipTurnButton" onclick="exchangeLetters()"></button>
-							<button class="flexGrow" id="endGameButton" onclick="endGame()"></button>
-						</div>
-					</details>
+				<span id="extraGameControlsToggle" class="iconButton flex col" onclick="toggleExtraGameControls()">
+					<span class="material-symbols-rounded">more_horiz</span>
+				</span>
+				<div id="extraGameControls" class="flex col stretch noGap">
+					<button class="flexGrow" id="skipTurnButton" onclick="exchangeLetters()"></button>
+					<button class="flexGrow" id="endGameButton" onclick="endGame()"></button>
 				</div>
 			</div>
 		</div>
@@ -681,7 +675,7 @@
 	<!-- <script type="text/javascript" src="libraries/confetti.js" defer></script> -->
 	<!-- <script type="text/javascript" src="libraries/confetti2.min.js" defer></script> -->
 	<script type="text/javascript" src="libraries/confetti3.js" defer></script>
-	<script type="module" src="scripts/moduleScript.js?v=4" defer></script>
+	<script type="module" src="scripts/moduleScript.js?v=5" defer></script>
 	<script type="text/javascript" src="scripts/script.js?v=15" defer></script>
 	<script type="text/javascript" src="scripts/demo.js" defer></script>
 </body>

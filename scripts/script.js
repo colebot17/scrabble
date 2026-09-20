@@ -710,6 +710,9 @@ function gameInit() {
 	// show the game info
 	updateGameInfo();
 
+	// hide extra controls
+	document.getElementById("gameControlButtons").classList.remove("extra");
+
 	//setTimeout(startChangeCheck, 3000);
 
 	chatInit();
@@ -839,6 +842,15 @@ function setOOTD(disabled) {
 		el.disabled = disabled;
 		el.title = (disabled ? "It isn't your turn!" : "");
 	});
+}
+
+function toggleExtraGameControls() {
+	const cl = document.getElementById("gameControlButtons").classList;
+	if (cl.contains("extra")) {
+		cl.remove("extra");
+	} else {
+		cl.add("extra");
+	}
 }
 
 async function makeMove() {
