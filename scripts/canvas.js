@@ -411,7 +411,7 @@ function drawLetterBank() {
 
 	canvas.bankTileWidth = tileWidth;
 
-	let currentSpaceUsed = (expansionAmts[0] || 0) * extraTileGap;
+	let currentSpaceUsed = (expansionAmts[0] || 0) * (tileWidth + minTileGap);
 
 	// draw each letter
 	let firstLetter, drawnLetters = 0;
