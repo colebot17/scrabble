@@ -88,8 +88,6 @@ function handleCanvasMouseDown(e) {
     const overList = whatMouseIsOver(x, y);
     const overListCategories = getPropArray(overList, "category");
 
-    setCanvasCursor(overList);
-
     // if the mouse is over a bank letter
     if (overListCategories.includes("bankLetter") && !game.inactive) {
         const overObj = overList[overListCategories.indexOf("bankLetter")];
@@ -171,6 +169,8 @@ function handleCanvasMouseDown(e) {
         canvas.doubleTap = false;
 
     }
+
+    setCanvasCursor(overList);
 }
 
 // update position of tile when mouse moves during drag
@@ -345,6 +345,7 @@ function handleDocumentMouseUp(e) {
         dragged = undefined; // remove the dragged tile
     }
 
+    setCanvasCursor(overList);
     updateDarkenedTiles(overList);
     updateDarkenedSquares(dragged);
     updateBankShuffleButton(overList);
