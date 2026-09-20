@@ -14,6 +14,12 @@ const SQUARE_INSET = 0.15;
 const GRADIENT_PADDING = 0.2;
 var squareWidth;
 
+const SACK_TOP = "m 34.152344,1.1523438 c -4.028393,0.026761 -8.13079,0.2496435 -11.988282,1.4980468 -1.154188,0.3684475 -2.244716,1.2890659 -2.247435,2.5882318 -0.02866,0.6781433 0.550958,1.2623111 0.884175,1.8406324 2.459658,3.5508742 5.036544,7.0215342 7.623026,10.4793392 0.918003,1.04105 2.370508,1.214043 3.676172,1.111328 4.870775,-0.01323 9.743028,0.02633 14.612891,-0.01953 1.386472,-0.12059 2.39301,-1.189553 3.084978,-2.306318 C 52.239974,12.958511 54.825582,9.6661646 57.085063,6.155349 57.444789,5.6658356 57.575199,5.1540035 57.267578,4.5996094 56.862022,3.1018004 55.14748,2.66061 53.834882,2.2677164 50.26174,1.2510587 46.510582,1.3977478 42.835474,1.2340992 39.941765,1.1581221 37.04695,1.1362104 34.152344,1.1523438 Z";
+const SACK_BOTTOM = "M 31.785156,24.175781 C 30.07356,24.161522 28.588603,25.18986 27.520165,26.448835 21.580694,32.258469 16.184198,38.64831 11.741569,45.679629 8.2881287,51.1984 5.2248177,57.011326 3.1273715,63.187987 1.411615,68.278709 0.72151934,73.75625 1.4063736,79.097077 c 0.863406,5.301328 4.0682648,10.105219 8.5059592,13.10024 5.3070342,3.648496 11.7250942,5.183972 18.0148172,6.080772 8.727285,1.144503 17.665993,0.953722 26.292959,-0.844378 C 60.132908,96.16644 66.144825,93.993133 70.480114,89.606999 73.598757,86.479288 75.63038,82.289286 76.05197,77.883757 76.747407,71.194196 74.904583,64.528163 72.365234,58.396484 68.035119,48.249659 61.582579,39.12435 54.203507,30.97158 52.266451,28.890884 50.316784,26.799261 48.115234,25.009766 46.384718,23.799571 44.200732,24.26376 42.230078,24.173828 c -3.481627,0.0013 -6.963357,-0.0026 -10.444922,0.002 z";
+const SACK_HEIGHT = 100
+const SACK_WIDTH = 130;
+const SACK_ASPECT_RATIO = SACK_WIDTH / SACK_HEIGHT;
+
 // up, right, down, left
 const DIR_RADII = [ ["tl", "tr"], ["tr", "br"], ["br", "bl"], ["bl", "tl"] ];
 const DIRS = [ [0, -1], [1, 0], [0, 1], [-1, 0] ];
@@ -220,41 +226,74 @@ function drawLetterBank() {
 		canvas.ctx.font = titleSize + "px Rubik";
 		canvas.ctx.fillStyle = textColor;
 		canvas.ctx.textAlign = "center";
-		canvas.ctx.fillText((canvas.bank.length > 0 ? "Letter Bank" : "Your letter bank is empty."), canvasWidth / 2, startY + titleSize + (10 * BOARD_PIXEL_SCALE));
+		canvas.ctx.textBaseline = "alphabetic";
+		const bankTitleBaselineY = startY + (10 * BOARD_PIXEL_SCALE) + titleSize;
+		const bankTitleString = (canvas.bank.length > 0 ? "Letter Bank" : "Your letter bank is empty.");
+		const bankTitleWidth = canvas.ctx.measureText(bankTitleString).width;
+		const bankTitleControlsGap = 15 * BOARD_PIXEL_SCALE;
+		canvas.ctx.fillText(bankTitleString, canvasWidth / 2, bankTitleBaselineY);
 
 		// if the game is active
 		if (!game.inactive) {
+
 			// draw the letter bag count
-			const lbcSize = titleSize * (2 / 3);
-			const lbcY = startY + lbcSize + 3;
+			const bagCountFontSize = titleSize * 2 / 3;
+			const bagCountBaselineY = bankTitleBaselineY;
+			const bagCountRightX = (canvasWidth / 2) - (bankTitleWidth / 2) - bankTitleControlsGap;
+			const bagIconWidth = bagCountFontSize / SACK_ASPECT_RATIO;
+			const bagCountGap = 5 * BOARD_PIXEL_SCALE;
+			canvas.ctx.font = bagCountFontSize + "px Rubik"
+			const bagCountNumberWidth = canvas.ctx.measureText(game.lettersLeft).width;
+			const bagCountTotalWidth = bagIconWidth + bagCountGap + bagCountNumberWidth;
+			const bagCountIconX = bagCountRightX - bagCountTotalWidth;
+			const bagIconScaleFactor = bagCountFontSize / SACK_HEIGHT;
+			const bagCountNumberX = bagCountRightX - bagCountNumberWidth;
 
-			canvas.ctx.font = lbcSize + "px Rubik";
-			const numberWidth = canvas.ctx.measureText(game.lettersLeft).width;
+			/* // draw red lines for alignment
+			canvas.ctx.lineWidth = 1 * BOARD_PIXEL_SCALE;
+			canvas.ctx.strokeStyle = "red";
+			canvas.ctx.beginPath();
+			canvas.ctx.moveTo(0, bankTitleBaselineY);
+			canvas.ctx.lineTo(canvas.c.width, bankTitleBaselineY);
+			canvas.ctx.moveTo(0, bankTitleBaselineY - (titleSize / 2));
+			canvas.ctx.lineTo(canvas.c.width, bankTitleBaselineY - (titleSize / 2));
+			canvas.ctx.moveTo(0, bankTitleBaselineY - titleSize);
+			canvas.ctx.lineTo(canvas.c.width, bankTitleBaselineY - titleSize);
+			canvas.ctx.moveTo(bagCountRightX, startY);
+			canvas.ctx.lineTo(bagCountRightX, canvas.c.height);
+			canvas.ctx.moveTo((canvasWidth / 2) - (bankTitleWidth / 2), startY);
+			canvas.ctx.lineTo((canvasWidth / 2) - (bankTitleWidth / 2), canvas.c.height);
+			canvas.ctx.moveTo(bagCountRightX - bagCountNumberWidth, startY);
+			canvas.ctx.lineTo(bagCountRightX - bagCountNumberWidth, canvas.c.height);
+			canvas.ctx.moveTo(bagCountRightX - bagCountTotalWidth, startY);
+			canvas.ctx.lineTo(bagCountRightX - bagCountTotalWidth, canvas.c.height);
+			canvas.ctx.stroke(); */
 
-			canvas.ctx.font = lbcSize + "px scrabble";
-			const iconWidth = canvas.ctx.measureText("\ue900").width;
 
-			const totalWidth = numberWidth + (5 * BOARD_PIXEL_SCALE) + iconWidth;
-			
-			const lbcX = (canvasWidth / 2) - (90 * BOARD_PIXEL_SCALE) + (lbcSize / 2);
-			const iconStartX = lbcX - totalWidth;
-			const numberStartX = lbcX - numberWidth;
+			// draw the bag icon
+			canvas.ctx.save();
 
-			canvas.ctx.font = lbcSize + "px scrabble";
-			canvas.ctx.fillStyle = textColor;
+				canvas.ctx.translate(bagCountIconX, bagCountBaselineY - bagCountFontSize);
+				canvas.ctx.scale(bagIconScaleFactor, bagIconScaleFactor);
+
+				canvas.ctx.strokeStyle = textColor;
+				canvas.ctx.lineWidth = 3 * BOARD_PIXEL_SCALE;
+				const p = new Path2D(SACK_TOP);
+				canvas.ctx.stroke(p);
+				const p2 = new Path2D(SACK_BOTTOM);
+				canvas.ctx.stroke(p2);
+
+			canvas.ctx.restore();
+
+			canvas.ctx.font = bagCountFontSize + "px Rubik";
 			canvas.ctx.textAlign = "left";
-			canvas.ctx.textBaseline = "top";
-
-			canvas.ctx.fillText("\ue900", iconStartX, lbcY);
-
-			canvas.ctx.font = lbcSize + "px Rubik";
-			canvas.ctx.fillText(game.lettersLeft, numberStartX, lbcY);
-
-
+			canvas.ctx.textBaseline = "alphabetic";
+			canvas.ctx.fillText(game.lettersLeft, bagCountNumberX, bankTitleBaselineY - (2 * BOARD_PIXEL_SCALE));
 
 			// draw the bank shuffle button
-			const shuffleButtonX = (canvasWidth / 2) + (90 * BOARD_PIXEL_SCALE);
-			const shuffleButtonY = startY + titleSize + (14 * BOARD_PIXEL_SCALE);
+			const shuffleButtonRadius = (titleSize / 2) + (5 * BOARD_PIXEL_SCALE);
+			const shuffleButtonCenterX = (canvasWidth / 2) + (bankTitleWidth / 2) + bankTitleControlsGap + (titleSize / 2);
+			const shuffleButtonCenterY = bankTitleBaselineY - (titleSize / 2) + (4 * BOARD_PIXEL_SCALE);
 
 			// draw background if hovering/clicking and cooldown is not active
 			if (!canvas.bankShuffleButton.cooldown && canvas.bankShuffleButton.clicking) {
@@ -268,7 +307,7 @@ function drawLetterBank() {
 				canvas.ctx.fillStyle = "#00000000";
 			}
 			canvas.ctx.beginPath();
-			canvas.ctx.arc(shuffleButtonX, shuffleButtonY - (titleSize / 2), (titleSize / 2) + (5 * BOARD_PIXEL_SCALE), 0, 2 * Math.PI, false);
+			canvas.ctx.arc(shuffleButtonCenterX, shuffleButtonCenterY, shuffleButtonRadius, 0, 2 * Math.PI, false);
 			canvas.ctx.fill();
 			
 			// draw the icon
@@ -276,18 +315,17 @@ function drawLetterBank() {
 			canvas.ctx.fillStyle = textColor;
 			canvas.ctx.textAlign = "center";
 			canvas.ctx.textBaseline = "alphabetic";
-
-			canvas.ctx.fillText("shuffle", shuffleButtonX, shuffleButtonY);
+			canvas.ctx.fillText("shuffle", shuffleButtonCenterX, shuffleButtonCenterY + (titleSize / 2));
 			
 			// store the coordinates so we know when we click on it
 			canvas.bankShuffleButton.position = {
 				start: {
-					x: shuffleButtonX - (titleSize / 2) - (5 * BOARD_PIXEL_SCALE),
-					y: shuffleButtonY - titleSize - (5 * BOARD_PIXEL_SCALE)
+					x: shuffleButtonCenterX - shuffleButtonRadius,
+					y: shuffleButtonCenterY - shuffleButtonRadius
 				},
 				end: {
-					x: shuffleButtonX + (titleSize / 2) + (5 * BOARD_PIXEL_SCALE),
-					y: shuffleButtonY + 5
+					x: shuffleButtonCenterX + shuffleButtonRadius,
+					y: shuffleButtonCenterY + shuffleButtonRadius
 				}
 			}
 
@@ -304,7 +342,7 @@ function drawLetterBank() {
 			if (anyHighlighed) {
 				canvas.ctx.save();
 
-				const y = shuffleButtonY - (titleSize / 2);
+				const y = shuffleButtonCenterY - (titleSize / 2);
 				const circleX = canvas.bankShuffleButton.position.end.x + (15 * BOARD_PIXEL_SCALE);
 				const textX = circleX + (10 * BOARD_PIXEL_SCALE);
 
@@ -316,7 +354,7 @@ function drawLetterBank() {
 				
 				// draw the text
 				canvas.ctx.fillStyle = textColor;
-				canvas.ctx.font = lbcSize + "px Rubik";
+				canvas.ctx.font = bagCountFontSize + "px Rubik";
 				canvas.ctx.textAlign = "left";
 				canvas.ctx.textBaseline = "middle";
 				canvas.ctx.fillText("New", textX, y);
