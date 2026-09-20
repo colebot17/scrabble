@@ -255,20 +255,21 @@ require "draft/draft.php";
 setDraft($conn, $user, $gameId, null);
 
 
-// notify the next player
+// notify the next player (if the game is still active)
+if (!$inactive) {
+	$playerList = Array();
+	for ($i = 0; $i < count($players); $i++) {
+		$pid = $players[$i]['id'];
+		$sql = "SELECT name FROM accounts WHERE id='$pid'";
+		$query = mysqli_query($conn, $sql);
+		$row = mysqli_fetch_assoc($query);
+		$playerList[] = $row['name'];
+		if ($pid === $user) $un = $row['name'];
+	}
 
-$playerList = Array();
-for ($i = 0; $i < count($players); $i++) {
-	$pid = $players[$i]['id'];
-	$sql = "SELECT name FROM accounts WHERE id='$pid'";
-	$query = mysqli_query($conn, $sql);
-	$row = mysqli_fetch_assoc($query);
-	$playerList[] = $row['name'];
-	if ($pid === $user) $un = $row['name'];
+	require_once "notifications/notify.php";
+	notify($conn, $players[$totalTurn % count($players)]["id"], "turn", Array($un, $gameName, $gameId, $playerList));
 }
-
-require "notifications/notify.php";
-notify($conn, $players[$totalTurn % count($players)]["id"], "turn", Array($un, $gameName, $gameId, $playerList));
 
 //////////
 // add to updates list

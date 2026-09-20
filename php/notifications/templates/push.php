@@ -52,7 +52,7 @@ $pushTemplates = Array(
     },
     "turn" => function ($prevPlayerName, $gameName, $gameId, $playerNames) {
         $title = "It's Your Turn!";
-        $text = $prevPlayerName . ' moved in ' . ($gameName !== '' ? $gameName : 'game ') . '#' . $gameId . ', and it\'s your turn now! Log on to play.';
+        $text = $prevPlayerName . ' moved in ' . ($gameName !== '' ? $gameName : 'game') . ' #' . $gameId . ', and it\'s your turn now! Log on to play.';
         return Array(
             "title" => $title,
             "text" => $text,
@@ -76,6 +76,15 @@ $pushTemplates = Array(
     "endGame" => function ($playerName, $gameName, $gameId, $playerNames) {
         $title = "$playerName wants to end " . ($gameName === '' ? "game" : $gameName) . " #$gameId";
         $text = "If you want to end it too, log on to vote. Otherwise, the game will remain active.";
+        return Array(
+            "title" => $title,
+            "text" => $text,
+            "data" => Array("game" => $gameId)
+        );
+    },
+    "gameEnd" => function ($winnerName, $gameName, $gameId, $playerNames) {
+        $title = "$winnerName Wins!";
+        $text = ($gameName !== '' ? $gameName : "Game") . " #$gameId is over. Log on to check it out.";
         return Array(
             "title" => $title,
             "text" => $text,

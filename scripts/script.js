@@ -869,12 +869,15 @@ async function makeMove() {
 	for (let i = 0; i < res.data.newWords.length; i++) {
 		newPoints += res.data.newWords[i].points;
 	}
+	
+	// load the game
+	await loadGame(game.id, "moveMade");
 
 	// this is the game in the account games list
 	// we will use this to update the games list without making a new request
 	const g = account.games.find(a => a.id === game.id);
 
-	if (res.status === 1) {
+	if (res.status === 1) { // the game is over
 		// calculate the winner indices
 		let winPts = 0;
 		for (let i = 0; i < game.players.length; i++) {
@@ -901,9 +904,6 @@ async function makeMove() {
 
 	g.lastUpdate = new Date();
 	updateGamesList(); // show the updated game in the games list
-
-	// load the game
-	await loadGame(game.id, "moveMade");
 
 	// show a confirmation banner
 	const bannerMessage = 'You scored ' + newPoints + ' point' + (newPoints === 1 ? '' : 's') + '. It\'s <b>' + game.players[game.turn % game.players.length].name + '</b>\'s turn now!';
