@@ -19,10 +19,11 @@
 // }
 
 function deactivate($conn, $gameId, $user, $reason) {
-    $sql = "SELECT players FROM games WHERE id='$gameId'";
+    $sql = "SELECT players, name FROM games WHERE id='$gameId'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
     $players = json_decode($row['players'], true);
+    $gameName = $row["name"];
 
     // delete the game if no players have scored points
     $delete = true;
@@ -61,6 +62,58 @@ function deactivate($conn, $gameId, $user, $reason) {
         "reason" => $reason
     );
     addUpdate($conn, $gameId, "gameEnd", $updateData);
+
+    // find the winner(s) and create a winner string
+    $maxPoints = 0;
+    for ($i = 0; $i < count($players); $i++) {
+        if ($players[$i]["points"] > $maxPoints) {
+            $maxPoints = $players[$i]["points"];
+        }
+    }
+    $winnerNames = Array();
+    for ($i = 0; $i < count($players); $i++) {
+        if ($players[$i]["points"] === $maxPoints) {
+            $pid = $players[$i]["id"];
+            $sql = "SELECT name FROM accounts WHERE id='$pid'";
+            $query = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_assoc($query);
+            $winnerNames[] = $row["name"];
+        }
+    }
+    switch (count($winnerNames)) {
+        case 0:
+            $winnerString = "[nobody]";
+        case 1:
+            $winnerString = $winnerNames[0];
+        case 2:
+            $winnerString = $winnerNames[0] . " and " . $winnerNames[1];
+        default:
+            $winnerString = "";
+            for ($i = 0; $i < count($winnerNames); $i++) {
+                $winnerString .= $winnerNames[$i];
+                if ($i === count($winnerNames) - 2) {
+                    $winnerString .= ", ";
+                } else if ($i !== count($winnerNames) - 1) {
+                    $winnerString .= ", and ";
+                }
+            }
+    }
+
+    $playerNames = Array();
+    for ($i = 0; $i < count($players); $i++) {
+		$pid = $players[$i]["id"];
+		$sql = "SELECT name FROM accounts WHERE id='$pid'";
+		$query = mysqli_query($conn, $sql);
+		$row = mysqli_fetch_assoc($query);
+        $playerNames[] = $row["name"];
+    }
+
+    // notify all players except the current player
+    require_once "notifications/notify.php";
+    for ($i = 0; $i < count($players); $i++) {
+        if ($players[$i]["id"] === $user) continue;
+        notify($conn, $players[$i]["id"], "gameEnd", Array($winnerString, $gameName, $gameId, $playerNames));
+    }
 
     return "deactivated";
 }

@@ -34,5 +34,8 @@ $smsTemplates = Array(
     "endGame" => function ($playerName, $gameName, $gameId, $playerNames) {
         $body = "$playerName wants to end " . ($gameName === '' ? "game" : $gameName) . " #$gameId. The game will remain active unless you vote to end it too.";
         return $body;
+    },
+    "gameEnd" => function ($winnerName, $gameName, $gameId, $playerNames) {
+        $body = "$winnerName just won " . ($gameName === '' ? "game" : $gameName) . " #$gameId!";
     }
 );

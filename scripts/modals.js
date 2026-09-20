@@ -157,11 +157,12 @@ jQuery.fn.extend({
 		// set the position
 		el.css({
 			top: realY + 'px',
-			left: realX + 'px'
+			left: realX + 'px',
+			transformOrigin: posRight ? "left" : "right"
 		});
 
-		// show the popup
-		return el.removeClass('hidden');
+		// show it
+		return el.removeClass("popup-hidden");
 	},
 	popupClose: function () {
 		// update the escape stack
@@ -176,7 +177,7 @@ jQuery.fn.extend({
 		$('#scrabbleGrid').off('mouseup');
 
 		// hide the popup
-		return this.addClass('hidden');
+		return this.addClass('popup-hidden');
 	}
 });
 

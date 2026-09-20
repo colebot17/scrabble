@@ -100,5 +100,21 @@ $emailTemplates = Array(
             <h2>If you want to end it too, log on to vote</h2>
             <p>Otherwise, the game will remain active</p>
         ';
+        return ["End Game Request", $body];
+    },
+    "gameEnd" => function ($winnerName, $gameName, $gameId, $playerNames) {
+        require_once "gameCard.php";
+        $viewLink = "https://scrabble.colebot.com?game=$gameId";
+        $gameCard = gameCard($gameName, $gameId, $playerNames, false);
+        $body = '
+            <link href="https://fonts.googleapis.com/css2?family=Rubik" rel="stylesheet">
+            <style>
+                :root {
+                    font-family: "Rubik", Helvetica, sans-serif;
+                }
+            </style>
+            <h1><b>' . $winnerName . '</b> won!</h1><br>
+            ' . $gameCard;
+        return ["Game Over!", $body];
     }
 );

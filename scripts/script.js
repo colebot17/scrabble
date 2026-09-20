@@ -56,6 +56,14 @@ let langInfo = {
 	}
 };
 
+const TILE_GROW_IN_DURATION= 750;
+const SNAP_FROM_DURATION = 75;
+const POP_IN_DURATION = 75;
+const REGION_GROW_DURATION = 75;
+const HOVER_FADE_OUT_DURATION = 150;
+const DROP_ZONE_ANIMATION_TIME = 75;
+const MAKING_MOVE_PULSE_DURATION = 300;
+
 const windowTitle = "Scrabble - Colebot.com";
 
 var game = {};
@@ -702,13 +710,14 @@ function gameInit() {
 	// show the game info
 	updateGameInfo();
 
+	// hide extra controls
+	document.getElementById("gameControlButtons").classList.remove("extra");
+
 	//setTimeout(startChangeCheck, 3000);
 
 	chatInit();
 
 	updateMoveHistory();
-
-	document.getElementsByClassName('moreGameControls')[0].removeAttribute('open');
 
 	setCanvasSize();
 
@@ -833,10 +842,23 @@ function setOOTD(disabled) {
 	});
 }
 
-async function makeMove() {
-	// first, get a list of all unlocked tiles
-	var newTiles = getUnlockedTiles(game.board);
+function toggleExtraGameControls() {
+	const cl = document.getElementById("gameControlButtons").classList;
+	if (cl.contains("extra")) {
+		cl.remove("extra");
+	} else {
+		cl.add("extra");
+	}
+}
 
+async function makeMove() {
+
+	// pulse the points preview if it exists
+	if (canvas.pointsPreview) {
+		canvas.pointsPreview.opacity = new Anim(MAKING_MOVE_PULSE_DURATION, { boundsMode: "loop-bounce" });
+	}
+
+	const newTiles = getUnlockedTiles(game.board);
 	const res = await request('makeMove.php', {
 		game: game.id,
 		tiles: JSON.stringify(newTiles),
@@ -857,12 +879,15 @@ async function makeMove() {
 	for (let i = 0; i < res.data.newWords.length; i++) {
 		newPoints += res.data.newWords[i].points;
 	}
+	
+	// load the game
+	await loadGame(game.id, "moveMade");
 
 	// this is the game in the account games list
 	// we will use this to update the games list without making a new request
 	const g = account.games.find(a => a.id === game.id);
 
-	if (res.status === 1) {
+	if (res.status === 1) { // the game is over
 		// calculate the winner indices
 		let winPts = 0;
 		for (let i = 0; i < game.players.length; i++) {
@@ -889,9 +914,6 @@ async function makeMove() {
 
 	g.lastUpdate = new Date();
 	updateGamesList(); // show the updated game in the games list
-
-	// load the game
-	await loadGame(game.id, "moveMade");
 
 	// show a confirmation banner
 	const bannerMessage = 'You scored ' + newPoints + ' point' + (newPoints === 1 ? '' : 's') + '. It\'s <b>' + game.players[game.turn % game.players.length].name + '</b>\'s turn now!';
@@ -1014,8 +1036,6 @@ async function checkPoints() {
 
 	setMoveButtonEnablementTo(false);
 
-	saveDraft(getUnlockedTiles(game.board));
-
 	const words = await parseWords(game);
 
 	if (!words || words.length === 0) return;
@@ -1044,8 +1064,9 @@ async function checkPoints() {
 	canvas.pointsPreview = {
 		points: totalPoints,
 		start: words[mainWordId].pos.start,
-		end: words[mainWordId].pos.end
-	}
+		end: words[mainWordId].pos.end,
+		grow: new Anim(REGION_GROW_DURATION, { delay: SNAP_FROM_DURATION }) // delay to wait for snapFrom
+	};
 
 	// show the draft in the move history
 	updateMoveHistory(words);
@@ -1116,7 +1137,7 @@ function moveBankLetter(from, to) {
 function shuffleBank() {
 	// create the shuffling animation
 	const animationTime = 370;
-	canvas.animations.bankShuffle = new Animation(animationTime);
+	canvas.animations.bankShuffle = new Anim(animationTime);
 
 	// actually switch the letters halfway through the animation (when all the letters are in the middle)
 	setTimeout(() => {
@@ -1160,7 +1181,7 @@ function pickLetter(bankIndex, complete = function (letter) { }) {
 	});
 }
 
-function addLetter(x, y, bankIndex, assignedLetter = false) {
+function addLetter(x, y, bankIndex, assignedLetter = false, snapFromX, snapFromY) {
 	if (game.inactive) return;
 
 	if (!isValidBoardPos(x, y)) return;
@@ -1178,7 +1199,7 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 
 	if (blank && !assignedLetter) {
 		pickLetter(bankIndex, function (letter) {
-			game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
+			addLetter(x, y, bankIndex, letter);
 			boardUpdate();
 			checkPoints();
 		});
@@ -1189,6 +1210,18 @@ function addLetter(x, y, bankIndex, assignedLetter = false) {
 
 	// create a new tile in the specified position
 	game.board[y][x] = new Tile(x, y, letter, bankIndex, blank, false);
+	if (snapFromX && snapFromY) {
+		game.board[y][x].snapFrom = {
+			x: snapFromX,
+			y: snapFromY,
+			anim: new Anim(SNAP_FROM_DURATION, { onComplete: () => game.board[y][x].snapFrom = undefined })
+		};
+	} else {
+		game.board[y][x].size = new Anim(POP_IN_DURATION, {
+			from: 1.2, to: 1,
+			onComplete: () => game.board[y][x].size = 1
+		});
+	}
 
 	// hide the letter from the canvas bank
 	canvas.bank[bankIndex].hidden = true;
@@ -1219,9 +1252,7 @@ class Tile {
 		this.bankIndex = bankIndex;
 		this.blank = blank;
 		this.locked = locked;
-		if (pixelX || pixelY) {
-			this.pixelX = pixelX;
-			this.pixelY = pixelY;
-		}
+		this.pixelX = pixelX;
+		this.pixelY = pixelY;
 	}
 }

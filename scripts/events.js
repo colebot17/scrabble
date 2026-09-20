@@ -40,24 +40,21 @@ function handleCanvasDblClick(e) { // EVENT OBJECT MAY NOT BE AVAILABLE
 
 // handle drag start on canvas
 function handleCanvasMouseDown(e) {
-    if (e.type === 'touchstart') {
-        if (e.touches.length <= 1 || dragged) {
-            e.preventDefault();
-        }
-    } else {
-        e.preventDefault();
-    }
+    const isTouchEvent = e.type === "touchstart";
 
-    // determine whether it is the current user's turn
-    // const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
+    // block default actions unless there are multiple touches
+    // (the user is probably trying to zoom in)
+    // don't let them zoom in when they're dragging a tile
+    if (!isTouchEvent || e.touches.length <= 1 || dragged) e.preventDefault();
+
+    // close the letter picker
+    document.getElementById("letterPicker")?.blur();
 
     // cancel if a popup is open
-    if (visiblePopups.length > 0) {
-        return;
-    }
+    if (visiblePopups.length > 0) return;
 
     // check for double-tap
-    if (e.type === 'touchstart') {
+    if (isTouchEvent) {
         if (canvas.doubleTap) {
             handleCanvasDblClick();
             return;
@@ -73,7 +70,7 @@ function handleCanvasMouseDown(e) {
     // get the pixel position of the mouse/finger
     const pixScale = getScale();
     let x, y, clientX, clientY, touchIdentifier;
-    if (e.type === 'touchstart') {
+    if (isTouchEvent) {
         x = (e.changedTouches[0].clientX - this.getBoundingClientRect().left) * pixScale;
         y = (e.changedTouches[0].clientY - this.getBoundingClientRect().top) * pixScale;
         clientX = e.changedTouches[0].clientX;
@@ -94,8 +91,10 @@ function handleCanvasMouseDown(e) {
     // if the mouse is over a bank letter
     if (overListCategories.includes("bankLetter") && !game.inactive) {
         const overObj = overList[overListCategories.indexOf("bankLetter")];
-        const orderIndex = overObj.orderIndex;
 
+        // pick up the letter
+
+        const orderIndex = overObj.orderIndex;
         const canvasLetter = canvas.bank[canvas.bankOrder[orderIndex]];
 
         // update the dragged piece
@@ -103,6 +102,10 @@ function handleCanvasMouseDown(e) {
             bankIndex: canvasLetter.bankIndex,
             blank: !canvasLetter.letter,
             letter: canvasLetter.letter,
+            mouseOffset: {
+                x: -overObj.xNorm * squareWidth,
+                y: -overObj.yNorm * squareWidth
+            },
             pixelX: x,
             pixelY: y,
             touchIdentifier
@@ -110,11 +113,8 @@ function handleCanvasMouseDown(e) {
         canvasLetter.hidden = true; // hide the letter from the bank
 
         // add a gap where the letter used to be
-        if (orderIndex == 0) {
-            canvas.extraGapBeforeBank = 1;
-        } else {
-            canvas.bank[canvas.bankOrder[orderIndex - 1]].extraGapAfter = 1;
-        }
+        const zoneIndex = canvas.dropZones.findIndex(a => a.orderIndex === orderIndex);
+        setDropZoneExpanded(zoneIndex, true, false);
 
         // temporarily hide the points preview
         canvas.pointsPreview.hidden = true;
@@ -122,76 +122,65 @@ function handleCanvasMouseDown(e) {
         // don't count for double tap
         canvas.doubleTap = false;
 
-        setCanvasCursor(x, y);
-
-        return; // don't bother checking anything else
-    }
-
     // if the mouse is over the board
-    if (overListCategories.includes("board")) {
+    } else if (overListCategories.includes("board")) {
         const overObj = overList[overListCategories.indexOf("board")];
 
         const tile = overObj.tile;
-        const locked = tile?.locked;
+        if (tile) {
 
-        // initialize the drag if the tile is unlocked
-        if (tile && !locked && !game.inactive) {
-            dragged = {
-                bankIndex: tile.bankIndex,
-                blank: tile.blank,
-                letter: tile.letter,
-                mouseOffset: {
-                    x: overObj.x * (squareWidth + SQUARE_GAP) - x,
-                    y: overObj.y * (squareWidth + SQUARE_GAP) - y
-                },
-                pixelX: x,
-                pixelY: y,
-                posHistory: [{ x, y }],
-                touchIdentifier
-            };
+            // initialize the drag if the tile is unlocked
+            if (!tile.locked && !game.inactive) {
+                dragged = {
+                    bankIndex: tile.bankIndex,
+                    blank: tile.blank,
+                    letter: tile.letter,
+                    mouseOffset: {
+                        x: overObj.x * (squareWidth + SQUARE_GAP) - x,
+                        y: overObj.y * (squareWidth + SQUARE_GAP) - y
+                    },
+                    pixelX: x,
+                    pixelY: y,
+                    posHistory: [{ x, y }],
+                    touchIdentifier
+                };
 
-            game.board[overObj.y][overObj.x] = null; // remove the tile from the board
+                game.board[overObj.y][overObj.x] = null; // remove the tile from the board
 
-            canvas.pointsPreview = false; // remove the points preview
+                canvas.pointsPreview = false; // remove the points preview
 
-            boardUpdate();
+                updateDarkenedSquares(dragged);
 
-            setCanvasCursor(x, y);
+                boardUpdate();
+            } else if (tile.locked) {
+                // lookup is performed on mouse up, but we need to register mouse down on correct letter type first
+                canvas.lookingUp = true;
+            }
 
             canvas.doubleTap = false;
-        } else if (tile && locked) {
-            // lookup is performed on mouse up, but we need to register mouse down on correct letter type first
-            canvas.lookingUp = true;
-            canvas.doubleTap = false;
+
         }
 
-        return; // don't bother checking anything else
-    }
+    } else if (overListCategories.includes("shuffleButton")) {
 
-    // if the mouse is over the shuffle button
-    if (overListCategories.includes("shuffleButton")) {
         canvas.bankShuffleButton.clicking = true;
         canvas.bankShuffleButton.touchIdentifier = touchIdentifier;
 
         canvas.doubleTap = false;
 
-        return;
     }
+
+    setCanvasCursor(overList);
 }
 
 // update position of tile when mouse moves during drag
 function handleCanvasMouseMove(e) {
+    const isTouchEvent = e.type === "touchmove";
 
-    if (e.type === 'touchmove') {
-        if (e.touches.length <= 1 || dragged) {
-            e.preventDefault();
-        }
-    } else {
-        e.preventDefault();
-    }
-
-    // determine whether it is the current user's turn
-    // const userTurn = !game.inactive && game.players[parseInt(game.turn) % game.players.length].id == account.id;
+    // block default actions unless there are multiple touches
+    // (the user is probably trying to zoom in)
+    // don't let them zoom in when they're dragging a tile
+    if (!isTouchEvent || e.touches.length <= 1 || dragged) e.preventDefault();
 
     // get the pixel position of the mouse/finger
     const pixScale = getScale();
@@ -228,16 +217,22 @@ function handleCanvasMouseMove(e) {
     }
 
     // set the mouse cursor type and the expanded drop zones
-    const overList = e.type === 'touchmove' ? whatMouseIsOver(x, y) : setCanvasCursor(x, y);
+    const overList = whatMouseIsOver(x, y);
     const overListCategories = getPropArray(overList, "category");
-
     canvas.overList = overList; // store this for use in places that may not have access to the mouse cursor
 
+    setCanvasCursor(overList);
+
+    // determine which tiles should be darkened
+    updateDarkenedTiles(overList);
+    updateDarkenedSquares(dragged);
+    updateBankShuffleButton(overList);
+
     if (dragged && overListCategories.includes("bankDropZone")) {
-        let dropZone = overList[overListCategories.indexOf("bankDropZone")].zoneIndex;
-        setExpandedDropZone(dropZone);
-    } else if (dragged) {
-        setExpandedDropZone(undefined);
+        let dropZoneIndex = overList[overListCategories.indexOf("bankDropZone")].zoneIndex;
+        setExpandedDropZones([ dropZoneIndex ]);
+    } else {
+        setExpandedDropZones([ ]);
     }
 }
 
@@ -294,60 +289,66 @@ function handleDocumentMouseUp(e) {
     }
     canvas.lookingUp = false;
 
-    if (!dragged) return; // from here on we will assume that a letter is being dragged
+    if (dragged) {
 
-    // make sure the touch identifier matches
-    if (e.type === 'touchend' && dragged.touchIdentifier >= 0 && dragged.touchIdentifier !== e.changedTouches[0].identifier) return;
+        // make sure the touch identifier matches
+        if (e.type === 'touchend' && dragged.touchIdentifier >= 0 && dragged.touchIdentifier !== e.changedTouches[0].identifier) return;
 
-    // determine whether the tile has moved since touchdown (otherwise it has just been clicked)
-    const stayedStill = dragged?.posHistory?.length === 1;
+        // determine whether the tile has moved since touchdown (otherwise it has just been clicked)
+        const stayedStill = dragged?.posHistory?.length === 1;
 
-    const onBoard = overListCategories.includes("board");
+        // get a new overList for the center of the dragged tile
+        const tileCenterX = dragged.pixelX + (dragged.mouseOffset?.x + squareWidth / 2 || 0);
+        const tileCenterY = dragged.pixelY + (dragged.mouseOffset?.y + squareWidth / 2 || 0);
+        const tileOverList = whatMouseIsOver(tileCenterX, tileCenterY);
+        const tileOverListCategories = getPropArray(tileOverList, "category");
 
-    let overObj;
-    if (onBoard) {
-        overObj = overList[overListCategories.indexOf("board")];
+        const onBoard = tileOverListCategories.includes("board");
+        const tileBoardOverObj = tileOverList[tileOverListCategories.indexOf("board")];
+        const onExistingTile = onBoard && tileBoardOverObj?.tile;
+
+        let sendPointsRequest = true;
+
+        const snapFromX = dragged.pixelX + (dragged.mouseOffset?.x || -squareWidth / 2);
+        const snapFromY = dragged.pixelY + (dragged.mouseOffset?.y || -squareWidth / 2);
+
+        // only if the letter was moved to a free space on the board
+        if (onBoard && !onExistingTile && !stayedStill && !game.inactive) {
+            // add the letter to the appropriate spot on the board
+            addLetter(
+                tileBoardOverObj.x, tileBoardOverObj.y,
+                dragged.bankIndex, dragged.letter,
+                snapFromX, snapFromY
+            );
+        } else { // if the letter was dropped anywhere else or stayed still, remove it
+
+            // return it to the bank
+            if (overListCategories.includes("bankDropZone")) {
+                // move it to the new position if dropped in a bank drop zone
+                const overObj = overList[overListCategories.indexOf("bankDropZone")];
+                returnToBank(dragged, canvas.dropZones[overObj.zoneIndex].orderIndex);
+            } else {
+                returnToBank(dragged);
+            }
+
+            // if there is already a points preview, show it
+            if (canvas.pointsPreview) {
+                canvas.pointsPreview.hidden = false;
+                canvas.pointsPreview.grow = new Anim(REGION_GROW_DURATION, { delay: SNAP_FROM_DURATION });
+                sendPointsRequest = false;
+            }
+        }
+
+        // show the points preview
+        if (sendPointsRequest) checkPoints();
+
+        dragged = undefined; // remove the dragged tile
     }
 
-    const onExistingTile = onBoard && overObj?.tile;
-
-    let sendPointsRequest = true;
-
-    // only if the letter was moved to a free space on the board
-    if (onBoard && !onExistingTile && !stayedStill && !game.inactive) {
-        addLetter(overObj.x, overObj.y, dragged.bankIndex, dragged.letter); // add the letter to the appropriate spot on the board
-    } else { // if the letter was dropped anywhere else or stayed still, remove it
-
-        // reorder the letter in the bank order
-        if (overListCategories.includes("bankDropZone")) {
-            const overObj = overList[overListCategories.indexOf("bankDropZone")];
-
-            const from = canvas.bankOrder.indexOf(dragged.bankIndex);
-            const to = canvas.dropZones[overObj.zoneIndex].orderIndex;
-
-            moveBankLetter(from, to);
-        }
-
-        // if there is already a points preview, show it
-        if (canvas.pointsPreview) {
-            canvas.pointsPreview.hidden = false;
-            sendPointsRequest = false;
-        }
-
-        canvas.bank[dragged.bankIndex].hidden = false; // show the letter in the bank
-
-        // remove the draft if the board is empty
-        if (getUnlockedTiles(game.board).length === 0) {
-            removeDraft();
-        }
-
-        clearDropZoneGaps();
-    }
-
-    // show the points preview
-    if (sendPointsRequest) checkPoints();
-
-    dragged = undefined; // remove the dragged tile
+    setCanvasCursor(overList);
+    updateDarkenedTiles(overList);
+    updateDarkenedSquares(dragged);
+    updateBankShuffleButton(overList);
 }
 
 function handleDocumentKeyDown(e) {

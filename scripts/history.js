@@ -79,15 +79,17 @@ function updateMoveHistory(draftWords) {
         moveEl.className = "moveHistoryMove flex col flexStart gap10 flexGrow pointer" + (isDraft ? " moveHistoryDraft" : "");
         moveEl.id = "historyEntry" + i;
         moveEl.tabIndex = "0";
-        if (!wasSkipped) moveEl.addEventListener('click', () => {
-            setCanvasPage('canvas');
-            setTimeout(() => {
-                const word = move.words[0]; // non-cross words are in the front
-                const region = word.pos;
-                tempHighlight(region);
-            }, 200);
-        });
-        if (wasSkipped) moveEl.style.cursor = "default";
+        if (!wasSkipped) {
+            moveEl.addEventListener('click', () => {
+                setCanvasPage('canvas');
+                setTimeout(() => {
+                    const word = move.words[0]; // non-cross words are in the front
+                    tempHighlight({ start: word.pos.start, end: word.pos.end });
+                }, 200);
+            });
+        } else {
+            moveEl.style.cursor = "default";
+        }
 
         const moveTitle = document.createElement('span');
         moveTitle.className = "moveHistoryMoveTitle";
@@ -105,10 +107,16 @@ function updateMoveHistory(draftWords) {
             const words = move.words;
             for (let j = 0; j < words.length; j++) {
                 const word = words[j];
+                let displayWord = word.word.toUpperCase();
+                for (const [letter, replacement] of Object.entries(langInfo[game.lang].letterReplacements)) {
+                    displayWord = displayWord.replaceAll(letter, replacement);
+                }
+                displayWord = displayWord.toTitleCase();
+
                 if (!word.placeholder) {
                     const wordEl = document.createElement('div');
                     wordEl.className = "moveHistoryWord";
-                    wordEl.innerHTML = "<span class='bold'>" + word.word.toTitleCase() + "</span>" + (words.length > 1 ? " - " + word.points + "pt" + (word.points === 1 ? "" : "s") : "");
+                    wordEl.innerHTML = "<span class='bold'>" + displayWord + "</span>" + (words.length > 1 ? " - " + word.points + "pt" + (word.points === 1 ? "" : "s") : "");
                     wordsEl.appendChild(wordEl);
                 } else {
                     const bonusEl = document.createElement('div');

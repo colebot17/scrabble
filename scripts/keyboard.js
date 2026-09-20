@@ -17,7 +17,7 @@ function handleKeyPressOnTile(key, x, y, ctrl = false) {
         return;
     }
 
-    if (ctrl) return;
+    if (ctrl || key === undefined) return;
 
     const letter = key.toUpperCase(); // get the capital letter
 
