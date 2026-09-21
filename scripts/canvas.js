@@ -342,14 +342,15 @@ function drawLetterBank() {
 			if (anyHighlighed) {
 				canvas.ctx.save();
 
-				const y = shuffleButtonCenterY - (titleSize / 2);
-				const circleX = canvas.bankShuffleButton.position.end.x + (15 * BOARD_PIXEL_SCALE);
+				const circleRadius = 5 * BOARD_PIXEL_SCALE;
+				const y = shuffleButtonCenterY;
+				const circleX = shuffleButtonCenterX + (titleSize / 2) + circleRadius + bankTitleControlsGap;
 				const textX = circleX + (10 * BOARD_PIXEL_SCALE);
 
 				// draw the yellow circle
 				canvas.ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-highlight');
 				canvas.ctx.beginPath();
-				canvas.ctx.arc(circleX, y, (5 * BOARD_PIXEL_SCALE), 0, Math.PI * 2);
+				canvas.ctx.arc(circleX, y, circleRadius, 0, Math.PI * 2);
 				canvas.ctx.fill();
 				
 				// draw the text
