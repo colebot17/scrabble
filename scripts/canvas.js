@@ -541,29 +541,29 @@ function drawLetterBank() {
 }
 
 // gets the pixel position of any tile
-function getPixelPos(tile) {
+function getPixelPos(tile, px, py) {
 	let pixelX, pixelY;
 
 	const tileScale = typeof tile.size === "object" ? tile.size.getFrame() : (typeof tile.size === "number" ? tile.size : 1);
 	const tileWidth = squareWidth * tileScale;
 	const shrunkenTileOffset = (squareWidth - tileWidth) / 2;
 
-	if (typeof tile.pixelX === "number") {
+	if (typeof px === "number") {
 		// if the tile is being manually positioned (it is probably being dragged)
 		let xOffset = -squareWidth / 2;
 		if (typeof tile.mouseOffset?.x === "number") xOffset = tile.mouseOffset.x;
-		pixelX = tile.pixelX + xOffset + shrunkenTileOffset;
+		pixelX = px + xOffset + shrunkenTileOffset;
 	} else {
 		// if the tile is positioned on the grid
 		const squarePos = (tile.x * squareWidth) + (tile.x * SQUARE_GAP);
 		pixelX = squarePos + shrunkenTileOffset;
 	}
 
-	if (typeof tile.pixelY === "number") {
+	if (typeof py === "number") {
 		// if the tile is being manually positioned (it is probably being dragged)
 		let yOffset = -squareWidth / 2;
 		if (typeof tile.mouseOffset?.y === "number") yOffset = tile.mouseOffset.y;
-		pixelY = tile.pixelY + yOffset + shrunkenTileOffset;
+		pixelY = py + yOffset + shrunkenTileOffset;
 	} else {
 		// if the tile is positioned on the grid
 		const squarePos = (tile.y * squareWidth) + (tile.y * SQUARE_GAP);
@@ -581,9 +581,9 @@ function getPixelPos(tile) {
 	return { x: pixelX, y: pixelY, scale: tileScale };
 }
 
-function updateTile(tile) {
+function updateTile(tile, px, py) {
 	// find the size and position of the tile
-	const { x: pixelX, y: pixelY, scale } = getPixelPos(tile);
+	const { x: pixelX, y: pixelY, scale } = getPixelPos(tile, px, py);
 
 	// don't even bother drawing tile if size is 0
 	if (scale === 0) return;
@@ -862,9 +862,9 @@ function updateDisplay() {
 	if (canvas.regions) {
 		drawRegions(canvas.regions);
 	}
-	if (dragged) {
-		updateTile(dragged);
-	}
+	for (const ptr of canvas.ptrs?.values() ?? []) {
+		if (ptr.dragging) updateTile(ptr.dragging, ptr.x, ptr.y);
+	} 
 
 	// request the next animation frame
 	canvas.animationFrame = window.requestAnimationFrame(updateDisplay);

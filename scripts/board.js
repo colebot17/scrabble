@@ -1,4 +1,4 @@
-function returnToBank(tile, toBankPos) {
+function returnToBank(tile, px, py, toBankPos) {
     if (tile.locked || typeof tile.bankIndex !== "number") return;
 
     let bankPos = canvas.bankOrder.indexOf(tile.bankIndex);
@@ -16,10 +16,12 @@ function returnToBank(tile, toBankPos) {
     const expansionAmt = typeof zoneExp === "boolean" ? (zoneExp ? 1 : 0) : zoneExp?.getFrame() || 0;
 
     // set up snapFrom animation
-    const { x, y, scale } = getPixelPos(tile);
-    bankLetter.snapFrom = { // animate into place
-        x, y, scale, w: expansionAmt,
-        anim: new Anim(SNAP_FROM_DURATION, { onComplete: () => bankLetter.snapFrom = undefined })
+    if ((typeof px === "number" && typeof py === "number") || (typeof tile.x === "number" && typeof tile.y === "number")) {
+        const { x, y, scale } = getPixelPos(tile, px, py);
+        bankLetter.snapFrom = { // animate into place
+            x, y, scale, w: expansionAmt,
+            anim: new Anim(SNAP_FROM_DURATION, { onComplete: () => bankLetter.snapFrom = undefined })
+        }
     }
 
     // clear the gap in front of the letter
@@ -134,47 +136,42 @@ function whatMouseIsOver(x, y) {
     return overList;
 }
 
-function setCanvasCursor(overList) {
+function setCanvasCursor(ptr) {
     // change the overList to use the tile's center if dragging a tile
-    if (dragged) {
-        const tileCenterX = dragged.pixelX + (dragged.mouseOffset?.x + squareWidth / 2 || 0);
-        const tileCenterY = dragged.pixelY + (dragged.mouseOffset?.y + squareWidth / 2 || 0);
+    let overList;
+    if (ptr.dragging) {
+        const tileCenterX = ptr.x + (ptr.dragging.mouseOffset?.x + squareWidth / 2 || 0);
+        const tileCenterY = ptr.y + (ptr.dragging.mouseOffset?.y + squareWidth / 2 || 0);
         overList = whatMouseIsOver(tileCenterX, tileCenterY);
+    } else {
+        overList = ptr.overList;
     }
-    const overObj = overList[0];
-
-    if (!overObj) {
-        canvas.c.style.cursor = 'default';
-        return overList;
-    }
+    const overObj = overList?.[0];
 
     // if the mouse isn't over anything, it should have a regular cursor
-    let cursor = 'default';
+    let cursor = "default";
 
-    // the cursor will be different depending on whether a tile is being dragged
-    if (dragged) {
-        cursor = 'grabbing';
-
-        if (overObj.category === "board" && overObj.tile) {
-            cursor = 'no-drop';
+    if (game.inactive) {
+        if (overObj?.category === "board" && overObj.tile?.locked) {
+            cursor = "pointer";
+        }
+    } else if (ptr.dragging) {
+        if (overObj?.category === "board" && overObj.tile) {
+            cursor = "no-drop";
+        } else {
+            cursor = "grabbing";
         }
     } else {
-        if (overObj.category === "board") {
-            if (overObj.tile) {
-                if (overObj.tile.locked) {
-                    cursor = 'pointer';
-                } else {
-                    cursor = (game.inactive ? 'not-allowed' : 'grab');
-                }
-            }
-        }
-
-        if (overObj.category === "shuffleButton") {
-            cursor = 'pointer';
-        }
-
-        if (overObj.category === "bankLetter") {
-            cursor = (game.inactive ? 'not-allowed' : 'grab');
+        switch (overObj?.category) {
+            case "board":
+                if (overObj.tile) cursor = overObj.tile.locked ? "pointer" : "grab";
+                break;
+            case "shuffleButton":
+                cursor = "pointer";
+                break;
+            case "bankLetter":
+                cursor = "grab";
+                break;
         }
     }
 
@@ -182,11 +179,16 @@ function setCanvasCursor(overList) {
 }
 
 // given an overList, update canvas.darkenedTiles to darken hovered words
-function updateDarkenedTiles(overList) {
-    const boardOverObj = overList.find(a => a.category === "board");
+function updateDarkenedTiles(ptrs) {
+
+    // create a list of all tiles that should be darkened
     const darkenTiles = [];
-    if (!dragged) {
-        if (boardOverObj && boardOverObj.tile?.locked) {
+    for (const ptr of ptrs.values()) {
+        const boardOverObj = ptr.overList?.find(a => a.category === "board");
+        if (ptr.dragging || !boardOverObj) continue;
+
+        if (boardOverObj.tile?.locked) {
+
             let sweepX = boardOverObj.x;
             let sweepY = boardOverObj.y;
 
@@ -217,91 +219,118 @@ function updateDarkenedTiles(overList) {
                 sweepX--;
             }
             sweepX = boardOverObj.x;
-        } else if (boardOverObj && !boardOverObj.tile?.locked) {
+
+        } else {
+
             darkenTiles.push({ x: boardOverObj.x, y: boardOverObj.y });
+
         }
     }
+
+    // based on that list, update the actual darkened tiles to match (and animate)
     
     // fade out all tiles no longer to remain darkened
-    if (canvas.darkenTiles) {
-        for (let darkenTile of canvas.darkenTiles) {
-            // if the tile is no longer to remain darkened
-            if (!darkenTiles.some(a => a.x == darkenTile.x && a.y == darkenTile.y) && !darkenTile.fade) {
-                // set up the animation to fade it out
-                darkenTile.fade = new Anim(HOVER_FADE_OUT_DURATION, {
-                    from: 1, to: 0,
-                    onComplete: () => canvas.darkenTiles.splice(canvas.darkenTiles.indexOf(darkenTile), 1)
-                });
+    for (const alrDarkTile of canvas.darkenTiles ?? []) {
+        const shouldStayDark = darkenTiles.some(a => a.x === alrDarkTile.x && a.y === alrDarkTile.y);
+        const alreadyFadingOut = !!alrDarkTile.fade;
+        if (shouldStayDark || alreadyFadingOut) continue;
+
+        // set up the animation to fade it out
+        alrDarkTile.fade = new Anim(HOVER_FADE_OUT_DURATION, {
+            from: 1, to: 0,
+            onComplete: () => canvas.darkenTiles.splice(canvas.darkenTiles.indexOf(alrDarkTile), 1)
+        });
+    }
+
+    // add all newly darkend tiles
+    for (let toDarken of darkenTiles) {
+        if (!canvas.darkenTiles) canvas.darkenTiles = [];
+        
+        let alrDarkTile = canvas.darkenTiles.find(a => a.x == toDarken.x && a.y == toDarken.y);
+
+        if (alrDarkTile?.fade) {
+            alrDarkTile.fade = undefined;
+        } else if (!alrDarkTile) {
+            canvas.darkenTiles.push(toDarken);
+        }
+    }
+}
+
+function updateDarkenedSquares(ptrs) {
+    const toBeDarkened = [];
+    for (const ptr of ptrs.values()) {
+        if (ptr.dragging) {
+            const x = ptr.x + (ptr.dragging.mouseOffset?.x + squareWidth / 2 || 0);
+            const y = ptr.y + (ptr.dragging.mouseOffset?.y + squareWidth / 2 || 0);
+            const boardOverObj = whatMouseIsOver(x, y).find(a => a.category === "board");
+            if (boardOverObj && !game.board[boardOverObj.y][boardOverObj.x]) {
+                toBeDarkened.push({ x: boardOverObj.x, y: boardOverObj.y });
             }
         }
     }
 
-    // add all newly darkend tiles
-    for (let darkenTile of darkenTiles) {
-        if (!canvas.darkenTiles) canvas.darkenTiles = [];
-        let t = canvas.darkenTiles.find(a => a.x == darkenTile.x && a.y == darkenTile.y)
-        if (t?.fade) {
-            t.fade = undefined;
-        } else if (!t) {
-            canvas.darkenTiles.push(darkenTile);
-        }
-    }
-}
-
-function updateDarkenedSquares(d) {
-    let toBeDarkened;
-    if (d) {
-        const x = d.pixelX + (d.mouseOffset?.x + squareWidth / 2 || 0);
-        const y = d.pixelY + (d.mouseOffset?.y + squareWidth / 2 || 0);
-        const boardOverObj = whatMouseIsOver(x, y).find(a => a.category === "board");
-        if (boardOverObj && !game.board[boardOverObj.y][boardOverObj.x]) toBeDarkened = {
-            x: boardOverObj.x,
-            y: boardOverObj.y
-        };
-    }
-
     if (!canvas.darkenedSquares) canvas.darkenedSquares = [];
 
-    for (const darkenedSquare of canvas.darkenedSquares) {
-        const isToBeDarkened = darkenedSquare.x === toBeDarkened?.x && darkenedSquare.y === toBeDarkened?.y;
-        if (!darkenedSquare.fade && !isToBeDarkened) {
-            darkenedSquare.fade = new Anim(HOVER_FADE_OUT_DURATION, {
+    for (const alrDarkSquare of canvas.darkenedSquares) {
+        const stayDarkened = toBeDarkened.some(a => a.x === alrDarkSquare.x && a.y === alrDarkSquare.y);
+        if (!alrDarkSquare.fade && !stayDarkened) {
+            alrDarkSquare.fade = new Anim(HOVER_FADE_OUT_DURATION, {
                 from: 1, to: 0,
-                onComplete: () => canvas.darkenedSquares.splice(canvas.darkenedSquares.indexOf(darkenedSquare), 1)
+                onComplete: () => canvas.darkenedSquares.splice(canvas.darkenedSquares.indexOf(alrDarkSquare), 1)
             });
         }
     }
 
-    if (toBeDarkened) {
-        const existing = canvas.darkenedSquares.find(a => a.x === toBeDarkened.x && a.y === toBeDarkened.y);
+    for (const tbdSquare of toBeDarkened) {
+        const existing = canvas.darkenedSquares.find(a => a.x === tbdSquare.x && a.y === tbdSquare.y);
         if (existing) {
             existing.fade = undefined;
         } else {
-            canvas.darkenedSquares.push(toBeDarkened);
+            canvas.darkenedSquares.push(tbdSquare);
         }
     }
 }
 
-function updateBankShuffleButton(overList) {
-    const isOverShuffleButton = overList.some(a => a.category === "shuffleButton");
+function updateShuffleButtonHover(ptrs) {
+    const sb = canvas.bankShuffleButton;
+    if (!sb) return;
 
-    if (isOverShuffleButton && !dragged) {
-        canvas.bankShuffleButton.hover = true;
-        canvas.bankShuffleButton.hoverFade = undefined;
-    } else if (canvas.bankShuffleButton.hover) {
-        canvas.bankShuffleButton.hover = false;
-        canvas.bankShuffleButton.hoverFade = new Anim(
+    const isHovered = ptrs.values().some(a => !a.dragging && a.overList.some(b => b.category === "shuffleButton"));
+
+    if (isHovered) {
+        sb.hover = true;
+        sb.hoverFade = undefined;
+    } else if (sb.hover) {
+        sb.hover = false;
+        sb.hoverFade = new Anim(
             HOVER_FADE_OUT_DURATION, {
                 from: 1, to: 0,
-                onComplete: () => canvas.bankShuffleButton.hoverFade = undefined
+                onComplete: () => sb.hoverFade = undefined
             }
         );
     }
 }
 
-function setExpandedDropZones(zoneIndicies, animate = true) {
+function updateExpandedDropZones(ptrs) {
+    const expand = new Set();
+
+    for (const ptr of ptrs.values()) {
+        if (ptr.dragging) { // use the center of the tile if dragging
+            const tileCenterX = ptr.x + (ptr.dragging.mouseOffset?.x + squareWidth / 2 || 0);
+            const tileCenterY = ptr.y + (ptr.dragging.mouseOffset?.y + squareWidth / 2 || 0);
+            const overList = whatMouseIsOver(tileCenterX, tileCenterY);
+
+            const zoneOverObj = overList?.find(a => a.category === "bankDropZone");
+            if (zoneOverObj) expand.add(zoneOverObj.zoneIndex);
+        }
+    }
+
+    setExpandedDropZones(expand);
+}
+
+function setExpandedDropZones(zoneIndices, animate = true) {
     for (let i = 0; i < canvas.dropZones?.length; i++) {
-        setDropZoneExpanded(i, zoneIndicies.includes(i), animate);
+        setDropZoneExpanded(i, zoneIndices.has(i), animate);
     }
 }
 
